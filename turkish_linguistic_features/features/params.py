@@ -28,6 +28,11 @@ class FeatureParams:
     heaps_min_tokens: int = 300
     heaps_step: int = 50
     ttr_slope_n_chunks: int = 4
+    # Brunet's W üs sabiti. Kademe C — Tweedie & Baayen (1998),
+    # Computers and the Humanities 32(5):323-352, denklem (10).
+    # Bazı ikincil kaynaklar 0.165 veriyor; tartışmalı olduğu için
+    # gizlenmiyor, buradan değiştirilebiliyor.
+    brunet_w_a: float = 0.172
     # cümle uzunluğu dağılımı
     short_sent_threshold: int = 5
     long_sent_threshold: int = 30

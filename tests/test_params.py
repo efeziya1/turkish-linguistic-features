@@ -34,6 +34,17 @@ def test_dil_varsayilanlari_farkli():
     assert DEFAULT_PARAMS_TR.long_sent_threshold < DEFAULT_PARAMS_EN.long_sent_threshold
 
 
+def test_brunet_sabiti_parametre_olarak_gorunur():
+    """Tartışmalı sabitler gizlenmez, `FeatureParams`'ta görünür.
+
+    0.172 = Tweedie & Baayen (1998), Computers and the Humanities
+    32(5):323-352, denklem (10). Bazı ikincil kaynaklar 0.165 veriyor;
+    kullanıcı istediğine geçebilsin diye ayarlanabilir (K10).
+    """
+    assert DEFAULT_PARAMS.brunet_w_a == 0.172
+    assert FeatureParams(brunet_w_a=0.165).brunet_w_a == 0.165
+
+
 def test_bilinmeyen_dil_genel_varsayilana_duser():
     assert DEFAULT_PARAMS_BY_LANG.get("de", DEFAULT_PARAMS) is DEFAULT_PARAMS
 

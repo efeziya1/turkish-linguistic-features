@@ -19,11 +19,20 @@ from collections import Counter
 
 import numpy as np
 
-# Brunet (1978) sabiti. DOĞRULANMAMIŞ (Kademe D): literatürde yaygın
-# olarak 0.172 anılıyor, plan 0.165 diyor, birincil kaynak okunmadı.
-# Ayrıntı → 00-ANA-PLAN.md K12 eki-2 ve tests/test_lexical.py'deki
-# xfail'li test.
-_BRUNET_A = 0.165
+# Brunet's W üs sabiti — Kademe C (bkz. 00-ANA-PLAN.md K12 eki-2).
+#
+# Kaynak OKUNDU: Tweedie, F. J. & Baayen, R. H. (1998), "How Variable May
+# a Constant be? Measures of Lexical Richness in Perspective", Computers
+# and the Humanities 32(5): 323-352, denklem (10), s. 328. Bağımsız ikinci
+# kaynak: zipfR (CRAN, Evert & Baroni) aynı değeri kullanıyor.
+#
+# Birincil kaynak (Kademe A) çevrimiçi yok ve okunmadı:
+#   Brunet, E. Vocabulaire de Jean Giraudoux: Structure et Évolution.
+#   Genève: Slatkine, 1978.
+#
+# Bazı ikincil kaynaklar 0.165 veriyor. Tartışmalı olduğu için sabit
+# gizlenmiyor: `FeatureParams.brunet_w_a` ile değiştirilebilir.
+_BRUNET_A = 0.172
 
 
 def rank_word_freq_table(tokens: list[str]) -> tuple[np.ndarray, int, int, list]:
@@ -90,16 +99,28 @@ def simpsons_d(freqs: np.ndarray) -> float:
     return round(float(np.sum(f * (f - 1)) / (M * (M - 1))), 6)
 
 
-def brunet_w(M: int, V: int) -> dict[str, float]:
-    """Brunet's W = ``M^(V^−a)``, ``a = 0.165``.
+def brunet_w(M: int, V: int, a: float = _BRUNET_A) -> dict[str, float]:
+    """Brunet's W = ``M^(V^−a)``; ``M`` toplam token, ``V`` tekil tip.
 
-    ``a`` doğrulanmamış bir sabittir (bkz. ``_BRUNET_A``). Formülün
-    şekli sabitten bağımsız olarak şunu garanti eder: V arttıkça üs
-    küçülür, W küçülür; V = 1 iken üs 1 olur ve W = M çıkar.
+    Parameters
+    ----------
+    M : int
+        Toplam token sayısı (kaynakta ``N``).
+    V : int
+        Tekil tip sayısı.
+    a : float
+        Üs sabiti; varsayılan 0.172 (``FeatureParams.brunet_w_a``).
+        Bazı ikincil kaynaklar 0.165 veriyor — fark çıktıda %8–16.
+        Kademe C, gerekçe ``_BRUNET_A`` yorumunda.
+
+    Notes
+    -----
+    Sabitten bağımsız olarak formülün şekli şunu garanti eder: V arttıkça
+    üs küçülür ve W küçülür; V = 1 iken üs 1 olur ve W = M çıkar.
     """
     if M == 0 or V == 0:
         return {"brunet_w": 0.0}
-    return {"brunet_w": round(float(M ** (V ** -_BRUNET_A)), 4)}
+    return {"brunet_w": round(float(M ** (V ** -a)), 4)}
 
 
 def hapax_count(items: list) -> int:

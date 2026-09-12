@@ -1,5 +1,4 @@
 import numpy as np
-import pytest
 
 from turkish_linguistic_features.features.lexical import (
     brunet_w,
@@ -14,6 +13,7 @@ from turkish_linguistic_features.features.lexical import (
     word_length_stats,
     yules_k,
 )
+from turkish_linguistic_features.features.params import DEFAULT_PARAMS
 
 # ── frekans tablosu ───────────────────────────────────────────────────
 
@@ -82,19 +82,41 @@ def test_brunet_w_sekli():
     assert abs(brunet_w(1000, 1)["brunet_w"] - 1000) < 1e-6
 
 
-@pytest.mark.xfail(reason="Kademe D: 0.165 mi 0.172 mi — birincil kaynak "
-                          "(Brunet 1978) bulunamadı. Bkz. 00-ANA-PLAN K12 eki-2")
-def test_brunet_w_sabiti_dogrulanmadi():
-    """Sabit doğrulandığında bu testi açın ve `xfail`'i kaldırın.
+def test_brunet_w_varsayilan_sabit_tweedie_baayen():
+    """Kademe C: sabit 0.172. Kaynak OKUNDU, plandan alınmadı.
 
-    Literatürde yaygın olarak `0.172` anılıyor; plan `0.165` kullanıyor.
-    Ölçülen fark küçük değil:
+    Tweedie, F. J. & Baayen, R. H. (1998), "How Variable May a Constant be?
+    Measures of Lexical Richness in Perspective", *Computers and the
+    Humanities* 32(5): 323-352, **denklem (10)**, s. 328:
 
-        M=1000  V=100   0.165 → 25.305   0.172 → 22.840    %9.7
-        M=5000  V=800   0.165 → 16.890   0.172 → 14.843   %12.1
-        M=200   V=80    0.165 → 13.081   0.172 → 12.103    %7.5
+        "Finally, in 1978, Brunet introduced a parametric expression
+         W = N^(V(N)^-a), where a is usually set to -0.172"
+
+    Makaledeki eksi işareti notasyon kayması: `a = -0.172` ile `V^-a`
+    birleşince W ≈ 2.6e8 çıkıyor. Etkin üs `V^(-0.172)` okuması
+    literatürün bildirdiği 10 ≤ W ≤ 20 aralığını veriyor; `zipfR` (CRAN)
+    de böyle uyguluyor. İkinci bağımsız kaynak olduğu için Kademe C.
+
+    Birincil kaynak (Kademe A) hâlâ okunmadı ve çevrimiçi yok:
+    Brunet, E. *Vocabulaire de Jean Giraudoux: Structure et Évolution.*
+    Genève: Slatkine, 1978.
     """
-    assert False, "Brunet (1978) birincil kaynağı okunmadı"
+    assert DEFAULT_PARAMS.brunet_w_a == 0.172
+    assert brunet_w(1000, 400)["brunet_w"] == 11.7612
+
+
+def test_brunet_w_sabiti_ayarlanabilir():
+    """Sabit tartışmalı olduğu için `FeatureParams`'ta görünür ve değiştirilebilir.
+
+    Bazı ikincil kaynaklar 0.165 veriyor (ör. metricgate.com — kaynakça
+    bölümü yok). Kullanıcı o değere geçebilsin diye parametre; kütüphane
+    ölçer, kullanıcı adına karar vermez (K10).
+    """
+    varsayilan = brunet_w(1000, 400)["brunet_w"]
+    eski_deger = brunet_w(1000, 400, a=0.165)["brunet_w"]
+    assert eski_deger == 13.0708
+    assert eski_deger > varsayilan            # 0.165 sistematik olarak yüksek
+    assert abs(eski_deger - varsayilan) / varsayilan > 0.10   # fark %10'un üstünde
 
 
 # ── hapax ─────────────────────────────────────────────────────────────
