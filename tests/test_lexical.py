@@ -1,14 +1,21 @@
 import numpy as np
+import pytest
 
 from turkish_linguistic_features.features.lexical import (
+    advanced_lexical_richness,
     brunet_w,
+    dugast_u,
+    guiraud_r,
     hapax_count,
     hapax_ratio,
     heaps_beta,
+    mtld,
+    pos_lexical_variation,
     rank_word_freq_table,
     rare_word_metrics,
     shannon_entropy,
     simpsons_d,
+    ttr_moving_slope,
     type_token_ratio,
     word_length_stats,
     yules_k,
@@ -220,3 +227,146 @@ def test_tek_elemanli_girdiler_cokmez():
     assert type_token_ratio(1, 1)["ttr"] == 1.0
     assert rare_word_metrics(["ev"])["sichel_s"] == 0.0
     assert heaps_beta(["ev"])["heaps_beta"] == 0.0
+
+
+# ── T05: pencereli ve eğri tabanlı zenginlik ──────────────────────────
+
+
+def test_zenginlik_anahtarlari_bigram_entropy_yok():
+    """bigram_entropy 2026-09-15'te çıkarıldı (Efe)."""
+    sonuc = advanced_lexical_richness([f"k{i}" for i in range(10)])
+    assert set(sonuc) == {"mattr", "entropy_std", "herdan_c"}
+
+
+def test_mattr_tamamen_tekrarli_metinde_dusuk():
+    assert advanced_lexical_richness(["aynı"] * 200, window=50)["mattr"] < 0.05
+
+
+def test_mattr_tamamen_farkli_metinde_bir():
+    tokens = [f"kelime{i}" for i in range(200)]
+    assert advanced_lexical_richness(tokens, window=50)["mattr"] == 1.0
+
+
+def test_mattr_bilinen_deger():
+    """a b a b, pencere 3 → aba (2/3), bab (2/3) → 2/3."""
+    sonuc = advanced_lexical_richness(["a", "b", "a", "b"], window=3)
+    assert sonuc["mattr"] == pytest.approx(2 / 3, abs=1e-4)
+
+
+def test_mattr_pencereden_kisa_metinde_duz_ttr():
+    """20 token, pencere 50 — düz TTR'ye düşer, hata vermez."""
+    tokens = [f"k{i % 10}" for i in range(20)]
+    assert advanced_lexical_richness(tokens, window=50)["mattr"] == 0.5
+
+
+def test_entropy_std_ayrik_parcalar_artik_atilir():
+    """Parça 2: [a b] H=1 bit, [a a] H=0 → popülasyon sapması 0.5.
+    Sondaki tek kelimelik artık parça ('c') hesaba girmez."""
+    sonuc = advanced_lexical_richness(["a", "b", "a", "a", "c"], window=2)
+    assert sonuc["entropy_std"] == pytest.approx(0.5, abs=1e-4)
+
+
+def test_entropy_std_tek_parcada_sifir():
+    assert advanced_lexical_richness(["a", "b", "c"], window=2)["entropy_std"] == 0.0
+
+
+def test_herdan_c_bilinen_deger():
+    """N=100, V=10 → log 10 / log 100 = 0.5 (taban fark etmez)."""
+    tokens = [f"k{i % 10}" for i in range(100)]
+    assert advanced_lexical_richness(tokens)["herdan_c"] == pytest.approx(0.5, abs=1e-4)
+
+
+def test_herdan_c_araligi():
+    tokens = [f"k{i % 30}" for i in range(300)]
+    assert 0.0 < advanced_lexical_richness(tokens)["herdan_c"] < 1.0
+
+
+def test_mtld_cesitli_metinde_tekrarlidan_yuksek():
+    cesitli = [f"k{i % 100}" for i in range(300)]
+    tekrarli = ["a", "b"] * 150
+    assert mtld(cesitli)["mtld"] > mtld(tekrarli)["mtld"]
+
+
+def test_mtld_iki_yonun_ortalamasi_yon_bagimsiz():
+    tokens = [f"k{(i * 7) % 23}" for i in range(120)] + ["a", "b", "c"]
+    assert mtld(tokens)["mtld"] == pytest.approx(mtld(tokens[::-1])["mtld"], abs=1e-4)
+
+
+def test_dugast_u_tum_kelimeler_farkliysa_sifir():
+    """N == V → payda sıfır → 0.0 dönmeli, ZeroDivisionError değil."""
+    assert dugast_u(["a", "b", "c"])["dugast_u"] == 0.0
+
+
+def test_guiraud_r_bilinen_deger():
+    """V=3, N=9 → 3/3 = 1.0"""
+    assert guiraud_r(["a", "b", "c"] * 3)["guiraud_r"] == 1.0
+
+
+def test_guiraud_r_uzunlukla_ttr_kadar_hizli_dusmez():
+    """Guiraud'nun var olma sebebi bu: √N düzeltmesi TTR'den yavaş düşer."""
+    kisa = [f"k{i % 20}" for i in range(40)]
+    uzun = [f"k{i % 20}" for i in range(400)]
+    ttr_dususu = (len(set(kisa)) / len(kisa)) / (len(set(uzun)) / len(uzun))
+    g_dususu = guiraud_r(kisa)["guiraud_r"] / guiraud_r(uzun)["guiraud_r"]
+    assert g_dususu < ttr_dususu
+
+
+def test_ttr_egimi_sabit_parcalar_bilinen_deger():
+    """Parça 2: [a b]=1, [c c]=0.5, [d d]=0.5 → eğim −0.25. Artık 'e' atılır."""
+    tokens = ["a", "b", "c", "c", "d", "d", "e"]
+    sonuc = ttr_moving_slope(tokens, chunk_size=2)
+    assert sonuc["ttr_moving_slope"] == pytest.approx(-0.25, abs=1e-4)
+
+
+def test_ttr_egimi_iki_parcadan_azsa_sifir():
+    assert ttr_moving_slope(["a", "b", "c"], chunk_size=2)["ttr_moving_slope"] == 0.0
+
+
+def test_pos_variation_bilinen_deger():
+    """3 isim token, 2 benzersiz isim lemma → 2/3."""
+    lemmalar = ["kitap", "kitap", "kalem", "oku"]
+    pos = [("kitabı", "NOUN"), ("kitap", "NOUN"), ("kalem", "NOUN"), ("okudu", "VERB")]
+    sonuc = pos_lexical_variation(lemmalar, pos)
+    assert sonuc["noun_variation"] == pytest.approx(2 / 3, abs=1e-4)
+    assert sonuc["verb_variation"] == 1.0
+
+
+def test_pos_variation_noktalama_hizayi_bozmaz():
+    """lemma_tokens'ta noktalama yok, pos_data'da var (T21) — PUNCT atılıp hizalanır."""
+    lemmalar = ["kitap", "oku", "kitap"]
+    pos = [("Kitap", "NOUN"), (",", "PUNCT"), ("okudu", "VERB"), ("kitabı", "NOUN"), (".", "PUNCT")]
+    sonuc = pos_lexical_variation(lemmalar, pos)
+    assert sonuc["noun_variation"] == 0.5
+    assert sonuc["verb_variation"] == 1.0
+
+
+def test_pos_variation_hizasiz_listelerde_sifir():
+    sonuc = pos_lexical_variation(["a", "b"], [("a", "NOUN")])
+    assert all(v == 0.0 for v in sonuc.values())
+
+
+def test_pos_variation_ozel_isim_ve_aux_sayilmaz():
+    """noun_variation yalnız NOUN, verb_variation yalnız VERB (2026-09-15, Efe)."""
+    lemmalar = ["ahmet", "ahmet", "ev", "i", "gel"]
+    pos = [("Ahmet", "PROPN"), ("Ahmet", "PROPN"), ("ev", "NOUN"), ("idi", "AUX"), ("geldi", "VERB")]
+    sonuc = pos_lexical_variation(lemmalar, pos)
+    assert sonuc["noun_variation"] == 1.0
+    assert sonuc["verb_variation"] == 1.0
+
+
+def test_pos_variation_sinif_yoksa_sifir():
+    """K4 — metinde hiç sıfat yok, payda sıfır."""
+    assert pos_lexical_variation(["oku"], [("okudu", "VERB")])["adj_variation"] == 0.0
+
+
+def test_pos_variation_pos_noun_ile_bagimsiz():
+    """İsim ağırlıklı ama tekrarlı metin: oran yüksek, çeşitlilik düşük."""
+    lemmalar = ["kitap"] * 9 + ["oku"]
+    pos = [("kitap", "NOUN")] * 9 + [("okudu", "VERB")]
+    assert pos_lexical_variation(lemmalar, pos)["noun_variation"] < 0.2
+
+
+def test_t05_bos_girdiler():
+    for sonuc in (mtld([]), dugast_u([]), ttr_moving_slope([]), guiraud_r([]),
+                  advanced_lexical_richness([]), pos_lexical_variation([], [])):
+        assert all(v == 0.0 for v in sonuc.values())
