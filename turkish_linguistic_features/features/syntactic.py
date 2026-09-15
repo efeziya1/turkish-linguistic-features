@@ -7,7 +7,8 @@ Bu modül T11'in anahtarlarını üretir:
 - ``sentence`` (8) ve ``paragraph`` (5)
 - ``syntactic`` grubunun 7'si: ``nominal_verbal_ratio``, ``verb_dist_mean``,
   ``verb_dist_cv``, ``activity_ratio``, ``lexical_density``, ``pos_dist_std``,
-  ``pos_kl_div`` (kalan 8'i T12)
+  ``pos_kl_div`` (kalan 2'si T12: ``question_per_sent``, ``pronoun_freq``)
+- ``custom_ngrams`` (dinamik): ``ng_{...}``, T12
 
 Fonksiyonlar saftır (K3): girdi ``pos_data`` = ``[(token, POS), …]``,
 ``sentences_as_tokens`` = ``[[token, …], …]`` ya da ham metin. NLP modeli almaz.
@@ -25,6 +26,7 @@ from collections import Counter
 
 import numpy as np
 
+from .punctuation import _kucuk_harf
 from .vocab import AUTOSEMANTIC_POS, POS_TAGS
 
 _PARA_SPLIT = re.compile(r"\n[ \t]*\n")   # boş satır = paragraf sınırı
@@ -269,3 +271,82 @@ def paragraph_stats(raw_text: str) -> dict[str, float]:
         "sents_per_para_cv": round(_cv(cumle), 4),
         "para_count_norm": round(len(paras) / toplam_kelime * 1000, 4) if toplam_kelime else 0.0,
     }
+
+
+# ── T12: soru cümlesi, zamir, kullanıcı n-gramları ────────────────────
+
+# Cümle sonunda atlanan kapanış işaretleri: her tür tırnak ve kapanan parantez.
+_KAPANIS = "\"'“”‘’«»‹›)]}"
+
+
+def _noktalama_mi(token: str) -> bool:
+    """Harf ya da rakam içermeyen token noktalamadır (``,``, ``...``, ``?!``)."""
+    return not any(c.isalnum() for c in token)
+
+
+def question_per_sent(sentences_as_tokens: list[list[str]]) -> dict[str, float]:
+    """Soru işaretiyle biten cümle / toplam cümle → ``question_per_sent``.
+
+    Cümlenin **sonundaki** tırnak ve kapanan parantezler atlanır; kalan son
+    işaret ``?`` içeriyorsa (``?``, ``?!``, ``!?``, ``…?``) cümle soru sayılır
+    (2026-09-15, Efe). Yalnız noktalamaya bakılır: ``?`` taşımayan ``mı``lı
+    cümle sayılmaz, cümle ortasındaki ``?`` sayılmaz.
+    """
+    if not sentences_as_tokens:
+        return {"question_per_sent": 0.0}
+    soru = 0
+    for cumle in sentences_as_tokens:
+        for token in reversed(cumle):
+            kalan = token.rstrip(_KAPANIS)
+            if not kalan:
+                continue
+            i = len(kalan)
+            while i and not kalan[i - 1].isalnum():   # sondaki işaret öbeği
+                i -= 1
+            soru += "?" in kalan[i:]
+            break
+    return {"question_per_sent": round(soru / len(sentences_as_tokens), 5)}
+
+
+def pronoun_freq(pos_data: list[tuple[str, str]]) -> dict[str, float]:
+    """spaCy ``PRON`` etiketli token / toplam token → ``pronoun_freq``.
+
+    Payda ``pos_ratios`` ile aynı: noktalama dahil tüm tokenler.
+    """
+    if not pos_data:
+        return {"pronoun_freq": 0.0}
+    pron = sum(1 for _, p in pos_data if p == "PRON")
+    return {"pronoun_freq": round(pron / len(pos_data), 5)}
+
+
+def word_ngram_ratios(
+    tokens: list[str], ngrams: list[list[str]], lang: str = "tr",
+) -> dict[str, float]:
+    """Kullanıcı tanımlı n-gramların oranı → ``ng_{...}`` anahtarları.
+
+    Öbek **her uzunlukta** olabilir: ``[["diye"]]`` tek kelime,
+    ``[["ne", "var", "ki"]]`` üç kelime (2026-09-15, Efe).
+
+    Kurallar (2026-09-15, Efe):
+
+    - Metin ve öbek dile göre küçük harfe iner; noktalama tokenleri atılır.
+    - Oran = eşleşme sayısı / aynı uzunluktaki pencere sayısı
+      (``token − n + 1``), ``posbg_*`` ile aynı mantık.
+    - Üst üste binen eşleşmeler sayılır: ``ha ha ha`` içinde ``ha ha`` = 2.
+
+    ``custom_ngrams`` verilmezse **boş sözlük** döner — bu grup taban
+    şemanın parçası değildir (440/415 toplamlarına girmez).
+    """
+    kelimeler = [_kucuk_harf(t, lang) for t in tokens if not _noktalama_mi(t)]
+    sonuc: dict[str, float] = {}
+    for obek in ngrams:
+        aranan = tuple(_kucuk_harf(k, lang) for k in obek)
+        n = len(aranan)
+        pencere = len(kelimeler) - n + 1
+        anahtar = "ng_" + "_".join(aranan)
+        if n == 0 or pencere <= 0:
+            sonuc[anahtar] = 0.0
+            continue
+        eslesme = sum(1 for i in range(pencere) if tuple(kelimeler[i:i + n]) == aranan)
+        sonuc[anahtar] = round(eslesme / pencere, 5)
+    return sonuc

@@ -11,10 +11,13 @@ from turkish_linguistic_features.features.syntactic import (
     pos_bigram_ratios,
     pos_distribution_stats,
     pos_ratios,
+    pronoun_freq,
+    question_per_sent,
     sent_len_entropy,
     sentence_distribution_stats,
     sentence_stats,
     verb_distance_stats,
+    word_ngram_ratios,
 )
 from turkish_linguistic_features.features.vocab import AUTOSEMANTIC_POS, POS_TAGS
 
@@ -246,3 +249,83 @@ def test_tek_cumle_cokmez():
     assert sonuc["avg_sent_len_word"] == 1.0
     assert sonuc["sentence_length_cv"] == 0.0
     assert sonuc["sent_len_skewness"] == 0.0
+
+
+# ── T12: soru cümlesi, zamir, kullanıcı n-gramları ────────────────────
+
+
+def test_soru_cumlesi_orani():
+    cumleler = [["Ne", "?"], ["Evet", "."]]
+    assert question_per_sent(cumleler)["question_per_sent"] == 0.5
+
+
+def test_soru_cumlesi_sondaki_tirnak_ve_parantez_atlanir():
+    cumleler = [
+        ["Geliyor", "musun", "?", '"'],
+        ["Neden", "?", ")"],
+        ["Ciddi", "misin", "?!"],
+        ["Gel", "!?"],
+        ["Bu", "mu", "?", "»"],
+    ]
+    assert question_per_sent(cumleler)["question_per_sent"] == 1.0
+
+
+def test_soru_cumlesi_yalniz_sona_bakar():
+    cumleler = [
+        ["Ne", "?", "dedi", "."],       # ? ortada — sayılmaz
+        ["Geliyor", "musun"],           # "mı" var ama ? yok — sayılmaz
+        ["Tamam", '"', ")"],            # yalnız kapanış işaretleri
+    ]
+    assert question_per_sent(cumleler)["question_per_sent"] == 0.0
+
+
+def test_zamir_orani_pron_etiketinden():
+    pos = [("o", "PRON"), ("o", "DET"), ("ev", "NOUN"), (".", "PUNCT")]
+    assert pronoun_freq(pos)["pronoun_freq"] == 0.25
+
+
+def test_ngram_her_uzunlukta():
+    tokens = ["ne", "var", "ki", "diye", "ne", "var"]
+    sonuc = word_ngram_ratios(tokens, [["diye"], ["ne", "var", "ki"]])
+    assert set(sonuc) == {"ng_diye", "ng_ne_var_ki"}
+
+
+def test_ngram_paydasi_ayni_uzunluktaki_pencere_sayisi():
+    tokens = ["ne", "var", "ki", "kimse", "gelmedi"]
+    sonuc = word_ngram_ratios(tokens, [["ne", "var", "ki"], ["ki"]])
+    assert sonuc["ng_ne_var_ki"] == round(1 / 3, 5)   # 3 üçlü pencere
+    assert sonuc["ng_ki"] == 0.2                       # 5 tekli pencere
+
+
+def test_ngram_ortusen_eslesmeler_sayilir():
+    sonuc = word_ngram_ratios(["ha", "ha", "ha"], [["ha", "ha"]])
+    assert sonuc["ng_ha_ha"] == 1.0                    # 2 eşleşme / 2 pencere
+
+
+def test_ngram_kucuk_harf_ve_noktalama_atilir():
+    tokens = ["Ne", ",", "var", "ki", "...", "İşte", "!"]
+    sonuc = word_ngram_ratios(tokens, [["ne", "var", "ki"], ["işte"]])
+    # noktalama atılınca: ne var ki işte → 2 üçlü pencere, 4 tekli pencere
+    assert sonuc["ng_ne_var_ki"] == 0.5
+    assert sonuc["ng_işte"] == 0.25
+
+
+def test_ngram_kullanici_obegi_de_kucuk_harfe_iner():
+    sonuc = word_ngram_ratios(["ırmak", "İzmir"], [["Irmak"], ["İZMİR"]])
+    assert sonuc == {"ng_ırmak": 0.5, "ng_izmir": 0.5}
+
+
+def test_ngram_ingilizcede_i_noktasiz_olmaz():
+    sonuc = word_ngram_ratios(["I", "think"], [["I", "think"]], lang="en")
+    assert sonuc == {"ng_i_think": 1.0}
+
+
+def test_ngram_metinden_uzun_obek_sifir():
+    assert word_ngram_ratios(["tek"], [["iki", "kelime"]]) == {"ng_iki_kelime": 0.0}
+
+
+def test_bos_girdiler():
+    assert question_per_sent([])["question_per_sent"] == 0.0
+    assert pronoun_freq([])["pronoun_freq"] == 0.0
+    assert word_ngram_ratios([], []) == {}
+    assert word_ngram_ratios([], [["diye"]]) == {"ng_diye": 0.0}
