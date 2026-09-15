@@ -37,19 +37,19 @@ def test_kurulum_ipucu_bilinmeyen_paket():
 
 def test_uyari_kurulum_komutunu_icerir():
     with pytest.warns(MissingDependencyWarning, match="turkish-linguistic-features\\[lexical_freq\\]"):
-        uyar_eksik_bagimlilik("wordfreq", "ref_zipf_* (3 öznitelik)")
+        uyar_eksik_bagimlilik("wordfreq", "wordfreq_* (2 öznitelik)")
 
 
 def test_eksik_opsiyonel_paket_cokertmez():
     """Sözleşme: eksik opsiyonel paket UYARI üretir, hata fırlatmaz — akış devam eder.
 
     `analyze()` T24'te doğduğunda `wordfreq` kurulu değilse bu yol işleyecek:
-    `ref_zipf_*` 0.0 yazılır, kullanıcı uyarıyı görür, kalan öznitelikler
+    `wordfreq_*` 0.0 yazılır, kullanıcı uyarıyı görür, kalan öznitelikler
     hesaplanmaya devam eder.
     """
     with warnings.catch_warnings(record=True) as kayit:
         warnings.simplefilter("always")
-        sonuc = uyar_eksik_bagimlilik("wordfreq", "ref_zipf_* (3 öznitelik)")
+        sonuc = uyar_eksik_bagimlilik("wordfreq", "wordfreq_* (2 öznitelik)")
         devam_edildi = True
 
     assert sonuc is None

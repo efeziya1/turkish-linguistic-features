@@ -31,7 +31,7 @@ def uyar_eksik_bagimlilik(paket: str, atlanan: str) -> None:
     paket : str
         Eksik olan paketin adı, örn. ``"wordfreq"``.
     atlanan : str
-        Atlanan özelliğin/grubun adı, örn. ``"ref_zipf_* (3 öznitelik)"``.
+        Atlanan özelliğin/grubun adı, örn. ``"wordfreq_* (2 öznitelik)"``.
 
     Notes
     -----
