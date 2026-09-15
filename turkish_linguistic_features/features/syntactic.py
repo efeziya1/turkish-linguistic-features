@@ -27,7 +27,6 @@ import numpy as np
 
 from .vocab import AUTOSEMANTIC_POS, POS_TAGS
 
-_VERB_POS = ("VERB", "AUX")
 _PARA_SPLIT = re.compile(r"\n[ \t]*\n")   # boş satır = paragraf sınırı
 _SENT_END = re.compile(r"[.!?…]+")        # cümle sonu işareti
 
@@ -94,10 +93,8 @@ def pos_trigram_entropy(pos_data: list[tuple[str, str]]) -> dict[str, float]:
 def nominal_verbal_ratio(pos_data: list[tuple[str, str]]) -> dict[str, float]:
     """``NOUN sayısı / VERB sayısı``. Fiil yoksa 0.0.
 
-    Tanım referans registry'deki "noun count / verb count" okumasıdır:
-    yalnız ``NOUN`` ve yalnız ``VERB``. ``verb_distance_stats`` ve
-    ``activity_ratio`` ise ``AUX``'u da fiil sayar — bu fark bilinçli değil
-    tanımdan geliyor ve T11'in karar kaydında açık soru olarak duruyor.
+    Yalnız ``NOUN`` ve yalnız ``VERB``. ``AUX`` fiil sayılmaz — modülün
+    tamamında geçerli kural, gerekçesi ``verb_distance_stats``'ta.
     """
     sayimlar = Counter(p for _, p in pos_data)
     fiil = sayimlar.get("VERB", 0)
@@ -113,10 +110,14 @@ def verb_distance_stats(pos_data: list[tuple[str, str]]) -> dict[str, float]:
     """Ardışık fiiller arasındaki token mesafesinin ortalaması ve CV'si.
 
     QUITA "Verb Distances (VD)". ``arc_len_mean`` ile KARIŞTIRMA: o bağımlılık
-    yayının uzunluğu, bu yüzey konum mesafesi. ``AUX`` fiil sayılır: Türkçe'de
-    ``-dir``, ``imek``, ``değil`` yüklem konumunda ``AUX`` etiketleniyor.
+    yayının uzunluğu, bu yüzey konum mesafesi.
+
+    Yalnız ``VERB`` sayılır, ``AUX`` sayılmaz (2026-09-15). Ek-fiil (``-dir``,
+    ``imek``) ve ``değil`` yardımcı ögedir, sözcüksel fiil değil; onları fiil
+    saymak ad cümlesini eylem cümlesi gibi ölçer. İngilizcede de aynı hata
+    ``have``/``be``/``will`` ile fiil sayısını şişirirdi.
     """
-    idx = [i for i, (_, p) in enumerate(pos_data) if p in _VERB_POS]
+    idx = [i for i, (_, p) in enumerate(pos_data) if p == "VERB"]
     if len(idx) < 2:
         return {"verb_dist_mean": 0.0, "verb_dist_cv": 0.0}
     d = np.diff(np.array(idx, dtype=np.float64))
@@ -124,12 +125,12 @@ def verb_distance_stats(pos_data: list[tuple[str, str]]) -> dict[str, float]:
 
 
 def activity_ratio(pos_data: list[tuple[str, str]]) -> dict[str, float]:
-    """QUITA "Activity (Q)" = fiil / (fiil + sıfat); fiil = ``VERB`` + ``AUX``.
+    """QUITA "Activity (Q)" = VERB / (VERB + ADJ). ``AUX`` fiil sayılmaz.
 
     Descriptivity (D) = 1 − Q ayrı anahtar olarak üretilmez: tam ters
     bağıntılı ikinci bir sütun bilgi taşımaz.
     """
-    v = sum(1 for _, p in pos_data if p in _VERB_POS)
+    v = sum(1 for _, p in pos_data if p == "VERB")
     a = sum(1 for _, p in pos_data if p == "ADJ")
     if v + a == 0:
         return {"activity_ratio": 0.0}

@@ -68,7 +68,8 @@ def test_pos_trigram_entropy_elle():
 
 
 def test_nominal_verbal_ratio_elle():
-    pos = [("a", "NOUN"), ("b", "NOUN"), ("c", "NOUN"), ("d", "VERB")]
+    """AUX paydaya girmez: 3 NOUN / 1 VERB = 3."""
+    pos = [("a", "NOUN"), ("b", "NOUN"), ("c", "NOUN"), ("d", "VERB"), ("e", "AUX")]
     assert nominal_verbal_ratio(pos)["nominal_verbal_ratio"] == 3.0
     assert nominal_verbal_ratio([("a", "NOUN")])["nominal_verbal_ratio"] == 0.0
 
@@ -76,9 +77,12 @@ def test_nominal_verbal_ratio_elle():
 # ── fiil mesafesi ve activity ─────────────────────────────────────────
 
 
-def test_fiil_mesafesi_elle_aux_dahil():
-    """Fiiller 0, 2, 6'da → mesafeler 2, 4 → ort 3, std 1, CV 1/3."""
-    pos = [("a", "VERB"), ("b", "NOUN"), ("c", "AUX"), ("d", "NOUN"),
+def test_fiil_mesafesi_elle_aux_sayilmaz():
+    """VERB 0, 2, 6'da; 3'teki AUX fiil DEĞİL → mesafeler 2, 4 → ort 3, CV 1/3.
+
+    AUX sayılsaydı konumlar 0, 2, 3, 6 → ortalama 2 çıkardı.
+    """
+    pos = [("a", "VERB"), ("b", "NOUN"), ("c", "VERB"), ("d", "AUX"),
            ("e", "NOUN"), ("f", "NOUN"), ("g", "VERB")]
     sonuc = verb_distance_stats(pos)
     assert sonuc["verb_dist_mean"] == 3.0
@@ -89,9 +93,10 @@ def test_fiil_mesafesi_tek_fiilde_sifir():
     assert verb_distance_stats([("a", "VERB")]) == {"verb_dist_mean": 0.0, "verb_dist_cv": 0.0}
 
 
-def test_activity_ratio_elle():
+def test_activity_ratio_elle_aux_sayilmaz():
+    """2 VERB + 1 ADJ → 2/3. AUX sayılsaydı 3/4 = 0.75 çıkardı."""
     pos = [("a", "VERB"), ("b", "AUX"), ("c", "VERB"), ("d", "ADJ")]
-    assert activity_ratio(pos)["activity_ratio"] == 0.75
+    assert activity_ratio(pos)["activity_ratio"] == 0.66667
 
 
 def test_activity_ratio_fiil_sifat_yoksa_cokmez():
