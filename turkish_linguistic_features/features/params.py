@@ -21,8 +21,10 @@ class FeatureParams:
     mtld_threshold: float = 0.72
     hdd_sample_size: int = 42
     msttr_segment_size: int = 100
-    vocd_sample_size: int = 35
-    vocd_num_samples: int = 30
+    vocd_sample_min: int = 35        # McCarthy & Jarvis (2010) s. 383 · Kademe A
+    vocd_sample_max: int = 50
+    vocd_num_samples: int = 100      # her boy için çekiliş · s. 383
+    vocd_num_runs: int = 3           # tüm işlem 3 tur, D ortalanır · s. 383
     vocd_min_tokens: int = 50
     vocd_random_seed: int = 42
     heaps_min_tokens: int = 300

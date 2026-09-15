@@ -1,3 +1,5 @@
+import math
+
 import numpy as np
 import pytest
 
@@ -8,7 +10,9 @@ from turkish_linguistic_features.features.lexical import (
     guiraud_r,
     hapax_count,
     hapax_ratio,
+    hdd,
     heaps_beta,
+    msttr,
     mtld,
     pos_lexical_variation,
     rank_word_freq_table,
@@ -17,6 +21,7 @@ from turkish_linguistic_features.features.lexical import (
     simpsons_d,
     ttr_moving_slope,
     type_token_ratio,
+    vocd_d,
     word_length_stats,
     yules_k,
 )
@@ -370,3 +375,85 @@ def test_t05_bos_girdiler():
     for sonuc in (mtld([]), dugast_u([]), ttr_moving_slope([]), guiraud_r([]),
                   advanced_lexical_richness([]), pos_lexical_variation([], [])):
         assert all(v == 0.0 for v in sonuc.values())
+
+
+# ── T06: örneklemeli çeşitlilik ───────────────────────────────────────
+
+
+def _cesitli(n: int = 400) -> list[str]:
+    return [f"k{(i * 7919) % 300}" for i in range(n)]
+
+
+def _tekrarli(n: int = 400) -> list[str]:
+    return [f"k{i % 12}" for i in range(n)]
+
+
+def test_vocd_deterministik():
+    """Aynı girdi + aynı tohum → aynı sonuç."""
+    assert vocd_d(_cesitli())["vocd_d"] == vocd_d(_cesitli())["vocd_d"]
+
+
+def test_vocd_global_random_kirletmez():
+    import random
+    random.seed(1)
+    once = random.random()
+    random.seed(1)
+    vocd_d(_cesitli())
+    assert random.random() == once
+
+
+def test_vocd_kisa_metinde_sifir():
+    assert vocd_d(["a"] * 10)["vocd_d"] == 0.0
+
+
+def test_vocd_en_buyuk_orneklemden_kisa_metinde_sifir():
+    """35–50 aralığında 50'lik çekiliş yapılamıyorsa ölçülemez."""
+    assert vocd_d(_cesitli(49), min_tokens=10)["vocd_d"] == 0.0
+
+
+def test_vocd_cesitli_metinde_tekrarlidan_yuksek():
+    assert vocd_d(_cesitli())["vocd_d"] > vocd_d(_tekrarli())["vocd_d"]
+
+
+def test_vocd_modelden_uretilen_egriyi_geri_bulur():
+    """TTR(n) = (D/n)(√(1+2n/D) − 1) eğrisine D=60 ile uyan veri → D ≈ 60."""
+    from turkish_linguistic_features.features.lexical import _vocd_uydur
+    D = 60.0
+    boylar = list(range(35, 51))
+    ttrler = [(D / n) * (math.sqrt(1 + 2 * n / D) - 1) for n in boylar]
+    assert _vocd_uydur(boylar, ttrler) == pytest.approx(60.0, rel=1e-3)
+
+
+def test_hdd_tum_tokenler_ayniysa_dusuk():
+    assert hdd(["aynı"] * 100)["hdd"] < 0.05
+
+
+def test_hdd_tum_tokenler_farkliysa_bir():
+    """Her tipin 42'lik örneklemde görülme olasılığı 42/200 → toplam 42 → /42 = 1."""
+    assert hdd([f"k{i}" for i in range(200)])["hdd"] == pytest.approx(1.0, abs=1e-4)
+
+
+def test_hdd_bilinen_deger():
+    """[a a b c], n=2: P(a)=1−C(2,2)/C(4,2)=5/6, P(b)=P(c)=1−3/6=1/2 → (11/6)/2."""
+    assert hdd(["a", "a", "b", "c"], sample_size=2)["hdd"] == pytest.approx(11 / 12, abs=1e-4)
+
+
+def test_hdd_orneklemden_kisa_metinde_sifir():
+    assert hdd([f"k{i}" for i in range(41)])["hdd"] == 0.0
+
+
+def test_msttr_bilinen_deger_artik_atilir():
+    """Segment 4: [ev yol ev su]=0.75, [kedi kedi kedi köpek]=0.5; 'kuş' atılır."""
+    tokens = ["ev", "yol", "ev", "su", "kedi", "kedi", "kedi", "köpek", "kuş"]
+    assert msttr(tokens, segment_size=4)["msttr"] == pytest.approx(0.625, abs=1e-4)
+
+
+def test_msttr_segmentten_kisa_metinde_sifir():
+    """50 token, segment 100 → tam segment yok → 0.0 (2026-09-15, Efe)."""
+    assert msttr([f"k{i}" for i in range(50)], 100)["msttr"] == 0.0
+
+
+def test_t06_bos_girdiler():
+    assert vocd_d([])["vocd_d"] == 0.0
+    assert hdd([])["hdd"] == 0.0
+    assert msttr([])["msttr"] == 0.0

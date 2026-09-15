@@ -1,6 +1,6 @@
 """Sözcüksel temel: frekans tablosu ve klasik kelime zenginliği ölçütleri.
 
-Bu modül 21 öznitelik anahtarı üretir (`lexical` grubunun 31'inden):
+Bu modül 24 öznitelik anahtarı üretir (`lexical` grubunun 31'inden):
 
 - T04 (10): ``ttr`` · ``entropy`` · ``yule_k`` · ``simpson_d`` · ``brunet_w`` ·
   ``hapax_ratio`` · ``avg_word_length`` · ``word_length_cv`` · ``sichel_s`` ·
@@ -8,9 +8,16 @@ Bu modül 21 öznitelik anahtarı üretir (`lexical` grubunun 31'inden):
 - T05 (11): ``mattr`` · ``entropy_std`` · ``herdan_c`` · ``mtld`` ·
   ``dugast_u`` · ``guiraud_r`` · ``ttr_moving_slope`` · ``noun_variation`` ·
   ``verb_variation`` · ``adj_variation`` · ``adv_variation``
+- T06 (3): ``vocd_d`` · ``hdd`` · ``msttr``
 
 Bütün fonksiyonlar saftır: girdi token listesi, çıktı sayı. NLP modeli
 gerekmez — tokenizasyonu çağıran taraf yapmıştır.
+
+**Kelime birimi (2026-09-15, Efe):** çeşitlilik ölçüleri küçük harfli,
+noktalamasız **yüzey biçimleri** sayar — klasik literatürün (McCarthy &
+Jarvis 2010, Covington & McFall 2010, Tweedie & Baayen 1998) birimi.
+Listeyi T20 hazırlar. İstisnalar: ``*_variation`` lemma sayar (Lu 2011),
+``n_lemma_count`` adı gereği lemma.
 
 Boş ve tek elemanlı girdide hiçbiri çökmez; ölçülemeyen değer ``0.0``
 döner. ``0.0`` burada "ölçülemedi" değil **"ölçüldü ve sıfır çıktı"**
@@ -20,6 +27,7 @@ anlamına gelir; tek istisnası ``heaps_beta``, docstring'inde yazılı.
 from __future__ import annotations
 
 import math
+import random
 from collections import Counter
 
 import numpy as np
@@ -163,17 +171,17 @@ def word_length_stats(tokens: list[str]) -> tuple[float, float]:
     return (round(ortalama, 4), round(cv, 4))
 
 
-def rare_word_metrics(lemma_tokens: list[str]) -> dict[str, float]:
+def rare_word_metrics(tokens: list[str]) -> dict[str, float]:
     """Sichel's S = V₂ / V — tam olarak iki kez geçen tiplerin oranı."""
-    if not lemma_tokens:
+    if not tokens:
         return {"sichel_s": 0.0}
-    sayim = Counter(lemma_tokens)
+    sayim = Counter(tokens)
     V = len(sayim)
     V2 = sum(1 for f in sayim.values() if f == 2)
     return {"sichel_s": round(V2 / V, 6)}
 
 
-def heaps_beta(lemma_tokens: list[str], min_tokens: int = 300,
+def heaps_beta(tokens: list[str], min_tokens: int = 300,
                step: int = 50) -> dict[str, float]:
     """Heaps yasası ``V = K·N^β``; ``log V ~ β·log N`` regresyonunun eğimi.
 
@@ -189,7 +197,7 @@ def heaps_beta(lemma_tokens: list[str], min_tokens: int = 300,
     metinlerde regresyon 1'den büyük ya da negatif çıkabilir, ikisi de
     anlamsızdır.
     """
-    N = len(lemma_tokens)
+    N = len(tokens)
     if N < min_tokens:
         return {"heaps_beta": 0.0}          # kısa metinde uydurma yapma
 
@@ -197,7 +205,7 @@ def heaps_beta(lemma_tokens: list[str], min_tokens: int = 300,
     vt: list[int] = []
     for kesim in range(step, N + 1, step):
         nt.append(kesim)
-        vt.append(len(set(lemma_tokens[:kesim])))
+        vt.append(len(set(tokens[:kesim])))
 
     if len(nt) < 5:                          # 5 noktadan az → regresyon güvenilmez
         return {"heaps_beta": 0.0}
@@ -224,7 +232,7 @@ def _parcalar(tokens: list[str], boy: int) -> list[list[str]]:
     return [tokens[i:i + boy] for i in range(0, len(tokens) - boy + 1, boy)]
 
 
-def advanced_lexical_richness(lemma_tokens: list[str], window: int = 50) -> dict[str, float]:
+def advanced_lexical_richness(tokens: list[str], window: int = 50) -> dict[str, float]:
     """MATTR, entropy_std, Herdan-C.
 
     - ``mattr`` — 1'er kayan ``window``'luk pencerelerin TTR ortalaması
@@ -236,26 +244,26 @@ def advanced_lexical_richness(lemma_tokens: list[str], window: int = 50) -> dict
     ``bigram_entropy`` 2026-09-15'te çıkarıldı (Efe): lemma çiftlerinin çoğu
     tek seferlik olduğundan değer metin uzunluğunu izliyordu.
     """
-    N = len(lemma_tokens)
+    N = len(tokens)
     if N == 0:
         return {"mattr": 0.0, "entropy_std": 0.0, "herdan_c": 0.0}
-    V = len(set(lemma_tokens))
+    V = len(set(tokens))
 
     if N <= window or window <= 0:
         mattr = V / N
     else:
-        sayim = Counter(lemma_tokens[:window])
+        sayim = Counter(tokens[:window])
         toplam = len(sayim)
         for i in range(window, N):
-            eski = lemma_tokens[i - window]
+            eski = tokens[i - window]
             sayim[eski] -= 1
             if sayim[eski] == 0:
                 del sayim[eski]
-            sayim[lemma_tokens[i]] += 1
+            sayim[tokens[i]] += 1
             toplam += len(sayim)
         mattr = toplam / ((N - window + 1) * window)
 
-    parcalar = _parcalar(lemma_tokens, window)
+    parcalar = _parcalar(tokens, window)
     if len(parcalar) >= 2:
         entropiler = [shannon_entropy(np.array(list(Counter(p).values()), dtype=np.float64))
                       for p in parcalar]
@@ -287,7 +295,7 @@ def _mtld_tek_yon(tokens: list[str], esik: float) -> float:
     return len(tokens) / faktor if faktor > 0 else 0.0
 
 
-def mtld(lemma_tokens: list[str], threshold: float = 0.72) -> dict[str, float]:
+def mtld(tokens: list[str], threshold: float = 0.72) -> dict[str, float]:
     """Measure of Textual Lexical Diversity (McCarthy & Jarvis 2010).
 
     TTR ``threshold``'a düşene kadar geçen ortalama kelime sayısı; ileri ve
@@ -295,34 +303,34 @@ def mtld(lemma_tokens: list[str], threshold: float = 0.72) -> dict[str, float]:
     hiç faktör oluşmazsa (tamamen tekrarsız kısa metin) formül sıfıra bölünür
     → 0.0 (K4, 2026-09-15, Efe).
     """
-    if not lemma_tokens:
+    if not tokens:
         return {"mtld": 0.0}
-    ileri = _mtld_tek_yon(lemma_tokens, threshold)
-    geri = _mtld_tek_yon(lemma_tokens[::-1], threshold)
+    ileri = _mtld_tek_yon(tokens, threshold)
+    geri = _mtld_tek_yon(tokens[::-1], threshold)
     return {"mtld": round((ileri + geri) / 2, 4)}
 
 
-def dugast_u(lemma_tokens: list[str]) -> dict[str, float]:
+def dugast_u(tokens: list[str]) -> dict[str, float]:
     """Dugast'ın Uber indeksi ``U = (log₁₀ N)² / (log₁₀ N − log₁₀ V)``.
 
     Taban 10 (2026-09-15, Efe): quanteda ve koRpus ile aynı. Taban sonucu
     ölçekler (ln ile 2.3 kat), sıralamayı değiştirmez. ``N == V`` → payda 0 → 0.0.
     """
-    N = len(lemma_tokens)
-    V = len(set(lemma_tokens))
+    N = len(tokens)
+    V = len(set(tokens))
     if N < 2 or V < 2 or N == V:
         return {"dugast_u": 0.0}
     return {"dugast_u": round(math.log10(N) ** 2 / (math.log10(N) - math.log10(V)), 4)}
 
 
-def guiraud_r(lemma_tokens: list[str]) -> dict[str, float]:
+def guiraud_r(tokens: list[str]) -> dict[str, float]:
     """Guiraud kökü ``R = V / √N`` (Guiraud 1960)."""
-    if not lemma_tokens:
+    if not tokens:
         return {"guiraud_r": 0.0}
-    return {"guiraud_r": round(len(set(lemma_tokens)) / math.sqrt(len(lemma_tokens)), 5)}
+    return {"guiraud_r": round(len(set(tokens)) / math.sqrt(len(tokens)), 5)}
 
 
-def ttr_moving_slope(lemma_tokens: list[str], chunk_size: int = 50) -> dict[str, float]:
+def ttr_moving_slope(tokens: list[str], chunk_size: int = 50) -> dict[str, float]:
     """Ayrık ``chunk_size``'lık parçaların TTR'lerine doğrusal eğim.
 
     Negatif = metnin sonuna doğru kelime tekrarı artıyor. Parça boyu sabit
@@ -330,7 +338,7 @@ def ttr_moving_slope(lemma_tokens: list[str], chunk_size: int = 50) -> dict[str,
     veriyordu hem de uzun metinde parçaları uzatıp eğimi uzunluğa bağlıyordu.
     Sondaki eksik parça atılır; 2'den az tam parça → 0.0.
     """
-    parcalar = _parcalar(lemma_tokens, chunk_size)
+    parcalar = _parcalar(tokens, chunk_size)
     if len(parcalar) < 2:
         return {"ttr_moving_slope": 0.0}
     ttrler = [len(set(p)) / len(p) for p in parcalar]
@@ -361,3 +369,109 @@ def pos_lexical_variation(lemma_tokens: list[str],
         if lemmalar:
             sonuc[f"{etiket.lower()}_variation"] = round(len(set(lemmalar)) / len(lemmalar), 5)
     return sonuc
+
+
+# ── T06: örneklemeli çeşitlilik ───────────────────────────────────────
+#
+# Kaynak: McCarthy & Jarvis (2010), Behavior Research Methods 42(2), s. 383–385
+# (Kademe A; tlf-kaynaklar/2010-BRM-42__McCarthy-Jarvis__MTLD-vocd-HDD__BIRINCIL.pdf).
+# Girdi: küçük harfli, noktalamasız yüzey biçimler (2026-09-15, Efe).
+
+
+def _vocd_model(D: float, n: int) -> float:
+    """voc-D kuramsal eğrisi ``TTR(n) = (D/n)·(√(1 + 2n/D) − 1)``."""
+    return (D / n) * (math.sqrt(1 + 2 * n / D) - 1)
+
+
+def _vocd_uydur(boylar: list[int], ttrler: list[float]) -> float:
+    """Ölçülen TTR eğrisine en küçük kareler anlamında en iyi uyan D.
+
+    Model D'de monoton olduğundan hata tek dipli; log D üzerinde altın oran
+    araması yeterli. Arama aralığı [0.01, 100000]: tamamen tekrarsız metinde
+    D sonsuza gider ve üst sınıra yapışır.
+    """
+    def hata(log_d: float) -> float:
+        D = math.exp(log_d)
+        return sum((_vocd_model(D, n) - t) ** 2 for n, t in zip(boylar, ttrler))
+
+    a, b = math.log(0.01), math.log(100_000.0)
+    oran = (math.sqrt(5) - 1) / 2
+    c, d = b - oran * (b - a), a + oran * (b - a)
+    for _ in range(200):
+        if hata(c) < hata(d):
+            b, d = d, c
+            c = b - oran * (b - a)
+        else:
+            a, c = c, d
+            d = a + oran * (b - a)
+    return math.exp((a + b) / 2)
+
+
+def vocd_d(tokens: list[str], sample_min: int = 35, sample_max: int = 50,
+           num_samples: int = 100, num_runs: int = 3, min_tokens: int = 50,
+           random_seed: int = 42) -> dict[str, float]:
+    """voc-D (McKee, Malvern & Richards 2000; tarif McCarthy & Jarvis 2010, s. 383).
+
+    35, 36, …, 50 tokenlik her boy için ``num_samples`` rastgele örneklem
+    (yerine koymadan) çekilir, ortalama TTR eğrisine D uydurulur. Tüm işlem
+    ``num_runs`` kez yapılıp D'ler ortalanır. Özgün ayarlar 100 örneklem ve
+    3 tur (2026-09-15, Efe — plandaki 30 örneklem düzeltildi).
+
+    Kendi ``random.Random(random_seed)`` üretecini kullanır; global ``random``
+    durumuna dokunmaz. Metin ``min_tokens``'tan ya da en büyük örneklemden
+    kısaysa 0.0.
+    """
+    N = len(tokens)
+    if N < max(min_tokens, sample_max) or sample_min > sample_max or num_samples < 1:
+        return {"vocd_d": 0.0}
+    rng = random.Random(random_seed)
+    boylar = list(range(sample_min, sample_max + 1))
+    dler = []
+    for _ in range(max(num_runs, 1)):
+        ttrler = [
+            sum(len(set(rng.sample(tokens, n))) / n for _ in range(num_samples)) / num_samples
+            for n in boylar
+        ]
+        dler.append(_vocd_uydur(boylar, ttrler))
+    return {"vocd_d": round(sum(dler) / len(dler), 4)}
+
+
+def hdd(tokens: list[str], sample_size: int = 42) -> dict[str, float]:
+    """HD-D (McCarthy & Jarvis 2007; 2010 s. 383): 42'lik örneklemin beklenen TTR'si.
+
+    Her tip için hipergeometrik dağılımdan "örneklemde en az bir kez görülme"
+    olasılığı ``1 − C(N−f, n)/C(N, n)``; olasılıklar toplanıp ``n``'e bölünür
+    (0–1 ölçeği, 2026-09-15, Efe). Makale ham toplamı (0–42) raporluyor;
+    bölmek sıralamayı değiştirmez.
+
+    ``C(N−f, n)/C(N, n) = Π_{i<n} (N−f−i)/(N−i)`` olarak kayan noktada
+    hesaplanır — büyük N'de dev tamsayılar üretmez. ``N − f < n`` ise tip
+    örnekleme **kesinlikle** girer, görülmeme olasılığı 0.
+    """
+    N = len(tokens)
+    if N < sample_size or sample_size < 1:
+        return {"hdd": 0.0}
+    frekans_sayilari = Counter(Counter(tokens).values())   # f → o frekanstaki tip sayısı
+    toplam = 0.0
+    for f, tip_sayisi in frekans_sayilari.items():
+        if N - f < sample_size:
+            gorulmeme = 0.0
+        else:
+            gorulmeme = 1.0
+            for i in range(sample_size):
+                gorulmeme *= (N - f - i) / (N - i)
+        toplam += tip_sayisi * (1.0 - gorulmeme)
+    return {"hdd": round(toplam / sample_size, 5)}
+
+
+def msttr(tokens: list[str], segment_size: int = 100) -> dict[str, float]:
+    """Mean Segmental TTR (Johnson 1944): tam segmentlerin TTR ortalaması.
+
+    McCarthy & Jarvis (2010, s. 385): "segments of a set length (typically,
+    100 words). The remaining words are discarded." Tam segment yoksa 0.0
+    (2026-09-15, Efe).
+    """
+    parcalar = _parcalar(tokens, segment_size)
+    if not parcalar:
+        return {"msttr": 0.0}
+    return {"msttr": round(sum(len(set(p)) / len(p) for p in parcalar) / len(parcalar), 5)}
