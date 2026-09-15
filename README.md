@@ -9,8 +9,7 @@ repository is currently being built up task by task. See `plan/from-scratch/`.
 ## What it does
 
 Given a text, the library produces a flat `dict` of named numeric features:
-lexical richness, phonetics, Turkish morphology (Zeyrek), syntax (spaCy),
-readability and punctuation.
+lexical richness, phonetics, Turkish morphology (Zeyrek), syntax, readability and punctuation.
 
 ## Install
 
