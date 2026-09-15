@@ -5,9 +5,9 @@ Bu modül T11'in anahtarlarını üretir:
 - ``pos`` (13): ``pos_noun`` … ``pos_punct``
 - ``pos_bigrams`` (169): ``posbg_{A}_{B}``, sabit 13×13 ızgara
 - ``sentence`` (8) ve ``paragraph`` (5)
-- ``syntactic`` grubunun 8'i: ``pos_trigram_entropy``, ``nominal_verbal_ratio``,
-  ``verb_dist_mean``, ``verb_dist_cv``, ``activity_ratio``, ``lexical_density``,
-  ``pos_dist_std``, ``pos_kl_div`` (kalan 8'i T12)
+- ``syntactic`` grubunun 7'si: ``nominal_verbal_ratio``, ``verb_dist_mean``,
+  ``verb_dist_cv``, ``activity_ratio``, ``lexical_density``, ``pos_dist_std``,
+  ``pos_kl_div`` (kalan 8'i T12)
 
 Fonksiyonlar saftır (K3): girdi ``pos_data`` = ``[(token, POS), …]``,
 ``sentences_as_tokens`` = ``[[token, …], …]`` ya da ham metin. NLP modeli almaz.
@@ -76,18 +76,6 @@ def pos_bigram_ratios(pos_data: list[tuple[str, str]]) -> dict[str, float]:
         f"posbg_{a}_{b}": round(sayimlar.get((a, b), 0) / toplam, 5)
         for a in POS_TAGS for b in POS_TAGS
     }
-
-
-def pos_trigram_entropy(pos_data: list[tuple[str, str]]) -> dict[str, float]:
-    """Ardışık POS üçlülerinin dağılımının Shannon entropisi, bit cinsinden.
-
-    Yüksek = etiket dizilimleri çeşitli; 3'ten az tokende 0.0.
-    """
-    etiketler = [p for _, p in pos_data]
-    if len(etiketler) < 3:
-        return {"pos_trigram_entropy": 0.0}
-    uclu = Counter(zip(etiketler, etiketler[1:], etiketler[2:]))
-    return {"pos_trigram_entropy": round(_entropy_bits(uclu), 5)}
 
 
 def nominal_verbal_ratio(pos_data: list[tuple[str, str]]) -> dict[str, float]:

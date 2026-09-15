@@ -11,7 +11,6 @@ from turkish_linguistic_features.features.syntactic import (
     pos_bigram_ratios,
     pos_distribution_stats,
     pos_ratios,
-    pos_trigram_entropy,
     sent_len_entropy,
     sentence_distribution_stats,
     sentence_stats,
@@ -58,13 +57,6 @@ def test_pos_bigram_gorulmeyen_cift_sifir():
     sonuc = pos_bigram_ratios([("a", "NOUN"), ("b", "VERB")])
     assert sonuc["posbg_NOUN_VERB"] == 1.0
     assert sonuc["posbg_ADJ_ADV"] == 0.0
-
-
-def test_pos_trigram_entropy_elle():
-    """N V N V → iki eşit olası trigram → tam 1 bit."""
-    pos = [("a", "NOUN"), ("b", "VERB"), ("c", "NOUN"), ("d", "VERB")]
-    assert pos_trigram_entropy(pos)["pos_trigram_entropy"] == 1.0
-    assert pos_trigram_entropy(pos[:2])["pos_trigram_entropy"] == 0.0
 
 
 def test_nominal_verbal_ratio_elle():
@@ -241,7 +233,7 @@ def test_paragraf_windows_satir_sonu():
 
 
 def test_bos_girdiler_hepsi_sifir():
-    for sonuc in (pos_ratios([]), pos_bigram_ratios([]), pos_trigram_entropy([]),
+    for sonuc in (pos_ratios([]), pos_bigram_ratios([]),
                   nominal_verbal_ratio([]), verb_distance_stats([]), activity_ratio([]),
                   lexical_density([]), pos_distribution_stats([], []), sentence_stats([]),
                   sentence_distribution_stats([], 5, 30), avg_sent_len_char([]),
