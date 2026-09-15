@@ -1,0 +1,245 @@
+"""Frekans yapısı: Popescu & Altmann'ın h-point ailesi — QUITA bataryası.
+
+Bu modül ``frequency_structure`` grubunun 13 anahtarını üretir:
+``h_point`` · ``vocab_richness_r1`` · ``vocab_richness_r4`` · ``repeat_rate`` ·
+``rr_mcintosh`` · ``gini_coef`` · ``curve_length`` · ``curve_length_r`` ·
+``lambda_pa`` · ``adjusted_modulus`` · ``writers_view_alpha`` ·
+``thematic_concentration`` · ``secondary_thematic_concentration``.
+
+Girdi ``rank_word_freq_table()`` (``lexical.py``) çıktısıdır: ``freqs`` azalan
+sıralı, ``M`` toplam token, ``V`` tekil tip, ``items`` ``(kelime, frekans)``.
+Rank 1 en sık kelimedir.
+
+Formüller birincil kaynaktan okundu (K12, Kademe A):
+
+- Popescu, Altmann, Grzybek et al. (2009), *Word Frequency Studies*, Mouton de
+  Gruyter — R1 s. 30 denk. (3.8), R4 s. 57 denk. (3.24)
+- Popescu, Mačutek & Altmann (2009), *Aspects of Word Frequencies*, RAM-Verlag
+  — writer's view s. 27 denk. (4.5)
+- Kubát, Matlach & Čech (2014), *QUITA*, RAM-Verlag — h-point (6.2), Lambda
+  (6.13-14), Gini (6.15), L (6.21), R (6.22-23), A (6.29-30), α (6.34),
+  TC (6.37), STC (6.42)
+
+Kaynak arşivi ve doğrulanmış fikstürler: ``tlf-kaynaklar/00-INDEKS.md``.
+"""
+
+from __future__ import annotations
+
+import math
+from collections import Counter
+
+import numpy as np
+
+from .vocab import AUTOSEMANTIC_POS
+
+
+def h_point(freqs: np.ndarray) -> float:
+    """Frekansın ranka eşit olduğu nokta.
+
+    Tam eşleşme varsa o rank. Yoksa eğrinin köşegeni kestiği iki rank
+    arasında ara değerleme (QUITA denk. 6.2)::
+
+        h = (f(r₁)·r₂ − f(r₂)·r₁) / (r₂ − r₁ + f(r₁) − f(r₂))
+
+    ``r₁`` = f(r) > r olan son rank, ``r₂ = r₁ + 1``. Eşit frekanslı kelimeler
+    burada **düz** rank alır (QUITA'nın Orwell örneği bununla birebir tutuyor).
+
+    Eğri gözlenen ranklarda köşegeni hiç kesmiyorsa (her rankta f > r, yalnız
+    çok kısa ve tekrarlı metinlerde) ``h = V`` döner: h gözlenen rank
+    sayısını aşamaz. Boş girdide 0.0.
+    """
+    for r, f in enumerate(freqs.tolist(), start=1):
+        if f == r:
+            return float(r)
+        if f < r:
+            f1 = freqs[r - 2]
+            return round(float((f1 * r - f * (r - 1)) / (1 + f1 - f)), 6)
+    return float(len(freqs))
+
+
+def repeat_rate(freqs: np.ndarray, M: int) -> dict[str, float]:
+    """``RR = Σ (f/M)²`` — rastgele iki tokenin aynı tip olma olasılığı (yanlı).
+
+    ``simpson_d`` bunun yansız karşılığıdır; ikisi yüksek korelasyonludur ve bu
+    beklenen davranıştır.
+    """
+    if M == 0:
+        return {"repeat_rate": 0.0}
+    p = freqs.astype(np.float64) / M
+    return {"repeat_rate": round(float(np.sum(p * p)), 6)}
+
+
+def rr_mcintosh(RR: float, V: int) -> dict[str, float]:
+    """McIntosh göreli tekrar oranı ``(1 − √RR) / (1 − 1/√V)``, [0, 1] aralığında."""
+    if V <= 1 or RR <= 0:
+        return {"rr_mcintosh": 0.0}
+    return {"rr_mcintosh": round((1 - math.sqrt(RR)) / (1 - 1 / math.sqrt(V)), 6)}
+
+
+def gini_coef(freqs: np.ndarray, M: int, V: int) -> dict[str, float]:
+    """``G = (V + 1 − 2·Σ(r·fᵣ)/M) / V``, rank **azalan** sırada (r=1 en sık).
+
+    QUITA'nın düz yazısı Lorenz eğrisi için ters rank diyor, ama bu kapalı
+    form azalan rank ister: ters rankla G negatif çıkar. Azalan rankla QUITA
+    Metin 1 ve 2'nin yayımlanmış değerleri (0.3045, 0.3511) birebir üretiliyor.
+    """
+    if M == 0 or V == 0:
+        return {"gini_coef": 0.0}
+    r = np.arange(1, V + 1, dtype=np.float64)
+    return {"gini_coef": round(float((V + 1 - 2 * np.sum(r * freqs) / M) / V), 6)}
+
+
+def vocab_richness_r1(freqs: np.ndarray, M: int, h: float) -> dict[str, float]:
+    """``R1 = 1 − (F(h) − h²/(2M))`` — metnin h-point altında kalan payı.
+
+    ``F(h)`` **bağıl** birikimli frekans, toplam rank ``1..⌊h⌋``; kare ise tam
+    kesirli ``h``'yi kullanır. Kesirli h'de ⌈h⌉'ye kadar toplamak ya da kısmi
+    rank eklemek yanlıştır (Glottometrics 22, 2011, s. 68 dipnot 3).
+    h-point tanımı gereği ``F(h) ≥ h²/M`` olduğu için R1 ∈ (0, 1).
+    """
+    if M == 0 or h <= 0:
+        return {"vocab_richness_r1": 0.0}
+    F = float(freqs[:int(h)].sum()) / M
+    return {"vocab_richness_r1": round(1 - (F - h * h / (2 * M)), 6)}
+
+
+def vocab_richness_r4(freqs: np.ndarray, M: int, V: int) -> dict[str, float]:
+    """``R4 = 1 − G`` — ters çevrilmiş Gini katsayısı.
+
+    R1 ile aynı formülün iki adı **değil**: R1 h-point sınırının altındaki
+    payı, R4 kelime kullanımının eşitsizliğini ölçer. Boş metinde 0.0.
+    """
+    if M == 0 or V == 0:
+        return {"vocab_richness_r4": 0.0}
+    return {"vocab_richness_r4": round(1 - gini_coef(freqs, M, V)["gini_coef"], 6)}
+
+
+def _segments(freqs: np.ndarray) -> np.ndarray:
+    """Komşu rank noktaları arasındaki Öklid mesafeleri ``√((fᵢ − fᵢ₊₁)² + 1)``."""
+    f = freqs.astype(np.float64)
+    return np.sqrt(np.diff(f) ** 2 + 1)
+
+
+def curve_length(freqs: np.ndarray) -> dict[str, float]:
+    """Frekans-rank eğrisinin yay uzunluğu ``L = Σᵢ₌₁^{V−1} √((fᵢ − fᵢ₊₁)² + 1)``."""
+    if len(freqs) < 2:
+        return {"curve_length": 0.0}
+    return {"curve_length": round(float(_segments(freqs).sum()), 4)}
+
+
+def curve_length_indicator(freqs: np.ndarray, h: float) -> dict[str, float]:
+    """``R = 1 − Lh / L`` — eğri uzunluğunun h-point altında kalan payı.
+
+    ``Lh = Σ_{r=1}^{⌊h⌋} √((f(r) − f(r+1))² + 1)``, en fazla ``V − 1`` segment.
+    QUITA s. 37'nin yazılı ifadesi 4 terim gösteriyor ama yayımlanan sonuç
+    (14.29145) 5 terimle, yani ``r = 1..⌊h⌋`` ile tutuyor.
+    """
+    if len(freqs) < 2 or h <= 0:
+        return {"curve_length_r": 0.0}
+    seg = _segments(freqs)
+    L = float(seg.sum())
+    Lh = float(seg[:min(int(h), len(seg))].sum())
+    return {"curve_length_r": round(1 - Lh / L, 6)}
+
+
+def lambda_pa(L: float, M: int) -> dict[str, float]:
+    """``Λ = L · log₁₀(M) / M`` — metin uzunluğuna göre normalize eğri uzunluğu."""
+    if M <= 1:
+        return {"lambda_pa": 0.0}
+    return {"lambda_pa": round(L * math.log10(M) / M, 4)}
+
+
+def adjusted_modulus(f1: int, V: int, h: float, M: int) -> dict[str, float]:
+    """``A = √((f₁/h)² + (V/h)²) / log₁₀(M)`` — h-point'ten eğri uçlarına mesafe."""
+    if h <= 0 or M <= 1:
+        return {"adjusted_modulus": 0.0}
+    return {"adjusted_modulus": round(math.hypot(f1, V) / h / math.log10(M), 4)}
+
+
+def writers_view(f1: int, V: int, h: float) -> dict[str, float]:
+    """h-point tepesindeki açı, **radyan** (kosinüs değil).
+
+    Üçgenin köşeleri: tepe ``H = (h, h)`` · üst ``(1, f₁)`` · son ``(V, 1)``::
+
+        cos α = −[(h−1)(f₁−h) + (h−1)(V−h)] / (√((h−1)² + (f₁−h)²) · √((h−1)² + (V−h)²))
+        α = arccos(cos α)
+
+    ``(h−1)`` varyantı yazarların 2009 düzeltmesidir (*Aspects of Word
+    Frequencies* s. 27 dipnot 1); 2007 makalesi ``h`` kullanıyor ve kendi içinde
+    tutarsız. Beklenen aralık ~1.57–3.15; kosinüs okuması her zaman negatif olurdu.
+    """
+    if V == 0 or h <= 0:
+        return {"writers_view_alpha": 0.0}
+    ax, ay = 1 - h, f1 - h
+    bx, by = V - h, 1 - h
+    na, nb = math.hypot(ax, ay), math.hypot(bx, by)
+    if na == 0 or nb == 0:
+        return {"writers_view_alpha": 0.0}
+    cos_a = max(-1.0, min(1.0, (ax * bx + ay * by) / (na * nb)))
+    return {"writers_view_alpha": round(math.acos(cos_a), 4)}
+
+
+def _ortalama_ranklar(items: list[tuple[str, int]]) -> list[float]:
+    """Eşit frekanslı kelimelere ortalama rank (QUITA TC örneği, s. 49-51).
+
+    ``Counter.most_common`` eşitlikleri ekleme sırasıyla dizer; ortalama rank
+    TC'yi o keyfi sıradan bağımsız kılar.
+    """
+    ranklar: list[float] = []
+    i = 0
+    while i < len(items):
+        j = i
+        while j + 1 < len(items) and items[j + 1][1] == items[i][1]:
+            j += 1
+        ranklar.extend([(i + 1 + j + 1) / 2] * (j - i + 1))
+        i = j + 1
+    return ranklar
+
+
+def _pos_haritasi(pos_data: list[tuple[str, str]]) -> dict[str, str]:
+    """Küçük harfli kelime → en sık aldığı POS etiketi."""
+    sayim: dict[str, Counter] = {}
+    for token, pos in pos_data:
+        sayim.setdefault(token.lower(), Counter())[pos] += 1
+    return {k: c.most_common(1)[0][0] for k, c in sayim.items()}
+
+
+def _tematik_toplam(items: list[tuple[str, int]], pos_data: list[tuple[str, str]],
+                    ust_sinir: float) -> float:
+    """``Σ (ust_sinir − r')·f(r')`` — rank'ı ``ust_sinir``'dan küçük otosemantikler."""
+    pos = _pos_haritasi(pos_data)
+    return sum((ust_sinir - r) * f
+               for (kelime, f), r in zip(items, _ortalama_ranklar(items))
+               if r < ust_sinir and pos.get(kelime.lower()) in AUTOSEMANTIC_POS)
+
+
+def thematic_concentration(items: list[tuple[str, int]], pos_data: list[tuple[str, str]],
+                           h: float) -> dict[str, float]:
+    """``TC = Σ 2(h − r')·f(r') / (h(h−1)·f₁)`` — h-point üstündeki içerik kelimeleri.
+
+    ``r'`` otosemantik (``AUTOSEMANTIC_POS``) kelimenin ortalama rankı, yalnız
+    ``r' < h``. ``f₁`` en sık kelimenin frekansı (işlev kelimesi olsa bile).
+    Tek konulu metin konu isimlerini h-point üstüne taşır → TC büyür.
+    """
+    if not items or h <= 1:
+        return {"thematic_concentration": 0.0}
+    f1 = items[0][1]
+    toplam = _tematik_toplam(items, pos_data, h)
+    return {"thematic_concentration": round(2 * toplam / (h * (h - 1) * f1), 6)}
+
+
+def secondary_thematic_concentration(items: list[tuple[str, int]],
+                                     pos_data: list[tuple[str, str]],
+                                     h: float) -> dict[str, float]:
+    """``STC = Σ_{r' ≤ 2h} (2h − r')·f(r') / (h(2h−1)·f₁)`` — QUITA denk. (6.42).
+
+    TC'nin h yerine 2h ile hesaplanmış hali: rank 1'den 2h'ye kadar **bütün**
+    otosemantikleri kapsar, yalnız ``h..2h`` bandını değil. TC'nin sık sık 0
+    çıkması sorununu hafifletmek için var. ``V < 2h`` olan kısa metinde taşma
+    olmaz — mevcut kelimeler üzerinden toplanır.
+    """
+    if not items or h <= 0:
+        return {"secondary_thematic_concentration": 0.0}
+    f1 = items[0][1]
+    toplam = _tematik_toplam(items, pos_data, 2 * h)
+    return {"secondary_thematic_concentration": round(toplam / (h * (2 * h - 1) * f1), 6)}
