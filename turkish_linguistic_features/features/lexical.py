@@ -32,7 +32,6 @@ from __future__ import annotations
 import math
 import random
 from collections import Counter
-from functools import lru_cache
 
 import numpy as np
 
@@ -552,14 +551,10 @@ def zipf_mandelbrot(freqs: np.ndarray) -> dict[str, float]:
     return {"zipf_mandelbrot_q": round(en_iyi[1], 4), "zipf_mandelbrot_s": round(en_iyi[2], 4)}
 
 
-_ILK_N = 2000   # Lu (2012) s. 193; Laufer & Nation'ın Lexical Frequency Profile sınırı
-
-
-@lru_cache(maxsize=4)
-def _ilk_2000(lang: str) -> frozenset[str]:
-    """wordfreq'in ``lang`` için en sık 2000 kelimesi."""
-    from wordfreq import top_n_list
-    return frozenset(top_n_list(lang, _ILK_N))
+# Düşük sıklık sınırı — van Heuven ve ark. (2014), QJEP 67(6), Tablo 1 notu:
+# "Words with Zipf values of 3 or lower are low-frequency words". Zipf 3 =
+# milyon kelimede bir geçiş. Kademe A.
+_NADIR_ESIK = 3.0
 
 
 def reference_frequency_sophistication(lemma_tokens: list[str],
@@ -575,8 +570,10 @@ def reference_frequency_sophistication(lemma_tokens: list[str],
     - ``wordfreq_mean`` — anlamlı kelime tokenlerinin ortalama wordfreq Zipf
       puanı (log₁₀ milyar kelimedeki geçiş; 3 = milyonda bir). Listede
       olmayan kelime **0 puan** alır (wordfreq'in kendi kuralı).
-    - ``wordfreq_rare_ratio`` — o dilin en sık **2000** kelimesinin dışında
-      kalan anlamlı kelime tokeni oranı (Lu 2012 s. 193, Laufer & Nation).
+    - ``wordfreq_rare_ratio`` — Zipf puanı **≤ 3** olan (milyonda bir ya da
+      daha seyrek) anlamlı kelime tokeni oranı; van Heuven ve ark. (2014)
+      Tablo 1'in düşük sıklık tanımı (2026-09-16, Efe). "En sık 2000 dışı"
+      (Lu 2012) Türkçe listesi çekimli biçimlerle dolu olduğu için seçilmedi.
 
     Hizalama ``pos_lexical_variation`` ile aynı: ``pos_data``'dan PUNCT
     atılır; uzunluklar tutmazsa 0.0. wordfreq kurulu değilse ikisi de 0.0
@@ -596,8 +593,7 @@ def reference_frequency_sophistication(lemma_tokens: list[str],
     anlamli = [lem for lem, p in zip(lemma_tokens, kelime_pos) if p in LEXICAL_POS]
     if not anlamli:
         return sifir
-    ilk = _ilk_2000(lang)
     puanlar = [zipf_frequency(lem, lang) for lem in anlamli]
-    nadir = sum(1 for lem in anlamli if lem.lower() not in ilk)
+    nadir = sum(1 for puan in puanlar if puan <= _NADIR_ESIK)
     return {"wordfreq_mean": round(sum(puanlar) / len(puanlar), 4),
             "wordfreq_rare_ratio": round(nadir / len(anlamli), 5)}

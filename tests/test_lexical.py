@@ -522,16 +522,11 @@ def test_mandelbrot_az_veri_ile_sifir():
 class _SahteWordfreq:
     """Gerçek veri dosyasına bağlı kalmadan formülü sınamak için."""
 
-    PUAN = {"kitap": 5.0, "oku": 6.0, "epistemoloji": 2.0, "ve": 7.0}
-    ILK = ["ve", "kitap", "oku"]
+    PUAN = {"kitap": 5.0, "oku": 6.0, "epistemoloji": 2.0, "ve": 7.0, "sınır": 3.0}
 
     @staticmethod
     def zipf_frequency(kelime: str, lang: str) -> float:
         return _SahteWordfreq.PUAN.get(kelime, 0.0)
-
-    @staticmethod
-    def top_n_list(lang: str, n: int) -> list[str]:
-        return _SahteWordfreq.ILK[:n]
 
 
 @pytest.fixture
@@ -539,25 +534,26 @@ def sahte_wordfreq(monkeypatch):
     import sys
     import types
 
-    from turkish_linguistic_features.features import lexical
-
     modul = types.ModuleType("wordfreq")
     modul.zipf_frequency = _SahteWordfreq.zipf_frequency
-    modul.top_n_list = _SahteWordfreq.top_n_list
     monkeypatch.setitem(sys.modules, "wordfreq", modul)
-    lexical._ilk_2000.cache_clear()
-    yield
-    lexical._ilk_2000.cache_clear()
 
 
 def test_wordfreq_yalniz_anlamli_kelimeler_lemma_ile(sahte_wordfreq):
     """ve (CCONJ) ve noktalama sayılmaz. Anlamlı: kitap 5, oku 6, epistemoloji 2,
-    xyz 0 (listede yok → 0 puan) → ortalama 13/4. İlk-2000 dışı: epistemoloji, xyz → 2/4."""
+    xyz 0 (listede yok → 0 puan) → ortalama 13/4. Zipf ≤ 3: epistemoloji, xyz → 2/4."""
     lemmalar = ["kitap", "ve", "oku", "epistemoloji", "xyz"]
     pos = [("Kitabı", "NOUN"), ("ve", "CCONJ"), ("okudu", "VERB"), (",", "PUNCT"),
            ("epistemolojiyi", "NOUN"), ("xyz", "PROPN")]
     sonuc = reference_frequency_sophistication(lemmalar, pos, "tr")
     assert sonuc["wordfreq_mean"] == pytest.approx(13 / 4, abs=1e-4)
+    assert sonuc["wordfreq_rare_ratio"] == 0.5
+
+
+def test_wordfreq_nadir_esigi_dahil(sahte_wordfreq):
+    """van Heuven ve ark. (2014) Tablo 1: "Zipf values of 3 or lower are low-frequency"."""
+    sonuc = reference_frequency_sophistication(["sınır", "kitap"],
+                                               [("sınır", "NOUN"), ("kitap", "NOUN")], "tr")
     assert sonuc["wordfreq_rare_ratio"] == 0.5
 
 
