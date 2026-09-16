@@ -328,12 +328,26 @@ def test_ttr_egimi_iki_parcadan_azsa_sifir():
 
 
 def test_pos_variation_bilinen_deger():
-    """3 isim token, 2 benzersiz isim lemma → 2/3."""
+    """Lu (2012) Tablo 2: NV = T_noun / N_lex, VV1 = T_verb / N_verb.
+
+    4 sözcüksel kelime; 2 farklı isim lemması → NV = 2/4; 1 fiil tipi / 1 fiil → 1.0.
+    """
     lemmalar = ["kitap", "kitap", "kalem", "oku"]
     pos = [("kitabı", "NOUN"), ("kitap", "NOUN"), ("kalem", "NOUN"), ("okudu", "VERB")]
     sonuc = pos_lexical_variation(lemmalar, pos)
-    assert sonuc["noun_variation"] == pytest.approx(2 / 3, abs=1e-4)
+    assert sonuc["noun_variation"] == 0.5
     assert sonuc["verb_variation"] == 1.0
+
+
+def test_pos_variation_sifat_zarf_paydasi_sozcuksel_kelime():
+    """AdjV = T_adj / N_lex, AdvV = T_adv / N_lex (McClure 1991, Lu 2012)."""
+    lemmalar = ["güzel", "güzel", "iyi", "ev", "gel", "hızlı"]
+    pos = [("güzel", "ADJ"), ("güzel", "ADJ"), ("iyi", "ADJ"), ("ev", "NOUN"),
+           ("geldi", "VERB"), ("hızlıca", "ADV")]
+    sonuc = pos_lexical_variation(lemmalar, pos)
+    assert sonuc["adj_variation"] == pytest.approx(2 / 6, abs=1e-4)
+    assert sonuc["adv_variation"] == pytest.approx(1 / 6, abs=1e-4)
+    assert sonuc["noun_variation"] == pytest.approx(1 / 6, abs=1e-4)
 
 
 def test_pos_variation_noktalama_hizayi_bozmaz():
@@ -341,7 +355,7 @@ def test_pos_variation_noktalama_hizayi_bozmaz():
     lemmalar = ["kitap", "oku", "kitap"]
     pos = [("Kitap", "NOUN"), (",", "PUNCT"), ("okudu", "VERB"), ("kitabı", "NOUN"), (".", "PUNCT")]
     sonuc = pos_lexical_variation(lemmalar, pos)
-    assert sonuc["noun_variation"] == 0.5
+    assert sonuc["noun_variation"] == pytest.approx(1 / 3, abs=1e-4)
     assert sonuc["verb_variation"] == 1.0
 
 
@@ -351,16 +365,21 @@ def test_pos_variation_hizasiz_listelerde_sifir():
 
 
 def test_pos_variation_ozel_isim_ve_aux_sayilmaz():
-    """noun_variation yalnız NOUN, verb_variation yalnız VERB (2026-09-15, Efe)."""
+    """Sözcüksel kelime = NOUN, VERB, ADJ, ADV; PROPN ve AUX ne payda ne payda (Efe)."""
     lemmalar = ["ahmet", "ahmet", "ev", "i", "gel"]
     pos = [("Ahmet", "PROPN"), ("Ahmet", "PROPN"), ("ev", "NOUN"), ("idi", "AUX"), ("geldi", "VERB")]
     sonuc = pos_lexical_variation(lemmalar, pos)
-    assert sonuc["noun_variation"] == 1.0
-    assert sonuc["verb_variation"] == 1.0
+    assert sonuc["noun_variation"] == 0.5        # 1 isim tipi / 2 sözcüksel kelime
+    assert sonuc["verb_variation"] == 1.0        # VV1: 1 fiil tipi / 1 fiil
+
+
+def test_pos_variation_sozcuksel_kelime_yoksa_sifir():
+    """K4 — yalnız işlev kelimesi, payda sıfır."""
+    sonuc = pos_lexical_variation(["ve", "bu"], [("ve", "CCONJ"), ("bu", "DET")])
+    assert all(v == 0.0 for v in sonuc.values())
 
 
 def test_pos_variation_sinif_yoksa_sifir():
-    """K4 — metinde hiç sıfat yok, payda sıfır."""
     assert pos_lexical_variation(["oku"], [("okudu", "VERB")])["adj_variation"] == 0.0
 
 

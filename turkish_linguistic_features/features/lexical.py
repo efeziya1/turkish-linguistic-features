@@ -16,7 +16,7 @@ gerekmez — tokenizasyonu çağıran taraf yapmıştır.
 **Kelime birimi (2026-09-15, Efe):** çeşitlilik ölçüleri küçük harfli,
 noktalamasız **yüzey biçimleri** sayar — klasik literatürün (McCarthy &
 Jarvis 2010, Covington & McFall 2010, Tweedie & Baayen 1998) birimi.
-Listeyi T20 hazırlar. İstisnalar: ``*_variation`` lemma sayar (Lu 2011),
+Listeyi T20 hazırlar. İstisnalar: ``*_variation`` lemma sayar (Lu 2012),
 ``n_lemma_count`` adı gereği lemma.
 
 Boş ve tek elemanlı girdide hiçbiri çökmez; ölçülemeyen değer ``0.0``
@@ -346,28 +346,46 @@ def ttr_moving_slope(tokens: list[str], chunk_size: int = 50) -> dict[str, float
     return {"ttr_moving_slope": round(egim, 5)}
 
 
-_VARYASYON_POS = ("NOUN", "VERB", "ADJ", "ADV")
+# Sözcüksel kelime (N_lex) kümesi — Lu (2012) s. 192'nin Türkçeye aktarımı.
+# Lu yalnız sıfattan türemiş zarfları sayıyor (İngilizce -ly kuralı);
+# Türkçede karşılığı olmadığı için bütün ADV sayılır. PROPN sayılmaz
+# (2026-09-16, Efe). AUX ayrı etiket olduğu için zaten dışarıda.
+_SOZCUKSEL_POS = ("NOUN", "VERB", "ADJ", "ADV")
 
 
 def pos_lexical_variation(lemma_tokens: list[str],
                           pos_data: list[tuple[str, str]]) -> dict[str, float]:
-    """POS sınıfına kısıtlanmış TTR (Lu 2011): benzersiz lemma / o sınıfın tokeni.
+    """Sözcük türü çeşitliliği — Lu (2012), The Modern Language Journal 96(2), Tablo 2.
 
-    Yalnız ``NOUN`` (``PROPN`` değil), yalnız ``VERB`` (``AUX`` değil) —
-    2026-09-15, Efe.
+    - ``verb_variation`` = VV1 = ``T_verb / N_verb`` (Harley & King 1989)
+    - ``noun_variation`` = NV = ``T_noun / N_lex`` (McClure 1991)
+    - ``adj_variation`` = AdjV = ``T_adj / N_lex``
+    - ``adv_variation`` = AdvV = ``T_adv / N_lex``
+
+    ``T`` farklı **lemma** sayısı (Lu s. 196: örneklem lemmalanmıştı),
+    ``N_lex`` NOUN + VERB + ADJ + ADV token sayısı. ``PROPN`` ve ``AUX``
+    hiçbir yerde sayılmaz (2026-09-15/16, Efe).
 
     Hizalama: ``lemma_tokens``'a noktalama girmez, ``pos_data``'ya girer (T21).
     Bu yüzden ``pos_data``'dan önce ``PUNCT`` atılır; listeler yine eşit
     uzunlukta değilse çökmek yerine hepsi 0.0 döner.
     """
     kelime_pos = [p for _, p in pos_data if p != "PUNCT"]
-    sonuc = {f"{p.lower()}_variation": 0.0 for p in _VARYASYON_POS}
+    sonuc = {f"{p.lower()}_variation": 0.0 for p in _SOZCUKSEL_POS}
     if not lemma_tokens or len(kelime_pos) != len(lemma_tokens):
         return sonuc
-    for etiket in _VARYASYON_POS:
-        lemmalar = [lem for lem, p in zip(lemma_tokens, kelime_pos) if p == etiket]
-        if lemmalar:
-            sonuc[f"{etiket.lower()}_variation"] = round(len(set(lemmalar)) / len(lemmalar), 5)
+    tipler: dict[str, set[str]] = {p: set() for p in _SOZCUKSEL_POS}
+    tokenler = Counter(p for p in kelime_pos if p in _SOZCUKSEL_POS)
+    for lem, p in zip(lemma_tokens, kelime_pos):
+        if p in tipler:
+            tipler[p].add(lem)
+    n_lex = sum(tokenler.values())
+    if n_lex == 0:
+        return sonuc
+    for etiket in ("NOUN", "ADJ", "ADV"):
+        sonuc[f"{etiket.lower()}_variation"] = round(len(tipler[etiket]) / n_lex, 5)
+    if tokenler["VERB"]:
+        sonuc["verb_variation"] = round(len(tipler["VERB"]) / tokenler["VERB"], 5)
     return sonuc
 
 
