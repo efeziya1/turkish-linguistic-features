@@ -12,7 +12,10 @@ Bu modül T11'in anahtarlarını üretir:
 
 Fonksiyonlar saftır (K3): girdi ``pos_data`` = ``[(token, POS), …]``,
 ``sentences_as_tokens`` = ``[[token, …], …]`` ya da ham metin. NLP modeli almaz.
-Ölçülemeyen değer ``0.0`` döner (K4).
+
+K4 (2026-09-16, Efe): ölçülemeyen değer ``math.nan`` döner — boş girdi, boş
+alt küme (fiil yoksa fiil oranları), tek değerden yayılım (tek cümlede CV).
+``0.0`` yalnız gerçek sıfırdır. Hizasız girdi ``ValueError`` fırlatır.
 
 Standart sapmalar **popülasyon** sapmasıdır (``ddof=0``) — ``lexical.py`` ile
 aynı gerekçe: elimizdeki liste örneklem değil, metnin kendisi.
@@ -34,17 +37,19 @@ _SENT_END = re.compile(r"[.!?…]+")        # cümle sonu işareti
 
 
 def _entropy_bits(sayimlar: Counter) -> float:
-    """Sayım dağılımının Shannon entropisi, bit cinsinden."""
+    """Sayım dağılımının Shannon entropisi, bit cinsinden. Boşsa NaN."""
     toplam = sum(sayimlar.values())
     if toplam == 0:
-        return 0.0
+        return math.nan
     return -sum((c / toplam) * math.log2(c / toplam) for c in sayimlar.values())
 
 
 def _cv(degerler: np.ndarray) -> float:
-    """Değişim katsayısı ``std / ortalama``; ortalama 0 ise 0.0."""
+    """Değişim katsayısı ``std / ortalama``; 2'den az değer ya da ortalama 0 → NaN."""
+    if len(degerler) < 2:
+        return math.nan
     ortalama = float(degerler.mean())
-    return float(degerler.std()) / ortalama if ortalama > 0 else 0.0
+    return float(degerler.std()) / ortalama if ortalama > 0 else math.nan
 
 
 # ── POS oranları ve ızgara ────────────────────────────────────────────
@@ -58,7 +63,7 @@ def pos_ratios(pos_data: list[tuple[str, str]]) -> dict[str, float]:
     olabilir.
     """
     if not pos_data:
-        return {f"pos_{t.lower()}": 0.0 for t in POS_TAGS}
+        return {f"pos_{t.lower()}": math.nan for t in POS_TAGS}
     sayimlar = Counter(p for _, p in pos_data)
     n = len(pos_data)
     return {f"pos_{t.lower()}": round(sayimlar.get(t, 0) / n, 5) for t in POS_TAGS}
@@ -68,12 +73,15 @@ def pos_bigram_ratios(pos_data: list[tuple[str, str]]) -> dict[str, float]:
     """13×13 sabit POS-çifti ızgarası: ``çift sayısı / (token sayısı − 1)``.
 
     Metinde hangi çiftler geçerse geçsin **her zaman 169 anahtar** döner.
-    Görülmeyen çiftler 0.0 olur. Sabit ızgara, korpustan türetilmiş
-    dinamik sözlüğün aksine çapraz doğrulamada sızıntı yaratmaz.
+    Görülmeyen çiftler 0.0 olur; 2'den az token varsa hiç çift yoktur → NaN.
+    Sabit ızgara, korpustan türetilmiş dinamik sözlüğün aksine çapraz
+    doğrulamada sızıntı yaratmaz.
     """
     etiketler = [p for _, p in pos_data]
+    if len(etiketler) < 2:
+        return {f"posbg_{a}_{b}": math.nan for a in POS_TAGS for b in POS_TAGS}
     sayimlar = Counter(zip(etiketler, etiketler[1:]))
-    toplam = max(len(etiketler) - 1, 1)
+    toplam = len(etiketler) - 1
     return {
         f"posbg_{a}_{b}": round(sayimlar.get((a, b), 0) / toplam, 5)
         for a in POS_TAGS for b in POS_TAGS
@@ -81,7 +89,7 @@ def pos_bigram_ratios(pos_data: list[tuple[str, str]]) -> dict[str, float]:
 
 
 def nominal_verbal_ratio(pos_data: list[tuple[str, str]]) -> dict[str, float]:
-    """``isim sayısı / VERB sayısı``. Fiil yoksa 0.0.
+    """``isim sayısı / VERB sayısı``. Fiil yoksa NaN.
 
     İsim = ``NOUN_POS`` (NOUN + PROPN, 2026-09-16, Efe). Yalnız ``VERB``;
     ``AUX`` fiil sayılmaz — modülün tamamında geçerli kural, gerekçesi
@@ -90,7 +98,7 @@ def nominal_verbal_ratio(pos_data: list[tuple[str, str]]) -> dict[str, float]:
     sayimlar = Counter(p for _, p in pos_data)
     fiil = sayimlar.get("VERB", 0)
     if fiil == 0:
-        return {"nominal_verbal_ratio": 0.0}
+        return {"nominal_verbal_ratio": math.nan}
     isim = sum(sayimlar.get(p, 0) for p in NOUN_POS)
     return {"nominal_verbal_ratio": round(isim / fiil, 5)}
 
@@ -108,10 +116,12 @@ def verb_distance_stats(pos_data: list[tuple[str, str]]) -> dict[str, float]:
     ``imek``) ve ``değil`` yardımcı ögedir, sözcüksel fiil değil; onları fiil
     saymak ad cümlesini eylem cümlesi gibi ölçer. İngilizcede de aynı hata
     ``have``/``be``/``will`` ile fiil sayısını şişirirdi.
+
+    2'den az fiil → ikisi de NaN; tam 2 fiil (tek mesafe) → CV NaN.
     """
     idx = [i for i, (_, p) in enumerate(pos_data) if p == "VERB"]
     if len(idx) < 2:
-        return {"verb_dist_mean": 0.0, "verb_dist_cv": 0.0}
+        return {"verb_dist_mean": math.nan, "verb_dist_cv": math.nan}
     d = np.diff(np.array(idx, dtype=np.float64))
     return {"verb_dist_mean": round(float(d.mean()), 4), "verb_dist_cv": round(_cv(d), 4)}
 
@@ -120,12 +130,12 @@ def activity_ratio(pos_data: list[tuple[str, str]]) -> dict[str, float]:
     """QUITA "Activity (Q)" = VERB / (VERB + ADJ). ``AUX`` fiil sayılmaz.
 
     Descriptivity (D) = 1 − Q ayrı anahtar olarak üretilmez: tam ters
-    bağıntılı ikinci bir sütun bilgi taşımaz.
+    bağıntılı ikinci bir sütun bilgi taşımaz. Fiil de sıfat da yoksa NaN.
     """
     v = sum(1 for _, p in pos_data if p == "VERB")
     a = sum(1 for _, p in pos_data if p == "ADJ")
     if v + a == 0:
-        return {"activity_ratio": 0.0}
+        return {"activity_ratio": math.nan}
     return {"activity_ratio": round(v / (v + a), 5)}
 
 
@@ -140,7 +150,7 @@ def lexical_density(pos_data: list[tuple[str, str]]) -> dict[str, float]:
     bunun yerine geçmez: o isim/fiil dengesini, bu içerik/işlev dengesini verir.
     """
     if not pos_data:
-        return {"lexical_density": 0.0}
+        return {"lexical_density": math.nan}
     icerik = sum(1 for _, p in pos_data if p in LEXICAL_POS)
     return {"lexical_density": round(icerik / len(pos_data), 5)}
 
@@ -158,11 +168,16 @@ def pos_distribution_stats(pos_data: list[tuple[str, str]],
     hiçbir zaman sıfır olmaz.
 
     Cümle sınırı ``pos_data``'da yok; cümle uzunluklarıyla dilimlenir. Token
-    sayıları uyuşmazsa çökmek yerine iki anahtar da 0.0 döner.
+    sayıları uyuşmazsa ön işleme hatasıdır → ``ValueError`` (2026-09-16, Efe).
+    Boş girdide ikisi de NaN.
     """
     n = sum(len(c) for c in sentences_as_tokens)
-    if not pos_data or n != len(pos_data):
-        return {"pos_dist_std": 0.0, "pos_kl_div": 0.0}
+    if n != len(pos_data):
+        raise ValueError(
+            f"cümle token toplamı ({n}) ile pos_data ({len(pos_data)}) hizalı değil — ön işleme hatası"
+        )
+    if not pos_data:
+        return {"pos_dist_std": math.nan, "pos_kl_div": math.nan}
 
     oranlar = np.array(list(pos_ratios(pos_data).values()), dtype=np.float64)
 
@@ -184,7 +199,7 @@ def pos_distribution_stats(pos_data: list[tuple[str, str]],
             q = belge[etiket] / toplam
             kl_toplam += p * math.log2(p / q)
 
-    kl = kl_toplam / cumle_sayisi if cumle_sayisi else 0.0
+    kl = kl_toplam / cumle_sayisi
     return {"pos_dist_std": round(float(oranlar.std()), 5), "pos_kl_div": round(abs(kl), 5)}
 
 
@@ -196,14 +211,18 @@ def sentence_stats(cumleler: list[list[str]]) -> dict[str, float]:
 
     Çarpıklık Fisher-Pearson ``g1 = m3 / m2^1.5`` (popülasyon momentleri);
     simetrik dağılımda 0, uzun cümleler kuyruk yapıyorsa pozitif.
+
+    NaN: cümle yoksa hepsi; tek cümlede CV ve çarpıklık (tek değerden yayılım
+    ölçülmez); bütün cümleler eşit uzunluktaysa çarpıklık (0/0). Eşit
+    uzunlukta CV gerçekten 0'dır.
     """
     if not cumleler:
-        return {"avg_sent_len_word": 0.0, "sentence_length_cv": 0.0,
-                "sent_len_skewness": 0.0, "med_sent_len": 0.0}
+        return {"avg_sent_len_word": math.nan, "sentence_length_cv": math.nan,
+                "sent_len_skewness": math.nan, "med_sent_len": math.nan}
     u = np.array([len(c) for c in cumleler], dtype=np.float64)
     sapma = u - u.mean()
     m2 = float(np.mean(sapma ** 2))
-    carpiklik = float(np.mean(sapma ** 3)) / m2 ** 1.5 if m2 > 0 else 0.0
+    carpiklik = float(np.mean(sapma ** 3)) / m2 ** 1.5 if m2 > 0 else math.nan
     return {
         "avg_sent_len_word": round(float(u.mean()), 4),
         "sentence_length_cv": round(_cv(u), 4),
@@ -218,9 +237,10 @@ def sentence_distribution_stats(cumleler: list[list[str]], short_threshold: int,
 
     Eşikler dile göre farklı (``FeatureParams.short_sent_threshold`` /
     ``long_sent_threshold``); tam eşikteki cümle iki tarafa da girmez.
+    Cümle yoksa NaN.
     """
     if not cumleler:
-        return {"short_sent_ratio": 0.0, "long_sent_ratio": 0.0}
+        return {"short_sent_ratio": math.nan, "long_sent_ratio": math.nan}
     n = len(cumleler)
     kisa = sum(1 for c in cumleler if len(c) < short_threshold)
     uzun = sum(1 for c in cumleler if len(c) > long_threshold)
@@ -228,9 +248,9 @@ def sentence_distribution_stats(cumleler: list[list[str]], short_threshold: int,
 
 
 def avg_sent_len_char(cumleler: list[list[str]]) -> dict[str, float]:
-    """Cümle başına ortalama karakter, tokenler arasındaki tek boşluklar dahil."""
+    """Cümle başına ortalama karakter, tokenler arasındaki tek boşluklar dahil. Cümle yoksa NaN."""
     if not cumleler:
-        return {"avg_sent_len_char": 0.0}
+        return {"avg_sent_len_char": math.nan}
     uzunluklar = [len(" ".join(c)) for c in cumleler]
     return {"avg_sent_len_char": round(sum(uzunluklar) / len(uzunluklar), 4)}
 
@@ -239,7 +259,10 @@ def sent_len_entropy(cumleler: list[list[str]]) -> dict[str, float]:
     """Cümle uzunluğu dağılımının Shannon entropisi (bit) — ritim çeşitliliği.
 
     Her farklı uzunluk bir kategori. Hep aynı uzunlukta cümle → 0.
+    2'den az cümle → NaN (tek değerden çeşitlilik ölçülmez).
     """
+    if len(cumleler) < 2:
+        return {"sent_len_entropy": math.nan}
     return {"sent_len_entropy": round(_entropy_bits(Counter(len(c) for c in cumleler)), 5)}
 
 
@@ -256,12 +279,13 @@ def paragraph_stats(raw_text: str) -> dict[str, float]:
 
     ``para_len_mean`` boşlukla ayrılmış kelime sayar, ``avg_sent_len_word``
     spaCy token'ı sayar; ikisi sistematik olarak farklıdır, karşılaştırılmamalı.
+
+    Paragraf yoksa hepsi NaN; tek paragrafta iki CV NaN.
     """
-    sifir = {"para_len_mean": 0.0, "para_len_cv": 0.0, "sents_per_para_mean": 0.0,
-             "sents_per_para_cv": 0.0, "para_count_norm": 0.0}
     paras = [p for p in _PARA_SPLIT.split(raw_text.replace("\r\n", "\n")) if p.strip()]
     if not paras:
-        return sifir
+        return {"para_len_mean": math.nan, "para_len_cv": math.nan, "sents_per_para_mean": math.nan,
+                "sents_per_para_cv": math.nan, "para_count_norm": math.nan}
     # K11 istisnası: yerel sayım — paragrafı token akışına hizalamak ikinci geçiş ister
     kelime = np.array([len(p.split()) for p in paras], dtype=np.float64)
     cumle = np.array([max(len(_SENT_END.findall(p)), 1) for p in paras], dtype=np.float64)
@@ -271,7 +295,7 @@ def paragraph_stats(raw_text: str) -> dict[str, float]:
         "para_len_cv": round(_cv(kelime), 4),
         "sents_per_para_mean": round(float(cumle.mean()), 4),
         "sents_per_para_cv": round(_cv(cumle), 4),
-        "para_count_norm": round(len(paras) / toplam_kelime * 1000, 4) if toplam_kelime else 0.0,
+        "para_count_norm": round(len(paras) / toplam_kelime * 1000, 4),
     }
 
 
@@ -292,10 +316,10 @@ def question_per_sent(sentences_as_tokens: list[list[str]]) -> dict[str, float]:
     Cümlenin **sonundaki** tırnak ve kapanan parantezler atlanır; kalan son
     işaret ``?`` içeriyorsa (``?``, ``?!``, ``!?``, ``…?``) cümle soru sayılır
     (2026-09-15, Efe). Yalnız noktalamaya bakılır: ``?`` taşımayan ``mı``lı
-    cümle sayılmaz, cümle ortasındaki ``?`` sayılmaz.
+    cümle sayılmaz, cümle ortasındaki ``?`` sayılmaz. Cümle yoksa NaN.
     """
     if not sentences_as_tokens:
-        return {"question_per_sent": 0.0}
+        return {"question_per_sent": math.nan}
     soru = 0
     for cumle in sentences_as_tokens:
         for token in reversed(cumle):
@@ -313,10 +337,10 @@ def question_per_sent(sentences_as_tokens: list[list[str]]) -> dict[str, float]:
 def pronoun_freq(pos_data: list[tuple[str, str]]) -> dict[str, float]:
     """spaCy ``PRON`` etiketli token / toplam token → ``pronoun_freq``.
 
-    Payda ``pos_ratios`` ile aynı: noktalama dahil tüm tokenler.
+    Payda ``pos_ratios`` ile aynı: noktalama dahil tüm tokenler. Boşsa NaN.
     """
     if not pos_data:
-        return {"pronoun_freq": 0.0}
+        return {"pronoun_freq": math.nan}
     pron = sum(1 for _, p in pos_data if p == "PRON")
     return {"pronoun_freq": round(pron / len(pos_data), 5)}
 
@@ -336,8 +360,10 @@ def word_ngram_ratios(
       (``token − n + 1``), ``posbg_*`` ile aynı mantık.
     - Üst üste binen eşleşmeler sayılır: ``ha ha ha`` içinde ``ha ha`` = 2.
 
+    Metin öbekten kısaysa (pencere yok) NaN. Boş öbek → ``ValueError``.
+
     ``custom_ngrams`` verilmezse **boş sözlük** döner — bu grup taban
-    şemanın parçası değildir (440/415 toplamlarına girmez).
+    şemanın parçası değildir.
     """
     kelimeler = [_kucuk_harf(t, lang) for t in tokens if not _noktalama_mi(t)]
     sonuc: dict[str, float] = {}
@@ -346,8 +372,10 @@ def word_ngram_ratios(
         n = len(aranan)
         pencere = len(kelimeler) - n + 1
         anahtar = "ng_" + "_".join(aranan)
-        if n == 0 or pencere <= 0:
-            sonuc[anahtar] = 0.0
+        if n == 0:
+            raise ValueError("custom_ngrams içinde boş öbek var")
+        if pencere <= 0:
+            sonuc[anahtar] = math.nan
             continue
         eslesme = sum(1 for i in range(pencere) if tuple(kelimeler[i:i + n]) == aranan)
         sonuc[anahtar] = round(eslesme / pencere, 5)

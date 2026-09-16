@@ -30,6 +30,11 @@ Formüller birincil kaynaktan okundu (K12, Kademe A):
   TC (6.37), STC (6.42)
 
 Kaynak arşivi ve doğrulanmış fikstürler: ``tlf-kaynaklar/00-INDEKS.md``.
+
+K4 (2026-09-16, Efe): ölçülemeyen değer ``math.nan`` — boş girdi ya da payda
+sıfır (V = 1'de McIntosh, M ≤ 1'de A, tek noktalı eğride R, h ≤ 1'de TC,
+noktaya inen üçgende α). Girdi olarak gelen NaN (``h``, ``RR``, ``L``) NaN
+olarak yayılır. TC'de h-point üstünde konu kelimesi yoksa 0.0 gerçek sıfırdır.
 """
 
 from __future__ import annotations
@@ -55,8 +60,10 @@ def h_point(freqs: np.ndarray) -> float:
 
     Eğri gözlenen ranklarda köşegeni hiç kesmiyorsa (her rankta f > r, yalnız
     çok kısa ve tekrarlı metinlerde) ``h = V`` döner: h gözlenen rank
-    sayısını aşamaz. Boş girdide 0.0.
+    sayısını aşamaz. Boş girdide NaN.
     """
+    if len(freqs) == 0:
+        return math.nan
     for r, f in enumerate(freqs.tolist(), start=1):
         if f == r:
             return float(r)
@@ -73,15 +80,18 @@ def repeat_rate(freqs: np.ndarray, M: int) -> dict[str, float]:
     beklenen davranıştır.
     """
     if M == 0:
-        return {"repeat_rate": 0.0}
+        return {"repeat_rate": math.nan}
     p = freqs.astype(np.float64) / M
     return {"repeat_rate": round(float(np.sum(p * p)), 6)}
 
 
 def rr_mcintosh(RR: float, V: int) -> dict[str, float]:
-    """McIntosh göreli tekrar oranı ``(1 − √RR) / (1 − 1/√V)``, [0, 1] aralığında."""
-    if V <= 1 or RR <= 0:
-        return {"rr_mcintosh": 0.0}
+    """McIntosh göreli tekrar oranı ``(1 − √RR) / (1 − 1/√V)``, [0, 1] aralığında.
+
+    ``V ≤ 1`` → payda 0 → NaN; ``RR`` NaN ise NaN.
+    """
+    if V <= 1 or not RR > 0:
+        return {"rr_mcintosh": math.nan}
     return {"rr_mcintosh": round((1 - math.sqrt(RR)) / (1 - 1 / math.sqrt(V)), 6)}
 
 
@@ -93,7 +103,7 @@ def gini_coef(freqs: np.ndarray, M: int, V: int) -> dict[str, float]:
     Metin 1 ve 2'nin yayımlanmış değerleri (0.3045, 0.3511) birebir üretiliyor.
     """
     if M == 0 or V == 0:
-        return {"gini_coef": 0.0}
+        return {"gini_coef": math.nan}
     r = np.arange(1, V + 1, dtype=np.float64)
     return {"gini_coef": round(float((V + 1 - 2 * np.sum(r * freqs) / M) / V), 6)}
 
@@ -106,8 +116,8 @@ def vocab_richness_r1(freqs: np.ndarray, M: int, h: float) -> dict[str, float]:
     rank eklemek yanlıştır (Glottometrics 22, 2011, s. 68 dipnot 3).
     h-point tanımı gereği ``F(h) ≥ h²/M`` olduğu için R1 ∈ (0, 1).
     """
-    if M == 0 or h <= 0:
-        return {"vocab_richness_r1": 0.0}
+    if M == 0 or not h > 0:
+        return {"vocab_richness_r1": math.nan}
     F = float(freqs[:int(h)].sum()) / M
     return {"vocab_richness_r1": round(1 - (F - h * h / (2 * M)), 6)}
 
@@ -116,10 +126,10 @@ def vocab_richness_r4(freqs: np.ndarray, M: int, V: int) -> dict[str, float]:
     """``R4 = 1 − G`` — ters çevrilmiş Gini katsayısı.
 
     R1 ile aynı formülün iki adı **değil**: R1 h-point sınırının altındaki
-    payı, R4 kelime kullanımının eşitsizliğini ölçer. Boş metinde 0.0.
+    payı, R4 kelime kullanımının eşitsizliğini ölçer. Boş metinde NaN.
     """
     if M == 0 or V == 0:
-        return {"vocab_richness_r4": 0.0}
+        return {"vocab_richness_r4": math.nan}
     return {"vocab_richness_r4": round(1 - gini_coef(freqs, M, V)["gini_coef"], 6)}
 
 
@@ -130,9 +140,12 @@ def _segments(freqs: np.ndarray) -> np.ndarray:
 
 
 def curve_length(freqs: np.ndarray) -> dict[str, float]:
-    """Frekans-rank eğrisinin yay uzunluğu ``L = Σᵢ₌₁^{V−1} √((fᵢ − fᵢ₊₁)² + 1)``."""
-    if len(freqs) < 2:
-        return {"curve_length": 0.0}
+    """Frekans-rank eğrisinin yay uzunluğu ``L = Σᵢ₌₁^{V−1} √((fᵢ − fᵢ₊₁)² + 1)``.
+
+    Boşsa NaN; tek tipte eğri bir noktadır, uzunluk gerçekten 0.
+    """
+    if len(freqs) == 0:
+        return {"curve_length": math.nan}
     return {"curve_length": round(float(_segments(freqs).sum()), 4)}
 
 
@@ -142,9 +155,11 @@ def curve_length_indicator(freqs: np.ndarray, h: float) -> dict[str, float]:
     ``Lh = Σ_{r=1}^{⌊h⌋} √((f(r) − f(r+1))² + 1)``, en fazla ``V − 1`` segment.
     QUITA s. 37'nin yazılı ifadesi 4 terim gösteriyor ama yayımlanan sonuç
     (14.29145) 5 terimle, yani ``r = 1..⌊h⌋`` ile tutuyor.
+
+    ``V < 2`` (L = 0, payda sıfır) ya da geçersiz ``h`` → NaN.
     """
-    if len(freqs) < 2 or h <= 0:
-        return {"curve_length_r": 0.0}
+    if len(freqs) < 2 or not h > 0:
+        return {"curve_length_r": math.nan}
     seg = _segments(freqs)
     L = float(seg.sum())
     Lh = float(seg[:min(int(h), len(seg))].sum())
@@ -152,16 +167,22 @@ def curve_length_indicator(freqs: np.ndarray, h: float) -> dict[str, float]:
 
 
 def lambda_pa(L: float, M: int) -> dict[str, float]:
-    """``Λ = L · log₁₀(M) / M`` — metin uzunluğuna göre normalize eğri uzunluğu."""
-    if M <= 1:
-        return {"lambda_pa": 0.0}
+    """``Λ = L · log₁₀(M) / M`` — metin uzunluğuna göre normalize eğri uzunluğu.
+
+    Boş metinde ya da ``L`` NaN ise NaN; ``M = 1``'de Λ = 0 (tanımlı).
+    """
+    if M == 0 or math.isnan(L):
+        return {"lambda_pa": math.nan}
     return {"lambda_pa": round(L * math.log10(M) / M, 4)}
 
 
 def adjusted_modulus(f1: int, V: int, h: float, M: int) -> dict[str, float]:
-    """``A = √((f₁/h)² + (V/h)²) / log₁₀(M)`` — h-point'ten eğri uçlarına mesafe."""
-    if h <= 0 or M <= 1:
-        return {"adjusted_modulus": 0.0}
+    """``A = √((f₁/h)² + (V/h)²) / log₁₀(M)`` — h-point'ten eğri uçlarına mesafe.
+
+    ``M ≤ 1`` (log₁₀M = 0) ya da geçersiz ``h`` → NaN.
+    """
+    if not h > 0 or M <= 1:
+        return {"adjusted_modulus": math.nan}
     return {"adjusted_modulus": round(math.hypot(f1, V) / h / math.log10(M), 4)}
 
 
@@ -176,14 +197,16 @@ def writers_view(f1: int, V: int, h: float) -> dict[str, float]:
     ``(h−1)`` varyantı yazarların 2009 düzeltmesidir (*Aspects of Word
     Frequencies* s. 27 dipnot 1); 2007 makalesi ``h`` kullanıyor ve kendi içinde
     tutarsız. Beklenen aralık ~1.57–3.15; kosinüs okuması her zaman negatif olurdu.
+
+    Boş girdi, geçersiz ``h`` ya da noktaya inen üçgen (açı tanımsız) → NaN.
     """
-    if V == 0 or h <= 0:
-        return {"writers_view_alpha": 0.0}
+    if V == 0 or not h > 0:
+        return {"writers_view_alpha": math.nan}
     ax, ay = 1 - h, f1 - h
     bx, by = V - h, 1 - h
     na, nb = math.hypot(ax, ay), math.hypot(bx, by)
     if na == 0 or nb == 0:
-        return {"writers_view_alpha": 0.0}
+        return {"writers_view_alpha": math.nan}
     cos_a = max(-1.0, min(1.0, (ax * bx + ay * by) / (na * nb)))
     return {"writers_view_alpha": round(math.acos(cos_a), 4)}
 
@@ -229,9 +252,12 @@ def thematic_concentration(items: list[tuple[str, int]], pos_data: list[tuple[st
     ``r'`` konu kelimesinin (``THEMATIC_POS``: isim, özel isim, fiil, sıfat) ortalama rankı, yalnız
     ``r' < h``. ``f₁`` en sık kelimenin frekansı (işlev kelimesi olsa bile).
     Tek konulu metin konu isimlerini h-point üstüne taşır → TC büyür.
+
+    Boş girdi ya da ``h ≤ 1`` (payda ``h(h−1)`` sıfır) → NaN. h-point üstünde
+    konu kelimesi yoksa TC gerçekten 0.
     """
-    if not items or h <= 1:
-        return {"thematic_concentration": 0.0}
+    if not items or not h > 1:
+        return {"thematic_concentration": math.nan}
     f1 = items[0][1]
     toplam = _tematik_toplam(items, pos_data, h)
     return {"thematic_concentration": round(2 * toplam / (h * (h - 1) * f1), 6)}
@@ -246,9 +272,11 @@ def secondary_thematic_concentration(items: list[tuple[str, int]],
     otosemantikleri kapsar, yalnız ``h..2h`` bandını değil. TC'nin sık sık 0
     çıkması sorununu hafifletmek için var. ``V < 2h`` olan kısa metinde taşma
     olmaz — mevcut kelimeler üzerinden toplanır.
+
+    Boş girdi ya da ``h ≤ 0.5`` (payda ``h(2h−1)`` sıfır ya da negatif) → NaN.
     """
-    if not items or h <= 0:
-        return {"secondary_thematic_concentration": 0.0}
+    if not items or not h > 0.5:
+        return {"secondary_thematic_concentration": math.nan}
     f1 = items[0][1]
     toplam = _tematik_toplam(items, pos_data, 2 * h)
     return {"secondary_thematic_concentration": round(toplam / (h * (2 * h - 1) * f1), 6)}

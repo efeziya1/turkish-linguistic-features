@@ -22,9 +22,11 @@ Jarvis 2010, Covington & McFall 2010, Tweedie & Baayen 1998) birimi.
 Listeyi T20 hazırlar. İstisnalar: ``*_variation`` lemma sayar (Lu 2012),
 ``n_lemma_count`` adı gereği lemma.
 
-Boş ve tek elemanlı girdide hiçbiri çökmez; ölçülemeyen değer ``0.0``
-döner. ``0.0`` burada "ölçülemedi" değil **"ölçüldü ve sıfır çıktı"**
-anlamına gelir; tek istisnası ``heaps_beta``, docstring'inde yazılı.
+**K4 (2026-09-16, Efe):** ``0.0`` yalnız "ölçüldü ve sıfır çıktı" demektir.
+Ölçülemeyen değer — boş girdi, en az uzunluğun altı, boş alt küme, tanımsız
+formül, tek değerden yayılım — ``math.nan`` döner. Her fonksiyonun
+docstring'i NaN durumlarını söyler. Hizasız girdi ve geçersiz parametre
+``ValueError`` fırlatır.
 """
 
 from __future__ import annotations
@@ -83,24 +85,24 @@ def type_token_ratio(M: int, V: int) -> dict[str, float]:
     Kütüphane ölçer, yorumlamaz (K10) — ama kusuru gizlemez.
     """
     if M == 0:
-        return {"ttr": 0.0}
+        return {"ttr": math.nan}
     return {"ttr": round(V / M, 6)}
 
 
 def shannon_entropy(freqs: np.ndarray) -> float:
-    """Frekans dağılımının Shannon entropisi, bit cinsinden: ``-Σ p·log₂(p)``."""
+    """Frekans dağılımının Shannon entropisi, bit cinsinden: ``-Σ p·log₂(p)``. Boşsa NaN."""
     M = freqs.sum()
     if M == 0:
-        return 0.0
+        return math.nan
     p = freqs.astype(np.float64) / M
     return round(float(-np.sum(p * np.log2(p))), 6)
 
 
 def yules_k(freqs: np.ndarray) -> float:
-    """Yule's K = ``10000·(Σf² − M)/M²``. Tekrar yoğunluğu; yüksek = tekrarlı."""
+    """Yule's K = ``10000·(Σf² − M)/M²``. Tekrar yoğunluğu; yüksek = tekrarlı. Boşsa NaN."""
     M = int(freqs.sum())
-    if M <= 1:
-        return 0.0
+    if M == 0:
+        return math.nan
     S2 = np.sum(freqs.astype(np.float64) ** 2)   # ← float64 ŞART
     return round(10000 * (S2 - M) / (M ** 2), 2)
 
@@ -108,11 +110,12 @@ def yules_k(freqs: np.ndarray) -> float:
 def simpsons_d(freqs: np.ndarray) -> float:
     """Simpson's D = ``Σ f(f−1) / (M(M−1))``.
 
-    Metinden rastgele çekilen iki tokenin aynı tip olma olasılığı.
+    Metinden rastgele çekilen iki tokenin aynı tip olma olasılığı. ``M ≤ 1``
+    → payda ``M(M−1)`` sıfır → NaN.
     """
     M = int(freqs.sum())
     if M <= 1:
-        return 0.0
+        return math.nan
     f = freqs.astype(np.float64)
     return round(float(np.sum(f * (f - 1)) / (M * (M - 1))), 6)
 
@@ -137,7 +140,7 @@ def brunet_w(M: int, V: int, a: float = _BRUNET_A) -> dict[str, float]:
     üs küçülür ve W küçülür; V = 1 iken üs 1 olur ve W = M çıkar.
     """
     if M == 0 or V == 0:
-        return {"brunet_w": 0.0}
+        return {"brunet_w": math.nan}
     return {"brunet_w": round(float(M ** (V ** -a)), 4)}
 
 
@@ -147,9 +150,9 @@ def hapax_count(items: list) -> int:
 
 
 def hapax_ratio(items: list) -> dict[str, float]:
-    """Bir kez geçen tip / toplam tip."""
+    """Bir kez geçen tip / toplam tip. Boşsa NaN."""
     if not items:
-        return {"hapax_ratio": 0.0}
+        return {"hapax_ratio": math.nan}
     return {"hapax_ratio": round(hapax_count(items) / len(items), 6)}
 
 
@@ -165,21 +168,23 @@ def word_length_stats(tokens: list[str]) -> tuple[float, float]:
 
     Not: bu **kelime** uzunluğunun değişkenliğidir, cümle uzunluğunun
     değil. Cümle versiyonu ayrı bir anahtar: ``sentence_length_cv``.
+
+    Boşsa ikisi de NaN; tek kelimede CV NaN (tek değerden değişkenlik ölçülmez).
     """
     if not tokens:
-        return (0.0, 0.0)
+        return (math.nan, math.nan)
     uzunluklar = np.array([len(t) for t in tokens], dtype=np.float64)
     ortalama = float(uzunluklar.mean())
-    if ortalama == 0.0:
-        return (0.0, 0.0)
+    if len(tokens) < 2 or ortalama == 0.0:
+        return (round(ortalama, 4), math.nan)
     cv = float(uzunluklar.std()) / ortalama
     return (round(ortalama, 4), round(cv, 4))
 
 
 def rare_word_metrics(tokens: list[str]) -> dict[str, float]:
-    """Sichel's S = V₂ / V — tam olarak iki kez geçen tiplerin oranı."""
+    """Sichel's S = V₂ / V — tam olarak iki kez geçen tiplerin oranı. Boşsa NaN."""
     if not tokens:
-        return {"sichel_s": 0.0}
+        return {"sichel_s": math.nan}
     sayim = Counter(tokens)
     V = len(sayim)
     V2 = sum(1 for f in sayim.values() if f == 2)
@@ -192,11 +197,9 @@ def heaps_beta(tokens: list[str], min_tokens: int = 300,
 
     Metin uzadıkça kelime dağarcığının ne hızla büyüdüğünü ölçer.
 
-    ``0.0`` burada iki anlama gelebilir ve ayırt edilemez: gerçekten
-    sıfır eğim (hep aynı kelime), ya da **ölçülemedi**. Ölçülemediği iki
-    durum: metin ``min_tokens``'tan kısa, ya da 5'ten az regresyon
-    noktası düşüyor. Kısa metinde uydurma değer üretmektense sıfır
-    yazılıyor.
+    Ölçülemediği iki durumda NaN: metin ``min_tokens``'tan kısa, ya da
+    5'ten az regresyon noktası düşüyor. ``0.0`` gerçek sıfır eğimdir (hep
+    aynı kelime).
 
     β her zaman ``[0, 1]`` aralığına kırpılır — kısa veya tekrarlı
     metinlerde regresyon 1'den büyük ya da negatif çıkabilir, ikisi de
@@ -204,7 +207,7 @@ def heaps_beta(tokens: list[str], min_tokens: int = 300,
     """
     N = len(tokens)
     if N < min_tokens:
-        return {"heaps_beta": 0.0}          # kısa metinde uydurma yapma
+        return {"heaps_beta": math.nan}     # kısa metinde uydurma yapma
 
     nt: list[int] = []
     vt: list[int] = []
@@ -213,7 +216,7 @@ def heaps_beta(tokens: list[str], min_tokens: int = 300,
         vt.append(len(set(tokens[:kesim])))
 
     if len(nt) < 5:                          # 5 noktadan az → regresyon güvenilmez
-        return {"heaps_beta": 0.0}
+        return {"heaps_beta": math.nan}
 
     beta = float(np.polyfit(np.log(nt), np.log(vt), 1)[0])
     return {"heaps_beta": round(float(np.clip(beta, 0.0, 1.0)), 4)}
@@ -224,6 +227,22 @@ def heaps_beta(tokens: list[str], min_tokens: int = 300,
 # Pencere ve parça boyları (MATTR 50 kayan, entropy_std ve ttr_moving_slope
 # 50'lik ayrık parça) 2026-09-15'te geçici kabul edildi; Efe'nin notuyla
 # ileride yeniden gözden geçirilecek (00-ANA-PLAN.md §0 "Açık notlar").
+
+
+def _hizala(lemma_tokens: list[str], pos_data: list[tuple[str, str]]) -> list[str]:
+    """``pos_data``'dan PUNCT atılmış etiketler; ``lemma_tokens`` ile hizalı olmalı.
+
+    ``lemma_tokens``'a noktalama girmez, ``pos_data``'ya girer (T21). Uzunluklar
+    tutmuyorsa bu metnin özelliği değil ön işleme hatasıdır → ``ValueError``
+    (2026-09-16, Efe).
+    """
+    kelime_pos = [p for _, p in pos_data if p != "PUNCT"]
+    if len(kelime_pos) != len(lemma_tokens):
+        raise ValueError(
+            f"lemma_tokens ({len(lemma_tokens)}) ile noktalamasız pos_data "
+            f"({len(kelime_pos)}) hizalı değil — ön işleme hatası"
+        )
+    return kelime_pos
 
 
 def _parcalar(tokens: list[str], boy: int) -> list[list[str]]:
@@ -241,21 +260,24 @@ def advanced_lexical_richness(tokens: list[str], window: int = 50) -> dict[str, 
     """MATTR, entropy_std, Herdan-C.
 
     - ``mattr`` — 1'er kayan ``window``'luk pencerelerin TTR ortalaması
-      (Covington & McFall 2010). Metin pencereden kısaysa düz TTR.
+      (Covington & McFall 2010). Metin pencereden kısaysa NaN: kaynak
+      pencerenin "işlenecek en kısa metinden küçük" olmasını istiyor.
     - ``entropy_std`` — ``window``'luk **ayrık** parçaların entropileri (bit)
-      arasındaki popülasyon sapması (2026-09-15, Efe). 2'den az tam parça → 0.0.
-    - ``herdan_c`` — ``log V / log N``; taban oranda sadeleşir.
+      arasındaki popülasyon sapması (2026-09-15, Efe). 2'den az tam parça → NaN.
+    - ``herdan_c`` — ``log V / log N``; taban oranda sadeleşir. ``N = 1`` → NaN.
 
     ``bigram_entropy`` 2026-09-15'te çıkarıldı (Efe): lemma çiftlerinin çoğu
     tek seferlik olduğundan değer metin uzunluğunu izliyordu.
     """
     N = len(tokens)
+    if window <= 0:
+        raise ValueError(f"window pozitif olmalı: {window}")
     if N == 0:
-        return {"mattr": 0.0, "entropy_std": 0.0, "herdan_c": 0.0}
+        return {"mattr": math.nan, "entropy_std": math.nan, "herdan_c": math.nan}
     V = len(set(tokens))
 
-    if N <= window or window <= 0:
-        mattr = V / N
+    if N < window:
+        mattr = math.nan
     else:
         sayim = Counter(tokens[:window])
         toplam = len(sayim)
@@ -274,15 +296,15 @@ def advanced_lexical_richness(tokens: list[str], window: int = 50) -> dict[str, 
                       for p in parcalar]
         entropy_std = float(np.std(entropiler))
     else:
-        entropy_std = 0.0
+        entropy_std = math.nan
 
-    herdan = math.log(V) / math.log(N) if N > 1 else 0.0
+    herdan = math.log(V) / math.log(N) if N > 1 else math.nan
     return {"mattr": round(mattr, 5), "entropy_std": round(entropy_std, 5),
             "herdan_c": round(herdan, 5)}
 
 
 def _mtld_tek_yon(tokens: list[str], esik: float) -> float:
-    """Tek yönde MTLD: toplam token / faktör sayısı. Faktör yoksa 0.0."""
+    """Tek yönde MTLD: toplam token / faktör sayısı. Faktör yoksa NaN."""
     faktor = 0.0
     tipler: set[str] = set()
     sayac = 0
@@ -297,19 +319,23 @@ def _mtld_tek_yon(tokens: list[str], esik: float) -> float:
             sayac = 0
     if sayac > 0:                           # artık kısım → kısmi faktör
         faktor += (1 - ttr) / (1 - esik)
-    return len(tokens) / faktor if faktor > 0 else 0.0
+    return len(tokens) / faktor if faktor > 0 else math.nan
 
 
-def mtld(tokens: list[str], threshold: float = 0.72) -> dict[str, float]:
+def mtld(tokens: list[str], threshold: float = 0.72,
+         min_tokens: int = 100) -> dict[str, float]:
     """Measure of Textual Lexical Diversity (McCarthy & Jarvis 2010).
 
     TTR ``threshold``'a düşene kadar geçen ortalama kelime sayısı; ileri ve
     geri yönün ortalaması. Eşik Kademe C (iki ikincil kaynak). Metin boyunca
-    hiç faktör oluşmazsa (tamamen tekrarsız kısa metin) formül sıfıra bölünür
-    → 0.0 (K4, 2026-09-15, Efe).
+    hiç faktör oluşmazsa (tamamen tekrarsız metin) formül sıfıra bölünür → NaN.
+
+    ``min_tokens`` (100): McCarthy & Jarvis (2010, s. 384) "texts as short as
+    100 tokens can be used. Texts shorter than this […] their accuracy is
+    questionable" — daha kısa metinde NaN (2026-09-16, Efe).
     """
-    if not tokens:
-        return {"mtld": 0.0}
+    if len(tokens) < max(min_tokens, 1):
+        return {"mtld": math.nan}
     ileri = _mtld_tek_yon(tokens, threshold)
     geri = _mtld_tek_yon(tokens[::-1], threshold)
     return {"mtld": round((ileri + geri) / 2, 4)}
@@ -319,19 +345,20 @@ def dugast_u(tokens: list[str]) -> dict[str, float]:
     """Dugast'ın Uber indeksi ``U = (log₁₀ N)² / (log₁₀ N − log₁₀ V)``.
 
     Taban 10 (2026-09-15, Efe): quanteda ve koRpus ile aynı. Taban sonucu
-    ölçekler (ln ile 2.3 kat), sıralamayı değiştirmez. ``N == V`` → payda 0 → 0.0.
+    ölçekler (ln ile 2.3 kat), sıralamayı değiştirmez. ``N < 2`` ya da
+    ``N == V`` (payda 0) → NaN. ``V = 1`` tanımlıdır: ``U = log₁₀ N``.
     """
     N = len(tokens)
     V = len(set(tokens))
-    if N < 2 or V < 2 or N == V:
-        return {"dugast_u": 0.0}
+    if N < 2 or N == V:
+        return {"dugast_u": math.nan}
     return {"dugast_u": round(math.log10(N) ** 2 / (math.log10(N) - math.log10(V)), 4)}
 
 
 def guiraud_r(tokens: list[str]) -> dict[str, float]:
-    """Guiraud kökü ``R = V / √N`` (Guiraud 1960)."""
+    """Guiraud kökü ``R = V / √N`` (Guiraud 1960). Boşsa NaN."""
     if not tokens:
-        return {"guiraud_r": 0.0}
+        return {"guiraud_r": math.nan}
     return {"guiraud_r": round(len(set(tokens)) / math.sqrt(len(tokens)), 5)}
 
 
@@ -341,11 +368,13 @@ def ttr_moving_slope(tokens: list[str], chunk_size: int = 50) -> dict[str, float
     Negatif = metnin sonuna doğru kelime tekrarı artıyor. Parça boyu sabit
     (2026-09-15, Efe): plandaki "4 eşit parça" hem 4 noktadan oynak eğim
     veriyordu hem de uzun metinde parçaları uzatıp eğimi uzunluğa bağlıyordu.
-    Sondaki eksik parça atılır; 2'den az tam parça → 0.0.
+    Sondaki eksik parça atılır; 2'den az tam parça → NaN.
     """
+    if chunk_size <= 0:
+        raise ValueError(f"chunk_size pozitif olmalı: {chunk_size}")
     parcalar = _parcalar(tokens, chunk_size)
     if len(parcalar) < 2:
-        return {"ttr_moving_slope": 0.0}
+        return {"ttr_moving_slope": math.nan}
     ttrler = [len(set(p)) / len(p) for p in parcalar]
     egim = float(np.polyfit(np.arange(len(ttrler), dtype=np.float64), ttrler, 1)[0])
     return {"ttr_moving_slope": round(egim, 5)}
@@ -367,15 +396,12 @@ def pos_lexical_variation(lemma_tokens: list[str],
     İngilizcede asıl fiil ``be``/``have`` VERB etiketi aldığında sayılır —
     Lu saymıyor; liste gerektirdiği için bilinçli sapma.
 
-    Hizalama: ``lemma_tokens``'a noktalama girmez, ``pos_data``'ya girer (T21).
-    Bu yüzden ``pos_data``'dan önce ``PUNCT`` atılır; listeler yine eşit
-    uzunlukta değilse çökmek yerine hepsi 0.0 döner.
+    NaN: sözcüksel kelime yoksa NV/AdjV/AdvV, fiil yoksa VV1. Sözcüksel kelime
+    var ama sıfat yoksa AdjV gerçek sıfırdır. Hizasız girdi → ``ValueError``.
     """
-    kelime_pos = [p for _, p in pos_data if p != "PUNCT"]
-    sonuc = {"noun_variation": 0.0, "verb_variation": 0.0,
-             "adj_variation": 0.0, "adv_variation": 0.0}
-    if not lemma_tokens or len(kelime_pos) != len(lemma_tokens):
-        return sonuc
+    kelime_pos = _hizala(lemma_tokens, pos_data)
+    sonuc = {"noun_variation": math.nan, "verb_variation": math.nan,
+             "adj_variation": math.nan, "adv_variation": math.nan}
     siniflar = {"noun": NOUN_POS, "verb": ("VERB",), "adj": ("ADJ",), "adv": ("ADV",)}
     tipler: dict[str, set[str]] = {s: set() for s in siniflar}
     fiil_token = 0
@@ -443,15 +469,20 @@ def vocd_d(tokens: list[str], sample_min: int = 35, sample_max: int = 50,
 
     Kendi ``random.Random(random_seed)`` üretecini kullanır; global ``random``
     durumuna dokunmaz. Metin ``min_tokens``'tan ya da en büyük örneklemden
-    kısaysa 0.0.
+    kısaysa NaN. Geçersiz parametre → ``ValueError``.
     """
+    if sample_min < 1 or sample_min > sample_max or num_samples < 1 or num_runs < 1:
+        raise ValueError(
+            f"Geçersiz voc-D parametresi: sample_min={sample_min}, sample_max={sample_max}, "
+            f"num_samples={num_samples}, num_runs={num_runs}"
+        )
     N = len(tokens)
-    if N < max(min_tokens, sample_max) or sample_min > sample_max or num_samples < 1:
-        return {"vocd_d": 0.0}
+    if N < max(min_tokens, sample_max):
+        return {"vocd_d": math.nan}
     rng = random.Random(random_seed)
     boylar = list(range(sample_min, sample_max + 1))
     dler = []
-    for _ in range(max(num_runs, 1)):
+    for _ in range(num_runs):
         ttrler = [
             sum(len(set(rng.sample(tokens, n))) / n for _ in range(num_samples)) / num_samples
             for n in boylar
@@ -468,13 +499,17 @@ def hdd(tokens: list[str], sample_size: int = 42) -> dict[str, float]:
     (0–1 ölçeği, 2026-09-15, Efe). Makale ham toplamı (0–42) raporluyor;
     bölmek sıralamayı değiştirmez.
 
+    Metin ``sample_size``'dan kısaysa NaN.
+
     ``C(N−f, n)/C(N, n) = Π_{i<n} (N−f−i)/(N−i)`` olarak kayan noktada
     hesaplanır — büyük N'de dev tamsayılar üretmez. ``N − f < n`` ise tip
     örnekleme **kesinlikle** girer, görülmeme olasılığı 0.
     """
+    if sample_size < 1:
+        raise ValueError(f"sample_size pozitif olmalı: {sample_size}")
     N = len(tokens)
-    if N < sample_size or sample_size < 1:
-        return {"hdd": 0.0}
+    if N < sample_size:
+        return {"hdd": math.nan}
     frekans_sayilari = Counter(Counter(tokens).values())   # f → o frekanstaki tip sayısı
     toplam = 0.0
     for f, tip_sayisi in frekans_sayilari.items():
@@ -492,12 +527,14 @@ def msttr(tokens: list[str], segment_size: int = 100) -> dict[str, float]:
     """Mean Segmental TTR (Johnson 1944): tam segmentlerin TTR ortalaması.
 
     McCarthy & Jarvis (2010, s. 385): "segments of a set length (typically,
-    100 words). The remaining words are discarded." Tam segment yoksa 0.0
-    (2026-09-15, Efe).
+    100 words). The remaining words are discarded." Tam segment yoksa NaN
+    (2026-09-16, Efe).
     """
+    if segment_size <= 0:
+        raise ValueError(f"segment_size pozitif olmalı: {segment_size}")
     parcalar = _parcalar(tokens, segment_size)
     if not parcalar:
-        return {"msttr": 0.0}
+        return {"msttr": math.nan}
     return {"msttr": round(sum(len(set(p)) / len(p) for p in parcalar) / len(parcalar), 5)}
 
 
@@ -515,17 +552,18 @@ def zipf(freqs: np.ndarray) -> dict[str, float]:
     """Zipf yasası: ``log f(r) ~ −α·log r`` doğrusal regresyonu.
 
     ``zipf_exponent`` α (pozitife çevrilmiş), ``zipf_r2`` log-log uyum
-    kalitesi. 10 sıradan az veride regresyon anlamsız → ikisi de 0.0.
+    kalitesi. 10 sıradan az veride regresyon anlamsız → ikisi de NaN.
+    Bütün frekanslar eşitse eğim 0 (tanımlı), R² = 0/0 → NaN.
     """
     if len(freqs) < 10:
-        return {"zipf_exponent": 0.0, "zipf_r2": 0.0}
+        return {"zipf_exponent": math.nan, "zipf_r2": math.nan}
     log_s = np.log(np.arange(1, len(freqs) + 1, dtype=np.float64))
     log_f = np.log(freqs.astype(np.float64))
     egim, kesim = np.polyfit(log_s, log_f, 1)
     tahmin = egim * log_s + kesim
     ss_res = float(np.sum((log_f - tahmin) ** 2))
     ss_tot = float(np.sum((log_f - log_f.mean()) ** 2))
-    r2 = 1.0 - ss_res / ss_tot if ss_tot > 0 else 0.0
+    r2 = 1.0 - ss_res / ss_tot if ss_tot > 1e-12 else math.nan   # eşit frekans: 0/0
     return {"zipf_exponent": round(abs(float(egim)), 4), "zipf_r2": round(r2, 4)}
 
 
@@ -535,10 +573,10 @@ def zipf_mandelbrot(freqs: np.ndarray) -> dict[str, float]:
     ``q`` 0–10 arasında 0.1 adımlı ızgarada aranır; her aday için
     ``log f ~ −s·log(r + q)`` doğrusal regresyonu yapılır, artık kareler
     toplamı en küçük olan seçilir. scipy bağımlılığı eklememek için ızgara.
-    10 sıradan az veride 0.0.
+    10 sıradan az veride NaN.
     """
     if len(freqs) < 10:
-        return {"zipf_mandelbrot_q": 0.0, "zipf_mandelbrot_s": 0.0}
+        return {"zipf_mandelbrot_q": math.nan, "zipf_mandelbrot_s": math.nan}
     siralar = np.arange(1, len(freqs) + 1, dtype=np.float64)
     log_f = np.log(freqs.astype(np.float64))
     en_iyi = (math.inf, 0.0, 0.0)            # (hata, q, s)
@@ -575,24 +613,22 @@ def reference_frequency_sophistication(lemma_tokens: list[str],
       Tablo 1'in düşük sıklık tanımı (2026-09-16, Efe). "En sık 2000 dışı"
       (Lu 2012) Türkçe listesi çekimli biçimlerle dolu olduğu için seçilmedi.
 
-    Hizalama ``pos_lexical_variation`` ile aynı: ``pos_data``'dan PUNCT
-    atılır; uzunluklar tutmazsa 0.0. wordfreq kurulu değilse ikisi de 0.0
-    **ve** ``MissingDependencyWarning``.
+    Hizalama ``pos_lexical_variation`` ile aynı (hizasız → ``ValueError``).
+    Anlamlı kelime yoksa NaN. wordfreq kurulu değilse ikisi de NaN **ve**
+    ``MissingDependencyWarning`` (2026-09-16, Efe).
     """
-    sifir = {"wordfreq_mean": 0.0, "wordfreq_rare_ratio": 0.0}
+    olculemedi = {"wordfreq_mean": math.nan, "wordfreq_rare_ratio": math.nan}
     try:
         from wordfreq import zipf_frequency
     except ImportError:
-        # Sessizce 0.0 dönmek yasak (2026-08-25): 0.0 gerçek ölçüm gibi görünür.
+        # Sessiz kalmak yasak (2026-08-25): kullanıcı NaN'ın nedenini bilmeli.
         from .._warnings import uyar_eksik_bagimlilik
         uyar_eksik_bagimlilik("wordfreq", "wordfreq_* (2 öznitelik)")
-        return sifir
-    kelime_pos = [p for _, p in pos_data if p != "PUNCT"]
-    if not lemma_tokens or len(kelime_pos) != len(lemma_tokens):
-        return sifir
+        return olculemedi
+    kelime_pos = _hizala(lemma_tokens, pos_data)
     anlamli = [lem for lem, p in zip(lemma_tokens, kelime_pos) if p in LEXICAL_POS]
     if not anlamli:
-        return sifir
+        return olculemedi
     puanlar = [zipf_frequency(lem, lang) for lem in anlamli]
     nadir = sum(1 for puan in puanlar if puan <= _NADIR_ESIK)
     return {"wordfreq_mean": round(sum(puanlar) / len(puanlar), 4),

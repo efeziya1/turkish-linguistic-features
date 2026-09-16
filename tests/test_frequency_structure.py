@@ -239,27 +239,38 @@ def test_pos_buyuk_kucuk_harf_duyarsiz():
 # ── boş ve dejenere girdi (K4) ────────────────────────────────────────
 
 
-def test_bos_girdi_hepsi_sifir():
+def _nan(x) -> bool:
+    return isinstance(x, float) and math.isnan(x)
+
+
+def test_bos_girdi_hepsi_nan():
     bos = np.array([], dtype=np.int64)
-    assert h_point(bos) == 0.0
-    assert repeat_rate(bos, 0)["repeat_rate"] == 0.0
-    assert curve_length(bos)["curve_length"] == 0.0
-    assert gini_coef(bos, 0, 0)["gini_coef"] == 0.0
-    assert rr_mcintosh(0.0, 0)["rr_mcintosh"] == 0.0
-    assert vocab_richness_r1(bos, 0, 0.0)["vocab_richness_r1"] == 0.0
-    assert vocab_richness_r4(bos, 0, 0)["vocab_richness_r4"] == 0.0
-    assert curve_length_indicator(bos, 0.0)["curve_length_r"] == 0.0
-    assert lambda_pa(0.0, 0)["lambda_pa"] == 0.0
-    assert adjusted_modulus(0, 0, 0.0, 0)["adjusted_modulus"] == 0.0
-    assert writers_view(0, 0, 0.0)["writers_view_alpha"] == 0.0
-    assert thematic_concentration([], [], 0.0)["thematic_concentration"] == 0.0
-    assert secondary_thematic_concentration([], [], 0.0)["secondary_thematic_concentration"] == 0.0
+    h = h_point(bos)
+    assert _nan(h)
+    assert _nan(repeat_rate(bos, 0)["repeat_rate"])
+    assert _nan(curve_length(bos)["curve_length"])
+    assert _nan(gini_coef(bos, 0, 0)["gini_coef"])
+    assert _nan(rr_mcintosh(math.nan, 0)["rr_mcintosh"])
+    assert _nan(vocab_richness_r1(bos, 0, h)["vocab_richness_r1"])
+    assert _nan(vocab_richness_r4(bos, 0, 0)["vocab_richness_r4"])
+    assert _nan(curve_length_indicator(bos, h)["curve_length_r"])
+    assert _nan(lambda_pa(math.nan, 0)["lambda_pa"])
+    assert _nan(adjusted_modulus(0, 0, h, 0)["adjusted_modulus"])
+    assert _nan(writers_view(0, 0, h)["writers_view_alpha"])
+    assert _nan(thematic_concentration([], [], h)["thematic_concentration"])
+    assert _nan(secondary_thematic_concentration([], [], h)["secondary_thematic_concentration"])
 
 
-def test_dejenere_paydalar_cokmez():
-    """M ≤ 1 → log₁₀M ≤ 0 · h ≤ 1 → h(h−1) = 0 · V ≤ 1 → RRmc paydası 0."""
-    assert rr_mcintosh(1.0, 1)["rr_mcintosh"] == 0.0
-    assert adjusted_modulus(1, 1, 1.0, 1)["adjusted_modulus"] == 0.0
+def test_dejenere_paydalar_nan():
+    """V = 1 → RRmc paydası 0 · M = 1 → log₁₀M = 0 · h = 1 → h(h−1) = 0 · üçgen noktaya iner."""
+    assert _nan(rr_mcintosh(1.0, 1)["rr_mcintosh"])
+    assert _nan(adjusted_modulus(1, 1, 1.0, 1)["adjusted_modulus"])
+    assert _nan(thematic_concentration([("ev", 1)], [("ev", "NOUN")], 1.0)["thematic_concentration"])
+    assert _nan(writers_view(1, 1, 1.0)["writers_view_alpha"])
+    assert _nan(curve_length_indicator(np.array([5]), 1.0)["curve_length_r"])
+
+
+def test_tek_tipte_gercek_sifirlar():
+    """Tek tip: eğri bir nokta (L = 0), M = 1'de Λ = 0·log 1 / 1 = 0 — ikisi de tanımlı."""
+    assert curve_length(np.array([5]))["curve_length"] == 0.0
     assert lambda_pa(0.0, 1)["lambda_pa"] == 0.0
-    assert thematic_concentration([("ev", 1)], [("ev", "NOUN")], 1.0)["thematic_concentration"] == 0.0
-    assert math.isfinite(writers_view(1, 1, 1.0)["writers_view_alpha"])

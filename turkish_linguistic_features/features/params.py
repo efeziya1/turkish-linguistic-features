@@ -19,6 +19,7 @@ class FeatureParams:
     # sözcüksel zenginlik
     mattr_window: int = 50
     mtld_threshold: float = 0.72
+    mtld_min_tokens: int = 100       # McCarthy & Jarvis 2010 s. 384
     hdd_sample_size: int = 42
     msttr_segment_size: int = 100
     vocd_sample_min: int = 35        # McCarthy & Jarvis (2010) s. 383 · Kademe A

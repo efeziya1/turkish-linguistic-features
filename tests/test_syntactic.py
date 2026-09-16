@@ -1,5 +1,8 @@
 import ast
 import inspect
+import math
+
+import pytest
 
 from turkish_linguistic_features.features import vocab
 from turkish_linguistic_features.features.syntactic import (
@@ -25,6 +28,15 @@ from turkish_linguistic_features.features.vocab import (
     POS_TAGS,
     THEMATIC_POS,
 )
+
+
+def _nan(x) -> bool:
+    return isinstance(x, float) and math.isnan(x)
+
+
+def _hepsi_nan(d: dict) -> bool:
+    return bool(d) and all(_nan(v) for v in d.values())
+
 
 # ── vocab.py ──────────────────────────────────────────────────────────
 
@@ -74,7 +86,7 @@ def test_nominal_verbal_ratio_elle():
     """AUX paydaya girmez: 3 NOUN / 1 VERB = 3."""
     pos = [("a", "NOUN"), ("b", "NOUN"), ("c", "NOUN"), ("d", "VERB"), ("e", "AUX")]
     assert nominal_verbal_ratio(pos)["nominal_verbal_ratio"] == 3.0
-    assert nominal_verbal_ratio([("a", "NOUN")])["nominal_verbal_ratio"] == 0.0
+    assert _nan(nominal_verbal_ratio([("a", "NOUN")])["nominal_verbal_ratio"])   # fiil yok
 
 
 def test_nominal_verbal_ratio_ozel_isim_isimdir():
@@ -99,7 +111,14 @@ def test_fiil_mesafesi_elle_aux_sayilmaz():
 
 
 def test_fiil_mesafesi_tek_fiilde_sifir():
-    assert verb_distance_stats([("a", "VERB")]) == {"verb_dist_mean": 0.0, "verb_dist_cv": 0.0}
+    assert _hepsi_nan(verb_distance_stats([("a", "VERB")]))
+
+
+def test_fiil_mesafesi_iki_fiilde_cv_nan():
+    """Tek mesafeden değişkenlik ölçülmez (2026-09-16, Efe)."""
+    sonuc = verb_distance_stats([("a", "VERB"), ("b", "NOUN"), ("c", "VERB")])
+    assert sonuc["verb_dist_mean"] == 2.0
+    assert _nan(sonuc["verb_dist_cv"])
 
 
 def test_activity_ratio_elle_aux_sayilmaz():
@@ -108,8 +127,8 @@ def test_activity_ratio_elle_aux_sayilmaz():
     assert activity_ratio(pos)["activity_ratio"] == 0.66667
 
 
-def test_activity_ratio_fiil_sifat_yoksa_cokmez():
-    assert activity_ratio([("a", "NOUN")])["activity_ratio"] == 0.0
+def test_activity_ratio_fiil_sifat_yoksa_nan():
+    assert _nan(activity_ratio([("a", "NOUN")])["activity_ratio"])
 
 
 # ── yoğunluk ve dağılım ───────────────────────────────────────────────
@@ -157,13 +176,20 @@ def test_pos_dist_std_tek_pos_hepsiyse_buyuk():
             > pos_distribution_stats(kari, c)["pos_dist_std"])
 
 
-def test_pos_dagilim_hizalama_bozuksa_sifir():
-    """Token sayıları uyuşmuyor → çökme yok, 0.0."""
-    sonuc = pos_distribution_stats([("a", "NOUN")], [["a", "b", "c"]])
-    assert sonuc == {"pos_dist_std": 0.0, "pos_kl_div": 0.0}
+def test_pos_dagilim_hizalama_bozuksa_hata():
+    """Token sayıları uyuşmuyor → ön işleme hatası, ValueError (2026-09-16, Efe)."""
+    with pytest.raises(ValueError, match="hizal"):
+        pos_distribution_stats([("a", "NOUN")], [["a", "b", "c"]])
 
 
 # ── cümle istatistikleri ──────────────────────────────────────────────
+
+
+def test_esit_cumlelerde_cv_sifir_carpiklik_nan():
+    """Hep aynı uzunluk → CV gerçekten 0; çarpıklık 0/0 → NaN."""
+    sonuc = sentence_stats([["a", "b"], ["c", "d"]])
+    assert sonuc["sentence_length_cv"] == 0.0
+    assert _nan(sonuc["sent_len_skewness"])
 
 
 def test_cumle_istatistikleri_elle():
@@ -202,6 +228,7 @@ def test_avg_sent_len_char_bosluklar_dahil():
 def test_sent_len_entropy_elle():
     assert sent_len_entropy([["a"] * 2, ["a"] * 2, ["a"] * 4, ["a"] * 4])["sent_len_entropy"] == 1.0
     assert sent_len_entropy([["a"] * 3] * 3)["sent_len_entropy"] == 0.0
+    assert _nan(sent_len_entropy([["a"] * 3])["sent_len_entropy"])   # tek cümle
 
 
 # ── paragraf ──────────────────────────────────────────────────────────
@@ -217,6 +244,12 @@ def test_paragraf_elle():
         "sents_per_para_cv": 0.0,
         "para_count_norm": 400.0,
     }
+
+
+def test_tek_paragrafta_cv_nan():
+    sonuc = paragraph_stats("Bir iki üç. Dört.")
+    assert sonuc["para_len_mean"] == 4.0
+    assert _nan(sonuc["para_len_cv"]) and _nan(sonuc["sents_per_para_cv"])
 
 
 def test_paragraf_bos_satirla_bolunur():
@@ -249,20 +282,21 @@ def test_paragraf_windows_satir_sonu():
 # ── boş ve tek eleman ─────────────────────────────────────────────────
 
 
-def test_bos_girdiler_hepsi_sifir():
-    for sonuc in (pos_ratios([]), pos_bigram_ratios([]),
+def test_bos_girdiler_hepsi_nan():
+    for sonuc in (pos_ratios([]), pos_bigram_ratios([]), pos_bigram_ratios([("a", "NOUN")]),
                   nominal_verbal_ratio([]), verb_distance_stats([]), activity_ratio([]),
                   lexical_density([]), pos_distribution_stats([], []), sentence_stats([]),
                   sentence_distribution_stats([], 5, 30), avg_sent_len_char([]),
                   sent_len_entropy([]), paragraph_stats(""), paragraph_stats("  \n\n ")):
-        assert sonuc and all(v == 0.0 for v in sonuc.values())
+        assert _hepsi_nan(sonuc)
 
 
-def test_tek_cumle_cokmez():
+def test_tek_cumlede_yayilim_nan():
     sonuc = sentence_stats([["tek"]])
     assert sonuc["avg_sent_len_word"] == 1.0
-    assert sonuc["sentence_length_cv"] == 0.0
-    assert sonuc["sent_len_skewness"] == 0.0
+    assert sonuc["med_sent_len"] == 1.0
+    assert _nan(sonuc["sentence_length_cv"])
+    assert _nan(sonuc["sent_len_skewness"])
 
 
 # ── T12: soru cümlesi, zamir, kullanıcı n-gramları ────────────────────
@@ -334,12 +368,17 @@ def test_ngram_ingilizcede_i_noktasiz_olmaz():
     assert sonuc == {"ng_i_think": 1.0}
 
 
-def test_ngram_metinden_uzun_obek_sifir():
-    assert word_ngram_ratios(["tek"], [["iki", "kelime"]]) == {"ng_iki_kelime": 0.0}
+def test_ngram_metinden_uzun_obek_nan():
+    assert _hepsi_nan(word_ngram_ratios(["tek"], [["iki", "kelime"]]))
+
+
+def test_ngram_bos_obek_hata():
+    with pytest.raises(ValueError):
+        word_ngram_ratios(["tek"], [[]])
 
 
 def test_bos_girdiler():
-    assert question_per_sent([])["question_per_sent"] == 0.0
-    assert pronoun_freq([])["pronoun_freq"] == 0.0
+    assert _nan(question_per_sent([])["question_per_sent"])
+    assert _nan(pronoun_freq([])["pronoun_freq"])
     assert word_ngram_ratios([], []) == {}
-    assert word_ngram_ratios([], [["diye"]]) == {"ng_diye": 0.0}
+    assert _hepsi_nan(word_ngram_ratios([], [["diye"]]))

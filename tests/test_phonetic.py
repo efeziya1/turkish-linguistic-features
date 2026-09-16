@@ -1,3 +1,5 @@
+import math
+
 import pytest
 
 from turkish_linguistic_features.features.phonetic import (
@@ -81,15 +83,18 @@ def test_unlu_uyumu_ingilizce():
     assert sonuc["vowel_harmony_compliance"] == pytest.approx(1 / 3, abs=1e-4)
 
 
-def test_unlu_uyumu_unlusuz_girdi():
-    assert vowel_harmony_compliance(["!!!", "123"])["vowel_harmony_compliance"] == 0.0
+def _nan(x) -> bool:
+    return isinstance(x, float) and math.isnan(x)
+
+
+def test_unlu_uyumu_sayilacak_kelime_yoksa_nan():
+    assert _nan(vowel_harmony_compliance(["!!!", "123", "ev"])["vowel_harmony_compliance"])
 
 
 def test_bos_metin():
-    assert vowel_ratios("", "tr") == {
-        "vowel_ratio": 0.0, "front_vowel_ratio": 0.0, "back_vowel_ratio": 0.0,
-    }
-    assert vowel_harmony_compliance([])["vowel_harmony_compliance"] == 0.0
+    assert all(_nan(v) for v in vowel_ratios("", "tr").values())
+    assert all(_nan(v) for v in vowel_ratios("123 !", "tr").values())
+    assert _nan(vowel_harmony_compliance([])["vowel_harmony_compliance"])
 
 
 def test_bilinmeyen_dil():

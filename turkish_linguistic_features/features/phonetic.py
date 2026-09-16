@@ -10,10 +10,13 @@ ince/kalın ayrımı yalnız harflere göredir (``e i`` ince, ``a o u`` kalın) 
 ``y`` ünsüz sayılır. Grubun bütün öznitelikleri iki dilde üretilir
 (2026-09-16, Efe).
 
-Fonksiyonlar saftır (K3); ölçülemeyen değer ``0.0`` döner (K4).
+Fonksiyonlar saftır (K3). K4 (2026-09-16, Efe): ölçülemeyen değer ``math.nan``
+— alfabe harfi yoksa oranlar, en az iki ünlülü kelime yoksa ünlü uyumu.
 """
 
 from __future__ import annotations
+
+import math
 
 from .punctuation import _ALFABE, _kucuk_harf
 
@@ -34,12 +37,13 @@ def vowel_ratios(text: str, lang: str = "tr") -> dict[str, float]:
     alfabe dışı harfler sayılmaz. İnce ve kalın oranları **tüm harflere**
     bölünür (2026-09-16, Efe): ünlülere bölünseydi toplamları hep 1 olur,
     biri öbürünü tekrarlardı. Bu yüzden ``front + back = vowel_ratio``.
+    Alfabe harfi yoksa üçü de NaN.
     """
     _dil_denetle(lang)
     alfabe = _ALFABE[lang]
     harfler = [c for c in _kucuk_harf(text, lang) if c in alfabe]
     if not harfler:
-        return {"vowel_ratio": 0.0, "front_vowel_ratio": 0.0, "back_vowel_ratio": 0.0}
+        return {"vowel_ratio": math.nan, "front_vowel_ratio": math.nan, "back_vowel_ratio": math.nan}
     n = len(harfler)
     on = sum(1 for c in harfler if c in _ON[lang])
     arka = sum(1 for c in harfler if c in _ARKA[lang])
@@ -54,7 +58,7 @@ def vowel_harmony_compliance(surface_tokens: list[str], lang: str = "tr") -> dic
 
     Bir kelimenin bütün ünlüleri ya ince ya kalınsa uyumludur. En az iki
     ünlüsü olmayan kelime (``ev``, noktalama, sayı) paydaya girmez — uyum
-    onlar için tanımsız.
+    onlar için tanımsız; hiç sayılacak kelime yoksa NaN.
 
     Düz kural (2026-09-16, Efe): uyuma girmeyen ekler (``-yor``, ``-ki``,
     ``-ken``) yerli kelimeyi de uyumsuz yapar (``geliyor``). Ölçü alıntı
@@ -72,5 +76,5 @@ def vowel_harmony_compliance(surface_tokens: list[str], lang: str = "tr") -> dic
         if all(c in on for c in kelime_unluleri) or all(c in arka for c in kelime_unluleri):
             uyumlu += 1
     if sayilan == 0:
-        return {"vowel_harmony_compliance": 0.0}
+        return {"vowel_harmony_compliance": math.nan}
     return {"vowel_harmony_compliance": round(uyumlu / sayilan, 5)}

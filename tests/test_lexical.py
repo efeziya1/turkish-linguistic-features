@@ -30,6 +30,14 @@ from turkish_linguistic_features.features.lexical import (
 )
 from turkish_linguistic_features.features.params import DEFAULT_PARAMS
 
+
+def _nan(x) -> bool:
+    return isinstance(x, float) and math.isnan(x)
+
+
+def _hepsi_nan(d: dict) -> bool:
+    return bool(d) and all(_nan(v) for v in d.values())
+
 # ── frekans tablosu ───────────────────────────────────────────────────
 
 
@@ -189,9 +197,9 @@ def test_sichel_s_elle_hesap():
 # ── Heaps β ───────────────────────────────────────────────────────────
 
 
-def test_heaps_beta_kisa_metinde_sifir():
-    """300 token altında uydurma yapmaz — 0.0 'ölçülemedi' demek."""
-    assert heaps_beta(["a"] * 299)["heaps_beta"] == 0.0
+def test_heaps_beta_kisa_metinde_nan():
+    """300 token altında uydurma yapmaz — NaN 'ölçülemedi' demek (K4, 2026-09-16)."""
+    assert _nan(heaps_beta(["a"] * 299)["heaps_beta"])
 
 
 def test_heaps_beta_hepsi_tekil_ise_bir():
@@ -210,31 +218,32 @@ def test_heaps_beta_hepsi_ayni_ise_sifir():
 def test_bos_girdiler_cokmez():
     freqs, M, N, items = rank_word_freq_table([])
     assert M == 0 and N == 0
-    assert shannon_entropy(freqs) == 0.0
-    assert yules_k(freqs) == 0.0
-    assert simpsons_d(freqs) == 0.0
-    assert brunet_w(0, 0)["brunet_w"] == 0.0
-    assert hapax_ratio([])["hapax_ratio"] == 0.0
+    assert _nan(shannon_entropy(freqs))
+    assert _nan(yules_k(freqs))
+    assert _nan(simpsons_d(freqs))
+    assert _nan(brunet_w(0, 0)["brunet_w"])
+    assert _nan(hapax_ratio([])["hapax_ratio"])
     assert hapax_count([]) == 0
-    assert word_length_stats([]) == (0.0, 0.0)
-    assert type_token_ratio(0, 0)["ttr"] == 0.0
-    assert rare_word_metrics([])["sichel_s"] == 0.0
-    assert heaps_beta([])["heaps_beta"] == 0.0
+    assert all(_nan(v) for v in word_length_stats([]))
+    assert _nan(type_token_ratio(0, 0)["ttr"])
+    assert _nan(rare_word_metrics([])["sichel_s"])
+    assert _nan(heaps_beta([])["heaps_beta"])
 
 
 def test_tek_elemanli_girdiler_cokmez():
     freqs, M, N, items = rank_word_freq_table(["ev"])
     assert M == 1 and N == 1 and items == [("ev", 1)]
     assert shannon_entropy(freqs) == 0.0
-    assert yules_k(freqs) == 0.0          # M ≤ 1 → tanımsız, 0.0
-    assert simpsons_d(freqs) == 0.0       # M(M−1) = 0 → sıfıra bölme yok
+    assert yules_k(freqs) == 0.0          # M = 1: 10000·(1 − 1)/1 = 0, tanımlı
+    assert _nan(simpsons_d(freqs))        # M(M−1) = 0 → tanımsız
     assert brunet_w(1, 1)["brunet_w"] == 1.0
     assert hapax_ratio(items)["hapax_ratio"] == 1.0
     assert hapax_count(items) == 1
-    assert word_length_stats(["ev"]) == (2.0, 0.0)
+    ort, cv = word_length_stats(["ev"])
+    assert ort == 2.0 and _nan(cv)        # tek değerden değişkenlik ölçülmez
     assert type_token_ratio(1, 1)["ttr"] == 1.0
     assert rare_word_metrics(["ev"])["sichel_s"] == 0.0
-    assert heaps_beta(["ev"])["heaps_beta"] == 0.0
+    assert _nan(heaps_beta(["ev"])["heaps_beta"])
 
 
 # ── T05: pencereli ve eğri tabanlı zenginlik ──────────────────────────
@@ -261,10 +270,14 @@ def test_mattr_bilinen_deger():
     assert sonuc["mattr"] == pytest.approx(2 / 3, abs=1e-4)
 
 
-def test_mattr_pencereden_kisa_metinde_duz_ttr():
-    """20 token, pencere 50 — düz TTR'ye düşer, hata vermez."""
+def test_mattr_pencereden_kisa_metinde_nan():
+    """20 token, pencere 50 → NaN (Covington & McFall: pencere metinden kısa olmalı)."""
     tokens = [f"k{i % 10}" for i in range(20)]
-    assert advanced_lexical_richness(tokens, window=50)["mattr"] == 0.5
+    assert _nan(advanced_lexical_richness(tokens, window=50)["mattr"])
+
+
+def test_mattr_pencere_metne_esitse_tek_pencere():
+    assert advanced_lexical_richness(["a", "b", "a", "c"], window=4)["mattr"] == 0.75
 
 
 def test_entropy_std_ayrik_parcalar_artik_atilir():
@@ -275,7 +288,13 @@ def test_entropy_std_ayrik_parcalar_artik_atilir():
 
 
 def test_entropy_std_tek_parcada_sifir():
-    assert advanced_lexical_richness(["a", "b", "c"], window=2)["entropy_std"] == 0.0
+    assert _nan(advanced_lexical_richness(["a", "b", "c"], window=2)["entropy_std"])
+
+
+def test_herdan_c_tek_token_nan_tek_tip_sifir():
+    """N = 1 → log N = 0 payda; V = 1, N > 1 → log 1 / log N = 0 (tanımlı)."""
+    assert _nan(advanced_lexical_richness(["a"])["herdan_c"])
+    assert advanced_lexical_richness(["a", "a"])["herdan_c"] == 0.0
 
 
 def test_herdan_c_bilinen_deger():
@@ -287,6 +306,16 @@ def test_herdan_c_bilinen_deger():
 def test_herdan_c_araligi():
     tokens = [f"k{i % 30}" for i in range(300)]
     assert 0.0 < advanced_lexical_richness(tokens)["herdan_c"] < 1.0
+
+
+def test_mtld_100_kelimeden_kisa_metinde_nan():
+    """McCarthy & Jarvis (2010, s. 384): 100 tokenden kısa metin güvenilmez."""
+    assert _nan(mtld(["a", "b"] * 49)["mtld"])
+    assert not _nan(mtld(["a", "b"] * 50)["mtld"])
+
+
+def test_mtld_hic_faktor_yoksa_nan():
+    assert _nan(mtld([f"k{i}" for i in range(20)], min_tokens=10)["mtld"])
 
 
 def test_mtld_cesitli_metinde_tekrarlidan_yuksek():
@@ -301,8 +330,13 @@ def test_mtld_iki_yonun_ortalamasi_yon_bagimsiz():
 
 
 def test_dugast_u_tum_kelimeler_farkliysa_sifir():
-    """N == V → payda sıfır → 0.0 dönmeli, ZeroDivisionError değil."""
-    assert dugast_u(["a", "b", "c"])["dugast_u"] == 0.0
+    """N == V → payda sıfır → NaN, ZeroDivisionError değil."""
+    assert _nan(dugast_u(["a", "b", "c"])["dugast_u"])
+
+
+def test_dugast_u_tek_tipte_log_n():
+    """V = 1 → U = (log N)² / log N = log₁₀ N."""
+    assert dugast_u(["a"] * 100)["dugast_u"] == 2.0
 
 
 def test_guiraud_r_bilinen_deger():
@@ -327,7 +361,7 @@ def test_ttr_egimi_sabit_parcalar_bilinen_deger():
 
 
 def test_ttr_egimi_iki_parcadan_azsa_sifir():
-    assert ttr_moving_slope(["a", "b", "c"], chunk_size=2)["ttr_moving_slope"] == 0.0
+    assert _nan(ttr_moving_slope(["a", "b", "c"], chunk_size=2)["ttr_moving_slope"])
 
 
 def test_pos_variation_bilinen_deger():
@@ -362,9 +396,10 @@ def test_pos_variation_noktalama_hizayi_bozmaz():
     assert sonuc["verb_variation"] == 1.0
 
 
-def test_pos_variation_hizasiz_listelerde_sifir():
-    sonuc = pos_lexical_variation(["a", "b"], [("a", "NOUN")])
-    assert all(v == 0.0 for v in sonuc.values())
+def test_pos_variation_hizasiz_listelerde_hata():
+    """Hizasızlık ön işleme hatasıdır, metnin özelliği değil (2026-09-16, Efe)."""
+    with pytest.raises(ValueError, match="hizal"):
+        pos_lexical_variation(["a", "b"], [("a", "NOUN")])
 
 
 def test_pos_variation_ozel_isim_isimdir_aux_sayilmaz():
@@ -379,13 +414,20 @@ def test_pos_variation_ozel_isim_isimdir_aux_sayilmaz():
     assert sonuc["verb_variation"] == 1.0        # VV1: 1 fiil tipi / 1 fiil
 
 
-def test_pos_variation_sozcuksel_kelime_yoksa_sifir():
-    """K4 — yalnız işlev kelimesi, payda sıfır."""
+def test_pos_variation_sozcuksel_kelime_yoksa_nan():
+    """K4 — yalnız işlev kelimesi, payda boş → NaN."""
     sonuc = pos_lexical_variation(["ve", "bu"], [("ve", "CCONJ"), ("bu", "DET")])
-    assert all(v == 0.0 for v in sonuc.values())
+    assert _hepsi_nan(sonuc)
 
 
-def test_pos_variation_sinif_yoksa_sifir():
+def test_pos_variation_fiil_yoksa_yalniz_vv1_nan():
+    sonuc = pos_lexical_variation(["ev"], [("ev", "NOUN")])
+    assert _nan(sonuc["verb_variation"])
+    assert sonuc["noun_variation"] == 1.0
+    assert sonuc["adj_variation"] == 0.0     # sözcüksel kelime var, sıfat yok → gerçek sıfır
+
+
+def test_pos_variation_sinif_yoksa_gercek_sifir():
     assert pos_lexical_variation(["oku"], [("okudu", "VERB")])["adj_variation"] == 0.0
 
 
@@ -399,7 +441,7 @@ def test_pos_variation_pos_noun_ile_bagimsiz():
 def test_t05_bos_girdiler():
     for sonuc in (mtld([]), dugast_u([]), ttr_moving_slope([]), guiraud_r([]),
                   advanced_lexical_richness([]), pos_lexical_variation([], [])):
-        assert all(v == 0.0 for v in sonuc.values())
+        assert _hepsi_nan(sonuc)
 
 
 # ── T06: örneklemeli çeşitlilik ───────────────────────────────────────
@@ -427,13 +469,22 @@ def test_vocd_global_random_kirletmez():
     assert random.random() == once
 
 
-def test_vocd_kisa_metinde_sifir():
-    assert vocd_d(["a"] * 10)["vocd_d"] == 0.0
+def test_vocd_kisa_metinde_nan():
+    assert _nan(vocd_d(["a"] * 10)["vocd_d"])
 
 
-def test_vocd_en_buyuk_orneklemden_kisa_metinde_sifir():
+def test_vocd_en_buyuk_orneklemden_kisa_metinde_nan():
     """35–50 aralığında 50'lik çekiliş yapılamıyorsa ölçülemez."""
-    assert vocd_d(_cesitli(49), min_tokens=10)["vocd_d"] == 0.0
+    assert _nan(vocd_d(_cesitli(49), min_tokens=10)["vocd_d"])
+
+
+def test_ornekleme_parametre_hatasi():
+    with pytest.raises(ValueError):
+        vocd_d(_cesitli(), sample_min=51, sample_max=50)
+    with pytest.raises(ValueError):
+        hdd(_cesitli(), sample_size=0)
+    with pytest.raises(ValueError):
+        msttr(_cesitli(), segment_size=0)
 
 
 def test_vocd_cesitli_metinde_tekrarlidan_yuksek():
@@ -463,8 +514,8 @@ def test_hdd_bilinen_deger():
     assert hdd(["a", "a", "b", "c"], sample_size=2)["hdd"] == pytest.approx(11 / 12, abs=1e-4)
 
 
-def test_hdd_orneklemden_kisa_metinde_sifir():
-    assert hdd([f"k{i}" for i in range(41)])["hdd"] == 0.0
+def test_hdd_orneklemden_kisa_metinde_nan():
+    assert _nan(hdd([f"k{i}" for i in range(41)])["hdd"])
 
 
 def test_msttr_bilinen_deger_artik_atilir():
@@ -473,15 +524,15 @@ def test_msttr_bilinen_deger_artik_atilir():
     assert msttr(tokens, segment_size=4)["msttr"] == pytest.approx(0.625, abs=1e-4)
 
 
-def test_msttr_segmentten_kisa_metinde_sifir():
-    """50 token, segment 100 → tam segment yok → 0.0 (2026-09-15, Efe)."""
-    assert msttr([f"k{i}" for i in range(50)], 100)["msttr"] == 0.0
+def test_msttr_segmentten_kisa_metinde_nan():
+    """50 token, segment 100 → tam segment yok → NaN (2026-09-16, Efe)."""
+    assert _nan(msttr([f"k{i}" for i in range(50)], 100)["msttr"])
 
 
 def test_t06_bos_girdiler():
-    assert vocd_d([])["vocd_d"] == 0.0
-    assert hdd([])["hdd"] == 0.0
-    assert msttr([])["msttr"] == 0.0
+    assert _nan(vocd_d([])["vocd_d"])
+    assert _nan(hdd([])["hdd"])
+    assert _nan(msttr([])["msttr"])
 
 
 # ── T07: Zipf, Zipf-Mandelbrot, referans frekans ──────────────────────
@@ -502,8 +553,15 @@ def test_zipf_sentetik_dagilimda_us_bire_yakin():
     assert sonuc["zipf_r2"] > 0.95
 
 
-def test_zipf_az_veri_ile_sifir():
-    assert zipf(np.array([5, 3, 1])) == {"zipf_exponent": 0.0, "zipf_r2": 0.0}
+def test_zipf_az_veri_ile_nan():
+    assert _hepsi_nan(zipf(np.array([5, 3, 1])))
+
+
+def test_zipf_esit_frekansta_r2_tanimsiz():
+    """Bütün frekanslar eşit → eğim 0 (tanımlı), R² = 0/0 → NaN."""
+    sonuc = zipf(np.array([3] * 12))
+    assert sonuc["zipf_exponent"] == 0.0
+    assert _nan(sonuc["zipf_r2"])
 
 
 def test_mandelbrot_q_ve_s_geri_bulunur():
@@ -514,9 +572,8 @@ def test_mandelbrot_q_ve_s_geri_bulunur():
     assert m["zipf_mandelbrot_s"] == pytest.approx(1.2, abs=0.01)
 
 
-def test_mandelbrot_az_veri_ile_sifir():
-    assert zipf_mandelbrot(np.array([5, 3, 1])) == {"zipf_mandelbrot_q": 0.0,
-                                                    "zipf_mandelbrot_s": 0.0}
+def test_mandelbrot_az_veri_ile_nan():
+    assert _hepsi_nan(zipf_mandelbrot(np.array([5, 3, 1])))
 
 
 class _SahteWordfreq:
@@ -557,14 +614,14 @@ def test_wordfreq_nadir_esigi_dahil(sahte_wordfreq):
     assert sonuc["wordfreq_rare_ratio"] == 0.5
 
 
-def test_wordfreq_anlamli_kelime_yoksa_sifir(sahte_wordfreq):
-    sonuc = reference_frequency_sophistication(["ve"], [("ve", "CCONJ")], "tr")
-    assert sonuc == {"wordfreq_mean": 0.0, "wordfreq_rare_ratio": 0.0}
+def test_wordfreq_anlamli_kelime_yoksa_nan(sahte_wordfreq):
+    assert _hepsi_nan(reference_frequency_sophistication(["ve"], [("ve", "CCONJ")], "tr"))
+    assert _hepsi_nan(reference_frequency_sophistication([], [], "tr"))
 
 
-def test_wordfreq_hizasiz_listelerde_sifir(sahte_wordfreq):
-    sonuc = reference_frequency_sophistication(["kitap", "oku"], [("kitap", "NOUN")], "tr")
-    assert sonuc == {"wordfreq_mean": 0.0, "wordfreq_rare_ratio": 0.0}
+def test_wordfreq_hizasiz_listelerde_hata(sahte_wordfreq):
+    with pytest.raises(ValueError, match="hizal"):
+        reference_frequency_sophistication(["kitap", "oku"], [("kitap", "NOUN")], "tr")
 
 
 def test_wordfreq_gercek_veriyle_calisir():
@@ -575,7 +632,7 @@ def test_wordfreq_gercek_veriyle_calisir():
     assert sonuc["wordfreq_rare_ratio"] == 0.5
 
 
-def test_wordfreq_yoksa_sifir_doner_ve_uyarir(monkeypatch):
+def test_wordfreq_yoksa_nan_doner_ve_uyarir(monkeypatch):
     """wordfreq kurulu değilse çökmemeli ama SESSİZ de kalmamalı."""
     import builtins
 
@@ -591,4 +648,4 @@ def test_wordfreq_yoksa_sifir_doner_ve_uyarir(monkeypatch):
     monkeypatch.setattr(builtins, "__import__", sahte)
     with pytest.warns(MissingDependencyWarning, match="wordfreq"):
         sonuc = reference_frequency_sophistication(["kitap"], [("kitap", "NOUN")], "tr")
-    assert sonuc == {"wordfreq_mean": 0.0, "wordfreq_rare_ratio": 0.0}
+    assert _hepsi_nan(sonuc)

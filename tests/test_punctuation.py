@@ -1,3 +1,5 @@
+import math
+
 from turkish_linguistic_features.features.punctuation import (
     all_caps_word_ratio,
     char_freq_vector,
@@ -164,15 +166,22 @@ def test_turkce_buyuk_harf_isupper():
 # ── boş girdi ─────────────────────────────────────────────────────────
 
 
-def test_bos_metin_cokmez():
-    assert digit_ratio("")["digit_vs_all"] == 0.0
-    assert punct_entropy("")["punct_entropy"] == 0.0
-    assert whitespace_ratio("")["whitespace_ratio"] == 0.0
+def _hepsi_nan(d: dict) -> bool:
+    return bool(d) and all(isinstance(v, float) and math.isnan(v) for v in d.values())
 
 
-def test_bos_girdiler_hepsi_sifir():
+def test_bos_girdiler_hepsi_nan():
     for sonuc in (punctuation_ratios("a, b", total_words=0), punct_density(""),
+                  digit_ratio(""), whitespace_ratio(""), punct_entropy(""),
                   consecutive_punct_ratio(""), punct_variety(""), uppercase_ratio([]),
                   all_caps_word_ratio([".", "1"]), char_freq_vector("", "tr"),
                   char_freq_vector("123 !", "en")):
-        assert sonuc and all(v == 0.0 for v in sonuc.values())
+        assert _hepsi_nan(sonuc)
+
+
+def test_isaretsiz_metinde():
+    """İşaret yok: entropi ve bitişiklik paydası boş → NaN; çeşit sayısı gerçekten 0."""
+    assert _hepsi_nan(punct_entropy("bir iki"))
+    assert _hepsi_nan(consecutive_punct_ratio("bir iki"))
+    assert punct_variety("bir iki")["punct_variety"] == 0.0
+    assert punct_density("bir iki")["punct_density"] == 0.0
