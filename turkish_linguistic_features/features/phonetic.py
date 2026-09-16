@@ -28,6 +28,7 @@ from collections import Counter
 import numpy as np
 import textstat
 
+from .okunus import okunus
 from .punctuation import _ALFABE, _kucuk_harf
 
 _UNLULER: dict[str, str] = {"tr": "aeıioöuü", "en": "aeiou"}
@@ -122,30 +123,50 @@ def _syllabify_tr(word: str) -> list[str]:
     return heceler
 
 
+def _unlu_sayisi(metin: str) -> int:
+    return sum(1 for c in _kucuk_harf(metin, "tr") if c in _TR_HECE_UNLULERI)
+
+
+def _tr_kok_hecesi(kok: str) -> int | None:
+    """Kesme işaretinden önceki kısmın hecesi (Türkçe)."""
+    acilim = okunus(kok)
+    if acilim is not None:
+        return _unlu_sayisi(acilim)
+    if not kok.isalpha():
+        return None
+    n = _unlu_sayisi(kok)
+    if n > 0:
+        return n
+    return len(kok) if kok.isupper() else None
+
+
 def hece_say(word: str, lang: str = "tr") -> int | None:
     """Bir tokenin hece sayısı; hecelenemiyorsa ``None`` (2026-09-16, Efe).
 
-    - Yalnız harflerden oluşan tokenler hecelenir; kesme işaretinden sonraki ek
-      kelimeye bitişik sayılır (``Ankara'da`` → 4). Rakam içeren tokenler
-      (``1990``, ``2023'te``) ve noktalama → ``None``: okunuşları yazıdan
-      çıkarılamaz.
-    - TR — ünlü sayısı (``â î û`` dahil). Ünlüsüz token tamamı büyük harfse
-      kısaltmadır, harf adları tek heceli olduğu için hece = harf sayısı
-      (``TBMM`` → 4); küçük harfliyse (``km``, ``vb``) kelime olarak okunur,
-      sayılamaz → ``None``.
-    - EN — ``textstat.syllable_count``; 0 verirse 1 (``shh``).
+    - TR — ünlü sayısı (``â î û`` dahil). Kesme işaretinden sonraki ek ayrıca
+      sayılıp eklenir (``Ankara'da`` → 4, ``TBMM'de`` → 5).
+      Çetinkaya-Uzun protokolüne göre okunuşla sayılanlar (``okunus`` modülü):
+      sayılar (``1916`` → 7) ve listedeki kısaltmalar (``cm`` → 4, ``vb.`` → 4).
+      Listede olmayan ünlüsüz token tamamı büyük harfse harf adları tek heceli
+      olduğu için hece = harf sayısı (``TBMM`` → 4); değilse ``None``.
+      Okunuşu çıkarılamayan biçimler (``3G``, ``10:30``, ``2.``) ve noktalama
+      → ``None``.
+    - EN — yalnız harflerden oluşan tokenler; ``textstat.syllable_count``,
+      0 verirse 1 (``shh``). Sayılar hecelenmez (Flesch 1948 de uzun sayıları
+      sayıma katmamayı öneriyor).
     """
     _dil_denetle(lang)
-    yalin = word.translate(_KESMELER)
-    if not yalin or not yalin.isalpha():
-        return None
     if lang == "en":
+        yalin = word.translate(_KESMELER)
+        if not yalin or not yalin.isalpha():
+            return None
         return max(1, int(textstat.syllable_count(yalin)))
-    kucuk = _kucuk_harf(yalin, lang)
-    n = sum(1 for c in kucuk if c in _TR_HECE_UNLULERI)
-    if n > 0:
-        return n
-    return len(yalin) if yalin.isupper() else None
+    kok, _, ek = word.replace("’", "'").partition("'")
+    ek = ek.replace("'", "")
+    if ek and not ek.isalpha():
+        return None
+    kok_hece = _tr_kok_hecesi(kok) if kok else None
+    return None if kok_hece is None else kok_hece + _unlu_sayisi(ek)
 
 
 def toplam_hece(tokens: list[str], lang: str = "tr") -> int:

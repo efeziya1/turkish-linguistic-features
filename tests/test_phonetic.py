@@ -173,10 +173,70 @@ def test_hece_say_buyuk_harf_unsuz_kisaltma():
 
 
 def test_hece_say_sayilamayan_tokenler():
-    """Rakamlı tokenler, küçük harfli ünlüsüz tokenler ve noktalama hecelenmez."""
-    for token in ("1990", "2023'te", "km", "vb", ".", "", "..."):
-        assert hece_say(token, "tr") is None
-    assert hece_say("1990", "en") is None
+    """Okunuşu çıkarılamayan biçimler, listede olmayan küçük harfli ünsüz
+    tokenler ve noktalama hecelenmez."""
+    for token in ("3G", "10:30", "4x4", "2.", "1.5", "xyz", "%", ".", "", "..."):
+        assert hece_say(token, "tr") is None, token
+    assert hece_say("1990", "en") is None           # İngilizce değişmedi
+
+
+def test_hece_say_sayilar_okunusuyla():
+    """Çetinkaya-Uzun protokolü: "1916: yedi hece" (Güven 2014) (2026-09-16, Efe)."""
+    beklenen = {
+        "1916": 7,          # bin do-kuz yüz on al-tı
+        "0": 2,             # sı-fır
+        "100": 1,           # yüz — "bir yüz" değil
+        "1000": 1,          # bin — "bir bin" değil
+        "101": 2,           # yüz bir
+        "2001": 4,          # i-ki bin bir
+        "1000000": 3,       # bir mil-yon
+        "1.916": 7,         # binlik nokta
+        "12.500.000": 8,    # on i-ki mil-yon beş yüz bin
+        "3,5": 4,           # üç vir-gül beş
+        "3,05": 6,          # üç vir-gül sı-fır beş
+        "1916'da": 8,       # sayı + ek
+        "0532": 6,          # başta sıfır → rakam rakam: sı-fır beş üç i-ki
+    }
+    for token, hece in beklenen.items():
+        assert hece_say(token, "tr") == hece, token
+
+
+def test_hece_say_cok_buyuk_sayi_okunmaz():
+    assert hece_say("1" + "0" * 15, "tr") is None
+
+
+def test_hece_say_kisaltmalar_acilir():
+    """Sabit liste; büyük/küçük harf ve noktalar önemsiz (2026-09-16, Efe)."""
+    beklenen = {
+        "cm": 4, "CM": 4, "Kg": 3, "kg.": 3,        # san-ti-met-re · ki-lo-gram
+        "km/s": 8, "m²": 4,                          # ki-lo-met-re bö-lü sa-at · met-re-ka-re
+        "vb.": 4, "vs": 4, "bkz.": 3, "Dr.": 2,      # ve ben-ze-ri · ve-sa-i-re
+        "T.C.": 8, "TL": 4, "ABD": 3,                # liste büyük harf kuralından önce gelir
+        "M.Ö.": 5, "MÖ": 5, "mö": 5,                 # mi-lat-tan ön-ce
+    }
+    for token, hece in beklenen.items():
+        assert hece_say(token, "tr") == hece, token
+
+
+def test_hece_say_buyuk_kucuk_harf_ayrilan_kisaltmalar():
+    """MS milattan sonra, ms milisaniye; Sn sayın, sn saniye (2026-09-16, Efe)."""
+    assert hece_say("MS", "tr") == 5
+    assert hece_say("M.S.", "tr") == 5
+    assert hece_say("ms", "tr") == 5                # mi-li-sa-ni-ye
+    assert hece_say("Sn.", "tr") == 2               # sa-yın
+    assert hece_say("sn", "tr") == 3                # sa-ni-ye
+    assert hece_say("SN", "tr") == 3
+
+
+def test_hece_say_gercek_kelimeyle_ayni_kisaltma_acilmaz():
+    """tel, sok, av, no gerçek kelime; listede yok (2026-09-16, Efe)."""
+    assert hece_say("tel", "tr") == 1
+    assert hece_say("sok", "tr") == 1
+
+
+def test_hece_say_kesmeli_ek_kisaltmaya_eklenir():
+    assert hece_say("TBMM'de", "tr") == 5
+    assert hece_say("cm'lik", "tr") == 5
 
 
 def test_hece_say_ingilizce_textstat():
@@ -190,7 +250,7 @@ def test_hece_say_ingilizce_unlusuz_kelime():
 
 
 def test_toplam_hece_sayilamayanlari_atlar():
-    assert toplam_hece(["Ali", "1990", "okula", ".", "gitti"], "tr") == 7
+    assert toplam_hece(["Ali", "3G", "okula", ".", "gitti"], "tr") == 7
 
 
 # ── T10: kelime başına hece ───────────────────────────────────────────
@@ -204,12 +264,12 @@ def test_hece_ortalamasi_ve_cv_elle():
 
 
 def test_hece_istatistigi_sayilamayanlari_atlar():
-    assert syllable_count_stats(["km", "1990", "kitap", "masa"], "tr")["syllable_mean"] == 2.0
+    assert syllable_count_stats(["xyz", "3G", "kitap", "masa"], "tr")["syllable_mean"] == 2.0
 
 
 def test_hece_istatistigi_bos_ve_tek():
     assert all(_nan(v) for v in syllable_count_stats([], "tr").values())
-    assert all(_nan(v) for v in syllable_count_stats(["1990", "."], "tr").values())
+    assert all(_nan(v) for v in syllable_count_stats(["3G", "."], "tr").values())
     sonuc = syllable_count_stats(["ev"], "tr")
     assert sonuc["syllable_mean"] == 1.0
     assert _nan(sonuc["syllable_cv"])               # tek değer
@@ -260,7 +320,7 @@ def test_cumle_hecesi_elle():
 
 def test_cumle_hecesi_hecesiz_cumle_sayilmaz():
     """Yalnız rakam/noktalama içeren cümlenin hecesi ölçülemez, hesaba girmez."""
-    sonuc = sentence_syllable_stats([["ev", "."], ["1990", "."], ["okul", "."]], "tr")
+    sonuc = sentence_syllable_stats([["ev", "."], ["3G", "."], ["okul", "."]], "tr")
     assert sonuc["sentence_syllable_mean"] == 1.5
 
 
