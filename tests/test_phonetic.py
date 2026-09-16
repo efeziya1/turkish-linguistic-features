@@ -3,6 +3,12 @@ import math
 import pytest
 
 from turkish_linguistic_features.features.phonetic import (
+    _syllabify_tr,
+    hece_say,
+    sentence_syllable_stats,
+    syllable_count_stats,
+    syllable_length_distribution,
+    toplam_hece,
     vowel_harmony_compliance,
     vowel_ratios,
 )
@@ -100,3 +106,166 @@ def test_bos_metin():
 def test_bilinmeyen_dil():
     with pytest.raises(ValueError):
         vowel_ratios("ev", "de")
+
+
+# ── T10: heceleme ─────────────────────────────────────────────────────
+
+
+@pytest.mark.parametrize("kelime,beklenen", [
+    ("kitap",          ["ki", "tap"]),
+    ("kitaplarımızda", ["ki", "tap", "la", "rı", "mız", "da"]),
+    ("ev",             ["ev"]),
+    ("a",              ["a"]),
+    ("türkçe",         ["türk", "çe"]),
+    ("tren",           ["tren"]),
+    ("saat",           ["sa", "at"]),
+])
+def test_heceleme(kelime, beklenen):
+    assert _syllabify_tr(kelime) == beklenen
+
+
+def test_heceleme_unlusuz_kelime():
+    """Ünlü yoksa tek parça döner, sonsuz döngüye girmez."""
+    assert _syllabify_tr("krş") == ["krş"]
+
+
+def test_heceleme_tdk_bati_kokenli():
+    """TDK (2019): "prog-ram, kont-rol"; kelime başı öbek ilk hecede kalır."""
+    assert _syllabify_tr("program") == ["prog", "ram"]
+    assert _syllabify_tr("kontrol") == ["kont", "rol"]
+    assert _syllabify_tr("elektrik") == ["e", "lekt", "rik"]
+    assert _syllabify_tr("strateji") == ["stra", "te", "ji"]
+
+
+@pytest.mark.parametrize("kelime,beklenen", [
+    ("başöğretmen",    ["ba", "şöğ", "ret", "men"]),
+    ("ilkokul",        ["il", "ko", "kul"]),
+    ("karaosmanoğlu",  ["ka", "ra", "os", "ma", "noğ", "lu"]),
+    ("müdafaa",        ["mü", "da", "fa", "a"]),
+    ("santral",        ["sant", "ral"]),
+    ("sürpriz",        ["sürp", "riz"]),
+    ("portre",         ["port", "re"]),
+])
+def test_heceleme_tdk_ornekleri(kelime, beklenen):
+    """TDK, Hece Yapısı ve Satır Sonunda Kelimelerin Bölünmesi (2019) örnekleri."""
+    assert _syllabify_tr(kelime) == beklenen
+
+
+def test_heceleme_sapkali_unlu():
+    assert _syllabify_tr("kâğıt") == ["kâ", "ğıt"]
+    assert _syllabify_tr("millî") == ["mil", "lî"]
+
+
+# ── T10: hece sayacı ──────────────────────────────────────────────────
+
+
+def test_hece_say_turkce():
+    assert hece_say("Kitaplarımızda", "tr") == 6
+    assert hece_say("İSTANBUL", "tr") == 3          # büyük harf, Türkçe küçük harf kuralı
+    assert hece_say("Ankara'da", "tr") == 4         # kesme işaretli ek kelimeye bitişik
+    assert hece_say("kâğıt", "tr") == 2
+
+
+def test_hece_say_buyuk_harf_unsuz_kisaltma():
+    """TBMM → te-be-me-me: Türkçe harf adları tek heceli (2026-09-16, Efe)."""
+    assert hece_say("TBMM", "tr") == 4
+    assert hece_say("PTT", "tr") == 3
+
+
+def test_hece_say_sayilamayan_tokenler():
+    """Rakamlı tokenler, küçük harfli ünlüsüz tokenler ve noktalama hecelenmez."""
+    for token in ("1990", "2023'te", "km", "vb", ".", "", "..."):
+        assert hece_say(token, "tr") is None
+    assert hece_say("1990", "en") is None
+
+
+def test_hece_say_ingilizce_textstat():
+    assert hece_say("make", "en") == 1              # sessiz e — ünlü öbeği sayımı 2 derdi
+    assert hece_say("beautiful", "en") == 3
+
+
+def test_hece_say_ingilizce_unlusuz_kelime():
+    """textstat 0 verirse 1 sayılır (2026-09-16, Efe)."""
+    assert hece_say("shh", "en") == 1
+
+
+def test_toplam_hece_sayilamayanlari_atlar():
+    assert toplam_hece(["Ali", "1990", "okula", ".", "gitti"], "tr") == 7
+
+
+# ── T10: kelime başına hece ───────────────────────────────────────────
+
+
+def test_hece_ortalamasi_ve_cv_elle():
+    """ki-tap (2) + ev (1) → ortalama 1.5; std 0.5 → CV 1/3."""
+    sonuc = syllable_count_stats(["kitap", "ev"], "tr")
+    assert sonuc["syllable_mean"] == 1.5
+    assert sonuc["syllable_cv"] == pytest.approx(1 / 3, abs=1e-4)
+
+
+def test_hece_istatistigi_sayilamayanlari_atlar():
+    assert syllable_count_stats(["km", "1990", "kitap", "masa"], "tr")["syllable_mean"] == 2.0
+
+
+def test_hece_istatistigi_bos_ve_tek():
+    assert all(_nan(v) for v in syllable_count_stats([], "tr").values())
+    assert all(_nan(v) for v in syllable_count_stats(["1990", "."], "tr").values())
+    sonuc = syllable_count_stats(["ev"], "tr")
+    assert sonuc["syllable_mean"] == 1.0
+    assert _nan(sonuc["syllable_cv"])               # tek değer
+
+
+# ── T10: hece uzunluğu dağılımı ───────────────────────────────────────
+
+
+def test_hece_dagilimi_toplami_bir():
+    """Altı kova bir bölüşüm; round(x, 6) kovalara ayrı uygulandığı için tolerans 1e-5."""
+    tokens = ["ev", "kitap", "kitaplar", "kitaplarım",
+              "kitaplarımız", "kitaplarımızda", "kitaplarımızdakiler"]
+    sonuc = syllable_length_distribution(tokens, "tr")
+    assert abs(sum(sonuc.values()) - 1.0) < 1e-5
+
+
+def test_hece_dagilimi_elle():
+    sonuc = syllable_length_distribution(["ev", "kitap", "kitaplar", "kitaplarım", "."], "tr")
+    assert sonuc == {
+        "syllable_1_ratio": 0.25, "syllable_2_ratio": 0.25, "syllable_3_ratio": 0.25,
+        "syllable_4_ratio": 0.25, "syllable_5_ratio": 0.0, "syllable_6plus_ratio": 0.0,
+    }
+
+
+def test_hece_dagilimi_6plus_ustten_toplar():
+    sonuc = syllable_length_distribution(
+        ["kitaplarımızda", "kitaplarımızdaki", "kitaplarımızdakiler"], "tr")
+    assert sonuc["syllable_6plus_ratio"] == 1.0
+
+
+def test_hece_dagilimi_bos_girdi():
+    sonuc = syllable_length_distribution([], "tr")
+    assert len(sonuc) == 6 and all(_nan(v) for v in sonuc.values())
+
+
+# ── T10: cümle başına hece ────────────────────────────────────────────
+
+
+def test_cumle_hecesi_elle():
+    """7, 8, 13 hece → ortalama 9.3333; std 2.6247 → CV 0.2812. Noktalama sayılmaz."""
+    cumleler = [["Ali", "okula", "gitti", "."],
+                ["Öğretmen", "dersi", "anlattı", "."],
+                ["Kitaplarımızdaki", "resimler", "güzeldi", "."]]
+    sonuc = sentence_syllable_stats(cumleler, "tr")
+    assert sonuc["sentence_syllable_mean"] == pytest.approx(28 / 3, abs=1e-4)
+    assert sonuc["sentence_syllable_cv"] == pytest.approx(0.2812, abs=1e-4)
+
+
+def test_cumle_hecesi_hecesiz_cumle_sayilmaz():
+    """Yalnız rakam/noktalama içeren cümlenin hecesi ölçülemez, hesaba girmez."""
+    sonuc = sentence_syllable_stats([["ev", "."], ["1990", "."], ["okul", "."]], "tr")
+    assert sonuc["sentence_syllable_mean"] == 1.5
+
+
+def test_cumle_hecesi_bos_ve_tek():
+    assert all(_nan(v) for v in sentence_syllable_stats([], "tr").values())
+    sonuc = sentence_syllable_stats([["kitap", "okudu"]], "tr")
+    assert sonuc["sentence_syllable_mean"] == 5.0
+    assert _nan(sonuc["sentence_syllable_cv"])
