@@ -364,12 +364,15 @@ def test_pos_variation_hizasiz_listelerde_sifir():
     assert all(v == 0.0 for v in sonuc.values())
 
 
-def test_pos_variation_ozel_isim_ve_aux_sayilmaz():
-    """Sözcüksel kelime = NOUN, VERB, ADJ, ADV; PROPN ve AUX ne payda ne payda (Efe)."""
+def test_pos_variation_ozel_isim_isimdir_aux_sayilmaz():
+    """İsim = NOUN + PROPN; sözcüksel kelime = LEXICAL_POS; AUX hiç sayılmaz (2026-09-16, Efe).
+
+    Sözcüksel: Ahmet, Ahmet, ev, geldi = 4; isim tipleri {ahmet, ev} = 2 → NV = 2/4.
+    """
     lemmalar = ["ahmet", "ahmet", "ev", "i", "gel"]
     pos = [("Ahmet", "PROPN"), ("Ahmet", "PROPN"), ("ev", "NOUN"), ("idi", "AUX"), ("geldi", "VERB")]
     sonuc = pos_lexical_variation(lemmalar, pos)
-    assert sonuc["noun_variation"] == 0.5        # 1 isim tipi / 2 sözcüksel kelime
+    assert sonuc["noun_variation"] == 0.5
     assert sonuc["verb_variation"] == 1.0        # VV1: 1 fiil tipi / 1 fiil
 
 

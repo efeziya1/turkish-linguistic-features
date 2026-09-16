@@ -22,9 +22,20 @@ DEP_RELATIONS: tuple[str, ...] = (
 
 SENT_FINAL_POS: tuple[str, ...] = tuple(p for p in POS_TAGS if p != "PUNCT") + ("PRON",)  # 13
 
-# Otosemantik POS — lexical_density ve thematic_concentration'ın süzgeci.
-# Bu kümenin DIŞINDAKİ her POS sinsemantik (işlev) sayılır.
-AUTOSEMANTIC_POS: tuple[str, ...] = ("NOUN", "PROPN", "VERB", "ADJ", "ADV")
+# Kaynaktan gelen formüllerde "isim" = NOUN + PROPN (2026-09-16, Efe).
+# Kaynakların hiçbiri UD'nin özel isim ayrımını yapmıyor; özel isim ismin
+# alt türü. Tek istisna pos_noun / pos_propn: onlar etiket dağılımı.
+NOUN_POS: tuple[str, ...] = ("NOUN", "PROPN")
+
+# Sözcüksel (anlamlı) kelime — Ure (1971) lexical_density, Lu (2012) N_lex.
+# Lu yalnız sıfattan türemiş zarfları sayıyor (-ly); Türkçeye aktarılamadığı
+# için bütün ADV. Bu kümenin DIŞINDAKİ her POS işlev sayılır.
+LEXICAL_POS: tuple[str, ...] = ("NOUN", "PROPN", "VERB", "ADJ", "ADV")
+
+# Konu kelimesi — thematic_concentration / STC. QUITA kılavuzu s. 50: "We
+# usually consider nouns, verbs and adjectives to be thematic words";
+# Popescu ve ark. (2009) da zarf saymıyor.
+THEMATIC_POS: tuple[str, ...] = ("NOUN", "PROPN", "VERB", "ADJ")
 
 # Görünüş etiketleri — morph_aspect_* için UD Aspect değerleri.
 ASPECT_TAGS: tuple[str, ...] = ("Perf", "Imp", "Prog")

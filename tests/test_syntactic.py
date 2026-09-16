@@ -19,7 +19,12 @@ from turkish_linguistic_features.features.syntactic import (
     verb_distance_stats,
     word_ngram_ratios,
 )
-from turkish_linguistic_features.features.vocab import AUTOSEMANTIC_POS, POS_TAGS
+from turkish_linguistic_features.features.vocab import (
+    LEXICAL_POS,
+    NOUN_POS,
+    POS_TAGS,
+    THEMATIC_POS,
+)
 
 # ── vocab.py ──────────────────────────────────────────────────────────
 
@@ -32,7 +37,10 @@ def test_vocab_hicbir_sey_import_etmez():
 
 def test_vocab_sozlesme_sabitleri():
     assert len(POS_TAGS) == 13 and "PRON" not in POS_TAGS
-    assert AUTOSEMANTIC_POS == ("NOUN", "PROPN", "VERB", "ADJ", "ADV")
+    assert NOUN_POS == ("NOUN", "PROPN")
+    assert LEXICAL_POS == ("NOUN", "PROPN", "VERB", "ADJ", "ADV")   # Ure 1971, Lu 2012
+    assert THEMATIC_POS == ("NOUN", "PROPN", "VERB", "ADJ")         # QUITA, zarf yok
+    assert not hasattr(vocab, "AUTOSEMANTIC_POS")
     assert len(vocab.DEP_RELATIONS) == 38 and vocab.DEP_RELATIONS[-1] == "other"
     assert len(vocab.SENT_FINAL_POS) == 13
 
@@ -67,6 +75,12 @@ def test_nominal_verbal_ratio_elle():
     pos = [("a", "NOUN"), ("b", "NOUN"), ("c", "NOUN"), ("d", "VERB"), ("e", "AUX")]
     assert nominal_verbal_ratio(pos)["nominal_verbal_ratio"] == 3.0
     assert nominal_verbal_ratio([("a", "NOUN")])["nominal_verbal_ratio"] == 0.0
+
+
+def test_nominal_verbal_ratio_ozel_isim_isimdir():
+    """Kaynaklarda "isim" = NOUN + PROPN (2026-09-16, Efe): 1 NOUN + 1 PROPN / 1 VERB."""
+    pos = [("ev", "NOUN"), ("Ahmet", "PROPN"), ("geldi", "VERB")]
+    assert nominal_verbal_ratio(pos)["nominal_verbal_ratio"] == 2.0
 
 
 # ── fiil mesafesi ve activity ─────────────────────────────────────────

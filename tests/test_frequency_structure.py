@@ -192,6 +192,19 @@ def test_tc_sadece_otosemantik_sayar():
     assert thematic_concentration(items, hepsi_islev, h=3.0)["thematic_concentration"] == 0.0
 
 
+def test_tc_konu_kelimesi_zarf_saymaz_ozel_isim_sayar():
+    """THEMATIC_POS = NOUN, PROPN, VERB, ADJ (QUITA s. 50; 2026-09-16, Efe).
+
+    ev (ADV) r'=2 sayılmaz → 0; aynı kelime PROPN olunca 16/60.
+    """
+    items = [("ve", 10), ("ev", 8), ("yol", 5)]
+    zarf = [("ve", "CCONJ"), ("ev", "ADV"), ("yol", "CCONJ")]
+    ozel = [("ve", "CCONJ"), ("ev", "PROPN"), ("yol", "CCONJ")]
+    assert thematic_concentration(items, zarf, h=3.0)["thematic_concentration"] == 0.0
+    tc = thematic_concentration(items, ozel, h=3.0)["thematic_concentration"]
+    assert abs(tc - 16 / 60) < 1e-6
+
+
 def test_tc_esit_frekansta_ortalama_rank():
     """QUITA s. 49-51: eşit frekanslı kelimeler ortalama rank alır.
 

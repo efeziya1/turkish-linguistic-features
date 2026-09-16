@@ -32,6 +32,8 @@ from collections import Counter
 
 import numpy as np
 
+from .vocab import LEXICAL_POS, NOUN_POS
+
 # Brunet's W üs sabiti — Kademe C (bkz. 00-ANA-PLAN.md K12 eki-2).
 #
 # Kaynak OKUNDU: Tweedie, F. J. & Baayen, R. H. (1998), "How Variable May
@@ -346,13 +348,6 @@ def ttr_moving_slope(tokens: list[str], chunk_size: int = 50) -> dict[str, float
     return {"ttr_moving_slope": round(egim, 5)}
 
 
-# Sözcüksel kelime (N_lex) kümesi — Lu (2012) s. 192'nin Türkçeye aktarımı.
-# Lu yalnız sıfattan türemiş zarfları sayıyor (İngilizce -ly kuralı);
-# Türkçede karşılığı olmadığı için bütün ADV sayılır. PROPN sayılmaz
-# (2026-09-16, Efe). AUX ayrı etiket olduğu için zaten dışarıda.
-_SOZCUKSEL_POS = ("NOUN", "VERB", "ADJ", "ADV")
-
-
 def pos_lexical_variation(lemma_tokens: list[str],
                           pos_data: list[tuple[str, str]]) -> dict[str, float]:
     """Sözcük türü çeşitliliği — Lu (2012), The Modern Language Journal 96(2), Tablo 2.
@@ -362,30 +357,38 @@ def pos_lexical_variation(lemma_tokens: list[str],
     - ``adj_variation`` = AdjV = ``T_adj / N_lex``
     - ``adv_variation`` = AdvV = ``T_adv / N_lex``
 
-    ``T`` farklı **lemma** sayısı (Lu s. 196: örneklem lemmalanmıştı),
-    ``N_lex`` NOUN + VERB + ADJ + ADV token sayısı. ``PROPN`` ve ``AUX``
-    hiçbir yerde sayılmaz (2026-09-15/16, Efe).
+    ``T`` farklı **lemma** sayısı (Lu s. 196: örneklem lemmalanmıştı).
+    İsim = ``NOUN_POS`` (NOUN + PROPN); ``N_lex`` = ``LEXICAL_POS`` token
+    sayısı (2026-09-16, Efe). ``AUX`` hiçbir yerde sayılmaz. Lu'nun zarf
+    sınırlaması (-ly) Türkçeye aktarılamadığı için bütün ADV sayılır.
+    İngilizcede asıl fiil ``be``/``have`` VERB etiketi aldığında sayılır —
+    Lu saymıyor; liste gerektirdiği için bilinçli sapma.
 
     Hizalama: ``lemma_tokens``'a noktalama girmez, ``pos_data``'ya girer (T21).
     Bu yüzden ``pos_data``'dan önce ``PUNCT`` atılır; listeler yine eşit
     uzunlukta değilse çökmek yerine hepsi 0.0 döner.
     """
     kelime_pos = [p for _, p in pos_data if p != "PUNCT"]
-    sonuc = {f"{p.lower()}_variation": 0.0 for p in _SOZCUKSEL_POS}
+    sonuc = {"noun_variation": 0.0, "verb_variation": 0.0,
+             "adj_variation": 0.0, "adv_variation": 0.0}
     if not lemma_tokens or len(kelime_pos) != len(lemma_tokens):
         return sonuc
-    tipler: dict[str, set[str]] = {p: set() for p in _SOZCUKSEL_POS}
-    tokenler = Counter(p for p in kelime_pos if p in _SOZCUKSEL_POS)
+    siniflar = {"noun": NOUN_POS, "verb": ("VERB",), "adj": ("ADJ",), "adv": ("ADV",)}
+    tipler: dict[str, set[str]] = {s: set() for s in siniflar}
+    fiil_token = 0
+    n_lex = 0
     for lem, p in zip(lemma_tokens, kelime_pos):
-        if p in tipler:
-            tipler[p].add(lem)
-    n_lex = sum(tokenler.values())
-    if n_lex == 0:
-        return sonuc
-    for etiket in ("NOUN", "ADJ", "ADV"):
-        sonuc[f"{etiket.lower()}_variation"] = round(len(tipler[etiket]) / n_lex, 5)
-    if tokenler["VERB"]:
-        sonuc["verb_variation"] = round(len(tipler["VERB"]) / tokenler["VERB"], 5)
+        if p in LEXICAL_POS:
+            n_lex += 1
+        fiil_token += p == "VERB"
+        for sinif, etiketler in siniflar.items():
+            if p in etiketler:
+                tipler[sinif].add(lem)
+    if n_lex:
+        for sinif in ("noun", "adj", "adv"):
+            sonuc[f"{sinif}_variation"] = round(len(tipler[sinif]) / n_lex, 5)
+    if fiil_token:
+        sonuc["verb_variation"] = round(len(tipler["verb"]) / fiil_token, 5)
     return sonuc
 
 

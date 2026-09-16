@@ -30,7 +30,7 @@ from collections import Counter
 
 import numpy as np
 
-from .vocab import AUTOSEMANTIC_POS
+from .vocab import THEMATIC_POS
 
 
 def h_point(freqs: np.ndarray) -> float:
@@ -210,14 +210,14 @@ def _tematik_toplam(items: list[tuple[str, int]], pos_data: list[tuple[str, str]
     pos = _pos_haritasi(pos_data)
     return sum((ust_sinir - r) * f
                for (kelime, f), r in zip(items, _ortalama_ranklar(items))
-               if r < ust_sinir and pos.get(kelime.lower()) in AUTOSEMANTIC_POS)
+               if r < ust_sinir and pos.get(kelime.lower()) in THEMATIC_POS)
 
 
 def thematic_concentration(items: list[tuple[str, int]], pos_data: list[tuple[str, str]],
                            h: float) -> dict[str, float]:
     """``TC = Σ 2(h − r')·f(r') / (h(h−1)·f₁)`` — h-point üstündeki içerik kelimeleri.
 
-    ``r'`` otosemantik (``AUTOSEMANTIC_POS``) kelimenin ortalama rankı, yalnız
+    ``r'`` konu kelimesinin (``THEMATIC_POS``: isim, özel isim, fiil, sıfat) ortalama rankı, yalnız
     ``r' < h``. ``f₁`` en sık kelimenin frekansı (işlev kelimesi olsa bile).
     Tek konulu metin konu isimlerini h-point üstüne taşır → TC büyür.
     """

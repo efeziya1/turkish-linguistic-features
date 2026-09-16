@@ -27,7 +27,7 @@ from collections import Counter
 import numpy as np
 
 from .punctuation import _kucuk_harf
-from .vocab import AUTOSEMANTIC_POS, POS_TAGS
+from .vocab import LEXICAL_POS, NOUN_POS, POS_TAGS
 
 _PARA_SPLIT = re.compile(r"\n[ \t]*\n")   # boş satır = paragraf sınırı
 _SENT_END = re.compile(r"[.!?…]+")        # cümle sonu işareti
@@ -81,16 +81,18 @@ def pos_bigram_ratios(pos_data: list[tuple[str, str]]) -> dict[str, float]:
 
 
 def nominal_verbal_ratio(pos_data: list[tuple[str, str]]) -> dict[str, float]:
-    """``NOUN sayısı / VERB sayısı``. Fiil yoksa 0.0.
+    """``isim sayısı / VERB sayısı``. Fiil yoksa 0.0.
 
-    Yalnız ``NOUN`` ve yalnız ``VERB``. ``AUX`` fiil sayılmaz — modülün
-    tamamında geçerli kural, gerekçesi ``verb_distance_stats``'ta.
+    İsim = ``NOUN_POS`` (NOUN + PROPN, 2026-09-16, Efe). Yalnız ``VERB``;
+    ``AUX`` fiil sayılmaz — modülün tamamında geçerli kural, gerekçesi
+    ``verb_distance_stats``'ta.
     """
     sayimlar = Counter(p for _, p in pos_data)
     fiil = sayimlar.get("VERB", 0)
     if fiil == 0:
         return {"nominal_verbal_ratio": 0.0}
-    return {"nominal_verbal_ratio": round(sayimlar.get("NOUN", 0) / fiil, 5)}
+    isim = sum(sayimlar.get(p, 0) for p in NOUN_POS)
+    return {"nominal_verbal_ratio": round(isim / fiil, 5)}
 
 
 # ── fiil mesafesi ve activity ─────────────────────────────────────────
@@ -133,13 +135,13 @@ def activity_ratio(pos_data: list[tuple[str, str]]) -> dict[str, float]:
 def lexical_density(pos_data: list[tuple[str, str]]) -> dict[str, float]:
     """Otosemantik (içerik) token oranı — Ure 1971.
 
-    Süzgeç ``AUTOSEMANTIC_POS``: NOUN, PROPN, VERB, ADJ, ADV. Bu kümenin
+    Süzgeç ``LEXICAL_POS``: NOUN, PROPN, VERB, ADJ, ADV. Bu kümenin
     dışındaki her POS işlev sayılır — PUNCT dahil. ``nominal_verbal_ratio``
     bunun yerine geçmez: o isim/fiil dengesini, bu içerik/işlev dengesini verir.
     """
     if not pos_data:
         return {"lexical_density": 0.0}
-    icerik = sum(1 for _, p in pos_data if p in AUTOSEMANTIC_POS)
+    icerik = sum(1 for _, p in pos_data if p in LEXICAL_POS)
     return {"lexical_density": round(icerik / len(pos_data), 5)}
 
 
