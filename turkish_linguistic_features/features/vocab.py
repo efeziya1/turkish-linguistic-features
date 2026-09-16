@@ -22,6 +22,10 @@ DEP_RELATIONS: tuple[str, ...] = (
 
 SENT_FINAL_POS: tuple[str, ...] = tuple(p for p in POS_TAGS if p != "PUNCT") + ("PRON",)  # 13
 
+# Kelime sayılmayan etiketler (2026-09-16, Efe). Kelime bekleyen her ölçü
+# bunları atar; lemma_tokens'a da girmezler (T21). SYM: %, $, + gibi.
+NON_WORD_POS: tuple[str, ...] = ("PUNCT", "SYM")
+
 # Kaynaktan gelen formüllerde "isim" = NOUN + PROPN (2026-09-16, Efe).
 # Kaynakların hiçbiri UD'nin özel isim ayrımını yapmıyor; özel isim ismin
 # alt türü. Tek istisna pos_noun / pos_propn: onlar etiket dağılımı.

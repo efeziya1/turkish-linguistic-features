@@ -37,7 +37,7 @@ from collections import Counter
 
 import numpy as np
 
-from .vocab import LEXICAL_POS, NOUN_POS
+from .vocab import LEXICAL_POS, NON_WORD_POS, NOUN_POS
 
 # Brunet's W üs sabiti — Kademe C (bkz. 00-ANA-PLAN.md K12 eki-2).
 #
@@ -230,16 +230,18 @@ def heaps_beta(tokens: list[str], min_tokens: int = 300,
 
 
 def _hizala(lemma_tokens: list[str], pos_data: list[tuple[str, str]]) -> list[str]:
-    """``pos_data``'dan PUNCT atılmış etiketler; ``lemma_tokens`` ile hizalı olmalı.
+    """``pos_data``'dan kelime dışı (PUNCT, SYM) atılmış etiketler.
 
-    ``lemma_tokens``'a noktalama girmez, ``pos_data``'ya girer (T21). Uzunluklar
+    Sonuç ``lemma_tokens`` ile hizalı olmalı.
+
+    ``lemma_tokens``'a bunlar girmez, ``pos_data``'ya girer (T21). Uzunluklar
     tutmuyorsa bu metnin özelliği değil ön işleme hatasıdır → ``ValueError``
     (2026-09-16, Efe).
     """
-    kelime_pos = [p for _, p in pos_data if p != "PUNCT"]
+    kelime_pos = [p for _, p in pos_data if p not in NON_WORD_POS]
     if len(kelime_pos) != len(lemma_tokens):
         raise ValueError(
-            f"lemma_tokens ({len(lemma_tokens)}) ile noktalamasız pos_data "
+            f"lemma_tokens ({len(lemma_tokens)}) ile kelime dışı atılmış pos_data "
             f"({len(kelime_pos)}) hizalı değil — ön işleme hatası"
         )
     return kelime_pos

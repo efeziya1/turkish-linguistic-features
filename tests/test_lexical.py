@@ -396,6 +396,19 @@ def test_pos_variation_noktalama_hizayi_bozmaz():
     assert sonuc["verb_variation"] == 1.0
 
 
+def test_pos_variation_sembol_de_hizadan_atilir():
+    """SYM kelime değil (2026-09-16, Efe) — lemma_tokens'a girmez, hizada atılır."""
+    lemmalar = ["yüz", "art"]
+    pos = [("yüzde", "NOUN"), ("%", "SYM"), ("arttı", "VERB")]
+    sonuc = pos_lexical_variation(lemmalar, pos)
+    assert sonuc["verb_variation"] == 1.0
+
+
+def test_kelime_disi_pos_kumesi():
+    from turkish_linguistic_features.features.vocab import NON_WORD_POS
+    assert NON_WORD_POS == ("PUNCT", "SYM")
+
+
 def test_pos_variation_hizasiz_listelerde_hata():
     """Hizasızlık ön işleme hatasıdır, metnin özelliği değil (2026-09-16, Efe)."""
     with pytest.raises(ValueError, match="hizal"):
