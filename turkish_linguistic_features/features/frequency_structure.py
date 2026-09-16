@@ -10,6 +10,15 @@ Girdi ``rank_word_freq_table()`` (``lexical.py``) çıktısıdır: ``freqs`` aza
 sıralı, ``M`` toplam token, ``V`` tekil tip, ``items`` ``(kelime, frekans)``.
 Rank 1 en sık kelimedir.
 
+**Birim: lemma (2026-09-16, Efe).** Bütün grup lemma sıklıklarından hesaplanır
+— TC h-point'i kullandığı için birim grup içinde tek olmalı. Kaynak: Čech,
+Popescu & Altmann (2012) "lemmatization is a more adequately focused approach
+eliminating the effect of synthetic morphology"; Čech, Garabík & Altmann
+(2015) kelime biçimlerini bu amaç için "scarcely relevant" buluyor. ``lexical``
+grubu ise yüzey biçim sayar (farklı gelenek, farklı karar). TC/STC'ye verilen
+``pos_data`` bu yüzden **lemma → POS** eşlemesi olmalıdır: ``items``'taki
+kelimeler lemma, ``pos_data``'nın ilk alanı da lemma (T20 hizalar).
+
 Formüller birincil kaynaktan okundu (K12, Kademe A):
 
 - Popescu, Altmann, Grzybek et al. (2009), *Word Frequency Studies*, Mouton de
