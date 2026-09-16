@@ -17,6 +17,7 @@ from turkish_linguistic_features.features.lexical import (
     pos_lexical_variation,
     rank_word_freq_table,
     rare_word_metrics,
+    reference_frequency_sophistication,
     shannon_entropy,
     simpsons_d,
     ttr_moving_slope,
@@ -24,6 +25,8 @@ from turkish_linguistic_features.features.lexical import (
     vocd_d,
     word_length_stats,
     yules_k,
+    zipf,
+    zipf_mandelbrot,
 )
 from turkish_linguistic_features.features.params import DEFAULT_PARAMS
 
@@ -479,3 +482,117 @@ def test_t06_bos_girdiler():
     assert vocd_d([])["vocd_d"] == 0.0
     assert hdd([])["hdd"] == 0.0
     assert msttr([])["msttr"] == 0.0
+
+
+# ── T07: Zipf, Zipf-Mandelbrot, referans frekans ──────────────────────
+
+
+def test_zipf_tam_yasada_us_bir_uyum_bir():
+    freqs = np.array([1000.0 / r for r in range(1, 51)])
+    sonuc = zipf(freqs)
+    assert sonuc["zipf_exponent"] == pytest.approx(1.0, abs=1e-4)
+    assert sonuc["zipf_r2"] == pytest.approx(1.0, abs=1e-4)
+
+
+def test_zipf_sentetik_dagilimda_us_bire_yakin():
+    """f = 1000/r ile üretilmiş tamsayı dağılımda α ≈ 1.0 olmalı."""
+    freqs = np.array([max(1, int(1000 / r)) for r in range(1, 101)])
+    sonuc = zipf(freqs)
+    assert 0.85 < sonuc["zipf_exponent"] < 1.15
+    assert sonuc["zipf_r2"] > 0.95
+
+
+def test_zipf_az_veri_ile_sifir():
+    assert zipf(np.array([5, 3, 1])) == {"zipf_exponent": 0.0, "zipf_r2": 0.0}
+
+
+def test_mandelbrot_q_ve_s_geri_bulunur():
+    """f = C/(r + 2.5)^1.2 → q ≈ 2.5, s ≈ 1.2 (ızgara adımı 0.1)."""
+    freqs = np.array([5000.0 / (r + 2.5) ** 1.2 for r in range(1, 151)])
+    m = zipf_mandelbrot(freqs)
+    assert m["zipf_mandelbrot_q"] == pytest.approx(2.5, abs=0.05)
+    assert m["zipf_mandelbrot_s"] == pytest.approx(1.2, abs=0.01)
+
+
+def test_mandelbrot_az_veri_ile_sifir():
+    assert zipf_mandelbrot(np.array([5, 3, 1])) == {"zipf_mandelbrot_q": 0.0,
+                                                    "zipf_mandelbrot_s": 0.0}
+
+
+class _SahteWordfreq:
+    """Gerçek veri dosyasına bağlı kalmadan formülü sınamak için."""
+
+    PUAN = {"kitap": 5.0, "oku": 6.0, "epistemoloji": 2.0, "ve": 7.0}
+    ILK = ["ve", "kitap", "oku"]
+
+    @staticmethod
+    def zipf_frequency(kelime: str, lang: str) -> float:
+        return _SahteWordfreq.PUAN.get(kelime, 0.0)
+
+    @staticmethod
+    def top_n_list(lang: str, n: int) -> list[str]:
+        return _SahteWordfreq.ILK[:n]
+
+
+@pytest.fixture
+def sahte_wordfreq(monkeypatch):
+    import sys
+    import types
+
+    from turkish_linguistic_features.features import lexical
+
+    modul = types.ModuleType("wordfreq")
+    modul.zipf_frequency = _SahteWordfreq.zipf_frequency
+    modul.top_n_list = _SahteWordfreq.top_n_list
+    monkeypatch.setitem(sys.modules, "wordfreq", modul)
+    lexical._ilk_2000.cache_clear()
+    yield
+    lexical._ilk_2000.cache_clear()
+
+
+def test_wordfreq_yalniz_anlamli_kelimeler_lemma_ile(sahte_wordfreq):
+    """ve (CCONJ) ve noktalama sayılmaz. Anlamlı: kitap 5, oku 6, epistemoloji 2,
+    xyz 0 (listede yok → 0 puan) → ortalama 13/4. İlk-2000 dışı: epistemoloji, xyz → 2/4."""
+    lemmalar = ["kitap", "ve", "oku", "epistemoloji", "xyz"]
+    pos = [("Kitabı", "NOUN"), ("ve", "CCONJ"), ("okudu", "VERB"), (",", "PUNCT"),
+           ("epistemolojiyi", "NOUN"), ("xyz", "PROPN")]
+    sonuc = reference_frequency_sophistication(lemmalar, pos, "tr")
+    assert sonuc["wordfreq_mean"] == pytest.approx(13 / 4, abs=1e-4)
+    assert sonuc["wordfreq_rare_ratio"] == 0.5
+
+
+def test_wordfreq_anlamli_kelime_yoksa_sifir(sahte_wordfreq):
+    sonuc = reference_frequency_sophistication(["ve"], [("ve", "CCONJ")], "tr")
+    assert sonuc == {"wordfreq_mean": 0.0, "wordfreq_rare_ratio": 0.0}
+
+
+def test_wordfreq_hizasiz_listelerde_sifir(sahte_wordfreq):
+    sonuc = reference_frequency_sophistication(["kitap", "oku"], [("kitap", "NOUN")], "tr")
+    assert sonuc == {"wordfreq_mean": 0.0, "wordfreq_rare_ratio": 0.0}
+
+
+def test_wordfreq_gercek_veriyle_calisir():
+    pytest.importorskip("wordfreq")
+    sonuc = reference_frequency_sophistication(
+        ["kitap", "epistemoloji"], [("kitap", "NOUN"), ("epistemoloji", "NOUN")], "tr")
+    assert 0.0 < sonuc["wordfreq_mean"] < 8.0
+    assert sonuc["wordfreq_rare_ratio"] == 0.5
+
+
+def test_wordfreq_yoksa_sifir_doner_ve_uyarir(monkeypatch):
+    """wordfreq kurulu değilse çökmemeli ama SESSİZ de kalmamalı."""
+    import builtins
+
+    from turkish_linguistic_features._warnings import MissingDependencyWarning
+
+    gercek_import = builtins.__import__
+
+    def sahte(ad, *a, **k):
+        if ad == "wordfreq":
+            raise ImportError("test")
+        return gercek_import(ad, *a, **k)
+
+    monkeypatch.setattr(builtins, "__import__", sahte)
+    with pytest.warns(MissingDependencyWarning, match="wordfreq"):
+        sonuc = reference_frequency_sophistication(["kitap"], [("kitap", "NOUN")], "tr")
+    assert sonuc == {"wordfreq_mean": 0.0, "wordfreq_rare_ratio": 0.0}

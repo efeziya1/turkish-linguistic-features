@@ -1,6 +1,7 @@
 """Sözcüksel temel: frekans tablosu ve klasik kelime zenginliği ölçütleri.
 
-Bu modül 24 öznitelik anahtarı üretir (`lexical` grubunun 31'inden):
+Bu modül 30 öznitelik anahtarı üretir (`lexical` grubunun 31'inden; kalan
+``n_lemma_count`` T20'de sayılır):
 
 - T04 (10): ``ttr`` · ``entropy`` · ``yule_k`` · ``simpson_d`` · ``brunet_w`` ·
   ``hapax_ratio`` · ``avg_word_length`` · ``word_length_cv`` · ``sichel_s`` ·
@@ -9,6 +10,8 @@ Bu modül 24 öznitelik anahtarı üretir (`lexical` grubunun 31'inden):
   ``dugast_u`` · ``guiraud_r`` · ``ttr_moving_slope`` · ``noun_variation`` ·
   ``verb_variation`` · ``adj_variation`` · ``adv_variation``
 - T06 (3): ``vocd_d`` · ``hdd`` · ``msttr``
+- T07 (6): ``zipf_exponent`` · ``zipf_r2`` · ``zipf_mandelbrot_q`` ·
+  ``zipf_mandelbrot_s`` · ``wordfreq_mean`` · ``wordfreq_rare_ratio``
 
 Bütün fonksiyonlar saftır: girdi token listesi, çıktı sayı. NLP modeli
 gerekmez — tokenizasyonu çağıran taraf yapmıştır.
@@ -29,6 +32,7 @@ from __future__ import annotations
 import math
 import random
 from collections import Counter
+from functools import lru_cache
 
 import numpy as np
 
@@ -496,3 +500,104 @@ def msttr(tokens: list[str], segment_size: int = 100) -> dict[str, float]:
     if not parcalar:
         return {"msttr": 0.0}
     return {"msttr": round(sum(len(set(p)) / len(p) for p in parcalar) / len(parcalar), 5)}
+
+
+# ── T07: Zipf, Zipf-Mandelbrot, referans frekans ──────────────────────
+#
+# Eğim yöntemi (2026-09-16, Efe): klasik log-log en küçük kareler — sıra ve
+# sıklık aynı metinden. Piantadosi (2014, s. 3) bunun sıra ve sıklık
+# hatalarını ilişkilendirdiğini, özellikle nadir kelimelerde sahte düzen
+# ürettiğini gösteriyor; ikiye bölme çözümü literatürdeki değerlerle
+# karşılaştırılabilirliği bozacağı için uygulanmadı. Değerler bu bilinen
+# yanlılığı taşır.
+
+
+def zipf(freqs: np.ndarray) -> dict[str, float]:
+    """Zipf yasası: ``log f(r) ~ −α·log r`` doğrusal regresyonu.
+
+    ``zipf_exponent`` α (pozitife çevrilmiş), ``zipf_r2`` log-log uyum
+    kalitesi. 10 sıradan az veride regresyon anlamsız → ikisi de 0.0.
+    """
+    if len(freqs) < 10:
+        return {"zipf_exponent": 0.0, "zipf_r2": 0.0}
+    log_s = np.log(np.arange(1, len(freqs) + 1, dtype=np.float64))
+    log_f = np.log(freqs.astype(np.float64))
+    egim, kesim = np.polyfit(log_s, log_f, 1)
+    tahmin = egim * log_s + kesim
+    ss_res = float(np.sum((log_f - tahmin) ** 2))
+    ss_tot = float(np.sum((log_f - log_f.mean()) ** 2))
+    r2 = 1.0 - ss_res / ss_tot if ss_tot > 0 else 0.0
+    return {"zipf_exponent": round(abs(float(egim)), 4), "zipf_r2": round(r2, 4)}
+
+
+def zipf_mandelbrot(freqs: np.ndarray) -> dict[str, float]:
+    """Zipf-Mandelbrot ``f(r) = C / (r + q)^s``.
+
+    ``q`` 0–10 arasında 0.1 adımlı ızgarada aranır; her aday için
+    ``log f ~ −s·log(r + q)`` doğrusal regresyonu yapılır, artık kareler
+    toplamı en küçük olan seçilir. scipy bağımlılığı eklememek için ızgara.
+    10 sıradan az veride 0.0.
+    """
+    if len(freqs) < 10:
+        return {"zipf_mandelbrot_q": 0.0, "zipf_mandelbrot_s": 0.0}
+    siralar = np.arange(1, len(freqs) + 1, dtype=np.float64)
+    log_f = np.log(freqs.astype(np.float64))
+    en_iyi = (math.inf, 0.0, 0.0)            # (hata, q, s)
+    for q in np.round(np.arange(0.0, 10.0 + 1e-9, 0.1), 1):
+        log_rq = np.log(siralar + q)
+        egim, kesim = np.polyfit(log_rq, log_f, 1)
+        hata = float(np.sum((log_f - (egim * log_rq + kesim)) ** 2))
+        if hata < en_iyi[0]:
+            en_iyi = (hata, float(q), abs(float(egim)))
+    return {"zipf_mandelbrot_q": round(en_iyi[1], 4), "zipf_mandelbrot_s": round(en_iyi[2], 4)}
+
+
+_ILK_N = 2000   # Lu (2012) s. 193; Laufer & Nation'ın Lexical Frequency Profile sınırı
+
+
+@lru_cache(maxsize=4)
+def _ilk_2000(lang: str) -> frozenset[str]:
+    """wordfreq'in ``lang`` için en sık 2000 kelimesi."""
+    from wordfreq import top_n_list
+    return frozenset(top_n_list(lang, _ILK_N))
+
+
+def reference_frequency_sophistication(lemma_tokens: list[str],
+                                       pos_data: list[tuple[str, str]],
+                                       lang: str = "tr") -> dict[str, float]:
+    """Sözcük seçkinliği — metnin kelimeleri genel dilde ne kadar yaygın.
+
+    Kararlar (2026-09-16, Efe):
+
+    - Yalnız **anlamlı kelimeler** (``LEXICAL_POS``) ve **lemma** ile sorgulanır
+      — Lu (2012) gibi. Türkçede çekimli biçimler wordfreq listesinde yok;
+      yüzey biçimle "kitaplarımızdan" nadir görünürdü.
+    - ``wordfreq_mean`` — anlamlı kelime tokenlerinin ortalama wordfreq Zipf
+      puanı (log₁₀ milyar kelimedeki geçiş; 3 = milyonda bir). Listede
+      olmayan kelime **0 puan** alır (wordfreq'in kendi kuralı).
+    - ``wordfreq_rare_ratio`` — o dilin en sık **2000** kelimesinin dışında
+      kalan anlamlı kelime tokeni oranı (Lu 2012 s. 193, Laufer & Nation).
+
+    Hizalama ``pos_lexical_variation`` ile aynı: ``pos_data``'dan PUNCT
+    atılır; uzunluklar tutmazsa 0.0. wordfreq kurulu değilse ikisi de 0.0
+    **ve** ``MissingDependencyWarning``.
+    """
+    sifir = {"wordfreq_mean": 0.0, "wordfreq_rare_ratio": 0.0}
+    try:
+        from wordfreq import zipf_frequency
+    except ImportError:
+        # Sessizce 0.0 dönmek yasak (2026-08-25): 0.0 gerçek ölçüm gibi görünür.
+        from .._warnings import uyar_eksik_bagimlilik
+        uyar_eksik_bagimlilik("wordfreq", "wordfreq_* (2 öznitelik)")
+        return sifir
+    kelime_pos = [p for _, p in pos_data if p != "PUNCT"]
+    if not lemma_tokens or len(kelime_pos) != len(lemma_tokens):
+        return sifir
+    anlamli = [lem for lem, p in zip(lemma_tokens, kelime_pos) if p in LEXICAL_POS]
+    if not anlamli:
+        return sifir
+    ilk = _ilk_2000(lang)
+    puanlar = [zipf_frequency(lem, lang) for lem in anlamli]
+    nadir = sum(1 for lem in anlamli if lem.lower() not in ilk)
+    return {"wordfreq_mean": round(sum(puanlar) / len(puanlar), 4),
+            "wordfreq_rare_ratio": round(nadir / len(anlamli), 5)}
