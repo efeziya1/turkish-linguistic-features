@@ -41,10 +41,6 @@ class FeatureParams:
     # cümle uzunluğu dağılımı
     short_sent_threshold: int = 5
     long_sent_threshold: int = 30
-    # metin içi kayma
-    drift_window_size: int = 200
-    drift_stride: int = 100
-    drift_n_words: int = 100
     # bağımlılık ayrıştırma
     max_parse_depth: int = 20
     arc_len_bins: int = 10
