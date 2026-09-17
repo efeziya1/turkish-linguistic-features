@@ -36,6 +36,8 @@ class FeatureParams:
     # Bazı ikincil kaynaklar 0.165 veriyor; tartışmalı olduğu için
     # gizlenmiyor, buradan değiştirilebiliyor.
     brunet_w_a: float = 0.172
+    # biçimbilim — verb_suffix_diversity parça boyu, fiil sayısı (2026-09-17, Efe)
+    verb_suffix_window: int = 50
     # cümle uzunluğu dağılımı
     short_sent_threshold: int = 5
     long_sent_threshold: int = 30
