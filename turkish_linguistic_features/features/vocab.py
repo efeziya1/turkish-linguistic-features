@@ -9,7 +9,7 @@ POS_TAGS: tuple[str, ...] = (
     "NOUN", "PROPN", "VERB", "ADJ", "ADV", "DET", "ADP",
     "INTJ", "CCONJ", "SCONJ", "NUM", "AUX", "PUNCT",
 )   # 13 tane. PRON kasten yok — pronoun_freq ayrı feature.
-    # posbg_ ızgarası 13 × 13 = 169 sütun üretir.
+    # `pos_bigrams` (13 × 13 sabit ızgara) 2026-09-18'de kaldırıldı — Karar Günlüğü.
 
 # `dep_*` oranları ve DEP_RELATIONS 2026-09-17'de çıktı (Efe) — sonra yeniden bakılacak.
 

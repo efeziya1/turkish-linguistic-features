@@ -3,7 +3,6 @@
 Bu modül T11'in anahtarlarını üretir:
 
 - ``pos`` (13): ``pos_noun`` … ``pos_punct``
-- ``pos_bigrams`` (169): ``posbg_{A}_{B}``, sabit 13×13 ızgara
 - ``sentence`` (8) ve ``paragraph`` (5)
 - ``syntactic`` grubunun 7'si: ``nominal_verbal_ratio``, ``verb_dist_mean``,
   ``verb_dist_cv``, ``activity_ratio``, ``lexical_density``, ``pos_dist_std``,
@@ -93,25 +92,6 @@ def pos_ratios(pos_data: list[tuple[str, str]]) -> dict[str, float]:
     sayimlar = Counter(p for _, p in pos_data)
     n = len(pos_data)
     return {f"pos_{t.lower()}": round(sayimlar.get(t, 0) / n, 5) for t in POS_TAGS}
-
-
-def pos_bigram_ratios(pos_data: list[tuple[str, str]]) -> dict[str, float]:
-    """13×13 sabit POS-çifti ızgarası: ``çift sayısı / (token sayısı − 1)``.
-
-    Metinde hangi çiftler geçerse geçsin **her zaman 169 anahtar** döner.
-    Görülmeyen çiftler 0.0 olur; 2'den az token varsa hiç çift yoktur → NaN.
-    Sabit ızgara, korpustan türetilmiş dinamik sözlüğün aksine çapraz
-    doğrulamada sızıntı yaratmaz.
-    """
-    etiketler = [p for _, p in pos_data]
-    if len(etiketler) < 2:
-        return {f"posbg_{a}_{b}": math.nan for a in POS_TAGS for b in POS_TAGS}
-    sayimlar = Counter(zip(etiketler, etiketler[1:]))
-    toplam = len(etiketler) - 1
-    return {
-        f"posbg_{a}_{b}": round(sayimlar.get((a, b), 0) / toplam, 5)
-        for a in POS_TAGS for b in POS_TAGS
-    }
 
 
 def nominal_verbal_ratio(pos_data: list[tuple[str, str]]) -> dict[str, float]:

@@ -11,7 +11,6 @@ from turkish_linguistic_features.features.syntactic import (
     lexical_density,
     nominal_verbal_ratio,
     paragraph_stats,
-    pos_bigram_ratios,
     pos_distribution_stats,
     pos_ratios,
     pronoun_freq,
@@ -69,17 +68,6 @@ def test_pos_orani_elle():
     sonuc = pos_ratios(pos)
     assert sonuc["pos_noun"] == 0.5
     assert sonuc["pos_verb"] == 0.25
-
-
-def test_pos_bigram_her_zaman_169():
-    for pos in ([], [("a", "NOUN")], [("a", "NOUN"), ("b", "VERB")]):
-        assert len(pos_bigram_ratios(pos)) == 169
-
-
-def test_pos_bigram_gorulmeyen_cift_sifir():
-    sonuc = pos_bigram_ratios([("a", "NOUN"), ("b", "VERB")])
-    assert sonuc["posbg_NOUN_VERB"] == 1.0
-    assert sonuc["posbg_ADJ_ADV"] == 0.0
 
 
 def test_nominal_verbal_ratio_elle():
@@ -336,8 +324,7 @@ def test_yalniz_noktalama_cumlesi_hepsi_nan():
 
 
 def test_bos_girdiler_hepsi_nan():
-    for sonuc in (pos_ratios([]), pos_bigram_ratios([]), pos_bigram_ratios([("a", "NOUN")]),
-                  nominal_verbal_ratio([]), verb_distance_stats([]), activity_ratio([]),
+    for sonuc in (pos_ratios([]), nominal_verbal_ratio([]), verb_distance_stats([]), activity_ratio([]),
                   lexical_density([]), pos_distribution_stats([], []), sentence_stats([]),
                   sentence_distribution_stats([], 5, 30), avg_sent_len_char([]),
                   sent_len_entropy([]), paragraph_stats(""), paragraph_stats("  \n\n ")):
