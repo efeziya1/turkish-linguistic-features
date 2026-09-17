@@ -135,9 +135,21 @@ def test_activity_ratio_fiil_sifat_yoksa_nan():
 
 
 def test_lexical_density_bilinen_deger():
-    """3 içerik + 1 noktalama → 0.75"""
-    pos = [("kitap", "NOUN"), ("güzel", "ADJ"), ("okudu", "VERB"), (".", "PUNCT")]
+    """3 içerik + 1 işlev + 1 noktalama → 3/4. Payda kelime, token değil (Lu 2012)."""
+    pos = [("kitap", "NOUN"), ("güzel", "ADJ"), ("okudu", "VERB"),
+           ("ve", "CCONJ"), (".", "PUNCT")]
     assert lexical_density(pos)["lexical_density"] == 0.75
+
+
+def test_lexical_density_sym_de_dusulur():
+    """NON_WORD_POS iki etiket: PUNCT ve SYM. 1 içerik + 1 işlev → 0.5."""
+    pos = [("kitap", "NOUN"), ("ve", "CCONJ"), ("%", "SYM")]
+    assert lexical_density(pos)["lexical_density"] == 0.5
+
+
+def test_lexical_density_yalniz_noktalamada_nan():
+    """Kelime yoksa oran ölçülemez (K4)."""
+    assert _nan(lexical_density([(".", "PUNCT"), ("%", "SYM")])["lexical_density"])
 
 
 def test_lexical_density_nominal_verbal_ratio_ile_bagimsiz():

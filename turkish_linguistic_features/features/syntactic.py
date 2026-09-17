@@ -30,7 +30,7 @@ from collections import Counter
 import numpy as np
 
 from .punctuation import _kucuk_harf
-from .vocab import LEXICAL_POS, NOUN_POS, POS_TAGS
+from .vocab import LEXICAL_POS, NON_WORD_POS, NOUN_POS, POS_TAGS
 
 _PARA_SPLIT = re.compile(r"\n[ \t]*\n")   # boş satır = paragraf sınırı
 _SENT_END = re.compile(r"[.!?…]+")        # cümle sonu işareti
@@ -169,16 +169,21 @@ def activity_ratio(pos_data: list[tuple[str, str]]) -> dict[str, float]:
 
 
 def lexical_density(pos_data: list[tuple[str, str]]) -> dict[str, float]:
-    """Otosemantik (içerik) token oranı — Ure 1971.
+    """Otosemantik (içerik) kelime oranı — Ure 1971.
 
-    Süzgeç ``LEXICAL_POS``: NOUN, PROPN, VERB, ADJ, ADV. Bu kümenin
-    dışındaki her POS işlev sayılır — PUNCT dahil. ``nominal_verbal_ratio``
-    bunun yerine geçmez: o isim/fiil dengesini, bu içerik/işlev dengesini verir.
+    Pay ``LEXICAL_POS``: NOUN, PROPN, VERB, ADJ, ADV. Payda **kelime**:
+    ``NON_WORD_POS`` (PUNCT, SYM) düşer, geriye kalan her POS işlev sayılır
+    (2026-09-18, Efe — Lu 2012: "sözcüksel kelime / toplam kelime").
+    ``nominal_verbal_ratio`` bunun yerine geçmez: o isim/fiil dengesini,
+    bu içerik/işlev dengesini verir.
+
+    Kelime yoksa NaN — yalnız noktalamadan oluşan girdide oran ölçülemez (K4).
     """
-    if not pos_data:
+    kelimeler = [p for _, p in pos_data if p not in NON_WORD_POS]
+    if not kelimeler:
         return {"lexical_density": math.nan}
-    icerik = sum(1 for _, p in pos_data if p in LEXICAL_POS)
-    return {"lexical_density": round(icerik / len(pos_data), 5)}
+    icerik = sum(1 for p in kelimeler if p in LEXICAL_POS)
+    return {"lexical_density": round(icerik / len(kelimeler), 5)}
 
 
 def pos_distribution_stats(pos_data: list[tuple[str, str]],
