@@ -53,7 +53,7 @@ def test_vocab_sozlesme_sabitleri():
     assert LEXICAL_POS == ("NOUN", "PROPN", "VERB", "ADJ", "ADV")   # Ure 1971, Lu 2012
     assert THEMATIC_POS == ("NOUN", "PROPN", "VERB", "ADJ")         # QUITA, zarf yok
     assert not hasattr(vocab, "AUTOSEMANTIC_POS")
-    assert len(vocab.DEP_RELATIONS) == 38 and vocab.DEP_RELATIONS[-1] == "other"
+    assert not hasattr(vocab, "DEP_RELATIONS")                       # dep_* çıktı
     assert len(vocab.SENT_FINAL_POS) == 13
 
 

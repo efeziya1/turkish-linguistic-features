@@ -43,7 +43,6 @@ class FeatureParams:
     long_sent_threshold: int = 30
     # bağımlılık ayrıştırma
     max_parse_depth: int = 20
-    arc_len_bins: int = 10
 
 
 # Türkçe cümleler İngilizce'den kısa — aynı eşik iki dile uymuyor.

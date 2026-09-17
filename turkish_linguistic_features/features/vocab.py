@@ -11,14 +11,7 @@ POS_TAGS: tuple[str, ...] = (
 )   # 13 tane. PRON kasten yok — pronoun_freq ayrı feature.
     # posbg_ ızgarası 13 × 13 = 169 sütun üretir.
 
-DEP_RELATIONS: tuple[str, ...] = (
-    "acl", "advcl", "advmod", "amod", "appos", "aux", "case", "cc",
-    "ccomp", "clf", "compound", "conj", "cop", "csubj", "dep", "det",
-    "discourse", "dislocated", "expl", "fixed", "flat", "goeswith",
-    "iobj", "list", "mark", "nmod", "nsubj", "nummod", "obj", "obl",
-    "orphan", "parataxis", "punct", "reparandum", "root", "vocative",
-    "xcomp", "other",
-)   # 37 UD ilişkisi + "other" artık kovası = 38
+# `dep_*` oranları ve DEP_RELATIONS 2026-09-17'de çıktı (Efe) — sonra yeniden bakılacak.
 
 SENT_FINAL_POS: tuple[str, ...] = tuple(p for p in POS_TAGS if p != "PUNCT") + ("PRON",)  # 13
 
