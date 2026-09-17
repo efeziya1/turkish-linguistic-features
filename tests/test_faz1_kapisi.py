@@ -21,6 +21,11 @@ POS_EV = [("ev", "NOUN")]
 ZEYREK_EV = [[("Noun", "ev", False), ("A3sg", "", False)]]
 
 # ad: (boş girdi, tek elemanlı girdi)
+#
+# 🔴 Fikstürün TİPİ fonksiyonun beklediğiyle aynı olmalı. `hapax_ratio` ve
+# `hapax_count` uzun süre `["ev"]` ile çağrıldı; ikisi de `(kelime, sıklık)`
+# çifti bekliyor ve `"ev"` iki karakterli olduğu için ikiliye açılıyordu —
+# test çökmeden geçiyor ama fonksiyonu gerçekte sınamıyordu (2026-09-18).
 DURUMLAR: dict[str, tuple[tuple, tuple]] = {
     "dependency.dependency_features": (((),), ((((0, "VERB", "root", 0),),),)),
     "frequency_structure.adjusted_modulus": ((0, 0, 0.0, 0), (1, 1, 1.0, 1)),
@@ -40,9 +45,9 @@ DURUMLAR: dict[str, tuple[tuple, tuple]] = {
     "lexical.brunet_w": ((0, 0), (1, 1)),
     "lexical.dugast_u": (([],), (["ev"],)),
     "lexical.guiraud_r": (([],), (["ev"],)),
-    "lexical.hapax_count": (([],), (["ev"],)),
+    "lexical.hapax_count": (([],), ([("ev", 1)],)),
     "lexical.hapax_percentage": (([],), ([("ev", 1)],)),
-    "lexical.hapax_ratio": (([],), (["ev"],)),
+    "lexical.hapax_ratio": (([],), ([("ev", 1)],)),
     "lexical.hdd": (([],), (["ev"],)),
     "lexical.heaps_beta": (([],), (["ev"],)),
     "lexical.msttr": (([],), (["ev"],)),
