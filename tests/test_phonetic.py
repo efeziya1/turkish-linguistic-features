@@ -177,7 +177,7 @@ def test_hece_say_sayilamayan_tokenler():
     tokenler ve noktalama hecelenmez."""
     for token in ("3G", "10:30", "4x4", "2.", "1.5", "xyz", "%", ".", "", "..."):
         assert hece_say(token, "tr") is None, token
-    assert hece_say("1990", "en") is None           # İngilizce değişmedi
+    assert hece_say("3G", "en") is None
 
 
 def test_hece_say_sayilar_okunusuyla():

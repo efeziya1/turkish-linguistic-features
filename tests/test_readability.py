@@ -1,144 +1,122 @@
+"""T13 — okunabilirlik. Sayım kuralları kaynaklara göre (2026-09-17, Efe).
+
+Testler spaCy modeli gerektirmez: ``surface_tokens`` boş dil nesnesinin
+tokenizer'ından gelir; kısaltma kuralları modelle aynıdır.
+"""
+
 import math
-import re
 
 import pytest
+import spacy
 
-from turkish_linguistic_features.features.phonetic import toplam_hece
+from turkish_linguistic_features.features.phonetic import hece_say
 from turkish_linguistic_features.features.readability import (
-    automated_readability_index,
-    bezirci_yilmaz_score,
-    coleman_liau_index,
+    birim_hecesi,
+    cumle_sayisi,
     english_readability_formulas,
-    lix_readability_index,
-    long_word_ratio,
-    polysyllabic_word_ratio,
+    general_readability_formulas,
+    kelime_birimleri,
     turkish_readability_formulas,
 )
+
+_NLP = {lang: spacy.blank(lang) for lang in ("tr", "en")}
+
+
+def _tok(metin: str, lang: str) -> list[str]:
+    return [t.text for t in _NLP[lang](metin) if not t.is_space]
 
 
 def _nan(x: float) -> bool:
     return isinstance(x, float) and math.isnan(x)
 
 
-# ── ARI ve Coleman-Liau ───────────────────────────────────────────────
+# ── kelime birimi ─────────────────────────────────────────────────────
 
 
-def test_ari_noktalamayi_vurus_sayar():
-    """Kincaid ve ark. (1975) s.33 — noktalama vuruş sayılır (2026-09-16, Efe)."""
-    yuzey = ["Ali", ",", "kitabı", "okudu", "."]
-    kelimeler = ["Ali", "kitabı", "okudu"]
-    sonuc = automated_readability_index(yuzey, kelimeler, 1)
-    beklenen = 4.71 * (16 / 3) + 0.5 * (3 / 1) - 21.43   # 14 harf + 2 noktalama
-    assert sonuc["ari"] == pytest.approx(beklenen, abs=1e-3)
+def test_kelime_bosluk_arasi_birim_kenar_noktalama_atilir():
+    """Flesch 1948, Kincaid 1975, Kalyoncu 2025: iki boşluk arası."""
+    kelimeler, semboller = kelime_birimleri('"Ali," dedi (kısaca) - evet.', "tr")
+    assert kelimeler == ["Ali", "dedi", "kısaca", "evet"]
+    assert semboller == []
 
 
-def test_ari_uzun_cumlede_yuksek():
-    kisa = automated_readability_index(["Git", ".", "Gel", ".", "Bak", "."], ["Git", "Gel", "Bak"], 3)
-    uzun_cumle = ["kelime"] * 40
-    uzun = automated_readability_index(uzun_cumle, uzun_cumle, 1)
-    assert uzun["ari"] > kisa["ari"]
+def test_kisaltmali_ve_tireli_bicim_tek_kelime():
+    """Kincaid: couldn't, second-grade, 32,008 birer kelime."""
+    kelimeler, _ = kelime_birimleri("I couldn't pay 32,008 for second-grade F.O.B. goods.", "en")
+    assert kelimeler == ["I", "couldn't", "pay", "32,008", "for", "second-grade", "F.O.B", "goods"]
 
 
-def test_coleman_liau_yalniz_harf_sayar():
-    """Coleman & Liau (1975): L = 100 kelimedeki harf sayısı."""
-    sonuc = coleman_liau_index(["Ali", "kitabı", "okudu"], 1)
-    L, S = 100 * 14 / 3, 100 * 1 / 3
-    assert sonuc["coleman_liau"] == pytest.approx(0.0588 * L - 0.296 * S - 15.8, abs=1e-3)
+def test_tek_basina_sembol_ayri_tutulur():
+    kelimeler, semboller = kelime_birimleri("Fiyat % 50 ve $ ile # işareti", "tr")
+    assert kelimeler == ["Fiyat", "50", "ve", "ile", "işareti"]
+    assert semboller == ["%", "$"]           # # listede yok, sayılmaz
 
 
-def test_coleman_liau_iki_denklemin_birlesimi():
-    """Makalenin iki denklemi (cloze % → sınıf) birleşince CLI formülünü verir."""
-    cloze = (141.8401 - 0.214590 * 300 + 1.079812 * 10) / 100
-    sinif = -27.4004 * cloze + 23.06395
-    assert sinif == pytest.approx(0.0588 * 300 - 0.296 * 10 - 15.8, abs=0.01)
+# ── birim hecesi ──────────────────────────────────────────────────────
 
 
-# ── LIX ve uzun kelime ────────────────────────────────────────────────
+def test_tireli_kelime_parcalarin_toplami():
+    assert birim_hecesi("Türk-İslam", "tr") == 3
+    assert birim_hecesi("well-known", "en") == 2
 
 
-def test_lix_elle():
-    """5 kelime, 2 cümle, 1 uzun kelime → 2.5 + 100·(1/5) = 22.5"""
-    sonuc = lix_readability_index(["uzunkelime", "kısa", "a", "b", "c"], 2)
-    assert sonuc["lix"] == pytest.approx(22.5)
+def test_sembollu_birim_okunusuyla():
+    assert birim_hecesi("%50", "tr") == 4        # yüz-de el-li
+    assert birim_hecesi("50%", "en") == 4        # fif-ty per-cent
+    assert birim_hecesi("$", "en") == 2          # dol-lars
+    assert birim_hecesi("¢", "en") == 1          # Kincaid: "¢ (cent) 1 syllable"
 
 
-def test_uzun_kelime_orani_elle():
-    """7 veya daha fazla harf: 'kelimeler' → 1 / 3"""
-    sonuc = long_word_ratio(["kelimeler", "ev", "yol"])
-    assert sonuc["long_word_ratio"] == pytest.approx(1 / 3, abs=1e-4)
+def test_noktali_bas_harfler_harf_harf():
+    assert birim_hecesi("F.O.B", "en") == 3
+    assert birim_hecesi("A.Ş", "tr") == 2
+    assert birim_hecesi("W.H.O", "en") == 5      # double-u
 
 
-def test_uzun_kelime_esigi_yedi_harf():
-    """6 harf uzun değil, 7 harf uzun (Björnsson: "6 harften uzun")."""
-    assert long_word_ratio(["kalemi", "kitapçı"])["long_word_ratio"] == 0.5
+def test_kisaltmali_bicim_ingilizce():
+    assert birim_hecesi("couldn't", "en") == hece_say("couldnt", "en")
 
 
-def test_uzun_kelime_yalniz_harf_sayar():
-    """Kesme işareti harf değil: Türk'ün 6 harf."""
-    assert long_word_ratio(["Türk'ün"])["long_word_ratio"] == 0.0
+def test_hecelenemeyen_birim():
+    assert birim_hecesi("3G", "tr") is None
 
 
-# ── İngilizce formüller ───────────────────────────────────────────────
+# ── cümle sayısı ──────────────────────────────────────────────────────
 
 
-def test_ingilizce_formuller_kaynak_katsayilari():
-    """Kademe A katsayıları; hece T10'dan gelir, burada da oradan okunur."""
-    kelimeler = ["The", "cat", "ate", "a", "banana"] * 2
-    h = toplam_hece(kelimeler, "en") / 10
-    sonuc = english_readability_formulas(kelimeler, 2, "en")
-    assert set(sonuc) == {"flesch_reading_ease", "flesch_kincaid_grade", "smog"}
-    assert sonuc["flesch_reading_ease"] == pytest.approx(206.835 - 1.015 * 5 - 84.6 * h, abs=1e-3)
-    assert sonuc["flesch_kincaid_grade"] == pytest.approx(0.39 * 5 + 11.8 * h - 15.59, abs=1e-3)
+def test_cumle_nokta_soru_unlem():
+    """McLaughlin 1969: . ? ! ile biten dizi."""
+    tok = _tok("Geldi mi? Evet! Gitti. Son", "tr")
+    assert cumle_sayisi(tok, ".?!", "tr") == 4        # işaretsiz son +1
 
 
-def test_smog_30_cumleden_kisada_nan():
-    """Kontrolü textstat yapmıyor, biz yapıyoruz (2026-09-16, Efe)."""
-    kelimeler = ["comprehension"] * 30
-    assert _nan(english_readability_formulas(kelimeler, 29, "en")["smog"])
-    # 30 cümlede 30 çok heceli kelime → p = 30
-    assert english_readability_formulas(kelimeler, 30, "en")["smog"] == pytest.approx(
-        3.1291 + 1.0430 * math.sqrt(30), abs=1e-3)
+def test_ardisik_isaretler_tek_sinir():
+    """?!, ... ve ." birer sınır."""
+    tok = _tok('Ne?! Gitti... Bitti."', "tr")
+    assert cumle_sayisi(tok, ".?!", "tr") == 3
 
 
-def test_smog_30_cumleye_olceklenir():
-    """60 cümlede 30 çok heceli kelime → 30 cümleye düşen p = 15."""
-    kelimeler = ["comprehension"] * 30 + ["cat"] * 30
-    assert english_readability_formulas(kelimeler, 60, "en")["smog"] == pytest.approx(
-        3.1291 + 1.0430 * math.sqrt(15), abs=1e-3)
+def test_noktali_virgul_ve_iki_nokta_formule_gore():
+    """Kincaid'in Flesch talimatı: ; ve : genellikle bağımsız cümle bitirir."""
+    tok = _tok("They won; we lost: badly.", "en")
+    assert cumle_sayisi(tok, ".?!", "en") == 1
+    assert cumle_sayisi(tok, ".?!;:", "en") == 3
 
 
-def test_ingilizce_formuller_bos_girdide_nan():
-    assert all(_nan(v) for v in english_readability_formulas([], 0, "en").values())
+def test_kisaltma_noktasi_cumle_bitirmez():
+    assert cumle_sayisi(_tok("Dr. Smith paid on Jan. 3. Then left.", "en"), ".?!", "en") == 2
+    # spaCy TR "bkz." kısaltmasını böler; ardından küçük harf geliyorsa sınır değil
+    assert cumle_sayisi(_tok("Tabloya bkz. ekte var. Sonra bitti.", "tr"), ".?!", "tr") == 2
 
 
-def test_cok_heceli_kelime_orani():
-    """SMOG'un tanımı: 3 veya daha fazla hece (beautiful 3, cat 1)."""
-    sonuc = polysyllabic_word_ratio(["beautiful", "cat", "dog", "banana"], "en")
-    assert sonuc["polysyllabic_word_ratio"] == 0.5
+def test_bos_metin_sifir_cumle():
+    assert cumle_sayisi([], ".?!", "tr") == 0
 
 
-def test_cok_heceli_kelime_orani_hecelenemeyen_yoksa_nan():
-    assert _nan(polysyllabic_word_ratio(["1990"], "en")["polysyllabic_word_ratio"])
+# ── K12: Kalyoncu & Memiş (2024) Metin 2 ─────────────────────────────
 
-
-# ── K12 bilinen değer testleri ────────────────────────────────────────
-
-
-def _hazirla(ham: str) -> tuple[list[str], int]:
-    """Ham metni (kelimeler, cümle sayısı) çiftine çevirir — spaCy YOK.
-
-    Bilinen değer testleri spaCy modeline bağlı olmamalı: model sürümü
-    değişince tokenizasyon değişir ve makaleden alınan değerler sessizce
-    kayar. Cümle sınırı `.`/`!`/`?` sonrası boşluk. Kelime = harf dizisi
-    (kesme işaretli birleşikler tek token: ``Türk'ün``).
-    """
-    cumleler = [c.strip() for c in re.split(r"(?<=[.!?])\s+", ham.strip()) if c.strip()]
-    kelimeler = [w for c in cumleler for w in re.findall(r"[^\W\d_]+(?:['’][^\W\d_]+)?", c)]
-    return kelimeler, len(cumleler)
-
-
-# Kalyoncu & Memiş (2024), Ana Dili Eğitimi Dergisi 12(2), 414-436, Ek-1 Metin 2.
-# 100 kelime · 4 cümle · 275 hece · OKS=25.0 · H3=7.75 · H4=4.25 · H5=1.25 · H6=0.75
+# Ana Dili Eğitimi Dergisi 12(2), 414-436, Ek-1.
+# 100 kelime · 4 cümle · 275 hece · H3=7.75 · H4=4.25 · H5=1.25 · H6=0.75
 METIN2 = (
     "Atatürk, okul programlarıyla bizzat meşgul olur, okutulan kitapları "
     "gözden geçirir ve özellikle tarih derslerinin, ulusun bilincini "
@@ -156,37 +134,32 @@ METIN2 = (
 
 
 def test_metin2_sayilari_makaleyle_ayni():
-    kelimeler, cumle = _hazirla(METIN2)
-    assert (len(kelimeler), cumle, toplam_hece(kelimeler, "tr")) == (100, 4, 275)
+    kelimeler, _ = kelime_birimleri(METIN2, "tr")
+    assert len(kelimeler) == 100
+    assert sum(birim_hecesi(k, "tr") for k in kelimeler) == 275
+    assert cumle_sayisi(_tok(METIN2, "tr"), ".?!", "tr") == 4
 
 
-def test_atesman_bilinen_deger():
-    """Makale Tablo 9: Metin 2 → 23,094"""
-    sonuc = turkish_readability_formulas(*_hazirla(METIN2), "tr")
+def test_turkce_formuller_metin2():
+    """Makale Tablo 9: Ateşman 23,094 · Çetinkaya 23,084. Bezirci-Yılmaz'da makale
+    30,4231 (H6'yı 26,35 diye yanlış aktarmış); birincil katsayı 26.25 ile 30.3922."""
+    sonuc = turkish_readability_formulas(METIN2, _tok(METIN2, "tr"))
+    assert set(sonuc) == {"atesman", "cetinkaya_uzun", "bezirci_yilmaz"}
     assert sonuc["atesman"] == pytest.approx(23.094, abs=0.01)
-
-
-def test_cetinkaya_uzun_bilinen_deger():
-    """Makale Tablo 9: Metin 2 → 23,084"""
-    sonuc = turkish_readability_formulas(*_hazirla(METIN2), "tr")
     assert sonuc["cetinkaya_uzun"] == pytest.approx(23.084, abs=0.01)
+    assert sonuc["bezirci_yilmaz"] == pytest.approx(30.3922, abs=0.01)
 
 
 def test_bezirci_yilmaz_katsayilari():
-    """Dört katsayı tek tek (Bezirci & Yılmaz 2010 s.370: EKOK 21000'den türetilmiş).
-
-    Tek cümle, tek kelime: OKS = 1, puan = √katsayı.
-    """
+    """Bezirci & Yılmaz 2010 s.370: EKOK 21000'den türetilmiş katsayılar.
+    Tek kelimelik tek cümle: OKS = 1, puan = √katsayı."""
     for kelime, katsayi in [
         ("kitaplar", 0.84), ("kitaplarım", 1.50),
-        ("kitaplarımız", 3.50), ("kitaplarımızda", 26.25),
+        ("kitaplarımız", 3.50), ("kitaplarımızda", 26.25), ("kitap", 0.0),
     ]:
-        sonuc = bezirci_yilmaz_score([kelime], 1)
+        metin = kelime + "."
+        sonuc = turkish_readability_formulas(metin, _tok(metin, "tr"))
         assert sonuc["bezirci_yilmaz"] == pytest.approx(math.sqrt(katsayi), abs=1e-4), kelime
-
-
-def test_bezirci_yilmaz_iki_heceli_kelime_puana_girmez():
-    assert bezirci_yilmaz_score(["kitap"], 1)["bezirci_yilmaz"] == 0.0
 
 
 def test_bezirci_yilmaz_formul_sekli():
@@ -199,29 +172,109 @@ def test_bezirci_yilmaz_formul_sekli():
         assert math.sqrt(oks * braket) == pytest.approx(beklenen, abs=0.005)
 
 
-def test_bezirci_yilmaz_kalyoncu_memis_metin2():
-    """Bilinçli uyuşmazlık: makale 30,4231 (H6'yı 26,35 diye yanlış aktarmış),
-    birincil katsayı 26.25 ile 30.3922."""
-    sonuc = bezirci_yilmaz_score(*_hazirla(METIN2))
-    assert sonuc["bezirci_yilmaz"] == pytest.approx(30.3922, abs=0.01)
+def test_cetinkaya_sembolu_ve_iki_noktayi_sayar_atesman_saymaz():
+    """Çetinkaya protokolü sembolü kelime, iki noktayı cümle sonu sayar."""
+    metin = "Sonuç: fiyat % elli arttı."
+    sonuc = turkish_readability_formulas(metin, _tok(metin, "tr"))
+    # Ateşman: 4 kelime (so-nuç fi-yat el-li art-tı), 1 cümle, 8 hece
+    assert sonuc["atesman"] == pytest.approx(198.825 - 40.175 * 8 / 4 - 2.610 * 4, abs=1e-3)
+    # Çetinkaya: 5 kelime (+ %), 2 cümle, 10 hece (+ yüz-de)
+    assert sonuc["cetinkaya_uzun"] == pytest.approx(118.823 - 25.987 * 10 / 5 - 0.971 * 5 / 2, abs=1e-3)
+
+
+# ── İngilizce formüller ───────────────────────────────────────────────
+
+
+def test_flesch_ve_fkgl_kincaid_sayimi():
+    """Kelime: sembol dahil; cümle: . ? ! ; : (Kincaid ve ark. 1975)."""
+    metin = "The cat ate a banana; the dog ate $ 5."
+    sonuc = english_readability_formulas(metin, _tok(metin, "en"))
+    kelime, cumle = 10, 2
+    hece = sum(hece_say(k, "en") for k in "The cat ate a banana the dog ate".split()) + 2 + 1
+    assert sonuc["flesch_reading_ease"] == pytest.approx(
+        206.835 - 1.015 * kelime / cumle - 84.6 * hece / kelime, abs=1e-3)
+    assert sonuc["flesch_kincaid_grade"] == pytest.approx(
+        0.39 * kelime / cumle + 11.8 * hece / kelime - 15.59, abs=1e-3)
+
+
+def test_smog_30_cumleden_kisada_nan():
+    metin = "Comprehension matters. " * 29
+    assert _nan(english_readability_formulas(metin, _tok(metin, "en"))["smog"])
+
+
+def test_smog_mclaughlin_denklem_d():
+    """30 cümlede 30 çok heceli kelime → 3.1291 + 1.0430·√30."""
+    metin = "Comprehension matters. " * 30
+    assert english_readability_formulas(metin, _tok(metin, "en"))["smog"] == pytest.approx(
+        3.1291 + 1.0430 * math.sqrt(30), abs=1e-3)
+
+
+def test_smog_30_cumleye_olceklenir():
+    metin = "Comprehension matters. " * 30 + "The cat sat. " * 30
+    assert english_readability_formulas(metin, _tok(metin, "en"))["smog"] == pytest.approx(
+        3.1291 + 1.0430 * math.sqrt(15), abs=1e-3)
+
+
+def test_cok_heceli_kelime_orani():
+    metin = "A beautiful cat and a banana."
+    sonuc = english_readability_formulas(metin, _tok(metin, "en"))
+    assert sonuc["polysyllabic_word_ratio"] == pytest.approx(2 / 6, abs=1e-4)
+
+
+# ── iki dilde ────────────────────────────────────────────────────────
+
+
+def test_ari_vurus_bosluk_disi_her_karakter():
+    """Kincaid s.33: harf + sembol + noktalama; kelime = boşluk tuşu."""
+    metin = "Ali, kitabı okudu."
+    sonuc = general_readability_formulas(metin, _tok(metin, "tr"), "tr")
+    assert sonuc["ari"] == pytest.approx(4.71 * 16 / 3 + 0.5 * 3 / 1 - 21.43, abs=1e-3)
+
+
+def test_ari_sembolu_kelime_sayar():
+    metin = "Fiyat % arttı."
+    sonuc = general_readability_formulas(metin, _tok(metin, "tr"), "tr")
+    assert sonuc["ari"] == pytest.approx(4.71 * 12 / 3 + 0.5 * 3 / 1 - 21.43, abs=1e-3)
+
+
+def test_coleman_liau_yalniz_harf():
+    metin = "Ali, kitabı okudu."
+    sonuc = general_readability_formulas(metin, _tok(metin, "tr"), "tr")
+    L, S = 100 * 14 / 3, 100 * 1 / 3
+    assert sonuc["coleman_liau"] == pytest.approx(0.0588 * L - 0.296 * S - 15.8, abs=1e-3)
+
+
+def test_coleman_liau_iki_denklemin_birlesimi():
+    """Makalenin iki denklemi (cloze % → sınıf) birleşince CLI formülünü verir."""
+    cloze = (141.8401 - 0.214590 * 300 + 1.079812 * 10) / 100
+    sinif = -27.4004 * cloze + 23.06395
+    assert sinif == pytest.approx(0.0588 * 300 - 0.296 * 10 - 15.8, abs=0.01)
+
+
+def test_lix_ve_uzun_kelime():
+    """Anderson 1983: uzun kelime = yedi veya daha fazla harf."""
+    metin = "Uzunkelime kısa. A b c."
+    sonuc = general_readability_formulas(metin, _tok(metin, "tr"), "tr")
+    assert sonuc["lix"] == pytest.approx(5 / 2 + 100 * 1 / 5)
+    assert sonuc["long_word_ratio"] == pytest.approx(1 / 5)
+
+
+def test_uzun_kelime_esigi_ve_harf_sayimi():
+    metin = "kalemi kitapçı Türk'ün"                  # 6 · 7 · 6 harf
+    sonuc = general_readability_formulas(metin, _tok(metin, "tr"), "tr")
+    assert sonuc["long_word_ratio"] == pytest.approx(1 / 3, abs=1e-4)
 
 
 # ── boş girdi (K4) ────────────────────────────────────────────────────
 
 
-def test_bos_girdiler_nan():
-    assert _nan(automated_readability_index([], [], 0)["ari"])
-    assert _nan(coleman_liau_index([], 0)["coleman_liau"])
-    assert _nan(lix_readability_index([], 0)["lix"])
-    assert _nan(long_word_ratio([])["long_word_ratio"])
-    assert _nan(bezirci_yilmaz_score([], 0)["bezirci_yilmaz"])
-    sonuc = turkish_readability_formulas([], 0, "tr")
-    assert set(sonuc) == {"atesman", "cetinkaya_uzun"}
+def test_bos_metinde_hepsi_nan():
+    for sonuc in (turkish_readability_formulas("", []),
+                  english_readability_formulas("", []),
+                  general_readability_formulas("", [], "tr")):
+        assert all(_nan(v) for v in sonuc.values())
+
+
+def test_yalniz_noktalama_nan():
+    sonuc = general_readability_formulas("...", ["..."], "tr")
     assert all(_nan(v) for v in sonuc.values())
-
-
-def test_cumle_sayisi_sifirsa_nan():
-    assert _nan(automated_readability_index(["ev"], ["ev"], 0)["ari"])
-    assert _nan(lix_readability_index(["ev"], 0)["lix"])
-    assert _nan(bezirci_yilmaz_score(["ev"], 0)["bezirci_yilmaz"])
-    assert all(_nan(v) for v in turkish_readability_formulas(["ev"], 0, "tr").values())

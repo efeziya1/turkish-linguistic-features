@@ -28,7 +28,7 @@ from collections import Counter
 import numpy as np
 import textstat
 
-from .okunus import okunus
+from .okunus import okunus, sayi_oku_en
 from .punctuation import _ALFABE, _kucuk_harf
 
 _UNLULER: dict[str, str] = {"tr": "aeıioöuü", "en": "aeiou"}
@@ -151,12 +151,15 @@ def hece_say(word: str, lang: str = "tr") -> int | None:
       olduğu için hece = harf sayısı (``TBMM`` → 4); değilse ``None``.
       Okunuşu çıkarılamayan biçimler (``3G``, ``10:30``, ``2.``) ve noktalama
       → ``None``.
-    - EN — yalnız harflerden oluşan tokenler; ``textstat.syllable_count``,
-      0 verirse 1 (``shh``). Sayılar hecelenmez (Flesch 1948 de uzun sayıları
-      sayıma katmamayı öneriyor).
+    - EN — harflerden oluşan tokenler ``textstat.syllable_count`` ile, 0 verirse
+      1 (``shh``). Sayılar okunuşuyla (``1918`` → nineteen eighteen → 4;
+      Kincaid ve ark. 1975, 2026-09-17, Efe).
     """
     _dil_denetle(lang)
     if lang == "en":
+        sayi = sayi_oku_en(word)
+        if sayi is not None:
+            return sum(max(1, int(textstat.syllable_count(k))) for k in sayi.split())
         yalin = word.translate(_KESMELER)
         if not yalin or not yalin.isalpha():
             return None

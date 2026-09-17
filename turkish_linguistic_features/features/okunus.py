@@ -1,4 +1,7 @@
-"""Türkçe okunuş: sayıların ve yaygın kısaltmaların yazıya açılması.
+"""Okunuş: sayıların, yaygın kısaltmaların ve sembollerin yazıya açılması.
+
+Türkçe sayı ve kısaltma (2026-09-16), İngilizce sayı ve iki dilde sembol
+(2026-09-17) — Efe'nin kararları.
 
 T10'un hece sayacı (``phonetic.hece_say``) bu modülü kullanır. Çetinkaya-Uzun
 (2010) sayım protokolü sembol, kısaltma ve sayıları okunuşlarına göre sayar:
@@ -121,3 +124,105 @@ def okunus(token: str) -> str | None:
     """Kısaltma ya da sayıysa Türkçe okunuşu, değilse ``None``."""
     acilim = kisaltma_oku(token)
     return acilim if acilim is not None else sayi_oku(token)
+
+
+# ── İngilizce sayılar (2026-09-17, Efe) ──────────────────────────────
+#
+# Kincaid ve ark. (1975) Flesch talimatı: sayılar okunuşuyla hecelenir,
+# "1918 (nineteen eighteen) 4 syllables". ABD okunuşu ("and" yok).
+# Ayırıcısız dört haneli 1100–1999 ve 2010–2099 yıl gibi ikişer okunur;
+# "1500 soldiers" gibi miktarlar da böyle okunur — bilinen sınırlama.
+
+_EN_BIRLER = ("", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+              "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen",
+              "seventeen", "eighteen", "nineteen")
+_EN_ONLAR = ("", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety")
+_EN_RAKAMLAR = ("zero",) + _EN_BIRLER[1:10]
+_EN_BUYUKLER = ((10**12, "trillion"), (10**9, "billion"), (10**6, "million"), (10**3, "thousand"))
+_EN_SAYI = re.compile(r"(\d{1,3}(?:,\d{3})+|\d+)(?:\.(\d+))?")
+
+
+def _en_iki_basamak(n: int) -> list[str]:
+    """1–99."""
+    if n < 20:
+        return [_EN_BIRLER[n]]
+    on, bir = divmod(n, 10)
+    return [_EN_ONLAR[on]] + ([_EN_BIRLER[bir]] if bir else [])
+
+
+def _en_uc_basamak(n: int) -> list[str]:
+    """1–999; 105 → "one hundred five"."""
+    yuz, kalan = divmod(n, 100)
+    kelimeler = [_EN_BIRLER[yuz], "hundred"] if yuz else []
+    return kelimeler + (_en_iki_basamak(kalan) if kalan else [])
+
+
+def _en_tam_sayi(n: int) -> list[str]:
+    if n == 0:
+        return ["zero"]
+    kelimeler: list[str] = []
+    for deger, ad in _EN_BUYUKLER:
+        kat, n = divmod(n, deger)
+        if kat:
+            kelimeler += _en_uc_basamak(kat) + [ad]
+    return kelimeler + (_en_uc_basamak(n) if n else [])
+
+
+def _en_yil(n: int) -> list[str]:
+    """1918 → nineteen eighteen · 1905 → nineteen oh five · 1900 → nineteen hundred."""
+    bas, son = divmod(n, 100)
+    if son == 0:
+        return _en_iki_basamak(bas) + ["hundred"]
+    if son < 10:
+        return _en_iki_basamak(bas) + ["oh", _EN_BIRLER[son]]
+    return _en_iki_basamak(bas) + _en_iki_basamak(son)
+
+
+def sayi_oku_en(token: str) -> str | None:
+    """Sayıyı İngilizce okunuşuna çevirir; sayı biçiminde değilse ``None``.
+
+    Virgül binlik ayırıcı (``32,008``), nokta ondalık (``3.14`` → "three point
+    one four"); başı sıfırsa rakam rakam. 10**15 ve üstü → ``None``.
+    """
+    m = _EN_SAYI.fullmatch(token)
+    if m is None:
+        return None
+    tam, ondalik = m.group(1), m.group(2)
+    if len(tam) > 1 and tam[0] == "0":
+        kelimeler = [_EN_RAKAMLAR[int(c)] for c in tam]
+    else:
+        n = int(tam.replace(",", ""))
+        if n >= _UST_SINIR:
+            return None
+        yil = "," not in tam and ondalik is None and (1100 <= n <= 1999 or 2010 <= n <= 2099)
+        kelimeler = _en_yil(n) if yil else _en_tam_sayi(n)
+    if ondalik is not None:
+        kelimeler += ["point"] + [_EN_RAKAMLAR[int(c)] for c in ondalik]
+    return " ".join(kelimeler)
+
+
+# ── Semboller (2026-09-17, Efe) ──────────────────────────────────────
+#
+# Kincaid ve ark. (1975) ve Çetinkaya protokolü sembolleri okunuşlarıyla
+# sayar. Düz yazıda geçen semboller; okunuşu bağlama göre değişenler
+# (#, /, *, ~, ^, |) ve noktalama olarak kullanılan tire (-) bilerek yok.
+
+SEMBOLLER: dict[str, dict[str, str]] = {
+    "tr": {
+        "%": "yüzde", "$": "dolar", "€": "avro", "£": "sterlin", "₺": "lira",
+        "¢": "sent", "&": "ve", "+": "artı", "−": "eksi", "=": "eşittir",
+        "°": "derece", "§": "paragraf", "@": "et", "×": "çarpı", "÷": "bölü",
+        "<": "küçüktür", ">": "büyüktür", "±": "artı eksi",
+    },
+    "en": {
+        "%": "percent", "$": "dollars", "€": "euros", "£": "pounds", "₺": "lira",
+        "¢": "cents", "&": "and", "+": "plus", "−": "minus", "=": "equals",
+        "°": "degrees", "§": "section", "@": "at", "×": "times", "÷": "divided by",
+        "<": "less than", ">": "greater than", "±": "plus or minus",
+    },
+}
+
+
+def sembol_oku(sembol: str, lang: str) -> str | None:
+    """Listedeki sembolün okunuşu; listede yoksa ``None``."""
+    return SEMBOLLER[lang].get(sembol)
