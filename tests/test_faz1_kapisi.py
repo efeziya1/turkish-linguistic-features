@@ -41,6 +41,7 @@ DURUMLAR: dict[str, tuple[tuple, tuple]] = {
     "lexical.dugast_u": (([],), (["ev"],)),
     "lexical.guiraud_r": (([],), (["ev"],)),
     "lexical.hapax_count": (([],), (["ev"],)),
+    "lexical.hapax_percentage": (([],), ([("ev", 1)],)),
     "lexical.hapax_ratio": (([],), (["ev"],)),
     "lexical.hdd": (([],), (["ev"],)),
     "lexical.heaps_beta": (([],), (["ev"],)),

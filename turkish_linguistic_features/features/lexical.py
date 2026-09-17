@@ -1,11 +1,11 @@
 """Sözcüksel temel: frekans tablosu ve klasik kelime zenginliği ölçütleri.
 
-Bu modül 30 öznitelik anahtarı üretir (`lexical` grubunun 31'inden; kalan
+Bu modül 31 öznitelik anahtarı üretir (`lexical` grubunun 32'sinden; kalan
 ``n_lemma_count`` T20'de sayılır):
 
-- T04 (10): ``ttr`` · ``entropy`` · ``yule_k`` · ``simpson_d`` · ``brunet_w`` ·
-  ``hapax_ratio`` · ``avg_word_length`` · ``word_length_cv`` · ``sichel_s`` ·
-  ``heaps_beta``
+- T04 (11): ``ttr`` · ``entropy`` · ``yule_k`` · ``simpson_d`` · ``brunet_w`` ·
+  ``hapax_ratio`` · ``hapax_percentage`` · ``avg_word_length`` ·
+  ``word_length_cv`` · ``sichel_s`` · ``heaps_beta``
 - T05 (11): ``mattr`` · ``entropy_std`` · ``herdan_c`` · ``mtld`` ·
   ``dugast_u`` · ``guiraud_r`` · ``ttr_moving_slope`` · ``noun_variation`` ·
   ``verb_variation`` · ``adj_variation`` · ``adv_variation``
@@ -150,10 +150,28 @@ def hapax_count(items: list) -> int:
 
 
 def hapax_ratio(items: list) -> dict[str, float]:
-    """Bir kez geçen tip / toplam tip. Boşsa NaN."""
+    """Bir kez geçen tip / toplam **tip** (V1 / V). Boşsa NaN.
+
+    Paydası tip olduğu için "kelime dağarcığının ne kadarı tek kullanımlık"
+    sorusunu yanıtlar. QUITA'nın ölçütü bu değil — o ``hapax_percentage``.
+    """
     if not items:
         return {"hapax_ratio": math.nan}
     return {"hapax_ratio": round(hapax_count(items) / len(items), 6)}
+
+
+def hapax_percentage(items: list) -> dict[str, float]:
+    """Bir kez geçen tip / toplam **token** (V1 / N) — QUITA §6.1.6. Boşsa NaN.
+
+    ``hapax_ratio`` ile payı aynı, paydası farklı: orada V (tip), burada N
+    (token). 5 token / 3 tipin 2'si tek geçiyorsa yüzde 0.4, oran 0.667.
+    İki ölçüt de tutuluyor (2026-09-18, Efe): QUITA karşılaştırması için
+    yüzde, dağarcık okuması için oran.
+    """
+    if not items:
+        return {"hapax_percentage": math.nan}
+    n = sum(f for _, f in items)
+    return {"hapax_percentage": round(hapax_count(items) / n, 6)}
 
 
 def word_length_stats(tokens: list[str]) -> tuple[float, float]:

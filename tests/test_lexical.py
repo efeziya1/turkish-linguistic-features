@@ -9,6 +9,7 @@ from turkish_linguistic_features.features.lexical import (
     dugast_u,
     guiraud_r,
     hapax_count,
+    hapax_percentage,
     hapax_ratio,
     hdd,
     heaps_beta,
@@ -156,6 +157,21 @@ def test_hapax_sayimi_ham_int_doner():
     assert hapax_count(items) == 2
 
 
+def test_hapax_yuzdesi_paydasi_token():
+    """5 token, 3 tip, 2'si bir kez geçiyor → yüzde 2/5, oran 2/3."""
+    _, M, V, items = rank_word_freq_table(["ev", "ev", "ev", "yol", "kapı"])
+    assert (M, V) == (5, 3)
+    assert hapax_percentage(items)["hapax_percentage"] == 0.4
+    assert hapax_ratio(items)["hapax_ratio"] == 0.666667
+
+
+def test_hapax_yuzdesi_hepsi_bir_kez_geciyorsa_bir():
+    """Her kelime bir kez → V1 = N → 1.0. Oran da 1.0, ama tesadüfen."""
+    items = [("a", 1), ("b", 1), ("c", 1)]
+    assert hapax_percentage(items)["hapax_percentage"] == 1.0
+    assert hapax_ratio(items)["hapax_ratio"] == 1.0
+
+
 # ── TTR ───────────────────────────────────────────────────────────────
 
 
@@ -229,6 +245,7 @@ def test_bos_girdiler_cokmez():
     assert _nan(simpsons_d(freqs))
     assert _nan(brunet_w(0, 0)["brunet_w"])
     assert _nan(hapax_ratio([])["hapax_ratio"])
+    assert _nan(hapax_percentage([])["hapax_percentage"])
     assert hapax_count([]) == 0
     assert all(_nan(v) for v in word_length_stats([]))
     assert _nan(type_token_ratio(0, 0)["ttr"])
@@ -244,6 +261,7 @@ def test_tek_elemanli_girdiler_cokmez():
     assert _nan(simpsons_d(freqs))        # M(M−1) = 0 → tanımsız
     assert brunet_w(1, 1)["brunet_w"] == 1.0
     assert hapax_ratio(items)["hapax_ratio"] == 1.0
+    assert hapax_percentage(items)["hapax_percentage"] == 1.0
     assert hapax_count(items) == 1
     ort, cv = word_length_stats(["ev"])
     assert ort == 2.0 and _nan(cv)        # tek değerden değişkenlik ölçülmez
