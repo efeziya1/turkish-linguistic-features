@@ -100,7 +100,7 @@ def test_noktali_virgul_ve_iki_nokta_formule_gore():
     """Kincaid'in Flesch talimatı: ; ve : genellikle bağımsız cümle bitirir."""
     tok = _tok("They won; we lost: badly.", "en")
     assert cumle_sayisi(tok, ".?!", "en") == 1
-    assert cumle_sayisi(tok, ".?!;:", "en") == 3
+    assert cumle_sayisi(tok, ".?!;:", "en") == 3      # fonksiyon işaret kümesini olduğu gibi uygular
 
 
 def test_kisaltma_noktasi_cumle_bitirmez():
@@ -186,7 +186,8 @@ def test_cetinkaya_sembolu_ve_iki_noktayi_sayar_atesman_saymaz():
 
 
 def test_flesch_ve_fkgl_kincaid_sayimi():
-    """Kelime: sembol dahil; cümle: . ? ! ; : (Kincaid ve ark. 1975)."""
+    """Kelime: sembol dahil; cümle: . ? ! ; (Kincaid ve ark. 1975; iki nokta
+    yargı gerektirdiği için cümle sonu sayılmaz — 2026-09-17, Efe)."""
     metin = "The cat ate a banana; the dog ate $ 5."
     sonuc = english_readability_formulas(metin, _tok(metin, "en"))
     kelime, cumle = 10, 2
@@ -195,6 +196,14 @@ def test_flesch_ve_fkgl_kincaid_sayimi():
         206.835 - 1.015 * kelime / cumle - 84.6 * hece / kelime, abs=1e-3)
     assert sonuc["flesch_kincaid_grade"] == pytest.approx(
         0.39 * kelime / cumle + 11.8 * hece / kelime - 15.59, abs=1e-3)
+
+
+def test_flesch_iki_noktayi_cumle_sonu_saymaz():
+    metin = "They won: we lost."
+    sonuc = english_readability_formulas(metin, _tok(metin, "en"))
+    hece = sum(hece_say(k, "en") for k in "They won we lost".split())
+    assert sonuc["flesch_reading_ease"] == pytest.approx(
+        206.835 - 1.015 * 4 / 1 - 84.6 * hece / 4, abs=1e-3)
 
 
 def test_smog_30_cumleden_kisada_nan():

@@ -14,7 +14,7 @@ kaynağının sayımını izler:
 - Kelime = boşlukla ayrılan birim, kenar noktalaması atılmış (Flesch 1948;
   Kincaid ve ark. 1975; Kalyoncu 2025). Kısaltmalı ve tireli biçimler tek
   kelime. Harf ya da rakam içermeyen birim kelime değil; tek başına duran
-  sembol yalnız kaynağı sayan formüllerde kelime (``_SEMBOL_SAYAN``).
+  sembol yalnız kaynağı sayan formüllerde kelime (FRE, FKGL, ARI, Çetinkaya).
 - Cümle = formüle özel işaretlerden biriyle biten dizi (``_CUMLE_SONU``).
   İşaretler spaCy tokenlarından okunur, böylece ``Dr.`` cümle bitirmez.
 - Hece = T10'un ``hece_say``'i; tireli kelime parçaların toplamı, sembol ve
@@ -43,7 +43,9 @@ _BAS_HARFLER = re.compile(r"(?:[^\W\d_]\.)+[^\W\d_]?")
 # Formüle göre cümle bitiren işaretler.
 _CUMLE_SONU = {
     "varsayilan": ".?!",       # McLaughlin 1969; Kincaid ARI; Coleman & Liau; kaynağı kural vermeyenler
-    "kincaid": ".?!;:",        # Kincaid ve ark. 1975 Flesch talimatı
+    # Kincaid ve ark. 1975 Flesch talimatı ; ve : sayıyor ama iki noktadan sonra tam
+    # cümle gelmiyorsa saymıyor; bu yargı uygulanamadığı için : çıktı (2026-09-17, Efe).
+    "kincaid": ".?!;",
     "cetinkaya": ".?!:",       # Çetinkaya protokolü (parantez kuralı Güven 2014'ten doğrulanacak)
 }
 
@@ -207,7 +209,7 @@ def english_readability_formulas(raw_text: str, surface_tokens: list[str]) -> di
 
     - FRE  = 206.835 − 1.015·(kelime/cümle) − 84.6·(hece/kelime)
     - FKGL = 0.39·(kelime/cümle) + 11.8·(hece/kelime) − 15.59
-      İkisinde sembol kelime, ``; :`` cümle sonu (Kincaid talimatı).
+      İkisinde sembol kelime, ``;`` cümle sonu (Kincaid talimatı; ``:`` hariç).
     - SMOG = 3.1291 + 1.0430·√p, p = 30 cümleye düşen 3+ heceli kelime
       (Tablo 1, denklem d). Kelime = harf ya da rakam dizisi, cümle ``. ? !``.
       30 cümleden kısa metinde NaN (2026-09-16, Efe).
