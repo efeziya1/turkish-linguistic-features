@@ -279,6 +279,47 @@ def test_paragraf_windows_satir_sonu():
     assert paragraph_stats("A.\n\nB.") == paragraph_stats("A.\r\n\r\nB.")
 
 
+# ── cümle uzunluğu: payda kelime, token değil ─────────────────────────
+
+
+def test_cumle_uzunlugu_noktalamayi_saymaz():
+    """["Ali", "geldi", "."] 3 token ama 2 kelime."""
+    sonuc = sentence_stats([["Ali", "geldi", "."]])
+    assert sonuc["avg_sent_len_word"] == 2.0
+    assert sonuc["med_sent_len"] == 2.0
+
+
+def test_kisa_uzun_cumle_orani_noktalamayi_saymaz():
+    """5 + "." ve 30 + "!" → eşik kelimeyle ölçülür, ikisi de tam sınırda."""
+    sonuc = sentence_distribution_stats([["a"] * 5 + ["."], ["a"] * 30 + ["!"]], 5, 30)
+    assert sonuc == {"short_sent_ratio": 0.0, "long_sent_ratio": 0.0}
+
+
+def test_sent_len_entropy_noktalamayi_saymaz():
+    """Kelime sayıları 2 ve 2 → tek kategori → 0 bit."""
+    assert sent_len_entropy([["a", "b", "."], ["c", "d"]])["sent_len_entropy"] == 0.0
+
+
+def test_alfabesiz_cumle_sayilmaz():
+    """"..." cümle değil; geriye tek cümle kalır, tek değerden yayılım ölçülmez."""
+    sonuc = sentence_stats([["Ali", "geldi", "."], ["..."]])
+    assert sonuc["avg_sent_len_word"] == 2.0
+    assert _nan(sonuc["sentence_length_cv"])
+
+
+def test_rakam_kelimedir_ama_tek_basina_cumle_degildir():
+    """Sayı kelime sayılır (isalnum); ama alfabesiz cümle cümle sayılmaz (isalpha)."""
+    assert sentence_stats([["Yıl", "1999", "."]])["avg_sent_len_word"] == 2.0
+    assert _hepsi_nan(sentence_stats([["1999", "."]]))
+
+
+def test_yalniz_noktalama_cumlesi_hepsi_nan():
+    """Hiç cümle kalmazsa boş girdiyle aynı sonuç."""
+    assert _hepsi_nan(sentence_stats([["..."], ["?!"]]))
+    assert _hepsi_nan(sentence_distribution_stats([["..."]], 5, 30))
+    assert _nan(sent_len_entropy([["..."], ["?!"]])["sent_len_entropy"])
+
+
 # ── boş ve tek eleman ─────────────────────────────────────────────────
 
 

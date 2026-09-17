@@ -52,6 +52,32 @@ def _cv(degerler: np.ndarray) -> float:
     return float(degerler.std()) / ortalama if ortalama > 0 else math.nan
 
 
+def _noktalama_mi(token: str) -> bool:
+    """Harf ya da rakam içermeyen token noktalamadır (``,``, ``...``, ``?!``)."""
+    return not any(c.isalnum() for c in token)
+
+
+def _cumle_kelimeleri(cumleler: list[list[str]]) -> list[list[str]]:
+    """Cümle listesini kelimeye indirger; uzunluk ölçüleri bunun üzerinde çalışır.
+
+    İki süzgeç, iki ayrı kural (2026-09-18, Efe):
+
+    - **Token**: noktalama düşer, sayı kalır (``_noktalama_mi``, ``isalnum``).
+      "Yıl 1999." iki kelimedir — okunabilirlik formülleri de sayıyı kelime sayar.
+    - **Cümle**: içinde hiç alfabetik karakter olmayan cümle düşer (``isalpha``).
+      Tek başına ``"..."`` cümle değildir; uzunluğu 0 sayıp ortalamayı aşağı
+      çekmesindense hiç sayılmaz.
+
+    Cümle uzunluğu literatürde kelimeyle ölçülür, ``sentences_as_tokens`` ise
+    noktalamayı da taşır; süzme bu yüzden fonksiyonların **içinde** yapılır.
+    ``pos_distribution_stats`` bu yardımcıyı **kullanmaz**: orada cümleler
+    ``pos_data`` ile token token dilimlenir, süzülmüş liste hizayı bozar.
+    """
+    return [[t for t in cumle if not _noktalama_mi(t)]
+            for cumle in cumleler
+            if any(ch.isalpha() for t in cumle for ch in t)]
+
+
 # ── POS oranları ve ızgara ────────────────────────────────────────────
 
 
@@ -207,7 +233,10 @@ def pos_distribution_stats(pos_data: list[tuple[str, str]],
 
 
 def sentence_stats(cumleler: list[list[str]]) -> dict[str, float]:
-    """Cümle uzunluğu (spaCy token sayısı): ortalama, CV, çarpıklık, medyan.
+    """Cümle uzunluğu (**kelime** sayısı): ortalama, CV, çarpıklık, medyan.
+
+    Uzunluk ``_cumle_kelimeleri`` üzerinden ölçülür — noktalama tokenı
+    kelime sayılmaz, alfabesiz cümle cümle sayılmaz.
 
     Çarpıklık Fisher-Pearson ``g1 = m3 / m2^1.5`` (popülasyon momentleri);
     simetrik dağılımda 0, uzun cümleler kuyruk yapıyorsa pozitif.
@@ -216,10 +245,11 @@ def sentence_stats(cumleler: list[list[str]]) -> dict[str, float]:
     ölçülmez); bütün cümleler eşit uzunluktaysa çarpıklık (0/0). Eşit
     uzunlukta CV gerçekten 0'dır.
     """
-    if not cumleler:
+    kelimeler = _cumle_kelimeleri(cumleler)
+    if not kelimeler:
         return {"avg_sent_len_word": math.nan, "sentence_length_cv": math.nan,
                 "sent_len_skewness": math.nan, "med_sent_len": math.nan}
-    u = np.array([len(c) for c in cumleler], dtype=np.float64)
+    u = np.array([len(c) for c in kelimeler], dtype=np.float64)
     sapma = u - u.mean()
     m2 = float(np.mean(sapma ** 2))
     carpiklik = float(np.mean(sapma ** 3)) / m2 ** 1.5 if m2 > 0 else math.nan
@@ -235,15 +265,16 @@ def sentence_distribution_stats(cumleler: list[list[str]], short_threshold: int,
                                 long_threshold: int) -> dict[str, float]:
     """Eşikten **kesin** kısa ve **kesin** uzun cümlelerin oranı.
 
-    Eşikler dile göre farklı (``FeatureParams.short_sent_threshold`` /
-    ``long_sent_threshold``); tam eşikteki cümle iki tarafa da girmez.
-    Cümle yoksa NaN.
+    Uzunluk **kelimeyle** ölçülür (``_cumle_kelimeleri``). Eşikler dile göre
+    farklı (``FeatureParams.short_sent_threshold`` / ``long_sent_threshold``);
+    tam eşikteki cümle iki tarafa da girmez. Cümle yoksa NaN.
     """
-    if not cumleler:
+    kelimeler = _cumle_kelimeleri(cumleler)
+    if not kelimeler:
         return {"short_sent_ratio": math.nan, "long_sent_ratio": math.nan}
-    n = len(cumleler)
-    kisa = sum(1 for c in cumleler if len(c) < short_threshold)
-    uzun = sum(1 for c in cumleler if len(c) > long_threshold)
+    n = len(kelimeler)
+    kisa = sum(1 for c in kelimeler if len(c) < short_threshold)
+    uzun = sum(1 for c in kelimeler if len(c) > long_threshold)
     return {"short_sent_ratio": round(kisa / n, 6), "long_sent_ratio": round(uzun / n, 6)}
 
 
@@ -258,12 +289,14 @@ def avg_sent_len_char(cumleler: list[list[str]]) -> dict[str, float]:
 def sent_len_entropy(cumleler: list[list[str]]) -> dict[str, float]:
     """Cümle uzunluğu dağılımının Shannon entropisi (bit) — ritim çeşitliliği.
 
-    Her farklı uzunluk bir kategori. Hep aynı uzunlukta cümle → 0.
-    2'den az cümle → NaN (tek değerden çeşitlilik ölçülmez).
+    Uzunluk **kelimeyle** ölçülür (``_cumle_kelimeleri``); her farklı uzunluk
+    bir kategori. Hep aynı uzunlukta cümle → 0. 2'den az cümle → NaN (tek
+    değerden çeşitlilik ölçülmez).
     """
-    if len(cumleler) < 2:
+    kelimeler = _cumle_kelimeleri(cumleler)
+    if len(kelimeler) < 2:
         return {"sent_len_entropy": math.nan}
-    return {"sent_len_entropy": round(_entropy_bits(Counter(len(c) for c in cumleler)), 5)}
+    return {"sent_len_entropy": round(_entropy_bits(Counter(len(c) for c in kelimeler)), 5)}
 
 
 # ── paragraf ──────────────────────────────────────────────────────────
@@ -303,11 +336,6 @@ def paragraph_stats(raw_text: str) -> dict[str, float]:
 
 # Cümle sonunda atlanan kapanış işaretleri: her tür tırnak ve kapanan parantez.
 _KAPANIS = "\"'“”‘’«»‹›)]}"
-
-
-def _noktalama_mi(token: str) -> bool:
-    """Harf ya da rakam içermeyen token noktalamadır (``,``, ``...``, ``?!``)."""
-    return not any(c.isalnum() for c in token)
 
 
 def question_per_sent(sentences_as_tokens: list[list[str]]) -> dict[str, float]:
