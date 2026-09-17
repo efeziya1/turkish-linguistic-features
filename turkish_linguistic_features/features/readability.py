@@ -46,7 +46,10 @@ _CUMLE_SONU = {
     # Kincaid ve ark. 1975 Flesch talimatı ; ve : sayıyor ama iki noktadan sonra tam
     # cümle gelmiyorsa saymıyor; bu yargı uygulanamadığı için : çıktı (2026-09-17, Efe).
     "kincaid": ".?!;",
-    "cetinkaya": ".?!:",       # Çetinkaya protokolü (parantez kuralı Güven 2014'ten doğrulanacak)
+    # Çetinkaya (2010, s.93): nokta, soru, iki nokta ve "iki parantez ( ) bitirilmiş bir
+    # tümce"; parantezin içi ayrı cümle. Ünlem listede yok ama "dilbilgisel olarak bağımsız
+    # her birim tümcedir" ölçütüne girer (2026-09-17, Efe).
+    "cetinkaya": ".?!:()",
 }
 
 # Björnsson: "6 harften uzun" kelime (Anderson 1983 s.491: seven or more letters).
@@ -174,7 +177,7 @@ def turkish_readability_formulas(raw_text: str, surface_tokens: list[str]) -> di
 
     - atesman        = 198.825 − 40.175·(hece/kelime) − 2.610·(kelime/cümle)
     - cetinkaya_uzun = 118.823 − 25.987·(hece/kelime) − 0.971·(kelime/cümle)
-      Sembol kelime sayılır, ``:`` cümle bitirir (Çetinkaya protokolü).
+      Sembol kelime sayılır; ``:`` ve parantezler cümle bitirir (Çetinkaya 2010, s.93).
     - bezirci_yilmaz = √(OKS · (0.84·H3 + 1.5·H4 + 3.5·H5 + 26.25·H6)),
       OKS ve Hk cümle başına (H6 = 6 veya daha fazla heceli).
 

@@ -182,6 +182,32 @@ def test_cetinkaya_sembolu_ve_iki_noktayi_sayar_atesman_saymaz():
     assert sonuc["cetinkaya_uzun"] == pytest.approx(118.823 - 25.987 * 10 / 5 - 0.971 * 5 / 2, abs=1e-3)
 
 
+@pytest.mark.parametrize("metin, cumle", [
+    ("Ali geldi (dün akşam) ve oturdu.", 3),
+    ("Ali geldi (dün akşam).", 2),
+    ("Ali geldi. (Dün akşamdı.)", 2),
+])
+def test_cetinkaya_parantez_ici_ayri_cumle(metin, cumle):
+    """Çetinkaya (2010, s.93): "iki parantez ( ) bitirilmiş bir tümce" — açılan ve
+    kapanan parantez sınır (2026-09-17, Efe). Ateşman parantezi saymaz."""
+    sonuc = turkish_readability_formulas(metin, _tok(metin, "tr"))
+    kelimeler = kelime_birimleri(metin, "tr")[0]
+    hece = sum(birim_hecesi(k, "tr") for k in kelimeler)
+    n = len(kelimeler)
+    assert sonuc["cetinkaya_uzun"] == pytest.approx(
+        118.823 - 25.987 * hece / n - 0.971 * n / cumle, abs=1e-3)
+    ates_cumle = cumle_sayisi(_tok(metin, "tr"), ".?!", "tr")
+    assert sonuc["atesman"] == pytest.approx(
+        198.825 - 40.175 * hece / n - 2.610 * n / ates_cumle, abs=1e-3)
+
+
+def test_cetinkaya_unlem_cumle_sonu():
+    """Ünlem yönergenin listesinde yok ama "bağımsız birim" ölçütüne girer."""
+    metin = "Ne güzel! Geldik."
+    sonuc = turkish_readability_formulas(metin, _tok(metin, "tr"))
+    assert sonuc["cetinkaya_uzun"] == pytest.approx(118.823 - 25.987 * 5 / 3 - 0.971 * 3 / 2, abs=1e-3)
+
+
 # ── İngilizce formüller ───────────────────────────────────────────────
 
 
