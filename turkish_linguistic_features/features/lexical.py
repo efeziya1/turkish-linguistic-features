@@ -201,9 +201,9 @@ def heaps_beta(tokens: list[str], min_tokens: int = 300,
     5'ten az regresyon noktası düşüyor. ``0.0`` gerçek sıfır eğimdir (hep
     aynı kelime).
 
-    β her zaman ``[0, 1]`` aralığına kırpılır — kısa veya tekrarlı
-    metinlerde regresyon 1'den büyük ya da negatif çıkabilir, ikisi de
-    anlamsızdır.
+    β kırpılmaz (2026-09-17, Efe): tip sayısı hiç azalmadığı için eğim eksi
+    olamaz, ama tekrarla başlayıp açılan metinde 1'i aşabilir ve olduğu gibi
+    yazılır. Ölçek bu yüzden ``score``, ``ratio_0_1`` değil.
     """
     N = len(tokens)
     if N < min_tokens:
@@ -219,7 +219,7 @@ def heaps_beta(tokens: list[str], min_tokens: int = 300,
         return {"heaps_beta": math.nan}
 
     beta = float(np.polyfit(np.log(nt), np.log(vt), 1)[0])
-    return {"heaps_beta": round(float(np.clip(beta, 0.0, 1.0)), 4)}
+    return {"heaps_beta": round(beta, 4) + 0.0}      # + 0.0: -0.0 → 0.0
 
 
 # ── T05: pencereli ve eğri tabanlı zenginlik ──────────────────────────

@@ -212,6 +212,12 @@ def test_heaps_beta_hepsi_ayni_ise_sifir():
     assert heaps_beta(["a"] * 1000)["heaps_beta"] == 0.0
 
 
+def test_heaps_beta_kirpilmaz():
+    """Tekrarla başlayıp açılan metinde eğim 1'i aşar; olduğu gibi yazılır (2026-09-17, Efe)."""
+    tokens = ["ve"] * 300 + [f"k{i}" for i in range(300)]
+    assert heaps_beta(tokens)["heaps_beta"] == pytest.approx(2.829, abs=1e-3)
+
+
 # ── kenar durumlar (Faz 1 zorunlu 3 testin 2'si ve 3'ü) ───────────────
 
 
