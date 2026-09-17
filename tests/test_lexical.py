@@ -43,9 +43,9 @@ def _hepsi_nan(d: dict) -> bool:
 
 
 def test_frekans_tablosu_kucuk_harfe_indirger():
-    freqs, M, N, items = rank_word_freq_table(["Ev", "ev", "EV", "yol"])
-    assert M == 4          # toplam token
-    assert N == 2          # "ev" ve "yol"
+    freqs, N, V, items = rank_word_freq_table(["Ev", "ev", "EV", "yol"])
+    assert N == 4          # toplam token
+    assert V == 2          # "ev" ve "yol"
     assert items[0] == ("ev", 3)
 
 
@@ -67,7 +67,7 @@ def test_entropi_tek_kelimede_sifir():
 def test_yule_k_tasmaz_int32_girdide():
     """Taşma regresyonu — `astype(np.float64)` olmadan KIRMIZI dönmeli.
 
-    Elle hesap:  freqs = [100000, 50000, 25000],  M = 175000
+    Elle hesap:  freqs = [100000, 50000, 25000],  N = 175000
       Σf² = 1e10 + 2.5e9 + 6.25e8 = 13_125_000_000
       K   = 10000 · (13_125_000_000 − 175_000) / 175_000²
           = 10000 · 13_124_825_000 / 30_625_000_000
@@ -86,7 +86,7 @@ def test_yule_k_tasmaz_int32_girdide():
 
 
 def test_simpson_d_elle_hesap():
-    # freqs = [3, 1], M = 4 → (3·2 + 1·0) / (4·3) = 6/12 = 0.5
+    # freqs = [3, 1], N = 4 → (3·2 + 1·0) / (4·3) = 6/12 = 0.5
     assert simpsons_d(np.array([3, 1])) == 0.5
 
 
@@ -99,8 +99,8 @@ def test_brunet_w_sekli():
     Sabit **Kademe D** (doğrulanmamış, bkz. `00-ANA-PLAN.md` K12 eki-2).
     Bu yüzden sabitten bağımsız, formülün cebirinden çıkan iki özellik
     ölçülüyor:
-      1. W = M^(V^−a)  →  V arttıkça üs küçülür  →  W küçülür
-      2. V = 1 iken üs = 1  →  W = M   (a'dan bağımsız, her a için doğru)
+      1. W = N^(V^−a)  →  V arttıkça üs küçülür  →  W küçülür
+      2. V = 1 iken üs = 1  →  W = N   (a'dan bağımsız, her a için doğru)
     """
     assert brunet_w(1000, 100)["brunet_w"] > brunet_w(1000, 200)["brunet_w"]
     assert abs(brunet_w(1000, 1)["brunet_w"] - 1000) < 1e-6
@@ -159,8 +159,8 @@ def test_hapax_sayimi_ham_int_doner():
 
 def test_hapax_yuzdesi_paydasi_token():
     """5 token, 3 tip, 2'si bir kez geçiyor → yüzde 2/5, oran 2/3."""
-    _, M, V, items = rank_word_freq_table(["ev", "ev", "ev", "yol", "kapı"])
-    assert (M, V) == (5, 3)
+    _, N, V, items = rank_word_freq_table(["ev", "ev", "ev", "yol", "kapı"])
+    assert (N, V) == (5, 3)
     assert hapax_percentage(items)["hapax_percentage"] == 0.4
     assert hapax_ratio(items)["hapax_ratio"] == 0.666667
 
@@ -238,8 +238,8 @@ def test_heaps_beta_kirpilmaz():
 
 
 def test_bos_girdiler_cokmez():
-    freqs, M, N, items = rank_word_freq_table([])
-    assert M == 0 and N == 0
+    freqs, N, V, items = rank_word_freq_table([])
+    assert N == 0 and V == 0
     assert _nan(shannon_entropy(freqs))
     assert _nan(yules_k(freqs))
     assert _nan(simpsons_d(freqs))
@@ -254,11 +254,11 @@ def test_bos_girdiler_cokmez():
 
 
 def test_tek_elemanli_girdiler_cokmez():
-    freqs, M, N, items = rank_word_freq_table(["ev"])
-    assert M == 1 and N == 1 and items == [("ev", 1)]
+    freqs, N, V, items = rank_word_freq_table(["ev"])
+    assert N == 1 and V == 1 and items == [("ev", 1)]
     assert shannon_entropy(freqs) == 0.0
-    assert yules_k(freqs) == 0.0          # M = 1: 10000·(1 − 1)/1 = 0, tanımlı
-    assert _nan(simpsons_d(freqs))        # M(M−1) = 0 → tanımsız
+    assert yules_k(freqs) == 0.0          # N = 1: 10000·(1 − 1)/1 = 0, tanımlı
+    assert _nan(simpsons_d(freqs))        # N(N−1) = 0 → tanımsız
     assert brunet_w(1, 1)["brunet_w"] == 1.0
     assert hapax_ratio(items)["hapax_ratio"] == 1.0
     assert hapax_percentage(items)["hapax_percentage"] == 1.0

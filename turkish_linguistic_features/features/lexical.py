@@ -61,8 +61,8 @@ def rank_word_freq_table(tokens: list[str]) -> tuple[np.ndarray, int, int, list]
     Returns
     -------
     freqs : np.ndarray      azalan sıralı frekanslar
-    M : int                 toplam token sayısı
-    N : int                 tekil tip sayısı
+    N : int                 toplam token sayısı
+    V : int                 tekil tip sayısı
     items : list            (kelime, frekans) çiftleri, azalan sıralı
     """
     counter = Counter(t.lower() for t in tokens)
@@ -71,8 +71,8 @@ def rank_word_freq_table(tokens: list[str]) -> tuple[np.ndarray, int, int, list]
     return freqs, int(freqs.sum()), len(items), items
 
 
-def type_token_ratio(M: int, V: int) -> dict[str, float]:
-    """Düz TTR = V / M.
+def type_token_ratio(N: int, V: int) -> dict[str, float]:
+    """Düz TTR = V / N.
 
     **Metin uzunluğuna bağımlıdır — bu kasıtlı.** TTR uzun metinlerde
     sistematik olarak düşer, çünkü metin uzadıkça aynı kelimeler tekrar
@@ -84,49 +84,49 @@ def type_token_ratio(M: int, V: int) -> dict[str, float]:
     bu ve kullanıcının eski çalışmalarla karşılaştırabilmesi gerekiyor.
     Kütüphane ölçer, yorumlamaz (K10) — ama kusuru gizlemez.
     """
-    if M == 0:
+    if N == 0:
         return {"ttr": math.nan}
-    return {"ttr": round(V / M, 6)}
+    return {"ttr": round(V / N, 6)}
 
 
 def shannon_entropy(freqs: np.ndarray) -> float:
     """Frekans dağılımının Shannon entropisi, bit cinsinden: ``-Σ p·log₂(p)``. Boşsa NaN."""
-    M = freqs.sum()
-    if M == 0:
+    N = freqs.sum()
+    if N == 0:
         return math.nan
-    p = freqs.astype(np.float64) / M
+    p = freqs.astype(np.float64) / N
     return round(float(-np.sum(p * np.log2(p))), 6)
 
 
 def yules_k(freqs: np.ndarray) -> float:
-    """Yule's K = ``10000·(Σf² − M)/M²``. Tekrar yoğunluğu; yüksek = tekrarlı. Boşsa NaN."""
-    M = int(freqs.sum())
-    if M == 0:
+    """Yule's K = ``10000·(Σf² − N)/N²``. Tekrar yoğunluğu; yüksek = tekrarlı. Boşsa NaN."""
+    N = int(freqs.sum())
+    if N == 0:
         return math.nan
     S2 = np.sum(freqs.astype(np.float64) ** 2)   # ← float64 ŞART
-    return round(10000 * (S2 - M) / (M ** 2), 2)
+    return round(10000 * (S2 - N) / (N ** 2), 2)
 
 
 def simpsons_d(freqs: np.ndarray) -> float:
-    """Simpson's D = ``Σ f(f−1) / (M(M−1))``.
+    """Simpson's D = ``Σ f(f−1) / (N(N−1))``.
 
-    Metinden rastgele çekilen iki tokenin aynı tip olma olasılığı. ``M ≤ 1``
-    → payda ``M(M−1)`` sıfır → NaN.
+    Metinden rastgele çekilen iki tokenin aynı tip olma olasılığı. ``N ≤ 1``
+    → payda ``N(N−1)`` sıfır → NaN.
     """
-    M = int(freqs.sum())
-    if M <= 1:
+    N = int(freqs.sum())
+    if N <= 1:
         return math.nan
     f = freqs.astype(np.float64)
-    return round(float(np.sum(f * (f - 1)) / (M * (M - 1))), 6)
+    return round(float(np.sum(f * (f - 1)) / (N * (N - 1))), 6)
 
 
-def brunet_w(M: int, V: int, a: float = _BRUNET_A) -> dict[str, float]:
-    """Brunet's W = ``M^(V^−a)``; ``M`` toplam token, ``V`` tekil tip.
+def brunet_w(N: int, V: int, a: float = _BRUNET_A) -> dict[str, float]:
+    """Brunet's W = ``N^(V^−a)``; ``N`` toplam token, ``V`` tekil tip.
 
     Parameters
     ----------
-    M : int
-        Toplam token sayısı (kaynakta ``N``).
+    N : int
+        Toplam token sayısı.
     V : int
         Tekil tip sayısı.
     a : float
@@ -137,11 +137,11 @@ def brunet_w(M: int, V: int, a: float = _BRUNET_A) -> dict[str, float]:
     Notes
     -----
     Sabitten bağımsız olarak formülün şekli şunu garanti eder: V arttıkça
-    üs küçülür ve W küçülür; V = 1 iken üs 1 olur ve W = M çıkar.
+    üs küçülür ve W küçülür; V = 1 iken üs 1 olur ve W = N çıkar.
     """
-    if M == 0 or V == 0:
+    if N == 0 or V == 0:
         return {"brunet_w": math.nan}
-    return {"brunet_w": round(float(M ** (V ** -a)), 4)}
+    return {"brunet_w": round(float(N ** (V ** -a)), 4)}
 
 
 def hapax_count(items: list) -> int:

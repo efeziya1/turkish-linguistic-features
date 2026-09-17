@@ -7,7 +7,7 @@ Bu modül ``frequency_structure`` grubunun 13 anahtarını üretir:
 ``thematic_concentration`` · ``secondary_thematic_concentration``.
 
 Girdi ``rank_word_freq_table()`` (``lexical.py``) çıktısıdır: ``freqs`` azalan
-sıralı, ``M`` toplam token, ``V`` tekil tip, ``items`` ``(kelime, frekans)``.
+sıralı, ``N`` toplam token, ``V`` tekil tip, ``items`` ``(kelime, frekans)``.
 Rank 1 en sık kelimedir.
 
 **Birim: lemma (2026-09-16, Efe).** Bütün grup lemma sıklıklarından hesaplanır
@@ -32,7 +32,7 @@ Formüller birincil kaynaktan okundu (K12, Kademe A):
 Kaynak arşivi ve doğrulanmış fikstürler: ``tlf-kaynaklar/00-INDEKS.md``.
 
 K4 (2026-09-16, Efe): ölçülemeyen değer ``math.nan`` — boş girdi ya da payda
-sıfır (V = 1'de McIntosh, M ≤ 1'de A, tek noktalı eğride R, h ≤ 1'de TC,
+sıfır (V = 1'de McIntosh, N ≤ 1'de A, tek noktalı eğride R, h ≤ 1'de TC,
 noktaya inen üçgende α). Girdi olarak gelen NaN (``h``, ``RR``, ``L``) NaN
 olarak yayılır. TC'de h-point üstünde konu kelimesi yoksa 0.0 gerçek sıfırdır.
 """
@@ -73,15 +73,15 @@ def h_point(freqs: np.ndarray) -> float:
     return float(len(freqs))
 
 
-def repeat_rate(freqs: np.ndarray, M: int) -> dict[str, float]:
-    """``RR = Σ (f/M)²`` — rastgele iki tokenin aynı tip olma olasılığı (yanlı).
+def repeat_rate(freqs: np.ndarray, N: int) -> dict[str, float]:
+    """``RR = Σ (f/N)²`` — rastgele iki tokenin aynı tip olma olasılığı (yanlı).
 
     ``simpson_d`` bunun yansız karşılığıdır; ikisi yüksek korelasyonludur ve bu
     beklenen davranıştır.
     """
-    if M == 0:
+    if N == 0:
         return {"repeat_rate": math.nan}
-    p = freqs.astype(np.float64) / M
+    p = freqs.astype(np.float64) / N
     return {"repeat_rate": round(float(np.sum(p * p)), 6)}
 
 
@@ -95,42 +95,42 @@ def rr_mcintosh(RR: float, V: int) -> dict[str, float]:
     return {"rr_mcintosh": round((1 - math.sqrt(RR)) / (1 - 1 / math.sqrt(V)), 6)}
 
 
-def gini_coef(freqs: np.ndarray, M: int, V: int) -> dict[str, float]:
-    """``G = (V + 1 − 2·Σ(r·fᵣ)/M) / V``, rank **azalan** sırada (r=1 en sık).
+def gini_coef(freqs: np.ndarray, N: int, V: int) -> dict[str, float]:
+    """``G = (V + 1 − 2·Σ(r·fᵣ)/N) / V``, rank **azalan** sırada (r=1 en sık).
 
     QUITA'nın düz yazısı Lorenz eğrisi için ters rank diyor, ama bu kapalı
     form azalan rank ister: ters rankla G negatif çıkar. Azalan rankla QUITA
     Metin 1 ve 2'nin yayımlanmış değerleri (0.3045, 0.3511) birebir üretiliyor.
     """
-    if M == 0 or V == 0:
+    if N == 0 or V == 0:
         return {"gini_coef": math.nan}
     r = np.arange(1, V + 1, dtype=np.float64)
-    return {"gini_coef": round(float((V + 1 - 2 * np.sum(r * freqs) / M) / V), 6)}
+    return {"gini_coef": round(float((V + 1 - 2 * np.sum(r * freqs) / N) / V), 6)}
 
 
-def vocab_richness_r1(freqs: np.ndarray, M: int, h: float) -> dict[str, float]:
-    """``R1 = 1 − (F(h) − h²/(2M))`` — metnin h-point altında kalan payı.
+def vocab_richness_r1(freqs: np.ndarray, N: int, h: float) -> dict[str, float]:
+    """``R1 = 1 − (F(h) − h²/(2N))`` — metnin h-point altında kalan payı.
 
     ``F(h)`` **bağıl** birikimli frekans, toplam rank ``1..⌊h⌋``; kare ise tam
     kesirli ``h``'yi kullanır. Kesirli h'de ⌈h⌉'ye kadar toplamak ya da kısmi
     rank eklemek yanlıştır (Glottometrics 22, 2011, s. 68 dipnot 3).
-    h-point tanımı gereği ``F(h) ≥ h²/M`` olduğu için R1 ∈ (0, 1).
+    h-point tanımı gereği ``F(h) ≥ h²/N`` olduğu için R1 ∈ (0, 1).
     """
-    if M == 0 or not h > 0:
+    if N == 0 or not h > 0:
         return {"vocab_richness_r1": math.nan}
-    F = float(freqs[:int(h)].sum()) / M
-    return {"vocab_richness_r1": round(1 - (F - h * h / (2 * M)), 6)}
+    F = float(freqs[:int(h)].sum()) / N
+    return {"vocab_richness_r1": round(1 - (F - h * h / (2 * N)), 6)}
 
 
-def vocab_richness_r4(freqs: np.ndarray, M: int, V: int) -> dict[str, float]:
+def vocab_richness_r4(freqs: np.ndarray, N: int, V: int) -> dict[str, float]:
     """``R4 = 1 − G`` — ters çevrilmiş Gini katsayısı.
 
     R1 ile aynı formülün iki adı **değil**: R1 h-point sınırının altındaki
     payı, R4 kelime kullanımının eşitsizliğini ölçer. Boş metinde NaN.
     """
-    if M == 0 or V == 0:
+    if N == 0 or V == 0:
         return {"vocab_richness_r4": math.nan}
-    return {"vocab_richness_r4": round(1 - gini_coef(freqs, M, V)["gini_coef"], 6)}
+    return {"vocab_richness_r4": round(1 - gini_coef(freqs, N, V)["gini_coef"], 6)}
 
 
 def _segments(freqs: np.ndarray) -> np.ndarray:
@@ -166,24 +166,24 @@ def curve_length_indicator(freqs: np.ndarray, h: float) -> dict[str, float]:
     return {"curve_length_r": round(1 - Lh / L, 6)}
 
 
-def lambda_pa(L: float, M: int) -> dict[str, float]:
-    """``Λ = L · log₁₀(M) / M`` — metin uzunluğuna göre normalize eğri uzunluğu.
+def lambda_pa(L: float, N: int) -> dict[str, float]:
+    """``Λ = L · log₁₀(N) / N`` — metin uzunluğuna göre normalize eğri uzunluğu.
 
-    Boş metinde ya da ``L`` NaN ise NaN; ``M = 1``'de Λ = 0 (tanımlı).
+    Boş metinde ya da ``L`` NaN ise NaN; ``N = 1``'de Λ = 0 (tanımlı).
     """
-    if M == 0 or math.isnan(L):
+    if N == 0 or math.isnan(L):
         return {"lambda_pa": math.nan}
-    return {"lambda_pa": round(L * math.log10(M) / M, 4)}
+    return {"lambda_pa": round(L * math.log10(N) / N, 4)}
 
 
-def adjusted_modulus(f1: int, V: int, h: float, M: int) -> dict[str, float]:
-    """``A = √((f₁/h)² + (V/h)²) / log₁₀(M)`` — h-point'ten eğri uçlarına mesafe.
+def adjusted_modulus(f1: int, V: int, h: float, N: int) -> dict[str, float]:
+    """``A = √((f₁/h)² + (V/h)²) / log₁₀(N)`` — h-point'ten eğri uçlarına mesafe.
 
-    ``M ≤ 1`` (log₁₀M = 0) ya da geçersiz ``h`` → NaN.
+    ``N ≤ 1`` (log₁₀N = 0) ya da geçersiz ``h`` → NaN.
     """
-    if not h > 0 or M <= 1:
+    if not h > 0 or N <= 1:
         return {"adjusted_modulus": math.nan}
-    return {"adjusted_modulus": round(math.hypot(f1, V) / h / math.log10(M), 4)}
+    return {"adjusted_modulus": round(math.hypot(f1, V) / h / math.log10(N), 4)}
 
 
 def writers_view(f1: int, V: int, h: float) -> dict[str, float]:

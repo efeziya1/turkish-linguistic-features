@@ -156,7 +156,11 @@ def test_lambda_quita_formulu():
 
 
 def test_adjusted_modulus_quita():
-    """QUITA s. 41: A(Metin 1) = 10.6594; M(Metin 2) = 25.81931678 → A = M/log₁₀202."""
+    """QUITA s. 41: A(Metin 1) = 10.6594; M(Metin 2) = 25.81931678 → A = M/log₁₀202.
+
+    Buradaki ``M`` **modulus**, token sayısı değil: M = √((f₁/h)² + (V/h)²).
+    QUITA'da token sayısı ``N`` (Metin 2 için 202).
+    """
     assert abs(adjusted_modulus(16, 119, 5.0, 179)["adjusted_modulus"] - 10.6594) < 1e-4
     beklenen_2 = 25.81931678 / math.log10(202)
     assert abs(adjusted_modulus(20, 121, 4.75, 202)["adjusted_modulus"] - beklenen_2) < 1e-4
@@ -262,7 +266,7 @@ def test_bos_girdi_hepsi_nan():
 
 
 def test_dejenere_paydalar_nan():
-    """V = 1 → RRmc paydası 0 · M = 1 → log₁₀M = 0 · h = 1 → h(h−1) = 0 · üçgen noktaya iner."""
+    """V = 1 → RRmc paydası 0 · N = 1 → log₁₀N = 0 · h = 1 → h(h−1) = 0 · üçgen noktaya iner."""
     assert _nan(rr_mcintosh(1.0, 1)["rr_mcintosh"])
     assert _nan(adjusted_modulus(1, 1, 1.0, 1)["adjusted_modulus"])
     assert _nan(thematic_concentration([("ev", 1)], [("ev", "NOUN")], 1.0)["thematic_concentration"])
@@ -271,6 +275,6 @@ def test_dejenere_paydalar_nan():
 
 
 def test_tek_tipte_gercek_sifirlar():
-    """Tek tip: eğri bir nokta (L = 0), M = 1'de Λ = 0·log 1 / 1 = 0 — ikisi de tanımlı."""
+    """Tek tip: eğri bir nokta (L = 0), N = 1'de Λ = 0·log 1 / 1 = 0 — ikisi de tanımlı."""
     assert curve_length(np.array([5]))["curve_length"] == 0.0
     assert lambda_pa(0.0, 1)["lambda_pa"] == 0.0
