@@ -34,6 +34,19 @@ _DEFAULT_MODEL = {"tr": "tr_core_news_md", "en": "en_core_web_sm"}
 # parçalara bölüneceği kullanıcının bilmesi gereken bir şey değil.
 _DEFAULT_CHUNK_CHARS = 50_000
 
+# Model kurulumu kullanıcıya bırakıldı (2026-09-18, Efe): `download_model()`
+# çıkarıldı. Kütüphanenin çalışma anında kullanıcının ortamına paket kurması
+# salt-okunur konteynerde, kısıtlı CI'da ve bazı conda kurulumlarında
+# çalışmıyor; üstelik tek bir HuggingFace deposunun sabit sürümlü URL'ine
+# bağlıydı. Komutlar hata mesajında ve README'de; kullanıcı elle çalıştırıyor.
+_KURULUM = {
+    "en": "Kurulum:\n  python -m spacy download en_core_web_sm",
+    "tr": ("Kurulum (bu model spaCy kaydında yok, wheel doğrudan kurulur):\n"
+           "  pip install https://huggingface.co/turkish-nlp-suite/"
+           "tr_core_news_md/resolve/main/tr_core_news_md-1.0-py3-none-any.whl\n"
+           "uv kullanıyorsanız o komut için: UV_SKIP_WHEEL_FILENAME_CHECK=1"),
+}
+
 
 def _split_chunks(text: str, max_chars: int) -> list[str]:
     """Metni en fazla ``max_chars`` uzunluğunda parçalara böler.
@@ -95,9 +108,9 @@ class Preprocessor:
             self._nlp = spacy.load(self.model_name, exclude=["ner"])
         except OSError:
             raise ModelNotFoundError(
-                f"'{self.model_name}' modeli bulunamadı.\n"
-                f"Kurulum: python -c \"import turkish_linguistic_features; "
-                f"turkish_linguistic_features.download_model('{self.lang}')\""
+                f"'{self.model_name}' modeli bulunamadı.\n\n"
+                f"{_KURULUM.get(self.lang, _KURULUM['en'])}\n\n"
+                "Ayrıntı ve bilinen tuhaflıklar: README, 'Language models'."
             ) from None
 
     @staticmethod

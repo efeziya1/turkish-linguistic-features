@@ -160,8 +160,15 @@ def test_ingilizce_taban_sema():
 
 
 def test_olmayan_model_net_hata():
+    """Mesaj elle çalıştırılabilir bir komut içermeli — `download_model()` yok."""
     prep = Preprocessor(lang="tr", model="boyle_bir_model_yok")
-    with pytest.raises(ModelNotFoundError, match="download_model"):
+    with pytest.raises(ModelNotFoundError, match="pip install https://huggingface.co"):
+        prep.process("test")
+
+
+def test_ingilizce_model_hatasi_spacy_download_diyor():
+    prep = Preprocessor(lang="en", model="boyle_bir_model_yok")
+    with pytest.raises(ModelNotFoundError, match="python -m spacy download en_core_web_sm"):
         prep.process("test")
 
 
