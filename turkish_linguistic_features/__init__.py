@@ -23,5 +23,31 @@ if not _os.environ.get("LINGUISTIC_FEATURES_NO_ZEYREK_WARMUP"):
     _ZB()._ensure_loaded()
 # --------------------------------------------------------------------------
 
+from ._analyze import analyze
+from ._warnings import MissingDependencyWarning
+from .exceptions import (
+    LinguisticFeaturesError,
+    MissingDependencyError,
+    ModelNotFoundError,
+)
+from .features.params import FeatureParams
+from .features.registry import describe_feature
+
 __version__ = "0.1.0"
-__all__: list[str] = []
+
+# API-SOZLESMESI.md §1 dokuz ad sayıyor; ikisi (``load_corpus``,
+# ``segment_text``) T27'de doğuyor ve o zaman buraya eklenecek. Şimdiden
+# yazılsalardı paket hiç import edilmezdi — var olmayan bir modül aranırdı.
+__all__ = [
+    # Analiz
+    "analyze",
+    # Yapılandırma
+    "FeatureParams",
+    # Keşif
+    "describe_feature",
+    # Hatalar
+    "LinguisticFeaturesError",
+    "MissingDependencyError",
+    "ModelNotFoundError",
+    "MissingDependencyWarning",
+]
