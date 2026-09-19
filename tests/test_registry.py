@@ -46,8 +46,8 @@ def test_grup_sayilari():
 
 
 def test_statik_anahtar_sayisi():
-    """Sözleşme §4 toplamı: 182 statik anahtar (TR 207, EN 181 dinamikle)."""
-    assert len(TUM_STATIK) == 182
+    """Sözleşme §4 toplamı: 183 statik anahtar (TR 208, EN 182 dinamikle)."""
+    assert len(TUM_STATIK) == 183
 
 
 def test_anahtarlar_gruplar_arasi_tekrarlanmaz():
@@ -166,7 +166,7 @@ def test_describe_bilinmeyen_anahtar():
 
 
 def test_her_statik_anahtar_describe_edilebiliyor():
-    """182 statik anahtarın hiçbiri boş alan döndürmemeli."""
+    """183 statik anahtarın hiçbiri boş alan döndürmemeli."""
     for k in TUM_STATIK:
         d = describe_feature(k)
         assert d["description"], f"{k}: açıklama boş"

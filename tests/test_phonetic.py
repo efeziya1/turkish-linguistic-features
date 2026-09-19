@@ -9,7 +9,7 @@ from turkish_linguistic_features.features.phonetic import (
     syllable_count_stats,
     syllable_length_distribution,
     toplam_hece,
-    vowel_harmony_compliance,
+    vowel_harmony_ratios,
     vowel_ratios,
 )
 
@@ -53,40 +53,40 @@ def test_ingilizce_unluler_yaziya_gore():
 
 def test_unlu_uyumu_uyumlu_kelime():
     """'okullar' → o, u, a hepsi kalın → uyumlu."""
-    assert vowel_harmony_compliance(["okullar"])["vowel_harmony_compliance"] == 1.0
+    assert vowel_harmony_ratios(["okullar"])["harmony_fronting_ratio"] == 1.0
 
 
 def test_unlu_uyumu_uyumsuz_kelime():
     """'televizyon' → e, i (ince) + o (kalın) → uyumsuz."""
-    assert vowel_harmony_compliance(["televizyon"])["vowel_harmony_compliance"] == 0.0
+    assert vowel_harmony_ratios(["televizyon"])["harmony_fronting_ratio"] == 0.0
 
 
 def test_unlu_uyumu_kitap_alinti():
     """Plan örneği düzeltildi: 'kitaplar' → i (ince), a, a → uyumsuz."""
-    assert vowel_harmony_compliance(["kitaplar"])["vowel_harmony_compliance"] == 0.0
+    assert vowel_harmony_ratios(["kitaplar"])["harmony_fronting_ratio"] == 0.0
 
 
 def test_unlu_uyumu_duz_kural_yor_ekini_de_sayar():
     """Bilinen sınır (2026-09-16, Efe): 'geliyor' yerli ama e, i, o → uyumsuz."""
-    assert vowel_harmony_compliance(["geliyor"])["vowel_harmony_compliance"] == 0.0
+    assert vowel_harmony_ratios(["geliyor"])["harmony_fronting_ratio"] == 0.0
 
 
 def test_unlu_uyumu_tek_unlulu_kelime_sayilmaz():
     """'ev' tek ünlü — uyum tanımsız, paydaya girmemeli."""
-    sonuc = vowel_harmony_compliance(["ev", "okullar", "televizyon"])
-    assert sonuc["vowel_harmony_compliance"] == 0.5
+    sonuc = vowel_harmony_ratios(["ev", "okullar", "televizyon"])
+    assert sonuc["harmony_fronting_ratio"] == 0.5
 
 
 def test_unlu_uyumu_buyuk_harf_ve_kesme():
     """'IŞIKLI' → ı, ı, ı kalın; 'Ankara'da' → a, a, a, a kalın; noktalama yok sayılır."""
-    sonuc = vowel_harmony_compliance(["IŞIKLI", "Ankara'da", ","])
-    assert sonuc["vowel_harmony_compliance"] == 1.0
+    sonuc = vowel_harmony_ratios(["IŞIKLI", "Ankara'da", ","])
+    assert sonuc["harmony_fronting_ratio"] == 1.0
 
 
 def test_unlu_uyumu_ingilizce():
     """'mountain' → o, u, a, i → karışık; 'garden' → a, e → karışık; 'about' → a, o, u kalın."""
-    sonuc = vowel_harmony_compliance(["mountain", "garden", "about"], "en")
-    assert sonuc["vowel_harmony_compliance"] == pytest.approx(1 / 3, abs=1e-4)
+    sonuc = vowel_harmony_ratios(["mountain", "garden", "about"], "en")
+    assert sonuc["harmony_fronting_ratio"] == pytest.approx(1 / 3, abs=1e-4)
 
 
 def _nan(x) -> bool:
@@ -94,13 +94,13 @@ def _nan(x) -> bool:
 
 
 def test_unlu_uyumu_sayilacak_kelime_yoksa_nan():
-    assert _nan(vowel_harmony_compliance(["!!!", "123", "ev"])["vowel_harmony_compliance"])
+    assert _nan(vowel_harmony_ratios(["!!!", "123", "ev"])["harmony_fronting_ratio"])
 
 
 def test_bos_metin():
     assert all(_nan(v) for v in vowel_ratios("", "tr").values())
     assert all(_nan(v) for v in vowel_ratios("123 !", "tr").values())
-    assert _nan(vowel_harmony_compliance([])["vowel_harmony_compliance"])
+    assert _nan(vowel_harmony_ratios([])["harmony_fronting_ratio"])
 
 
 def test_bilinmeyen_dil():
@@ -329,3 +329,44 @@ def test_cumle_hecesi_bos_ve_tek():
     sonuc = sentence_syllable_stats([["kitap", "okudu"]], "tr")
     assert sonuc["sentence_syllable_mean"] == 5.0
     assert _nan(sonuc["sentence_syllable_cv"])
+
+
+# ── küçük ünlü uyumu (T?? — 2026-09-19) ───────────────────────────────
+
+
+def test_rounding_uyumlu_kelimeler():
+    """Göksel & Kerslake (2005) s.22: yuvarlak ünlü ancak yuvarlaktan sonra."""
+    for kelime in ("okudum", "çocuk", "güzel", "kalem", "kitap"):
+        d = vowel_harmony_ratios([kelime])
+        assert d["harmony_rounding_ratio"] == 1.0, kelime
+
+
+def test_rounding_uyumsuz_kelimeler():
+    """``sabun`` düzden yuvarlağa geçiyor; ``horoz``/``otobüs``te 'o' ilk hecede değil."""
+    for kelime in ("sabun", "horoz", "otobüs"):
+        d = vowel_harmony_ratios([kelime])
+        assert d["harmony_rounding_ratio"] == 0.0, kelime
+
+
+def test_iki_uyum_bagimsiz():
+    """``kitap`` büyük uyuma uymaz ama küçük uyuma uyar — ayrı ölçüler."""
+    d = vowel_harmony_ratios(["kitap"])
+    assert d["harmony_fronting_ratio"] == 0.0
+    assert d["harmony_rounding_ratio"] == 1.0
+
+
+def test_fronting_eski_davranisi_koruyor():
+    """Yeniden adlandırma davranışı değiştirmemeli."""
+    assert vowel_harmony_ratios(["okullar"])["harmony_fronting_ratio"] == 1.0
+    assert vowel_harmony_ratios(["televizyon"])["harmony_fronting_ratio"] == 0.0
+    assert vowel_harmony_ratios(["geliyor"])["harmony_fronting_ratio"] == 0.0
+
+
+def test_rounding_ayni_paydayi_kullaniyor():
+    """İki ünlüden az kelime ikisinde de paydaya girmez."""
+    d = vowel_harmony_ratios(["ev", "okudum", "sabun"])
+    assert d["harmony_rounding_ratio"] == 0.5
+
+
+def test_rounding_bos_girdi_nan():
+    assert _nan(vowel_harmony_ratios([])["harmony_rounding_ratio"])

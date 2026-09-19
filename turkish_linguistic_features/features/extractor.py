@@ -73,7 +73,7 @@ from .phonetic import (
     sentence_syllable_stats,
     syllable_count_stats,
     syllable_length_distribution,
-    vowel_harmony_compliance,
+    vowel_harmony_ratios,
     vowel_ratios,
 )
 from .punctuation import (
@@ -301,7 +301,7 @@ def _extract_features(
     # ── phonetic (14) ─────────────────────────────────────────────────
     if istiyor("phonetic"):
         feats.update(vowel_ratios(raw_text, lang))
-        feats.update(vowel_harmony_compliance(surface_tokens, lang))
+        feats.update(vowel_harmony_ratios(surface_tokens, lang))
         feats.update(syllable_count_stats(surface_tokens, lang))
         feats.update(syllable_length_distribution(surface_tokens, lang))
         feats.update(sentence_syllable_stats(cumleler, lang))

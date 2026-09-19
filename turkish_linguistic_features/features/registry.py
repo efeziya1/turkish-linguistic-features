@@ -6,7 +6,7 @@ döndürür: ne ölçtüğü, nasıl hesaplandığı, hangi ölçekte olduğu, h
 kadar metin gerektirdiği ve künyesi. Kullanıcı üç ayrı sözlüğe bakmak zorunda
 kalmasın diye tek giriş noktası budur.
 
-Taban şema **TR 207 · EN 181**: 182 statik anahtar + dile göre 26–29 ``char_*``.
+Taban şema **TR 208 · EN 182**: 183 statik anahtar + dile göre 26–29 ``char_*``.
 ``custom_ngrams`` istenmedikçe anahtar üretmez, bu yüzden toplama girmez.
 14 grup = 12 statik + 2 dinamik.
 
@@ -111,7 +111,8 @@ STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
         'modal_necessity_ratio', 'question_particle_ratio',
     ),
     "phonetic": (
-        'vowel_ratio', 'front_vowel_ratio', 'back_vowel_ratio', 'vowel_harmony_compliance',
+        'vowel_ratio', 'front_vowel_ratio', 'back_vowel_ratio',
+        'harmony_fronting_ratio', 'harmony_rounding_ratio',
         'syllable_mean', 'syllable_cv', 'syllable_1_ratio', 'syllable_2_ratio',
         'syllable_3_ratio', 'syllable_4_ratio', 'syllable_5_ratio', 'syllable_6plus_ratio',
         'sentence_syllable_mean', 'sentence_syllable_cv',

@@ -198,7 +198,8 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'vowel_ratio': 'share of vowels',
     'front_vowel_ratio': 'share of front vowels',
     'back_vowel_ratio': 'share of back vowels',
-    'vowel_harmony_compliance': 'share of words obeying major vowel harmony',
+    'harmony_fronting_ratio': 'share of words obeying front/back vowel harmony',
+    'harmony_rounding_ratio': 'share of words obeying rounding vowel harmony',
     'syllable_mean': 'word-length distribution in syllables',
     'syllable_cv': 'word-length distribution in syllables',
     'syllable_1_ratio': 'share of words with 1 syllable',
@@ -407,8 +408,12 @@ FEATURE_FORMULAS: dict[str, str] = {
     'vowel_ratio': 'vowels / alphabet letters',
     'front_vowel_ratio': 'front vowels / alphabet letters',
     'back_vowel_ratio': 'back vowels / alphabet letters',
-    'vowel_harmony_compliance':
+    'harmony_fronting_ratio':
         'words whose vowels are all front or all back / words with 2+ vowels',
+    'harmony_rounding_ratio':
+        'words where every vowel after an unrounded one is unrounded and every '
+        'vowel after a rounded one is close-rounded or open-unrounded / words '
+        'with 2+ vowels',
     'syllable_mean': 'words with k syllables (6+ pooled) / syllabifiable words',
     'syllable_cv': 'words with k syllables (6+ pooled) / syllabifiable words',
     'syllable_1_ratio': 'words with k syllables (6+ pooled) / syllabifiable words',
@@ -612,7 +617,8 @@ FEATURE_REQUIRES: dict[str, str] = {
     'vowel_ratio': 'at least 1 alphabet letter',
     'front_vowel_ratio': 'at least 1 alphabet letter',
     'back_vowel_ratio': 'at least 1 alphabet letter',
-    'vowel_harmony_compliance': 'at least 1 word with 2 vowels',
+    'harmony_fronting_ratio': 'at least 1 word with 2 vowels',
+    'harmony_rounding_ratio': 'at least 1 word with 2 vowels',
     'syllable_mean': 'at least 1 syllabifiable word',
     'syllable_cv': 'at least 1 syllabifiable word',
     'syllable_1_ratio': 'at least 1 syllabifiable word',
@@ -877,9 +883,12 @@ FEATURE_CITATIONS: dict[str, str] = {
     # ── phonetic ────────────────────────────────────────────
     'front_vowel_ratio': 'Göksel & Kerslake (2005) böl. 2 (ünlü dizgesi, ince/kalın)',
     'back_vowel_ratio': 'Göksel & Kerslake (2005) böl. 2 (ünlü dizgesi, ince/kalın)',
-    'vowel_harmony_compliance':
+    'harmony_fronting_ratio':
         'Göksel & Kerslake (2005) §3.1 (fronting harmony); istisnalar §3.4 — ölçü '
         'onları uyumsuz sayar',
+    'harmony_rounding_ratio':
+        'Göksel & Kerslake (2005) §3.1 (rounding harmony); aslında bir ek olayı, '
+        'bütün-kelime örüntüsü olarak ölçülüyor',
     'syllable_mean': 'Bezirci & Yılmaz (2010) Tablo 1-c',
     'syllable_cv': 'Bezirci & Yılmaz (2010) Tablo 1-c',
     'syllable_1_ratio': 'Bezirci & Yılmaz (2010) Tablo 1-c',

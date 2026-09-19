@@ -2,8 +2,8 @@
 
 Bu modül ``phonetic`` grubunun 14 anahtarını üretir:
 
-- T09 (4): ``vowel_ratio`` · ``front_vowel_ratio`` · ``back_vowel_ratio`` ·
-  ``vowel_harmony_compliance``
+- T09 (5): ``vowel_ratio`` · ``front_vowel_ratio`` · ``back_vowel_ratio`` ·
+  ``harmony_fronting_ratio`` · ``harmony_rounding_ratio``
 - T10 (10): ``syllable_mean`` · ``syllable_cv`` · ``syllable_1_ratio`` …
   ``syllable_5_ratio`` · ``syllable_6plus_ratio`` · ``sentence_syllable_mean`` ·
   ``sentence_syllable_cv``
@@ -34,6 +34,11 @@ from .punctuation import _ALFABE, _kucuk_harf
 _UNLULER: dict[str, str] = {"tr": "aeıioöuü", "en": "aeiou"}
 _ON: dict[str, str] = {"tr": "eiöü", "en": "ei"}
 _ARKA: dict[str, str] = {"tr": "aıou", "en": "aou"}
+# Küçük ünlü uyumu (Göksel & Kerslake 2005 s.22). İngilizcede böyle bir olgu
+# yok; kümeler yalnız grubun iki dilde de üretilmesi için tanımlı.
+_YUVARLAK: dict[str, str] = {"tr": "oöuü", "en": "ou"}
+_DAR_YUVARLAK: dict[str, str] = {"tr": "uü", "en": "u"}
+_GENIS_DUZ: dict[str, str] = {"tr": "ae", "en": "ae"}
 
 
 def _dil_denetle(lang: str) -> None:
@@ -64,31 +69,62 @@ def vowel_ratios(text: str, lang: str = "tr") -> dict[str, float]:
             "back_vowel_ratio": round(arka / n, 5)}
 
 
-def vowel_harmony_compliance(surface_tokens: list[str], lang: str = "tr") -> dict[str, float]:
-    """Büyük ünlü uyumuna uyan kelime oranı.
+def vowel_harmony_ratios(surface_tokens: list[str], lang: str = "tr") -> dict[str, float]:
+    """Türkçenin iki ünlü uyumuna uyan kelime oranları.
 
-    Bir kelimenin bütün ünlüleri ya ince ya kalınsa uyumludur. En az iki
-    ünlüsü olmayan kelime (``ev``, noktalama, sayı) paydaya girmez — uyum
-    onlar için tanımsız; hiç sayılacak kelime yoksa NaN.
+    Göksel & Kerslake (2005) s.22 iki ayrı süreç tanımlıyor ve ikisi
+    bağımsız — ``kitap`` büyük uyuma uymaz ama küçük uyuma uyar:
 
-    Düz kural (2026-09-16, Efe): uyuma girmeyen ekler (``-yor``, ``-ki``,
-    ``-ken``) yerli kelimeyi de uyumsuz yapar (``geliyor``). Ölçü alıntı
-    kelimeyle birlikte bu eklerin sıklığını da taşır.
+    ``harmony_fronting_ratio`` (büyük ünlü uyumu)
+        *"A front vowel can only be followed by a front vowel and a back
+        vowel can only be followed by a back vowel."* Kelimenin bütün
+        ünlüleri ya ince ya kalınsa uyumludur.
+
+    ``harmony_rounding_ratio`` (küçük ünlü uyumu)
+        *"Unless it is in the first syllable of a word, a rounded vowel
+        occurs only when it is preceded by another rounded vowel"* ve
+        *"'o' and 'ö' only occur in the initial syllable"*. İkisi birlikte:
+        düz ünlüden sonra düz; yuvarlaktan sonra ya dar yuvarlak ya geniş düz.
+
+    En az iki ünlüsü olmayan kelime (``ev``, noktalama, sayı) **iki ölçüde
+    de** paydaya girmez — uyum onlar için tanımsız; hiç sayılacak kelime
+    yoksa NaN.
+
+    🔴 Ölçü **yüzey örüntüsü** sayıyor, dilbilgisel doğruluk değil. Göksel &
+    Kerslake §3.4 uyuma girmeyen sözcükleri kuralın **istisnası** olarak
+    veriyor: yerli kökler (``anne``, ``elma``), bileşikler (``bugün``) ve
+    alıntılar (``kitap``, ``kalem``, ``fasulye``). Uyuma girmeyen ekler
+    (``-yor``, ``-ki``, ``-ken``) de yerli kelimeyi uyumsuz yapıyor
+    (``geliyor``). Yani ölçü alıntı ve bu eklerin sıklığını birlikte taşır;
+    düşük değer "daha az Türkçe" demek değildir (2026-09-19, Efe).
+
+    Küçük uyum aslında bir **ek** olayı (G&K: *"only affects suffixes and
+    clitics with high vowels"*); bütün-kelime örüntüsü olarak ölçmek bilinçli
+    bir basitleştirmedir.
     """
     _dil_denetle(lang)
-    on, arka, unluler = set(_ON[lang]), set(_ARKA[lang]), set(_UNLULER[lang])
-    uyumlu = 0
+    on, arka = set(_ON[lang]), set(_ARKA[lang])
+    unluler = set(_UNLULER[lang])
+    yuvarlak = set(_YUVARLAK[lang])
+    yuvarlak_sonrasi = set(_DAR_YUVARLAK[lang]) | set(_GENIS_DUZ[lang])
+    ince_kalin = 0
+    duz_yuvarlak = 0
     sayilan = 0
     for token in surface_tokens:
-        kelime_unluleri = [c for c in _kucuk_harf(token, lang) if c in unluler]
-        if len(kelime_unluleri) < 2:
+        v = [c for c in _kucuk_harf(token, lang) if c in unluler]
+        if len(v) < 2:
             continue
         sayilan += 1
-        if all(c in on for c in kelime_unluleri) or all(c in arka for c in kelime_unluleri):
-            uyumlu += 1
+        if all(c in on for c in v) or all(c in arka for c in v):
+            ince_kalin += 1
+        if all((sonraki in yuvarlak_sonrasi) if onceki in yuvarlak
+               else (sonraki not in yuvarlak)
+               for onceki, sonraki in zip(v, v[1:])):
+            duz_yuvarlak += 1
     if sayilan == 0:
-        return {"vowel_harmony_compliance": math.nan}
-    return {"vowel_harmony_compliance": round(uyumlu / sayilan, 5)}
+        return {"harmony_fronting_ratio": math.nan, "harmony_rounding_ratio": math.nan}
+    return {"harmony_fronting_ratio": round(ince_kalin / sayilan, 5),
+            "harmony_rounding_ratio": round(duz_yuvarlak / sayilan, 5)}
 
 
 # ── T10: heceleme ─────────────────────────────────────────────────────
