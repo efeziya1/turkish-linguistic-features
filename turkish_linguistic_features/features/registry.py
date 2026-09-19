@@ -342,8 +342,11 @@ def describe_feature(key: str) -> dict:
     dict
         ``key``, ``group``, ``group_label``, ``description``, ``formula``,
         ``scale``, ``inputs``, ``params``, ``requires``, ``citation``.
-        ``citation`` ``None`` ise o anahtar bu projenin kendi tanımıdır,
-        adlandırılmış bir literatür metriği değildir.
+        ``citation`` ``None`` ise o anahtar adlandırılmış bir literatür
+        ölçüsü değildir. Ölçünün **kime ait olduğu** hakkında bir şey
+        söylemez: kimi anahtar saf tanımdır (``punc_,_ratio``), kimi ise
+        bir dış etiket şemasının kategorilerini sayar (``morph_case_loc``
+        → UD; ``case_loc_ratio`` → Zeyrek).
 
     Raises
     ------

@@ -25,9 +25,12 @@ doğrudan okunabilir ama taahhüt değildir.
 - ``citation`` yalnız ``tlf-kaynaklar`` arşivindeki bir dosyaya dayanır.
   Özgün yayın arşivde yoksa aktaran kaynak yazılır ve zincir açıkça
   işaretlenir: ``"Ateşman (1997), aktaran Kalyoncu (2025) s.49"``. Künyesi
-  olmayan anahtar bu projenin kendi tanımıdır; ``describe_feature`` orada
-  ``citation: None`` döndürür ve bu **kasıtlıdır** — literatür metriği gibi
-  göstermek akademik dürüstlük ihlali olurdu (K10).
+  olmayan anahtar adlandırılmış bir literatür ölçüsü değildir;
+  ``describe_feature`` orada ``citation: None`` döndürür ve bu
+  **kasıtlıdır** — literatür ölçüsü gibi göstermek akademik dürüstlük
+  ihlali olurdu (K10). ``None`` ölçünün **kime ait olduğunu söylemez**:
+  kimi anahtar saf tanımdır, kimi bir dış etiket şemasının kategorilerini
+  sayar (2026-09-19, Efe).
 """
 
 from __future__ import annotations

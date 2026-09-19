@@ -145,8 +145,12 @@ def test_describe_dinamik_anahtar_grup_formulunu_alir():
     assert d["inputs"] == ("raw_text",)
 
 
-def test_describe_kendi_tanimimiz_ise_citation_none():
-    """Literatür metriği olmayanlarda ``citation`` None olmalı — K10 dürüstlüğü."""
+def test_describe_literatur_olcusu_degilse_citation_none():
+    """Adlandırılmış literatür ölçüsü olmayanlarda ``citation`` None — K10.
+
+    ``None`` ölçünün bize ait olduğunu **söylemez**; yalnız adlandırılmış bir
+    literatür ölçüsü olmadığını söyler (2026-09-19, Efe).
+    """
     assert describe_feature("ttr_moving_slope")["citation"] is None
 
 
