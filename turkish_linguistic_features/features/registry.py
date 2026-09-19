@@ -21,6 +21,7 @@ sayılarla **birlikte** yapılır.
 from __future__ import annotations
 
 from ._registry_texts import (
+    BIBLIOGRAPHY,
     FEATURE_CITATIONS,
     FEATURE_DESCRIPTIONS,
     FEATURE_FORMULAS,
@@ -288,6 +289,23 @@ UNVERIFIED_CONSTANTS: frozenset[str] = frozenset({
 })
 
 
+def _references(kunye: str | None) -> tuple[str, ...]:
+    """Künyede adı geçen eserlerin tam bibliyografik kayıtları.
+
+    Künye kısa işaretçidir (``"Yule (1944), aktaran Malvern et al. (2004)
+    denk. 3.9"``); yöntem bölümüne kopyalanacak olan tam kayıttır. Bir künye
+    birden çok esere atıf yapabildiği için demet döner — yukarıdaki örnekte
+    hem Yule hem Malvern.
+
+    Eşleşme dizge içinde arama ile yapılır; bunun güvenli olmasının sebebi
+    ``test_registry.py``in her künyenin **en az bir** kaynakça anahtarını
+    birebir içermesini şart koşmasıdır (2026-09-19, Efe).
+    """
+    if not kunye:
+        return ()
+    return tuple(BIBLIOGRAPHY[ad] for ad in sorted(BIBLIOGRAPHY) if ad in kunye)
+
+
 def _citation(key: str) -> str | None:
     """Künye — sabiti doğrulanmamışsa bunu açıkça söyler.
 
@@ -341,7 +359,12 @@ def describe_feature(key: str) -> dict:
     -------
     dict
         ``key``, ``group``, ``group_label``, ``description``, ``formula``,
-        ``scale``, ``inputs``, ``params``, ``requires``, ``citation``.
+        ``scale``, ``inputs``, ``params``, ``requires``, ``citation``,
+        ``references``.
+        ``citation`` kısa işaretçidir, ``references`` ise onda adı geçen
+        eserlerin tam bibliyografik kayıtları — yöntem bölümüne kopyalanacak
+        olan budur.
+
         ``citation`` ``None`` ise o anahtar adlandırılmış bir literatür
         ölçüsü değildir. Ölçünün **kime ait olduğu** hakkında bir şey
         söylemez: kimi anahtar saf tanımdır (``punc_,_ratio``), kimi ise
@@ -379,4 +402,5 @@ def describe_feature(key: str) -> dict:
         "params": FEATURE_PARAMS.get(key, ()),
         "requires": FEATURE_REQUIRES.get(key) or FEATURE_REQUIRES[grup],
         "citation": _citation(key),
+        "references": _references(_citation(key)),
     }

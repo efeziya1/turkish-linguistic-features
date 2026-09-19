@@ -663,32 +663,49 @@ FEATURE_REQUIRES: dict[str, str] = {
 # Anahtar → literatür künyesi. Burada olmayan anahtarın künyesi YOKTUR;
 # uydurma kaynak yazmak yerine describe_feature None döndürür.
 FEATURE_CITATIONS: dict[str, str] = {
+    # ── lexical ─────────────────────────────────────────────
     'ttr': 'Malvern et al. (2004); QUITA §6.1.1',
-    'mattr': 'Covington & McFall (2010)',
-    'herdan_c': 'Malvern et al. (2004) s.26–28 (Herdan)',
-    'sichel_s': 'Malvern et al. (2004) denk. 3.10 (Sichel)',
-    'zipf_exponent': 'Piantadosi (2014)',
-    'zipf_r2': 'Piantadosi (2014)',
-    'zipf_mandelbrot_q': 'Piantadosi (2014)',
-    'zipf_mandelbrot_s': 'Piantadosi (2014)',
-    'mtld': 'McCarthy & Jarvis (2010)',
-    'dugast_u': 'Malvern et al. (2004) denk. 2.7 (Dugast)',
-    'guiraud_r': 'Malvern et al. (2004) denk. 2.2 (Guiraud)',
-    'heaps_beta': 'Manning et al. (2008) §5.1.1 (Heaps)',
-    'entropy': 'QUITA §6.1.12 (Shannon)',
-    'yule_k': 'Malvern et al. (2004) denk. 3.9 (Yule)',
-    'simpson_d': 'Bestgen (2023) (Simpson 1949)',
-    'brunet_w': 'Tweedie & Baayen (1998), aktaran Malvern et al. (2004) sözlükçe',
+    'mattr':
+        'Covington & McFall (2010); varsayılan pencere 50, dil öğrenimi yazınının '
+        "değeri — C&M'nin kendi önerisi 500",
+    'herdan_c': 'Herdan (1960/1964), aktaran Tweedie & Baayen (1998) s.327, denk. (5)',
+    'sichel_s': 'Sichel (1975); formül Malvern et al. (2004) denk. 3.10',
+    'zipf_exponent':
+        'Piantadosi (2014) denk. (2); aynı kaynak aynı korpustan r ve f(r) '
+        'kestirimini eleştiriyor',
+    'zipf_r2':
+        'Piantadosi (2014) denk. (2); aynı kaynak aynı korpustan r ve f(r) '
+        'kestirimini eleştiriyor',
+    'zipf_mandelbrot_q':
+        'Piantadosi (2014) denk. (2); aynı kaynak aynı korpustan r ve f(r) '
+        'kestirimini eleştiriyor',
+    'zipf_mandelbrot_s':
+        'Piantadosi (2014) denk. (2); aynı kaynak aynı korpustan r ve f(r) '
+        'kestirimini eleştiriyor',
+    'mtld': 'McCarthy & Jarvis (2010) s.383–385',
+    'dugast_u': 'Dugast (1978), aktaran Malvern et al. (2004) denk. 2.7',
+    'guiraud_r':
+        'Guiraud (1954) s.53, alternatif biçim (bütün sözcük türleri), aktaran '
+        'Daller (2010); asıl yasası V/√(2N), yalnız içerik sözcükleri',
+    'heaps_beta': 'Heaps (1978), aktaran Manning et al. (2008) §5.1.1',
+    'entropy': 'Shannon (1948), aktaran QUITA §6.1.12',
+    'yule_k': 'Yule (1944), aktaran Malvern et al. (2004) denk. 3.9',
+    'simpson_d': 'Simpson (1949), aktaran Bestgen (2023)',
+    'brunet_w': 'Brunet (1978), aktaran Tweedie & Baayen (1998) s.328, denk. (10)',
     'hapax_percentage': 'QUITA §6.1.6',
-    'vocd_d': 'Malvern et al. (2004) s.56–57; McCarthy & Jarvis (2010)',
-    'hdd': 'McCarthy & Jarvis (2010) s.383',
-    'msttr': 'Malvern et al. (2004) s.25 (Johnson 1944); McCarthy & Jarvis (2010) s.385',
+    'vocd_d': 'Malvern et al. (2004) s.56–57; yordam McCarthy & Jarvis (2010) s.383',
+    'hdd': 'McCarthy & Jarvis (2007), aktaran McCarthy & Jarvis (2010) s.383',
+    'msttr':
+        'Johnson (1944), aktaran Malvern et al. (2004) s.25 ve McCarthy & Jarvis '
+        '(2010) s.385',
     'noun_variation': 'Lu (2012) Tablo 2',
     'verb_variation': 'Lu (2012) Tablo 2',
     'adj_variation': 'Lu (2012) Tablo 2',
     'adv_variation': 'Lu (2012) Tablo 2',
-    'wordfreq_mean': 'van Heuven et al. (2014) (Zipf ölçeği)',
-    'wordfreq_rare_ratio': 'van Heuven et al. (2014) Tablo 1',
+    'wordfreq_mean': 'van Heuven ve ark. (2014) (Zipf ölçeği)',
+    'wordfreq_rare_ratio':
+        'van Heuven ve ark. (2014) Tablo 1 (Zipf ≤ 3 = düşük frekans)',
+    # ── frequency_structure ─────────────────────────────────
     'h_point': 'QUITA §6.1.2; Popescu & Altmann (2006)',
     'vocab_richness_r1': 'Popescu et al. (2009) denk. 3.8',
     'vocab_richness_r4': 'Popescu et al. (2009) denk. 3.24',
@@ -702,14 +719,167 @@ FEATURE_CITATIONS: dict[str, str] = {
     'writers_view_alpha': 'Popescu, Mačutek & Altmann (2009) denk. 4.5',
     'thematic_concentration': 'QUITA §6.2.5',
     'secondary_thematic_concentration': 'QUITA §6.2.6',
+    # ── pos ─────────────────────────────────────────────────
+    'pos_noun': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'pos_propn': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'pos_verb': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'pos_adj': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'pos_adv': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'pos_det': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'pos_adp': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'pos_aux': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'pos_cconj': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'pos_sconj': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'pos_num': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'pos_intj': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'pos_punct': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    # ── syntactic ───────────────────────────────────────────
     'verb_dist_mean': 'QUITA §6.2.1',
     'verb_dist_cv': 'QUITA §6.2.1',
     'activity_ratio': 'QUITA §6.2.2',
-    'lexical_density': 'Lu (2012) (Ure 1971)',
-    'pos_dist_std': 'Deutsch, Jasbi & Shieber (2020) POSDdev',
-    'pos_kl_div': 'Deutsch, Jasbi & Shieber (2020) POSdiv',
-    'arc_len_mean': 'Liu (2008); Jing & Liu (2015)',
-    'parse_depth_mean': 'Jing & Liu (2015)',
+    'lexical_density':
+        "Lu (2012); tanım Halliday'ci geniş biçimde — bütün açık sınıf sözcükler",
+    'pos_dist_std':
+        'Deutsch, Jasbi & Shieber (2020) Tanım 3.3 (POSDdev); oranlar üzerinden, 13 '
+        'UD etiketi',
+    'pos_kl_div': 'Deutsch, Jasbi & Shieber (2020) Tanım 3.4 (POSdiv), bit',
+    # ── syntactic_dep ───────────────────────────────────────
+    'arc_len_mean':
+        'Liu (2008) denk. (1); metin düzeyi Jing & Liu (2015) s.164, denk. (3) '
+        '(MDD2)',
+    'parse_depth_mean': 'Jing & Liu (2015) s.164, denk. (2) ve (4) (MHD2)',
+    'sentfinal_noun': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'sentfinal_propn': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'sentfinal_verb': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'sentfinal_adj': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'sentfinal_adv': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'sentfinal_det': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'sentfinal_adp': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'sentfinal_intj': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'sentfinal_cconj': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'sentfinal_sconj': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'sentfinal_num': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'sentfinal_aux': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'sentfinal_pron': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    'sentfinal_other': 'de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi)',
+    # ── morphological ───────────────────────────────────────
+    'surface_per_lemma':
+        'de Marneffe ve ark. (2021) Tablo 2 (evrensel morfolojik özellikler)',
+    'morph_tense_past':
+        'de Marneffe ve ark. (2021) Tablo 2 (evrensel morfolojik özellikler)',
+    'morph_tense_pres':
+        'de Marneffe ve ark. (2021) Tablo 2 (evrensel morfolojik özellikler)',
+    'morph_tense_fut':
+        'de Marneffe ve ark. (2021) Tablo 2 (evrensel morfolojik özellikler)',
+    'morph_aspect_perf':
+        'de Marneffe ve ark. (2021) Tablo 2 (evrensel morfolojik özellikler)',
+    'morph_aspect_imp':
+        'de Marneffe ve ark. (2021) Tablo 2 (evrensel morfolojik özellikler)',
+    'morph_aspect_prog':
+        'de Marneffe ve ark. (2021) Tablo 2 (evrensel morfolojik özellikler)',
+    'morph_case_nom':
+        'de Marneffe ve ark. (2021) Tablo 2 (evrensel morfolojik özellikler)',
+    'morph_case_acc':
+        'de Marneffe ve ark. (2021) Tablo 2 (evrensel morfolojik özellikler)',
+    'morph_case_dat':
+        'de Marneffe ve ark. (2021) Tablo 2 (evrensel morfolojik özellikler)',
+    'morph_case_loc':
+        'de Marneffe ve ark. (2021) Tablo 2 (evrensel morfolojik özellikler)',
+    'morph_case_abl':
+        'de Marneffe ve ark. (2021) Tablo 2 (evrensel morfolojik özellikler)',
+    'morph_case_gen':
+        'de Marneffe ve ark. (2021) Tablo 2 (evrensel morfolojik özellikler)',
+    'morph_person_1':
+        'de Marneffe ve ark. (2021) Tablo 2 (evrensel morfolojik özellikler)',
+    'morph_person_2':
+        'de Marneffe ve ark. (2021) Tablo 2 (evrensel morfolojik özellikler)',
+    'morph_person_3':
+        'de Marneffe ve ark. (2021) Tablo 2 (evrensel morfolojik özellikler)',
+    'morph_number_sing':
+        'de Marneffe ve ark. (2021) Tablo 2 (evrensel morfolojik özellikler)',
+    'morph_number_plur':
+        'de Marneffe ve ark. (2021) Tablo 2 (evrensel morfolojik özellikler)',
+    'morph_voice_pass':
+        'de Marneffe ve ark. (2021) Tablo 2 (evrensel morfolojik özellikler)',
+    # ── morphological_zeyrek ────────────────────────────────
+    'agglutination_depth':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    'suffix_char_length_ratio':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    'suffix_bigram_entropy':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    'derivational_suffix_ratio':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    'verb_suffix_diversity':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    'tense_past_def':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    'tense_past_nar':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    'tense_present':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    'tense_future':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    'negation_ratio':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    'passive_ratio':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    'plural_ratio':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    'case_acc_ratio':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    'case_dat_ratio':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    'case_loc_ratio':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    'case_abl_ratio':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    'case_gen_ratio':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    'case_ins_ratio':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    'conditional_suffix_ratio':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    'causative_suffix_ratio':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    'suffix_chain_cv':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    'modal_possibility_ratio':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    'modal_necessity_ratio':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    'question_particle_ratio':
+        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
+        'Akın (2007)',
+    # ── phonetic ────────────────────────────────────────────
+    'front_vowel_ratio': 'Göksel & Kerslake (2005) böl. 2 (ünlü dizgesi, ince/kalın)',
+    'back_vowel_ratio': 'Göksel & Kerslake (2005) böl. 2 (ünlü dizgesi, ince/kalın)',
+    'vowel_harmony_compliance':
+        'Göksel & Kerslake (2005) §3.1 (fronting harmony); istisnalar §3.4 — ölçü '
+        'onları uyumsuz sayar',
     'syllable_mean': 'Bezirci & Yılmaz (2010) Tablo 1-c',
     'syllable_cv': 'Bezirci & Yılmaz (2010) Tablo 1-c',
     'syllable_1_ratio': 'Bezirci & Yılmaz (2010) Tablo 1-c',
@@ -718,14 +888,176 @@ FEATURE_CITATIONS: dict[str, str] = {
     'syllable_4_ratio': 'Bezirci & Yılmaz (2010) Tablo 1-c',
     'syllable_5_ratio': 'Bezirci & Yılmaz (2010) Tablo 1-c',
     'syllable_6plus_ratio': 'Bezirci & Yılmaz (2010) Tablo 1-c',
-    'bezirci_yilmaz': 'Bezirci & Yılmaz (2010)',
-    'atesman': 'Ateşman (1997), aktaran Kalyoncu (2025) s.49 ve Çıplak (2022) s.33',
-    'cetinkaya_uzun': 'Çetinkaya (2010)',
-    'flesch_reading_ease': 'Flesch (1948)',
-    'flesch_kincaid_grade': 'Kincaid et al. (1975)',
-    'smog': 'McLaughlin (1969)',
-    'ari': 'Kincaid et al. (1975) s.14 (Smith & Senter 1967)',
-    'coleman_liau': 'Coleman & Liau (1975)',
-    'lix': 'Anderson (1983) (Björnsson 1968)',
-    'long_word_ratio': 'Anderson (1983)',
+    # ── readability ─────────────────────────────────────────
+    'bezirci_yilmaz': 'Bezirci & Yılmaz (2010) s.371, denk. (9)',
+    'atesman': 'Ateşman (1997) s.74, denk. (2)',
+    'cetinkaya_uzun': 'Çetinkaya (2010) s.85; sayım kuralları s.93',
+    'flesch_reading_ease':
+        'Flesch (1948) Formül A; katsayı .846, birim 100 sözcükteki hece',
+    'flesch_kincaid_grade': 'Kincaid et al. (1975) s.14, Tablo 3, "New"',
+    'smog':
+        'McLaughlin (1969) s.643, Tablo 1, denk. (d); p = 30 cümlelik örneklemdeki '
+        'çok heceli sözcük',
+    'ari':
+        'Smith & Senter (1967) s.8, AMRL-TR-66-220; aynen Kincaid et al. (1975) '
+        's.14, Tablo 3 ("Old")',
+    'coleman_liau':
+        'Coleman & Liau (1975) s.284; formül iki denklemin bileşkesi, makalede bu '
+        'hâliyle geçmez',
+    'lix': 'Björnsson (1968), aktaran Anderson (1983) s.490; uzun sözcük = 7+ harf',
+    'long_word_ratio': 'Anderson (1983); uzun sözcük = 7+ harf',
 }
+
+
+# ── kaynakça ─────────────────────────────────────────────────────────
+# Künye dizeleri kısa işaretçidir; tam bibliyografik kayıt burada durur.
+# Her künye en az bir anahtarı birebir içerir ve her kayıt en az bir
+# künyede geçer — ikisini de ``test_registry.py`` sınıyor. Uydurma bir
+# kaynak adı o testten geçemez (2026-09-19, Efe).
+BIBLIOGRAPHY: dict[str, str] = {
+    'Akın & Akın (2007)':
+        'Akın, A. A., & Akın, M. D. (2007). Zemberek, an open source NLP framework '
+        'for Turkic Languages. 8 s. Kaynak kod: github.com/ahmetaa/zemberek-nlp. '
+        '(Yayın yeri belgede belirtilmiyor.)',
+    'Anderson (1983)':
+        'Anderson, J. (1983). Lix and Rix: Variations on a little-known readability '
+        'index. Journal of Reading, 26(6), 490–496. JSTOR 40031755.',
+    'Ateşman (1997)':
+        'Ateşman, E. (1997). Türkçede okunabilirliğin ölçülmesi. Dil Dergisi, 58, '
+        '71–74. Ankara Üniversitesi TÖMER.',
+    'Bestgen (2023)':
+        'Bestgen, Y. (2023). Measuring lexical diversity in texts: The twofold '
+        'length problem. arXiv:2307.04626.',
+    'Bezirci & Yılmaz (2010)':
+        'Bezirci, B., & Yılmaz, A. E. (2010). Türkçe için yeni bir okunabilirlik '
+        'ölçütü önerisi. SIU2010 — IEEE 18. Sinyal İşleme ve İletişim Uygulamaları '
+        'Kurultayı, Diyarbakır, 368–371.',
+    'Björnsson (1968)': 'Björnsson, C. H. (1968). Läsbarhet. Stockholm: Liber.',
+    'Brunet (1978)':
+        'Brunet, E. (1978). Vocabulaire de Jean Giraudoux: Structure et Évolution. '
+        'Genève: Slatkine.',
+    'Coleman & Liau (1975)':
+        'Coleman, M., & Liau, T. L. (1975). A computer readability formula designed '
+        'for machine scoring. Journal of Applied Psychology, 60(2), 283–284.',
+    'Covington & McFall (2010)':
+        'Covington, M. A., & McFall, J. D. (2010). Cutting the Gordian knot: The '
+        'moving-average type–token ratio (MATTR). Journal of Quantitative '
+        'Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098',
+    'Daller (2010)':
+        "Daller, M. (2010). Guiraud's Index. BAAL 2010, Aberdeen. (Sunum.)",
+    'de Marneffe ve ark. (2021)':
+        'de Marneffe, M.-C., Manning, C. D., Nivre, J., & Zeman, D. (2021). '
+        'Universal Dependencies. Computational Linguistics, 47(2), 255–308. DOI '
+        '10.1162/COLI_a_00402',
+    'Deutsch, Jasbi & Shieber (2020)':
+        'Deutsch, T., Jasbi, M., & Shieber, S. (2020). Linguistic features for '
+        'readability assessment. Proceedings of the 15th Workshop on Innovative Use '
+        'of NLP for Building Educational Applications (BEA).',
+    'Dugast (1978)':
+        "Dugast, D. (1978). Sur quoi se fonde la notion d'étendue théoretique du "
+        'vocabulaire? Le Français Moderne, 46, 25–32.',
+    'Flesch (1948)':
+        'Flesch, R. (1948). A new readability yardstick. Journal of Applied '
+        'Psychology, 32(3), 221–233.',
+    'Guiraud (1954)':
+        'Guiraud, P. (1954). Les Caractères Statistiques du Vocabulaire. Essai de '
+        'méthodologie. Paris: Presses Universitaires de France.',
+    'Göksel & Kerslake (2005)':
+        'Göksel, A., & Kerslake, C. (2005). Turkish: A Comprehensive Grammar. '
+        'London & New York: Routledge. 535 s.',
+    'Heaps (1978)':
+        'Heaps, H. S. (1978). Information Retrieval: Computational and Theoretical '
+        'Aspects. New York: Academic Press.',
+    'Herdan (1960/1964)':
+        'Herdan, G. (1960). Type-Token Mathematics. The Hague: Mouton. / Herdan, G. '
+        '(1964). Quantitative Linguistics. London: Butterworths.',
+    'Jing & Liu (2015)':
+        'Jing, Y., & Liu, H. (2015). Mean hierarchical distance: Augmenting mean '
+        'dependency distance. Proceedings of Depling 2015, Uppsala, 161–170.',
+    'Johnson (1944)':
+        'Johnson, W. (1944). Studies in language behavior: I. A program of '
+        'research. Psychological Monographs, 56(2), 1–15. DOI 10.1037/h0093508',
+    'Kincaid et al. (1975)':
+        'Kincaid, J. P., Fishburne, R. P., Rogers, R. L., & Chissom, B. S. (1975). '
+        'Derivation of new readability formulas for Navy enlisted personnel. '
+        'Research Branch Report 8-75. Millington, TN: Naval Air Station Memphis.',
+    'Liu (2008)':
+        'Liu, H. (2008). Dependency distance as a metric of language comprehension '
+        'difficulty. Journal of Cognitive Science, 9(2), 159–191.',
+    'Lu (2012)':
+        'Lu, X. (2012). The relationship of lexical richness to the quality of ESL '
+        "learners' oral narratives. The Modern Language Journal, 96(2), 190–208. "
+        'DOI 10.1111/j.1540-4781.2011.01232.x',
+    'Malvern et al. (2004)':
+        'Malvern, D., Richards, B., Chipere, N., & Durán, P. (2004). Lexical '
+        'Diversity and Language Development: Quantification and Assessment. '
+        'Basingstoke: Palgrave Macmillan.',
+    'Manning et al. (2008)':
+        'Manning, C. D., Raghavan, P., & Schütze, H. (2008). Introduction to '
+        'Information Retrieval. Cambridge University Press. (Arşivdeki dosya 2009 '
+        'çevrimiçi baskısı.)',
+    'McCarthy & Jarvis (2007)':
+        'McCarthy, P. M., & Jarvis, S. (2007). vocd: A theoretical and empirical '
+        'evaluation. Language Testing, 24(4), 459–488. DOI 10.1177/0265532207080767',
+    'McCarthy & Jarvis (2010)':
+        'McCarthy, P. M., & Jarvis, S. (2010). MTLD, vocd-D, and HD-D: A validation '
+        'study of sophisticated approaches to lexical diversity assessment. '
+        'Behavior Research Methods, 42(2), 381–392. DOI 10.3758/BRM.42.2.381',
+    'McLaughlin (1969)':
+        'McLaughlin, G. H. (1969). SMOG grading — a new readability formula. '
+        'Journal of Reading, 12(8), 639–646.',
+    'Piantadosi (2014)':
+        "Piantadosi, S. T. (2014). Zipf's word frequency law in natural language: A "
+        'critical review and future directions. Psychonomic Bulletin & Review, '
+        '21(5), 1112–1130.',
+    'Popescu & Altmann (2006)':
+        'Popescu, I.-I., & Altmann, G. (2006). Some aspects of word frequencies. '
+        'Glottometrics, 13, 23–46.',
+    'Popescu et al. (2009)':
+        'Popescu, I.-I., Altmann, G., Grzybek, P., ve ark. (2009). Word Frequency '
+        'Studies. Berlin: Mouton de Gruyter.',
+    'Popescu, Mačutek & Altmann (2009)':
+        'Popescu, I.-I., Mačutek, J., & Altmann, G. (2009). Aspects of Word '
+        'Frequencies. Lüdenscheid: RAM-Verlag.',
+    'Popescu, Čech & Altmann (2011)':
+        'Popescu, I.-I., Čech, R., & Altmann, G. (2011). The Lambda-structure of '
+        'Texts. Lüdenscheid: RAM-Verlag.',
+    'QUITA':
+        'Kubát, M., Matlach, V., & Čech, R. (2014). QUITA — Quantitative Index Text '
+        'Analyzer. Lüdenscheid: RAM-Verlag.',
+    'Shannon (1948)':
+        'Shannon, C. E. (1948). A mathematical theory of communication. Bell System '
+        'Technical Journal, 27(3), 379–423; 27(4), 623–656.',
+    'Sichel (1975)':
+        'Sichel, H. S. (1975). On a distribution law for word frequencies. Journal '
+        'of the American Statistical Association, 70(351a), 542–547. DOI '
+        '10.1080/01621459.1975.10482469',
+    'Simpson (1949)':
+        'Simpson, E. H. (1949). Measurement of diversity. Nature, 163(4148), 688. '
+        'DOI 10.1038/163688a0',
+    'Smith & Senter (1967)':
+        'Smith, E. A., & Senter, R. J. (1967). Automated readability index. '
+        'AMRL-TR-66-220. Wright-Patterson AFB, OH: Aerospace Medical Research '
+        'Laboratories. 22 s.',
+    'Tweedie & Baayen (1998)':
+        'Tweedie, F. J., & Baayen, R. H. (1998). How variable may a constant be? '
+        'Measures of lexical richness in perspective. Computers and the Humanities, '
+        '32(5), 323–352. DOI 10.1023/A:1001749303137',
+    'van Heuven ve ark. (2014)':
+        'van Heuven, W. J. B., Mandera, P., Keuleers, E., & Brysbaert, M. (2014). '
+        'SUBTLEX-UK: A new and improved word frequency database for British '
+        'English. Quarterly Journal of Experimental Psychology, 67(6), 1176–1190. '
+        'DOI 10.1080/17470218.2013.850521',
+    'Yule (1944)':
+        'Yule, G. U. (1944). The Statistical Study of Literary Vocabulary. '
+        'Cambridge University Press.',
+    'Zeyrek':
+        'Zeyrek — Zemberek morfolojik çözümleyicisinin Python aktarımı. '
+        'github.com/obulat/zeyrek',
+    'Çetinkaya (2010)':
+        'Çetinkaya, G. (2010). Türkçe metinlerin okunabilirlik düzeylerinin '
+        'tanımlanması ve sınıflandırılması [Yayımlanmamış doktora tezi]. Ankara '
+        'Üniversitesi, Sosyal Bilimler Enstitüsü. Danışman: Leylâ Uzun. 252 s. '
+        'hdl:20.500.12812/519962',
+}
+

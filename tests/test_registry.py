@@ -14,6 +14,7 @@ import pytest
 
 from turkish_linguistic_features.features.params import FeatureParams
 from turkish_linguistic_features.features.registry import (
+    BIBLIOGRAPHY,
     DYNAMIC_PREFIXES,
     FEATURE_CITATIONS,
     FEATURE_DESCRIPTIONS,
@@ -122,10 +123,11 @@ def test_cumle_sonu_anahtarlari_vocab_ile_uyumlu():
 # ── describe_feature ──────────────────────────────────────────────────
 
 
-def test_describe_on_alan():
+def test_describe_on_bir_alan():
     d = describe_feature("mattr")
     assert set(d) == {"key", "group", "group_label", "description",
-                      "formula", "scale", "inputs", "params", "requires", "citation"}
+                      "formula", "scale", "inputs", "params", "requires",
+                      "citation", "references"}
 
 
 def test_describe_statik_anahtar():
@@ -269,3 +271,48 @@ def test_inputs_kaydi_gercekten_okunan_alanlari_iceriyor():
         assert beklenen in describe_feature(anahtar)["inputs"], (
             f"{anahtar} {beklenen} okuyor ama GROUP_INPUTS söylemiyor"
         )
+
+
+# ── kaynakça ──────────────────────────────────────────────────────────
+
+
+def test_her_kunye_kaynakcada_karsiligi_olan_bir_esere_atif_yapiyor():
+    """🔴 Uydurma kaynak adına karşı tek güvenlik ağı (2026-09-19, Efe).
+
+    Künye dizeleri kısa işaretçidir (``"Lu (2012) Tablo 2"``); tam kayıt
+    ``BIBLIOGRAPHY``de durur. Her künye **en az bir** kaynakça anahtarını
+    birebir içermeli — içermiyorsa ya yazım hatası vardır ya da hiç
+    doğrulanmamış bir kaynak uydurulmuştur.
+
+    Bu testten önce böyle bir denetim yoktu: yanlış bir künye sessizce
+    geçiyordu (bkz. `plan/kaynak-arastirmasi.md`, kaynaklarda bulunan altı
+    hata).
+    """
+    eksik = {
+        anahtar: kunye
+        for anahtar, kunye in FEATURE_CITATIONS.items()
+        if not any(eser in kunye for eser in BIBLIOGRAPHY)
+    }
+    assert not eksik, f"Kaynakçada karşılığı olmayan künyeler: {eksik}"
+
+
+def test_kaynakcadaki_her_eser_en_az_bir_kunyede_kullaniliyor():
+    """Ölü kayıt bırakma — kullanılmayan kaynakça girdisi eskir."""
+    kullanilmayan = {
+        eser for eser in BIBLIOGRAPHY
+        if not any(eser in kunye for kunye in FEATURE_CITATIONS.values())
+    }
+    assert not kullanilmayan, f"Hiçbir künyede geçmeyen eserler: {kullanilmayan}"
+
+
+def test_describe_feature_tam_kaydi_dondurur():
+    """``references`` künyedeki eserlerin tam bibliyografik kayıtları."""
+    d = describe_feature("hdd")
+    assert d["references"], "hdd'nin künyesi var, tam kaydı da olmalı"
+    assert any("Behavior Research Methods" in r for r in d["references"])
+
+
+def test_citation_yoksa_references_bos():
+    d = describe_feature("ttr_moving_slope")
+    assert d["citation"] is None
+    assert d["references"] == ()
