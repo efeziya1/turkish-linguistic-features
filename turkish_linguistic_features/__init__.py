@@ -32,17 +32,19 @@ from .exceptions import (
 )
 from .features.params import FeatureParams
 from .features.registry import describe_feature
+from .file_loader import load_corpus, segment_text
 
 __version__ = "0.1.0"
 
-# API-SOZLESMESI.md §1 dokuz ad sayıyor; ikisi (``load_corpus``,
-# ``segment_text``) T27'de doğuyor ve o zaman buraya eklenecek. Şimdiden
-# yazılsalardı paket hiç import edilmezdi — var olmayan bir modül aranırdı.
+# API-SOZLESMESI.md §1 — dokuz adın hepsi burada (T27 ile tamamlandı).
 __all__ = [
     # Analiz
     "analyze",
     # Yapılandırma
     "FeatureParams",
+    # Korpus
+    "load_corpus",
+    "segment_text",
     # Keşif
     "describe_feature",
     # Hatalar
