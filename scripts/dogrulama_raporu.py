@@ -164,12 +164,34 @@ def _jing_liu(alan: str) -> float:
     return dependency_features([cumle])[alan]
 
 
-def _h_point(frekanslar: list[int]) -> float:
-    """QUITA'nın örnek metninin sıklık listesinden h-point."""
-    import numpy as np
+# QUITA §6.1.2 Tablo 6.1/6.2 — iki örnek metnin ilk 10 rankı.
+_T1 = [16, 7, 7, 7, 5, 5, 3, 3, 3, 3]
+_T2 = [20, 9, 8, 7, 4, 4, 4, 4, 4, 3]
 
+
+def _quita_spektrum(bas: list[int], n: int):
+    """QUITA örnek metninin sıklık dizisi.
+
+    Kılavuz yalnız ilk 10 rankı ve ``N``i yayımlıyor. Kuyruk tek-frekanslı
+    doldurularak ``N`` tutturuluyor; ``h_point`` ve ``R1`` yalnız baştaki
+    ranklara ve ``N``e baktığı için kuyruğun biçimi sonucu etkilemiyor.
+    """
+    import numpy as np
+    return np.array(bas + [1] * (n - sum(bas)), dtype=float)
+
+
+def _h_point(bas: list[int], n: int) -> float:
     from turkish_linguistic_features.features.frequency_structure import h_point
-    return h_point(np.array(frekanslar, dtype=float))
+    return h_point(_quita_spektrum(bas, n))
+
+
+def _r1(bas: list[int], n: int) -> float:
+    from turkish_linguistic_features.features.frequency_structure import (
+        h_point,
+        vocab_richness_r1,
+    )
+    f = _quita_spektrum(bas, n)
+    return vocab_richness_r1(f, n, h_point(f))["vocab_richness_r1"]
 
 
 def _liu_mdd() -> float:
@@ -234,11 +256,17 @@ KARSILASTIRMALAR: dict[str, list[Karsilastirma]] = {
         # frekansına eşit (h doğrudan okunur), Text 2'de eşit yok (denk. 6.2
         # ile ara değerleme) — asıl hata yapılabilecek yer ikincisi.
         Karsilastirma("QUITA §6.1.2 Tablo 6.1", "Text 1 · rank 5 = frekans 5",
-                      5.0, lambda: _h_point([16, 7, 7, 7, 5, 5, 3, 3, 3, 3]),
-                      tur=FORMUL),
+                      5.0, lambda: _h_point(_T1, 179), tur=FORMUL),
         Karsilastirma("QUITA §6.1.2 Tablo 6.2", "Text 2 · ara değerleme, denk. (6.2)",
-                      4.75, lambda: _h_point([20, 9, 8, 7, 4, 4, 4, 4, 4, 3]),
-                      tur=FORMUL),
+                      4.75, lambda: _h_point(_T2, 202), tur=FORMUL),
+    ],
+    "vocab_richness_r1": [
+        # QUITA §6.1.3, denk. (6.3). Text 2 ayrıca kesirli h'de toplamanın
+        # ⌊h⌋'ye kadar gittiğini sınıyor: kılavuz 20+9+8+7 topluyor, h=4,75.
+        Karsilastirma("QUITA §6.1.3", "Text 1 · N=179, h=5", 0.8352,
+                      lambda: _r1(_T1, 179), tur=FORMUL),
+        Karsilastirma("QUITA §6.1.3", "Text 2 · N=202, h=4,75 → ⌊h⌋=4", 0.838,
+                      lambda: _r1(_T2, 202), tur=FORMUL),
     ],
 }
 
