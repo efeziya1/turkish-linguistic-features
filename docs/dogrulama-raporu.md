@@ -36,21 +36,23 @@ karşılaştırma tablosunu okur, yani ikisi ayrışamaz. Diğer bilinen-değer
 testleri (T04B, T05–T07, T10, T13) kendi dosyalarında duruyor.
 
 
-## Türkçe — 208 anahtar, 217 satır
+## Türkçe — 208 anahtar, 218 satır
 
 Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 | Durum | Satır sayısı |
 |---|---|
-| ✅ birebir | 12 |
+| ✅ birebir | 14 |
 | 🟡 belgelenmis sapma | 2 |
-| ⚪ kaynakta sayisal ornek yok | 131 |
+| ⚪ kaynakta sayisal ornek yok | 130 |
 | ⚪ kaynak yok | 72 |
 
 ### Sayısal karşılaştırması olanlar
 
 | Anahtar | Kaynak | Örnek | Kanıt | Beklenen | Bizim | Fark | Durum |
 |---|---|---|---|---|---|---|---|
+| `h_point` | QUITA §6.1.2 Tablo 6.1 | Text 1 · rank 5 = frekans 5 | formül | 5.000 | 5.000 | +0.000 | ✅ |
+| `h_point` | QUITA §6.1.2 Tablo 6.2 | Text 2 · ara değerleme, denk. (6.2) | formül | 4.750 | 4.750 | +0.000 | ✅ |
 | `arc_len_mean` | Jing & Liu (2015) s.164 | Figure 3 · 'Mr. Nixon was to…' | formül | 1.167 | 1.167 | +0.000 | ✅ |
 | `arc_len_mean` | Liu (2008) denk. (1) | 'I actually live in Beijing' · 5/4 | formül | 1.250 | 1.250 | +0.000 | ✅ |
 | `parse_depth_mean` | Jing & Liu (2015) s.164 | Figure 3 · MHD = 12/6 | formül | 2.000 | 2.000 | +0.000 | ✅ |
@@ -72,7 +74,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 ### Sayısal örneği olmayanlar
 
-203 anahtar. Kaynağı olanlar formül ve sınır durumu testleriyle sınanıyor; kaynağı olmayanlar adlandırılmış literatür ölçüsü değil.
+202 anahtar. Kaynağı olanlar formül ve sınır durumu testleriyle sınanıyor; kaynağı olmayanlar adlandırılmış literatür ölçüsü değil.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
@@ -108,7 +110,6 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `vocd_d` | Malvern et al. (2004) s.56–57; yordam McCarthy & Jarvis (2010) s.383 | ⚪ |
 | `hdd` | McCarthy & Jarvis (2007), aktaran McCarthy & Jarvis (2010) s.383 | ⚪ |
 | `msttr` | Johnson (1944), aktaran Malvern et al. (2004) s.25 ve McCarthy & Jarvis (2010) s.385 | ⚪ |
-| `h_point` | QUITA §6.1.2; Popescu & Altmann (2006) | ⚪ |
 | `vocab_richness_r1` | Popescu et al. (2009) denk. 3.8 | ⚪ |
 | `vocab_richness_r4` | Popescu et al. (2009) denk. 3.24 | ⚪ |
 | `repeat_rate` | QUITA §6.1.4 | ⚪ |
@@ -280,27 +281,29 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `char_y` | — | ⚪ |
 | `char_z` | — | ⚪ |
 
-## İngilizce — 182 anahtar, 183 satır
+## İngilizce — 182 anahtar, 184 satır
 
 Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 | Durum | Satır sayısı |
 |---|---|
-| ✅ birebir | 3 |
-| ⚪ kaynakta sayisal ornek yok | 110 |
+| ✅ birebir | 5 |
+| ⚪ kaynakta sayisal ornek yok | 109 |
 | ⚪ kaynak yok | 70 |
 
 ### Sayısal karşılaştırması olanlar
 
 | Anahtar | Kaynak | Örnek | Kanıt | Beklenen | Bizim | Fark | Durum |
 |---|---|---|---|---|---|---|---|
+| `h_point` | QUITA §6.1.2 Tablo 6.1 | Text 1 · rank 5 = frekans 5 | formül | 5.000 | 5.000 | +0.000 | ✅ |
+| `h_point` | QUITA §6.1.2 Tablo 6.2 | Text 2 · ara değerleme, denk. (6.2) | formül | 4.750 | 4.750 | +0.000 | ✅ |
 | `arc_len_mean` | Jing & Liu (2015) s.164 | Figure 3 · 'Mr. Nixon was to…' | formül | 1.167 | 1.167 | +0.000 | ✅ |
 | `arc_len_mean` | Liu (2008) denk. (1) | 'I actually live in Beijing' · 5/4 | formül | 1.250 | 1.250 | +0.000 | ✅ |
 | `parse_depth_mean` | Jing & Liu (2015) s.164 | Figure 3 · MHD = 12/6 | formül | 2.000 | 2.000 | +0.000 | ✅ |
 
 ### Sayısal örneği olmayanlar
 
-180 anahtar. Kaynağı olanlar formül ve sınır durumu testleriyle sınanıyor; kaynağı olmayanlar adlandırılmış literatür ölçüsü değil.
+179 anahtar. Kaynağı olanlar formül ve sınır durumu testleriyle sınanıyor; kaynağı olmayanlar adlandırılmış literatür ölçüsü değil.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
@@ -336,7 +339,6 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `vocd_d` | Malvern et al. (2004) s.56–57; yordam McCarthy & Jarvis (2010) s.383 | ⚪ |
 | `hdd` | McCarthy & Jarvis (2007), aktaran McCarthy & Jarvis (2010) s.383 | ⚪ |
 | `msttr` | Johnson (1944), aktaran Malvern et al. (2004) s.25 ve McCarthy & Jarvis (2010) s.385 | ⚪ |
-| `h_point` | QUITA §6.1.2; Popescu & Altmann (2006) | ⚪ |
 | `vocab_richness_r1` | Popescu et al. (2009) denk. 3.8 | ⚪ |
 | `vocab_richness_r4` | Popescu et al. (2009) denk. 3.24 | ⚪ |
 | `repeat_rate` | QUITA §6.1.4 | ⚪ |

@@ -164,6 +164,14 @@ def _jing_liu(alan: str) -> float:
     return dependency_features([cumle])[alan]
 
 
+def _h_point(frekanslar: list[int]) -> float:
+    """QUITA'nın örnek metninin sıklık listesinden h-point."""
+    import numpy as np
+
+    from turkish_linguistic_features.features.frequency_structure import h_point
+    return h_point(np.array(frekanslar, dtype=float))
+
+
 def _liu_mdd() -> float:
     """Liu (2008) denk. (1) örneği: 'I actually live in Beijing' → 5/4."""
     from turkish_linguistic_features.features.dependency import dependency_features
@@ -220,6 +228,17 @@ KARSILASTIRMALAR: dict[str, list[Karsilastirma]] = {
     "parse_depth_mean": [
         Karsilastirma("Jing & Liu (2015) s.164", "Figure 3 · MHD = 12/6",
                       2.0, lambda: _jing_liu("parse_depth_mean"), tur=FORMUL),
+    ],
+    "h_point": [
+        # QUITA §6.1.2, Tablo 6.1/6.2. İki dal da sınanıyor: Text 1'de bir rank
+        # frekansına eşit (h doğrudan okunur), Text 2'de eşit yok (denk. 6.2
+        # ile ara değerleme) — asıl hata yapılabilecek yer ikincisi.
+        Karsilastirma("QUITA §6.1.2 Tablo 6.1", "Text 1 · rank 5 = frekans 5",
+                      5.0, lambda: _h_point([16, 7, 7, 7, 5, 5, 3, 3, 3, 3]),
+                      tur=FORMUL),
+        Karsilastirma("QUITA §6.1.2 Tablo 6.2", "Text 2 · ara değerleme, denk. (6.2)",
+                      4.75, lambda: _h_point([20, 9, 8, 7, 4, 4, 4, 4, 4, 3]),
+                      tur=FORMUL),
     ],
 }
 
