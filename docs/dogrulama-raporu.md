@@ -22,33 +22,57 @@ onun literatürdeki değeri tuttuğunu görebilmeniz.
 Tolerans 0.05. Kaynaklar ara değerleri yuvarlayarak bastığı için mutlak
 eşitlik beklenmiyor; farkın nereden geldiği bilinmiyorsa satır ❌ olur.
 
+## Kanıtın iki türü
+
+**Uçtan uca** satırlar kaynağın **metnini** boru hattından geçirir — yani
+tokenizasyon, heceleme ve cümle bölme de sınanır. Bunlar en güçlü kanıt.
+
+**Formül** satırları fonksiyona girdileri doğrudan verir (örneğin "hece/sözcük
+2,2 ve sözcük/cümle 4"). Formülü ve katsayıları doğrular, boru hattını
+doğrulamaz. Kaynak bir metin yayımlamamışsa elde olan budur.
+
 Bu rapor **testlerden üretilir** — `tests/test_kaynak_esligi.py` ile aynı
 karşılaştırma tablosunu okur, yani ikisi ayrışamaz. Diğer bilinen-değer
 testleri (T04B, T05–T07, T10, T13) kendi dosyalarında duruyor.
 
 
-## Türkçe — 208 anahtar
+## Türkçe — 208 anahtar, 217 satır
 
-| Durum | Anahtar sayısı |
+Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
+
+| Durum | Satır sayısı |
 |---|---|
-| ✅ birebir | 2 |
-| 🟡 belgelenmis sapma | 1 |
-| ⚪ kaynakta sayisal ornek yok | 133 |
+| ✅ birebir | 12 |
+| 🟡 belgelenmis sapma | 2 |
+| ⚪ kaynakta sayisal ornek yok | 131 |
 | ⚪ kaynak yok | 72 |
 
 ### Sayısal karşılaştırması olanlar
 
-| Anahtar | Kaynak | Örnek | Beklenen | Bizim | Fark | Durum |
-|---|---|---|---|---|---|---|
-| `atesman` | Ateşman (1997) | Kalyoncu & Memiş (2024) Tablo 9 · Metin 2 | 23.094 | 23.094 | -0.000 | ✅ |
-| `cetinkaya_uzun` | Çetinkaya (2010) | Kalyoncu & Memiş (2024) Tablo 9 · Metin 2 | 23.084 | 23.084 | -0.000 | ✅ |
-| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) | Kalyoncu & Memiş (2024) Tablo 9 · Metin 2 | 30.423 | 30.392 | -0.031 | 🟡 |
+| Anahtar | Kaynak | Örnek | Kanıt | Beklenen | Bizim | Fark | Durum |
+|---|---|---|---|---|---|---|---|
+| `arc_len_mean` | Jing & Liu (2015) s.164 | Figure 3 · 'Mr. Nixon was to…' | formül | 1.167 | 1.167 | +0.000 | ✅ |
+| `arc_len_mean` | Liu (2008) denk. (1) | 'I actually live in Beijing' · 5/4 | formül | 1.250 | 1.250 | +0.000 | ✅ |
+| `parse_depth_mean` | Jing & Liu (2015) s.164 | Figure 3 · MHD = 12/6 | formül | 2.000 | 2.000 | +0.000 | ✅ |
+| `atesman` | Ateşman (1997) | Kalyoncu & Memiş (2024) Tablo 9 · Metin 2 | uçtan uca | 23.094 | 23.094 | -0.000 | ✅ |
+| `atesman` | Ateşman (1997) s.74 | kalibrasyon: en kolay metin | formül | 100.000 | 100.000 | -0.000 | ✅ |
+| `atesman` | Ateşman (1997) s.74 | kalibrasyon: en zor metin | formül | 0.000 | 0.000 | +0.000 | ✅ |
+| `cetinkaya_uzun` | Çetinkaya (2010) | Kalyoncu & Memiş (2024) Tablo 9 · Metin 2 | uçtan uca | 23.084 | 23.084 | -0.000 | ✅ |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) | Kalyoncu & Memiş (2024) Tablo 9 · Metin 2 | uçtan uca | 30.423 | 30.392 | -0.031 | 🟡 |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Tablo 5 | E7 3,03 · OKS 7 | formül | 4.610 | 4.605 | -0.005 | ✅ |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Tablo 5 | E7 8,3 · OKS 10 | formül | 9.110 | 9.110 | +0.000 | ✅ |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Tablo 5 | E7 18,82 · OKS 14 | formül | 16.230 | 16.232 | +0.002 | ✅ |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Tablo 3 | en kolay metnin H değerleri | formül | 3.030 | 3.025 | -0.005 | ✅ |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Tablo 3 | en zor metnin H değerleri | formül | 18.820 | 18.815 | -0.005 | ✅ |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Tablo 3 | ortalama H değerleri | formül | 8.300 | 8.341 | +0.041 | 🟡 |
 
 **`bezirci_yilmaz` sapması:** Makalenin H6 ara değeri yuvarlanmış; fark 0,031 ve iki değer de aynı okunabilirlik sınıfına (akademik, 16+) düşüyor.
 
+**`bezirci_yilmaz` sapması:** Makale H6 ortalamasını 0,07 diye basmış ama 8,30'u veren değer ≈0,0684. 26,25 katsayısı bu yuvarlamayı 0,041'e büyütüyor; katsayıların kendisi doğru.
+
 ### Sayısal örneği olmayanlar
 
-205 anahtar. Kaynağı olanlar formül ve sınır durumu testleriyle sınanıyor; kaynağı olmayanlar adlandırılmış literatür ölçüsü değil.
+203 anahtar. Kaynağı olanlar formül ve sınır durumu testleriyle sınanıyor; kaynağı olmayanlar adlandırılmış literatür ölçüsü değil.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
@@ -132,8 +156,6 @@ testleri (T04B, T05–T07, T10, T13) kendi dosyalarında duruyor.
 | `lexical_density` | Lu (2012); tanım Halliday'ci geniş biçimde — bütün açık sınıf sözcükler | ⚪ |
 | `pos_dist_std` | Deutsch, Jasbi & Shieber (2020) Tanım 3.3 (POSDdev); oranlar üzerinden, 13 UD etiketi | ⚪ |
 | `pos_kl_div` | Deutsch, Jasbi & Shieber (2020) Tanım 3.4 (POSdiv), bit | ⚪ |
-| `arc_len_mean` | Liu (2008) denk. (1); metin düzeyi Jing & Liu (2015) s.164, denk. (3) (MDD2) | ⚪ |
-| `parse_depth_mean` | Jing & Liu (2015) s.164, denk. (2) ve (4) (MHD2) | ⚪ |
 | `sentfinal_noun` | de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi) | ⚪ |
 | `sentfinal_propn` | de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi) | ⚪ |
 | `sentfinal_verb` | de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi) | ⚪ |
@@ -258,22 +280,27 @@ testleri (T04B, T05–T07, T10, T13) kendi dosyalarında duruyor.
 | `char_y` | — | ⚪ |
 | `char_z` | — | ⚪ |
 
-## İngilizce — 182 anahtar
+## İngilizce — 182 anahtar, 183 satır
 
-| Durum | Anahtar sayısı |
+Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
+
+| Durum | Satır sayısı |
 |---|---|
-| ⚪ kaynakta sayisal ornek yok | 112 |
+| ✅ birebir | 3 |
+| ⚪ kaynakta sayisal ornek yok | 110 |
 | ⚪ kaynak yok | 70 |
 
 ### Sayısal karşılaştırması olanlar
 
-| Anahtar | Kaynak | Örnek | Beklenen | Bizim | Fark | Durum |
-|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — |
+| Anahtar | Kaynak | Örnek | Kanıt | Beklenen | Bizim | Fark | Durum |
+|---|---|---|---|---|---|---|---|
+| `arc_len_mean` | Jing & Liu (2015) s.164 | Figure 3 · 'Mr. Nixon was to…' | formül | 1.167 | 1.167 | +0.000 | ✅ |
+| `arc_len_mean` | Liu (2008) denk. (1) | 'I actually live in Beijing' · 5/4 | formül | 1.250 | 1.250 | +0.000 | ✅ |
+| `parse_depth_mean` | Jing & Liu (2015) s.164 | Figure 3 · MHD = 12/6 | formül | 2.000 | 2.000 | +0.000 | ✅ |
 
 ### Sayısal örneği olmayanlar
 
-182 anahtar. Kaynağı olanlar formül ve sınır durumu testleriyle sınanıyor; kaynağı olmayanlar adlandırılmış literatür ölçüsü değil.
+180 anahtar. Kaynağı olanlar formül ve sınır durumu testleriyle sınanıyor; kaynağı olmayanlar adlandırılmış literatür ölçüsü değil.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
@@ -357,8 +384,6 @@ testleri (T04B, T05–T07, T10, T13) kendi dosyalarında duruyor.
 | `lexical_density` | Lu (2012); tanım Halliday'ci geniş biçimde — bütün açık sınıf sözcükler | ⚪ |
 | `pos_dist_std` | Deutsch, Jasbi & Shieber (2020) Tanım 3.3 (POSDdev); oranlar üzerinden, 13 UD etiketi | ⚪ |
 | `pos_kl_div` | Deutsch, Jasbi & Shieber (2020) Tanım 3.4 (POSdiv), bit | ⚪ |
-| `arc_len_mean` | Liu (2008) denk. (1); metin düzeyi Jing & Liu (2015) s.164, denk. (3) (MDD2) | ⚪ |
-| `parse_depth_mean` | Jing & Liu (2015) s.164, denk. (2) ve (4) (MHD2) | ⚪ |
 | `sentfinal_noun` | de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi) | ⚪ |
 | `sentfinal_propn` | de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi) | ⚪ |
 | `sentfinal_verb` | de Marneffe ve ark. (2021) Tablo 1 (UPOS etiket kümesi) | ⚪ |
