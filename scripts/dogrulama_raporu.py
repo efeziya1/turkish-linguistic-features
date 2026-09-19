@@ -271,6 +271,37 @@ KARSILASTIRMALAR: dict[str, list[Karsilastirma]] = {
 }
 
 
+# ── dizge karşılaştırmaları ───────────────────────────────────────────
+#
+# Sayı değil bölütleme sınanıyor. Heceleme 8 ``syllable_*`` anahtarını ve üç
+# Türkçe okunabilirlik formülünü birden besliyor, yani buradaki bir hata
+# yukarı doğru yayılır. Sayı karşılaştırması bunu yakalamaz: yanlış yerden
+# bölünmüş bir kelime doğru sayıda hece verebilir.
+#
+# Kaynak: TDK, "Hece Yapısı ve Satır Sonunda Kelimelerin Bölünmesi"
+# (tdk.gov.tr, 2019) — örnekler kuralın kendi yayımlanmış örnekleri.
+TDK_HECELEME: dict[str, str] = {
+    "aldı": "al-dı",
+    "altlık": "alt-lık",
+    "türkçe": "türk-çe",
+    "program": "prog-ram",          # Batı kökenli: kural sezgiye aykırı
+    "kontrol": "kont-rol",
+    "santral": "sant-ral",
+    "saat": "sa-at",                # yan yana iki ünlü ayrı hece
+    "karaosmanoğlu": "ka-ra-os-ma-noğ-lu",
+    "tren": "tren",                 # kelime başı ünsüz kümesi bölünmez
+    "strateji": "stra-te-ji",
+}
+
+
+def heceleme_satirlari() -> list[dict[str, object]]:
+    """TDK'nın yayımlanmış hecelemeleriyle karşılaştırma."""
+    from turkish_linguistic_features.features.phonetic import _syllabify_tr
+    return [{"kelime": k, "beklenen": bek, "bizim": "-".join(_syllabify_tr(k)),
+             "durum": BIREBIR if "-".join(_syllabify_tr(k)) == bek else UYUSMAZLIK}
+            for k, bek in TDK_HECELEME.items()]
+
+
 def rapor_satirlari(lang: str = "tr") -> list[dict[str, object]]:
     """Taban şemadaki her anahtar için bir satır.
 
@@ -383,6 +414,22 @@ def uret() -> str:
         parcalar.append("| Anahtar | Kaynak | Durum |\n|---|---|---|\n")
         for s in kalan:
             parcalar.append(f"| `{s['anahtar']}` | {s['kaynak']} | {_SIMGE[s['durum']]} |\n")
+
+    # Heceleme ayrı: sayı değil bölütleme sınanıyor.
+    hece = heceleme_satirlari()
+    tam = sum(1 for s in hece if s["durum"] == BIREBIR)
+    parcalar.append(
+        f"\n## Heceleme — {tam}/{len(hece)}\n\n"
+        "Heceleme sekiz `syllable_*` anahtarını ve üç Türkçe okunabilirlik "
+        "formülünü birden besliyor. Aşağıdaki karşılaştırma **sayıyı değil "
+        "bölütlemeyi** sınıyor: yanlış yerden bölünmüş bir kelime doğru sayıda "
+        "hece verebilir, sayı karşılaştırması onu yakalamaz.\n\n"
+        "Kaynak: TDK, \"Hece Yapısı ve Satır Sonunda Kelimelerin Bölünmesi\" "
+        "(tdk.gov.tr, 2019).\n\n"
+        "| Kelime | TDK | Bizim | Durum |\n|---|---|---|---|\n")
+    for s in hece:
+        parcalar.append(f"| {s['kelime']} | `{s['beklenen']}` | `{s['bizim']}` "
+                        f"| {_SIMGE[s['durum']]} |\n")
     return "".join(parcalar)
 
 

@@ -120,3 +120,18 @@ def test_rapor_guncel():
         "docs/dogrulama-raporu.md bayat — "
         "uv run python scripts/dogrulama_raporu.py"
     )
+
+
+# ── heceleme: bölütleme, sayı değil ───────────────────────────────────
+
+
+def test_tdk_heceleme():
+    """TDK'nın yayımlanmış hecelemeleri — 8 ``syllable_*`` anahtarının temeli.
+
+    Sayı karşılaştırması yetmez: yanlış yerden bölünmüş bir kelime doğru
+    sayıda hece verebilir. Burada bölütlemenin kendisi sınanıyor.
+    """
+    from scripts.dogrulama_raporu import UYUSMAZLIK, heceleme_satirlari
+    kotu = [(s["kelime"], s["bizim"], s["beklenen"])
+            for s in heceleme_satirlari() if s["durum"] == UYUSMAZLIK]
+    assert not kotu, f"TDK ile uyuşmayan heceleme: {kotu}"

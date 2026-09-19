@@ -488,3 +488,22 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `char_x` | — | ⚪ |
 | `char_y` | — | ⚪ |
 | `char_z` | — | ⚪ |
+
+## Heceleme — 10/10
+
+Heceleme sekiz `syllable_*` anahtarını ve üç Türkçe okunabilirlik formülünü birden besliyor. Aşağıdaki karşılaştırma **sayıyı değil bölütlemeyi** sınıyor: yanlış yerden bölünmüş bir kelime doğru sayıda hece verebilir, sayı karşılaştırması onu yakalamaz.
+
+Kaynak: TDK, "Hece Yapısı ve Satır Sonunda Kelimelerin Bölünmesi" (tdk.gov.tr, 2019).
+
+| Kelime | TDK | Bizim | Durum |
+|---|---|---|---|
+| aldı | `al-dı` | `al-dı` | ✅ |
+| altlık | `alt-lık` | `alt-lık` | ✅ |
+| türkçe | `türk-çe` | `türk-çe` | ✅ |
+| program | `prog-ram` | `prog-ram` | ✅ |
+| kontrol | `kont-rol` | `kont-rol` | ✅ |
+| santral | `sant-ral` | `sant-ral` | ✅ |
+| saat | `sa-at` | `sa-at` | ✅ |
+| karaosmanoğlu | `ka-ra-os-ma-noğ-lu` | `ka-ra-os-ma-noğ-lu` | ✅ |
+| tren | `tren` | `tren` | ✅ |
+| strateji | `stra-te-ji` | `stra-te-ji` | ✅ |
