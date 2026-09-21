@@ -6,7 +6,7 @@ tablolar. Kapsam listesi registry'den üretilir — elle tutulmaz, yani hiçbir
 
 Kullanım::
 
-    uv run python scripts/dogrulama_raporu.py
+    python scripts/dogrulama_raporu.py
 
 Bu dosya elle DÜZENLENMEZ. Karşılaştırma eklemek için aşağıdaki
 ``KARSILASTIRMALAR`` tablosuna satır yazın; testler
@@ -335,7 +335,7 @@ def rapor_satirlari(lang: str = "tr") -> list[dict[str, object]]:
 _BASLIK = """<!-- ÜRETİLMİŞ DOSYA — elle düzenlemeyin.
      Kaynak: scripts/dogrulama_raporu.py
      Yeniden üretmek için:
-       uv run python scripts/dogrulama_raporu.py -->
+       python scripts/dogrulama_raporu.py -->
 
 # Doğrulama raporu
 

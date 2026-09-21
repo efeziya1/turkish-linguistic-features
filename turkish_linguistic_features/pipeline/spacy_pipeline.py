@@ -43,8 +43,7 @@ _KURULUM = {
     "en": "Kurulum:\n  python -m spacy download en_core_web_sm",
     "tr": ("Kurulum (bu model spaCy kaydında yok, wheel doğrudan kurulur):\n"
            "  pip install https://huggingface.co/turkish-nlp-suite/"
-           "tr_core_news_md/resolve/main/tr_core_news_md-1.0-py3-none-any.whl\n"
-           "uv kullanıyorsanız o komut için: UV_SKIP_WHEEL_FILENAME_CHECK=1"),
+           "tr_core_news_md/resolve/main/tr_core_news_md-1.0-py3-none-any.whl"),
 }
 
 

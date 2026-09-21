@@ -110,7 +110,7 @@ def test_sapma_satirlarinin_gerekcesi_var(lang):
 def test_rapor_guncel():
     """Üretilen rapor commit'lenmiş dosyayla aynı olmalı.
 
-    T28 bu kontrolü CI'a taşıyacak; o zamana kadar burada duruyor.
+    CI yok (2026-09-21, Efe: v1.0.0'a kadar) — kontrol testte duruyor.
     """
     from pathlib import Path
 
@@ -118,7 +118,7 @@ def test_rapor_guncel():
     yol = Path(__file__).resolve().parents[1] / "docs" / "dogrulama-raporu.md"
     assert yol.read_text(encoding="utf-8") == uret(), (
         "docs/dogrulama-raporu.md bayat — "
-        "uv run python scripts/dogrulama_raporu.py"
+        "python scripts/dogrulama_raporu.py"
     )
 
 

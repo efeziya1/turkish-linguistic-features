@@ -1,0 +1,18 @@
+# Geliştirme ortamı. Tek kanon paket yöneticisi pip (2026-09-21, Efe).
+# Kurulum, dil modelleri ve yayın araçları → README.md.
+#
+# Çalışma bağımlılıkları (numpy, spaCy, zeyrek, textstat) burada tekrarlanmaz;
+# aşağıdaki `-e .` onları pyproject.toml'den getirir.
+
+-e .
+
+# Test
+pytest>=7.0
+pytest-cov>=4.0
+
+# Tip denetimi
+mypy>=1.10
+
+# İsteğe bağlı ekstralar: kurulu değilse ilgili testler atlanıyor
+pandas>=1.5
+wordfreq>=3.0

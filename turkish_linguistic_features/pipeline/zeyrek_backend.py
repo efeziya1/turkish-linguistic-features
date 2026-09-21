@@ -9,8 +9,7 @@ Tek işi ``morpheme_lists``: ``morphological_zeyrek`` grubunun 24 anahtarı.
 bölütlemesi** üretmediği için yalnız bu alan Zeyrek'ten geliyor (K11, T21).
 """
 
-# ruff: noqa: I001
-# 🔴 I001 (import sıralaması) bu dosyada KAPALI — sıra kasıtlı, aşağıya bakın.
+# 🔴 Import sırası bu dosyada KASITLI — gerekçe aşağıda, `_mt` import'unun yanında.
 
 from __future__ import annotations
 
@@ -111,7 +110,7 @@ def _yamasiz() -> Iterator[None]:
             modul.calculate_phonetic_attributes = yamali_cpa
 
 
-import zeyrek.morphotactics as _mt  # noqa: E402
+import zeyrek.morphotactics as _mt
 
 _HAM_INITIAL = _mt.SearchPath.initial
 _sira_bagimliligini_duzelt()

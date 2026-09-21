@@ -38,8 +38,8 @@ dependencies = [
 pandas       = ["pandas>=1.5"]
 lexical_freq = ["wordfreq>=3.0"]
 all = ["pandas>=1.5", "wordfreq>=3.0"]
-dev = ["pytest>=7.0", "pytest-cov>=4.0", "ruff>=0.8", "mypy>=1.10",
-       "pandas>=1.5", "wordfreq>=3.0"]
+# `dev` ekstrası 2026-09-21'de kaldırıldı: geliştirme bağımlılıkları
+# requirements.txt'te, tek yerde. Yayımlanan paket onları duyurmasın.
 
 [tool.hatch.version]
 path = "turkish_linguistic_features/__init__.py"
@@ -49,19 +49,6 @@ testpaths = ["tests"]
 markers = [
     "slow: dakikalar sürebilen test (5 MB metin gibi); -m 'not slow' ile atlanır",
 ]
-
-[tool.ruff]
-target-version = "py310"
-line-length = 120
-# _referans/ eski projeden salt-okunur kopyalandi (T00) - denetim disi.
-extend-exclude = ["_referans"]
-
-[tool.ruff.lint]
-select = ["E", "F", "W", "I", "UP", "B"]
-ignore = ["E501", "E701", "E731", "E741", "B905"]
-
-[tool.ruff.lint.per-file-ignores]
-"tests/*" = ["B011", "E712", "E402"]
 
 [tool.mypy]
 packages = ["turkish_linguistic_features"]

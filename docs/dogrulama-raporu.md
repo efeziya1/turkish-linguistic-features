@@ -1,7 +1,7 @@
 <!-- ÜRETİLMİŞ DOSYA — elle düzenlemeyin.
      Kaynak: scripts/dogrulama_raporu.py
      Yeniden üretmek için:
-       uv run python scripts/dogrulama_raporu.py -->
+       python scripts/dogrulama_raporu.py -->
 
 # Doğrulama raporu
 

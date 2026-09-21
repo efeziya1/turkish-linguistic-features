@@ -38,9 +38,8 @@ Verified with spaCy 3.8.16, `en_core_web_sm` 3.8.0 and `tr_core_news_md` 1.0
 **Two things about the Turkish model that will look like bugs and are not.**
 
 Its wheel disagrees with itself: the filename says version 1.0, the metadata
-inside says 3.4.2. `pip` accepts this; `uv pip install` refuses it as a
-malformed wheel. Under `uv`, set `UV_SKIP_WHEEL_FILENAME_CHECK=1` for that one
-command.
+inside says 3.4.2. `pip` accepts this and installs it; stricter installers
+refuse it as a malformed wheel.
 
 Loading it prints a `W094` warning about an under-constrained spaCy version
 requirement. That is the model's own `meta.json` talking, it is harmless, and
