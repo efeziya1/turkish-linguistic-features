@@ -29,7 +29,7 @@ from turkish_linguistic_features.features.lexical import (
     zipf,
     zipf_mandelbrot,
 )
-from turkish_linguistic_features.features.params import DEFAULT_PARAMS
+from turkish_linguistic_features.params import DEFAULT_PARAMS
 
 
 def _nan(x) -> bool:

@@ -21,7 +21,7 @@ from turkish_linguistic_features.features.morphological import (
     verb_suffix_diversity,
     zeyrek_morfoloji,
 )
-from turkish_linguistic_features.features.params import FeatureParams
+from turkish_linguistic_features.params import FeatureParams
 
 
 def _etiketle(ogeler):

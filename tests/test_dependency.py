@@ -3,7 +3,7 @@ import math
 import pytest
 
 from turkish_linguistic_features.features.dependency import dependency_features
-from turkish_linguistic_features.features.params import FeatureParams
+from turkish_linguistic_features.params import FeatureParams
 
 # Token: (sıra, POS, ilişki, baş sırası); kök kendini gösterir.
 

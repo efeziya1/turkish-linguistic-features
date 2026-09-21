@@ -15,7 +15,7 @@ from .features.extractor import _extract_features
 from .features.punctuation import _ALFABE
 
 if TYPE_CHECKING:
-    from .features.params import FeatureParams
+    from .params import FeatureParams
     from .pipeline.spacy_pipeline import Preprocessor
 
 __all__ = ["analyze"]

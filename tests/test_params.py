@@ -2,7 +2,7 @@ from dataclasses import FrozenInstanceError
 
 import pytest
 
-from turkish_linguistic_features.features.params import (
+from turkish_linguistic_features.params import (
     DEFAULT_PARAMS,
     DEFAULT_PARAMS_BY_LANG,
     DEFAULT_PARAMS_EN,

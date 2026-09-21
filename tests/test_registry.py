@@ -12,7 +12,7 @@ from dataclasses import fields
 
 import pytest
 
-from turkish_linguistic_features.features.params import FeatureParams
+from turkish_linguistic_features.params import FeatureParams
 from turkish_linguistic_features.features.registry import (
     BIBLIOGRAPHY,
     DYNAMIC_PREFIXES,

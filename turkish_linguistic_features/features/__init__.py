@@ -10,11 +10,9 @@ değil: ``analyze()`` onu içeriden çağırır (T24).
 """
 
 from .extractor import _extract_features
-from .params import FeatureParams
 from .registry import describe_feature
 
 __all__ = [
-    "FeatureParams",
     "_extract_features",
     "describe_feature",
 ]

@@ -24,9 +24,9 @@ from collections import Counter
 
 import numpy as np
 
+from ..params import DEFAULT_PARAMS, FeatureParams
 from ..vocab import ASPECT_TAGS, NON_WORD_POS
 from .lexical import _hizala
-from .params import DEFAULT_PARAMS, FeatureParams
 from .punctuation import _kucuk_harf
 
 # (UD özelliği, anahtar öneki, [(UD değeri, anahtar soneki)])

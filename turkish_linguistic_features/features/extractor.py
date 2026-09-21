@@ -25,6 +25,7 @@ from __future__ import annotations
 import math
 from typing import Any
 
+from ..params import DEFAULT_PARAMS, DEFAULT_PARAMS_BY_LANG, FeatureParams
 from ..vocab import NON_WORD_POS
 from .dependency import dependency_features
 from .frequency_structure import (
@@ -69,7 +70,6 @@ from .lexical import (
     zipf_mandelbrot,
 )
 from .morphological import spacy_morph_ratios, surface_per_lemma, zeyrek_morfoloji
-from .params import DEFAULT_PARAMS, DEFAULT_PARAMS_BY_LANG, FeatureParams
 from .phonetic import (
     sentence_syllable_stats,
     syllable_count_stats,
