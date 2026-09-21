@@ -56,7 +56,7 @@ def test_pipeline_init_bos_kalir():
     __init__ spacy_pipeline'ı çekerse (satır 20'de ``import spacy``) yükleme
     sırası tersine döner ve bozulma sessizdir.
     """
-    assert not _ic_importlar(KOK / "pipeline" / "__init__.py")
+    assert not (KOK / "pipeline" / "__init__.py").read_text(encoding="utf-8").strip()
 
 
 def test_L0_dosyalari_kokte():
