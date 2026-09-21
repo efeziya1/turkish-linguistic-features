@@ -29,8 +29,8 @@ import math
 from collections import Counter
 from collections.abc import Sequence
 
+from ..vocab import NON_WORD_POS, SENT_FINAL_POS
 from .params import DEFAULT_PARAMS, FeatureParams
-from .vocab import NON_WORD_POS, SENT_FINAL_POS
 
 DepToken = tuple[int, str, str, int]   # (sıra, POS, ilişki, baş sırası); kök kendini gösterir
 

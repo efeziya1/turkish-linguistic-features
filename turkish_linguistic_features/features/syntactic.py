@@ -28,8 +28,8 @@ from collections import Counter
 
 import numpy as np
 
+from ..vocab import LEXICAL_POS, NON_WORD_POS, NOUN_POS, POS_TAGS
 from .punctuation import _kucuk_harf
-from .vocab import LEXICAL_POS, NON_WORD_POS, NOUN_POS, POS_TAGS
 
 _PARA_SPLIT = re.compile(r"\n[ \t]*\n")   # boş satır = paragraf sınırı
 _SENT_END = re.compile(r"[.!?…]+")        # cümle sonu işareti

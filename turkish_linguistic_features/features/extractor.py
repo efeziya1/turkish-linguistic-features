@@ -25,6 +25,7 @@ from __future__ import annotations
 import math
 from typing import Any
 
+from ..vocab import NON_WORD_POS
 from .dependency import dependency_features
 from .frequency_structure import (
     adjusted_modulus,
@@ -110,7 +111,6 @@ from .syntactic import (
     verb_distance_stats,
     word_ngram_ratios,
 )
-from .vocab import NON_WORD_POS
 
 __all__ = ["_extract_features"]
 

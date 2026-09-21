@@ -24,10 +24,10 @@ from collections import Counter
 
 import numpy as np
 
+from ..vocab import ASPECT_TAGS, NON_WORD_POS
 from .lexical import _hizala
 from .params import DEFAULT_PARAMS, FeatureParams
 from .punctuation import _kucuk_harf
-from .vocab import ASPECT_TAGS, NON_WORD_POS
 
 # (UD özelliği, anahtar öneki, [(UD değeri, anahtar soneki)])
 _KATEGORILER: tuple[tuple[str, str, tuple[tuple[str, str], ...]], ...] = (

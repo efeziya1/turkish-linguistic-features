@@ -44,7 +44,7 @@ from collections import Counter
 
 import numpy as np
 
-from .vocab import THEMATIC_POS
+from ..vocab import THEMATIC_POS
 
 
 def h_point(freqs: np.ndarray) -> float:

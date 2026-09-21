@@ -115,7 +115,7 @@ def test_kullanici_ngrami_registryde_kayitli():
 
 
 def test_cumle_sonu_anahtarlari_vocab_ile_uyumlu():
-    from turkish_linguistic_features.features.vocab import SENT_FINAL_POS
+    from turkish_linguistic_features.vocab import SENT_FINAL_POS
     son = [k for k in STATIC_GROUP_KEYS["syntactic_dep"] if k.startswith("sentfinal_")]
     assert len(son) == len(SENT_FINAL_POS) + 1 == 14   # + sentfinal_other
 

@@ -20,7 +20,7 @@ from typing import TYPE_CHECKING
 import spacy
 
 from ..exceptions import ModelNotFoundError
-from ..features.vocab import NON_WORD_POS
+from ..vocab import NON_WORD_POS
 from .preprocess import Morpheme, ProcessedText
 
 if TYPE_CHECKING:

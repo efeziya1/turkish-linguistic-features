@@ -37,7 +37,7 @@ from collections import Counter
 
 import numpy as np
 
-from .vocab import LEXICAL_POS, NON_WORD_POS, NOUN_POS
+from ..vocab import LEXICAL_POS, NON_WORD_POS, NOUN_POS
 
 # Brunet's W üs sabiti — Kademe C (bkz. 00-ANA-PLAN.md K12 eki-2).
 #

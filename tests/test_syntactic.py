@@ -4,7 +4,7 @@ import math
 
 import pytest
 
-from turkish_linguistic_features.features import vocab
+from turkish_linguistic_features import vocab
 from turkish_linguistic_features.features.syntactic import (
     activity_ratio,
     avg_sent_len_char,
@@ -21,7 +21,7 @@ from turkish_linguistic_features.features.syntactic import (
     verb_distance_stats,
     word_ngram_ratios,
 )
-from turkish_linguistic_features.features.vocab import (
+from turkish_linguistic_features.vocab import (
     LEXICAL_POS,
     NOUN_POS,
     POS_TAGS,

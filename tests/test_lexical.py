@@ -429,7 +429,7 @@ def test_pos_variation_sembol_de_hizadan_atilir():
 
 
 def test_kelime_disi_pos_kumesi():
-    from turkish_linguistic_features.features.vocab import NON_WORD_POS
+    from turkish_linguistic_features.vocab import NON_WORD_POS
     assert NON_WORD_POS == ("PUNCT", "SYM")
 
 
