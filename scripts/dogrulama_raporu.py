@@ -19,7 +19,7 @@ from __future__ import annotations
 import math
 from pathlib import Path
 
-from turkish_linguistic_features import analyze, describe_feature
+import turkish_linguistic_features as tlf
 
 # Kapsam ölçülürken kullanılan örnek metinler. İçerikleri önemsiz —
 # yalnız taban şemanın bütün anahtarlarını üretmeye yarıyorlar.
@@ -120,7 +120,7 @@ class Karsilastirma:
 
 def _kalyoncu_metin(no: int) -> dict[str, float]:
     """Ek-1'deki metinlerden birinin özniteliklerini verir."""
-    return analyze((METIN_1, METIN_2, METIN_3)[no - 1], lang="tr")
+    return tlf.analyze((METIN_1, METIN_2, METIN_3)[no - 1], lang="tr")
 
 
 _KM_ONBELLEK: dict[int, dict[str, float]] = {}
@@ -309,8 +309,8 @@ def rapor_satirlari(lang: str = "tr") -> list[dict[str, object]]:
     girdiğinde rapor kendiliğinden büyür.
     """
     satirlar: list[dict[str, object]] = []
-    for anahtar in analyze(ORNEK_METIN[lang], lang=lang):
-        kunye = describe_feature(anahtar)["citation"]
+    for anahtar in tlf.analyze(ORNEK_METIN[lang], lang=lang):
+        kunye = tlf.describe_feature(anahtar)["citation"]
         for kars in KARSILASTIRMALAR.get(anahtar, []):
             bizim = kars.hesapla()
             fark = bizim - kars.beklenen
