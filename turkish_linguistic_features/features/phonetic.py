@@ -1,6 +1,6 @@
-"""Ses ve yazı örüntüleri: ünlü oranları ve büyük ünlü uyumu.
+"""Ses ve yazı örüntüleri: ünlü oranları ile büyük ve küçük ünlü uyumu.
 
-Bu modül ``phonetic`` grubunun 14 anahtarını üretir:
+Bu modül ``phonetic`` grubunun 15 anahtarını üretir:
 
 - T09 (5): ``vowel_ratio`` · ``front_vowel_ratio`` · ``back_vowel_ratio`` ·
   ``harmony_fronting_ratio`` · ``harmony_rounding_ratio``
