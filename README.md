@@ -3,7 +3,7 @@
 A comprehensive toolkit for extracting quantitative linguistic features from
 Turkish and English texts.
 
-**Status: early development (0.1.0).** The nine public names are implemented
+**Status: early development (0.1.0).** The eight public names are implemented
 and tested; the package is not on PyPI yet — publishing is the last open task.
 See `plan/from-scratch/`.
 

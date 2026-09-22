@@ -144,7 +144,7 @@ Kurmak için: pip install pandas
 > korelasyon katsayısı güvenilir değildir — 1193 çift, korpusun küçüklüğünün
 > sonucudur, metinlerin bir özelliği değil. Blok kalıbı gösterir.
 
-> `records_to_csv` **public API'de değildir** (`__all__` dokuz ad). Modül
+> `records_to_csv` **public API'de değildir** (`__all__` sekiz ad). Modül
 > yolundan alınır: `from turkish_linguistic_features.file_loader import
 > records_to_csv`. Sözleşme onu bilinçli olarak dışarıda tutuyor —
 > `csv.DictWriter` etrafında ince bir sarmalayıcı.

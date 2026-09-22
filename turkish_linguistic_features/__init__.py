@@ -25,18 +25,14 @@ if not _os.environ.get("LINGUISTIC_FEATURES_NO_ZEYREK_WARMUP"):
 
 from ._analyze import analyze
 from ._warnings import MissingDependencyWarning
-from .exceptions import (
-    LinguisticFeaturesError,
-    MissingDependencyError,
-    ModelNotFoundError,
-)
+from .exceptions import LinguisticFeaturesError, ModelNotFoundError
 from .features import describe_feature
 from .file_loader import load_corpus, segment_text
 from .params import FeatureParams
 
 __version__ = "0.1.0"
 
-# API-SOZLESMESI.md §1 — dokuz adın hepsi burada (T27 ile tamamlandı).
+# API-SOZLESMESI.md §1 — sekiz adın hepsi burada (T27 ile tamamlandı).
 __all__ = [
     # Analiz
     "analyze",
@@ -49,7 +45,6 @@ __all__ = [
     "describe_feature",
     # Hatalar
     "LinguisticFeaturesError",
-    "MissingDependencyError",
     "ModelNotFoundError",
     "MissingDependencyWarning",
 ]
