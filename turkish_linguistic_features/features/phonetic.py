@@ -28,8 +28,8 @@ from collections import Counter
 import numpy as np
 import textstat
 
+from ..alfabe import _ALFABE, _kucuk_harf
 from .okunus import okunus, sayi_oku_en
-from .punctuation import _ALFABE, _kucuk_harf
 
 _UNLULER: dict[str, str] = {"tr": "aeıioöuü", "en": "aeiou"}
 _ON: dict[str, str] = {"tr": "eiöü", "en": "ei"}

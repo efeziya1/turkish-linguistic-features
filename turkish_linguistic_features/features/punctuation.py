@@ -27,10 +27,7 @@ from __future__ import annotations
 import math
 from collections import Counter
 
-_ALFABE: dict[str, str] = {
-    "tr": "abcçdefgğhıijklmnoöprsştuüvyz",   # 29 harf
-    "en": "abcdefghijklmnopqrstuvwxyz",      # 26 harf
-}
+from ..alfabe import _ALFABE, _kucuk_harf
 
 # Karakter → işaret türü. Tür adları punc_{tür}_ratio anahtarlarının ortasıdır.
 _TUR: dict[str, str] = {
@@ -44,13 +41,6 @@ _TUR: dict[str, str] = {
 _PUNCT_CHARS = frozenset(_TUR)
 _TURLER = (",", ".", ";", "!", ":", "-", "ellipsis", "paren", "quote", "question")
 _KESME = frozenset("'’")
-
-
-def _kucuk_harf(metin: str, lang: str) -> str:
-    """Dile göre küçük harf. TR'de ``I → ı`` ve ``İ → i``; ``str.lower()`` bunu yapmaz."""
-    if lang == "tr":
-        metin = metin.replace("I", "ı").replace("İ", "i")
-    return metin.lower()
 
 
 def _isaretler(metin: str) -> list[tuple[int, int, str]]:

@@ -11,8 +11,8 @@ import warnings
 from typing import TYPE_CHECKING
 
 from ._warnings import MissingDependencyWarning
+from .alfabe import _ALFABE
 from .features.extractor import _extract_features
-from .features.punctuation import _ALFABE
 
 if TYPE_CHECKING:
     from .params import FeatureParams

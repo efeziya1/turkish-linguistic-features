@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import re
 
-from .punctuation import _kucuk_harf
+from ..alfabe import _kucuk_harf
 
 _BIRLER = ("", "bir", "iki", "üç", "dört", "beş", "altı", "yedi", "sekiz", "dokuz")
 _ONLAR = ("", "on", "yirmi", "otuz", "kırk", "elli", "altmış", "yetmiş", "seksen", "doksan")

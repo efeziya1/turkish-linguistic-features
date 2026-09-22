@@ -16,7 +16,7 @@ from typing import TYPE_CHECKING
 
 import spacy
 
-from .features.punctuation import _ALFABE
+from .alfabe import _ALFABE
 
 if TYPE_CHECKING:
     from spacy.tokenizer import Tokenizer
