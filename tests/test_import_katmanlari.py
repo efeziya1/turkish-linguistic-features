@@ -40,12 +40,19 @@ def test_L0_paket_icinden_hicbir_sey_import_etmez():
 
 
 def test_features_ile_pipeline_birbirini_gormez():
-    """features saf öznitelik katmanı, pipeline NLP altyapısı. Çapraz bağ yok."""
-    for paket, yasak in (("features", "pipeline"), ("pipeline", "features")):
+    """L1/L2 yalnız L0'ı ve kendi paketini import edebilir.
+
+    Hedefin ilk parçası beyaz listede değilse ihlal. Tek kontrol iki kuralı
+    birden tutuyor: çapraz bağ (``features`` ⇄ ``pipeline``) ve yukarı bağ
+    (L3 → ``_analyze``, ``file_loader``) — ikincisi aynı zamanda gerçek bir
+    import döngüsü olurdu. ``from .. import pipeline`` hedefi boş string
+    üretir; o da listede olmadığı için düşer.
+    """
+    for paket in ("features", "pipeline"):
         for dosya in sorted((KOK / paket).glob("*.py")):
             for satir, hedef in _ic_importlar(dosya):
-                assert not hedef.startswith(yasak), (
-                    f"{paket}/{dosya.name}:{satir} → {hedef} — L1/L2 çaprazı yasak"
+                assert hedef.split(".")[0] in L0 | {paket}, (
+                    f"{paket}/{dosya.name}:{satir} → {hedef!r} — L1/L2 yalnız L0 ve kendi paketini görebilir"
                 )
 
 
