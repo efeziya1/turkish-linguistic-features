@@ -61,7 +61,7 @@ The Turkish model is ~156 MB, the English one ~12 MB.
 ```python
 import turkish_linguistic_features as tlf
 
-result = tlf.analyze("Bir metin.", lang="tr")          # 207 features (TR) / 181 (EN)
+result = tlf.analyze("Bir metin.", lang="tr")          # 208 features (TR) / 182 (EN)
 result = tlf.analyze(text, groups=["readability"])     # one group only
 corpus = tlf.load_corpus("corpus/", segment_size=1000) # folder/CSV → records
 chunks = tlf.segment_text(long_text, size=1000)        # split a single text
