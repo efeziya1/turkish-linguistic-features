@@ -14,6 +14,14 @@ lexical richness, phonetics, Turkish morphology (Zeyrek), syntax, readability an
 
 ## Install
 
+Not on PyPI yet. From a clone:
+
+```bash
+pip install -e .
+```
+
+Once published:
+
 ```bash
 pip install turkish-linguistic-features
 ```
@@ -53,15 +61,15 @@ The Turkish model is ~156 MB, the English one ~12 MB.
 ```python
 import turkish_linguistic_features as tlf
 
-sonuc  = tlf.analyze("Bir metin.", lang="tr")          # 207 features (TR) / 181 (EN)
-sonuc  = tlf.analyze(metin, groups=["readability"])    # one group only
-korpus = tlf.load_corpus("korpus/", segment_size=1000) # folder/CSV → records
-parca  = tlf.segment_text(uzun_metin, size=1000)       # split a single text
-bilgi  = tlf.describe_feature("mtld")                  # what a key measures, and its source
-ayar   = tlf.FeatureParams(mattr_window=100)           # metric constants
+result = tlf.analyze("Bir metin.", lang="tr")          # 207 features (TR) / 181 (EN)
+result = tlf.analyze(text, groups=["readability"])     # one group only
+corpus = tlf.load_corpus("corpus/", segment_size=1000) # folder/CSV → records
+chunks = tlf.segment_text(long_text, size=1000)        # split a single text
+info   = tlf.describe_feature("mtld")                  # what a key measures, and its source
+params = tlf.FeatureParams(mattr_window=100)           # metric constants
 
 try:
-    tlf.analyze(metin)
+    tlf.analyze(text)
 except tlf.ModelNotFoundError as e:
     print(e)                       # the message includes the install command
 except tlf.LinguisticFeaturesError:
@@ -70,7 +78,7 @@ except tlf.LinguisticFeaturesError:
 
 `MissingDependencyWarning` is emitted when an optional package is missing. Turn
 it into an error with `warnings.simplefilter("error", tlf.MissingDependencyWarning)`,
-or silence it with `tlf.analyze(metin, warn=False)`.
+or silence it with `tlf.analyze(text, warn=False)`.
 
 ## License
 
