@@ -47,6 +47,30 @@ there is nothing to fix on either side.
 
 The Turkish model is ~156 MB, the English one ~12 MB.
 
+## Kullanım
+
+```python
+import turkish_linguistic_features as tlf
+
+sonuc  = tlf.analyze("Bir metin.", lang="tr")          # 207 öznitelik (TR) / 181 (EN)
+sonuc  = tlf.analyze(metin, groups=["readability"])    # yalnız bir grup
+korpus = tlf.load_corpus("korpus/", segment_size=1000) # klasör/CSV → kayıtlar
+parca  = tlf.segment_text(uzun_metin, size=1000)       # tek metni parçala
+bilgi  = tlf.describe_feature("mtld")                  # anahtar ne ölçüyor, kaynağı ne
+ayar   = tlf.FeatureParams(mattr_window=100)           # metrik sabitleri
+
+try:
+    tlf.analyze(metin)
+except tlf.ModelNotFoundError as e:
+    print(e)                       # mesaj kurulum komutunu içerir
+except tlf.LinguisticFeaturesError:
+    ...                            # kütüphanenin her hatasının kökü
+```
+
+`MissingDependencyWarning` opsiyonel bir paket eksik olduğunda verilir;
+`warnings.simplefilter("error", tlf.MissingDependencyWarning)` ile hataya
+çevrilebilir, `tlf.analyze(metin, warn=False)` ile susturulabilir.
+
 ## License
 
 MIT — see `LICENSE`.
