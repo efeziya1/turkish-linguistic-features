@@ -30,7 +30,7 @@ from .exceptions import (
     MissingDependencyError,
     ModelNotFoundError,
 )
-from .features.registry import describe_feature
+from .features import describe_feature
 from .file_loader import load_corpus, segment_text
 from .params import FeatureParams
 

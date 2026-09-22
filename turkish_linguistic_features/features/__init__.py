@@ -1,18 +1,20 @@
-"""Öznitelik katmanı — saf fonksiyonlar, NLP modeli gerektirmez (K3).
+"""Öznitelik katmanı (L1) — saf fonksiyonlar, NLP modeli gerektirmez (K3).
 
-Paket sınırını geçen üç ad burada toplanıyor: ayar sözleşmesi, keşif arayüzü
-ve birleştirici. Modüllerin geri kalanı (``lexical``, ``syntactic``, …) ve
-registry'nin ham sözlükleri kendi modüllerinden okunur — ``describe_feature``
-tek keşif giriş noktasıdır, ham tablolar ileri kullanım içindir.
+Paket sınırını geçen tek **public** ad ``describe_feature``
+(``API-SOZLESMESI.md`` §1). Geri kalan her şey iç koddur ve derin yoldan
+alınır::
 
-``_extract_features`` alt çizgiyle başlıyor çünkü public API'nin parçası
-değil: ``analyze()`` onu içeriden çağırır (T24).
+    from .features.extractor import _extract_features
+    from turkish_linguistic_features.features.registry import FEATURE_CITATIONS
+
+Ayrım bilerek: façade'da görünen ad taahhüttür, derin yoldaki değildir.
+``_extract_features`` sözleşmenin kendi ifadesiyle "iç koddur, kullanıcı
+görmez" — buraya konsaydı arayüze terfi etmiş olurdu.
+
+``FeatureParams`` 2026-09-21'de köke (``params.py``) taşındı, artık bu
+paketin parçası değil.
 """
 
-from .extractor import _extract_features
 from .registry import describe_feature
 
-__all__ = [
-    "_extract_features",
-    "describe_feature",
-]
+__all__ = ["describe_feature"]
