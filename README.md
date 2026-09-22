@@ -3,8 +3,9 @@
 A comprehensive toolkit for extracting quantitative linguistic features from
 Turkish and English texts.
 
-**Status: early development (0.1.0).** The public API is not usable yet — this
-repository is currently being built up task by task. See `plan/from-scratch/`.
+**Status: early development (0.1.0).** The nine public names are implemented
+and tested; the package is not on PyPI yet — publishing is the last open task.
+See `plan/from-scratch/`.
 
 ## What it does
 
@@ -47,29 +48,29 @@ there is nothing to fix on either side.
 
 The Turkish model is ~156 MB, the English one ~12 MB.
 
-## Kullanım
+## Usage
 
 ```python
 import turkish_linguistic_features as tlf
 
-sonuc  = tlf.analyze("Bir metin.", lang="tr")          # 207 öznitelik (TR) / 181 (EN)
-sonuc  = tlf.analyze(metin, groups=["readability"])    # yalnız bir grup
-korpus = tlf.load_corpus("korpus/", segment_size=1000) # klasör/CSV → kayıtlar
-parca  = tlf.segment_text(uzun_metin, size=1000)       # tek metni parçala
-bilgi  = tlf.describe_feature("mtld")                  # anahtar ne ölçüyor, kaynağı ne
-ayar   = tlf.FeatureParams(mattr_window=100)           # metrik sabitleri
+sonuc  = tlf.analyze("Bir metin.", lang="tr")          # 207 features (TR) / 181 (EN)
+sonuc  = tlf.analyze(metin, groups=["readability"])    # one group only
+korpus = tlf.load_corpus("korpus/", segment_size=1000) # folder/CSV → records
+parca  = tlf.segment_text(uzun_metin, size=1000)       # split a single text
+bilgi  = tlf.describe_feature("mtld")                  # what a key measures, and its source
+ayar   = tlf.FeatureParams(mattr_window=100)           # metric constants
 
 try:
     tlf.analyze(metin)
 except tlf.ModelNotFoundError as e:
-    print(e)                       # mesaj kurulum komutunu içerir
+    print(e)                       # the message includes the install command
 except tlf.LinguisticFeaturesError:
-    ...                            # kütüphanenin her hatasının kökü
+    ...                            # the root of every error this library raises
 ```
 
-`MissingDependencyWarning` opsiyonel bir paket eksik olduğunda verilir;
-`warnings.simplefilter("error", tlf.MissingDependencyWarning)` ile hataya
-çevrilebilir, `tlf.analyze(metin, warn=False)` ile susturulabilir.
+`MissingDependencyWarning` is emitted when an optional package is missing. Turn
+it into an error with `warnings.simplefilter("error", tlf.MissingDependencyWarning)`,
+or silence it with `tlf.analyze(metin, warn=False)`.
 
 ## License
 
