@@ -12,20 +12,41 @@ KOK = Path(__file__).parent.parent / "turkish_linguistic_features"
 L0 = {"alfabe", "vocab", "params", "exceptions", "_warnings"}
 
 
-def _ic_importlar(dosya: Path) -> list[tuple[int, str]]:
-    """Paket içi relative import'lar: ``(satır, 'features.lexical')`` ikilileri.
+PAKET = KOK.name
 
-    Mutlak import'lar (stdlib, numpy, spaCy) ve ``from __future__`` atlanır —
-    ``ast.ImportFrom.level`` yalnız noktalı yazımda sıfırdan büyüktür.
+
+def _ic_importlar(dosya: Path) -> list[tuple[int, str]]:
+    """Paket içi import'lar: ``(satır, 'features.lexical')`` ikilileri.
+
+    Hem relative (``from ..vocab``) hem mutlak (``from turkish_linguistic_features
+    .vocab``, ``import turkish_linguistic_features.vocab``) yazım okunur; hedef
+    paket kökünden yazılır. Stdlib ve üçüncü parti import'lar atlanır.
+    Kökü hedefleyen ``from .. import vocab`` biçiminde hedef import edilen addır.
     """
     agac = ast.parse(dosya.read_text(encoding="utf-8"))
     paket = dosya.relative_to(KOK).parts[:-1]
     cikti: list[tuple[int, str]] = []
+
+    def ekle(satir: int, parcalar: tuple[str, ...], adlar: list[str]) -> None:
+        # Kökün kendisi hedefse (``from .. import x``) asıl hedef x'tir.
+        for hedef in ([".".join(parcalar)] if parcalar else adlar):
+            cikti.append((satir, hedef))
+
     for dugum in ast.walk(agac):
-        if isinstance(dugum, ast.ImportFrom) and dugum.level:
-            ust = paket[: len(paket) - (dugum.level - 1)]
-            parcalar = dugum.module.split(".") if dugum.module else ()
-            cikti.append((dugum.lineno, ".".join((*ust, *parcalar))))
+        if isinstance(dugum, ast.ImportFrom):
+            modul = tuple(dugum.module.split(".")) if dugum.module else ()
+            if dugum.level:
+                parcalar = (*paket[: len(paket) - (dugum.level - 1)], *modul)
+            elif modul[:1] == (PAKET,):
+                parcalar = modul[1:]
+            else:
+                continue
+            ekle(dugum.lineno, parcalar, [a.name for a in dugum.names])
+        elif isinstance(dugum, ast.Import):
+            for ad in dugum.names:
+                modul = tuple(ad.name.split("."))
+                if modul[0] == PAKET:
+                    ekle(dugum.lineno, modul[1:], [""])  # kökün kendisi: L3
     return cikti
 
 
@@ -45,8 +66,10 @@ def test_features_ile_pipeline_birbirini_gormez():
     Hedefin ilk parçası beyaz listede değilse ihlal. Tek kontrol iki kuralı
     birden tutuyor: çapraz bağ (``features`` ⇄ ``pipeline``) ve yukarı bağ
     (L3 → ``_analyze``, ``file_loader``) — ikincisi aynı zamanda gerçek bir
-    import döngüsü olurdu. ``from .. import pipeline`` hedefi boş string
-    üretir; o da listede olmadığı için düşer.
+    import döngüsü olurdu. Mutlak yazım da yakalanır: ``from
+    turkish_linguistic_features._analyze import ...`` relative karşılığıyla
+    aynı hedefi üretir; ``import turkish_linguistic_features`` (kökün kendisi,
+    L3) boş hedef üretir ve düşer.
     """
     for paket in ("features", "pipeline"):
         for dosya in sorted((KOK / paket).glob("*.py")):
