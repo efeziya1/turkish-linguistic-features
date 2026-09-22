@@ -4,7 +4,7 @@ Paket sınırını geçen tek **public** ad ``describe_feature``
 (``API-SOZLESMESI.md`` §1). Geri kalan her şey iç koddur ve derin yoldan
 alınır::
 
-    from .features.extractor import _extract_features
+    from turkish_linguistic_features.features.extractor import _extract_features
     from turkish_linguistic_features.features.registry import FEATURE_CITATIONS
 
 Ayrım bilerek: façade'da görünen ad taahhüttür, derin yoldaki değildir.
