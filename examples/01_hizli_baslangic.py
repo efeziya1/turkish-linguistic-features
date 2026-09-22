@@ -2,6 +2,8 @@
 
 Bir metnin özniteliklerini çıkarır, ``describe_feature()`` ile tek bir gruba
 süzüp hizalanmış tablo basar, sonra seçilen anahtarların formülünü yazdırır.
+En sonda aynı çağrıyı ``lang="en"`` ile tekrarlayıp iki şemanın farkını
+gösterir — şema dile göre değişir (K11).
 
 Çalıştırma::
 
@@ -25,6 +27,16 @@ DIL = "tr"
 GRUP = "pos"                       # tabloya basılacak öznitelik grubu
 FORMULU_YAZILACAK = ("ttr", "mattr", "avg_sent_len_word", "lexical_density",
                      "harmony_fronting_ratio")
+
+INGILIZCE_METIN = (
+    "The library turns a text into numbers. The numbers describe how varied "
+    "its vocabulary is, how long its sentences run and how often each part of "
+    "speech appears. Interpretation is left to the reader; the library "
+    "measures, it does not judge."
+)
+# İkisi yalnız Türkçe şemada, ikisi yalnız İngilizce şemada olan anahtarlar.
+DILE_OZEL = ("agglutination_depth", "atesman",
+             "flesch_reading_ease", "polysyllabic_word_ratio")
 
 
 def main() -> None:
@@ -51,6 +63,19 @@ def main() -> None:
         bilgi = tlf.describe_feature(anahtar)
         print(f"{anahtar:<30} {oznitelikler[anahtar]:>10.4f}   {bilgi['formula']}")
         print(f"{'':<30} {'':>10}   ölçek: {bilgi['scale']}")
+
+    # 3. Aynı çağrı, başka dil. Türkçede Zeyrek çözümlemesinden gelen
+    #    `morphological_zeyrek` grubu ve Türkçeye özgü okunabilirlik formülleri
+    #    var; İngilizcede Flesch/SMOG ailesi var, Zeyrek grubu hiç yok.
+    ingilizce = tlf.analyze(INGILIZCE_METIN, lang="en")
+    print('\n-- İngilizce şema (lang="en") ' + "-" * 20)
+    print(f"{len(ingilizce)} öznitelik çıkarıldı "
+          f"(Türkçe: {len(oznitelikler)}).")
+    print(f"{'anahtar':<30} {'tr':>6} {'en':>6}")
+    for anahtar in DILE_OZEL:
+        print(f"{anahtar:<30}"
+              f" {'var' if anahtar in oznitelikler else 'yok':>6}"
+              f" {'var' if anahtar in ingilizce else 'yok':>6}")
 
 
 if __name__ == "__main__":

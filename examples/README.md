@@ -47,12 +47,13 @@ tlf.describe_feature("ttr")
 
 ---
 
-## `01_hizli_baslangic.py` — tek metin
+## `01_hizli_baslangic.py` — tek metin (Türkçe + İngilizce)
 
 Bir metinden 208 öznitelik çıkarır, `describe_feature()` ile tek bir gruba
 süzüp hizalanmış tablo basar, sonra seçilen anahtarların **formülünü** ve
 **ölçeğini** yazdırır. Kütüphanenin iki temel çağrısını (`analyze` ve
-`describe_feature`) tek dosyada gösterir.
+`describe_feature`) tek dosyada gösterir. Sonda aynı çağrıyı `lang="en"` ile
+tekrarlar: **her iki dili de kapsayan tek script budur.**
 
 ```
 Metin çözümleniyor (530 karakter)...
@@ -72,7 +73,21 @@ mattr                              0.9250   mean TTR of every sliding window of 
                                             ölçek: ratio_0_1
 avg_sent_len_word                 12.1667   mean words per sentence
                                             ölçek: length
+
+-- İngilizce şema (lang="en") --------------------
+182 öznitelik çıkarıldı (Türkçe: 208).
+anahtar                            tr     en
+agglutination_depth               var    yok
+atesman                           var    yok
+flesch_reading_ease               yok    var
+polysyllabic_word_ratio           yok    var
 ```
+
+> **Şema dile göre değişir (K11).** Taban şema Türkçede 208, İngilizcede 182
+> anahtar. Fark tek bir sayı değil: `morphological_zeyrek` grubunun 24 anahtarı
+> ile Türkçeye özgü okunabilirlik formülleri İngilizcede yok; Flesch/SMOG
+> ailesi ve `char_q`/`char_w`/`char_x` ise yalnız İngilizcede var. Bu yüzden
+> anahtarları elle listelemek yerine `k in oznitelikler` diye sorun.
 
 ---
 
