@@ -289,8 +289,11 @@ def test_mattr_tamamen_farkli_metinde_bir():
 
 
 def test_mattr_bilinen_deger():
-    """a b a b, pencere 3 → aba (2/3), bab (2/3) → 2/3."""
-    sonuc = advanced_lexical_richness(["a", "b", "a", "b"], window=3)
+    """a b a b a b, pencere 3 → dört pencere, hepsi 2/3 → 2/3.
+
+    Metin 2 x pencere (6 token) olmak zorunda: altında NaN döner.
+    """
+    sonuc = advanced_lexical_richness(["a", "b", "a", "b", "a", "b"], window=3)
     assert sonuc["mattr"] == pytest.approx(2 / 3, abs=1e-4)
 
 
@@ -300,8 +303,21 @@ def test_mattr_pencereden_kisa_metinde_nan():
     assert _nan(advanced_lexical_richness(tokens, window=50)["mattr"])
 
 
-def test_mattr_pencere_metne_esitse_tek_pencere():
-    assert advanced_lexical_richness(["a", "b", "a", "c"], window=4)["mattr"] == 0.75
+def test_mattr_pencere_metne_esitse_nan():
+    """Tek pencere kalırsa MATTR düz TTR'a çöker — sayı vermektense NaN.
+
+    2026-09-23'e kadar bu vaka 0.75 döndürüyordu, ki o değer metnin düz
+    TTR'sinin ta kendisiydi (4 token, 3 tür). Kullanıcı "uzunluktan bağımsız"
+    sanarak TTR'ı alıyordu. Eşik 2 x pencereye çekildi.
+    """
+    assert _nan(advanced_lexical_richness(["a", "b", "a", "c"], window=4)["mattr"])
+
+
+def test_mattr_esik_tam_iki_katinda_hesaplaniyor():
+    """Sınır: tam 2 x pencerede hesaplanır, bir altında NaN."""
+    tokens = [f"k{i}" for i in range(6)]
+    assert not _nan(advanced_lexical_richness(tokens, window=3)["mattr"])
+    assert _nan(advanced_lexical_richness(tokens[:5], window=3)["mattr"])
 
 
 def test_entropy_std_ayrik_parcalar_artik_atilir():

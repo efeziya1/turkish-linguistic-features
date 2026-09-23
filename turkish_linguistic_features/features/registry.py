@@ -382,7 +382,7 @@ def describe_feature(key: str) -> dict:
     >>> describe_feature("mattr")["formula"]
     'mean TTR of every sliding window of mattr_window words'
     >>> describe_feature("mattr")["requires"]
-    'at least 50 words (mattr_window)'
+    'at least 100 words (2 x mattr_window)'
     >>> describe_feature("ttr_moving_slope")["citation"] is None
     True
     """

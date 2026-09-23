@@ -470,7 +470,7 @@ FEATURE_REQUIRES: dict[str, str] = {
     'avg_word_length': 'at least 1 word',
     'word_length_cv': 'at least 2 words',
     'ttr': 'at least 1 word',
-    'mattr': 'at least 50 words (mattr_window)',
+    'mattr': 'at least 100 words (2 x mattr_window)',
     'entropy_std': 'at least 100 words (2 x mattr_window)',
     'herdan_c': 'at least 2 words',
     'sichel_s': 'at least 1 word',

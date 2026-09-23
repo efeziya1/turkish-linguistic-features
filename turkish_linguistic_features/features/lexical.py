@@ -280,8 +280,11 @@ def advanced_lexical_richness(tokens: list[str], window: int = 50) -> dict[str, 
     """MATTR, entropy_std, Herdan-C.
 
     - ``mattr`` — 1'er kayan ``window``'luk pencerelerin TTR ortalaması
-      (Covington & McFall 2010). Metin pencereden kısaysa NaN: kaynak
-      pencerenin "işlenecek en kısa metinden küçük" olmasını istiyor.
+      (Covington & McFall 2010). **2 × window**'dan kısa metinde NaN
+      (2026-09-23, Efe). Eski eşik ``window``'du ve metin tam pencere
+      boyundayken tek pencere kalıyordu: ortalama alacak bir şey olmuyor,
+      MATTR matematiksel olarak düz TTR'a çöküyordu — yani düzeltmek için
+      var olduğu şeye dönüşüp bunu sessizce yapıyordu.
     - ``entropy_std`` — ``window``'luk **ayrık** parçaların entropileri (bit)
       arasındaki popülasyon sapması (2026-09-15, Efe). 2'den az tam parça → NaN.
     - ``herdan_c`` — ``log V / log N``; taban oranda sadeleşir. ``N = 1`` → NaN.
@@ -296,7 +299,7 @@ def advanced_lexical_richness(tokens: list[str], window: int = 50) -> dict[str, 
         return {"mattr": math.nan, "entropy_std": math.nan, "herdan_c": math.nan}
     V = len(set(tokens))
 
-    if N < window:
+    if N < 2 * window:            # tek/az pencere = ortalama değil, bkz. docstring
         mattr = math.nan
     else:
         sayim = Counter(tokens[:window])
