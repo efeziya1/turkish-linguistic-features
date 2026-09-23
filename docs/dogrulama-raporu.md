@@ -93,7 +93,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `mattr` | Covington & McFall (2010); varsayılan pencere 50 — C&M'nin kendi önerisi 500, ölçülerek 50'de karar kılındı (2026-09-23) | ⚪ |
 | `entropy_std` | Shannon (1948) — entropi formülü; parçalar arası standart sapması bu kütüphanenin türevi | ⚪ |
 | `herdan_c` | Herdan (1960/1964), aktaran Tweedie & Baayen (1998) s.327, denk. (5) | ⚪ |
-| `mtld` | McCarthy & Jarvis (2010) s.383–385 | ⚪ |
+| `mtld` | McCarthy (2005) ölçüyü ortaya koyan tez — özeti (s.vii) "we introduce and test a new measure of lexical diversity: the measure of textual, lexical diversity (MTLD)" diyor; tezin gövdesine erişilemedi, sayfa verilemiyor. Uygulanan yordam McCarthy & Jarvis (2010) s.383–385 | ⚪ |
 | `dugast_u` | Dugast (1978), aktaran Malvern et al. (2004) denk. 2.7 | ⚪ |
 | `guiraud_r` | Guiraud (1954) s.53, alternatif biçim (bütün sözcük türleri), aktaran Daller (2010); asıl yasası V/√(2N), yalnız içerik sözcükleri | ⚪ |
 | `ttr_moving_slope` | — | ⚪ |
@@ -323,7 +323,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `mattr` | Covington & McFall (2010); varsayılan pencere 50 — C&M'nin kendi önerisi 500, ölçülerek 50'de karar kılındı (2026-09-23) | ⚪ |
 | `entropy_std` | Shannon (1948) — entropi formülü; parçalar arası standart sapması bu kütüphanenin türevi | ⚪ |
 | `herdan_c` | Herdan (1960/1964), aktaran Tweedie & Baayen (1998) s.327, denk. (5) | ⚪ |
-| `mtld` | McCarthy & Jarvis (2010) s.383–385 | ⚪ |
+| `mtld` | McCarthy (2005) ölçüyü ortaya koyan tez — özeti (s.vii) "we introduce and test a new measure of lexical diversity: the measure of textual, lexical diversity (MTLD)" diyor; tezin gövdesine erişilemedi, sayfa verilemiyor. Uygulanan yordam McCarthy & Jarvis (2010) s.383–385 | ⚪ |
 | `dugast_u` | Dugast (1978), aktaran Malvern et al. (2004) denk. 2.7 | ⚪ |
 | `guiraud_r` | Guiraud (1954) s.53, alternatif biçim (bütün sözcük türleri), aktaran Daller (2010); asıl yasası V/√(2N), yalnız içerik sözcükleri | ⚪ |
 | `ttr_moving_slope` | — | ⚪ |

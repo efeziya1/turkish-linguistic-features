@@ -688,7 +688,11 @@ FEATURE_CITATIONS: dict[str, str] = {
     'zipf_mandelbrot_s':
         'Piantadosi (2014) denk. (2); aynı kaynak aynı korpustan r ve f(r) '
         'kestirimini eleştiriyor',
-    'mtld': 'McCarthy & Jarvis (2010) s.383–385',
+    'mtld':
+        'McCarthy (2005) ölçüyü ortaya koyan tez — özeti (s.vii) "we introduce '
+        'and test a new measure of lexical diversity: the measure of textual, '
+        'lexical diversity (MTLD)" diyor; tezin gövdesine erişilemedi, sayfa '
+        'verilemiyor. Uygulanan yordam McCarthy & Jarvis (2010) s.383–385',
     'dugast_u': 'Dugast (1978), aktaran Malvern et al. (2004) denk. 2.7',
     'guiraud_r':
         'Guiraud (1954) s.53, alternatif biçim (bütün sözcük türleri), aktaran '
@@ -964,7 +968,7 @@ BIBLIOGRAPHY: dict[str, str] = {
         'Yöntem ve ham percentile tablosu: docs/esik-kalibrasyonu.md.',
     'Ateşman (1997)':
         'Ateşman, E. (1997). Türkçede okunabilirliğin ölçülmesi. Dil Dergisi, 58, '
-        '71–74. Ankara Üniversitesi TÖMER.',
+        '71–74. Ankara Üniversitesi TÖMER. ISSN 1300-3542.',
     'Bestgen (2023)':
         'Bestgen, Y. (2023). Measuring lexical diversity in texts: The twofold '
         'length problem. arXiv:2307.04626.',
@@ -972,10 +976,14 @@ BIBLIOGRAPHY: dict[str, str] = {
         'Bezirci, B., & Yılmaz, A. E. (2010). Türkçe için yeni bir okunabilirlik '
         'ölçütü önerisi. SIU2010 — IEEE 18. Sinyal İşleme ve İletişim Uygulamaları '
         'Kurultayı, Diyarbakır, 368–371.',
-    'Björnsson (1968)': 'Björnsson, C. H. (1968). Läsbarhet. Stockholm: Liber.',
+    'Björnsson (1968)':
+        'Björnsson, C. H. (1968). Läsbarhet. Stockholm: Bokförlaget Liber. (Kitap.) '
+        'Künye üç ikincil kaynakça listesinden doğrulandı: Anderson (1983), '
+        'Çetinkaya (2010), Falkenjack ve ark. (2013). Birincil kaynağa ulaşılamadı.',
     'Brunet (1978)':
-        'Brunet, E. (1978). Vocabulaire de Jean Giraudoux: Structure et Évolution. '
-        'Genève: Slatkine.',
+        'Brunet, E. (1978). Vocabulaire de Jean Giraudoux: structure et évolution. '
+        'Genève: Slatkine. (Kitap.) Künye Popescu, Čech & Altmann (2011) '
+        'kaynakçasından doğrulandı. Birincil kaynağa ulaşılamadı.',
     'Coleman & Liau (1975)':
         'Coleman, M., & Liau, T. L. (1975). A computer readability formula designed '
         'for machine scoring. Journal of Applied Psychology, 60(2), 283–284.',
@@ -995,7 +1003,13 @@ BIBLIOGRAPHY: dict[str, str] = {
         'of NLP for Building Educational Applications (BEA).',
     'Dugast (1978)':
         "Dugast, D. (1978). Sur quoi se fonde la notion d'étendue théoretique du "
-        'vocabulaire? Le Français Moderne, 46, 25–32.',
+        'vocabulaire? Le Français Moderne, 46(1), 25–32. Künye dört ikincil '
+        'kaynakça listesinden doğrulandı: Malvern ve ark. (2004), McCarthy & '
+        'Jarvis (2010), Šišková (2012) ve bir yazarlık-atfı derlemesi. Birincil '
+        'kaynağa ulaşılamadı. Literatür sıkça Dugast (1978, 1979) diye ikisini '
+        'birlikte anar; 1979 ayrı bir eserdir (Vocabulaire et stylistique I, '
+        'Travaux de linguistique quantitative 8, Genève: Slatkine-Champion) ve '
+        'burada kullanılmıyor.',
     'Flesch (1948)':
         'Flesch, R. (1948). A new readability yardstick. Journal of Applied '
         'Psychology, 32(3), 221–233.',
@@ -1004,7 +1018,7 @@ BIBLIOGRAPHY: dict[str, str] = {
         'méthodologie. Paris: Presses Universitaires de France.',
     'Göksel & Kerslake (2005)':
         'Göksel, A., & Kerslake, C. (2005). Turkish: A Comprehensive Grammar. '
-        'London & New York: Routledge. 535 s.',
+        'London & New York: Routledge. 535 s. ISBN 0-415-11494-2 (pbk), 0-415-21761-X (hbk).',
     'Heaps (1978)':
         'Heaps, H. S. (1978). Information Retrieval: Computational and Theoretical '
         'Aspects. New York: Academic Press.',
@@ -1031,7 +1045,7 @@ BIBLIOGRAPHY: dict[str, str] = {
     'Malvern et al. (2004)':
         'Malvern, D., Richards, B., Chipere, N., & Durán, P. (2004). Lexical '
         'Diversity and Language Development: Quantification and Assessment. '
-        'Basingstoke: Palgrave Macmillan.',
+        'Basingstoke: Palgrave Macmillan. ISBN 978-1-4039-0232-0. DOI 10.1057/9780230511804.',
     'Manning et al. (2008)':
         'Manning, C. D., Raghavan, P., & Schütze, H. (2008). Introduction to '
         'Information Retrieval. Cambridge University Press. (Arşivdeki dosya 2009 '
@@ -1039,6 +1053,12 @@ BIBLIOGRAPHY: dict[str, str] = {
     'McCarthy & Jarvis (2007)':
         'McCarthy, P. M., & Jarvis, S. (2007). vocd: A theoretical and empirical '
         'evaluation. Language Testing, 24(4), 459–488. DOI 10.1177/0265532207080767',
+    'McCarthy (2005)':
+        'McCarthy, P. M. (2005). An Assessment of the Range and Usefulness of '
+        'Lexical Diversity Measures and the Potential of the Measure of Textual, '
+        'Lexical Diversity (MTLD). Doktora tezi, The University of Memphis, '
+        'Ağustos 2005. Danışman: Charles E. Hall. '
+        '(Elde yalnız önizleme var: 24 sayfa ön bölüm + özet, gövde yok.)',
     'McCarthy & Jarvis (2010)':
         'McCarthy, P. M., & Jarvis, S. (2010). MTLD, vocd-D, and HD-D: A validation '
         'study of sophisticated approaches to lexical diversity assessment. '
@@ -1052,19 +1072,20 @@ BIBLIOGRAPHY: dict[str, str] = {
         '21(5), 1112–1130.',
     'Popescu & Altmann (2006)':
         'Popescu, I.-I., & Altmann, G. (2006). Some aspects of word frequencies. '
-        'Glottometrics, 13, 23–46.',
+        'Glottometrics, 13, 23–46. RAM-Verlag; dergi ISSN 2625-8226.',
     'Popescu et al. (2009)':
         'Popescu, I.-I., Altmann, G., Grzybek, P., ve ark. (2009). Word Frequency '
-        'Studies. Berlin: Mouton de Gruyter.',
+        'Studies. Berlin: Mouton de Gruyter. (Quantitative Linguistics 64.) '
+        'ISBN 978-3-11-021852-7, ISSN 0179-3616.',
     'Popescu, Mačutek & Altmann (2009)':
         'Popescu, I.-I., Mačutek, J., & Altmann, G. (2009). Aspects of Word '
         'Frequencies. Lüdenscheid: RAM-Verlag.',
     'Popescu, Čech & Altmann (2011)':
         'Popescu, I.-I., Čech, R., & Altmann, G. (2011). The Lambda-structure of '
-        'Texts. Lüdenscheid: RAM-Verlag.',
+        'Texts. Lüdenscheid: RAM-Verlag. ISBN 978-3-942303-05-7.',
     'QUITA':
         'Kubát, M., Matlach, V., & Čech, R. (2014). QUITA — Quantitative Index Text '
-        'Analyzer. Lüdenscheid: RAM-Verlag.',
+        'Analyzer. Lüdenscheid: RAM-Verlag. ISBN 978-3-942303-28-6.',
     'Shannon (1948)':
         'Shannon, C. E. (1948). A mathematical theory of communication. Bell System '
         'Technical Journal, 27(3), 379–423; 27(4), 623–656.',
