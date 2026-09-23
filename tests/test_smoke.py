@@ -27,22 +27,3 @@ def test_import_dil_modeli_gerektirmez():
     sonuc = subprocess.run([sys.executable, "-c", kod],
                            capture_output=True, text=True)
     assert sonuc.returncode == 0, sonuc.stderr
-
-
-def test_opsiyonel_paketler_import_zincirinde_degil():
-    """K1: pandas ve wordfreq üst seviye import'ta yüklenmemeli.
-
-    zeyrek ve textstat 2026-08-25'te zorunlu oldu — onlar listede DEĞİL.
-    zeyrek ayrıca `__init__.py`'nin ilk satırında bilerek yükleniyor
-    (T22, Windows yükleme sırası).
-    """
-    import subprocess
-    import sys
-    kod = (
-        "import sys; import turkish_linguistic_features; "
-        "yuklu = [m for m in ('pandas', 'wordfreq') if m in sys.modules]; "
-        "print(yuklu); sys.exit(1 if yuklu else 0)"
-    )
-    sonuc = subprocess.run([sys.executable, "-c", kod],
-                           capture_output=True, text=True)
-    assert sonuc.returncode == 0, f"Erken yüklenen paketler: {sonuc.stdout}"

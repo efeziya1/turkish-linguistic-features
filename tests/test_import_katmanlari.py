@@ -93,3 +93,74 @@ def test_L0_dosyalari_kokte():
     """Taşıma tamamlandı mı — Task 2, 3 ve 4'ün kapı testi."""
     for ad in sorted(L0):
         assert (KOK / f"{ad}.py").exists(), f"{ad}.py kök seviyede olmalı"
+
+
+# Opsiyonel paketler: kurulu olmayabilir, bu yüzden yalnız fonksiyon içinde
+# import edilirler (spec §2 "Dış bağımlılık politikası").
+OPSIYONEL = {"pandas", "wordfreq"}
+
+
+def _type_checking_mi(test: ast.expr) -> bool:
+    """``if TYPE_CHECKING:`` mi — çalışma zamanında False, gövdesi hiç işlemez."""
+    if isinstance(test, ast.Name):
+        return test.id == "TYPE_CHECKING"
+    return isinstance(test, ast.Attribute) and test.attr == "TYPE_CHECKING"
+
+
+def _modul_seviyesi_importlari(dosya: Path) -> list[tuple[int, str]]:
+    """Import anında çalışan import'lar: ``(satır, 'pandas')`` ikilileri.
+
+    Fonksiyon gövdeleri atlanır — orası ancak çağrılınca çalışır, opsiyonel
+    paketin doğru yeri orası. Sınıf gövdeleri ve ``if``/``try`` blokları
+    atlanmaz: onlar modül yüklenirken işler. ``if TYPE_CHECKING:`` istisna,
+    çünkü çalışma zamanında hiç girilmez.
+    """
+    cikti: list[tuple[int, str]] = []
+
+    def gez(dugumler) -> None:
+        for dugum in dugumler:
+            if isinstance(dugum, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                continue
+            if isinstance(dugum, ast.If) and _type_checking_mi(dugum.test):
+                continue
+            if isinstance(dugum, ast.Import):
+                cikti.extend((dugum.lineno, a.name.split(".")[0]) for a in dugum.names)
+            elif isinstance(dugum, ast.ImportFrom):
+                if dugum.module and not dugum.level:   # relative import bizim kodumuz
+                    cikti.append((dugum.lineno, dugum.module.split(".")[0]))
+            else:
+                gez(ast.iter_child_nodes(dugum))
+
+    gez(ast.iter_child_nodes(ast.parse(dosya.read_text(encoding="utf-8"))))
+    return cikti
+
+
+def test_opsiyonel_paketler_fonksiyon_icinde_kalir():
+    """K1: ``pandas`` ve ``wordfreq`` modül seviyesinde import edilmemeli.
+
+    Neden kodu tarıyoruz, çalıştırmıyoruz: bu testin eski sürümü alt süreçte
+    ``sys.modules``'a bakıyordu (``test_smoke.py``). Ama orası ortak havuz —
+    ``zeyrek → nltk → sklearn → pandas`` zinciri de aynı yere yazıyor, üstelik
+    ``sklearn`` kuruluysa. Test o zaman bizim kodumuzu değil, makinada başka
+    ne kurulu olduğunu ölçüyordu; 2026-09-23'te ``zipf`` ortamında düştü.
+
+    Sorumlu olduğumuz tek şey kendi dosyalarımız — bu sürüm yalnız onlara
+    bakıyor ve hiçbir ortamda farklı sonuç vermiyor.
+
+    Kapsam dışı: modül seviyesinde ``importlib.import_module("pandas")``.
+    AST'de ad olarak görünmez; kod tabanında böyle bir kullanım yok.
+
+    Eksik paketle *davranış* ayrı testlerde:
+    ``test_lexical.py::test_wordfreq_yoksa_nan_doner_ve_uyarir`` ve
+    ``test_errors.py::test_eksik_opsiyonel_paket_cokertmez``.
+    """
+    ihlaller = [
+        f"{dosya.relative_to(KOK)}:{satir} → {paket}"
+        for dosya in sorted(KOK.rglob("*.py"))
+        for satir, paket in _modul_seviyesi_importlari(dosya)
+        if paket in OPSIYONEL
+    ]
+    assert not ihlaller, (
+        "Opsiyonel paket modül seviyesinde import ediliyor, fonksiyon içine "
+        f"alınmalı: {', '.join(ihlaller)}"
+    )
