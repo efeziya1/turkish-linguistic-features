@@ -44,8 +44,8 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 |---|---|
 | ✅ birebir | 16 |
 | 🟡 belgelenmis sapma | 2 |
-| ⚪ kaynakta sayisal ornek yok | 129 |
-| ⚪ kaynak yok | 72 |
+| ⚪ kaynakta sayisal ornek yok | 132 |
+| ⚪ kaynak yok | 69 |
 
 ### Sayısal karşılaştırması olanlar
 
@@ -90,8 +90,8 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `brunet_w` | Brunet (1978), aktaran Tweedie & Baayen (1998) s.328, denk. (10) | ⚪ |
 | `hapax_ratio` | — | ⚪ |
 | `hapax_percentage` | QUITA §6.1.6 | ⚪ |
-| `mattr` | Covington & McFall (2010); varsayılan pencere 50, dil öğrenimi yazınının değeri — C&M'nin kendi önerisi 500 | ⚪ |
-| `entropy_std` | — | ⚪ |
+| `mattr` | Covington & McFall (2010); varsayılan pencere 50 — C&M'nin kendi önerisi 500, ölçülerek 50'de karar kılındı (2026-09-23) | ⚪ |
+| `entropy_std` | Shannon (1948) — entropi formülü; parçalar arası standart sapması bu kütüphanenin türevi | ⚪ |
 | `herdan_c` | Herdan (1960/1964), aktaran Tweedie & Baayen (1998) s.327, denk. (5) | ⚪ |
 | `mtld` | McCarthy & Jarvis (2010) s.383–385 | ⚪ |
 | `dugast_u` | Dugast (1978), aktaran Malvern et al. (2004) denk. 2.7 | ⚪ |
@@ -130,7 +130,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `avg_sent_len_char` | — | ⚪ |
 | `short_sent_ratio` | — | ⚪ |
 | `long_sent_ratio` | — | ⚪ |
-| `sent_len_entropy` | — | ⚪ |
+| `sent_len_entropy` | Shannon (1948) — entropi formülü; cümle uzunluğu dağılımına uygulanması bu kütüphanenin kararı | ⚪ |
 | `para_len_mean` | — | ⚪ |
 | `para_len_cv` | — | ⚪ |
 | `sents_per_para_mean` | — | ⚪ |
@@ -193,7 +193,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `morph_voice_pass` | de Marneffe ve ark. (2021) Tablo 2 (evrensel morfolojik özellikler) | ⚪ |
 | `agglutination_depth` | Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & Akın (2007) | ⚪ |
 | `suffix_char_length_ratio` | Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & Akın (2007) | ⚪ |
-| `suffix_bigram_entropy` | Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & Akın (2007) | ⚪ |
+| `suffix_bigram_entropy` | Shannon (1948) — entropi formülü; Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & Akın (2007) | ⚪ |
 | `suffix_chain_cv` | Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & Akın (2007) | ⚪ |
 | `derivational_suffix_ratio` | Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & Akın (2007) | ⚪ |
 | `tense_past_def` | Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & Akın (2007) | ⚪ |
@@ -246,7 +246,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `punc_quote_ratio` | — | ⚪ |
 | `punc_question_ratio` | — | ⚪ |
 | `punct_density` | — | ⚪ |
-| `punct_entropy` | — | ⚪ |
+| `punct_entropy` | Shannon (1948) — entropi formülü; noktalama türü dağılımına uygulanması bu kütüphanenin kararı | ⚪ |
 | `consecutive_punct_ratio` | — | ⚪ |
 | `whitespace_ratio` | — | ⚪ |
 | `punct_variety` | — | ⚪ |
@@ -289,8 +289,8 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | Durum | Satır sayısı |
 |---|---|
 | ✅ birebir | 7 |
-| ⚪ kaynakta sayisal ornek yok | 108 |
-| ⚪ kaynak yok | 70 |
+| ⚪ kaynakta sayisal ornek yok | 112 |
+| ⚪ kaynak yok | 66 |
 
 ### Sayısal karşılaştırması olanlar
 
@@ -320,8 +320,8 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `brunet_w` | Brunet (1978), aktaran Tweedie & Baayen (1998) s.328, denk. (10) | ⚪ |
 | `hapax_ratio` | — | ⚪ |
 | `hapax_percentage` | QUITA §6.1.6 | ⚪ |
-| `mattr` | Covington & McFall (2010); varsayılan pencere 50, dil öğrenimi yazınının değeri — C&M'nin kendi önerisi 500 | ⚪ |
-| `entropy_std` | — | ⚪ |
+| `mattr` | Covington & McFall (2010); varsayılan pencere 50 — C&M'nin kendi önerisi 500, ölçülerek 50'de karar kılındı (2026-09-23) | ⚪ |
+| `entropy_std` | Shannon (1948) — entropi formülü; parçalar arası standart sapması bu kütüphanenin türevi | ⚪ |
 | `herdan_c` | Herdan (1960/1964), aktaran Tweedie & Baayen (1998) s.327, denk. (5) | ⚪ |
 | `mtld` | McCarthy & Jarvis (2010) s.383–385 | ⚪ |
 | `dugast_u` | Dugast (1978), aktaran Malvern et al. (2004) denk. 2.7 | ⚪ |
@@ -360,7 +360,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `avg_sent_len_char` | — | ⚪ |
 | `short_sent_ratio` | — | ⚪ |
 | `long_sent_ratio` | — | ⚪ |
-| `sent_len_entropy` | — | ⚪ |
+| `sent_len_entropy` | Shannon (1948) — entropi formülü; cümle uzunluğu dağılımına uygulanması bu kütüphanenin kararı | ⚪ |
 | `para_len_mean` | — | ⚪ |
 | `para_len_cv` | — | ⚪ |
 | `sents_per_para_mean` | — | ⚪ |
@@ -443,7 +443,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `flesch_reading_ease` | Flesch (1948) Formül A; katsayı .846, birim 100 sözcükteki hece | ⚪ |
 | `flesch_kincaid_grade` | Kincaid et al. (1975) s.14, Tablo 3, "New" | ⚪ |
 | `smog` | McLaughlin (1969) s.643, Tablo 1, denk. (d); p = 30 cümlelik örneklemdeki çok heceli sözcük | ⚪ |
-| `polysyllabic_word_ratio` | — | ⚪ |
+| `polysyllabic_word_ratio` | McLaughlin (1969); çok heceli = 3+ hece — SMOG'un girdisinin oran biçimi, kaynağın kendi ölçüsü değil | ⚪ |
 | `digit_vs_all` | — | ⚪ |
 | `punc_,_ratio` | — | ⚪ |
 | `punc_._ratio` | — | ⚪ |
@@ -456,7 +456,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `punc_quote_ratio` | — | ⚪ |
 | `punc_question_ratio` | — | ⚪ |
 | `punct_density` | — | ⚪ |
-| `punct_entropy` | — | ⚪ |
+| `punct_entropy` | Shannon (1948) — entropi formülü; noktalama türü dağılımına uygulanması bu kütüphanenin kararı | ⚪ |
 | `consecutive_punct_ratio` | — | ⚪ |
 | `whitespace_ratio` | — | ⚪ |
 | `punct_variety` | — | ⚪ |

@@ -672,8 +672,8 @@ FEATURE_CITATIONS: dict[str, str] = {
     # ── lexical ─────────────────────────────────────────────
     'ttr': 'Malvern et al. (2004); QUITA §6.1.1',
     'mattr':
-        'Covington & McFall (2010); varsayılan pencere 50, dil öğrenimi yazınının '
-        "değeri — C&M'nin kendi önerisi 500",
+        "Covington & McFall (2010); varsayılan pencere 50 — C&M'nin kendi "
+        "önerisi 500, ölçülerek 50'de karar kılındı (2026-09-23)",
     'herdan_c': 'Herdan (1960/1964), aktaran Tweedie & Baayen (1998) s.327, denk. (5)',
     'sichel_s': 'Sichel (1975); formül Malvern et al. (2004) denk. 3.10',
     'zipf_exponent':
@@ -694,7 +694,20 @@ FEATURE_CITATIONS: dict[str, str] = {
         'Guiraud (1954) s.53, alternatif biçim (bütün sözcük türleri), aktaran '
         'Daller (2010); asıl yasası V/√(2N), yalnız içerik sözcükleri',
     'heaps_beta': 'Heaps (1978), aktaran Manning et al. (2008) §5.1.1',
+    # Shannon entropisi beş anahtarda kullanılıyor. Formülün kaynağı hepsinde
+    # aynı (Shannon 1948); ayrıldıkları yer formülün NEYE uygulandığı. Künye
+    # bunu tek tek söylüyor — "Shannon (1948)" deyip bırakmak, dağılımın
+    # seçimini de Shannon'a mal ederdi (2026-09-23, Efe).
     'entropy': 'Shannon (1948), aktaran QUITA §6.1.12',
+    'entropy_std':
+        'Shannon (1948) — entropi formülü; parçalar arası standart sapması '
+        'bu kütüphanenin türevi',
+    'punct_entropy':
+        'Shannon (1948) — entropi formülü; noktalama türü dağılımına '
+        'uygulanması bu kütüphanenin kararı',
+    'sent_len_entropy':
+        'Shannon (1948) — entropi formülü; cümle uzunluğu dağılımına '
+        'uygulanması bu kütüphanenin kararı',
     'yule_k': 'Yule (1944), aktaran Malvern et al. (2004) denk. 3.9',
     'simpson_d': 'Simpson (1949), aktaran Bestgen (2023)',
     'brunet_w': 'Brunet (1978), aktaran Tweedie & Baayen (1998) s.328, denk. (10)',
@@ -815,8 +828,8 @@ FEATURE_CITATIONS: dict[str, str] = {
         'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
         'Akın (2007)',
     'suffix_bigram_entropy':
-        'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
-        'Akın (2007)',
+        'Shannon (1948) — entropi formülü; Zeyrek (Zemberek morfotaktiğinin '
+        'Python aktarımı); etiket kümesi Akın & Akın (2007)',
     'derivational_suffix_ratio':
         'Zeyrek (Zemberek morfotaktiğinin Python aktarımı); etiket kümesi Akın & '
         'Akın (2007)',
@@ -907,6 +920,9 @@ FEATURE_CITATIONS: dict[str, str] = {
     'smog':
         'McLaughlin (1969) s.643, Tablo 1, denk. (d); p = 30 cümlelik örneklemdeki '
         'çok heceli sözcük',
+    'polysyllabic_word_ratio':
+        "McLaughlin (1969); çok heceli = 3+ hece — SMOG'un girdisinin oran "
+        'biçimi, kaynağın kendi ölçüsü değil',
     'ari':
         'Smith & Senter (1967) s.8, AMRL-TR-66-220; aynen Kincaid et al. (1975) '
         's.14, Tablo 3 ("Old")',
