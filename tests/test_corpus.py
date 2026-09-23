@@ -9,9 +9,12 @@ sayım yönteminden giriyordu.
 
 import pytest
 
+# ``_load_corpus`` 2026-09-23'te public yüzeyden çıktı (``analyze_corpus``
+# zinciri kapatıyor) ama kodu duruyor: üç dosya düzeni algılaması ve CSV
+# başlık eşlemesi hâlâ çalışıyor, dolayısıyla testleri de duruyor.
 from turkish_linguistic_features.file_loader import (
-    load_corpus,
-    records_to_csv,
+    _load_corpus,
+    save_csv,
     segment_text,
 )
 
@@ -78,12 +81,12 @@ def test_gecersiz_birim():
         segment_text("deneme", size=10, unit="hece")
 
 
-# ── load_corpus: üç düzen ─────────────────────────────────────────────
+# ── _load_corpus: üç düzen ─────────────────────────────────────────────
 
 
 def test_duz_dosya_duzeni(tmp_path):
     (tmp_path / "Roman_Sinekli Bakkal.txt").write_text(_metin(250), encoding="utf-8")
-    kayitlar = load_corpus(tmp_path, segment_size=100)
+    kayitlar = _load_corpus(tmp_path, segment_size=100)
     assert len(kayitlar) == 2
     assert kayitlar[0]["label"] == "Roman"
     assert kayitlar[0]["source"] == "Sinekli Bakkal"
@@ -94,7 +97,7 @@ def test_duz_dosya_duzeni(tmp_path):
 def test_alt_klasor_duzeni(tmp_path):
     (tmp_path / "Roman").mkdir()
     (tmp_path / "Roman" / "kitap.txt").write_text(_metin(250), encoding="utf-8")
-    kayitlar = load_corpus(tmp_path, segment_size=100)
+    kayitlar = _load_corpus(tmp_path, segment_size=100)
     assert {k["label"] for k in kayitlar} == {"Roman"}
     assert kayitlar[0]["source"] == "kitap"
 
@@ -102,7 +105,7 @@ def test_alt_klasor_duzeni(tmp_path):
 def test_csv_duzeni(tmp_path):
     yol = tmp_path / "korpus.csv"
     yol.write_text("label,text\nRoman," + _metin(250) + "\n", encoding="utf-8")
-    kayitlar = load_corpus(yol, segment_size=100)
+    kayitlar = _load_corpus(yol, segment_size=100)
     assert len(kayitlar) == 2
     assert kayitlar[0]["label"] == "Roman"
 
@@ -110,14 +113,14 @@ def test_csv_duzeni(tmp_path):
 def test_csv_turkce_basliklar(tmp_path):
     yol = tmp_path / "k.csv"
     yol.write_text("etiket,metin\nŞiir," + _metin(150) + "\n", encoding="utf-8")
-    assert load_corpus(yol, segment_size=100)[0]["label"] == "Şiir"
+    assert _load_corpus(yol, segment_size=100)[0]["label"] == "Şiir"
 
 
 def test_csv_eski_yazar_basligi(tmp_path):
     """Geriye dönük: ``yazar`` da ``label``a haritalanır."""
     yol = tmp_path / "eski.csv"
     yol.write_text("yazar,metin\nAhmet," + _metin(150) + "\n", encoding="utf-8")
-    assert load_corpus(yol, segment_size=100)[0]["label"] == "Ahmet"
+    assert _load_corpus(yol, segment_size=100)[0]["label"] == "Ahmet"
 
 
 # ── kodlama ve kenar durumlar ─────────────────────────────────────────
@@ -125,33 +128,33 @@ def test_csv_eski_yazar_basligi(tmp_path):
 
 def test_turkce_karakterli_dosya_adi(tmp_path):
     (tmp_path / "Şiir_Füreya.txt").write_text(_metin(150), encoding="utf-8")
-    assert load_corpus(tmp_path, segment_size=100)[0]["label"] == "Şiir"
+    assert _load_corpus(tmp_path, segment_size=100)[0]["label"] == "Şiir"
 
 
 def test_utf8_okuma(tmp_path):
     """cp1254 varsayılanı Türkçe karakterleri bozardı."""
     (tmp_path / "Etiket_Kitap.txt").write_text("ğüşiöç " * 200, encoding="utf-8")
-    assert "ğ" in load_corpus(tmp_path, segment_size=100)[0]["text"]
+    assert "ğ" in _load_corpus(tmp_path, segment_size=100)[0]["text"]
 
 
 def test_bos_klasor(tmp_path):
-    assert load_corpus(tmp_path) == []
+    assert _load_corpus(tmp_path) == []
 
 
 def test_olmayan_yol():
     with pytest.raises((FileNotFoundError, ValueError)):
-        load_corpus("/boyle/bir/yol/yok")
+        _load_corpus("/boyle/bir/yol/yok")
 
 
 def test_csv_disa_aktarma(tmp_path):
     kayitlar = [{"label": "A", "source": "K", "segment_id": 0, "text": "metin"}]
     cikti = tmp_path / "out.csv"
-    records_to_csv(kayitlar, cikti)
+    save_csv(kayitlar, cikti)
     icerik = cikti.read_text(encoding="utf-8")
     assert "label" in icerik and "metin" in icerik
 
 
-def test_lang_load_corpus_uzerinden_geciyor(tmp_path):
+def test_lang__load_corpus_uzerinden_geciyor(tmp_path):
     """``lang`` artık gerçek bir iş yapıyor — tokenizer'ı seçiyor."""
     (tmp_path / "A_b.txt").write_text(_metin(250), encoding="utf-8")
-    assert load_corpus(tmp_path, segment_size=100, lang="en")
+    assert _load_corpus(tmp_path, segment_size=100, lang="en")

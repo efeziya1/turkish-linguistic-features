@@ -3,7 +3,7 @@
 A comprehensive toolkit for extracting quantitative linguistic features from
 Turkish and English texts.
 
-**Status: early development (0.1.0).** The eight public names are implemented
+**Status: early development (0.1.0).** The nine public names are implemented
 and tested; the package is not on PyPI yet — publishing is the last open task.
 See `plan/from-scratch/`.
 
@@ -63,7 +63,8 @@ import turkish_linguistic_features as tlf
 
 result = tlf.analyze("Bir metin.", lang="tr")          # 208 features (TR) / 182 (EN)
 result = tlf.analyze(text, groups=["readability"])     # one group only
-corpus = tlf.load_corpus("corpus/", segment_size=1000) # folder/CSV → records
+rows   = tlf.analyze_corpus("corpus/", segment_size=1000)  # folder/CSV → analysed rows
+tlf.save_csv(rows, "features.csv")                     # write them out
 chunks = tlf.segment_text(long_text, size=1000)        # split a single text
 info   = tlf.describe_feature("mtld")                  # what a key measures, and its source
 params = tlf.FeatureParams(mattr_window=100)           # metric constants

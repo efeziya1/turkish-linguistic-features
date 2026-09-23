@@ -1,8 +1,14 @@
-"""Korpus yükleme ve parçalama (T27).
+"""Korpus yükleme, parçalama ve CSV yazma (T27).
 
-``load_corpus`` klasördeki ya da CSV'deki metinleri okur, ``segment_text``
+``_load_corpus`` klasördeki ya da CSV'deki metinleri okur, ``segment_text``
 onları eşit büyüklükte parçalara böler. Parçalama **çıkarımdan ayrıdır**:
-zincir ``load_corpus`` → ``analyze``, kayıtlara öznitelik iliştirilmez (K10).
+kayıtlara öznitelik iliştirilmez (K10); birleştirme ``_corpus.py``'de,
+``analyze_corpus`` içinde olur.
+
+``_load_corpus`` 2026-09-23'te public yüzeyden çıktı (alt çizgi aldı). Tek
+başına çağrılınca "elimde kayıt listesi var, şimdi ne yapacağım?" sorusunu
+bırakıyordu; ``analyze_corpus`` zinciri kapatıyor. Kod ve testleri duruyor —
+üç dosya düzeni algılaması ve CSV başlık eşlemesi hâlâ çalışıyor.
 
 Her parça bir **etiket** taşır. Etiketin ne anlama geldiğine kullanıcı karar
 verir — kaynak, dönem, tür, yazar, dil seviyesi. Kütüphane yorumlamaz.
@@ -21,7 +27,7 @@ from .alfabe import _ALFABE
 if TYPE_CHECKING:
     from spacy.tokenizer import Tokenizer
 
-__all__ = ["load_corpus", "segment_text"]
+__all__ = ["segment_text", "save_csv"]
 
 _LABEL_KEYS = ("label", "Label", "etiket", "Etiket", "ETIKET",
                "author", "Author", "yazar", "Yazar", "kategori", "category")
@@ -152,7 +158,7 @@ def _klasor_kayitlari(kok: Path) -> list[tuple[str, str, str]]:
     return out
 
 
-def load_corpus(path: str | Path, segment_size: int = 1000,
+def _load_corpus(path: str | Path, segment_size: int = 1000,
                 min_fill: float = 1.0, unit: str = "word",
                 lang: str = "tr") -> list[dict[str, object]]:
     """Klasördeki ya da CSV'deki metinleri okuyup parçalara böler.
@@ -176,7 +182,7 @@ def load_corpus(path: str | Path, segment_size: int = 1000,
     -----
     ``max_files`` **yok**: ``Path.iterdir()`` sırası işletim sistemine göre
     değişir, yani iki koşu karşılaştırılamazdı. Deneme koşusu için dilimleyin —
-    ``load_corpus("korpus/")[:200]``.
+    ``analyze_corpus("korpus/")[:200]``.
 
     Yalnız ``.txt`` okunur. ``.epub``/``.pdf`` kapsam dışı (2026-08-25);
     kullanıcı metni kendisi çıkarır.
@@ -197,12 +203,29 @@ def load_corpus(path: str | Path, segment_size: int = 1000,
     return kayitlar
 
 
-def records_to_csv(records: list[dict[str, object]], output_path: str | Path) -> None:
+def save_csv(records: list[dict[str, object]], output_path: str | Path) -> None:
     """Kayıt listesini UTF-8 CSV olarak yazar.
 
-    ``__all__``'da değil — ``turkish_linguistic_features.file_loader``
-    üzerinden erişilir. ``csv.DictWriter`` etrafında ince bir sarmalayıcı;
-    tek işi kodlamayı ve satır sonlarını doğru ayarlamak (K9).
+    ``analyze_corpus()`` zincirinin son halkası::
+
+        rows = analyze_corpus("korpus/")
+        save_csv(rows, "sonuc.csv")
+
+    Sütunlar ilk kaydın anahtarlarından alınır. Boş liste hiçbir şey yazmaz.
+
+    ``csv.DictWriter`` etrafında ince bir sarmalayıcı; tek işi kodlamayı ve
+    satır sonlarını doğru ayarlamak (K9). 2026-09-23'e kadar adı
+    ``records_to_csv``'ydi ve ``__all__``'da değildi — zinciri kapatan adım
+    public olmadığı için kullanıcı onu bulamıyordu. ``to_csv`` denmedi:
+    pandas'ta o bir metot (``df.to_csv``), serbest fonksiyon olarak özneyi
+    kaybeder ve pandas semantiği beklenmesine yol açar.
+
+    Parameters
+    ----------
+    records
+        Yazılacak kayıtlar. Hepsi aynı anahtarlara sahip olmalı.
+    output_path
+        Hedef dosya. Üst klasörü varsayılmaz, çağıran oluşturur.
     """
     if not records:
         return

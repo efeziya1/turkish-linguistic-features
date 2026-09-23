@@ -1,6 +1,6 @@
 """Korpus analizi — korpustan CSV'ye, uçtan uca.
 
-Zincir: ``load_corpus()`` → her parça için ``analyze()`` → ``records_to_csv()``.
+Zincir: ``analyze_corpus()`` → ``save_csv()``. İki çağrı.
 
 Kendi korpusunuzu vermek için dizini argüman olarak geçin::
 
@@ -24,12 +24,6 @@ import sys
 from pathlib import Path
 
 import turkish_linguistic_features as tlf
-
-# ``records_to_csv`` public API'de (``__all__``) DEĞİLDİR — modül yolundan
-# alınır. Sözleşme (API-SOZLESMESI.md §1) onu bilinçli olarak dışarıda
-# tutuyor: ``csv.DictWriter`` etrafında ince bir sarmalayıcı, dilbilimsel
-# bir işlev değil.
-from turkish_linguistic_features.file_loader import records_to_csv
 
 # Ayarlar en üstte, tek yerde.
 PARCA_BOYUTU = 1000        # gerçek korpus için tipik değer (kelime)
@@ -107,31 +101,27 @@ def main() -> None:
         print("Kendi korpusunuz için: python examples/02_korpus_analizi.py korpus/\n")
         demo_korpus_yaz(korpus_dizini)
 
-    # 1. Korpusu yükle ve parçala.
-    kayitlar = tlf.load_corpus(korpus_dizini, segment_size=parca_boyutu, lang=DIL)
-    if not kayitlar:
+    # 1. Oku, parçala, her parçayı analiz et — tek çağrı.
+    #    show_progress pahalı adımı görünür kılıyor: parça başına bir
+    #    analyze() çağrısı var, büyük korpusta dakikalar sürer.
+    satirlar = tlf.analyze_corpus(korpus_dizini, lang=DIL,
+                                  segment_size=parca_boyutu,
+                                  show_progress=True)
+    if not satirlar:
         print(f"Hiç parça çıkmadı. Metinler {parca_boyutu} kelimeden kısa olabilir;")
         print("PARCA_BOYUTU'nu küçültün ya da min_fill'i düşürün.")
         sys.exit(1)
-    print(f"{len(kayitlar)} parça yüklendi "
-          f"({len({k['source'] for k in kayitlar})} kaynak).")
+    print(f"{len(satirlar)} parça analiz edildi "
+          f"({len({s['source'] for s in satirlar})} kaynak).")
 
-    # 2. Her parça için öznitelik çıkar. Pahalı adım burası — ilerleme yazdır.
-    satirlar = []
-    for i, kayit in enumerate(kayitlar, 1):
-        print(f"  [{i}/{len(kayitlar)}] {kayit['source']} #{kayit['segment_id']}")
-        oznitelikler = tlf.analyze(str(kayit["text"]), lang=DIL)
-        satirlar.append({"label": kayit["label"], "source": kayit["source"],
-                         "segment_id": kayit["segment_id"], **oznitelikler})
-
-    # 3. Ham değerleri CSV'ye yaz — ölçeklenmemiş, olduğu gibi.
+    # 2. Ham değerleri CSV'ye yaz — ölçeklenmemiş, olduğu gibi.
     CIKTI_DIZINI.mkdir(parents=True, exist_ok=True)
     csv_yolu = CIKTI_DIZINI / "korpus_oznitelikleri.csv"
-    records_to_csv(satirlar, csv_yolu)
+    tlf.save_csv(satirlar, csv_yolu)
     print(f"\nCSV yazıldı: {csv_yolu} ({len(satirlar)} satır, "
           f"{len(satirlar[0])} sütun)")
 
-    # 4. Parçalar arasında en çok değişen öznitelikler.
+    # 3. Parçalar arasında en çok değişen öznitelikler.
     #    Yalnız ``ratio_0_1`` ölçeğindekiler karşılaştırılıyor: hepsi [0, 1]
     #    aralığında olduğu için standart sapmaları aynı birimde. Ölçekleri
     #    karışık anahtarları yan yana sıralamak büyük sayılı olanı öne atardı.
@@ -150,7 +140,7 @@ def main() -> None:
                                  key=lambda p: p[1], reverse=True)[:EN_COK_DEGISEN]:
         print(f"{anahtar:<30} sd={sapma:>8.4f}")
 
-    # 5. Buradan sonrası pandas gerektirir — opsiyonel bağımlılık.
+    # 4. Buradan sonrası pandas gerektirir — opsiyonel bağımlılık.
     try:
         import pandas as pd
     except ImportError:

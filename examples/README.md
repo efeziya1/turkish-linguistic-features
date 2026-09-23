@@ -93,8 +93,8 @@ polysyllabic_word_ratio           yok    var
 
 ## `02_korpus_analizi.py` — korpus → CSV
 
-Zincirin tamamı: `load_corpus()` → her parça için `analyze()` →
-`records_to_csv()`. Ardından parçalar arasında en çok değişen oranları
+Zincirin tamamı: `analyze_corpus()` → `save_csv()`. Ardından parçalar
+arasında en çok değişen oranları
 sıralar; `pandas` varsa sabit sütunları eler ve birbirini tekrarlayan
 öznitelik çiftlerini listeler.
 
@@ -144,10 +144,14 @@ Kurmak için: pip install pandas
 > korelasyon katsayısı güvenilir değildir — 1193 çift, korpusun küçüklüğünün
 > sonucudur, metinlerin bir özelliği değil. Blok kalıbı gösterir.
 
-> `records_to_csv` **public API'de değildir** (`__all__` sekiz ad). Modül
-> yolundan alınır: `from turkish_linguistic_features.file_loader import
-> records_to_csv`. Sözleşme onu bilinçli olarak dışarıda tutuyor —
-> `csv.DictWriter` etrafında ince bir sarmalayıcı.
+> `save_csv` 2026-09-23'te public oldu (`__all__` dokuz ad) ve adı
+> `records_to_csv`'ydi. Zinciri kapatan adım public olmadığı sürece kullanıcı
+> onu bulamıyordu. `to_csv` denmedi: pandas'ta o bir metot (`df.to_csv`),
+> serbest fonksiyon olarak özneyi kaybeder.
+>
+> Aynı tarihte `load_corpus` ters yöne gitti — `_load_corpus` olup public
+> yüzeyden çıktı. `analyze_corpus` onun işini de yaptığı için tek başına
+> çağrılmasına gerek kalmadı; kodu ve testleri duruyor.
 
 ---
 
