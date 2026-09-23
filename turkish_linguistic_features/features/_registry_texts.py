@@ -934,8 +934,8 @@ FEATURE_CITATIONS: dict[str, str] = {
         'McLaughlin (1969) s.643, Tablo 1, denk. (d); p = 30 cümlelik örneklemdeki '
         'çok heceli sözcük',
     'polysyllabic_word_ratio':
-        "McLaughlin (1969); çok heceli = 3+ hece — SMOG'un girdisinin oran "
-        'biçimi, kaynağın kendi ölçüsü değil',
+        "McLaughlin (1969) s.641; çok heceli = 3+ hece — SMOG'un girdisinin "
+        'oran biçimi, kaynağın kendi ölçüsü değil',
     'ari':
         'Smith & Senter (1967) s.8, AMRL-TR-66-220; aynen Kincaid et al. (1975) '
         's.14, Tablo 3 ("Old")',

@@ -443,7 +443,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `flesch_reading_ease` | Flesch (1948) Formül A; katsayı .846, birim 100 sözcükteki hece | ⚪ |
 | `flesch_kincaid_grade` | Kincaid et al. (1975) s.14, Tablo 3, "New" | ⚪ |
 | `smog` | McLaughlin (1969) s.643, Tablo 1, denk. (d); p = 30 cümlelik örneklemdeki çok heceli sözcük | ⚪ |
-| `polysyllabic_word_ratio` | McLaughlin (1969); çok heceli = 3+ hece — SMOG'un girdisinin oran biçimi, kaynağın kendi ölçüsü değil | ⚪ |
+| `polysyllabic_word_ratio` | McLaughlin (1969) s.641; çok heceli = 3+ hece — SMOG'un girdisinin oran biçimi, kaynağın kendi ölçüsü değil | ⚪ |
 | `digit_vs_all` | — | ⚪ |
 | `punc_,_ratio` | — | ⚪ |
 | `punc_._ratio` | — | ⚪ |
