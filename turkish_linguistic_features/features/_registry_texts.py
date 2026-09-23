@@ -971,7 +971,8 @@ BIBLIOGRAPHY: dict[str, str] = {
         '71–74. Ankara Üniversitesi TÖMER. ISSN 1300-3542.',
     'Bestgen (2023)':
         'Bestgen, Y. (2023). Measuring lexical diversity in texts: The twofold '
-        'length problem. arXiv:2307.04626.',
+        'length problem. arXiv:2307.04626. Yayımlanmış hâli: Language Learning, '
+        '74(3), 638–671 (2024), DOI 10.1111/lang.12630 — burada önbaskı kullanıldı.',
     'Bezirci & Yılmaz (2010)':
         'Bezirci, B., & Yılmaz, A. E. (2010). Türkçe için yeni bir okunabilirlik '
         'ölçütü önerisi. SIU2010 — IEEE 18. Sinyal İşleme ve İletişim Uygulamaları '
@@ -986,7 +987,8 @@ BIBLIOGRAPHY: dict[str, str] = {
         'kaynakçasından doğrulandı. Birincil kaynağa ulaşılamadı.',
     'Coleman & Liau (1975)':
         'Coleman, M., & Liau, T. L. (1975). A computer readability formula designed '
-        'for machine scoring. Journal of Applied Psychology, 60(2), 283–284.',
+        'for machine scoring. Journal of Applied Psychology, 60(2), 283–284. '
+        'DOI 10.1037/h0076540',
     'Covington & McFall (2010)':
         'Covington, M. A., & McFall, J. D. (2010). Cutting the Gordian knot: The '
         'moving-average type–token ratio (MATTR). Journal of Quantitative '
@@ -1000,7 +1002,8 @@ BIBLIOGRAPHY: dict[str, str] = {
     'Deutsch, Jasbi & Shieber (2020)':
         'Deutsch, T., Jasbi, M., & Shieber, S. (2020). Linguistic features for '
         'readability assessment. Proceedings of the 15th Workshop on Innovative Use '
-        'of NLP for Building Educational Applications (BEA).',
+        'of NLP for Building Educational Applications (BEA), 1–17. '
+        'DOI 10.18653/v1/2020.bea-1.1',
     'Dugast (1978)':
         "Dugast, D. (1978). Sur quoi se fonde la notion d'étendue théoretique du "
         'vocabulaire? Le Français Moderne, 46(1), 25–32. Künye dört ikincil '
@@ -1012,7 +1015,7 @@ BIBLIOGRAPHY: dict[str, str] = {
         'burada kullanılmıyor.',
     'Flesch (1948)':
         'Flesch, R. (1948). A new readability yardstick. Journal of Applied '
-        'Psychology, 32(3), 221–233.',
+        'Psychology, 32(3), 221–233. DOI 10.1037/h0057532',
     'Guiraud (1954)':
         'Guiraud, P. (1954). Les Caractères Statistiques du Vocabulaire. Essai de '
         'méthodologie. Paris: Presses Universitaires de France.',
@@ -1034,10 +1037,12 @@ BIBLIOGRAPHY: dict[str, str] = {
     'Kincaid et al. (1975)':
         'Kincaid, J. P., Fishburne, R. P., Rogers, R. L., & Chissom, B. S. (1975). '
         'Derivation of new readability formulas for Navy enlisted personnel. '
-        'Research Branch Report 8-75. Millington, TN: Naval Air Station Memphis.',
+        'Research Branch Report 8-75. Millington, TN: Naval Air Station Memphis. '
+        'DOI 10.21236/ADA006655',
     'Liu (2008)':
         'Liu, H. (2008). Dependency distance as a metric of language comprehension '
-        'difficulty. Journal of Cognitive Science, 9(2), 159–191.',
+        'difficulty. Journal of Cognitive Science, 9(2), 159–191. '
+        'DOI 10.17791/jcs.2008.9.2.159',
     'Lu (2012)':
         'Lu, X. (2012). The relationship of lexical richness to the quality of ESL '
         "learners' oral narratives. The Modern Language Journal, 96(2), 190–208. "
@@ -1049,7 +1054,7 @@ BIBLIOGRAPHY: dict[str, str] = {
     'Manning et al. (2008)':
         'Manning, C. D., Raghavan, P., & Schütze, H. (2008). Introduction to '
         'Information Retrieval. Cambridge University Press. (Arşivdeki dosya 2009 '
-        'çevrimiçi baskısı.)',
+        'çevrimiçi baskısı.) DOI 10.1017/CBO9780511809071',
     'McCarthy & Jarvis (2007)':
         'McCarthy, P. M., & Jarvis, S. (2007). vocd: A theoretical and empirical '
         'evaluation. Language Testing, 24(4), 459–488. DOI 10.1177/0265532207080767',
@@ -1069,14 +1074,14 @@ BIBLIOGRAPHY: dict[str, str] = {
     'Piantadosi (2014)':
         "Piantadosi, S. T. (2014). Zipf's word frequency law in natural language: A "
         'critical review and future directions. Psychonomic Bulletin & Review, '
-        '21(5), 1112–1130.',
+        '21(5), 1112–1130. DOI 10.3758/s13423-014-0585-6',
     'Popescu & Altmann (2006)':
         'Popescu, I.-I., & Altmann, G. (2006). Some aspects of word frequencies. '
         'Glottometrics, 13, 23–46. RAM-Verlag; dergi ISSN 2625-8226.',
     'Popescu et al. (2009)':
         'Popescu, I.-I., Altmann, G., Grzybek, P., ve ark. (2009). Word Frequency '
         'Studies. Berlin: Mouton de Gruyter. (Quantitative Linguistics 64.) '
-        'ISBN 978-3-11-021852-7, ISSN 0179-3616.',
+        'ISBN 978-3-11-021852-7, ISSN 0179-3616. DOI 10.1515/9783110218534',
     'Popescu, Mačutek & Altmann (2009)':
         'Popescu, I.-I., Mačutek, J., & Altmann, G. (2009). Aspects of Word '
         'Frequencies. Lüdenscheid: RAM-Verlag.',
@@ -1088,7 +1093,8 @@ BIBLIOGRAPHY: dict[str, str] = {
         'Analyzer. Lüdenscheid: RAM-Verlag. ISBN 978-3-942303-28-6.',
     'Shannon (1948)':
         'Shannon, C. E. (1948). A mathematical theory of communication. Bell System '
-        'Technical Journal, 27(3), 379–423; 27(4), 623–656.',
+        'Technical Journal, 27(3), 379–423; 27(4), 623–656. '
+        'DOI 10.1002/j.1538-7305.1948.tb01338.x',
     'Sichel (1975)':
         'Sichel, H. S. (1975). On a distribution law for word frequencies. Journal '
         'of the American Statistical Association, 70(351a), 542–547. DOI '
