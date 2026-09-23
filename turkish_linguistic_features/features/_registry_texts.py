@@ -705,6 +705,15 @@ FEATURE_CITATIONS: dict[str, str] = {
     'punct_entropy':
         'Shannon (1948) — entropi formülü; noktalama türü dağılımına '
         'uygulanması bu kütüphanenin kararı',
+    'short_sent_ratio':
+        'Ateşman (1997) s.74 — en kolay Türkçe metnin cümle uzunluğu 4 sözcük; '
+        'Eşik kalibrasyonu (2026-07-28) aynı sayıyı bağımsız olarak verdi '
+        '(TR roman korpusu 15. yüzdelik = 4). EN eşiği 7, yalnız kalibrasyondan',
+    'long_sent_ratio':
+        'Eşik kalibrasyonu (2026-07-28); TR 18, EN 39 — 85. yüzdelik. '
+        "Ateşman'ın 30'u kullanılmadı: o EN ZOR METNİN ORTALAMASI, tek cümle "
+        'eşiği değil (TR romanda 30 sözcük 95. yüzdeliğin üstünde, eşik olarak '
+        'neredeyse hiç tetiklenmezdi). Yalnız roman/kurgu için kalibre edildi',
     'sent_len_entropy':
         'Shannon (1948) — entropi formülü; cümle uzunluğu dağılımına '
         'uygulanması bu kütüphanenin kararı',
@@ -947,6 +956,12 @@ BIBLIOGRAPHY: dict[str, str] = {
     'Anderson (1983)':
         'Anderson, J. (1983). Lix and Rix: Variations on a little-known readability '
         'index. Journal of Reading, 26(6), 490–496. JSTOR 40031755.',
+    'Eşik kalibrasyonu (2026-07-28)':
+        'Bu kütüphanenin kendi ölçümü, yayımlanmış bir kaynak değil. '
+        'short_sent_threshold ve long_sent_threshold, roman korpuslarında '
+        'cümle uzunluğu dağılımının 15. ve 85. yüzdeliğinden türetildi: '
+        'TR 15 yazar / 1.089.841 cümle, EN 10 yazar / 341.892 cümle. '
+        'Yöntem ve ham percentile tablosu: docs/esik-kalibrasyonu.md.',
     'Ateşman (1997)':
         'Ateşman, E. (1997). Türkçede okunabilirliğin ölçülmesi. Dil Dergisi, 58, '
         '71–74. Ankara Üniversitesi TÖMER.',

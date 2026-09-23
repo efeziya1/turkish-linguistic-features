@@ -44,8 +44,8 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 |---|---|
 | ✅ birebir | 16 |
 | 🟡 belgelenmis sapma | 2 |
-| ⚪ kaynakta sayisal ornek yok | 132 |
-| ⚪ kaynak yok | 69 |
+| ⚪ kaynakta sayisal ornek yok | 134 |
+| ⚪ kaynak yok | 67 |
 
 ### Sayısal karşılaştırması olanlar
 
@@ -128,8 +128,8 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `sent_len_skewness` | — | ⚪ |
 | `med_sent_len` | — | ⚪ |
 | `avg_sent_len_char` | — | ⚪ |
-| `short_sent_ratio` | — | ⚪ |
-| `long_sent_ratio` | — | ⚪ |
+| `short_sent_ratio` | Ateşman (1997) s.74 — en kolay Türkçe metnin cümle uzunluğu 4 sözcük; Eşik kalibrasyonu (2026-07-28) aynı sayıyı bağımsız olarak verdi (TR roman korpusu 15. yüzdelik = 4). EN eşiği 7, yalnız kalibrasyondan | ⚪ |
+| `long_sent_ratio` | Eşik kalibrasyonu (2026-07-28); TR 18, EN 39 — 85. yüzdelik. Ateşman'ın 30'u kullanılmadı: o EN ZOR METNİN ORTALAMASI, tek cümle eşiği değil (TR romanda 30 sözcük 95. yüzdeliğin üstünde, eşik olarak neredeyse hiç tetiklenmezdi). Yalnız roman/kurgu için kalibre edildi | ⚪ |
 | `sent_len_entropy` | Shannon (1948) — entropi formülü; cümle uzunluğu dağılımına uygulanması bu kütüphanenin kararı | ⚪ |
 | `para_len_mean` | — | ⚪ |
 | `para_len_cv` | — | ⚪ |
@@ -289,8 +289,8 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | Durum | Satır sayısı |
 |---|---|
 | ✅ birebir | 7 |
-| ⚪ kaynakta sayisal ornek yok | 112 |
-| ⚪ kaynak yok | 66 |
+| ⚪ kaynakta sayisal ornek yok | 114 |
+| ⚪ kaynak yok | 64 |
 
 ### Sayısal karşılaştırması olanlar
 
@@ -358,8 +358,8 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `sent_len_skewness` | — | ⚪ |
 | `med_sent_len` | — | ⚪ |
 | `avg_sent_len_char` | — | ⚪ |
-| `short_sent_ratio` | — | ⚪ |
-| `long_sent_ratio` | — | ⚪ |
+| `short_sent_ratio` | Ateşman (1997) s.74 — en kolay Türkçe metnin cümle uzunluğu 4 sözcük; Eşik kalibrasyonu (2026-07-28) aynı sayıyı bağımsız olarak verdi (TR roman korpusu 15. yüzdelik = 4). EN eşiği 7, yalnız kalibrasyondan | ⚪ |
+| `long_sent_ratio` | Eşik kalibrasyonu (2026-07-28); TR 18, EN 39 — 85. yüzdelik. Ateşman'ın 30'u kullanılmadı: o EN ZOR METNİN ORTALAMASI, tek cümle eşiği değil (TR romanda 30 sözcük 95. yüzdeliğin üstünde, eşik olarak neredeyse hiç tetiklenmezdi). Yalnız roman/kurgu için kalibre edildi | ⚪ |
 | `sent_len_entropy` | Shannon (1948) — entropi formülü; cümle uzunluğu dağılımına uygulanması bu kütüphanenin kararı | ⚪ |
 | `para_len_mean` | — | ⚪ |
 | `para_len_cv` | — | ⚪ |
