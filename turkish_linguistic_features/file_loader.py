@@ -158,10 +158,16 @@ def _klasor_kayitlari(kok: Path) -> list[tuple[str, str, str]]:
     return out
 
 
-def _load_corpus(path: str | Path, segment_size: int = 1000,
-                min_fill: float = 1.0, unit: str = "word",
-                lang: str = "tr") -> list[dict[str, object]]:
-    """Klasördeki ya da CSV'deki metinleri okuyup parçalara böler.
+def _load_corpus(path: str | Path, segment_size: int | None = None,
+                 min_fill: float = 1.0, unit: str = "word",
+                 lang: str = "tr") -> list[dict[str, object]]:
+    """Klasördeki ya da CSV'deki metinleri okur, istenirse parçalara böler.
+
+    ``segment_size=None`` (varsayılan) **bölmez**: her kaynak dosya tek kayıt
+    olur, ``segment_id`` her zaman ``0``. 2026-09-23'e kadar varsayılan
+    ``1000``'di ve bu sessiz veri kaybına yol açıyordu — ``min_fill=1.0``
+    ile 1500 kelimelik dosyanın son 500 kelimesi atılıyor, 1000'den kısa
+    dosya ise hiç kayıt üretmiyordu. Parçalama artık açıkça istenmeli.
 
     Üç düzen otomatik algılanır::
 
@@ -173,6 +179,15 @@ def _load_corpus(path: str | Path, segment_size: int = 1000,
     ``metin``/``text``…). Geriye dönük uyumluluk için ``yazar``/``author`` da
     etikete haritalanır, ama dönen kayıtta anahtar **her zaman** ``label``.
 
+    Parameters
+    ----------
+    segment_size
+        ``None`` ise bölme yok, dosya başına tek kayıt. Sayı verilirse parça
+        başına token (``unit="word"``) ya da karakter (``"char"``).
+    min_fill, unit
+        Yalnız ``segment_size`` verildiğinde anlamlı; ``None`` iken yok
+        sayılır. Ayrıntı → ``segment_text``.
+
     Returns
     -------
     list[dict]
@@ -180,6 +195,10 @@ def _load_corpus(path: str | Path, segment_size: int = 1000,
 
     Notes
     -----
+    Parçalama **kaynak başına** yapılır: dosyalar birbirine eklenmez, her
+    dosya kendi ``segment_id`` sayacıyla sıfırdan başlar. A dosyasının artığı
+    B'nin başına karışmaz.
+
     ``max_files`` **yok**: ``Path.iterdir()`` sırası işletim sistemine göre
     değişir, yani iki koşu karşılaştırılamazdı. Deneme koşusu için dilimleyin —
     ``analyze_corpus("korpus/")[:200]``.
@@ -195,6 +214,10 @@ def _load_corpus(path: str | Path, segment_size: int = 1000,
 
     kayitlar: list[dict[str, object]] = []
     for etiket, kaynak, metin in ham:
+        if segment_size is None:
+            kayitlar.append({"label": etiket, "source": kaynak,
+                             "segment_id": 0, "text": metin})
+            continue
         parcalar = segment_text(metin, size=segment_size, min_fill=min_fill,
                                 unit=unit, lang=lang)
         for i, parca in enumerate(parcalar):

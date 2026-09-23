@@ -158,3 +158,49 @@ def test_lang__load_corpus_uzerinden_geciyor(tmp_path):
     """``lang`` artık gerçek bir iş yapıyor — tokenizer'ı seçiyor."""
     (tmp_path / "A_b.txt").write_text(_metin(250), encoding="utf-8")
     assert _load_corpus(tmp_path, segment_size=100, lang="en")
+
+
+# ── segment_size=None: varsayılan, bölme yok ──────────────────────────
+
+
+def test_varsayilan_bolmez_dosya_basina_tek_kayit(tmp_path):
+    """2026-09-23: varsayılan 1000'den None'a çekildi.
+
+    Eski varsayılan ``min_fill=1.0`` ile birleşince sessizce veri atıyordu:
+    1500 kelimelik dosyanın son 500'ü gidiyor, 1000'den kısa dosya hiç kayıt
+    üretmiyordu. Ölçüldü: 1500+1500+400 kelimelik korpustan 2000 kelime
+    analiz ediliyordu, yani %41'i düşüyordu.
+    """
+    (tmp_path / "A_uzun.txt").write_text(_metin(1500), encoding="utf-8")
+    (tmp_path / "B_kisa.txt").write_text(_metin(400), encoding="utf-8")
+
+    kayitlar = _load_corpus(tmp_path)
+
+    assert len(kayitlar) == 2, "dosya başına tam bir kayıt"
+    assert all(k["segment_id"] == 0 for k in kayitlar)
+    # Metnin tamamı duruyor: hiçbir kelime atılmadı.
+    toplam = sum(len(str(k["text"]).split()) for k in kayitlar)
+    assert toplam == 1900
+
+
+def test_none_ile_kisa_dosya_dusmez(tmp_path):
+    """Eski varsayılanın en sinsi yanı: kısa dosya sessizce yok oluyordu."""
+    (tmp_path / "A_kisa.txt").write_text(_metin(10), encoding="utf-8")
+    assert len(_load_corpus(tmp_path)) == 1
+    assert _load_corpus(tmp_path, segment_size=1000) == []
+
+
+def test_parcalama_kaynak_basina_dosyalar_karismaz(tmp_path):
+    """Her dosya kendi segment_id sayacıyla sıfırdan başlar; artıklar birleşmez."""
+    (tmp_path / "A_bir.txt").write_text(_metin(150), encoding="utf-8")
+    (tmp_path / "B_iki.txt").write_text(_metin(150), encoding="utf-8")
+
+    kayitlar = _load_corpus(tmp_path, segment_size=100, min_fill=0.0)
+
+    kaynaklar = {}
+    for k in kayitlar:
+        kaynaklar.setdefault(k["source"], []).append(k["segment_id"])
+    assert len(kaynaklar) == 2
+    assert all(ids == [0, 1] for ids in kaynaklar.values()), (
+        "her kaynak 0'dan başlamalı: 150 kelime → 100 + 50"
+    )

@@ -63,7 +63,8 @@ import turkish_linguistic_features as tlf
 
 result = tlf.analyze("Bir metin.", lang="tr")          # 208 features (TR) / 182 (EN)
 result = tlf.analyze(text, groups=["readability"])     # one group only
-rows   = tlf.analyze_corpus("corpus/", segment_size=1000)  # folder/CSV → analysed rows
+rows   = tlf.analyze_corpus("corpus/")                 # one row per file
+rows   = tlf.analyze_corpus("corpus/", segment_size=1000)  # or split into chunks
 tlf.save_csv(rows, "features.csv")                     # write them out
 chunks = tlf.segment_text(long_text, size=1000)        # split a single text
 info   = tlf.describe_feature("mtld")                  # what a key measures, and its source

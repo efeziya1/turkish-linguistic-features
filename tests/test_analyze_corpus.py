@@ -102,3 +102,20 @@ def test_public_yuzeyde(tmp_path):
     assert "save_csv" in tlf.__all__
     assert not hasattr(tlf, "load_corpus")
     assert not hasattr(tlf, "records_to_csv")
+
+
+def test_varsayilan_dosya_dosya_isler(tmp_path):
+    """segment_size verilmezse bölme yok — her dosya tek satır."""
+    _korpus_yaz(tmp_path)
+    satirlar = analyze_corpus(tmp_path, lang="tr")
+
+    assert len(satirlar) == 2, "iki dosya, iki satır"
+    assert all(s["segment_id"] == 0 for s in satirlar)
+    assert {s["source"] for s in satirlar} == {"bir", "iki"}
+
+
+def test_varsayilan_kisa_dosyayi_atmaz(tmp_path):
+    """Eski varsayılan (1000) kısa dosyaları sessizce düşürüyordu."""
+    (tmp_path / "A_kisa.txt").write_text(
+        "Kedi bahçede oturdu ve uzun uzun etrafı seyretti.", encoding="utf-8")
+    assert len(analyze_corpus(tmp_path, lang="tr")) == 1
