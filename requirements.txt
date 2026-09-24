@@ -16,3 +16,6 @@ mypy>=1.10
 # İsteğe bağlı ekstralar: kurulu değilse ilgili testler atlanıyor
 pandas>=1.5
 wordfreq>=3.0
+
+# Dokümantasyon (mkdocs serve / mkdocs build)
+mkdocs-material>=9.5

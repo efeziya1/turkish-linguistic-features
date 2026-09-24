@@ -1,0 +1,118 @@
+# What NaN means
+
+## Short answer
+
+`nan` means **"I cannot compute this number for this text."** It is not an
+error; it is a missing-data marker.
+
+The library does not invent a number from insufficient data. If it did, your
+table would contain a column that looks real and means nothing, with no way
+to tell.
+
+## How often
+
+In a three-word English text:
+
+```python
+short = tlf.analyze("A short sentence.", lang="en")
+nans = [k for k, v in short.items() if isinstance(v, float) and v != v]
+len(short), len(nans)
+```
+
+```text
+(182, 42)
+```
+
+**42 of 182** features are `nan`. Examples:
+
+```text
+['dugast_u', 'entropy_std', 'hdd', 'heaps_beta', 'mattr',
+ 'morph_aspect_imp', 'morph_aspect_perf', 'morph_aspect_prog']
+```
+
+In the same text, `ttr` still returns a number:
+
+```text
+mattr  = nan   (needs at least 100 words)
+ttr    = 1.0   (computable at any length)
+```
+
+## Why it happens
+
+Three reasons.
+
+### 1. The text is too short
+
+Every feature has a minimum, and it is stated in the registry:
+
+```python
+tlf.describe_feature("mattr")["requires"]
+```
+
+```text
+'at least 100 words (2 x mattr_window)'
+```
+
+Below the minimum you get `nan`. Some minimums come from the source
+(`mtld`: "texts as short as 100 tokens can be used"), others from the
+mathematics: with a single window, `mattr` collapses to plain TTR and stops
+being a moving average — hence the `2 × window` threshold.
+
+### 2. The required structure is absent
+
+`derivational_suffix_ratio` has a zero denominator if the text contains no
+derivational suffixes. `parse_depth_mean` cannot produce a value if no
+sentence parses. `hapax_ratio` is meaningless in a one-word text.
+
+### 3. An optional package is missing
+
+Without `wordfreq`, `wordfreq_mean` and `wordfreq_rare_ratio` return `nan`
+and the library raises a `MissingDependencyWarning`.
+
+```python
+oz = tlf.analyze(text, lang="en", warn=False)
+```
+
+`warn=False` silences the warning only; the feature is still `nan`.
+
+## What to do in your table
+
+**Do not fill `nan` with zero.** Zero is a measurement; `nan` is the
+absence of one. `ttr = 0` says "no diversity at all"; `ttr = nan` says
+"I could not measure it". Conflate them and your statistics break.
+
+A sound approach:
+
+```python
+import pandas as pd
+df = pd.DataFrame(tlf.analyze_corpus("corpus/", lang="en"))
+
+# columns that were never measurable
+never = df.columns[df.isna().all()]
+
+# columns with partial gaps
+partial = df.columns[df.isna().any() & ~df.isna().all()]
+```
+
+**Drop** the all-`nan` columns — that feature does not work on your corpus.
+For the partial ones the decision is yours: drop the rows, or drop the
+column.
+
+## How to avoid `nan`
+
+Keep texts long enough. The most practical way to clear the thresholds is
+segmenting:
+
+```python
+rows = tlf.analyze_corpus("corpus/", lang="en", segment_size=1000)
+```
+
+1000-word segments feed nearly all 208 features. See
+[Split a text into segments](../how-to/segmenting.md).
+
+## Why `nan` and not `None`
+
+`nan` is a `float`. That means every value in the returned dictionary has
+the same type, and the table goes straight into `pandas`, `numpy`, R or
+CSV. With `None`, the column dtype becomes `object`, arithmetic breaks, and
+in a CSV an empty cell becomes hard to distinguish from a real zero.

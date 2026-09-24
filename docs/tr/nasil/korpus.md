@@ -1,0 +1,127 @@
+# Korpusu CSV'ye çıkar
+
+## Dizin düzeni
+
+`analyze_corpus` **bir seviye klasör** bekler. Klasör adı etikettir:
+
+```text
+korpus/
+  yazar_a/
+    metin1.txt
+    metin2.txt
+  yazar_b/
+    metin3.txt
+```
+
+Etiket yazar olmak zorunda değil — dönem, tür, sınıf düzeyi, deney kolu,
+ne ölçüyorsanız o.
+
+## İki çağrı
+
+```python
+import turkish_linguistic_features as tlf
+
+satirlar = tlf.analyze_corpus("korpus/", lang="tr")
+tlf.save_csv(satirlar, "oznitelikler.csv")
+```
+
+Bu kadar. Zincirin tamamı bu.
+
+## Ne çıkıyor
+
+```text
+satır sayısı: 3
+sütun sayısı: 211
+```
+
+Her dosya bir satır. 211 sütun = 208 öznitelik + üç kimlik sütunu:
+
+```text
+label=yazar_a  source=metin1     segment_id=0  ttr=1.0
+label=yazar_a  source=metin2     segment_id=0  ttr=1.0
+label=yazar_b  source=metin3     segment_id=0  ttr=1.0
+```
+
+| Sütun | Ne |
+|---|---|
+| `label` | Klasör adı |
+| `source` | Dosya adı (uzantısız) |
+| `segment_id` | Parça numarası; `segment_size` verilmediyse hep `0` |
+
+CSV başlığı:
+
+```text
+label,source,segment_id,n_lemma_count,avg_word_length,word_length_cv,entropy,yule_k,simpso...
+```
+
+## İlerlemeyi görün
+
+Korpus büyükse:
+
+```python
+satirlar = tlf.analyze_corpus("korpus/", lang="tr", show_progress=True)
+```
+
+```text
+  [1/3] metin1 #0
+  [2/3] metin2 #0
+  [3/3] metin3 #0
+```
+
+## Dosyaları parçalara bölerek analiz edin
+
+```python
+satirlar = tlf.analyze_corpus("korpus/", lang="tr", segment_size=1000)
+```
+
+Ölçüm:
+
+```text
+segment_size verilmezse : 1 satır (dosya başına bir satır)
+segment_size=200        : 3 satır
+segment_id'ler          : [0, 1, 2]
+```
+
+!!! danger "Parçalama dosya dosya yapılır, korpus geneli değil"
+
+    `segment_size=1000`, **her dosyayı ayrı ayrı** 1000'lik parçalara
+    böler. Bütün dosyaları birleştirip baştan sona 1000'er kesmez.
+    Dolayısıyla her dosyanın sonunda `size`'dan kısa bir artık kalır ve
+    varsayılan `min_fill=1.0` ile **atılır**.
+
+    Neden ve ne zaman parçalamalısınız →
+    [Metni parçalara böl](segmentleme.md).
+
+## Tam imza
+
+```python
+analyze_corpus(
+    path: str | Path,
+    lang: str = "tr",
+    segment_size: int | None = None,
+    *,
+    min_fill: float = 1.0,
+    unit: str = "word",
+    model: str | None = None,
+    groups: list[str] | None = None,
+    params: FeatureParams | None = None,
+    custom_ngrams: list[list[str]] | None = None,
+    show_progress: bool = False,
+    warn: bool = True,
+) -> list[dict[str, object]]
+```
+
+`groups`, `params`, `model`, `warn` — hepsi `analyze` ile aynı anlamda ve her
+parçaya uygulanır.
+
+## CSV yerine DataFrame
+
+`save_csv` diskle çalışır. Bellekte kalmak isterseniz dönen liste zaten
+`pandas`'a hazırdır:
+
+```python
+import pandas as pd
+df = pd.DataFrame(tlf.analyze_corpus("korpus/", lang="tr"))
+```
+
+`pandas` kütüphanenin zorunlu bağımlılığı değildir; bunu siz kurarsınız.

@@ -8,3 +8,6 @@ build/
 .mypy_cache/
 examples/output/
 .vscode/
+
+# MkDocs derleme çıktısı — üretilen dosya, depoda durmaz
+site/

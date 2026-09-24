@@ -1,0 +1,124 @@
+# Metni parçalara böl
+
+## Neden gerekli
+
+Sözcüksel zenginlik öznitelikleri **metin uzunluğuna duyarlıdır.** TTR uzun
+metinde mutlaka düşer, `hapax_ratio` düşer, `yule_k` oynar. 50 000 kelimelik
+bir romanla 800 kelimelik bir köşe yazısını aynı tabloda karşılaştırırsanız
+ölçtüğünüz şey üslup değil, uzunluk olur.
+
+Çözüm: hepsini aynı boya getirin.
+
+```python
+parcalar = tlf.segment_text(metin, size=1000, lang="tr")
+```
+
+## `size` spaCy token sayar, boşlukla ayrılmış kelime değil
+
+Bu en çok şaşırtan noktadır. Ölçüm:
+
+```python
+uzun = tr_metin * 12
+len(uzun.split())              # 360  ← boşlukla ayrılmış "kelime"
+len(tokenizer(uzun))           # 432  ← spaCy token
+```
+
+Oran 1,20 — fark noktalama işaretlerinden geliyor; spaCy onları ayrı token
+sayar. Dolayısıyla:
+
+```python
+parcalar = tlf.segment_text(uzun, size=100, lang="tr")
+len(parcalar)                                  # 4
+[len(p.split()) for p in parcalar]             # [83, 84, 84, 83]
+```
+
+432 token ÷ 100 = 4 tam parça, artan 32 token atılır. Her parça 100
+**token** ama 83–84 **kelime**.
+
+??? note "Neden spaCy token, neden `\S+` değil"
+
+    Planın ilk sürümü `re.finditer(r"\S+")` kullanıyordu. Ölçüldü ve
+    araştırma kullanımı için yeterince kesin çıkmadı: `\S+` ile "tam 1000
+    kelime" diye kesilen 40 parça gerçekte **1018–1562** spaCy token çıktı
+    (en uzunu en kısadan %53 uzun) ve aynı metinde bu aralıkta TTR **%7,6**
+    oynadı.
+
+    Yani `min_fill`'in önlemek için var olduğu uzunluk karışıklığı, sayım
+    yönteminin kendisinden giriyordu.
+
+    Maliyet ölçüldü ve önemsiz: 1,2 saniye/MB — ardından gelen `analyze()`
+    çağrılarının %1'i kadar.
+
+    Cümle sınırında bölmek de denendi, daha kötü: bozuk noktalamalı metinde
+    tek "cümle" 2611 token olabiliyor, parça boyu 385–2611'e yayılıyor.
+
+## Son parça: `min_fill`
+
+Varsayılan `min_fill=1.0` yalnız **tam** parçaları tutar. Eksik kalan son
+parça atılır.
+
+```python
+tlf.segment_text(uzun, size=100, lang="tr")                   # 4 parça
+tlf.segment_text(uzun, size=100, min_fill=0.5, lang="tr")     # 4 parça
+```
+
+Yukarıdaki örnekte ikisi de 4 veriyor çünkü artık 32 token = %32, yani
+`0.5` eşiğinin de altında.
+
+| `min_fill` | Anlamı |
+|---|---|
+| `1.0` (varsayılan) | Yalnız tam parçalar. En temiz karşılaştırma. |
+| `0.5` | Yarısından çok dolu son parçayı da tut. |
+| `0.0` | Ne kalırsa tut. **Uzunluk karşılaştırmasını bozar.** |
+
+!!! warning "Atılan veri sessizce atılır"
+
+    Kütüphane kaç parça attığını size söylemez. `min_fill=1.0` ile 1400
+    kelimelik bir dosyadan `size=1000` ile **tek** parça çıkar; kalan 400
+    kelime gider. Korpusunuzda kısa dosyalar varsa hiç parça
+    üretmeyebilirler.
+
+    Bunu bilerek kullanın. Şüpheliyseniz önce sayın:
+
+    ```python
+    for yol in dosyalar:
+        n = len(tlf.segment_text(yol.read_text(encoding="utf-8"),
+                                 size=1000, lang="tr"))
+        print(yol.name, n)
+    ```
+
+## Karakterle bölmek
+
+```python
+tlf.segment_text(metin, size=5000, unit="char", lang="tr")
+```
+
+`unit="char"` ham karakter sayar; tokenizer devreye girmez, dolayısıyla
+`lang` anlamsızlaşır. Kelime sınırına saygı göstermez — parça bir kelimenin
+ortasında bitebilir. Yalnız kaba bir bölme yeterliyse kullanın.
+
+## Korpusta doğrudan kullanın
+
+Tek tek bölüp `analyze` çağırmanıza gerek yok:
+
+```python
+satirlar = tlf.analyze_corpus("korpus/", lang="tr", segment_size=1000)
+```
+
+`segment_size`, `min_fill` ve `unit` aynı anlamdadır ve **her dosyaya ayrı
+ayrı** uygulanır.
+
+## Tam imza
+
+```python
+segment_text(
+    text: str,
+    size: int = 1000,
+    min_fill: float = 1.0,
+    unit: str = "word",
+    lang: str = "tr",
+) -> list[str]
+```
+
+Parça içeriği **ham metin dilimidir** — yeniden birleştirilmiş token listesi
+değil. Yani noktalama, boşluk ve satır sonları olduğu gibi kalır.
