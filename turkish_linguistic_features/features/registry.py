@@ -318,7 +318,7 @@ def _citation(key: str) -> str | None:
     """
     kunye = FEATURE_CITATIONS.get(key)
     if kunye and key in UNVERIFIED_CONSTANTS:
-        return kunye + " [doğrulanmamış sabit]"
+        return kunye + " [unverified constant]"
     return kunye
 
 

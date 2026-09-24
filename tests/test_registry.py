@@ -251,7 +251,7 @@ def test_dogrulanmamis_sabit_kunyeye_yaziliyor():
     """K12 Kademe D — liste şu an boş, mekanizma yine de çalışmalı."""
     assert isinstance(UNVERIFIED_CONSTANTS, frozenset)
     for k in UNVERIFIED_CONSTANTS:
-        assert describe_feature(k)["citation"].endswith(" [doğrulanmamış sabit]")
+        assert describe_feature(k)["citation"].endswith(" [unverified constant]")
 
 
 def test_inputs_kaydi_gercekten_okunan_alanlari_iceriyor():
