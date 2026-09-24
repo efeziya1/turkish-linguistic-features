@@ -11,3 +11,4 @@ examples/output/
 
 # MkDocs derleme çıktısı — üretilen dosya, depoda durmaz
 site/
+site-offline/
