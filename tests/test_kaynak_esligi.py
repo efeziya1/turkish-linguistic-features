@@ -108,17 +108,54 @@ def test_sapma_satirlarinin_gerekcesi_var(lang):
 
 
 def test_rapor_guncel():
-    """Üretilen rapor commit'lenmiş dosyayla aynı olmalı.
+    """Üretilen rapor commit'lenmiş dosyayla aynı olmalı — iki dilde de.
 
     CI yok (2026-09-21, Efe: v1.0.0'a kadar) — kontrol testte duruyor.
     """
     from pathlib import Path
 
-    from scripts.dogrulama_raporu import uret
-    yol = Path(__file__).resolve().parents[1] / "docs" / "dogrulama-raporu.md"
-    assert yol.read_text(encoding="utf-8") == uret(), (
-        "docs/dogrulama-raporu.md bayat — "
-        "python scripts/dogrulama_raporu.py"
+    from scripts.dogrulama_raporu import DOSYA_ADI, uret
+    belgeler = Path(__file__).resolve().parents[1] / "docs"
+    for dil, ad in DOSYA_ADI.items():
+        yol = belgeler / ad
+        assert yol.read_text(encoding="utf-8") == uret(dil), (
+            f"docs/{ad} bayat — python scripts/dogrulama_raporu.py"
+        )
+
+
+def test_turev_kunyeleri_isaretli():
+    """🔧 listesi elle tutuluyor — künyeler hâlâ "bu bizim" demeli.
+
+    Sınıflandırma künye metninden regex'le çıkarılmıyor (düz yazı, bir
+    sözcük değişince sessizce kayar). Bunun bedeli listenin künyeden
+    ayrışabilmesi; bu test onu yakalar.
+    """
+    from scripts.dogrulama_raporu import TUREV_ANAHTARLARI
+    from turkish_linguistic_features.features._registry_texts import (
+        FEATURE_CITATIONS,
+    )
+    IZLER = ("this library's own", "Threshold calibration",
+             "not the source's own")
+    for anahtar in TUREV_ANAHTARLARI:
+        kunye = FEATURE_CITATIONS[anahtar]
+        assert any(iz in kunye for iz in IZLER), (
+            f"{anahtar} 🔧 diye işaretli ama künyesi bunu söylemiyor: {kunye}"
+        )
+
+
+def test_basvuru_guncel():
+    """Üretilen öznitelik başvurusu commit'lenmiş dosyayla aynı olmalı.
+
+    Kapsam listesi registry'den geliyor; bu test bir özniteliğin eklenip
+    dokümandan kaçmasını engelliyor.
+    """
+    from pathlib import Path
+
+    from scripts.basvuru_uret import uret as basvuru_uret
+    yol = (Path(__file__).resolve().parents[1] / "docs" / "reference"
+           / "features.md")
+    assert yol.read_text(encoding="utf-8") == basvuru_uret(), (
+        "docs/reference/features.md bayat — python scripts/basvuru_uret.py"
     )
 
 

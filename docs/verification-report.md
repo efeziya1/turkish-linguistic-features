@@ -1,138 +1,143 @@
-<!-- ÜRETİLMİŞ DOSYA — elle düzenlemeyin.
-     Kaynak: scripts/dogrulama_raporu.py
-     Yeniden üretmek için:
+<!-- GENERATED FILE — do not edit by hand.
+     Source: scripts/dogrulama_raporu.py
+     To regenerate:
        python scripts/dogrulama_raporu.py -->
 
-# Doğrulama raporu
+# Verification report
 
-Bu rapor her özniteliğin ürettiği sayıyı, dayandığı kaynağın **yayımladığı
-sayıyla** karşılaştırır. Amaç basit: bir sayıyı çalışmanızda kullanmadan önce
-onun literatürdeki değeri tuttuğunu görebilmeniz.
+This report compares the number each feature produces against the number
+**published by the source it rests on**. The purpose is plain: before you use
+a number in your own work, you should be able to see that it matches the
+value in the literature.
 
-## Durumlar ne anlama geliyor
+## What the statuses mean
 
-| | Anlamı |
+| | Meaning |
 |---|---|
-| ✅ **birebir** | Kaynağın yayımladığı sayıyla tolerans içinde aynı. |
-| 🟡 **belgelenmiş sapma** | Fark var ve **nedeni yazılı**. Kaynağın ara değerleri yuvarlaması, ya da kaynağın sayılarının elle üretilmiş olması gibi. Sapmanın sonuca etkisi satırda anlatılır. |
-| 🔍 **açık** | Kaynak formülü veriyor ama uygulanmış bir örnek vermiyor. Doğrulanabilir, henüz doğrulanmadı; formül ve sınır durumları kendi test dosyalarında sınanıyor. |
-| ❌ **uyuşmazlık** | **Açıklanmamış** fark. **Yayın kapısı:** bir tane bile varsa sürüm çıkmaz. |
+| ✅ **exact** | Within tolerance of the number the source published. |
+| 🟡 **documented deviation** | There is a difference and **the reason is written down** — the source rounded an intermediate value, or the source's own numbers were produced by hand, and so on. The effect of the deviation is explained in the row. |
+| 🔍 **open** | The source gives the formula but no applied example. Verifiable, not yet verified; the formula and its edge cases are tested in their own test files. |
+| ❌ **mismatch** | An **unexplained** difference. **Release gate:** a single one blocks a release. |
 
-Aşağıdaki iki durum **doğrulama adayı değildir** — aranacak bir sayı yoktur:
+The two statuses below are **not verification candidates** — there is no
+number to look for:
 
-| | Anlamı |
+| | Meaning |
 |---|---|
-| ⚪ **kaynak yok** | Adlandırılmış bir literatür ölçüsü değil; saf tanım (`punc_,_ratio`, `char_a`). |
-| ⚫ **etiket şeması** | Bir ölçü değil, dış bir şemanın kategorisini sayıyor (`pos_noun` → UD; `case_loc_ratio` → Zeyrek). Şema kategori tanımlar, ölçüm yayımlamaz. |
-| 🔧 **türev** | Formül bir kaynaktan, **uygulaması bu kütüphaneden**. `entropy_std` Shannon'ın entropisidir ama parçalar arası standart sapması bizim; `long_sent_ratio`'nun eşiği kendi kalibrasyonumuzdan gelir. Kimse bu ölçüyü yayımlamadı, dolayısıyla karşılaştırılacak sayı da yok. Kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
+| ⚪ **no source** | Not a named measure from the literature; a plain definition (`punc_,_ratio`, `char_a`). |
+| ⚫ **tag scheme** | Not a measure but a count of an external scheme's categories (`pos_noun` → UD; `case_loc_ratio` → Zeyrek). A scheme defines categories; it does not publish measurements. |
+| 🔧 **derivative** | The formula comes from a source, **the application is this library's**. `entropy_std` is Shannon's entropy, but taking its standard deviation across segments is ours; `long_sent_ratio`'s threshold comes from our own calibration. Nobody has published this measure, so there is no number to compare against. Testing it against our own calibration would be reading our own answer sheet. |
 
-Tolerans 0.05. Kaynaklar ara değerleri yuvarlayarak bastığı için mutlak
-eşitlik beklenmiyor.
+Tolerance 0.05. Sources print rounded intermediate values, so exact
+equality is not expected.
 
-**Toleransı aşan fark otomatik olarak ❌ değildir.** Belirleyici olan farkın
-büyüklüğü değil, **nedeninin bilinip bilinmediğidir**: nedeni ölçülmüş ve
-yazılmışsa satır 🟡, yazılmamışsa ❌ olur. Gerekçe bir mazeret değil, farkın
-nereden geldiğinin kanıtıdır — ilgili satırın altında okuyabilirsiniz.
+**Exceeding the tolerance does not automatically make a row ❌.** What decides
+is not the size of the difference but **whether its cause is known**: if the
+cause has been measured and written down the row is 🟡, and if it has not the
+row is ❌. A reason is not an excuse — it is evidence of where the difference
+came from, and you can read it under the row.
 
-## Kanıtın iki türü
+## Two kinds of evidence
 
-**Uçtan uca** satırlar kaynağın **metnini** boru hattından geçirir — yani
-tokenizasyon, heceleme ve cümle bölme de sınanır. Bunlar en güçlü kanıt.
+**End-to-end** rows push the source's **own text** through the pipeline, so
+tokenisation, syllabification and sentence splitting are tested too. This is
+the strongest evidence.
 
-**Formül** satırları fonksiyona girdileri doğrudan verir (örneğin "hece/sözcük
-2,2 ve sözcük/cümle 4"). Formülü ve katsayıları doğrular, boru hattını
-doğrulamaz. Kaynak bir metin yayımlamamışsa elde olan budur.
+**Formula** rows feed the inputs to the function directly (for example
+"syllables per word 2.2 and words per sentence 4"). They verify the formula
+and its coefficients, not the pipeline. This is what is available when the
+source published no text.
 
-Bu rapor **testlerden üretilir** — `tests/test_kaynak_esligi.py` ile aynı
-karşılaştırma tablosunu okur, yani ikisi ayrışamaz. Diğer bilinen-değer
-testleri (T04B, T05–T07, T10, T13) kendi dosyalarında duruyor.
+This report is **generated from the tests** — it reads the same comparison
+table as `tests/test_kaynak_esligi.py`, so the two cannot drift apart. The
+other known-value tests (T04B, T05–T07, T10, T13) live in their own files.
 
 
-## Türkçe — 208 anahtar, 233 satır
+## Turkish — 208 keys, 233 rows
 
-Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
+A key may have more than one worked example in its source; each one is its own row.
 
-**Doğrulama adayı — 92 satır**
+**Verification candidates — 92 rows**
 
-| Durum | Satır sayısı |
+| Status | Rows |
 |---|---|
-| ✅ birebir | 45 |
-| 🟡 belgelenmiş sapma | 3 |
-| 🔍 açık — kaynakta sayısal örnek yok | 44 |
+| ✅ exact | 45 |
+| 🟡 documented deviation | 3 |
+| 🔍 open — no worked example in source | 44 |
 
 
-**Doğrulama adayı olmayan — 141 satır.** Bunlarda aranacak bir sayı yoktur; yokluğu bir eksiklik değil, tanımın kendisidir.
+**Not verification candidates — 141 rows.** There is no number to look for in these; its absence is not a gap but the definition itself.
 
-| Durum | Satır sayısı |
+| Status | Rows |
 |---|---|
-| ⚪ kaynak yok — saf tanım | 67 |
-| ⚫ etiket şeması — ölçü değil | 69 |
-| 🔧 türev — uygulaması bu kütüphaneye ait | 5 |
+| ⚪ no source — plain definition | 67 |
+| ⚫ tag scheme — not a measure | 69 |
+| 🔧 derivative — the application is this library's | 5 |
 
-### Sayısal karşılaştırması olanlar
+### Keys with a numeric comparison
 
-| Anahtar | Kaynak | Örnek | Kanıt | Beklenen | Bizim | Fark | Durum |
+| Key | Source | Example | Evidence | Expected | Ours | Diff | Status |
 |---|---|---|---|---|---|---|---|
-| `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26) | formül | 6.438 | 6.438 | +0.000 | ✅ |
-| `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26) | formül | 6.395 | 6.395 | +0.000 | ✅ |
-| `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formül | 0.665 | 0.665 | -0.000 | ✅ |
-| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 | formül | 0.590 | 0.599 | +0.009 | ✅ |
-| `hapax_percentage` | QUITA §6.1.6 | Text 1 · 98/179 | formül | 0.547 | 0.547 | +0.000 | ✅ |
-| `hapax_percentage` | QUITA §6.1.6 | Text 2 · 92/202 | formül | 0.455 | 0.455 | +0.000 | ✅ |
-| `mtld` | McCarthy & Jarvis (2010) p.385 | partial factor · TTR .887 → 40.4% | formül | 0.404 | 0.404 | +0.000 | ✅ |
-| `h_point` | QUITA §6.1.2 | Text 1 · rank 5 = frequency 5 | formül | 5.000 | 5.000 | +0.000 | ✅ |
-| `h_point` | QUITA §6.1.2 | Text 2 · interpolation, eq. (6.2) | formül | 4.750 | 4.750 | +0.000 | ✅ |
-| `vocab_richness_r1` | QUITA §6.1.3 | Text 1 · N=179, h=5 | formül | 0.835 | 0.835 | -0.000 | ✅ |
-| `vocab_richness_r1` | QUITA §6.1.3 | Text 2 · N=202, h=4.75 → ⌊h⌋=4 | formül | 0.838 | 0.838 | +0.000 | ✅ |
-| `vocab_richness_r4` | QUITA §6.1.9 | Text 1 · 1−G | formül | 0.696 | 0.696 | +0.000 | ✅ |
-| `vocab_richness_r4` | QUITA §6.1.9 | Text 2 · 1−G | formül | 0.649 | 0.649 | -0.000 | ✅ |
-| `repeat_rate` | QUITA §6.1.4 | Text 1 · N=179 | formül | 0.020 | 0.020 | -0.000 | ✅ |
-| `repeat_rate` | QUITA §6.1.4 | Text 2 · N=202 | formül | 0.021 | 0.021 | -0.000 | ✅ |
-| `rr_mcintosh` | QUITA §6.1.5 | Text 1 · V=119 | formül | 0.946 | 0.946 | +0.000 | ✅ |
-| `rr_mcintosh` | QUITA §6.1.5 | Text 2 · V=121 | formül | 0.939 | 0.939 | -0.000 | ✅ |
-| `gini_coef` | QUITA §6.1.8 | Text 1 · m₁=41.88268156 | formül | 0.304 | 0.304 | -0.000 | ✅ |
-| `gini_coef` | QUITA §6.1.8 | Text 2 · m₁=39.75742574 | formül | 0.351 | 0.351 | +0.000 | ✅ |
-| `curve_length` | QUITA §6.1.10 | Text 1 · eq. (6.21) | formül | 129.356 | 129.356 | +0.000 | ✅ |
-| `curve_length` | QUITA §6.1.10 | Text 2 · eq. (6.21) | formül | 134.279 | 134.279 | +0.000 | ✅ |
-| `curve_length_r` | QUITA §6.1.11 | Text 1 · Lh=14.29145 | formül | 0.889 | 0.890 | +0.000 | ✅ |
-| `curve_length_r` | QUITA §6.1.11 | Text 2 · Lh=18.03607 | formül | 0.866 | 0.866 | -0.000 | ✅ |
-| `lambda_pa` | QUITA §6.1.7 | Text 1 · L·log₁₀N/N, L=129.3559482 | formül | 1.628 | 1.628 | +0.000 | ✅ |
-| `lambda_pa` | QUITA §6.1.7 | Text 2 · L·log₁₀N/N, L=134.2787065 | formül | 1.532 | 1.532 | +0.000 | ✅ |
-| `adjusted_modulus` | QUITA §6.1.13 | Text 1 · M=24.01416249 | formül | 10.659 | 10.659 | +0.000 | ✅ |
-| `adjusted_modulus` | QUITA §6.1.13 | Text 2 · M=25.81931678 | formül | 11.200 | 11.200 | -0.000 | ✅ |
-| `writers_view_alpha` | QUITA §6.2.3 | Text 1 · arccos(−0.374487816) | formül | 1.955 | 1.955 | -0.000 | ✅ |
-| `writers_view_alpha` | QUITA §6.2.3 | Text 2 · arccos(−0.269972586) | formül | 1.844 | 1.844 | +0.000 | ✅ |
-| `activity_ratio` | QUITA §6.2.2 | Text 1 · 26 verbs / 14 adjectives | formül | 0.650 | 0.650 | +0.000 | ✅ |
-| `activity_ratio` | QUITA §6.2.2 | Text 2 · 35 verbs / 8 adjectives | formül | 0.814 | 0.814 | -0.000 | ✅ |
-| `arc_len_mean` | Jing & Liu (2015) p.164 | Figure 3 · 'Mr. Nixon was to…' | formül | 1.167 | 1.167 | +0.000 | ✅ |
-| `arc_len_mean` | Liu (2008) eq. (1) | 'I actually live in Beijing' · 5/4 | formül | 1.250 | 1.250 | +0.000 | ✅ |
-| `parse_depth_mean` | Jing & Liu (2015) p.164 | Figure 3 · MHD = 12/6 | formül | 2.000 | 2.000 | +0.000 | ✅ |
-| `ari` | Kincaid et al. (1975) p.8, Table 1 | Appendix A · 18 passages, mean | uçtan uca | 12.300 | 11.815 | -0.485 | 🟡 |
-| `coleman_liau` | Coleman & Liau (1975) p.284 | composition of the two equations · 13 words, 2 sentences | formül | 7.704 | 7.705 | +0.000 | ✅ |
-| `coleman_liau` | Coleman & Liau (1975) p.284, Table 1 | cloze 40.4% → grade 12 | formül | 12.000 | 11.994 | -0.006 | ✅ |
-| `atesman` | Ateşman (1997) | Kalyoncu & Memiş (2024) Table 9 · Text 2 | uçtan uca | 23.094 | 23.094 | -0.000 | ✅ |
-| `atesman` | Ateşman (1997) p.74 | calibration: easiest text | formül | 100.000 | 100.000 | -0.000 | ✅ |
-| `atesman` | Ateşman (1997) p.74 | calibration: hardest text | formül | 0.000 | 0.000 | +0.000 | ✅ |
-| `cetinkaya_uzun` | Çetinkaya (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 2 | uçtan uca | 23.084 | 23.084 | -0.000 | ✅ |
-| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 2 | uçtan uca | 30.423 | 30.392 | -0.031 | 🟡 |
-| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 5 | E7 3.03 · OKS 7 | formül | 4.610 | 4.605 | -0.005 | ✅ |
-| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 5 | E7 8.3 · OKS 10 | formül | 9.110 | 9.110 | +0.000 | ✅ |
-| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 5 | E7 18.82 · OKS 14 | formül | 16.230 | 16.232 | +0.002 | ✅ |
-| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | H values of the easiest text | formül | 3.030 | 3.025 | -0.005 | ✅ |
-| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | H values of the hardest text | formül | 18.820 | 18.815 | -0.005 | ✅ |
-| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | mean H values | formül | 8.300 | 8.341 | +0.041 | 🟡 |
+| `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26) | formula | 6.438 | 6.438 | +0.000 | ✅ |
+| `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26) | formula | 6.395 | 6.395 | +0.000 | ✅ |
+| `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formula | 0.665 | 0.665 | -0.000 | ✅ |
+| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 | formula | 0.590 | 0.599 | +0.009 | ✅ |
+| `hapax_percentage` | QUITA §6.1.6 | Text 1 · 98/179 | formula | 0.547 | 0.547 | +0.000 | ✅ |
+| `hapax_percentage` | QUITA §6.1.6 | Text 2 · 92/202 | formula | 0.455 | 0.455 | +0.000 | ✅ |
+| `mtld` | McCarthy & Jarvis (2010) p.385 | partial factor · TTR .887 → 40.4% | formula | 0.404 | 0.404 | +0.000 | ✅ |
+| `h_point` | QUITA §6.1.2 | Text 1 · rank 5 = frequency 5 | formula | 5.000 | 5.000 | +0.000 | ✅ |
+| `h_point` | QUITA §6.1.2 | Text 2 · interpolation, eq. (6.2) | formula | 4.750 | 4.750 | +0.000 | ✅ |
+| `vocab_richness_r1` | QUITA §6.1.3 | Text 1 · N=179, h=5 | formula | 0.835 | 0.835 | -0.000 | ✅ |
+| `vocab_richness_r1` | QUITA §6.1.3 | Text 2 · N=202, h=4.75 → ⌊h⌋=4 | formula | 0.838 | 0.838 | +0.000 | ✅ |
+| `vocab_richness_r4` | QUITA §6.1.9 | Text 1 · 1−G | formula | 0.696 | 0.696 | +0.000 | ✅ |
+| `vocab_richness_r4` | QUITA §6.1.9 | Text 2 · 1−G | formula | 0.649 | 0.649 | -0.000 | ✅ |
+| `repeat_rate` | QUITA §6.1.4 | Text 1 · N=179 | formula | 0.020 | 0.020 | -0.000 | ✅ |
+| `repeat_rate` | QUITA §6.1.4 | Text 2 · N=202 | formula | 0.021 | 0.021 | -0.000 | ✅ |
+| `rr_mcintosh` | QUITA §6.1.5 | Text 1 · V=119 | formula | 0.946 | 0.946 | +0.000 | ✅ |
+| `rr_mcintosh` | QUITA §6.1.5 | Text 2 · V=121 | formula | 0.939 | 0.939 | -0.000 | ✅ |
+| `gini_coef` | QUITA §6.1.8 | Text 1 · m₁=41.88268156 | formula | 0.304 | 0.304 | -0.000 | ✅ |
+| `gini_coef` | QUITA §6.1.8 | Text 2 · m₁=39.75742574 | formula | 0.351 | 0.351 | +0.000 | ✅ |
+| `curve_length` | QUITA §6.1.10 | Text 1 · eq. (6.21) | formula | 129.356 | 129.356 | +0.000 | ✅ |
+| `curve_length` | QUITA §6.1.10 | Text 2 · eq. (6.21) | formula | 134.279 | 134.279 | +0.000 | ✅ |
+| `curve_length_r` | QUITA §6.1.11 | Text 1 · Lh=14.29145 | formula | 0.889 | 0.890 | +0.000 | ✅ |
+| `curve_length_r` | QUITA §6.1.11 | Text 2 · Lh=18.03607 | formula | 0.866 | 0.866 | -0.000 | ✅ |
+| `lambda_pa` | QUITA §6.1.7 | Text 1 · L·log₁₀N/N, L=129.3559482 | formula | 1.628 | 1.628 | +0.000 | ✅ |
+| `lambda_pa` | QUITA §6.1.7 | Text 2 · L·log₁₀N/N, L=134.2787065 | formula | 1.532 | 1.532 | +0.000 | ✅ |
+| `adjusted_modulus` | QUITA §6.1.13 | Text 1 · M=24.01416249 | formula | 10.659 | 10.659 | +0.000 | ✅ |
+| `adjusted_modulus` | QUITA §6.1.13 | Text 2 · M=25.81931678 | formula | 11.200 | 11.200 | -0.000 | ✅ |
+| `writers_view_alpha` | QUITA §6.2.3 | Text 1 · arccos(−0.374487816) | formula | 1.955 | 1.955 | -0.000 | ✅ |
+| `writers_view_alpha` | QUITA §6.2.3 | Text 2 · arccos(−0.269972586) | formula | 1.844 | 1.844 | +0.000 | ✅ |
+| `activity_ratio` | QUITA §6.2.2 | Text 1 · 26 verbs / 14 adjectives | formula | 0.650 | 0.650 | +0.000 | ✅ |
+| `activity_ratio` | QUITA §6.2.2 | Text 2 · 35 verbs / 8 adjectives | formula | 0.814 | 0.814 | -0.000 | ✅ |
+| `arc_len_mean` | Jing & Liu (2015) p.164 | Figure 3 · 'Mr. Nixon was to…' | formula | 1.167 | 1.167 | +0.000 | ✅ |
+| `arc_len_mean` | Liu (2008) eq. (1) | 'I actually live in Beijing' · 5/4 | formula | 1.250 | 1.250 | +0.000 | ✅ |
+| `parse_depth_mean` | Jing & Liu (2015) p.164 | Figure 3 · MHD = 12/6 | formula | 2.000 | 2.000 | +0.000 | ✅ |
+| `ari` | Kincaid et al. (1975) p.8, Table 1 | Appendix A · 18 passages, mean | end-to-end | 12.300 | 11.815 | -0.485 | 🟡 |
+| `coleman_liau` | Coleman & Liau (1975) p.284 | composition of the two equations · 13 words, 2 sentences | formula | 7.704 | 7.705 | +0.000 | ✅ |
+| `coleman_liau` | Coleman & Liau (1975) p.284, Table 1 | cloze 40.4% → grade 12 | formula | 12.000 | 11.994 | -0.006 | ✅ |
+| `atesman` | Ateşman (1997) | Kalyoncu & Memiş (2024) Table 9 · Text 2 | end-to-end | 23.094 | 23.094 | -0.000 | ✅ |
+| `atesman` | Ateşman (1997) p.74 | calibration: easiest text | formula | 100.000 | 100.000 | -0.000 | ✅ |
+| `atesman` | Ateşman (1997) p.74 | calibration: hardest text | formula | 0.000 | 0.000 | +0.000 | ✅ |
+| `cetinkaya_uzun` | Çetinkaya (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 2 | end-to-end | 23.084 | 23.084 | -0.000 | ✅ |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 2 | end-to-end | 30.423 | 30.392 | -0.031 | 🟡 |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 5 | E7 3.03 · OKS 7 | formula | 4.610 | 4.605 | -0.005 | ✅ |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 5 | E7 8.3 · OKS 10 | formula | 9.110 | 9.110 | +0.000 | ✅ |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 5 | E7 18.82 · OKS 14 | formula | 16.230 | 16.232 | +0.002 | ✅ |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | H values of the easiest text | formula | 3.030 | 3.025 | -0.005 | ✅ |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | H values of the hardest text | formula | 18.820 | 18.815 | -0.005 | ✅ |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | mean H values | formula | 8.300 | 8.341 | +0.041 | 🟡 |
 
-**`ari` sapması:** Kaynağın sayıları 1975'te daktiloya takılı mekanik bir sayaçla **elle** üretildi (Ek B, ARI talimatı). 18 pasajın 17'sinde, kaynağın ARI'sını verecek vuruş sayısı bizim saydığımızın 0,996-1,041 katı — yani birkaç karakterlik fark. Pasaj 2 aykırı (oran 1,145) ve kaynağın kendi iki sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/kelime 6,269 gerektiriyor, metnin gerçek değeri 5,475; üstelik o ARI'nın ima ettiği kelime/cümle FKGL'yi 18,69 yapıyor, oysa Tablo 2 16,7 basmış. Bizim vuruş tanımımız ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten 4,24'e çıkarıyor, yani boşluksuz sayım doğru.
+**`ari` deviation:** Kaynağın sayıları 1975'te daktiloya takılı mekanik bir sayaçla **elle** üretildi (Ek B, ARI talimatı). 18 pasajın 17'sinde, kaynağın ARI'sını verecek vuruş sayısı bizim saydığımızın 0,996-1,041 katı — yani birkaç karakterlik fark. Pasaj 2 aykırı (oran 1,145) ve kaynağın kendi iki sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/kelime 6,269 gerektiriyor, metnin gerçek değeri 5,475; üstelik o ARI'nın ima ettiği kelime/cümle FKGL'yi 18,69 yapıyor, oysa Tablo 2 16,7 basmış. Bizim vuruş tanımımız ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten 4,24'e çıkarıyor, yani boşluksuz sayım doğru.
 
-**`bezirci_yilmaz` sapması:** The paper rounded its H6 intermediate value; the difference is 0.031 and both values fall in the same readability class (academic, 16+).
+**`bezirci_yilmaz` deviation:** The paper rounded its H6 intermediate value; the difference is 0.031 and both values fall in the same readability class (academic, 16+).
 
-**`bezirci_yilmaz` sapması:** The paper prints the H6 mean as 0.07, but the value that yields 8.30 is ~0.0684. The coefficient 26.25 inflates that rounding to 0.041; the coefficients themselves are correct.
+**`bezirci_yilmaz` deviation:** The paper prints the H6 mean as 0.07, but the value that yields 8.30 is ~0.0684. The coefficient 26.25 inflates that rounding to 0.041; the coefficients themselves are correct.
 
-### 🔍 Açık — doğrulanabilir, henüz doğrulanmadı
+### 🔍 Open — verifiable, not yet verified
 
-44 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
+44 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
 
-| Anahtar | Kaynak | Durum |
+| Key | Source | Status |
 |---|---|---|
 | `yule_k` | Yule (1944), as cited in Malvern et al. (2004) eq. 3.9 | 🔍 |
 | `simpson_d` | Simpson (1949), as cited in Bestgen (2023) | 🔍 |
@@ -179,11 +184,11 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `lix` | Björnsson (1968), as cited in Anderson (1983) p.490; long word = 7+ letters | 🔍 |
 | `long_word_ratio` | Anderson (1983); long word = 7+ letters | 🔍 |
 
-### Doğrulama adayı olmayanlar
+### Not verification candidates
 
-141 anahtar. ⚪ olanlar saf tanım (`punc_,_ratio`, `char_a`) — adlandırılmış bir literatür ölçüsü değil. ⚫ olanlar bir ölçü değil, dış bir etiket şemasının kategorisini sayıyor; şema kategori tanımlar, ölçüm yayımlamaz. 🔧 olanların formülü bir kaynaktan gelir ama uygulaması bu kütüphaneye aittir. Üçünde de aranacak bir sayı yok.
+141 keys. The ⚪ ones are plain definitions (`punc_,_ratio`, `char_a`) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.
 
-| Anahtar | Kaynak | Durum |
+| Key | Source | Status |
 |---|---|---|
 | `n_lemma_count` | — | ⚪ |
 | `avg_word_length` | — | ⚪ |
@@ -327,79 +332,79 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `char_y` | — | ⚪ |
 | `char_z` | — | ⚪ |
 
-## İngilizce — 182 anahtar, 199 satır
+## English — 182 keys, 199 rows
 
-Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
+A key may have more than one worked example in its source; each one is its own row.
 
-**Doğrulama adayı — 83 satır**
+**Verification candidates — 83 rows**
 
-| Durum | Satır sayısı |
+| Status | Rows |
 |---|---|
-| ✅ birebir | 36 |
-| 🟡 belgelenmiş sapma | 2 |
-| 🔍 açık — kaynakta sayısal örnek yok | 45 |
+| ✅ exact | 36 |
+| 🟡 documented deviation | 2 |
+| 🔍 open — no worked example in source | 45 |
 
 
-**Doğrulama adayı olmayan — 116 satır.** Bunlarda aranacak bir sayı yoktur; yokluğu bir eksiklik değil, tanımın kendisidir.
+**Not verification candidates — 116 rows.** There is no number to look for in these; its absence is not a gap but the definition itself.
 
-| Durum | Satır sayısı |
+| Status | Rows |
 |---|---|
-| ⚪ kaynak yok — saf tanım | 64 |
-| ⚫ etiket şeması — ölçü değil | 46 |
-| 🔧 türev — uygulaması bu kütüphaneye ait | 6 |
+| ⚪ no source — plain definition | 64 |
+| ⚫ tag scheme — not a measure | 46 |
+| 🔧 derivative — the application is this library's | 6 |
 
-### Sayısal karşılaştırması olanlar
+### Keys with a numeric comparison
 
-| Anahtar | Kaynak | Örnek | Kanıt | Beklenen | Bizim | Fark | Durum |
+| Key | Source | Example | Evidence | Expected | Ours | Diff | Status |
 |---|---|---|---|---|---|---|---|
-| `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26) | formül | 6.438 | 6.438 | +0.000 | ✅ |
-| `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26) | formül | 6.395 | 6.395 | +0.000 | ✅ |
-| `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formül | 0.665 | 0.665 | -0.000 | ✅ |
-| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 | formül | 0.590 | 0.599 | +0.009 | ✅ |
-| `hapax_percentage` | QUITA §6.1.6 | Text 1 · 98/179 | formül | 0.547 | 0.547 | +0.000 | ✅ |
-| `hapax_percentage` | QUITA §6.1.6 | Text 2 · 92/202 | formül | 0.455 | 0.455 | +0.000 | ✅ |
-| `mtld` | McCarthy & Jarvis (2010) p.385 | partial factor · TTR .887 → 40.4% | formül | 0.404 | 0.404 | +0.000 | ✅ |
-| `h_point` | QUITA §6.1.2 | Text 1 · rank 5 = frequency 5 | formül | 5.000 | 5.000 | +0.000 | ✅ |
-| `h_point` | QUITA §6.1.2 | Text 2 · interpolation, eq. (6.2) | formül | 4.750 | 4.750 | +0.000 | ✅ |
-| `vocab_richness_r1` | QUITA §6.1.3 | Text 1 · N=179, h=5 | formül | 0.835 | 0.835 | -0.000 | ✅ |
-| `vocab_richness_r1` | QUITA §6.1.3 | Text 2 · N=202, h=4.75 → ⌊h⌋=4 | formül | 0.838 | 0.838 | +0.000 | ✅ |
-| `vocab_richness_r4` | QUITA §6.1.9 | Text 1 · 1−G | formül | 0.696 | 0.696 | +0.000 | ✅ |
-| `vocab_richness_r4` | QUITA §6.1.9 | Text 2 · 1−G | formül | 0.649 | 0.649 | -0.000 | ✅ |
-| `repeat_rate` | QUITA §6.1.4 | Text 1 · N=179 | formül | 0.020 | 0.020 | -0.000 | ✅ |
-| `repeat_rate` | QUITA §6.1.4 | Text 2 · N=202 | formül | 0.021 | 0.021 | -0.000 | ✅ |
-| `rr_mcintosh` | QUITA §6.1.5 | Text 1 · V=119 | formül | 0.946 | 0.946 | +0.000 | ✅ |
-| `rr_mcintosh` | QUITA §6.1.5 | Text 2 · V=121 | formül | 0.939 | 0.939 | -0.000 | ✅ |
-| `gini_coef` | QUITA §6.1.8 | Text 1 · m₁=41.88268156 | formül | 0.304 | 0.304 | -0.000 | ✅ |
-| `gini_coef` | QUITA §6.1.8 | Text 2 · m₁=39.75742574 | formül | 0.351 | 0.351 | +0.000 | ✅ |
-| `curve_length` | QUITA §6.1.10 | Text 1 · eq. (6.21) | formül | 129.356 | 129.356 | +0.000 | ✅ |
-| `curve_length` | QUITA §6.1.10 | Text 2 · eq. (6.21) | formül | 134.279 | 134.279 | +0.000 | ✅ |
-| `curve_length_r` | QUITA §6.1.11 | Text 1 · Lh=14.29145 | formül | 0.889 | 0.890 | +0.000 | ✅ |
-| `curve_length_r` | QUITA §6.1.11 | Text 2 · Lh=18.03607 | formül | 0.866 | 0.866 | -0.000 | ✅ |
-| `lambda_pa` | QUITA §6.1.7 | Text 1 · L·log₁₀N/N, L=129.3559482 | formül | 1.628 | 1.628 | +0.000 | ✅ |
-| `lambda_pa` | QUITA §6.1.7 | Text 2 · L·log₁₀N/N, L=134.2787065 | formül | 1.532 | 1.532 | +0.000 | ✅ |
-| `adjusted_modulus` | QUITA §6.1.13 | Text 1 · M=24.01416249 | formül | 10.659 | 10.659 | +0.000 | ✅ |
-| `adjusted_modulus` | QUITA §6.1.13 | Text 2 · M=25.81931678 | formül | 11.200 | 11.200 | -0.000 | ✅ |
-| `writers_view_alpha` | QUITA §6.2.3 | Text 1 · arccos(−0.374487816) | formül | 1.955 | 1.955 | -0.000 | ✅ |
-| `writers_view_alpha` | QUITA §6.2.3 | Text 2 · arccos(−0.269972586) | formül | 1.844 | 1.844 | +0.000 | ✅ |
-| `activity_ratio` | QUITA §6.2.2 | Text 1 · 26 verbs / 14 adjectives | formül | 0.650 | 0.650 | +0.000 | ✅ |
-| `activity_ratio` | QUITA §6.2.2 | Text 2 · 35 verbs / 8 adjectives | formül | 0.814 | 0.814 | -0.000 | ✅ |
-| `arc_len_mean` | Jing & Liu (2015) p.164 | Figure 3 · 'Mr. Nixon was to…' | formül | 1.167 | 1.167 | +0.000 | ✅ |
-| `arc_len_mean` | Liu (2008) eq. (1) | 'I actually live in Beijing' · 5/4 | formül | 1.250 | 1.250 | +0.000 | ✅ |
-| `parse_depth_mean` | Jing & Liu (2015) p.164 | Figure 3 · MHD = 12/6 | formül | 2.000 | 2.000 | +0.000 | ✅ |
-| `ari` | Kincaid et al. (1975) p.8, Table 1 | Appendix A · 18 passages, mean | uçtan uca | 12.300 | 11.815 | -0.485 | 🟡 |
-| `coleman_liau` | Coleman & Liau (1975) p.284 | composition of the two equations · 13 words, 2 sentences | formül | 7.704 | 7.705 | +0.000 | ✅ |
-| `coleman_liau` | Coleman & Liau (1975) p.284, Table 1 | cloze 40.4% → grade 12 | formül | 12.000 | 11.994 | -0.006 | ✅ |
-| `flesch_kincaid_grade` | Kincaid et al. (1975) p.12, Table 2 | Appendix A · 18 passages, mean | uçtan uca | 10.700 | 10.362 | -0.338 | 🟡 |
+| `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26) | formula | 6.438 | 6.438 | +0.000 | ✅ |
+| `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26) | formula | 6.395 | 6.395 | +0.000 | ✅ |
+| `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formula | 0.665 | 0.665 | -0.000 | ✅ |
+| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 | formula | 0.590 | 0.599 | +0.009 | ✅ |
+| `hapax_percentage` | QUITA §6.1.6 | Text 1 · 98/179 | formula | 0.547 | 0.547 | +0.000 | ✅ |
+| `hapax_percentage` | QUITA §6.1.6 | Text 2 · 92/202 | formula | 0.455 | 0.455 | +0.000 | ✅ |
+| `mtld` | McCarthy & Jarvis (2010) p.385 | partial factor · TTR .887 → 40.4% | formula | 0.404 | 0.404 | +0.000 | ✅ |
+| `h_point` | QUITA §6.1.2 | Text 1 · rank 5 = frequency 5 | formula | 5.000 | 5.000 | +0.000 | ✅ |
+| `h_point` | QUITA §6.1.2 | Text 2 · interpolation, eq. (6.2) | formula | 4.750 | 4.750 | +0.000 | ✅ |
+| `vocab_richness_r1` | QUITA §6.1.3 | Text 1 · N=179, h=5 | formula | 0.835 | 0.835 | -0.000 | ✅ |
+| `vocab_richness_r1` | QUITA §6.1.3 | Text 2 · N=202, h=4.75 → ⌊h⌋=4 | formula | 0.838 | 0.838 | +0.000 | ✅ |
+| `vocab_richness_r4` | QUITA §6.1.9 | Text 1 · 1−G | formula | 0.696 | 0.696 | +0.000 | ✅ |
+| `vocab_richness_r4` | QUITA §6.1.9 | Text 2 · 1−G | formula | 0.649 | 0.649 | -0.000 | ✅ |
+| `repeat_rate` | QUITA §6.1.4 | Text 1 · N=179 | formula | 0.020 | 0.020 | -0.000 | ✅ |
+| `repeat_rate` | QUITA §6.1.4 | Text 2 · N=202 | formula | 0.021 | 0.021 | -0.000 | ✅ |
+| `rr_mcintosh` | QUITA §6.1.5 | Text 1 · V=119 | formula | 0.946 | 0.946 | +0.000 | ✅ |
+| `rr_mcintosh` | QUITA §6.1.5 | Text 2 · V=121 | formula | 0.939 | 0.939 | -0.000 | ✅ |
+| `gini_coef` | QUITA §6.1.8 | Text 1 · m₁=41.88268156 | formula | 0.304 | 0.304 | -0.000 | ✅ |
+| `gini_coef` | QUITA §6.1.8 | Text 2 · m₁=39.75742574 | formula | 0.351 | 0.351 | +0.000 | ✅ |
+| `curve_length` | QUITA §6.1.10 | Text 1 · eq. (6.21) | formula | 129.356 | 129.356 | +0.000 | ✅ |
+| `curve_length` | QUITA §6.1.10 | Text 2 · eq. (6.21) | formula | 134.279 | 134.279 | +0.000 | ✅ |
+| `curve_length_r` | QUITA §6.1.11 | Text 1 · Lh=14.29145 | formula | 0.889 | 0.890 | +0.000 | ✅ |
+| `curve_length_r` | QUITA §6.1.11 | Text 2 · Lh=18.03607 | formula | 0.866 | 0.866 | -0.000 | ✅ |
+| `lambda_pa` | QUITA §6.1.7 | Text 1 · L·log₁₀N/N, L=129.3559482 | formula | 1.628 | 1.628 | +0.000 | ✅ |
+| `lambda_pa` | QUITA §6.1.7 | Text 2 · L·log₁₀N/N, L=134.2787065 | formula | 1.532 | 1.532 | +0.000 | ✅ |
+| `adjusted_modulus` | QUITA §6.1.13 | Text 1 · M=24.01416249 | formula | 10.659 | 10.659 | +0.000 | ✅ |
+| `adjusted_modulus` | QUITA §6.1.13 | Text 2 · M=25.81931678 | formula | 11.200 | 11.200 | -0.000 | ✅ |
+| `writers_view_alpha` | QUITA §6.2.3 | Text 1 · arccos(−0.374487816) | formula | 1.955 | 1.955 | -0.000 | ✅ |
+| `writers_view_alpha` | QUITA §6.2.3 | Text 2 · arccos(−0.269972586) | formula | 1.844 | 1.844 | +0.000 | ✅ |
+| `activity_ratio` | QUITA §6.2.2 | Text 1 · 26 verbs / 14 adjectives | formula | 0.650 | 0.650 | +0.000 | ✅ |
+| `activity_ratio` | QUITA §6.2.2 | Text 2 · 35 verbs / 8 adjectives | formula | 0.814 | 0.814 | -0.000 | ✅ |
+| `arc_len_mean` | Jing & Liu (2015) p.164 | Figure 3 · 'Mr. Nixon was to…' | formula | 1.167 | 1.167 | +0.000 | ✅ |
+| `arc_len_mean` | Liu (2008) eq. (1) | 'I actually live in Beijing' · 5/4 | formula | 1.250 | 1.250 | +0.000 | ✅ |
+| `parse_depth_mean` | Jing & Liu (2015) p.164 | Figure 3 · MHD = 12/6 | formula | 2.000 | 2.000 | +0.000 | ✅ |
+| `ari` | Kincaid et al. (1975) p.8, Table 1 | Appendix A · 18 passages, mean | end-to-end | 12.300 | 11.815 | -0.485 | 🟡 |
+| `coleman_liau` | Coleman & Liau (1975) p.284 | composition of the two equations · 13 words, 2 sentences | formula | 7.704 | 7.705 | +0.000 | ✅ |
+| `coleman_liau` | Coleman & Liau (1975) p.284, Table 1 | cloze 40.4% → grade 12 | formula | 12.000 | 11.994 | -0.006 | ✅ |
+| `flesch_kincaid_grade` | Kincaid et al. (1975) p.12, Table 2 | Appendix A · 18 passages, mean | end-to-end | 10.700 | 10.362 | -0.338 | 🟡 |
 
-**`ari` sapması:** Kaynağın sayıları 1975'te daktiloya takılı mekanik bir sayaçla **elle** üretildi (Ek B, ARI talimatı). 18 pasajın 17'sinde, kaynağın ARI'sını verecek vuruş sayısı bizim saydığımızın 0,996-1,041 katı — yani birkaç karakterlik fark. Pasaj 2 aykırı (oran 1,145) ve kaynağın kendi iki sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/kelime 6,269 gerektiriyor, metnin gerçek değeri 5,475; üstelik o ARI'nın ima ettiği kelime/cümle FKGL'yi 18,69 yapıyor, oysa Tablo 2 16,7 basmış. Bizim vuruş tanımımız ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten 4,24'e çıkarıyor, yani boşluksuz sayım doğru.
+**`ari` deviation:** Kaynağın sayıları 1975'te daktiloya takılı mekanik bir sayaçla **elle** üretildi (Ek B, ARI talimatı). 18 pasajın 17'sinde, kaynağın ARI'sını verecek vuruş sayısı bizim saydığımızın 0,996-1,041 katı — yani birkaç karakterlik fark. Pasaj 2 aykırı (oran 1,145) ve kaynağın kendi iki sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/kelime 6,269 gerektiriyor, metnin gerçek değeri 5,475; üstelik o ARI'nın ima ettiği kelime/cümle FKGL'yi 18,69 yapıyor, oysa Tablo 2 16,7 basmış. Bizim vuruş tanımımız ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten 4,24'e çıkarıyor, yani boşluksuz sayım doğru.
 
-**`flesch_kincaid_grade` sapması:** Aynı elle sayım kaynağı. Pasaj başına sapma 18'in 15'inde 0,6'nın altında; pasaj 12 aykırı (-4,28) ve o pasaj FRE bandını da tutturmuyor, yani sapma tek bir pasajda yoğunlaşıyor. Ortalamalar arasındaki fark 0,34 sınıf düzeyi — okunabilirlik sınıflandırmasını değiştirmeyecek kadar küçük.
+**`flesch_kincaid_grade` deviation:** Aynı elle sayım kaynağı. Pasaj başına sapma 18'in 15'inde 0,6'nın altında; pasaj 12 aykırı (-4,28) ve o pasaj FRE bandını da tutturmuyor, yani sapma tek bir pasajda yoğunlaşıyor. Ortalamalar arasındaki fark 0,34 sınıf düzeyi — okunabilirlik sınıflandırmasını değiştirmeyecek kadar küçük.
 
-### 🔍 Açık — doğrulanabilir, henüz doğrulanmadı
+### 🔍 Open — verifiable, not yet verified
 
-45 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
+45 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
 
-| Anahtar | Kaynak | Durum |
+| Key | Source | Status |
 |---|---|---|
 | `yule_k` | Yule (1944), as cited in Malvern et al. (2004) eq. 3.9 | 🔍 |
 | `simpson_d` | Simpson (1949), as cited in Bestgen (2023) | 🔍 |
@@ -447,11 +452,11 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `flesch_reading_ease` | Flesch (1948) Formula A; coefficient .846, unit = syllables per 100 words | 🔍 |
 | `smog` | McLaughlin (1969) p.643, Table 1, eq. (d); p = polysyllabic words in a 30-sentence sample | 🔍 |
 
-### Doğrulama adayı olmayanlar
+### Not verification candidates
 
-116 anahtar. ⚪ olanlar saf tanım (`punc_,_ratio`, `char_a`) — adlandırılmış bir literatür ölçüsü değil. ⚫ olanlar bir ölçü değil, dış bir etiket şemasının kategorisini sayıyor; şema kategori tanımlar, ölçüm yayımlamaz. 🔧 olanların formülü bir kaynaktan gelir ama uygulaması bu kütüphaneye aittir. Üçünde de aranacak bir sayı yok.
+116 keys. The ⚪ ones are plain definitions (`punc_,_ratio`, `char_a`) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.
 
-| Anahtar | Kaynak | Durum |
+| Key | Source | Status |
 |---|---|---|
 | `n_lemma_count` | — | ⚪ |
 | `avg_word_length` | — | ⚪ |
@@ -570,13 +575,13 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `char_y` | — | ⚪ |
 | `char_z` | — | ⚪ |
 
-## Heceleme — 10/10
+## Syllabification — 10/10
 
-Heceleme sekiz `syllable_*` anahtarını ve üç Türkçe okunabilirlik formülünü birden besliyor. Aşağıdaki karşılaştırma **sayıyı değil bölütlemeyi** sınıyor: yanlış yerden bölünmüş bir kelime doğru sayıda hece verebilir, sayı karşılaştırması onu yakalamaz.
+Syllabification feeds eight `syllable_*` keys and all three Turkish readability formulas at once. The comparison below tests **the split, not the count**: a word broken in the wrong place can still yield the right number of syllables, and a count comparison would not catch it.
 
-Kaynak: TDK, "Hece Yapısı ve Satır Sonunda Kelimelerin Bölünmesi" (tdk.gov.tr, 2019).
+Source: TDK, "Hece Yapısı ve Satır Sonunda Kelimelerin Bölünmesi" (tdk.gov.tr, 2019).
 
-| Kelime | TDK | Bizim | Durum |
+| Word | TDK | Ours | Status |
 |---|---|---|---|
 | aldı | `al-dı` | `al-dı` | ✅ |
 | altlık | `alt-lık` | `alt-lık` | ✅ |
@@ -589,15 +594,15 @@ Kaynak: TDK, "Hece Yapısı ve Satır Sonunda Kelimelerin Bölünmesi" (tdk.gov.
 | tren | `tren` | `tren` | ✅ |
 | strateji | `stra-te-ji` | `stra-te-ji` | ✅ |
 
-## Ek — Kincaid Ek A, pasaj bazında
+## Appendix — Kincaid Appendix A, passage by passage
 
-Ana tablodaki iki 🟡 satırın (`ari`, `flesch_kincaid_grade`) dayandığı 18 karşılaştırma. Ara değerler (vuruş, kelime) burada duruyor ki fark çıktığında hangi girdiden geldiği görülebilsin.
+The 18 comparisons behind the two 🟡 rows in the main table (`ari`, `flesch_kincaid_grade`). The intermediate counts (strokes, words) are here so that when a number differs you can see which input it came from.
 
-**FRE bandı** sütunu ayrı bir kontrol: Tablo 1'in Flesch sütunu 0-100 puanı değil, Flesch'in kendi sınıf bandını basıyor (`8-9` = FRE 60-70 gibi). Bizim FRE'miz bandın içine düşüyor mu, ona bakıyor.
+The **FRE band** column is a separate check: Table 1's Flesch column prints not a 0-100 score but Flesch's own grade band (`8-9` = FRE 60-70, and so on). It asks whether our FRE falls inside that band.
 
-Pasaj metinleri `tests/veri/kincaid/`, ölçüm `scripts/kincaid_olcum.py`.
+Passage texts: `tests/veri/kincaid/`. Measurement: `scripts/kincaid_olcum.py`.
 
-| # | Vuruş | Kelime | ARI kaynak | ARI bizim | Fark | FKGL kaynak | FKGL bizim | Fark | FRE bandı |
+| # | Strokes | Words | ARI source | ARI ours | Diff | FKGL source | FKGL ours | Diff | FRE band |
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | 663 | 148 | 10.6 | 10.24 | -0.36 | 9.7 | 9.64 | -0.06 | 8-9 ✅ |
 | 2 | 668 | 122 | 20.3 | 16.56 | -3.74 | 16.7 | 15.79 | -0.91 | 16+ ✅ |
@@ -618,4 +623,4 @@ Pasaj metinleri `tests/veri/kincaid/`, ölçüm `scripts/kincaid_olcum.py`.
 | 17 | 1240 | 240 | 10.4 | 10.90 | +0.50 | 9.3 | 9.48 | +0.18 | 10-12 ✅ |
 | 18 | 782 | 144 | 10.9 | 10.69 | -0.21 | 6.6 | 6.81 | +0.21 | — |
 
-ARI ortalama mutlak fark **0.54**, en büyük **3.74** (pasaj 2). FKGL ortalama mutlak fark **0.54**, en büyük **4.28** (pasaj 12). FRE bandının içinde: **14/17**.
+ARI mean absolute difference **0.54**, largest **3.74** (passage 2). FKGL mean absolute difference **0.54**, largest **4.28** (passage 12). Inside the FRE band: **14/17**.
