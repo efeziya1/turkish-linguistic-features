@@ -10,9 +10,7 @@ istediğinize bağlı.
 | Bir özniteliğin ne olduğunu arıyorum | **[Başvuru](../reference/index.md)** (İngilizce) |
 | Neden böyle çalıştığını anlamak istiyorum | **[Açıklama](aciklama/index.md)** |
 
-Bu ayrım keyfî değil: dokümana gelen insan ya öğrenmeye gelir, ya bir işi
-yapmaya, ya bir şeyi aramaya, ya da anlamaya. Aynı sayfada dördünü birden
-yapmaya çalışmak hepsini bozar.
+Emin değilseniz öğreticiden başlayın: kurulumdan ilk tabloya kadar götürür.
 
 ## Hızlı bakış
 
@@ -29,7 +27,7 @@ Kütüphanenin **dokuz** genel adı var, hepsi bu kadar:
 | Ad | Ne yapar |
 |---|---|
 | `analyze` | Bir metinden bütün öznitelikleri çıkarır |
-| `analyze_corpus` | Bir dizindeki bütün dosyaları çıkarır |
+| `analyze_corpus` | Bir klasördeki her metin için `analyze` çalıştırır |
 | `segment_text` | Metni sabit büyüklükte parçalara böler |
 | `save_csv` | Çıkan satırları CSV'ye yazar |
 | `describe_feature` | Bir özniteliğin tanımını ve kaynağını verir |

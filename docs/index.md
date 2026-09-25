@@ -63,7 +63,6 @@ oz["atesman"]             # 70.9483  (Ateşman 1997 okunabilirlik)
 | Doğrulama adayı satır | 92 |
 | — kaynağın sayısıyla birebir tutan (✅) | 45 |
 | — farkı ölçülmüş ve açıklanmış (🟡) | 3 |
-| Test | 717 |
 
 **Formüller ile doğrulama iki ayrı şeydir.** 208 özniteliğin **hepsinin**
 formülü kaynağındaki denklemle karşılaştırılıp yazıldı; künye sayfa ve

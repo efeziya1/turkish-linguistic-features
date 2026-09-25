@@ -10,9 +10,8 @@ trying to do right now.
 | I am looking up what a feature is | **[Reference](../reference/index.md)** |
 | I want to understand why it works this way | **[Explanation](explanation/index.md)** |
 
-The split is not arbitrary. People arrive at documentation in one of four
-states: learning, doing, looking something up, or trying to understand.
-A page that tries to serve all four serves none.
+If you are not sure, start with the tutorial: it takes you from installation
+to your first table.
 
 ## At a glance
 
@@ -30,7 +29,7 @@ The library has **nine** public names. That is all of them:
 | Name | What it does |
 |---|---|
 | `analyze` | Extracts every feature from one text |
-| `analyze_corpus` | Extracts every file in a directory |
+| `analyze_corpus` | Runs `analyze` on every text in a folder |
 | `segment_text` | Splits a text into fixed-size segments |
 | `save_csv` | Writes the resulting rows to CSV |
 | `describe_feature` | Gives a feature's definition and source |
