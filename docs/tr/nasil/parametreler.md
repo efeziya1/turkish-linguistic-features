@@ -13,6 +13,8 @@ oz = tlf.analyze(metin, lang="tr", params=p)
 ```
 
 `FeatureParams` bir dataclass'tır; vermediğiniz alanlar varsayılanda kalır.
+Cümle eşiklerinin varsayılanı sabit bir sayı değil, dilin kalibre edilmiş
+değeridir — [aşağıda](#cumle-esikleri-dile-gore-cozumlenir).
 
 Ölçüm:
 
@@ -44,44 +46,51 @@ Aynı metin, farklı eşik, farklı sayı. Üç cümlenin biri 12 kelimeyi geçi
 | `ttr_slope_chunk_size` | 50 | `ttr_moving_slope` |
 | `brunet_w_a` | 0.172 | `brunet_w` |
 | `verb_suffix_window` | 50 | `verb_suffix_diversity` |
-| `short_sent_threshold` | 5 | `short_sent_ratio` |
-| `long_sent_threshold` | 30 | `long_sent_ratio` |
+| `short_sent_threshold` | TR **4** · EN **7** | `short_sent_ratio` |
+| `long_sent_threshold` | TR **18** · EN **39** | `long_sent_ratio` |
 | `max_parse_depth` | 20 | `parse_depth_mean` |
 
-## ⚠️ Cümle eşiklerinde önemli bir ayrıntı
+## Cümle eşikleri dile göre çözümlenir
 
-Tabloda `short_sent_threshold=5` ve `long_sent_threshold=30` yazıyor, **ama
-bu değerler kullanılmıyor.**
-
-`params` vermediğinizde kütüphane **dile özel** kalibre edilmiş değerleri
-kullanır:
+Tablodaki tek sayı olmayan iki alan bunlar. Sebep tipolojik: Türkçe cümleler
+İngilizce cümlelerden kısa, aynı eşik iki dile uymuyor.
 
 | Dil | short | long |
 |---|---|---|
 | Türkçe | **4** | **18** |
 | İngilizce | **7** | **39** |
 
-Bunlar roman korpuslarında cümle uzunluğu dağılımının 15. ve 85.
+Değerler roman korpuslarında cümle uzunluğu dağılımının 15. ve 85.
 yüzdeliğinden türetildi (TR: 15 yazar / 1 089 841 cümle; EN: 10 yazar /
 341 892 cümle). Yöntem: [Eşik kalibrasyonu](../../esik-kalibrasyonu.md).
 
-Dataclass'ın kendi varsayılanı olan 5/30 **ulaşılamaz bir yedektir** —
-yalnız tanınmayan bir dil verilseydi devreye girerdi, ki `lang` zaten
-yalnız `"tr"` ve `"en"` alıyor.
+**Çözümleme alan alandır.** Verdiğiniz alan sizin sayınızı, vermediğiniz alan
+dilin kalibre edilmiş değerini kullanır. Yani ilgisiz bir alanı değiştirmek
+cümle eşiklerini bozmaz:
 
-!!! danger "`params` verirseniz kalibrasyonu kaybedersiniz"
+```python
+p = FeatureParams(mattr_window=100)          # eşiklere dokunulmadı
+oz = tlf.analyze(metin, lang="tr", params=p)  # eşikler hâlâ TR 4/18
+```
 
-    `FeatureParams(mattr_window=100)` yazarsanız `short_sent_threshold` de
-    **5**'e döner, 4'e değil. Dile özel çözümleme yalnız `params=None`
-    iken çalışır.
+Ölçüm — üç cümlelik bir metin, kelime sayıları 2, 4 ve 19:
 
-    Yalnız bir alanı değiştirmek istiyorsanız kalibre edilmiş değerleri
-    elle taşıyın:
+```text
+params=None                       short=0.333333   long=0.333333
+FeatureParams(mattr_window=100)   short=0.333333   long=0.333333
+```
 
-    ```python
-    p = FeatureParams(mattr_window=100,
-                      short_sent_threshold=4, long_sent_threshold=18)
-    ```
+İki satır aynı, çünkü `mattr_window` cümle eşikleriyle ilgisiz.
+
+!!! note "2026-09-24'te değişti"
+
+    Bu davranış eskiden farklıydı: `params` verdiğiniz anda eşikler, hiçbir
+    dil için kalibre edilmemiş 5/30'a düşüyordu. Aynı metinde o değerler
+    `short=0.666667` ve `long=0.0` veriyordu — dört kelimelik cümleyi kısa
+    sayıyor, on dokuz kelimeliği uzun saymıyordu.
+
+    5/30 artık bir varsayılan değil. `FeatureParams`'ın iki eşik alanı
+    varsayılan olarak `None` ve "dile göre çözümle" demek.
 
 ## Hangi öznitelik hangi parametreden etkilenir
 
@@ -112,8 +121,8 @@ varsayılanı 50 — onda biri. Neden:
 Künye bu ayrımı açıkça yazar. 500 istiyorsanız:
 
 ```python
-p = FeatureParams(mattr_window=500,
-                  short_sent_threshold=4, long_sent_threshold=18)
+p = FeatureParams(mattr_window=500)
 ```
 
-ve metinlerinizin en az 1000 kelime olduğundan emin olun.
+ve metinlerinizin en az 1000 kelime olduğundan emin olun. Cümle eşiklerini
+elle taşımanız gerekmiyor; kalibre edilmiş değerlerinde kalırlar.

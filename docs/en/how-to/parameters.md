@@ -12,7 +12,9 @@ p = FeatureParams(short_sent_threshold=3, long_sent_threshold=12)
 oz = tlf.analyze(text, lang="tr", params=p)
 ```
 
-`FeatureParams` is a dataclass; fields you omit keep their defaults.
+`FeatureParams` is a dataclass; fields you omit keep their defaults. For the
+sentence thresholds that default is not a fixed number but the calibrated value
+for the language — see [below](#the-sentence-thresholds-resolve-per-language).
 
 Measured:
 
@@ -44,44 +46,55 @@ sentences is over 12 words; none is over 18.
 | `ttr_slope_chunk_size` | 50 | `ttr_moving_slope` |
 | `brunet_w_a` | 0.172 | `brunet_w` |
 | `verb_suffix_window` | 50 | `verb_suffix_diversity` |
-| `short_sent_threshold` | 5 | `short_sent_ratio` |
-| `long_sent_threshold` | 30 | `long_sent_ratio` |
+| `short_sent_threshold` | TR **4** · EN **7** | `short_sent_ratio` |
+| `long_sent_threshold` | TR **18** · EN **39** | `long_sent_ratio` |
 | `max_parse_depth` | 20 | `parse_depth_mean` |
 
-## ⚠️ An important detail about the sentence thresholds
+## The sentence thresholds resolve per language
 
-The table says `short_sent_threshold=5` and `long_sent_threshold=30`, **but
-those values are not used.**
-
-When you do not pass `params`, the library uses **language-specific**
-calibrated values:
+These are the only two fields in the table without a single value. The reason
+is typological: Turkish sentences are shorter than English ones, so one
+threshold cannot serve both.
 
 | Language | short | long |
 |---|---|---|
 | Turkish | **4** | **18** |
 | English | **7** | **39** |
 
-These were derived from the 15th and 85th percentiles of the
-sentence-length distribution in novel corpora (Turkish: 15 authors /
-1,089,841 sentences; English: 10 authors / 341,892 sentences). Method:
+They were derived from the 15th and 85th percentiles of the sentence-length
+distribution in novel corpora (Turkish: 15 authors / 1,089,841 sentences;
+English: 10 authors / 341,892 sentences). Method:
 [Threshold calibration](../../esik-kalibrasyonu.md) (in Turkish).
 
-The dataclass's own defaults of 5/30 are an **unreachable fallback** — they
-would apply only for an unrecognised language, and `lang` already accepts
-only `"tr"` and `"en"`.
+**Resolution is per field.** A field you set uses your number; a field you
+leave out keeps the calibrated value for the language. Changing an unrelated
+field therefore does not disturb the thresholds:
 
-!!! danger "Passing `params` loses the calibration"
+```python
+p = FeatureParams(mattr_window=100)            # thresholds untouched
+feats = tlf.analyze(text, lang="tr", params=p)  # still TR 4/18
+```
 
-    If you write `FeatureParams(mattr_window=100)`, then
-    `short_sent_threshold` reverts to **5**, not 4. The language-specific
-    resolution runs only when `params is None`.
+Measured — a three-sentence text with word counts 2, 4 and 19:
 
-    To change one field only, carry the calibrated values over by hand:
+```text
+params=None                       short=0.333333   long=0.333333
+FeatureParams(mattr_window=100)   short=0.333333   long=0.333333
+```
 
-    ```python
-    p = FeatureParams(mattr_window=100,
-                      short_sent_threshold=4, long_sent_threshold=18)
-    ```
+The two rows match, because `mattr_window` has nothing to do with sentence
+thresholds.
+
+!!! note "Changed on 2026-09-24"
+
+    This used to behave differently: the moment you passed `params`, the
+    thresholds dropped to 5/30, which is calibrated for no language at all.
+    On the same text those values gave `short=0.666667` and `long=0.0` —
+    counting the four-word sentence as short and not counting the
+    nineteen-word one as long.
+
+    5/30 is no longer a default. Both threshold fields of `FeatureParams`
+    now default to `None`, which means "resolve by language".
 
 ## Which feature depends on which parameter
 
@@ -112,8 +125,8 @@ default here is 50 — a tenth of that. The reasons:
 The citation states this distinction openly. If you want 500:
 
 ```python
-p = FeatureParams(mattr_window=500,
-                  short_sent_threshold=4, long_sent_threshold=18)
+p = FeatureParams(mattr_window=500)
 ```
 
-and make sure your texts are at least 1000 words.
+and make sure your texts are at least 1000 words. You do not need to carry the
+sentence thresholds over by hand; they stay at their calibrated values.

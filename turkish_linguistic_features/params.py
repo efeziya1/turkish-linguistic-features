@@ -38,18 +38,58 @@ class FeatureParams:
     brunet_w_a: float = 0.172
     # biçimbilim — verb_suffix_diversity parça boyu, fiil sayısı (2026-09-17, Efe)
     verb_suffix_window: int = 50
-    # cümle uzunluğu dağılımı
-    short_sent_threshold: int = 5
-    long_sent_threshold: int = 30
+    # Cümle uzunluğu dağılımı. `None` = "dile göre çözümle" (2026-09-24, Efe).
+    # Why sentinel: eskiden bu iki alan 5 ve 30 diye sabit yazıyordu ve dile
+    # özgü değerler ayrı bir `FeatureParams` nesnesinde tutuluyordu. O düzende
+    # `FeatureParams(mattr_window=100)` yazan kullanıcı, dokunmadığı iki cümle
+    # eşiğini de kalibre edilmemiş 5/30'a düşürüyordu — ölçüldü ve sessizdi.
+    # Sentinel bunu kapatıyor: verilmeyen alan `SENT_THRESHOLDS_BY_LANG`'dan,
+    # verilen alan kullanıcıdan gelir. 5/30 diye bir varsayılan artık yok.
+    short_sent_threshold: int | None = None
+    long_sent_threshold: int | None = None
     # bağımlılık ayrıştırma
     max_parse_depth: int = 20
 
 
-# Türkçe cümleler İngilizce'den kısa — aynı eşik iki dile uymuyor.
 DEFAULT_PARAMS = FeatureParams()
-DEFAULT_PARAMS_TR = FeatureParams(short_sent_threshold=4, long_sent_threshold=18)
-DEFAULT_PARAMS_EN = FeatureParams(short_sent_threshold=7, long_sent_threshold=39)
-DEFAULT_PARAMS_BY_LANG: dict[str, FeatureParams] = {
-    "tr": DEFAULT_PARAMS_TR,
-    "en": DEFAULT_PARAMS_EN,
+
+# Türkçe cümleler İngilizce'den kısa — aynı eşik iki dile uymuyor. Değerler
+# roman korpuslarında cümle uzunluğu dağılımının 15. ve 85. yüzdeliğinden
+# türetildi (TR: 15 yazar / 1.089.841 cümle, EN: 10 yazar / 341.892 cümle).
+# Yöntem ve ham yüzdelik tablosu: `docs/esik-kalibrasyonu.md`.
+SENT_THRESHOLDS_BY_LANG: dict[str, tuple[int, int]] = {
+    "tr": (4, 18),
+    "en": (7, 39),
 }
+
+# Yalnız `SENT_THRESHOLDS_BY_LANG`'da olmayan bir dil için. `analyze()` dili
+# {"tr", "en"} ile sınırladığı için bugün ulaşılamaz; yeni bir dil eklenirse
+# devreye girecek nötr yedek. Kalibre edilmiş bir değer **değildir** ve
+# kullanıcıya varsayılan olarak gösterilmez.
+_KALIBRESIZ_ESIKLER = (5, 30)
+
+
+def resolve_sent_thresholds(params: FeatureParams, lang: str) -> tuple[int, int]:
+    """``(short_sent_threshold, long_sent_threshold)`` çiftini çözümler.
+
+    Alan alan çözümlenir: kullanıcının verdiği sayı kazanır, vermediği alan
+    ``lang`` için kalibre edilmiş değerde kalır. Yani ilgisiz bir alan
+    değiştirmek (``FeatureParams(mattr_window=100)``) cümle eşiklerinin
+    kalibrasyonunu bozmaz.
+
+    Parameters
+    ----------
+    params
+        Kullanıcının nesnesi ya da ``DEFAULT_PARAMS``.
+    lang
+        ``"tr"`` ya da ``"en"``. Tanınmayan dil nötr yedeğe düşer.
+
+    Returns
+    -------
+    tuple[int, int]
+        Kısa ve uzun cümle eşiği, ikisi de ``int``.
+    """
+    kisa_kalibre, uzun_kalibre = SENT_THRESHOLDS_BY_LANG.get(lang, _KALIBRESIZ_ESIKLER)
+    kisa = kisa_kalibre if params.short_sent_threshold is None else params.short_sent_threshold
+    uzun = uzun_kalibre if params.long_sent_threshold is None else params.long_sent_threshold
+    return kisa, uzun

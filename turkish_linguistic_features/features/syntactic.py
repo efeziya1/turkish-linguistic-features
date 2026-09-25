@@ -250,9 +250,13 @@ def sentence_distribution_stats(cumleler: list[list[str]], short_threshold: int,
                                 long_threshold: int) -> dict[str, float]:
     """Eşikten **kesin** kısa ve **kesin** uzun cümlelerin oranı.
 
-    Uzunluk **kelimeyle** ölçülür (``_cumle_kelimeleri``). Eşikler dile göre
-    farklı (``FeatureParams.short_sent_threshold`` / ``long_sent_threshold``);
-    tam eşikteki cümle iki tarafa da girmez. Cümle yoksa NaN.
+    Uzunluk **kelimeyle** ölçülür (``_cumle_kelimeleri``); tam eşikteki cümle
+    iki tarafa da girmez. Cümle yoksa NaN.
+
+    Eşikler dile göre farklıdır ve çağıran taraf çözümler
+    (``params.resolve_sent_thresholds``): ``FeatureParams``'ta verilmeyen alan
+    dilin kalibre edilmiş değerinde kalır (TR 4/18, EN 7/39), verilen alan
+    kullanıcıdan gelir. Bu fonksiyon çözümlenmiş iki sayıyı alır.
     """
     kelimeler = _cumle_kelimeleri(cumleler)
     if not kelimeler:
