@@ -33,7 +33,17 @@ this library made. Their citations say so plainly:
 - `polysyllabic_word_ratio` — the ratio form of SMOG's input. Not a measure
   McLaughlin himself defines.
 
-You may use these, but do not present them as "the X (year) measure".
+There is nothing wrong with using them. The one requirement is getting the
+attribution right: cite the source of the formula, but do not attribute the
+measure itself to that source. In your methods section:
+
+- ✗ "the Shannon (1948) `entropy_std` measure"
+- ✓ "the standard deviation of Shannon (1948) entropy across segments
+  (as defined by turkish-linguistic-features)"
+
+The reason is simple: Shannon defined the entropy, not its standard deviation
+across segments. The first wording implies a measure the reader could look up
+in the source and find.
 
 ## 3. Eleven citations are secondary
 

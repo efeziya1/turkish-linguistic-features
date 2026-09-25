@@ -32,7 +32,16 @@ tanımlarıdır. Künyeleri bunu açıkça yazar:
 - `polysyllabic_word_ratio` — SMOG'un girdisinin oran biçimi. McLaughlin'in
   kendi ölçüsü değil.
 
-Bunları kullanabilirsiniz ama "X (yıl) ölçüsü" diye sunmayın.
+Bunları kullanmakta sakınca yok. Tek koşul, künyeyi doğru kurmak: formülün
+kaynağını verin, ölçünün kendisini kaynağa mal etmeyin. Yöntem bölümünüzde:
+
+- ✗ "Shannon (1948) `entropy_std` ölçüsü"
+- ✓ "Shannon (1948) entropisinin parçalar arası standart sapması
+  (turkish-linguistic-features'ın tanımı)"
+
+Sebep basit: Shannon entropiyi tanımladı, parçalar arası standart sapmasını
+tanımlamadı. Birinci yazım okuyucuya, kaynakta aranınca bulunacak bir ölçü
+olduğunu ima ediyor.
 
 ## 3. Onbir künye ikincil kaynaktan
 

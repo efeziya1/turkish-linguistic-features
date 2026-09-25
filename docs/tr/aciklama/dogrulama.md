@@ -12,6 +12,26 @@ aynı girdiyi kendi koduna verir, ikisini yan yana basar.
 Sonuç: [doğrulama raporu](../../dogrulama-raporu.md)
 ([English](../../verification-report.md)).
 
+## İki ayrı şeyi karıştırmayın
+
+Bu sayfanın geri kalanı bir şey anlatıyor: raporda kaç satırın kaynağın
+*yayımladığı sayısıyla* karşılaştırıldığı. O başka bir katman. Altındaki
+katmanı da açıkça yazmak gerekiyor, çünkü rapordaki "açık" sayısı kolayca
+yanlış okunuyor.
+
+| Katman | Ne garanti eder | Kapsam |
+|---|---|---|
+| **Formül eşdeğerliği** | Kod, kaynaktaki denklemi uyguluyor. Künye sayfa ve denklem numarası verir; testler formülü ve sınır durumlarını sınar. | **208 özniteliğin hepsi** |
+| **Kaynak sayısı doğrulaması** | Kaynağın *yayımladığı bir sayı* bulundu ve bizim çıktımızla karşılaştırıldı. | 92 adayın 48'i |
+
+İkinci katman ek bir çalışmadır, birincinin koşulu değil. Bir öznitelik "🔍
+açık" diye işaretliyse **formülü şüpheli değildir**; karşılaştırılacak
+yayımlanmış bir sayı bulunamamıştır. Yule (1944) K'yı tanımlar, bir romanda
+K'nın kaç çıktığını basmaz — basmadığı için bizim K'mız yanlış olmuyor.
+
+Formülü ve künyesi olmayan bir öznitelik bu kütüphanede yok. Formülü
+kaynağıyla eşlenmemiş bir öznitelik de yok.
+
 ## Önce: her öznitelik doğrulanamaz
 
 Bu ayrım raporun en önemli parçası. 208 özniteliğin bir kısmı, tanımı gereği
@@ -101,47 +121,60 @@ göstergelerin tek girdisi olduğu için karşılaştırma doğrudan yapılabili
 | `curve_length` Text 2 | 134,2787 | 134,27870 |
 | `entropy` Text 1 | 6,438043 | 6,438043 |
 
-Yirmi sekiz karşılaştırmanın **hepsi** tutuyor; biri hariç hepsi beş
-ondalığa kadar.
+Yirmi sekiz karşılaştırmanın **hepsi** tolerans içinde. Yirmi yedisinde
+sapma sıfır. Kalan bir tanesinde sapma 0,009 ve nedeni belli: `ttr` Text 2 için
+kaynak 0,590 basmış, ama kendi verdiği sayıları bölünce 121 ÷ 202 = **0,599**
+çıkıyor. Yayımlanmış sayıda basım hatası var; bizim değerimiz aritmetik olarak
+doğru olan.
 
-Not: metinler telifli (Orwell) ve depoya **girmiyor** — saklanan şey 119 ve
-121 tam sayıdan ibaret sıklık dağılımı. Ondan metin geri kurulamaz.
+Depoda duran şey iki sıklık dağılımı: 119 ve 121 tam sayı. Metinlerin kendisi
+telifli (Orwell) ve depoya girmiyor; sayılardan metin geri kurulamaz.
 
-**`mtld`** — McCarthy & Jarvis (2010) s.385 şunu yazıyor: *".887 forms
-40,4% of the range between 1.00 and the full factor of .720."* 47 tip /
-53 token'lık bir dizi üretim kodundan geçince kısmi faktör **0,4043**
-çıkıyor. Kaynağın kendi hassasiyetinde birebir. ⚪ → ✅
+**`mtld`** — Bu ölçü metni tarayıp TTR 0,72'nin altına her düştüğünde bir
+"faktör" sayar; artan kısım kesirli bir faktör olarak eklenir. McCarthy &
+Jarvis (2010) s.385 tam da o kesri örnekliyor: *".887 forms 40,4% of the range
+between 1.00 and the full factor of .720."* Aynı diziyi üretim kodundan
+geçirdik, kesirli faktör **0,4043** çıktı — kaynağın bastığı %40,4 ile aynı.
+⚪ → ✅
 
-**`coleman_liau`** — Makale iki ayrı denklem veriyor (cloze % kestirimi,
-sonra cloze'dan sınıf düzeyine çevirme). Bizim formülümüz ikisinin
-birleşimidir ve makalede o hâliyle basılmaz. Aynı metinde iki yol
-karşılaştırıldı: **7,7041** ve **7,7046**. ⚪ → ✅
+**`coleman_liau`** — Makale ölçüyü iki adımda tanımlıyor: önce metnin cloze
+yüzdesi kestiriliyor, sonra o yüzde sınıf düzeyine çevriliyor. Uygulamada bu
+iki adım tek denklemde birleştirilir; literatürde standart olan kullanım da
+budur. İki adımı ayrı ayrı yürütmekle tek denklemi kullanmanın aynı sonucu
+verdiğini ölçtük: **7,7041** ve **7,7046**. Aradaki 0,0005 kaynağın ara değeri
+yuvarlamasından geliyor. ⚪ → ✅
 
 ## 🟡 nasıl görünür — Kincaid örneği
 
-`ari` ve `flesch_kincaid_grade` 🟡'dir. Neden ✅ değil, neden ❌ değil:
+İki okunabilirlik özniteliği, `ari` ve `flesch_kincaid_grade`, 🟡 durumunda.
+Üç soruyla anlatılabilir.
 
-Kincaid ve ark. (1975) raporunun Ek A'sında **18 gerçek metin**, Tablo 1 ve
-Tablo 2'sinde o metinler için kaynağın kendi hesapladığı değerler var. 18'ini
-de boru hattından geçirdik. Ortalama sapma **0,54 ARI puanı** — tolerans
-0,05'in üstünde, yani ✅ olamaz.
+**Ne karşılaştırıldı?** Bu iki ölçünün kaynağı 1975 tarihli bir ABD Donanması
+teknik raporu. Rapor yalnız formülü vermiyor: ekinde eğitim malzemesinden
+alınmış **18 gerçek metin parçası**, tablolarında da o 18 parça için kendi
+hesapladığı ARI ve FKGL değerleri var. Yani kaynak hem girdiyi hem cevabı
+basmış — doğrulama için elde olabilecek en iyi malzeme. 18 parçanın hepsini
+boru hattımızdan geçirdik.
 
-❌ de değil, çünkü nedenini **ölçtük**:
+**Sapma ne kadar?** Ortalama **0,54 ARI puanı**. Tolerans 0,05, yani ✅
+olamıyor.
 
-- **Vuruş tanımı sınandı.** Boşluğu sayıma katmak sapmayı 0,54'ten 4,24'e
-  çıkarıyor. Bizim boşluksuz sayımımız doğru.
-- **Başlığın sayılıp sayılmadığı sınandı.** Kaynak söylemiyor; başlıklı
-  varyant 18 pasajın hepsinde daha kötü. Başlık sayılmıyormuş.
-- **Kalan fark ölçüldü.** 18 pasajın 17'sinde, kaynağın sayısını verecek
-  vuruş miktarı bizimkinin 0,996–1,041 katı — yani **birkaç karakter**.
-  Kaynağın sayıları 1975'te daktiloya takılı mekanik bir sayaçla **elle**
-  üretildi; bu büyüklükte bir fark beklenir.
-- **Aykırı pasaj tespit edildi.** Pasaj 2'de kaynağın kendi iki sayısı
-  birbiriyle çelişiyor: Tablo 1'in ARI'sının ima ettiği cümle uzunluğu,
-  Tablo 2'nin FKGL'sini tutturmuyor.
+**Neden ❌ değil?** Çünkü sapmanın nereden geldiğini tahmin etmedik, ölçtük.
+Her iki formülün girdisi "kelime başına vuruş" (harf ve rakam sayısı), ve
+1975'te bu sayım elle yapılıyordu: daktiloya takılı mekanik bir sayaçla. Farkın
+oradan gelip gelmediğini şöyle sınadık: kaynağın bastığı sayıyı verecek vuruş
+miktarı bizimkinin kaç katı olmalıydı? 18 parçanın 17'sinde cevap
+**0,996–1,041 katı** — yani parça başına birkaç karakter. Elle sayımda beklenen
+büyüklük bu.
 
-Bütün bunlar raporun sonundaki **pasaj bazında ek tabloda** duruyor — vuruş
-ve kelime sayıları dâhil, ki farkın hangi girdiden geldiği görülebilsin.
+İki alternatif açıklama da sınandı ve elendi: boşlukları vuruşa katmak sapmayı
+0,54'ten 4,24'e çıkarıyor (yani bizim boşluksuz sayımımız doğru), metin
+başlıklarını saymak ise 18 parçanın hepsinde sonucu kötüleştiriyor (yani kaynak
+başlıkları saymamış). Bir parça da kendi içinde tutarsız: 2 numaralı parçada
+kaynağın ARI'sının ima ettiği cümle uzunluğu, kendi FKGL'sini tutturmuyor.
+
+Parça bazında bütün sayılar — vuruş ve kelime sayıları dâhil — raporun sonundaki
+ek tabloda duruyor, farkın hangi girdiden geldiği görülebilsin diye.
 
 İşte 🟡'nin anlamı bu: *fark var, ölçtük, nereden geldiğini biliyoruz.*
 
@@ -161,13 +194,48 @@ Bir sayıyı çalışmanızda kullanmadan önce raporda satırına bakın:
 - **✅** — kaynağın sayısı tutuyor, kullanın.
 - **🟡** — fark var ama nedeni yazılı; nedeni okuyun, sizin kullanımınızı
   etkiliyor mu karar verin.
-- **🔍 açık** — formül doğru uygulanmış ama kaynakla sayısal olarak
-  karşılaştırılmamış. Künyeyi verin, sayının kaynak tarafından
-  doğrulandığını **iddia etmeyin**.
-- **⚪ kaynak yok** — bu kütüphanenin tanımı. Yöntem bölümünde tanımı
-  kendiniz yazın.
+- **🔍 açık** — formül kaynağındaki denklemle eşlenmiş, ama kaynağın
+  yayımladığı bir sayıyla karşılaştırılmamış. Künyeyi verin; "kaynağın kendi
+  sayısıyla doğrulandı" demeyin.
+- **⚪ kaynak yok** — bu kütüphanenin tanımı, çünkü aranacak bir literatür
+  sayısı yok (`punc_,_ratio` = virgül / kelime).
 - **⚫ etiket şeması** — sayının kendisi bizim, kategoriler şemanın.
   Şemayı kaynak gösterin (UD ya da Zeyrek), ölçüyü değil.
-- **🔧 türev** — formül kaynağın, uygulama bizim. Formülün kaynağını verin
-  ama ölçüyü "X (yıl) ölçüsü" diye sunmayın; tanımı kendiniz yazın.
+- **🔧 türev** — formül kaynağın, o formülü bu veriye uygulama kararı bizim.
 - **❌** — böyle bir satır varsa sürüm çıkmamıştır; görürseniz sorun bildirin.
+
+### ⚪ ve 🔧 için tanımı biz veriyoruz
+
+Bu iki durumda ölçünün tanımını yöntem bölümünüz için sıfırdan yazmanız
+gerekmiyor. Kayıt defteri her öznitelik için alıntılanabilir bir tanım
+tutuyor:
+
+```python
+tlf.describe_feature("entropy_std")["formula"]
+```
+
+```text
+'population std of entropies (bits) of disjoint mattr_window-word chunks'
+```
+
+Sık kullanılan altısı:
+
+| Öznitelik | Tanım | Kaynağa ait olan |
+|---|---|---|
+| `entropy_std` | ayrık `mattr_window` kelimelik parçaların entropilerinin (bit) yığın standart sapması | entropi formülü — Shannon (1948) |
+| `punct_entropy` | on noktalama türünün dağılımının Shannon entropisi (bit) | entropi formülü — Shannon (1948) |
+| `sent_len_entropy` | cümle başına kelime dağılımının Shannon entropisi (bit) | entropi formülü — Shannon (1948) |
+| `short_sent_ratio` | `short_sent_threshold` kelimeden az cümle / cümle | eşik değeri — Ateşman (1997) s.74 ve [eşik kalibrasyonu](../../esik-kalibrasyonu.md) |
+| `long_sent_ratio` | `long_sent_threshold` kelimeden çok cümle / cümle | eşik değeri — [eşik kalibrasyonu](../../esik-kalibrasyonu.md) |
+| `polysyllabic_word_ratio` | 3+ heceli kelime / hecelenebilir kelime | çok heceli tanımı — McLaughlin (1969) s.641 |
+
+Tek kural künyeyi doğru kurmak: formülün kaynağını verin, ölçünün kendisini
+kaynağa mal etmeyin.
+
+- ✗ "Shannon (1948) `entropy_std` ölçüsü"
+- ✓ "Shannon (1948) entropisinin parçalar arası standart sapması
+  (turkish-linguistic-features'ın tanımı)"
+
+Birinci yazım okuyucuya, kaynakta aranınca bulunacak bir ölçü olduğunu ima
+ediyor. Shannon entropiyi tanımladı, parçalar arası standart sapmasını
+tanımlamadı.

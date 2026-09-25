@@ -14,6 +14,26 @@ by side.
 The result: [verification report](../../verification-report.md)
 ([Turkish](../../dogrulama-raporu.md)).
 
+## Two different things, kept apart
+
+The rest of this page is about one of them: how many rows have been compared
+against a number the source *published*. That is one layer. The layer beneath
+it needs stating plainly too, because the report's "open" count is easy to
+misread.
+
+| Layer | What it guarantees | Coverage |
+|---|---|---|
+| **Formula equivalence** | The code implements the equation in the source. The citation gives page and equation number; tests exercise the formula and its edge cases. | **all 208 features** |
+| **Source-number verification** | A number the source *published* was found and compared against our output. | 48 of 92 candidates |
+
+The second layer is additional work, not a precondition for the first. A
+feature marked "🔍 open" does **not** have a questionable formula; no published
+number was found to compare against. Yule (1944) defines K but never prints
+what K comes to in a novel — his not printing it does not make our K wrong.
+
+There is no feature in this library without a formula and a citation, and none
+whose formula has not been matched to its source.
+
 ## First: not every feature can be verified
 
 This distinction is the most important part of the report. By definition,
@@ -109,53 +129,64 @@ comparison can be made directly:
 | `curve_length` Text 2 | 134.2787 | 134.27870 |
 | `entropy` Text 1 | 6.438043 | 6.438043 |
 
-All twenty-eight comparisons agree; all but one to five decimal places.
+All twenty-eight comparisons fall within tolerance. Twenty-seven of them
+deviate by zero. The remaining one deviates by 0.009, and the cause is plain:
+for `ttr` on Text 2 the source printed 0.590, but dividing the numbers it
+supplies itself gives 121 ÷ 202 = **0.599**. The published figure has a typo;
+ours is the arithmetically correct value.
 
-Note: the texts are under copyright (Orwell) and are **not** stored in the
-repository — what is kept is the frequency distribution, 119 and 121 plain
-integers. No text can be reconstructed from it.
+What the repository stores is two frequency distributions: 119 and 121 plain
+integers. The texts themselves are under copyright (Orwell) and are not stored;
+no text can be reconstructed from the numbers.
 
-**`mtld`** — McCarthy & Jarvis (2010) p.385 write: *".887 forms 40.4% of
-the range between 1.00 and the full factor of .720."* A sequence of 47
-types in 53 tokens, run through the production code, yields a partial
-factor of **0.4043** — an exact match at the source's own precision.
-⚪ → ✅
+**`mtld`** — The measure sweeps the text and counts a "factor" each time TTR
+drops below 0.72; the leftover stretch is added as a fractional factor.
+McCarthy & Jarvis (2010) p.385 work through exactly that fraction: *".887 forms
+40.4% of the range between 1.00 and the full factor of .720."* We ran the same
+sequence through the production code and got a fractional factor of **0.4043** —
+the same as the source's printed 40.4%. ⚪ → ✅
 
-**`coleman_liau`** — The article gives two separate equations (estimate a
-cloze percentage, then convert cloze to a grade level). Our formula is the
-composition of the two, and the article never prints it in that form. Both
-routes were computed on the same text: **7.7041** and **7.7046**. ⚪ → ✅
+**`coleman_liau`** — The article defines the measure in two steps: first
+estimate the text's cloze percentage, then convert that percentage to a grade
+level. In practice the two steps are combined into a single equation, and that
+is the standard use in the literature. We measured that running the two steps
+separately and using the single equation give the same result: **7.7041** and
+**7.7046**. The 0.0005 between them comes from the source rounding an
+intermediate value. ⚪ → ✅
 
 ## What a 🟡 looks like — the Kincaid case
 
-`ari` and `flesch_kincaid_grade` are 🟡. Here is why they are not ✅ and not
-❌ either.
+Two readability features, `ari` and `flesch_kincaid_grade`, sit at 🟡. Three
+questions explain it.
 
-Appendix A of Kincaid et al. (1975) prints **18 real texts**, and Tables 1
-and 2 print the values the source itself computed for them. All 18 went
-through the pipeline. The mean deviation is **0.54 ARI points** — above the
-0.05 tolerance, so ✅ is out.
+**What was compared?** The source for both measures is a 1975 US Navy technical
+report. It does not only give the formulas: its appendix reprints **18 real
+passages** taken from training material, and its tables give the ARI and FKGL
+values the report itself computed for those 18 passages. So the source published
+both the input and the answer — the best material verification can hope for. All
+18 went through our pipeline.
 
-It is not ❌ because the cause was **measured**:
+**How large is the deviation?** **0.54 ARI points** on average. The tolerance is
+0.05, so ✅ is out.
 
-- **The stroke definition was tested.** Counting spaces as strokes pushes
-  the deviation from 0.54 to 4.24. Our space-excluding count is the correct
-  one.
-- **Whether the heading is counted was tested.** The source does not say;
-  the with-heading variant is worse in all 18 passages. Headings are not
-  counted.
-- **The remaining difference was measured.** In 17 of the 18 passages, the
-  stroke count that would yield the source's number is 0.996–1.041 times
-  ours — a handful of characters. The source's numbers were produced in 1975
-  **by hand**, with a mechanical counter attached to a typewriter; a
-  difference of that size is expected.
-- **The outlier was identified.** In passage 2 the source's own two numbers
-  contradict each other: the sentence length implied by Table 1's ARI does
-  not reproduce Table 2's FKGL.
+**Why is it not ❌?** Because we did not guess where the deviation comes from, we
+measured it. Both formulas take "strokes per word" (letters and digits) as an
+input, and in 1975 that count was made by hand, with a mechanical counter
+attached to a typewriter. We tested whether the difference sits there: how many
+times our stroke count would the source's own number require? In 17 of the 18
+passages the answer is **0.996–1.041 times** — a handful of characters per
+passage. That is the size you expect from hand counting.
 
-All of it sits in the **passage-by-passage appendix** at the end of the
-report, stroke and word counts included, so you can see which input a
-difference came from.
+Two alternative explanations were tested and ruled out: counting spaces as
+strokes pushes the deviation from 0.54 to 4.24 (so our space-excluding count is
+the right one), and counting the passage headings makes the result worse in all
+18 (so the source did not count them). One passage is also internally
+inconsistent: in passage 2 the sentence length implied by the source's ARI does
+not reproduce its own FKGL.
+
+Every number per passage — stroke and word counts included — sits in the
+appendix at the end of the report, so you can see which input a difference came
+from.
 
 That is what 🟡 means: *there is a difference, we measured it, and we know
 where it comes from.*
@@ -178,14 +209,48 @@ Before you put a number in your work, look up its row:
 - **✅** — the source's number matches. Use it.
 - **🟡** — there is a difference but the reason is written down. Read the
   reason and decide whether it affects your use.
-- **🔍 open** — the formula is implemented correctly but has not been
-  compared numerically against the source. Give the citation; do **not**
-  claim the number was verified against the source.
-- **⚪ no source** — this is the library's own definition. Write the
-  definition out yourself in your methods section.
+- **🔍 open** — the formula is matched to the equation in its source, but has
+  not been compared against a number the source published. Give the citation;
+  do not say "verified against the source's own number".
+- **⚪ no source** — the library's own definition, because there is no number in
+  the literature to look for (`punc_,_ratio` = commas / words).
 - **⚫ tag scheme** — the number is ours, the categories are the scheme's.
   Cite the scheme (UD or Zeyrek), not a measure.
-- **🔧 derivative** — the formula is the source's, the application ours.
-  Cite the formula's source, but do not present the measure as "the X
-  (year) measure"; write the definition out yourself.
+- **🔧 derivative** — the formula is the source's; the decision to apply that
+  formula to this data is ours.
 - **❌** — if one exists, no release was made. If you see one, file an issue.
+
+### For ⚪ and 🔧 we supply the definition
+
+In these two cases you do not have to write the measure's definition from
+scratch for your methods section. The registry keeps a citable definition for
+every feature:
+
+```python
+tlf.describe_feature("entropy_std")["formula"]
+```
+
+```text
+'population std of entropies (bits) of disjoint mattr_window-word chunks'
+```
+
+The six that come up most often:
+
+| Feature | Definition | What belongs to the source |
+|---|---|---|
+| `entropy_std` | population standard deviation of the entropies (bits) of disjoint `mattr_window`-word chunks | the entropy formula — Shannon (1948) |
+| `punct_entropy` | Shannon entropy (bits) of the distribution over the ten mark types | the entropy formula — Shannon (1948) |
+| `sent_len_entropy` | Shannon entropy (bits) of the distribution of words per sentence | the entropy formula — Shannon (1948) |
+| `short_sent_ratio` | sentences with fewer than `short_sent_threshold` words / sentences | the threshold value — Ateşman (1997) p.74 and [threshold calibration](../../esik-kalibrasyonu.md) |
+| `long_sent_ratio` | sentences with more than `long_sent_threshold` words / sentences | the threshold value — [threshold calibration](../../esik-kalibrasyonu.md) |
+| `polysyllabic_word_ratio` | 3+ syllable words / syllabifiable words | the definition of polysyllabic — McLaughlin (1969) p.641 |
+
+The one requirement is getting the attribution right: cite the source of the
+formula, but do not attribute the measure itself to that source.
+
+- ✗ "the Shannon (1948) `entropy_std` measure"
+- ✓ "the standard deviation of Shannon (1948) entropy across segments
+  (as defined by turkish-linguistic-features)"
+
+The first wording implies a measure the reader could look up in the source and
+find. Shannon defined the entropy, not its standard deviation across segments.

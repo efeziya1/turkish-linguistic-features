@@ -81,7 +81,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26) | formula | 6.438 | 6.438 | +0.000 | ✅ |
 | `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26) | formula | 6.395 | 6.395 | +0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formula | 0.665 | 0.665 | -0.000 | ✅ |
-| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 | formula | 0.590 | 0.599 | +0.009 | ✅ |
+| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; source printed 0.590 (typo) | formula | 0.590 | 0.599 | +0.009 | ✅ |
 | `hapax_percentage` | QUITA §6.1.6 | Text 1 · 98/179 | formula | 0.547 | 0.547 | +0.000 | ✅ |
 | `hapax_percentage` | QUITA §6.1.6 | Text 2 · 92/202 | formula | 0.455 | 0.455 | +0.000 | ✅ |
 | `mtld` | McCarthy & Jarvis (2010) p.385 | partial factor · TTR .887 → 40.4% | formula | 0.404 | 0.404 | +0.000 | ✅ |
@@ -360,7 +360,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26) | formula | 6.438 | 6.438 | +0.000 | ✅ |
 | `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26) | formula | 6.395 | 6.395 | +0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formula | 0.665 | 0.665 | -0.000 | ✅ |
-| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 | formula | 0.590 | 0.599 | +0.009 | ✅ |
+| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; source printed 0.590 (typo) | formula | 0.590 | 0.599 | +0.009 | ✅ |
 | `hapax_percentage` | QUITA §6.1.6 | Text 1 · 98/179 | formula | 0.547 | 0.547 | +0.000 | ✅ |
 | `hapax_percentage` | QUITA §6.1.6 | Text 2 · 92/202 | formula | 0.455 | 0.455 | +0.000 | ✅ |
 | `mtld` | McCarthy & Jarvis (2010) p.385 | partial factor · TTR .887 → 40.4% | formula | 0.404 | 0.404 | +0.000 | ✅ |

@@ -65,9 +65,16 @@ oz["atesman"]             # 70.9483  (Ateşman 1997 okunabilirlik)
 | — farkı ölçülmüş ve açıklanmış (🟡) | 3 |
 | Test | 717 |
 
-208 özniteliğin hepsi doğrulanamaz: 141 satır saf tanım (`char_a`), bir
-etiket şemasının kategorisi (`pos_noun`) ya da bu kütüphanenin kendi türevi
-(`entropy_std`) — aranacak bir literatür sayısı yoktur. Geriye kalan 92
-adayın 44'ü ise kaynağı formülü yayımlamış ama
-uygulanmış bir örnek vermemiş olduğu için açık.
+**Formüller ile doğrulama iki ayrı şeydir.** 208 özniteliğin **hepsinin**
+formülü kaynağındaki denklemle karşılaştırılıp yazıldı; künye sayfa ve
+denklem numarası verir, testler sınır durumlarını sınar. Bunun üstüne bir
+katman daha var: kaynağın *yayımladığı bir sayıyı* alıp bizim çıktımızla
+karşılaştırmak. O ikinci katman her öznitelikte mümkün değil — 141 satır
+saf tanım (`char_a`), bir etiket şemasının kategorisi (`pos_noun`) ya da bu
+kütüphanenin kendi türevi (`entropy_std`), yani aranacak bir literatür sayısı
+yok. Kalan 92 adayın 44'ü de kaynağı formülü yayımlamış ama uygulanmış bir
+örnek basmamış olduğu için açık duruyor.
+
+Açık bir satır, formülünün yanlış olduğu anlamına **gelmez**; karşılaştırılacak
+yayımlanmış bir sayı bulunamadığı anlamına gelir.
 Ayrıntı: [doğrulama raporu](dogrulama-raporu.md).

@@ -553,8 +553,13 @@ KARSILASTIRMALAR: dict[str, list[Karsilastirma]] = {
 #
 # anahtar → (bölüm, Text 1 değeri, Text 2 değeri, örnek açıklaması)
 _QUITA_ORNEKLER: dict[str, tuple[str, float, float, str, str]] = {
+    # Text 2'de kaynak 0,590 basmış ama kendi verdiği sayılar 121/202 = 0,599
+    # veriyor: yayımlanmış değerde basım hatası var, bizimki aritmetik olarak
+    # doğru olan. Sapma (+0,009) tolerans içinde kaldığı için satır ✅; neden
+    # olduğu açıklama sütununda duruyor (2026-09-24, Efe).
     "ttr": ("§6.1.1", 0.665, 0.59,
-            "Text 1 · V/N = 119/179", "Text 2 · V/N = 121/202"),
+            "Text 1 · V/N = 119/179",
+            "Text 2 · V/N = 121/202 = 0.599; source printed 0.590 (typo)"),
     "lambda_pa": ("§6.1.7", 1.628, 1.5325,
                   "Text 1 · L·log₁₀N/N, L=129.3559482",
                   "Text 2 · L·log₁₀N/N, L=134.2787065"),
