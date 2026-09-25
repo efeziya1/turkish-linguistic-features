@@ -343,7 +343,7 @@ def get_group(key: str) -> str:
     for grup, onek in DYNAMIC_PREFIXES.items():
         if key.startswith(onek):
             return grup
-    raise KeyError(f"Bilinmeyen feature anahtarı: {key!r}")
+    raise KeyError(f"Unknown feature key: {key!r}")
 
 
 def describe_feature(key: str) -> dict:

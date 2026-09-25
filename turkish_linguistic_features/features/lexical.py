@@ -259,8 +259,8 @@ def _hizala(lemma_tokens: list[str], pos_data: list[tuple[str, str]]) -> list[st
     kelime_pos = [p for _, p in pos_data if p not in NON_WORD_POS]
     if len(kelime_pos) != len(lemma_tokens):
         raise ValueError(
-            f"lemma_tokens ({len(lemma_tokens)}) ile kelime dışı atılmış pos_data "
-            f"({len(kelime_pos)}) hizalı değil — ön işleme hatası"
+            f"lemma_tokens ({len(lemma_tokens)}) is not aligned with pos_data after "
+            f"non-word tokens were dropped ({len(kelime_pos)}) — preprocessing error"
         )
     return kelime_pos
 
@@ -294,7 +294,7 @@ def advanced_lexical_richness(tokens: list[str], window: int = 50) -> dict[str, 
     """
     N = len(tokens)
     if window <= 0:
-        raise ValueError(f"window pozitif olmalı: {window}")
+        raise ValueError(f"window must be positive: {window}")
     if N == 0:
         return {"mattr": math.nan, "entropy_std": math.nan, "herdan_c": math.nan}
     V = len(set(tokens))
@@ -394,7 +394,7 @@ def ttr_moving_slope(tokens: list[str], chunk_size: int = 50) -> dict[str, float
     Sondaki eksik parça atılır; 2'den az tam parça → NaN.
     """
     if chunk_size <= 0:
-        raise ValueError(f"chunk_size pozitif olmalı: {chunk_size}")
+        raise ValueError(f"chunk_size must be positive: {chunk_size}")
     parcalar = _parcalar(tokens, chunk_size)
     if len(parcalar) < 2:
         return {"ttr_moving_slope": math.nan}
@@ -496,7 +496,7 @@ def vocd_d(tokens: list[str], sample_min: int = 35, sample_max: int = 50,
     """
     if sample_min < 1 or sample_min > sample_max or num_samples < 1 or num_runs < 1:
         raise ValueError(
-            f"Geçersiz voc-D parametresi: sample_min={sample_min}, sample_max={sample_max}, "
+            f"Invalid voc-D parameters: sample_min={sample_min}, sample_max={sample_max}, "
             f"num_samples={num_samples}, num_runs={num_runs}"
         )
     N = len(tokens)
@@ -529,7 +529,7 @@ def hdd(tokens: list[str], sample_size: int = 42) -> dict[str, float]:
     örnekleme **kesinlikle** girer, görülmeme olasılığı 0.
     """
     if sample_size < 1:
-        raise ValueError(f"sample_size pozitif olmalı: {sample_size}")
+        raise ValueError(f"sample_size must be positive: {sample_size}")
     N = len(tokens)
     if N < sample_size:
         return {"hdd": math.nan}
@@ -554,7 +554,7 @@ def msttr(tokens: list[str], segment_size: int = 100) -> dict[str, float]:
     (2026-09-16, Efe).
     """
     if segment_size <= 0:
-        raise ValueError(f"segment_size pozitif olmalı: {segment_size}")
+        raise ValueError(f"segment_size must be positive: {segment_size}")
     parcalar = _parcalar(tokens, segment_size)
     if not parcalar:
         return {"msttr": math.nan}
@@ -646,7 +646,7 @@ def reference_frequency_sophistication(lemma_tokens: list[str],
     except ImportError:
         # Sessiz kalmak yasak (2026-08-25): kullanıcı NaN'ın nedenini bilmeli.
         from .._warnings import uyar_eksik_bagimlilik
-        uyar_eksik_bagimlilik("wordfreq", "wordfreq_* (2 öznitelik)")
+        uyar_eksik_bagimlilik("wordfreq", "wordfreq_* (2 features)")
         return olculemedi
     kelime_pos = _hizala(lemma_tokens, pos_data)
     anlamli = [lem for lem, p in zip(lemma_tokens, kelime_pos) if p in LEXICAL_POS]

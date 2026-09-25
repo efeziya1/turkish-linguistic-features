@@ -153,8 +153,8 @@ class ZeyrekBackend:
             ornek = self._analyzer._parse("kitap")
             if not ornek or not hasattr(ornek[0], "morphemes"):
                 raise LinguisticFeaturesError(
-                    "Kurulu zeyrek sürümü beklenen API'yi sunmuyor.\n"
-                    "Gerekli: zeyrek>=0.1.3,<0.2 — kurulu sürümü kontrol edin."
+                    "The installed zeyrek version does not expose the expected API.\n"
+                    "Required: zeyrek>=0.1.3,<0.2 — check the installed version."
                 )
 
         if self._nlp is None:

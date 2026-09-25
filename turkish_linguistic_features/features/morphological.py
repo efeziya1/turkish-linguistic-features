@@ -61,8 +61,8 @@ def spacy_morph_ratios(morph_tags: list[tuple[str, str]],
     """
     if len(morph_tags) != len(pos_data):
         raise ValueError(
-            f"morph_tags ({len(morph_tags)}) ile pos_data ({len(pos_data)}) hizalı değil"
-            " — ön işleme hatası"
+            f"morph_tags ({len(morph_tags)}) is not aligned with pos_data "
+            f"({len(pos_data)}) — preprocessing error"
         )
     ozellikler = [_parse_morph(m) for _, m in morph_tags]
     sonuc: dict[str, float] = {}
@@ -88,8 +88,8 @@ def surface_per_lemma(surface_tokens: list[str], pos_data: list[tuple[str, str]]
     """
     if len(surface_tokens) != len(pos_data):
         raise ValueError(
-            f"surface_tokens ({len(surface_tokens)}) ile pos_data ({len(pos_data)})"
-            " hizalı değil — ön işleme hatası"
+            f"surface_tokens ({len(surface_tokens)}) is not aligned with pos_data "
+            f"({len(pos_data)}) — preprocessing error"
         )
     _hizala(lemma_tokens, pos_data)
     kelimeler = [s for s, (_, p) in zip(surface_tokens, pos_data) if p not in NON_WORD_POS]
@@ -141,8 +141,8 @@ def _kelime_morfemleri(morpheme_lists: list[list[Morpheme]],
     """Kelime olan ve çözümlenebilen tokenlerin morfemleri; hizasızlıkta ``ValueError``."""
     if len(morpheme_lists) != len(pos_data):
         raise ValueError(
-            f"morpheme_lists ({len(morpheme_lists)}) ile pos_data ({len(pos_data)})"
-            " hizalı değil — ön işleme hatası"
+            f"morpheme_lists ({len(morpheme_lists)}) is not aligned with pos_data "
+            f"({len(pos_data)}) — preprocessing error"
         )
     return [m for m, (_, p) in zip(morpheme_lists, pos_data)
             if m and p not in NON_WORD_POS and m[0][0] not in _KELIME_DISI_KOK]

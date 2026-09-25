@@ -193,7 +193,8 @@ def pos_distribution_stats(pos_data: list[tuple[str, str]],
     n = sum(len(c) for c in sentences_as_tokens)
     if n != len(pos_data):
         raise ValueError(
-            f"cümle token toplamı ({n}) ile pos_data ({len(pos_data)}) hizalı değil — ön işleme hatası"
+            f"total sentence tokens ({n}) is not aligned with pos_data ({len(pos_data)})"
+            f" — preprocessing error"
         )
     if not pos_data:
         return {"pos_dist_std": math.nan, "pos_kl_div": math.nan}
@@ -406,7 +407,7 @@ def word_ngram_ratios(
         pencere = len(kelimeler) - n + 1
         anahtar = "ng_" + "_".join(aranan)
         if n == 0:
-            raise ValueError("custom_ngrams içinde boş öbek var")
+            raise ValueError("custom_ngrams contains an empty phrase")
         if pencere <= 0:
             sonuc[anahtar] = math.nan
             continue

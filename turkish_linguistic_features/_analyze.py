@@ -103,7 +103,7 @@ def analyze(text: str, lang: str = "tr", model: str | None = None,
     3.5
     """
     if lang not in _ALFABE:
-        raise ValueError(f"Desteklenmeyen dil: {lang!r}. Beklenen: {sorted(_ALFABE)}")
+        raise ValueError(f"Unsupported language: {lang!r}. Expected one of: {sorted(_ALFABE)}")
 
     islenmis = _get_preprocessor(lang, model).process(text, show_progress=show_progress)
     with warnings.catch_warnings():

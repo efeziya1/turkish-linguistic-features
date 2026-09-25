@@ -40,8 +40,8 @@ _DEFAULT_CHUNK_CHARS = 50_000
 # çalışmıyor; üstelik tek bir HuggingFace deposunun sabit sürümlü URL'ine
 # bağlıydı. Komutlar hata mesajında ve README'de; kullanıcı elle çalıştırıyor.
 _KURULUM = {
-    "en": "Kurulum:\n  python -m spacy download en_core_web_sm",
-    "tr": ("Kurulum (bu model spaCy kaydında yok, wheel doğrudan kurulur):\n"
+    "en": "To install it:\n  python -m spacy download en_core_web_sm",
+    "tr": ("To install it (this model is not in the spaCy registry; install the wheel directly):\n"
            "  pip install https://huggingface.co/turkish-nlp-suite/"
            "tr_core_news_md/resolve/main/tr_core_news_md-1.0-py3-none-any.whl"),
 }
@@ -107,9 +107,9 @@ class Preprocessor:
             self._nlp = spacy.load(self.model_name, exclude=["ner"])
         except OSError:
             raise ModelNotFoundError(
-                f"'{self.model_name}' modeli bulunamadı.\n\n"
+                f"spaCy model '{self.model_name}' not found.\n\n"
                 f"{_KURULUM.get(self.lang, _KURULUM['en'])}\n\n"
-                "Ayrıntı ve bilinen tuhaflıklar: README, 'Language models'."
+                "Details and known quirks: see README, 'Language models'."
             ) from None
 
     @staticmethod
@@ -218,7 +218,7 @@ class Preprocessor:
         dokumanlar = []
         for i, parca in enumerate(parcalar, 1):
             if show_progress:
-                print(f"  parça {i}/{len(parcalar)}", flush=True)
+                print(f"  chunk {i}/{len(parcalar)}", flush=True)
             dokumanlar.append(self._nlp(parca))
 
         return self._birlestir(text, dokumanlar)
@@ -239,7 +239,7 @@ class Preprocessor:
         for i, metin in enumerate(texts):
             if len(metin) > _DEFAULT_CHUNK_CHARS:
                 if show_progress:
-                    print(f"  metin {i + 1}/{len(texts)} (parçalanıyor)", flush=True)
+                    print(f"  text {i + 1}/{len(texts)} (chunking)", flush=True)
                 sonuc[i] = self.process(metin, show_progress=show_progress)
             else:
                 kisa.append((i, metin))

@@ -179,7 +179,7 @@ def test_pos_dist_std_tek_pos_hepsiyse_buyuk():
 
 def test_pos_dagilim_hizalama_bozuksa_hata():
     """Token sayıları uyuşmuyor → ön işleme hatası, ValueError (2026-09-16, Efe)."""
-    with pytest.raises(ValueError, match="hizal"):
+    with pytest.raises(ValueError, match="not aligned"):
         pos_distribution_stats([("a", "NOUN")], [["a", "b", "c"]])
 
 

@@ -43,7 +43,7 @@ _GENIS_DUZ: dict[str, str] = {"tr": "ae", "en": "ae"}
 
 def _dil_denetle(lang: str) -> None:
     if lang not in _ALFABE:
-        raise ValueError(f"Desteklenmeyen dil: {lang!r}. Beklenen: {sorted(_ALFABE)}")
+        raise ValueError(f"Unsupported language: {lang!r}. Expected one of: {sorted(_ALFABE)}")
 
 
 def vowel_ratios(text: str, lang: str = "tr") -> dict[str, float]:

@@ -4,6 +4,13 @@
 girdinin bir özniteliği anlamsız kılması (``ParagraphStructureWarning``).
 Ortak kural: bir öznitelik girdinin bir eksiği yüzünden bilgi taşımayan bir
 sayı dönüyorsa **bu sessiz kalmaz**.
+
+🔴 **Uyarı metinleri İngilizcedir** (2026-09-24, Efe). Kod içi yorum ve
+docstring Türkçe kalıyor; kullanıcıya çıkan metin İngilizce. Sebep: öznitelik
+anahtarları, künyeler, kayıt defteri ve `describe_feature()` çıktısı 2026-09-24
+itibarıyla İngilizce. Uyarının Türkçe kalması, İngilizce dokümanı okuyan
+kullanıcıya çözümlemesi gereken tek Türkçe parçayı bırakıyordu. Yeni uyarı
+eklerken bu dosyadaki `warnings.warn` metinlerini İngilizce yaz.
 """
 
 from __future__ import annotations
@@ -41,7 +48,8 @@ def uyar_eksik_bagimlilik(paket: str, atlanan: str) -> None:
     paket : str
         Eksik olan paketin adı, örn. ``"wordfreq"``.
     atlanan : str
-        Atlanan özelliğin/grubun adı, örn. ``"wordfreq_* (2 öznitelik)"``.
+        Atlanan özelliğin/grubun adı, örn. ``"wordfreq_* (2 features)"``.
+        Kullanıcıya çıkan metnin parçası olduğu için **İngilizce** verilir.
 
     Notes
     -----
@@ -50,8 +58,8 @@ def uyar_eksik_bagimlilik(paket: str, atlanan: str) -> None:
     verilmek zorunda**. Sessizce sıfıra düşen öznitelik bırakılmaz.
     """
     warnings.warn(
-        f"{atlanan} atlandı: '{paket}' kurulu değil. "
-        f"Kurmak için: {kurulum_ipucu(paket)}",
+        f"{atlanan} skipped: '{paket}' is not installed. "
+        f"To install it: {kurulum_ipucu(paket)}",
         MissingDependencyWarning,
         stacklevel=3,
     )

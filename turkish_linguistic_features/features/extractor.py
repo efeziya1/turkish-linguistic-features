@@ -183,7 +183,7 @@ def _extract_features(
         bilinmeyen = [g for g in groups if g not in GROUP_LABELS]
         if bilinmeyen:
             raise ValueError(
-                f"Bilinmeyen grup(lar): {bilinmeyen}. Mevcut: {list(GROUP_LABELS)}"
+                f"Unknown group(s): {bilinmeyen}. Available: {list(GROUP_LABELS)}"
             )
         secili = frozenset(groups)
 
