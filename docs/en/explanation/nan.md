@@ -39,7 +39,7 @@ ttr    = 1.0   (computable at any length)
 
 ## Why it happens
 
-Three reasons.
+Four reasons.
 
 ### 1. The text is too short
 
@@ -64,7 +64,37 @@ being a moving average — hence the `2 × window` threshold.
 derivational suffixes. `parse_depth_mean` cannot produce a value if no
 sentence parses. `hapax_ratio` is meaningless in a one-word text.
 
-### 3. An optional package is missing
+### 3. The input has no paragraph boundaries
+
+`para_len_cv` and `sents_per_para_cv` need at least **two** paragraphs —
+variation cannot be measured from a single value. Paragraph boundaries are
+found from blank lines; a single line break does not count. If your text has
+no blank lines, the whole text counts as one paragraph, these two features
+return `nan`, and `para_len_mean` becomes the word count of the entire text.
+
+If a text longer than 1000 words yields no boundary at all, a
+`ParagraphStructureWarning` is raised:
+
+```python
+import warnings
+with warnings.catch_warnings(record=True) as caught:
+    warnings.simplefilter("always")
+    feats = tlf.analyze(book_text, lang="en")
+print(caught[0].message)
+```
+
+```text
+No paragraph boundary found: the text contains no blank line, so all 52521
+words and 7347 sentences were counted as a single paragraph. ...
+```
+
+The message carries your own word and sentence counts, so you can tell at a
+glance whether the text really is one paragraph.
+
+This usually happens when the text lost its line breaks during extraction from
+PDF or EPUB; [limitations §7](limitations.md) has the measurement.
+
+### 4. An optional package is missing
 
 Without `wordfreq`, `wordfreq_mean` and `wordfreq_rare_ratio` return `nan`
 and the library raises a `MissingDependencyWarning`.
@@ -73,7 +103,8 @@ and the library raises a `MissingDependencyWarning`.
 oz = tlf.analyze(text, lang="en", warn=False)
 ```
 
-`warn=False` silences the warning only; the feature is still `nan`.
+`warn=False` silences the warning only; the feature is still `nan`. The same
+flag also silences `ParagraphStructureWarning`.
 
 ## What to do in your table
 

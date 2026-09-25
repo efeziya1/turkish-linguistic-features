@@ -86,12 +86,24 @@ Farklı uzunluktaki metinleri karşılaştırıyorsanız ya parçalayıp eşitle
 tasarlanmış ölçüleri kullanın: `mattr`, `mtld`, `vocd_d`. Onlar da en az
 100 kelime ister.
 
-## 7. `mattr_window` kaynağın önerisinden küçük
+## 7. Paragraf öznitelikleri girdinin biçimlendirmesine bağlı
 
-Covington & McFall (2010) üslup analizi için **500** öneriyor; varsayılan
-**50**. Gerekçe [parametreler sayfasında](../nasil/parametreler.md)
-ayrıntılı. Künye bunu gizlemez. 500 istiyorsanız değiştirebilirsiniz, ama
-metinleriniz en az 1000 kelime olmalı.
+Beş `para_*` özniteliği paragraf sınırını **boş satırdan** bulur. Tek satır
+sonu paragraf saymaz — aksi hâlde satır satır sarılmış bir metinde her satır
+paragraf olurdu.
+
+Sonuç: metninizde boş satır yoksa metnin tamamı tek paragraf sayılır.
+`para_len_mean` bütün metnin kelime sayısına eşitlenir, iki CV NaN döner.
+Kütüphane bunu düzeltemez — silinmiş paragraf sınırı geri getirilemez.
+
+Bu, PDF ve EPUB'dan çıkarılmış metinlerde **yaygındır**. Ölçüldü (2026-09-24):
+elimizdeki bir Türkçe roman derlemesinde 163 dosyanın **120'sinde** hiç boş
+satır yok; bir dosyanın tamamı tek satır (191.806 karakter, 7.347 cümle).
+
+1000 kelimeyi geçen bir metinde hiç paragraf sınırı bulunamazsa
+`ParagraphStructureWarning` basılır. Uyarıyı görürseniz iki yol var: kaynak
+metni paragrafları boş satırla ayrılmış hâlde yeniden çıkarın, ya da
+`groups` ile `paragraph` grubunu dışarıda bırakın.
 
 ## 8. Adayların yarısı hâlâ doğrulanmadı
 

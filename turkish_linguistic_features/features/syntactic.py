@@ -32,6 +32,14 @@ from ..alfabe import _kucuk_harf
 from ..vocab import LEXICAL_POS, NON_WORD_POS, NOUN_POS, POS_TAGS
 
 _PARA_SPLIT = re.compile(r"\n[ \t]*\n")   # boş satır = paragraf sınırı
+
+# Tek paragraf çıkan metinde uyarı eşiği, kelime (2026-09-24, Efe). Kısa
+# metnin gerçekten tek paragraf olması normaldir; uyarı orada gürültü olur.
+# 1000 depoda hâlihazırda kullanılan büyüklük: `segment_text` varsayılanı ve
+# kalibrasyon korpusunun segment boyu. Ölçüldü (2026-09-24): dokümanın örnek
+# metinleri 7-24 kelime, paragrafı silinmiş bir roman dosyası 52.521 — araya
+# konan her eşik ikisini ayırıyor, bu yüzden yeni bir sayı uydurulmadı.
+_PARA_UYARI_KELIME = 1000
 _SENT_END = re.compile(r"[.!?…]+")        # cümle sonu işareti
 
 
@@ -303,6 +311,11 @@ def paragraph_stats(raw_text: str) -> dict[str, float]:
     spaCy token'ı sayar; ikisi sistematik olarak farklıdır, karşılaştırılmamalı.
 
     Paragraf yoksa hepsi NaN; tek paragrafta iki CV NaN.
+
+    Çok cümleli bir metin tek paragraf çıkıyorsa ``ParagraphStructureWarning``
+    basılır — sayılar değişmez (2026-09-24, Efe). Girdide paragraf sınırı
+    olmaması yaygın: PDF/EPUB dökümlerinde satır sonları silinmiş oluyor ve
+    ``para_len_mean`` sessizce bütün metnin kelime sayısına eşitleniyor.
     """
     paras = [p for p in _PARA_SPLIT.split(raw_text.replace("\r\n", "\n")) if p.strip()]
     if not paras:
@@ -311,6 +324,9 @@ def paragraph_stats(raw_text: str) -> dict[str, float]:
     # K11 istisnası: yerel sayım — paragrafı token akışına hizalamak ikinci geçiş ister
     kelime = np.array([len(p.split()) for p in paras], dtype=np.float64)
     cumle = np.array([max(len(_SENT_END.findall(p)), 1) for p in paras], dtype=np.float64)
+    if len(paras) == 1 and kelime[0] > _PARA_UYARI_KELIME:
+        from .._warnings import uyar_paragraf_yok
+        uyar_paragraf_yok(int(cumle[0]), int(kelime[0]))
     toplam_kelime = float(kelime.sum())
     return {
         "para_len_mean": round(float(kelime.mean()), 4),

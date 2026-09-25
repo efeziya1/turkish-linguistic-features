@@ -25,7 +25,7 @@ if not _os.environ.get("LINGUISTIC_FEATURES_NO_ZEYREK_WARMUP"):
 
 from ._analyze import analyze
 from ._corpus import analyze_corpus
-from ._warnings import MissingDependencyWarning
+from ._warnings import MissingDependencyWarning, ParagraphStructureWarning
 from .exceptions import LinguisticFeaturesError, ModelNotFoundError
 from .features import describe_feature
 from .file_loader import save_csv, segment_text
@@ -49,4 +49,5 @@ __all__ = [
     "LinguisticFeaturesError",
     "ModelNotFoundError",
     "MissingDependencyWarning",
+    "ParagraphStructureWarning",
 ]

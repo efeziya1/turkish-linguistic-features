@@ -40,7 +40,7 @@ ttr    = 1.0   (her uzunlukta hesaplanır)
 
 ## Neden `nan` dönüyor
 
-Üç sebep var.
+Dört sebep var.
 
 ### 1. Metin çok kısa
 
@@ -65,7 +65,36 @@ ortalama" olmaktan çıkar — o yüzden eşik `2 × pencere`dir.
 olur. `parse_depth_mean` cümle ayrıştırılamazsa değer üretemez.
 `hapax_ratio` tek kelimelik metinde anlamsızdır.
 
-### 3. İsteğe bağlı bir paket kurulu değil
+### 3. Girdide paragraf sınırı yok
+
+`para_len_cv` ve `sents_per_para_cv` en az **iki** paragraf ister —
+değişkenlik tek değerden ölçülmez. Paragraf sınırı boş satırla bulunur, tek
+satır sonu saymaz. Metninizde boş satır yoksa metnin tamamı tek paragraf
+sayılır, bu iki öznitelik `nan` döner ve `para_len_mean` bütün metnin kelime
+sayısına eşitlenir.
+
+1000 kelimeyi geçen metinde hiç sınır bulunamazsa `ParagraphStructureWarning`
+basılır:
+
+```python
+import warnings
+with warnings.catch_warnings(record=True) as kayit:
+    warnings.simplefilter("always")
+    oz = tlf.analyze(kitap_metni, lang="tr")
+print(kayit[0].message)
+```
+
+```text
+No paragraph boundary found: the text contains no blank line, so all 52521
+words and 7347 sentences were counted as a single paragraph. ...
+```
+
+Uyarı metinleri İngilizcedir — öznitelik anahtarları ve künyeler de öyle.
+
+Bu genellikle metnin PDF/EPUB'dan çıkarılırken satır sonlarını kaybetmesinden
+olur; [sınırlılıklar §7](sinirliliklar.md) ölçümü veriyor.
+
+### 4. İsteğe bağlı bir paket kurulu değil
 
 `wordfreq` kurulu değilse `wordfreq_mean` ve `wordfreq_rare_ratio` `nan`
 döner ve kütüphane bir `MissingDependencyWarning` basar.
@@ -74,7 +103,8 @@ döner ve kütüphane bir `MissingDependencyWarning` basar.
 oz = tlf.analyze(metin, lang="tr", warn=False)
 ```
 
-`warn=False` yalnız uyarıyı susturur; öznitelik yine `nan` kalır.
+`warn=False` yalnız uyarıyı susturur; öznitelik yine `nan` kalır. Aynı bayrak
+`ParagraphStructureWarning`'i de susturur.
 
 ## Tabloda ne yapmalı
 

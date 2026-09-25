@@ -88,13 +88,25 @@ size ([how](../how-to/segmenting.md)) or use measures designed to be
 length-independent: `mattr`, `mtld`, `vocd_d`. Those also need at least
 100 words.
 
-## 7. `mattr_window` is smaller than the source recommends
+## 7. Paragraph features depend on how the input is formatted
 
-Covington & McFall (2010) recommend **500** for stylometric analysis; the
-default is **50**. The reasoning is set out in
-[Change the thresholds](../how-to/parameters.md). The citation does not
-hide it. You can change it, but your texts then need to be at least 1000
-words.
+The five `para_*` features find paragraph boundaries from **blank lines**. A
+single line break does not count as one — otherwise every line of a
+hard-wrapped text would be a paragraph.
+
+The consequence: if your text has no blank lines, the whole text counts as one
+paragraph. `para_len_mean` becomes the word count of the entire text and both
+CVs return NaN. The library cannot fix this — a boundary that was deleted
+cannot be recovered.
+
+This is **common** in text extracted from PDF and EPUB. Measured (2026-09-24):
+in one Turkish novel collection, **120 of 163** files contain no blank line at
+all; one file is a single line of 191,806 characters and 7,347 sentences.
+
+If a text longer than 1000 words yields no paragraph boundary at all, a
+`ParagraphStructureWarning` is raised. If you see it you have two options:
+re-extract the source text with paragraphs separated by blank lines, or leave
+the `paragraph` group out via `groups`.
 
 ## 8. Half the candidates are still unverified
 
