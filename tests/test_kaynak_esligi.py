@@ -6,8 +6,7 @@ literatürdeki değeri tuttuğunu görebilmesi.
 
 Her testin künyesinde kaynak, sayfa/tablo numarası ve tolerans yazılıdır.
 Tolerans keyfî değil: kaynaklar ara değerleri yuvarlayarak bastığı için
-birebir eşitlik beklenemez (bkz. `plan/kaynak-arastirmasi.md`, Çıplak ve
-Bezirci örnekleri).
+birebir eşitlik beklenemez (Çıplak ve Bezirci örnekleri).
 
 **Telif:** Aşağıdaki üç metin Kalyoncu & Memiş (2024) Ek-1'de yayımlanmış
 100 kelimelik okunabilirlik örnekleridir ve doğrulama amacıyla, kaynakları

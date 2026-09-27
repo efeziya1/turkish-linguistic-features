@@ -33,7 +33,7 @@ from .params import FeatureParams
 
 __version__ = "0.1.0"
 
-# API-SOZLESMESI.md §1 — on adın hepsi burada (T27 ile tamamlandı; ParagraphStructureWarning sonradan eklendi).
+# Genel API — on adın hepsi burada.
 __all__ = [
     # Analiz
     "analyze",

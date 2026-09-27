@@ -183,7 +183,7 @@ def turkish_readability_formulas(raw_text: str, surface_tokens: list[str]) -> di
 
     Ateşman ve Çetinkaya yükseldikçe metin kolaylaşır; Bezirci-Yılmaz zorlaşır.
     Ateşman ve Bezirci-Yılmaz kaynakları kelime ve cümle tanımı vermiyor;
-    varsayılan kural uygulanır (``00-ANA-PLAN.md`` §12).
+    varsayılan kural uygulanır.
     """
     kelimeler, semboller = kelime_birimleri(raw_text, "tr")
     sonuc = {"atesman": math.nan, "cetinkaya_uzun": math.nan, "bezirci_yilmaz": math.nan}

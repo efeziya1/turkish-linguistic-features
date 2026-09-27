@@ -130,7 +130,7 @@ TUREV_ANAHTARLARI = frozenset({
 SEMA_ONEKLERI = ("de Marneffe et al. (2021)", "Zeyrek (a Python port")
 
 # Birebir sayılmak için gereken yakınlık. Kaynaklar ara değerleri yuvarlayarak
-# bastığı için mutlak eşitlik beklenmiyor (bkz. plan/kaynak-arastirmasi.md).
+# bastığı için mutlak eşitlik beklenmiyor.
 TOLERANS = 0.05
 
 

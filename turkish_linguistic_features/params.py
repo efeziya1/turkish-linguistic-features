@@ -3,8 +3,6 @@
 Eşikler ve pencere boyutları fonksiyonların içine gömülmüyor; hepsi burada
 tek bir dondurulmuş nesnede duruyor. Böylece iki fonksiyon kazara farklı
 değer kullanamıyor ve kullanıcı istediğinde tek yerden değiştirebiliyor.
-
-İçerik `API-SOZLESMESI.md` §2.3'te dondurulmuş — değiştirmeden önce oraya bak.
 """
 
 from __future__ import annotations

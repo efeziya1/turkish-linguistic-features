@@ -5,7 +5,7 @@ Bu dosya paket içinden hiçbir şey import etmez (L0). İçeriği 2026-09-21'de
 ``_analyze`` ve ``file_loader`` okuyor, yani noktalama özniteliklerinin
 yanında durması kökü features katmanına bağlıyordu.
 
-Alfabeler ``API-SOZLESMESI.md`` §4 sonundaki tablodan — TR 29 harf, EN 26
+Alfabeler: TR 29 harf, EN 26
 (``q``, ``w``, ``x`` 2026-09-15'te eklendi).
 """
 

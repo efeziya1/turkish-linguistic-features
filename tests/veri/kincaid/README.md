@@ -40,7 +40,7 @@ in part under fair use.
 
 The heading is stored separately because the report does not say whether it
 was included when the published values were computed. Both variants were
-measured; see `plan/kincaid-uctan-uca.md` for the result.
+measured.
 
 ## How these files were produced
 

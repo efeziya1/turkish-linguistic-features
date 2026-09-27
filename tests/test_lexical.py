@@ -96,7 +96,7 @@ def test_simpson_d_elle_hesap():
 def test_brunet_w_sekli():
     """🔴 Bu test formülün ŞEKLİNİ donduruyor, SABİTİNİ değil.
 
-    Sabit **Kademe D** (doğrulanmamış, bkz. `00-ANA-PLAN.md` K12 eki-2).
+    Sabit **Kademe D** (birincil kaynağa karşı doğrulanmamış).
     Bu yüzden sabitten bağımsız, formülün cebirinden çıkan iki özellik
     ölçülüyor:
       1. W = N^(V^−a)  →  V arttıkça üs küçülür  →  W küçülür

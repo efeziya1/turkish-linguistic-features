@@ -285,8 +285,7 @@ def test_her_kunye_kaynakcada_karsiligi_olan_bir_esere_atif_yapiyor():
     doğrulanmamış bir kaynak uydurulmuştur.
 
     Bu testten önce böyle bir denetim yoktu: yanlış bir künye sessizce
-    geçiyordu (bkz. `plan/kaynak-arastirmasi.md`, kaynaklarda bulunan altı
-    hata).
+    geçiyordu (kaynaklarda altı hata bulunmuştu).
     """
     eksik = {
         anahtar: kunye

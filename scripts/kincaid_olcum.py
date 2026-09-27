@@ -2,7 +2,7 @@
 
 Kaynağın yayımladığı değerlerle karşılaştırır ve ara değerleri (vuruş,
 kelime, cümle) gösterir — fark çıktığında hangi girdiden geldiğini görmek
-için. Bulgular: ``plan/kincaid-uctan-uca.md``.
+için.
 
 Çalıştırma::
 

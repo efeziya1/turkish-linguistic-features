@@ -45,6 +45,8 @@ mkdocs build
 From a clone:
 
 ```bash
+git clone https://github.com/efeziya1/turkish-linguistic-features.git
+cd turkish-linguistic-features
 pip install -e .
 ```
 

@@ -1,7 +1,7 @@
 """Öznitelik katmanı (L1) — saf fonksiyonlar, NLP modeli gerektirmez (K3).
 
-Paket sınırını geçen tek **public** ad ``describe_feature``
-(``API-SOZLESMESI.md`` §1). Geri kalan her şey iç koddur ve derin yoldan
+Paket sınırını geçen tek **public** ad ``describe_feature``.
+Geri kalan her şey iç koddur ve derin yoldan
 alınır::
 
     from turkish_linguistic_features.features.extractor import _extract_features

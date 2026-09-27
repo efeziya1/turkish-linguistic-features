@@ -1,4 +1,4 @@
-"""Sabit etiket ve kelime listeleri — ``API-SOZLESMESI.md`` §5'ten birebir.
+"""Sabit etiket ve kelime listeleri.
 
 Bu dosya hiçbir şey import etmez. Kasıtlı: ``registry.py`` bu isimlere
 ihtiyaç duyuyor ve çok erken import ediliyor; bağımlılığı olan bir modüle

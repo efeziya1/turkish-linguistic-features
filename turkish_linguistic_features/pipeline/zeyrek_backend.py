@@ -110,7 +110,8 @@ def _yamasiz() -> Iterator[None]:
             modul.calculate_phonetic_attributes = yamali_cpa
 
 
-import zeyrek.morphotactics as _mt
+# Geç import kasıtlı: ham `initial`ı yakalayıp hemen yamalayan blokla yan yana dursun.
+import zeyrek.morphotactics as _mt  # noqa: E402
 
 _HAM_INITIAL = _mt.SearchPath.initial
 _sira_bagimliligini_duzelt()

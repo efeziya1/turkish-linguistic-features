@@ -34,6 +34,11 @@ dependencies = [
     "textstat>=0.7",
 ]
 
+[project.urls]
+Repository    = "https://github.com/efeziya1/turkish-linguistic-features"
+Documentation = "https://github.com/efeziya1/turkish-linguistic-features/tree/main/docs"
+Issues        = "https://github.com/efeziya1/turkish-linguistic-features/issues"
+
 [project.optional-dependencies]
 pandas       = ["pandas>=1.5"]
 lexical_freq = ["wordfreq>=3.0"]

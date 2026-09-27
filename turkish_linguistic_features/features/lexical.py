@@ -39,7 +39,7 @@ import numpy as np
 
 from ..vocab import LEXICAL_POS, NON_WORD_POS, NOUN_POS
 
-# Brunet's W üs sabiti — Kademe C (bkz. 00-ANA-PLAN.md K12 eki-2).
+# Brunet's W üs sabiti — Kademe C.
 #
 # Kaynak OKUNDU: Tweedie, F. J. & Baayen, R. H. (1998), "How Variable May
 # a Constant be? Measures of Lexical Richness in Perspective", Computers
@@ -244,7 +244,7 @@ def heaps_beta(tokens: list[str], min_tokens: int = 300,
 #
 # Pencere ve parça boyları (MATTR 50 kayan, entropy_std ve ttr_moving_slope
 # 50'lik ayrık parça) 2026-09-15'te geçici kabul edildi; Efe'nin notuyla
-# ileride yeniden gözden geçirilecek (00-ANA-PLAN.md §0 "Açık notlar").
+# ileride yeniden gözden geçirilecek.
 
 
 def _hizala(lemma_tokens: list[str], pos_data: list[tuple[str, str]]) -> list[str]:

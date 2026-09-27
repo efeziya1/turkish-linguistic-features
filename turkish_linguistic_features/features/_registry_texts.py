@@ -7,9 +7,8 @@ yapı bir kez yazılıp incelenir, künye metinleri arşive yeni kaynak girdikç
 tekrar tekrar düzeltilir (2026-09-18, Efe). Ayrı dosyada künye düzeltmesinin
 diff'i mantığa hiç dokunmuyor.
 
-İçerik ``plan/from-scratch/T19-KAYIT-TASLAGI.md``'deki onaylanmış taslaktan
-bir kez taşındı (T19). **Bundan sonrası elle bakılır** — taslak tarihsel bir
-kayıttır, bu dosyayı ondan yeniden üretmek buraya yapılmış düzeltmeleri siler.
+İçerik onaylanmış bir taslaktan bir kez taşındı. **Bundan sonrası elle
+bakılır** — taslak tarihsel bir kayıttır, bu dosyayı ondan yeniden üretmek buraya yapılmış düzeltmeleri siler.
 Tek public giriş noktası ``registry.describe_feature``; buradaki sözlükler
 doğrudan okunabilir ama taahhüt değildir.
 

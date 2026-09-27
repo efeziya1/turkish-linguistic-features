@@ -14,7 +14,7 @@ Metin tabloları ``_registry_texts.py``'de — orası veri, burası yapı ve man
 (2026-09-18, Efe).
 
 **Anahtar isimleri bu görevde donuyor (K8).** İlk yayına (T30) kadar
-değiştirilebilir, ama her değişiklik registry, ``API-SOZLESMESI.md`` ve
+değiştirilebilir, ama her değişiklik registry, doküman ve
 sayılarla **birlikte** yapılır.
 """
 
@@ -57,7 +57,6 @@ DYNAMIC_PREFIXES: dict[str, str] = {
     "custom_ngrams": "ng_",
 }
 
-# `API-SOZLESMESI.md` §4'ten birebir.
 STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
     "lexical": (
         'n_lemma_count', 'avg_word_length', 'word_length_cv', 'ttr', 'mattr', 'entropy_std',
@@ -281,7 +280,6 @@ FEATURE_PARAMS: dict[str, tuple[str, ...]] = {
 
 UNVERIFIED_CONSTANTS: frozenset[str] = frozenset({
     # K12 Kademe D — sabiti birincil kaynağa karşı doğrulanmamış anahtarlar.
-    # Bkz. 00-ANA-PLAN.md "K12 eki-2 — doğrulama kademeleri".
     # Bir sabit doğrulandığında buradan SİLİNİR; listeye eklemek serbest,
     # silmek için birincil kaynak ya da çapraz uygulama testi şart.
     # 2026-09-12: `brunet_w` buradan SİLİNDİ — Kademe C'ye yükseldi
