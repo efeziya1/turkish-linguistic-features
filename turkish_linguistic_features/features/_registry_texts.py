@@ -1083,7 +1083,7 @@ BIBLIOGRAPHY: dict[str, str] = {
         'Popescu, I.-I., & Altmann, G. (2006). Some aspects of word frequencies. '
         'Glottometrics, 13, 23–46. RAM-Verlag; dergi ISSN 2625-8226.',
     'Popescu et al. (2009)':
-        'Popescu, I.-I., Altmann, G., Grzybek, P., ve ark. (2009). Word Frequency '
+        'Popescu, I.-I., Altmann, G., Grzybek, P., et al. (2009). Word Frequency '
         'Studies. Berlin: Mouton de Gruyter. (Quantitative Linguistics 64.) '
         'ISBN 978-3-11-021852-7, ISSN 0179-3616. DOI 10.1515/9783110218534',
     'Popescu, Mačutek & Altmann (2009)':

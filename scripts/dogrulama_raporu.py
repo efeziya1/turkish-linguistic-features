@@ -142,11 +142,22 @@ UCTAN_UCA = "end-to-end"
 FORMUL = "formula"
 
 
+def _iki(tr: str, en: str) -> dict[str, str]:
+    """Bizim yazdığımız metin, iki dilde. Künyeler ve kaynağın kendi
+    etiketleri (``Text 1``, ``Table 9``) çevrilmez; düz ``str`` kalır."""
+    return {"tr": tr, "en": en}
+
+
+def _dilde(metin: str | dict[str, str], lang: str) -> str:
+    return metin[lang] if isinstance(metin, dict) else metin
+
+
 class Karsilastirma:
     """Bir anahtarın kaynaktaki yayımlanmış değeriyle karşılaştırması."""
 
-    def __init__(self, kaynak: str, ornek: str, beklenen: float,
-                 hesapla, gerekce: str = "", tur: str = UCTAN_UCA) -> None:
+    def __init__(self, kaynak: str, ornek: str | dict[str, str], beklenen: float,
+                 hesapla, gerekce: str | dict[str, str] = "",
+                 tur: str = UCTAN_UCA) -> None:
         self.kaynak = kaynak
         self.ornek = ornek
         self.beklenen = beklenen
@@ -441,7 +452,7 @@ def _kincaid_en_buyuk_fark(alan: str, yayimlanan: dict[int, float]) -> tuple[int
     return n, f
 
 
-_KINCAID_GEREKCE_ARI = (
+_KINCAID_GEREKCE_ARI = _iki(
     "Kaynağın sayıları 1975'te daktiloya takılı mekanik bir sayaçla **elle** "
     "üretildi (Ek B, ARI talimatı). 18 pasajın 17'sinde, kaynağın ARI'sını "
     "verecek vuruş sayısı bizim saydığımızın 0,996-1,041 katı — yani birkaç "
@@ -450,14 +461,30 @@ _KINCAID_GEREKCE_ARI = (
     "gerektiriyor, metnin gerçek değeri 5,475; üstelik o ARI'nın ima ettiği "
     "kelime/cümle FKGL'yi 18,69 yapıyor, oysa Tablo 2 16,7 basmış. Bizim "
     "vuruş tanımımız ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten "
-    "4,24'e çıkarıyor, yani boşluksuz sayım doğru."
+    "4,24'e çıkarıyor, yani boşluksuz sayım doğru.",
+    "The source's numbers were produced **by hand** in 1975 with a mechanical "
+    "counter attached to a typewriter (Appendix B, ARI instructions). In 17 of "
+    "the 18 passages, the stroke count that would yield the source's ARI is "
+    "0.996-1.041 times ours — a difference of a few characters. Passage 2 is "
+    "an outlier (ratio 1.145), and there the source's own two numbers "
+    "contradict each other: Table 1's ARI of 20.3 requires 6.269 strokes per "
+    "word, while the text's actual value is 5.475; moreover, the words per "
+    "sentence implied by that ARI give an FKGL of 18.69, whereas Table 2 "
+    "printed 16.7. Our stroke definition was tested separately: counting "
+    "spaces raises the difference from 0.54 to 4.24, so counting without "
+    "spaces is correct.",
 )
-_KINCAID_GEREKCE_FKGL = (
+_KINCAID_GEREKCE_FKGL = _iki(
     "Aynı elle sayım kaynağı. Pasaj başına sapma 18'in 15'inde 0,6'nın "
     "altında; pasaj 12 aykırı (-4,28) ve o pasaj FRE bandını da tutturmuyor, "
     "yani sapma tek bir pasajda yoğunlaşıyor. Ortalamalar arasındaki fark "
     "0,34 sınıf düzeyi — okunabilirlik sınıflandırmasını değiştirmeyecek "
-    "kadar küçük."
+    "kadar küçük.",
+    "Same hand-counting source. The per-passage deviation is below 0.6 in 15 "
+    "of the 18 passages; passage 12 is an outlier (-4.28) and also misses its "
+    "FRE band, so the deviation is concentrated in a single passage. The "
+    "difference between the means is 0.34 grade levels — too small to change "
+    "the readability classification.",
 )
 
 
@@ -467,9 +494,9 @@ KARSILASTIRMALAR: dict[str, list[Karsilastirma]] = {
     "atesman": [
         Karsilastirma("Ateşman (1997)", _KM + " · Text 2", 23.094,
                       lambda: _km(2, "atesman")),
-        Karsilastirma("Ateşman (1997) p.74", "calibration: easiest text", 100.0,
+        Karsilastirma("Ateşman (1997) p.74", _iki("kalibrasyon: en kolay metin", "calibration: easiest text"), 100.0,
                       lambda: _atesman(2.2, 4), tur=FORMUL),
-        Karsilastirma("Ateşman (1997) p.74", "calibration: hardest text", 0.0,
+        Karsilastirma("Ateşman (1997) p.74", _iki("kalibrasyon: en zor metin", "calibration: hardest text"), 0.0,
                       lambda: _atesman(3.0, 30), tur=FORMUL),
     ],
     "cetinkaya_uzun": [
@@ -479,8 +506,11 @@ KARSILASTIRMALAR: dict[str, list[Karsilastirma]] = {
     "bezirci_yilmaz": [
         Karsilastirma("Bezirci & Yılmaz (2010)", _KM + " · Text 2",
                       math.sqrt(925.5625), lambda: _km(2, "bezirci_yilmaz"),
-                      "The paper rounded its H6 intermediate value; the difference is "
-                      "0.031 and both values fall in the same readability class (academic, 16+)."),
+                      _iki("Makale H6 ara değerini yuvarlamış; fark 0,031 ve iki değer de "
+                           "aynı okunabilirlik sınıfına düşüyor (akademik, 16+).",
+                           "The paper rounded its H6 intermediate value; the difference is "
+                           "0.031 and both values fall in the same readability class "
+                           "(academic, 16+).")),
         # denk. (9) — karekök adımı. E7 makalenin bastığı ara değer.
         Karsilastirma("Bezirci & Yılmaz (2010) Table 5", "E7 3.03 · OKS 7",
                       4.61, lambda: _bezirci_e9(7, 3.03), tur=FORMUL),
@@ -489,15 +519,19 @@ KARSILASTIRMALAR: dict[str, list[Karsilastirma]] = {
         Karsilastirma("Bezirci & Yılmaz (2010) Table 5", "E7 18.82 · OKS 14",
                       16.23, lambda: _bezirci_e9(14, 18.82), tur=FORMUL),
         # denk. (7) — hece katsayıları. Ortalama satırı bilinen sapma.
-        Karsilastirma("Bezirci & Yılmaz (2010) Table 3", "H values of the easiest text",
+        Karsilastirma("Bezirci & Yılmaz (2010) Table 3", _iki("en kolay metnin H değerleri", "H values of the easiest text"),
                       3.03, lambda: _bezirci_e7(1.36, 0.52, 0.24, 0.01), tur=FORMUL),
-        Karsilastirma("Bezirci & Yılmaz (2010) Table 3", "H values of the hardest text",
+        Karsilastirma("Bezirci & Yılmaz (2010) Table 3", _iki("en zor metnin H değerleri", "H values of the hardest text"),
                       18.82, lambda: _bezirci_e7(4.75, 3.21, 1.36, 0.20), tur=FORMUL),
-        Karsilastirma("Bezirci & Yılmaz (2010) Table 3", "mean H values",
+        Karsilastirma("Bezirci & Yılmaz (2010) Table 3", _iki("ortalama H değerleri", "mean H values"),
                       8.30, lambda: _bezirci_e7(2.57, 1.52, 0.59, 0.07), tur=FORMUL,
-                      gerekce="The paper prints the H6 mean as 0.07, but the value that yields "
-                              "8.30 is ~0.0684. The coefficient 26.25 inflates that rounding "
-                              "to 0.041; the coefficients themselves are correct."),
+                      gerekce=_iki(
+                          "Makale H6 ortalamasını 0,07 basmış, ama 8,30'u veren değer "
+                          "~0,0684. 26,25 katsayısı bu yuvarlamayı 0,041'e büyütüyor; "
+                          "katsayıların kendisi doğru.",
+                          "The paper prints the H6 mean as 0.07, but the value that yields "
+                          "8.30 is ~0.0684. The coefficient 26.25 inflates that rounding "
+                          "to 0.041; the coefficients themselves are correct.")),
     ],
     "arc_len_mean": [
         Karsilastirma("Jing & Liu (2015) p.164", "Figure 3 · 'Mr. Nixon was to…'",
@@ -511,7 +545,7 @@ KARSILASTIRMALAR: dict[str, list[Karsilastirma]] = {
     ],
     "mtld": [
         Karsilastirma("McCarthy & Jarvis (2010) p.385",
-                      "partial factor · TTR .887 → 40.4%", 0.404,
+                      _iki("kısmi faktör · TTR .887 → 40.4%", "partial factor · TTR .887 → 40.4%"), 0.404,
                       _mtld_kismi_faktor, tur=FORMUL),
     ],
     "ari": [
@@ -527,19 +561,20 @@ KARSILASTIRMALAR: dict[str, list[Karsilastirma]] = {
                       lambda: _kincaid_ort("fkgl"), _KINCAID_GEREKCE_FKGL),
     ],
     "activity_ratio": [
-        Karsilastirma("QUITA §6.2.2", "Text 1 · 26 verbs / 14 adjectives",
+        Karsilastirma("QUITA §6.2.2", _iki("Text 1 · 26 fiil / 14 sıfat", "Text 1 · 26 verbs / 14 adjectives"),
                       0.65, lambda: _quita_activity(26, 14), tur=FORMUL),
-        Karsilastirma("QUITA §6.2.2", "Text 2 · 35 verbs / 8 adjectives",
+        Karsilastirma("QUITA §6.2.2", _iki("Text 2 · 35 fiil / 8 sıfat", "Text 2 · 35 verbs / 8 adjectives"),
                       0.814, lambda: _quita_activity(35, 8), tur=FORMUL),
     ],
     "coleman_liau": [
         # Makalenin iki denklemi vs bizim birleşik formülümüz, aynı metin.
         Karsilastirma("Coleman & Liau (1975) p.284",
-                      "composition of the two equations · 13 words, 2 sentences",
+                      _iki("iki denklemin bileşimi · 13 kelime, 2 cümle",
+                           "composition of the two equations · 13 words, 2 sentences"),
                       _cl_iki_denklem(), _cl_bizim, tur=FORMUL),
         # Tablo 1'in kendi bastığı çift: sınıf 12 ↔ cloze %40,4.
         Karsilastirma("Coleman & Liau (1975) p.284, Table 1",
-                      "cloze 40.4% → grade 12", 12.0,
+                      _iki("cloze 40.4% → 12. sınıf", "cloze 40.4% → grade 12"), 12.0,
                       lambda: _cl_sinif(40.4), tur=FORMUL),
     ],
 }
@@ -552,14 +587,16 @@ KARSILASTIRMALAR: dict[str, list[Karsilastirma]] = {
 # karşılaştırma kaynağın kendi verisiyle yapılıyor.
 #
 # anahtar → (bölüm, Text 1 değeri, Text 2 değeri, örnek açıklaması)
-_QUITA_ORNEKLER: dict[str, tuple[str, float, float, str, str]] = {
+_QUITA_ORNEKLER: dict[str, tuple[str, float, float, str | dict[str, str],
+                                 str | dict[str, str]]] = {
     # Text 2'de kaynak 0,590 basmış ama kendi verdiği sayılar 121/202 = 0,599
     # veriyor: yayımlanmış değerde basım hatası var, bizimki aritmetik olarak
     # doğru olan. Sapma (+0,009) tolerans içinde kaldığı için satır ✅; neden
     # olduğu açıklama sütununda duruyor (2026-09-24, Efe).
     "ttr": ("§6.1.1", 0.665, 0.59,
             "Text 1 · V/N = 119/179",
-            "Text 2 · V/N = 121/202 = 0.599; source printed 0.590 (typo)"),
+            _iki("Text 2 · V/N = 121/202 = 0.599; kaynak 0.590 basmış (baskı hatası)",
+                 "Text 2 · V/N = 121/202 = 0.599; source printed 0.590 (typo)")),
     "lambda_pa": ("§6.1.7", 1.628, 1.5325,
                   "Text 1 · L·log₁₀N/N, L=129.3559482",
                   "Text 2 · L·log₁₀N/N, L=134.2787065"),
@@ -570,8 +607,8 @@ _QUITA_ORNEKLER: dict[str, tuple[str, float, float, str, str]] = {
                            "Text 1 · arccos(−0.374487816)",
                            "Text 2 · arccos(−0.269972586)"),
     "h_point": ("§6.1.2", 5.0, 4.75,
-                "Text 1 · rank 5 = frequency 5",
-                "Text 2 · interpolation, eq. (6.2)"),
+                _iki("Text 1 · sıra 5 = sıklık 5", "Text 1 · rank 5 = frequency 5"),
+                _iki("Text 2 · ara değerleme, eq. (6.2)", "Text 2 · interpolation, eq. (6.2)")),
     "vocab_richness_r1": ("§6.1.3", 0.8352, 0.838,
                           "Text 1 · N=179, h=5",
                           "Text 2 · N=202, h=4.75 → ⌊h⌋=4"),
@@ -647,21 +684,24 @@ def rapor_satirlari(lang: str = "tr") -> list[dict[str, object]]:
         kunye = tlf.describe_feature(anahtar)["citation"]
         for kars in KARSILASTIRMALAR.get(anahtar, []):
             bizim = kars.hesapla()
+            # ornek/gerekce ham kalır (str ya da {tr, en}); dil seçimi
+            # uret()'te, RAPORUN diline göre. `lang` burada analiz dili.
+            gerekce = kars.gerekce
             fark = bizim - kars.beklenen
             # ❌ "açıklanmamış fark" demek — legend'ın kendi tanımı bu.
             # Tolerans dışı bir fark, NEDENİ YAZILIYSA 🟡'dir. Gerekçesiz
             # kalan her tolerans aşımı ❌ olur ve yayın kapısını kapatır.
             # (2026-09-24, Efe onayı: Kincaid Ek A karşılaştırması.)
             if abs(fark) <= TOLERANS:
-                durum = SAPMA if (abs(fark) > 1e-3 and kars.gerekce) else BIREBIR
-            elif kars.gerekce:
+                durum = SAPMA if (abs(fark) > 1e-3 and gerekce) else BIREBIR
+            elif gerekce:
                 durum = SAPMA
             else:
                 durum = UYUSMAZLIK
             satirlar.append({"anahtar": anahtar, "kaynak": kars.kaynak,
                              "ornek": kars.ornek, "beklenen": kars.beklenen,
                              "bizim": bizim, "fark": fark, "durum": durum,
-                             "gerekce": kars.gerekce, "tur": kars.tur})
+                             "gerekce": gerekce, "tur": kars.tur})
         if anahtar not in KARSILASTIRMALAR:
             if not kunye:
                 durum = KAYNAK_YOK
@@ -1007,7 +1047,7 @@ def uret(dil: str = "tr") -> str:
         kanit = _KANIT_ADI[dil]
         for s in olculen:
             parcalar.append(
-                f"| `{s['anahtar']}` | {s['kaynak']} | {s['ornek']} "
+                f"| `{s['anahtar']}` | {s['kaynak']} | {_dilde(s['ornek'], dil)} "
                 f"| {kanit.get(s['tur'], s['tur'])} "
                 f"| {s['beklenen']:.3f} | {s['bizim']:.3f} | {s['fark']:+.3f} "
                 f"| {_SIMGE[s['durum']]} |\n")
@@ -1016,7 +1056,7 @@ def uret(dil: str = "tr") -> str:
         for s in olculen:
             if s["gerekce"]:
                 parcalar.append(m["sapma"].format(anahtar=s["anahtar"],
-                                                  gerekce=s["gerekce"]))
+                                                  gerekce=_dilde(s["gerekce"], dil)))
         # 🔍 açık ve "aday olmayan" ayrı bölümler — tek listede toplamak
         # aranacak sayısı olanla olmayanı karıştırıyordu.
         acik = [s for s in satirlar if s["durum"] == ACIK]

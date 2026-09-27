@@ -76,12 +76,12 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26) | formül | 6.438 | 6.438 | +0.000 | ✅ |
 | `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26) | formül | 6.395 | 6.395 | +0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formül | 0.665 | 0.665 | -0.000 | ✅ |
-| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; source printed 0.590 (typo) | formül | 0.590 | 0.599 | +0.009 | ✅ |
+| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; kaynak 0.590 basmış (baskı hatası) | formül | 0.590 | 0.599 | +0.009 | ✅ |
 | `hapax_percentage` | QUITA §6.1.6 | Text 1 · 98/179 | formül | 0.547 | 0.547 | +0.000 | ✅ |
 | `hapax_percentage` | QUITA §6.1.6 | Text 2 · 92/202 | formül | 0.455 | 0.455 | +0.000 | ✅ |
-| `mtld` | McCarthy & Jarvis (2010) p.385 | partial factor · TTR .887 → 40.4% | formül | 0.404 | 0.404 | +0.000 | ✅ |
-| `h_point` | QUITA §6.1.2 | Text 1 · rank 5 = frequency 5 | formül | 5.000 | 5.000 | +0.000 | ✅ |
-| `h_point` | QUITA §6.1.2 | Text 2 · interpolation, eq. (6.2) | formül | 4.750 | 4.750 | +0.000 | ✅ |
+| `mtld` | McCarthy & Jarvis (2010) p.385 | kısmi faktör · TTR .887 → 40.4% | formül | 0.404 | 0.404 | +0.000 | ✅ |
+| `h_point` | QUITA §6.1.2 | Text 1 · sıra 5 = sıklık 5 | formül | 5.000 | 5.000 | +0.000 | ✅ |
+| `h_point` | QUITA §6.1.2 | Text 2 · ara değerleme, eq. (6.2) | formül | 4.750 | 4.750 | +0.000 | ✅ |
 | `vocab_richness_r1` | QUITA §6.1.3 | Text 1 · N=179, h=5 | formül | 0.835 | 0.835 | -0.000 | ✅ |
 | `vocab_richness_r1` | QUITA §6.1.3 | Text 2 · N=202, h=4.75 → ⌊h⌋=4 | formül | 0.838 | 0.838 | +0.000 | ✅ |
 | `vocab_richness_r4` | QUITA §6.1.9 | Text 1 · 1−G | formül | 0.696 | 0.696 | +0.000 | ✅ |
@@ -102,31 +102,31 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `adjusted_modulus` | QUITA §6.1.13 | Text 2 · M=25.81931678 | formül | 11.200 | 11.200 | -0.000 | ✅ |
 | `writers_view_alpha` | QUITA §6.2.3 | Text 1 · arccos(−0.374487816) | formül | 1.955 | 1.955 | -0.000 | ✅ |
 | `writers_view_alpha` | QUITA §6.2.3 | Text 2 · arccos(−0.269972586) | formül | 1.844 | 1.844 | +0.000 | ✅ |
-| `activity_ratio` | QUITA §6.2.2 | Text 1 · 26 verbs / 14 adjectives | formül | 0.650 | 0.650 | +0.000 | ✅ |
-| `activity_ratio` | QUITA §6.2.2 | Text 2 · 35 verbs / 8 adjectives | formül | 0.814 | 0.814 | -0.000 | ✅ |
+| `activity_ratio` | QUITA §6.2.2 | Text 1 · 26 fiil / 14 sıfat | formül | 0.650 | 0.650 | +0.000 | ✅ |
+| `activity_ratio` | QUITA §6.2.2 | Text 2 · 35 fiil / 8 sıfat | formül | 0.814 | 0.814 | -0.000 | ✅ |
 | `arc_len_mean` | Jing & Liu (2015) p.164 | Figure 3 · 'Mr. Nixon was to…' | formül | 1.167 | 1.167 | +0.000 | ✅ |
 | `arc_len_mean` | Liu (2008) eq. (1) | 'I actually live in Beijing' · 5/4 | formül | 1.250 | 1.250 | +0.000 | ✅ |
 | `parse_depth_mean` | Jing & Liu (2015) p.164 | Figure 3 · MHD = 12/6 | formül | 2.000 | 2.000 | +0.000 | ✅ |
 | `ari` | Kincaid et al. (1975) p.8, Table 1 | Appendix A · 18 passages, mean | uçtan uca | 12.300 | 11.815 | -0.485 | 🟡 |
-| `coleman_liau` | Coleman & Liau (1975) p.284 | composition of the two equations · 13 words, 2 sentences | formül | 7.704 | 7.705 | +0.000 | ✅ |
-| `coleman_liau` | Coleman & Liau (1975) p.284, Table 1 | cloze 40.4% → grade 12 | formül | 12.000 | 11.994 | -0.006 | ✅ |
+| `coleman_liau` | Coleman & Liau (1975) p.284 | iki denklemin bileşimi · 13 kelime, 2 cümle | formül | 7.704 | 7.705 | +0.000 | ✅ |
+| `coleman_liau` | Coleman & Liau (1975) p.284, Table 1 | cloze 40.4% → 12. sınıf | formül | 12.000 | 11.994 | -0.006 | ✅ |
 | `atesman` | Ateşman (1997) | Kalyoncu & Memiş (2024) Table 9 · Text 2 | uçtan uca | 23.094 | 23.094 | -0.000 | ✅ |
-| `atesman` | Ateşman (1997) p.74 | calibration: easiest text | formül | 100.000 | 100.000 | -0.000 | ✅ |
-| `atesman` | Ateşman (1997) p.74 | calibration: hardest text | formül | 0.000 | 0.000 | +0.000 | ✅ |
+| `atesman` | Ateşman (1997) p.74 | kalibrasyon: en kolay metin | formül | 100.000 | 100.000 | -0.000 | ✅ |
+| `atesman` | Ateşman (1997) p.74 | kalibrasyon: en zor metin | formül | 0.000 | 0.000 | +0.000 | ✅ |
 | `cetinkaya_uzun` | Çetinkaya (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 2 | uçtan uca | 23.084 | 23.084 | -0.000 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 2 | uçtan uca | 30.423 | 30.392 | -0.031 | 🟡 |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 5 | E7 3.03 · OKS 7 | formül | 4.610 | 4.605 | -0.005 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 5 | E7 8.3 · OKS 10 | formül | 9.110 | 9.110 | +0.000 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 5 | E7 18.82 · OKS 14 | formül | 16.230 | 16.232 | +0.002 | ✅ |
-| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | H values of the easiest text | formül | 3.030 | 3.025 | -0.005 | ✅ |
-| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | H values of the hardest text | formül | 18.820 | 18.815 | -0.005 | ✅ |
-| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | mean H values | formül | 8.300 | 8.341 | +0.041 | 🟡 |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | en kolay metnin H değerleri | formül | 3.030 | 3.025 | -0.005 | ✅ |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | en zor metnin H değerleri | formül | 18.820 | 18.815 | -0.005 | ✅ |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | ortalama H değerleri | formül | 8.300 | 8.341 | +0.041 | 🟡 |
 
 **`ari` sapması:** Kaynağın sayıları 1975'te daktiloya takılı mekanik bir sayaçla **elle** üretildi (Ek B, ARI talimatı). 18 pasajın 17'sinde, kaynağın ARI'sını verecek vuruş sayısı bizim saydığımızın 0,996-1,041 katı — yani birkaç karakterlik fark. Pasaj 2 aykırı (oran 1,145) ve kaynağın kendi iki sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/kelime 6,269 gerektiriyor, metnin gerçek değeri 5,475; üstelik o ARI'nın ima ettiği kelime/cümle FKGL'yi 18,69 yapıyor, oysa Tablo 2 16,7 basmış. Bizim vuruş tanımımız ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten 4,24'e çıkarıyor, yani boşluksuz sayım doğru.
 
-**`bezirci_yilmaz` sapması:** The paper rounded its H6 intermediate value; the difference is 0.031 and both values fall in the same readability class (academic, 16+).
+**`bezirci_yilmaz` sapması:** Makale H6 ara değerini yuvarlamış; fark 0,031 ve iki değer de aynı okunabilirlik sınıfına düşüyor (akademik, 16+).
 
-**`bezirci_yilmaz` sapması:** The paper prints the H6 mean as 0.07, but the value that yields 8.30 is ~0.0684. The coefficient 26.25 inflates that rounding to 0.041; the coefficients themselves are correct.
+**`bezirci_yilmaz` sapması:** Makale H6 ortalamasını 0,07 basmış, ama 8,30'u veren değer ~0,0684. 26,25 katsayısı bu yuvarlamayı 0,041'e büyütüyor; katsayıların kendisi doğru.
 
 ### 🔍 Açık — doğrulanabilir, henüz doğrulanmadı
 
@@ -355,12 +355,12 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26) | formül | 6.438 | 6.438 | +0.000 | ✅ |
 | `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26) | formül | 6.395 | 6.395 | +0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formül | 0.665 | 0.665 | -0.000 | ✅ |
-| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; source printed 0.590 (typo) | formül | 0.590 | 0.599 | +0.009 | ✅ |
+| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; kaynak 0.590 basmış (baskı hatası) | formül | 0.590 | 0.599 | +0.009 | ✅ |
 | `hapax_percentage` | QUITA §6.1.6 | Text 1 · 98/179 | formül | 0.547 | 0.547 | +0.000 | ✅ |
 | `hapax_percentage` | QUITA §6.1.6 | Text 2 · 92/202 | formül | 0.455 | 0.455 | +0.000 | ✅ |
-| `mtld` | McCarthy & Jarvis (2010) p.385 | partial factor · TTR .887 → 40.4% | formül | 0.404 | 0.404 | +0.000 | ✅ |
-| `h_point` | QUITA §6.1.2 | Text 1 · rank 5 = frequency 5 | formül | 5.000 | 5.000 | +0.000 | ✅ |
-| `h_point` | QUITA §6.1.2 | Text 2 · interpolation, eq. (6.2) | formül | 4.750 | 4.750 | +0.000 | ✅ |
+| `mtld` | McCarthy & Jarvis (2010) p.385 | kısmi faktör · TTR .887 → 40.4% | formül | 0.404 | 0.404 | +0.000 | ✅ |
+| `h_point` | QUITA §6.1.2 | Text 1 · sıra 5 = sıklık 5 | formül | 5.000 | 5.000 | +0.000 | ✅ |
+| `h_point` | QUITA §6.1.2 | Text 2 · ara değerleme, eq. (6.2) | formül | 4.750 | 4.750 | +0.000 | ✅ |
 | `vocab_richness_r1` | QUITA §6.1.3 | Text 1 · N=179, h=5 | formül | 0.835 | 0.835 | -0.000 | ✅ |
 | `vocab_richness_r1` | QUITA §6.1.3 | Text 2 · N=202, h=4.75 → ⌊h⌋=4 | formül | 0.838 | 0.838 | +0.000 | ✅ |
 | `vocab_richness_r4` | QUITA §6.1.9 | Text 1 · 1−G | formül | 0.696 | 0.696 | +0.000 | ✅ |
@@ -381,14 +381,14 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `adjusted_modulus` | QUITA §6.1.13 | Text 2 · M=25.81931678 | formül | 11.200 | 11.200 | -0.000 | ✅ |
 | `writers_view_alpha` | QUITA §6.2.3 | Text 1 · arccos(−0.374487816) | formül | 1.955 | 1.955 | -0.000 | ✅ |
 | `writers_view_alpha` | QUITA §6.2.3 | Text 2 · arccos(−0.269972586) | formül | 1.844 | 1.844 | +0.000 | ✅ |
-| `activity_ratio` | QUITA §6.2.2 | Text 1 · 26 verbs / 14 adjectives | formül | 0.650 | 0.650 | +0.000 | ✅ |
-| `activity_ratio` | QUITA §6.2.2 | Text 2 · 35 verbs / 8 adjectives | formül | 0.814 | 0.814 | -0.000 | ✅ |
+| `activity_ratio` | QUITA §6.2.2 | Text 1 · 26 fiil / 14 sıfat | formül | 0.650 | 0.650 | +0.000 | ✅ |
+| `activity_ratio` | QUITA §6.2.2 | Text 2 · 35 fiil / 8 sıfat | formül | 0.814 | 0.814 | -0.000 | ✅ |
 | `arc_len_mean` | Jing & Liu (2015) p.164 | Figure 3 · 'Mr. Nixon was to…' | formül | 1.167 | 1.167 | +0.000 | ✅ |
 | `arc_len_mean` | Liu (2008) eq. (1) | 'I actually live in Beijing' · 5/4 | formül | 1.250 | 1.250 | +0.000 | ✅ |
 | `parse_depth_mean` | Jing & Liu (2015) p.164 | Figure 3 · MHD = 12/6 | formül | 2.000 | 2.000 | +0.000 | ✅ |
 | `ari` | Kincaid et al. (1975) p.8, Table 1 | Appendix A · 18 passages, mean | uçtan uca | 12.300 | 11.815 | -0.485 | 🟡 |
-| `coleman_liau` | Coleman & Liau (1975) p.284 | composition of the two equations · 13 words, 2 sentences | formül | 7.704 | 7.705 | +0.000 | ✅ |
-| `coleman_liau` | Coleman & Liau (1975) p.284, Table 1 | cloze 40.4% → grade 12 | formül | 12.000 | 11.994 | -0.006 | ✅ |
+| `coleman_liau` | Coleman & Liau (1975) p.284 | iki denklemin bileşimi · 13 kelime, 2 cümle | formül | 7.704 | 7.705 | +0.000 | ✅ |
+| `coleman_liau` | Coleman & Liau (1975) p.284, Table 1 | cloze 40.4% → 12. sınıf | formül | 12.000 | 11.994 | -0.006 | ✅ |
 | `flesch_kincaid_grade` | Kincaid et al. (1975) p.12, Table 2 | Appendix A · 18 passages, mean | uçtan uca | 10.700 | 10.362 | -0.338 | 🟡 |
 
 **`ari` sapması:** Kaynağın sayıları 1975'te daktiloya takılı mekanik bir sayaçla **elle** üretildi (Ek B, ARI talimatı). 18 pasajın 17'sinde, kaynağın ARI'sını verecek vuruş sayısı bizim saydığımızın 0,996-1,041 katı — yani birkaç karakterlik fark. Pasaj 2 aykırı (oran 1,145) ve kaynağın kendi iki sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/kelime 6,269 gerektiriyor, metnin gerçek değeri 5,475; üstelik o ARI'nın ima ettiği kelime/cümle FKGL'yi 18,69 yapıyor, oysa Tablo 2 16,7 basmış. Bizim vuruş tanımımız ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten 4,24'e çıkarıyor, yani boşluksuz sayım doğru.
