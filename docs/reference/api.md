@@ -3,6 +3,9 @@
 Ten names. Everything else in the package is private and may change
 without notice.
 
+Every function that takes `lang` defaults to `"tr"`. For English text,
+pass `lang="en"` explicitly.
+
 ```python
 import turkish_linguistic_features as tlf
 
@@ -38,7 +41,7 @@ Extracts every feature from one text. Returns a flat `dict`; values are
 | Parameter | Meaning |
 |---|---|
 | `text` | The text to analyse |
-| `lang` | `"tr"` or `"en"`. Anything else raises `ValueError`. Changes the feature set (208 vs 182) |
+| `lang` | `"tr"` (default) or `"en"`. Anything else raises `ValueError`. Changes the feature set (208 vs 182) |
 | `model` | spaCy model name. Defaults: `tr_core_news_md`, `en_core_web_sm` |
 | `groups` | Restrict to these groups; `None` means all |
 | `params` | Thresholds and window sizes. **`None` selects language-calibrated values** |
@@ -103,6 +106,10 @@ Splits a text into fixed-size pieces. `size` counts **spaCy tokens**
 than `min_fill × size` is discarded.
 
 Returned pieces are slices of the raw text, not re-joined tokens.
+
+Pass the text's language: tokenization rules differ (apostrophes,
+abbreviations), so the same English text gives different piece boundaries
+with the default `lang="tr"`.
 
 See: [TR](../tr/nasil/segmentleme.md) · [EN](../en/how-to/segmenting.md)
 

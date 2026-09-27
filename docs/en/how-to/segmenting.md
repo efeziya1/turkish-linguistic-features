@@ -122,5 +122,9 @@ segment_text(
 ) -> list[str]
 ```
 
+`lang` must match the text. It defaults to `"tr"`; apostrophes and
+abbreviations tokenize differently in the two languages, so splitting an
+English text without `lang="en"` shifts the segment boundaries.
+
 A segment's content is a **slice of the raw text**, not a re-joined token
 list. Punctuation, whitespace and line breaks survive unchanged.

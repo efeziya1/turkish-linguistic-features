@@ -68,6 +68,9 @@ print(len(oz))
 208
 ```
 
+`lang` verilmezse varsayılan `"tr"`'dir; İngilizce metin için `lang="en"`
+yazmanız gerekir.
+
 `analyze` **düz bir sözlük** döndürür: anahtarlar öznitelik adları, değerler
 sayılar. İç içe yapı yok, sınıf yok, `pandas` zorunluluğu yok.
 

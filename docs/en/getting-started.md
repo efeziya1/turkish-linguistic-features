@@ -70,6 +70,9 @@ print(len(oz))
 182
 ```
 
+`lang` defaults to `"tr"`. Leave it out and English text is analysed with the
+Turkish model and the Turkish feature set, so always pass `lang="en"`.
+
 `analyze` returns a **flat dictionary**: keys are feature names, values are
 numbers. No nesting, no classes, no `pandas` requirement.
 

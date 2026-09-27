@@ -120,5 +120,9 @@ segment_text(
 ) -> list[str]
 ```
 
+`lang` metnin diliyle aynı olmalı. Varsayılan `"tr"`; kesme işareti ve
+kısaltmalar iki dilde farklı tokenlara ayrıldığı için İngilizce bir metni
+`lang="en"` vermeden bölerseniz parça sınırları değişir.
+
 Parça içeriği **ham metin dilimidir** — yeniden birleştirilmiş token listesi
 değil. Yani noktalama, boşluk ve satır sonları olduğu gibi kalır.
