@@ -12,8 +12,8 @@ against the number that source published.
 import turkish_linguistic_features as tlf
 
 oz = tlf.analyze("Dil, insanın düşüncesini taşıyan en eski araçtır.", lang="tr")
-oz["avg_word_length"]     # 5.7667
-oz["atesman"]             # 70.9483  (Ateşman 1997 okunabilirlik)
+oz["avg_word_length"]     # 5.8571
+oz["atesman"]             # 77.2479  (Ateşman 1997 okunabilirlik)
 ```
 
 ---

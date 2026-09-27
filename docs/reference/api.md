@@ -1,6 +1,6 @@
 # Public API
 
-Nine names. Everything else in the package is private and may change
+Ten names. Everything else in the package is private and may change
 without notice.
 
 ```python
@@ -12,7 +12,7 @@ tlf.__all__
 ```text
 ['analyze', 'analyze_corpus', 'FeatureParams', 'segment_text', 'save_csv',
  'describe_feature', 'LinguisticFeaturesError', 'ModelNotFoundError',
- 'MissingDependencyWarning']
+ 'MissingDependencyWarning', 'ParagraphStructureWarning']
 ```
 
 ---
@@ -44,7 +44,7 @@ Extracts every feature from one text. Returns a flat `dict`; values are
 | `params` | Thresholds and window sizes. **`None` selects language-calibrated values** |
 | `custom_ngrams` | Token sequences to count; each becomes an `ng_*` key |
 | `show_progress` | Print progress to stdout |
-| `warn` | `False` silences `MissingDependencyWarning`; does not change the result |
+| `warn` | `False` silences `MissingDependencyWarning` and `ParagraphStructureWarning`; does not change the result |
 
 Raises `ModelNotFoundError` if the spaCy model is not installed.
 
@@ -164,6 +164,7 @@ counts. Nineteen fields; the full table is in
 | `LinguisticFeaturesError` | Base class for everything the library raises |
 | `ModelNotFoundError` | A required spaCy model is not installed. The message contains the install command |
 | `MissingDependencyWarning` | An optional package (`pandas`, `wordfreq`) is missing; the affected features return `nan` |
+| `ParagraphStructureWarning` | A text over 1000 words has no blank-line paragraph boundary; `para_*` features describe the whole text as one paragraph |
 
 Catching `LinguisticFeaturesError` catches every error the library raises
 on purpose. It does not catch errors from spaCy or Zeyrek.

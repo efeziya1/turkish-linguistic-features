@@ -11,8 +11,8 @@ number that source published.
 import turkish_linguistic_features as tlf
 
 oz = tlf.analyze("Dil, insanın düşüncesini taşıyan en eski araçtır.", lang="tr")
-oz["avg_word_length"]     # 5.7667
-oz["atesman"]             # 70.9483  (Ateşman 1997 readability)
+oz["avg_word_length"]     # 5.8571
+oz["atesman"]             # 77.2479  (Ateşman 1997 readability)
 ```
 
 ## Documentation
@@ -71,7 +71,7 @@ a harmless `W094` warning. Details in the
 
 ## The whole API
 
-Nine public names:
+Ten public names:
 
 ```python
 tlf.analyze(text, lang="tr")                     # 208 features (TR) / 182 (EN)
@@ -83,7 +83,8 @@ tlf.segment_text(long_text, size=1000)           # split a single text
 tlf.describe_feature("mtld")                     # what a key measures, and its source
 tlf.FeatureParams(mattr_window=100)              # metric constants
 
-# tlf.LinguisticFeaturesError  tlf.ModelNotFoundError  tlf.MissingDependencyWarning
+# tlf.LinguisticFeaturesError  tlf.ModelNotFoundError
+# tlf.MissingDependencyWarning  tlf.ParagraphStructureWarning
 ```
 
 Full signatures: [docs/reference/api.md](docs/reference/api.md).
@@ -92,7 +93,7 @@ Full signatures: [docs/reference/api.md](docs/reference/api.md).
 
 ```bash
 pip install -r requirements.txt
-pytest                          # 715 tests
+pytest                          # 727 tests; pytest -m "" adds 1 slow one
 ruff check .
 python scripts/dogrulama_raporu.py   # regenerate the verification reports
 python scripts/basvuru_uret.py       # regenerate the feature reference

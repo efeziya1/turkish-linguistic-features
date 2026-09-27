@@ -21,10 +21,10 @@ import turkish_linguistic_features as tlf
 oz = tlf.analyze("Language is the oldest instrument that carries thought.",
                  lang="en")
 len(oz)                   # 182
-oz["avg_word_length"]     # 5.0
+oz["avg_word_length"]     # 5.875
 ```
 
-The library has **nine** public names. That is all of them:
+The library has **ten** public names. That is all of them:
 
 | Name | What it does |
 |---|---|
@@ -37,8 +37,9 @@ The library has **nine** public names. That is all of them:
 | `LinguisticFeaturesError` | Base class for every error the library raises |
 | `ModelNotFoundError` | Raised when a spaCy model is missing |
 | `MissingDependencyWarning` | Warned when an optional package is missing |
+| `ParagraphStructureWarning` | Warned when a text over 1000 words has no paragraph boundary |
 
-Nine names, 208 features. You never need to learn a new function to get
+Ten names, 208 features. You never need to learn a new function to get
 more features — they all come out of `analyze`.
 
 ## Terms

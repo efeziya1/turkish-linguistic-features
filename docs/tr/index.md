@@ -19,10 +19,10 @@ import turkish_linguistic_features as tlf
 
 oz = tlf.analyze("Dil, insanın düşüncesini taşıyan en eski araçtır.", lang="tr")
 len(oz)                   # 208
-oz["avg_word_length"]     # 5.7667
+oz["avg_word_length"]     # 5.8571
 ```
 
-Kütüphanenin **dokuz** genel adı var, hepsi bu kadar:
+Kütüphanenin **on** genel adı var, hepsi bu kadar:
 
 | Ad | Ne yapar |
 |---|---|
@@ -35,8 +35,9 @@ Kütüphanenin **dokuz** genel adı var, hepsi bu kadar:
 | `LinguisticFeaturesError` | Kütüphanenin bütün hatalarının atası |
 | `ModelNotFoundError` | spaCy modeli kurulu değilse |
 | `MissingDependencyWarning` | İsteğe bağlı bir paket yoksa |
+| `ParagraphStructureWarning` | 1000 kelimeyi geçen metinde paragraf sınırı bulunamazsa |
 
-Dokuz ad, 208 öznitelik. Öznitelik eklemek için yeni fonksiyon öğrenmenize
+On ad, 208 öznitelik. Öznitelik eklemek için yeni fonksiyon öğrenmenize
 gerek yok — hepsi `analyze`'dan çıkar.
 
 ## Terimler
