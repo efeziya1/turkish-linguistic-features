@@ -82,7 +82,7 @@ Full signatures: [docs/reference/api.md](docs/reference/api.md).
 
 ```bash
 pip install -r requirements.txt
-pytest                          # 727 tests; pytest -m "" adds 1 slow one
+pytest                          # 731 tests; pytest -m "" adds 1 slow one
 ruff check .
 python scripts/dogrulama_raporu.py   # regenerate the verification reports
 python scripts/basvuru_uret.py       # regenerate the feature reference

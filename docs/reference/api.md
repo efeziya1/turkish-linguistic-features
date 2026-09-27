@@ -78,6 +78,10 @@ alongside the features.
 `segment_size` applies **per file**, not across the corpus. Leave it
 `None` to analyse each file whole.
 
+Files must be UTF-8 (a leading BOM is ignored). Otherwise
+`LinguisticFeaturesError` is raised before any analysis, naming every file
+that could not be decoded.
+
 See: [TR](../tr/nasil/korpus.md) · [EN](../en/how-to/corpus.md)
 
 ---

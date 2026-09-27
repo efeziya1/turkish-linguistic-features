@@ -17,6 +17,9 @@ corpus/
 The label does not have to be an author — period, genre, grade level,
 experimental arm, whatever you are measuring.
 
+Files must be **UTF-8**. If any file is not, you get an error before the
+analysis starts, listing every unreadable file by name.
+
 ## Two calls
 
 ```python

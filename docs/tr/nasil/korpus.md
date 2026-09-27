@@ -16,6 +16,9 @@ korpus/
 Etiket yazar olmak zorunda değil — dönem, tür, sınıf düzeyi, deney kolu,
 ne ölçüyorsanız o.
 
+Dosyalar **UTF-8** olmalı. UTF-8 olmayan dosya varsa analiz başlamadan hata
+verilir ve okunamayan dosyaların hepsi adıyla listelenir.
+
 ## İki çağrı
 
 ```python
