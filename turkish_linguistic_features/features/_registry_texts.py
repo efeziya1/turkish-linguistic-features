@@ -246,8 +246,9 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'custom_ngrams': 'rate of a user-supplied word sequence',
 }
 
-# Anahtar → NASIL hesaplandığı. Dinamik gruplarda anahtar başına değil,
-# GRUP adıyla tek satır — 183 satır yazmak gerekmiyor.
+# Anahtar → NASIL hesaplandığı. Anahtarın kendi satırı yoksa describe_feature
+# grup adındaki satıra düşer; bu yalnız dinamik gruplarda (chars, custom_ngrams)
+# var, 183 statik anahtarın hepsinin kendi satırı var.
 FEATURE_FORMULAS: dict[str, str] = {
     # ── lexical ─────────────────────────────────────────────────
     'n_lemma_count': 'V over lemmas',
