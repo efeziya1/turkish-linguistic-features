@@ -1,11 +1,11 @@
 # turkish-linguistic-features
 
-Türkçe metinden **208**, İngilizce metinden **182 nicel dilbilimsel öznitelik**
+Türkçe metinden **208**, İngilizce metinden **180 nicel dilbilimsel öznitelik**
 çıkarır. Her özniteliğin formülü yazılıdır; Türkçedeki 208 özniteliğin 141'i
 literatürde bir kaynağa dayanır, geri kalanı saf tanımdır. Bir kısmı da
 kaynağın yayımladığı sayıyla karşılaştırılmıştır.
 
-Extracts **208 quantitative linguistic features** from Turkish text and **182**
+Extracts **208 quantitative linguistic features** from Turkish text and **180**
 from English. Every feature has its formula written out; 141 of the 208
 Turkish features rest on a source in the literature, the rest are plain
 definitions. Some have also been checked against the number their source
@@ -59,7 +59,7 @@ oz["atesman"]             # 77.2479  (Ateşman 1997 okunabilirlik)
 | | |
 |---|---|
 | Öznitelik (Türkçe) | 208 |
-| Öznitelik (İngilizce) | 182 |
+| Öznitelik (İngilizce) | 180 |
 | Künyesi olan öznitelik (Türkçe) | 141 |
 | Künyesi olmayan, saf tanım (Türkçe) | 67 |
 | Kaynakçadaki eser | 45 |

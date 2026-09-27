@@ -59,7 +59,7 @@ BOS_GIRDI = dict(raw_text="", surface_tokens=[], lemma_tokens=[], pos_data=[],
 # Sözleşme §6'dan türetilmiş beklenti — koddan ölçülmedi.
 # TR taban 208; `dep_data` verilmediği için `syntactic_dep` (16) atlanır.
 TR_DEP_SIZ = 208 - 16
-EN_DEP_SIZ = 182 - 16
+EN_DEP_SIZ = 180 - 16
 
 
 # ── 🔴 registry tutarlılık testi — projenin sigortası ─────────────────
@@ -136,6 +136,18 @@ def test_okunabilirlik_dile_gore_ayriliyor():
     assert {"flesch_reading_ease", "flesch_kincaid_grade", "smog",
             "polysyllabic_word_ratio"} <= set(en)
     assert not {"flesch_reading_ease", "smog"} & set(tr)
+
+
+@pytest.mark.cmudict            # İngilizce hece sayımı
+def test_unlu_uyumu_yalniz_turkcede():
+    """Ünlü uyumu Türkçeye özgü (Göksel & Kerslake 2005): EN'de anahtar hiç yok."""
+    uyum = {"harmony_fronting_ratio", "harmony_rounding_ratio"}
+    tr = _extract_features(**ORNEK_GIRDI)
+    en = _extract_features(**{**ORNEK_GIRDI, "lang": "en"})
+    assert uyum <= set(tr)
+    assert not uyum & set(en)
+    for k in uyum:
+        assert "(TR only)" in describe_feature(k)["description"]
 
 
 @pytest.mark.cmudict            # İngilizce hece sayımı

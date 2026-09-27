@@ -332,17 +332,17 @@ A key may have more than one worked example in its source; each one is its own r
 | `char_y` | — | ⚪ |
 | `char_z` | — | ⚪ |
 
-## English — 182 keys, 199 rows
+## English — 180 keys, 197 rows
 
 A key may have more than one worked example in its source; each one is its own row.
 
-**Verification candidates — 83 rows**
+**Verification candidates — 81 rows**
 
 | Status | Rows |
 |---|---|
 | ✅ exact | 36 |
 | 🟡 documented deviation | 2 |
-| 🔍 open — no worked example in source | 45 |
+| 🔍 open — no worked example in source | 43 |
 
 
 **Not verification candidates — 116 rows.** There is no published number to look for in these.
@@ -402,7 +402,7 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### 🔍 Open — verifiable, not yet verified
 
-45 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
+43 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
 
 | Key | Source | Status |
 |---|---|---|
@@ -437,8 +437,6 @@ A key may have more than one worked example in its source; each one is its own r
 | `pos_kl_div` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv), in bits | 🔍 |
 | `front_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `back_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
-| `harmony_fronting_ratio` | Göksel & Kerslake (2005) §3.1 (fronting harmony); exceptions §3.4 — the measure counts them as disharmonic | 🔍 |
-| `harmony_rounding_ratio` | Göksel & Kerslake (2005) §3.1 (rounding harmony); strictly a suffix phenomenon, measured here as a whole-word pattern | 🔍 |
 | `syllable_mean` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_cv` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_1_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |

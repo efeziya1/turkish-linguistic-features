@@ -17,20 +17,22 @@ tr = tlf.analyze(tr_metin, lang="tr")
 en = tlf.analyze(en_metin, lang="en")
 
 len(tr)   # 208
-len(en)   # 182
+len(en)   # 180
 ```
 
-Aradaki 26'nın dökümü:
+Aradaki 28'in dökümü:
 
 - **+24** Zeyrek ek çözümlemesi (`morphological_zeyrek`; ek zinciri,
   durum ekleri, kip ve zaman) — yalnız Türkçe.
+- **+2** ünlü uyumu (`harmony_fronting_ratio`, `harmony_rounding_ratio`) —
+  Türkçenin özelliği; İngilizcede üretilmez.
 - **+3** harf: Türkçe alfabe 29 harf, İngilizce 26 (`ç ğ ı ö ş ü` yalnız
   Türkçede, `q w x` yalnız İngilizcede).
 - **−1** okunabilirlik: Türkçede üç formül (Ateşman, Çetinkaya-Uzun,
   Bezirci-Yılmaz), İngilizcede dört (Flesch, Flesch-Kincaid, SMOG ve çok
   heceli kelime oranı); ortak olanlar iki dilde de var.
 
-Ünlü uyumu öznitelikleri iki dilde de üretilir.
+`phonetic` grubu Türkçede 15, İngilizcede 13 öznitelik içerir.
 
 `lang` yalnız `"tr"` ve `"en"` alır. Başka bir değer `ValueError` verir.
 

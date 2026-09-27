@@ -151,7 +151,7 @@ def test_ingilizce_taban_sema():
         "The small child was playing in the garden. His mother called him inside.\n\n"
         "The child came running, looking tired."
     )
-    assert len(_extract_features(**pt.to_dict())) == 182
+    assert len(_extract_features(**pt.to_dict())) == 180
 
 
 # ── hata yolu ─────────────────────────────────────────────────────────

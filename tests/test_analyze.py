@@ -14,7 +14,7 @@ tr_model = pytest.mark.tr_model
 en_model = pytest.mark.en_model
 
 TR_TABAN = 208
-EN_TABAN = 182
+EN_TABAN = 180
 
 
 # ── önbellek — model gerektirmez ──────────────────────────────────────

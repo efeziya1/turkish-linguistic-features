@@ -162,7 +162,7 @@ def _extract_features(
     Returns
     -------
     dict[str, float]
-        Anahtar → değer. Türkçe taban 208, İngilizce 182; ``dep_data``
+        Anahtar → değer. Türkçe taban 208, İngilizce 180; ``dep_data``
         verilmezse her ikisinden de 16 eksik.
 
     Raises
@@ -304,10 +304,13 @@ def _extract_features(
     if istiyor("morphological_zeyrek") and lang == "tr" and morpheme_lists is not None:
         feats.update(zeyrek_morfoloji(morpheme_lists, pos_data, params))
 
-    # ── phonetic (14) ─────────────────────────────────────────────────
+    # ── phonetic (TR 15 · EN 13) ──────────────────────────────────────
     if istiyor("phonetic"):
         feats.update(vowel_ratios(raw_text, lang))
-        feats.update(vowel_harmony_ratios(surface_tokens, lang))
+        # Ünlü uyumu Türkçeye özgü (Göksel & Kerslake 2005); İngilizcede
+        # anlamı yok, anahtar hiç üretilmez — Zeyrek ve okunabilirlikle aynı.
+        if lang == "tr":
+            feats.update(vowel_harmony_ratios(surface_tokens, lang))
         feats.update(syllable_count_stats(surface_tokens, lang))
         feats.update(syllable_length_distribution(surface_tokens, lang))
         feats.update(sentence_syllable_stats(cumleler, lang))

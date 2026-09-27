@@ -46,7 +46,7 @@ def test_grup_sayilari():
 
 
 def test_statik_anahtar_sayisi():
-    """Sözleşme §4 toplamı: 183 statik anahtar (TR 208, EN 182 dinamikle)."""
+    """Sözleşme §4 toplamı: 183 statik anahtar (TR 208, EN 180 dinamikle)."""
     assert len(TUM_STATIK) == 183
 
 

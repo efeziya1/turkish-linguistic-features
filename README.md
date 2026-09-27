@@ -2,14 +2,14 @@
 
 [![CI](https://github.com/efeziya1/turkish-linguistic-features/actions/workflows/ci.yml/badge.svg)](https://github.com/efeziya1/turkish-linguistic-features/actions/workflows/ci.yml)
 
-Extracts **208 quantitative linguistic features** from Turkish text and 182
+Extracts **208 quantitative linguistic features** from Turkish text and 180
 from English. Every feature has its formula written out; 141 of the Turkish
 features cite a source in the literature, the rest are plain definitions
 (such as a letter's share of the text). The
 [verification report](docs/verification-report.md) shows which ones have been
 checked against a number their source published.
 
-**Status: early development (0.1.0).** Not on PyPI yet.
+**Status: early development (0.1.0).** Not on PyPI yet. Changes: [CHANGELOG](CHANGELOG.md).
 
 ```python
 import turkish_linguistic_features as tlf
@@ -70,7 +70,7 @@ loading it prints a `W094` warning; both are harmless
 Ten public names:
 
 ```python
-tlf.analyze(text, lang="tr")                     # 208 features (TR) / 182 (EN)
+tlf.analyze(text, lang="tr")                     # 208 features (TR) / 180 (EN)
 tlf.analyze(text, groups=["readability"])        # one group only
 tlf.analyze_corpus("corpus/")                    # one row per file
 tlf.analyze_corpus("corpus/", segment_size=1000) # or split into chunks

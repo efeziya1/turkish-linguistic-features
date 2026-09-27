@@ -18,20 +18,22 @@ tr = tlf.analyze(tr_text, lang="tr")
 en = tlf.analyze(en_text, lang="en")
 
 len(tr)   # 208
-len(en)   # 182
+len(en)   # 180
 ```
 
-The 26-feature difference breaks down as:
+The 28-feature difference breaks down as:
 
 - **+24** Zeyrek suffix analysis (`morphological_zeyrek`: suffix chain,
   case markers, mood and tense) — Turkish only.
+- **+2** vowel harmony (`harmony_fronting_ratio`, `harmony_rounding_ratio`) —
+  a property of Turkish; not produced for English.
 - **+3** letters: the Turkish alphabet has 29, English 26 (`ç ğ ı ö ş ü`
   only in Turkish, `q w x` only in English).
 - **−1** readability: three formulas in Turkish (Ateşman, Çetinkaya-Uzun,
   Bezirci-Yılmaz), four in English (Flesch, Flesch-Kincaid, SMOG and the
   polysyllabic word ratio); the shared ones exist in both.
 
-The vowel harmony features are produced in both languages.
+The `phonetic` group has 15 features in Turkish and 13 in English.
 
 `lang` accepts only `"tr"` and `"en"`. Anything else raises `ValueError`.
 

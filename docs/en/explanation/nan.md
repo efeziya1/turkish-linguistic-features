@@ -20,10 +20,10 @@ len(short), len(nans)
 ```
 
 ```text
-(182, 42)
+(180, 42)
 ```
 
-**42 of 182** features are `nan`. Examples:
+**42 of 180** features are `nan`. Examples:
 
 ```text
 ['dugast_u', 'entropy_std', 'hdd', 'heaps_beta', 'mattr',

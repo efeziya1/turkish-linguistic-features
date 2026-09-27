@@ -6,7 +6,8 @@ döndürür: ne ölçtüğü, nasıl hesaplandığı, hangi ölçekte olduğu, h
 kadar metin gerektirdiği ve künyesi. Kullanıcı üç ayrı sözlüğe bakmak zorunda
 kalmasın diye tek giriş noktası budur.
 
-Taban şema **TR 208 · EN 182**: 183 statik anahtar + dile göre 26–29 ``char_*``.
+Taban şema **TR 208 · EN 180**: 183 statik anahtardan dile özgü olanlar + dile
+göre 26–29 ``char_*``.
 ``custom_ngrams`` istenmedikçe anahtar üretmez, bu yüzden toplama girmez.
 14 grup = 12 statik + 2 dinamik.
 
