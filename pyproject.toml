@@ -8,9 +8,10 @@ dynamic = ["version"]
 description = "A comprehensive toolkit for extracting quantitative linguistic features from Turkish and English text."
 readme = "README.md"
 keywords = [
-    "turkish", "text-analysis", "feature-extraction", "stylometry-features",
-    "nlp", "computational-linguistics", "digital-humanities",
-    "readability", "lexical-richness", "morphology",
+    "quantitative-linguistics", "computational-linguistics", "corpus-linguistics",
+    "stylometry", "turkish", "english", "feature-extraction", "text-analysis",
+    "natural-language-processing", "readability", "lexical-richness",
+    "lexical-diversity", "syntactic-complexity", "morphology", "digital-humanities",
 ]
 requires-python = ">=3.10"
 license = { text = "MIT" }
