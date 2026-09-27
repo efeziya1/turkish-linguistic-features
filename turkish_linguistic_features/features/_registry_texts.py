@@ -672,7 +672,7 @@ FEATURE_CITATIONS: dict[str, str] = {
     'ttr': 'Malvern et al. (2004); QUITA §6.1.1',
     'mattr':
         "Covington & McFall (2010); default window 50 — C&M's own recommendation is "
-        '500, 50 was settled on after measurement (2026-09-23)',
+        '500, 50 was settled on after measurement',
     'herdan_c':
         'Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)',
     'sichel_s': 'Sichel (1975); formula from Malvern et al. (2004) eq. 3.10',

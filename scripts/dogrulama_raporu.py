@@ -766,7 +766,7 @@ doğrulamaz. Kaynak bir metin yayımlamamışsa elde olan budur.
 
 Bu rapor **testlerden üretilir** — `tests/test_kaynak_esligi.py` ile aynı
 karşılaştırma tablosunu okur, yani ikisi ayrışamaz. Diğer bilinen-değer
-testleri (T04B, T05–T07, T10, T13) kendi dosyalarında duruyor.
+testleri kendi dosyalarında duruyor.
 
 """
 
@@ -822,7 +822,7 @@ source published no text.
 
 This report is **generated from the tests** — it reads the same comparison
 table as `tests/test_kaynak_esligi.py`, so the two cannot drift apart. The
-other known-value tests (T04B, T05–T07, T10, T13) live in their own files.
+other known-value tests live in their own files.
 
 """
 

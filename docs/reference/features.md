@@ -59,7 +59,7 @@ published is a separate question — see the
 | `avg_word_length` | mean word length in characters | `sum(len(w)) / N` | at least 1 word | — |
 | `word_length_cv` | spread of word length | `std(len(w)) / mean(len(w)), population std` | at least 2 words | — |
 | `ttr` | type-token ratio; falls as the text grows | `V / N` | at least 1 word | Malvern et al. (2004); QUITA §6.1.1 |
-| `mattr` | moving-average TTR | `mean TTR of every sliding window of mattr_window words` | at least 100 words (2 x mattr_window) | Covington & McFall (2010); default window 50 — C&M's own recommendation is 500, 50 was settled on after measurement (2026-09-23) |
+| `mattr` | moving-average TTR | `mean TTR of every sliding window of mattr_window words` | at least 100 words (2 x mattr_window) | Covington & McFall (2010); default window 50 — C&M's own recommendation is 500, 50 was settled on after measurement |
 | `entropy_std` | how much word entropy varies across the text | `population std of entropies (bits) of disjoint mattr_window-word chunks` | at least 100 words (2 x mattr_window) | Shannon (1948) — the entropy formula; the standard deviation across segments is this library's own derivation |
 | `herdan_c` | Herdan's C (LogTTR) | `log(V) / log(N)` | at least 2 words | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) |
 | `sichel_s` | share of types occurring exactly twice | `V2 / V` | at least 1 word | Sichel (1975); formula from Malvern et al. (2004) eq. 3.10 |

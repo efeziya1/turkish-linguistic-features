@@ -82,16 +82,6 @@ FeatureParams(mattr_window=100)   short=0.333333   long=0.333333
 
 İki satır aynı, çünkü `mattr_window` cümle eşikleriyle ilgisiz.
 
-!!! note "2026-09-24'te değişti"
-
-    Bu davranış eskiden farklıydı: `params` verdiğiniz anda eşikler, hiçbir
-    dil için kalibre edilmemiş 5/30'a düşüyordu. Aynı metinde o değerler
-    `short=0.666667` ve `long=0.0` veriyordu — dört kelimelik cümleyi kısa
-    sayıyor, on dokuz kelimeliği uzun saymıyordu.
-
-    5/30 artık bir varsayılan değil. `FeatureParams`'ın iki eşik alanı
-    varsayılan olarak `None` ve "dile göre çözümle" demek.
-
 ## Hangi öznitelik hangi parametreden etkilenir
 
 ```python

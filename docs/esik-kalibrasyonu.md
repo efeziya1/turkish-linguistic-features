@@ -3,7 +3,7 @@
 `short_sent_threshold` ve `long_sent_threshold` yayımlanmış bir kaynaktan
 alınmadı, roman korpuslarında ölçülerek seçildi. Bu belge ölçümü kayda geçirir.
 
-**Ölçüm:** 2026-07-28 · **Bu depoya taşındı:** 2026-09-23
+**Ölçüm:** 2026-07-28
 
 ## Sonuç
 
@@ -48,11 +48,10 @@ eşiği oradan türetmek döngüsel olurdu.
 
 ## Neden dile özgü eşik
 
-Önceki sürüm iki dil için tek bir çift kullanıyordu: 5 ve 30. Tablo bunun iki
-dilde de yanlış yerde durduğunu gösteriyor. Türkçede 30 sözcük 95. yüzdeliğin
-(28) bile üstünde — `long_sent_ratio` pratikte sıfır üretiyordu. İngilizcede
-aynı sayı tam 75. yüzdeliğe denk geliyor, yani "uzun" diye işaretlenen kesim
-metnin çeyreği oluyordu.
+İki dil için tek bir eşik çifti, örneğin 5 ve 30, iki dilde de yanlış yerde
+durur. Türkçede 30 sözcük 95. yüzdeliğin (28) bile üstünde — `long_sent_ratio`
+pratikte sıfır üretir. İngilizcede aynı sayı tam 75. yüzdeliğe denk gelir,
+yani "uzun" diye işaretlenen kesim metnin çeyreği olur.
 
 Sebebi tipolojik: Türkçe sondan eklemeli, tek sözcük analitik bir dilde yan
 cümlenin taşıdığı bilgiyi yüklenebiliyor. Yüzeysel sözcük sayısı iki dilde aynı
@@ -60,9 +59,8 @@ cümlenin taşıdığı bilgiyi yüklenebiliyor. Yüzeysel sözcük sayısı iki
 
 ## 15./85. mi, 10./90. mı
 
-İlk öneri 10./90.'dı. 15./85. önerisi geldiğinde varsayım kabul edilmeden önce
-ölçüldü: `short_sent_ratio` ve `long_sent_ratio` değerlerinin **yazar kimliği
-tarafından açıklanan varyans oranı** (η²) iki seçenek için karşılaştırıldı.
+İki aday, `short_sent_ratio` ve `long_sent_ratio` değerlerinin **yazar kimliği
+tarafından açıklanan varyans oranı** (η²) üzerinden karşılaştırıldı.
 
 | | 10./90. | 15./85. |
 |---|---|---|
@@ -76,9 +74,8 @@ eşit, çünkü Türkçede 10. ve 15. yüzdelik aynı değeri (4,0) veriyor.
 
 ## Ateşman (1997) ile karşılaştırma
 
-Kalibrasyondan sonra Ateşman'ın birincil kaynağı bulundu. Makale s.74'te
-formülün kalibrasyon uçlarını veriyor: en kolay metin ortalama **4** sözcüklük
-cümle, en zor metin **30**.
+Ateşman (1997), s.74'te formülün kalibrasyon uçlarını veriyor: en kolay metin
+ortalama **4** sözcüklük cümle, en zor metin **30**.
 
 Türkçe `short_sent_threshold=4`, Ateşman'ın "en kolay metin" değeriyle birebir
 aynı. İki bağımsız yol — 1997'de metin zorluğu üzerinden küme analizi, 2026'da
@@ -89,19 +86,9 @@ Ateşman'ın 30'u `long` için **kullanılmadı**: o sayı en zor metnin ortalam
 tek bir cümlenin "uzun" sayılma eşiği değil. Eşik olarak kullanıldığında
 Türkçede 95. yüzdeliğin üstünde kalıyor.
 
-!!! note "Yanlış atıf uyarısı"
-
-    Bir dil modeli "1-10 kısa / 11-20 orta / 21+ uzun" biçiminde bir cümle
-    sınıflandırmasını Ateşman'a atfetti. Makalenin dört sayfası da okundu;
-    **böyle bir şema yok**. s.74'teki sınıflandırma tablosu *okunabilirlik
-    puanının* bantlarıdır (90-100 çok kolay … 1-29 çok zor). Şemanın kaynağı
-    bilinmiyor.
-
 ## Kapsam sınırı
 
-🔴 **Eşikler yalnız roman/kurgu türü için kalibre edildi.** İngilizce korpus:
-Christie, Doyle, Dickens, Fitzgerald, Hemingway, Melville, Austen, Tolkien,
-Hardy, Chesterton. Türkçe korpus: 15 roman yazarı.
+🔴 **Eşikler yalnız roman/kurgu türü için kalibre edildi.**
 
 Teknik metin, transkript, şiir, hukuk metni ya da ders kitabında aynı
 eşiklerin uygun olacağı **garanti değildir**. Bu türlerle çalışıyorsanız kendi

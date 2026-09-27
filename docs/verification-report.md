@@ -50,7 +50,7 @@ source published no text.
 
 This report is **generated from the tests** — it reads the same comparison
 table as `tests/test_kaynak_esligi.py`, so the two cannot drift apart. The
-other known-value tests (T04B, T05–T07, T10, T13) live in their own files.
+other known-value tests live in their own files.
 
 
 ## Turkish — 208 keys, 233 rows
@@ -142,7 +142,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `yule_k` | Yule (1944), as cited in Malvern et al. (2004) eq. 3.9 | 🔍 |
 | `simpson_d` | Simpson (1949), as cited in Bestgen (2023) | 🔍 |
 | `brunet_w` | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) | 🔍 |
-| `mattr` | Covington & McFall (2010); default window 50 — C&M's own recommendation is 500, 50 was settled on after measurement (2026-09-23) | 🔍 |
+| `mattr` | Covington & McFall (2010); default window 50 — C&M's own recommendation is 500, 50 was settled on after measurement | 🔍 |
 | `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) | 🔍 |
 | `dugast_u` | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 | 🔍 |
 | `guiraud_r` | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only | 🔍 |
@@ -409,7 +409,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `yule_k` | Yule (1944), as cited in Malvern et al. (2004) eq. 3.9 | 🔍 |
 | `simpson_d` | Simpson (1949), as cited in Bestgen (2023) | 🔍 |
 | `brunet_w` | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) | 🔍 |
-| `mattr` | Covington & McFall (2010); default window 50 — C&M's own recommendation is 500, 50 was settled on after measurement (2026-09-23) | 🔍 |
+| `mattr` | Covington & McFall (2010); default window 50 — C&M's own recommendation is 500, 50 was settled on after measurement | 🔍 |
 | `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) | 🔍 |
 | `dugast_u` | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 | 🔍 |
 | `guiraud_r` | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only | 🔍 |

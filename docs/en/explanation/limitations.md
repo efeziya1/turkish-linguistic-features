@@ -109,7 +109,7 @@ paragraph. `para_len_mean` becomes the word count of the entire text and both
 CVs return NaN. The library cannot fix this — a boundary that was deleted
 cannot be recovered.
 
-This is **common** in text extracted from PDF and EPUB. Measured (2026-09-24):
+This is **common** in text extracted from PDF and EPUB. Measured:
 in one Turkish novel collection, **120 of 163** files contain no blank line at
 all; one file is a single line of 191,806 characters and 7,347 sentences.
 

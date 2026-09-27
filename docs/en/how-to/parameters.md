@@ -85,17 +85,6 @@ FeatureParams(mattr_window=100)   short=0.333333   long=0.333333
 The two rows match, because `mattr_window` has nothing to do with sentence
 thresholds.
 
-!!! note "Changed on 2026-09-24"
-
-    This used to behave differently: the moment you passed `params`, the
-    thresholds dropped to 5/30, which is calibrated for no language at all.
-    On the same text those values gave `short=0.666667` and `long=0.0` —
-    counting the four-word sentence as short and not counting the
-    nineteen-word one as long.
-
-    5/30 is no longer a default. Both threshold fields of `FeatureParams`
-    now default to `None`, which means "resolve by language".
-
 ## Which feature depends on which parameter
 
 ```python

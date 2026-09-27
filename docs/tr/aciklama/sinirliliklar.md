@@ -105,7 +105,7 @@ Sonuç: metninizde boş satır yoksa metnin tamamı tek paragraf sayılır.
 `para_len_mean` bütün metnin kelime sayısına eşitlenir, iki CV NaN döner.
 Kütüphane bunu düzeltemez — silinmiş paragraf sınırı geri getirilemez.
 
-Bu, PDF ve EPUB'dan çıkarılmış metinlerde **yaygındır**. Ölçüldü (2026-09-24):
+Bu, PDF ve EPUB'dan çıkarılmış metinlerde **yaygındır**. Ölçüldü:
 elimizdeki bir Türkçe roman derlemesinde 163 dosyanın **120'sinde** hiç boş
 satır yok; bir dosyanın tamamı tek satır (191.806 karakter, 7.347 cümle).
 

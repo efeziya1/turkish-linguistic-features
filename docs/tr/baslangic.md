@@ -156,7 +156,7 @@ print(json.dumps(tlf.describe_feature("mattr"), ensure_ascii=False, indent=2))
   "inputs": ["surface_tokens", "lemma_tokens", "pos_data"],
   "params": ["mattr_window"],
   "requires": "at least 100 words (2 x mattr_window)",
-  "citation": "Covington & McFall (2010); default window 50 — C&M's own recommendation is 500, 50 was settled on after measurement (2026-09-23)",
+  "citation": "Covington & McFall (2010); default window 50 — C&M's own recommendation is 500, 50 was settled on after measurement",
   "references": [
     "Covington, M. A., & McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098"
   ]
