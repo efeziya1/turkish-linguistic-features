@@ -254,7 +254,8 @@ def test_heaps_beta_tek_gecis_eskisiyle_birebir():
     """Tek geçişli sayım, eski ``len(set(tokens[:kesim]))`` ile BİREBİR aynı sonucu verir.
 
     Uzunluk, sözlük büyüklüğü, ``min_tokens`` ve ``step`` rastgele; NaN
-    dalları (kısa metin, 5'ten az nokta, negatif step) da kapsanıyor.
+    dalları (kısa metin, 5'ten az nokta) da kapsanıyor. Geçersiz parametre
+    (``step <= 0``, ``min_tokens < 0``) artık hata verir, ayrı sınanıyor.
     """
     rng = random.Random(20260927)
     for _ in range(300):
@@ -262,15 +263,25 @@ def test_heaps_beta_tek_gecis_eskisiyle_birebir():
         sozluk = rng.choice([1, 2, 10, 200, 5000])
         tokens = [f"w{rng.randrange(sozluk)}" for _ in range(n)]
         min_tokens = rng.choice([0, 1, 50, 300, rng.randint(0, 800)])
-        step = rng.choice([1, 3, 50, 97, rng.randint(1, 400), -5])
+        step = rng.choice([1, 3, 50, 97, rng.randint(1, 400)])
         yeni = heaps_beta(tokens, min_tokens, step)["heaps_beta"]
         eski = _heaps_beta_eski(tokens, min_tokens, step)["heaps_beta"]
         assert (_nan(yeni) and _nan(eski)) or yeni == eski, (n, sozluk, min_tokens, step)
 
 
-def test_heaps_beta_step_sifir_eskisi_gibi_hata():
-    with pytest.raises(ValueError):
-        heaps_beta(["a"] * 400, 300, 0)
+@pytest.mark.parametrize("min_tokens, step, mesaj", [
+    (300, 0, "step must be positive"),
+    (300, -5, "step must be positive"),
+    (-1, 50, "min_tokens must be non-negative"),
+])
+def test_heaps_beta_gecersiz_parametre_hata(min_tokens, step, mesaj):
+    """Diğer pencere/parça parametreleri gibi (mattr, msttr, ttr_moving_slope)."""
+    with pytest.raises(ValueError, match=mesaj):
+        heaps_beta(["a"] * 400, min_tokens, step)
+
+
+def test_heaps_beta_min_tokens_sifir_gecerli():
+    assert heaps_beta([f"w{i}" for i in range(300)], 0, 50)["heaps_beta"] == 1.0
 
 
 # ── kenar durumlar (Faz 1 zorunlu 3 testin 2'si ve 3'ü) ───────────────

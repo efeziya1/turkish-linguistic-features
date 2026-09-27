@@ -227,13 +227,22 @@ def heaps_beta(tokens: list[str], min_tokens: int = 300,
     β kırpılmaz (2026-09-17, Efe): tip sayısı hiç azalmadığı için eğim eksi
     olamaz, ama tekrarla başlayıp açılan metinde 1'i aşabilir ve olduğu gibi
     yazılır. Ölçek bu yüzden ``score``, ``ratio_0_1`` değil.
+
+    Raises
+    ------
+    ValueError
+        ``step <= 0`` ya da ``min_tokens < 0``. Negatif ``step`` eskiden sessizce
+        NaN veriyordu; parametre hatası ölçülemeyen metinle karışmasın.
     """
+    if step <= 0:
+        raise ValueError(f"step must be positive: {step}")
+    if min_tokens < 0:
+        raise ValueError(f"min_tokens must be non-negative: {min_tokens}")
     N = len(tokens)
     if N < min_tokens:
         return {"heaps_beta": math.nan}     # kısa metinde uydurma yapma
 
-    # Kontrol noktaları eskisi gibi `range` ile: step=0 hatası ve negatif
-    # step'te boş liste (→ NaN) davranışı aynı kalıyor.
+    # Kontrol noktaları eskisi gibi: step, 2·step, … ≤ N.
     nt = list(range(step, N + 1, step))
     if len(nt) < 5:                          # 5 noktadan az → regresyon güvenilmez
         return {"heaps_beta": math.nan}
