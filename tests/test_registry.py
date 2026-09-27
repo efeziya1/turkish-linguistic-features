@@ -107,6 +107,25 @@ def test_get_group_bilinmeyen_anahtar():
         get_group("boyle_bir_sey_yok")
 
 
+@pytest.mark.parametrize("anahtar", ["char_a", "char_ş", "char_ı", "char_ğ", "char_q", "char_w", "char_x"])
+def test_char_iki_alfabenin_harfini_kabul_eder(anahtar):
+    """TR 29 harf + EN'deki q, w, x — iki dilin ``chars`` anahtarlarının birleşimi."""
+    assert get_group(anahtar) == "chars"
+    assert describe_feature(anahtar)["group"] == "chars"
+
+
+@pytest.mark.parametrize("anahtar", ["char_zzz", "char_", "char_A", "char_1", "char_ab", "char_é"])
+def test_char_gecersiz_son_ek_keyerror(anahtar):
+    """🔴 Regresyon: ``startswith`` yalnız öneki denetliyordu, ``char_zzz`` kabul ediliyordu."""
+    with pytest.raises(KeyError):
+        describe_feature(anahtar)
+
+
+def test_ng_oneki_serbest():
+    """Kullanıcı n-gramı istediği kelimeyi seçer; ``ng_`` son eki doğrulanmaz."""
+    assert get_group("ng_herhangi_bir_obek") == "custom_ngrams"
+
+
 def test_kullanici_ngrami_registryde_kayitli():
     """custom_ngrams grubu yoksa ``analyze(custom_ngrams=...)`` T20'yi kırar."""
     assert DYNAMIC_PREFIXES["custom_ngrams"] == "ng_"

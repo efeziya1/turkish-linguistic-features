@@ -20,6 +20,7 @@ sayılarla **birlikte** yapılır.
 
 from __future__ import annotations
 
+from ..alfabe import _ALFABE
 from ._registry_texts import (
     BIBLIOGRAPHY,
     FEATURE_CITATIONS,
@@ -56,6 +57,9 @@ DYNAMIC_PREFIXES: dict[str, str] = {
     "chars": "char_",
     "custom_ngrams": "ng_",
 }
+
+# Geçerli `char_` son ekleri: iki dilin alfabesinin birleşimi.
+_CHAR_HARFLERI: frozenset[str] = frozenset("".join(_ALFABE.values()))
 
 STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
     "lexical": (
@@ -339,8 +343,14 @@ def get_group(key: str) -> str:
         if key in anahtarlar:
             return grup
     for grup, onek in DYNAMIC_PREFIXES.items():
-        if key.startswith(onek):
-            return grup
+        if not key.startswith(onek):
+            continue
+        # `char_` son eki tek bir harf olmalı: iki dilin alfabesinin birleşimi
+        # (TR 29 + EN'deki q, w, x). Yalnız önek denetlenince `char_zzz` de
+        # kabul ediliyordu. `ng_` serbest: kullanıcı istediği öbeği seçer.
+        if grup == "chars" and key[len(onek):] not in _CHAR_HARFLERI:
+            break
+        return grup
     raise KeyError(f"Unknown feature key: {key!r}")
 
 
