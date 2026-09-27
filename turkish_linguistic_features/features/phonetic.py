@@ -149,7 +149,7 @@ def vowel_harmony_ratios(surface_tokens: list[str], lang: str = "tr") -> dict[st
             ince_kalin += 1
         if all((sonraki in yuvarlak_sonrasi) if onceki in yuvarlak
                else (sonraki not in yuvarlak)
-               for onceki, sonraki in zip(v, v[1:])):
+               for onceki, sonraki in zip(v, v[1:], strict=False)):
             duz_yuvarlak += 1
     if sayilan == 0:
         return {"harmony_fronting_ratio": math.nan, "harmony_rounding_ratio": math.nan}
@@ -181,7 +181,7 @@ def _syllabify_tr(word: str) -> list[str]:
         return [word]
     heceler = []
     bas = 0
-    for v1, v2 in zip(unluler, unluler[1:]):
+    for v1, v2 in zip(unluler, unluler[1:], strict=False):
         sinir = v1 + 1 if v2 == v1 + 1 else v2 - 1   # yan yana ünlü | son ünsüz sonraki heceye
         heceler.append(word[bas:sinir])
         bas = sinir

@@ -129,7 +129,7 @@ def _lemma_pos(lemma_tokens: list[str],
     Hizasızlık kontrolünü ``lexical._hizala`` yapıyor; hizasızlık metnin
     özelliği değil ön işleme hatasıdır → ``ValueError`` (K4).
     """
-    return list(zip(lemma_tokens, _hizala(lemma_tokens, pos_data)))
+    return list(zip(lemma_tokens, _hizala(lemma_tokens, pos_data), strict=False))
 
 
 def _extract_features(

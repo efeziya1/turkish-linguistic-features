@@ -23,7 +23,6 @@ import sys
 from pathlib import Path
 
 import turkish_linguistic_features as tlf
-
 from _demo import demo_metni
 
 DIL = "tr"
@@ -64,7 +63,7 @@ def main() -> None:
 
     print("\nHangi uzunlukta ne ölçülebilir oldu:")
     boylar = sorted(nanlar)
-    for onceki, simdiki in zip(boylar, boylar[1:]):
+    for onceki, simdiki in zip(boylar, boylar[1:], strict=False):
         kurtulan = nanlar[onceki] - nanlar[simdiki]
         if kurtulan:
             print(f"  {simdiki:>5} token: {', '.join(sorted(kurtulan))}")

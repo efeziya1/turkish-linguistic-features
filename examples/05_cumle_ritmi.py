@@ -18,7 +18,6 @@ import sys
 from pathlib import Path
 
 import turkish_linguistic_features as tlf
-
 from _demo import demo_korpus_yaz
 
 PARCA_BOYUTU = 1500        # gerçek korpus için (spaCy tokenı)

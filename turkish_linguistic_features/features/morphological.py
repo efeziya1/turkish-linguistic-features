@@ -70,7 +70,7 @@ def spacy_morph_ratios(morph_tags: list[tuple[str, str]],
         tasiyan = [o[ozellik] for o in ozellikler if ozellik in o]
         for deger, sonek in degerler:
             sonuc[f"{onek}_{sonek}"] = _oran(tasiyan.count(deger), len(tasiyan))
-    fiiller = [o for o, (_, p) in zip(ozellikler, pos_data) if p == "VERB"]
+    fiiller = [o for o, (_, p) in zip(ozellikler, pos_data, strict=False) if p == "VERB"]
     edilgen = sum(1 for o in fiiller if o.get("Voice") == "Pass")
     sonuc["morph_voice_pass"] = _oran(edilgen, len(fiiller))
     return sonuc
@@ -92,9 +92,9 @@ def surface_per_lemma(surface_tokens: list[str], pos_data: list[tuple[str, str]]
             f"({len(pos_data)}) — preprocessing error"
         )
     _hizala(lemma_tokens, pos_data)
-    kelimeler = [s for s, (_, p) in zip(surface_tokens, pos_data) if p not in NON_WORD_POS]
+    kelimeler = [s for s, (_, p) in zip(surface_tokens, pos_data, strict=False) if p not in NON_WORD_POS]
     ciftler = {(_kucuk_harf(lem, lang), _kucuk_harf(s, lang))
-               for lem, s in zip(lemma_tokens, kelimeler)}
+               for lem, s in zip(lemma_tokens, kelimeler, strict=False)}
     kokler = {lem for lem, _ in ciftler}
     return {"surface_per_lemma": _oran(len(ciftler), len(kokler))}
 
@@ -144,7 +144,7 @@ def _kelime_morfemleri(morpheme_lists: list[list[Morpheme]],
             f"morpheme_lists ({len(morpheme_lists)}) is not aligned with pos_data "
             f"({len(pos_data)}) — preprocessing error"
         )
-    return [m for m, (_, p) in zip(morpheme_lists, pos_data)
+    return [m for m, (_, p) in zip(morpheme_lists, pos_data, strict=False)
             if m and p not in NON_WORD_POS and m[0][0] not in _KELIME_DISI_KOK]
 
 
@@ -203,7 +203,7 @@ def suffix_ngrams(morpheme_lists: list[list[Morpheme]],
     """
     kelimeler = _kelime_morfemleri(morpheme_lists, pos_data)
     zincirler = [[e[0] for e in _gorunen_ekler(m)] for m in kelimeler]
-    ciftler = Counter(c for z in zincirler for c in zip(z, z[1:]))
+    ciftler = Counter(c for z in zincirler for c in zip(z, z[1:], strict=False))
     entropi = math.nan
     if ciftler:
         n = sum(ciftler.values())

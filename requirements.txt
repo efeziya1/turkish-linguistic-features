@@ -13,6 +13,10 @@ pytest-cov>=4.0
 # Tip denetimi
 mypy>=1.10
 
+# Lint — ayarı pyproject.toml'de [tool.ruff]. Kural setleri küçük sürümler
+# arasında değiştiği için küçük sürüme sabit.
+ruff>=0.12,<0.13
+
 # İsteğe bağlı ekstralar: kurulu değilse ilgili testler atlanıyor
 pandas>=1.5
 wordfreq>=3.0

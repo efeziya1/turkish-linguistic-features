@@ -451,7 +451,7 @@ def pos_lexical_variation(lemma_tokens: list[str],
     tipler: dict[str, set[str]] = {s: set() for s in siniflar}
     fiil_token = 0
     n_lex = 0
-    for lem, p in zip(lemma_tokens, kelime_pos):
+    for lem, p in zip(lemma_tokens, kelime_pos, strict=False):
         if p in LEXICAL_POS:
             n_lex += 1
         fiil_token += p == "VERB"
@@ -487,7 +487,7 @@ def _vocd_uydur(boylar: list[int], ttrler: list[float]) -> float:
     """
     def hata(log_d: float) -> float:
         D = math.exp(log_d)
-        return sum((_vocd_model(D, n) - t) ** 2 for n, t in zip(boylar, ttrler))
+        return sum((_vocd_model(D, n) - t) ** 2 for n, t in zip(boylar, ttrler, strict=False))
 
     a, b = math.log(0.01), math.log(100_000.0)
     oran = (math.sqrt(5) - 1) / 2
@@ -671,7 +671,7 @@ def reference_frequency_sophistication(lemma_tokens: list[str],
         uyar_eksik_bagimlilik("wordfreq", "wordfreq_* (2 features)")
         return olculemedi
     kelime_pos = _hizala(lemma_tokens, pos_data)
-    anlamli = [lem for lem, p in zip(lemma_tokens, kelime_pos) if p in LEXICAL_POS]
+    anlamli = [lem for lem, p in zip(lemma_tokens, kelime_pos, strict=False) if p in LEXICAL_POS]
     if not anlamli:
         return olculemedi
     puanlar = [zipf_frequency(lem, lang) for lem in anlamli]

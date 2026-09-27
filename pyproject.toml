@@ -67,6 +67,31 @@ markers = [
     "slow: dakikalar sürebilen test (5 MB metin gibi); -m 'not slow' ile atlanır",
 ]
 
+[tool.ruff]
+line-length = 110          # kütüphane kodu zaten bu sınırda; 100 ~26 satırı yeniden bölerdi
+target-version = "py310"   # requires-python ile aynı
+# `examples/` betikleri kardeş modül `_demo`'yu içe aktarıyor; isort onu
+# üçüncü parti sanmasın.
+src = [".", "examples"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+# UP038 ruff'ta kullanımdan kaldırıldı: isinstance'ta `X | Y` önerilmiyor ve
+# tuple'dan yavaş.
+ignore = ["UP038"]
+
+[tool.ruff.lint.per-file-ignores]
+# 🔴 YÜKLEME SIRASI: zeyrek spaCy'den ÖNCE import edilmeli (Windows'ta native
+# durum bozulup traceback'siz çöküyor). isort alfabetik sıralayıp spacy'yi öne
+# alırdı; `ruff check --fix` bu korumayı bozmasın diye I001 bu dosyada kapalı.
+# (`__init__.py`'deki ısınma bloğu isort'tan etkilenmez: isort kod satırının
+# — oradaki `if` — üstünden import taşımaz; denetlendi.)
+"turkish_linguistic_features/pipeline/zeyrek_backend.py" = ["I001"]
+# Üreticilerdeki uzun satırlar üretilen Markdown tablolarının kendisi;
+# bölmek rapor çıktısını değiştirir.
+"scripts/dogrulama_raporu.py" = ["E501"]
+"scripts/basvuru_uret.py" = ["E501"]
+
 [tool.mypy]
 packages = ["turkish_linguistic_features"]
 ignore_missing_imports = true

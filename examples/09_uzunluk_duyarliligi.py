@@ -17,7 +17,6 @@ import sys
 from pathlib import Path
 
 import turkish_linguistic_features as tlf
-
 from _demo import demo_metni
 
 DIL = "tr"

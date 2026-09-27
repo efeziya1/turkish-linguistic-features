@@ -116,7 +116,7 @@ def test_morph_hizasiz_girdi_hata():
 # ── surface_per_lemma ─────────────────────────────────────────────────
 
 def _spl(yuzey, pos, lemma, lang="tr"):
-    return surface_per_lemma(yuzey, list(zip(yuzey, pos)), lemma, lang)["surface_per_lemma"]
+    return surface_per_lemma(yuzey, list(zip(yuzey, pos, strict=False)), lemma, lang)["surface_per_lemma"]
 
 
 def test_yuzey_lemma_orani_turkcede_yuksek():

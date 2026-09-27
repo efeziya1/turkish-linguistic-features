@@ -250,7 +250,7 @@ class Preprocessor:
         if kisa:
             indeksler = [i for i, _ in kisa]
             for i, doc in zip(indeksler, self._nlp.pipe([m for _, m in kisa],
-                                                        batch_size=batch_size)):
+                                                        batch_size=batch_size), strict=False):
                 sonuc[i] = self._birlestir(texts[i], [doc])
 
         return [pt for pt in sonuc if pt is not None]

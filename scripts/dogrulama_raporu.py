@@ -303,7 +303,11 @@ def _cl_iki_denklem() -> float:
     aynı girdiyi görsün.
     """
     from turkish_linguistic_features.features.readability import (
-        _harf_sayisi, _CUMLE_SONU, cumle_sayisi, kelime_birimleri)
+        _CUMLE_SONU,
+        _harf_sayisi,
+        cumle_sayisi,
+        kelime_birimleri,
+    )
     kelimeler, _ = kelime_birimleri(_CL_METIN, "en")
     cumle = cumle_sayisi(_CL_METIN.split(), _CUMLE_SONU["varsayilan"], "en")
     L = 100 * sum(_harf_sayisi(k) for k in kelimeler) / len(kelimeler)
@@ -372,8 +376,7 @@ def _quita_activity(fiil: int, sifat: int) -> float:
 
 def _cl_bizim() -> float:
     """Aynı metin üretim boru hattından geçince çıkan ``coleman_liau``."""
-    from turkish_linguistic_features.features.readability import (
-        general_readability_formulas)
+    from turkish_linguistic_features.features.readability import general_readability_formulas
     return general_readability_formulas(
         _CL_METIN, _CL_METIN.split(), "en")["coleman_liau"]
 

@@ -14,13 +14,13 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from turkish_linguistic_features.features._registry_texts import BIBLIOGRAPHY
 from turkish_linguistic_features.features.registry import (
     DYNAMIC_PREFIXES,
     GROUP_LABELS,
     STATIC_GROUP_KEYS,
     describe_feature,
 )
-from turkish_linguistic_features.features._registry_texts import BIBLIOGRAPHY
 
 BASLIK = """<!-- GENERATED FILE — do not edit by hand.
      Source: scripts/basvuru_uret.py

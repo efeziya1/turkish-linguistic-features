@@ -255,7 +255,7 @@ def _tematik_toplam(items: list[tuple[str, int]], pos_data: list[tuple[str, str]
     """``Σ (ust_sinir − r')·f(r')`` — rank'ı ``ust_sinir``'dan küçük otosemantikler."""
     pos = _pos_haritasi(pos_data, lang)
     return sum((ust_sinir - r) * f
-               for (kelime, f), r in zip(items, _ortalama_ranklar(items))
+               for (kelime, f), r in zip(items, _ortalama_ranklar(items), strict=False)
                if r < ust_sinir and pos.get(_kucuk_harf(kelime, lang)) in THEMATIC_POS)
 
 

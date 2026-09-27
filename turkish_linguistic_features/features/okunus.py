@@ -5,9 +5,9 @@ Türkçe sayı ve kısaltma (2026-09-16), İngilizce sayı ve iki dilde sembol
 
 T10'un hece sayacı (``phonetic.hece_say``) bu modülü kullanır. Çetinkaya-Uzun
 (2010) sayım protokolü sembol, kısaltma ve sayıları okunuşlarına göre sayar:
-"Cm 4 hece, 1918 7 hece" (Çetinkaya 2010, s.93; Güven 2014, s.516 "1916" diye aktarıyor). Burada sayılar kuralla,
-kısaltmalar sabit bir listeyle açılır (2026-09-16, Efe); hece sayımı açılan
-metin üzerinden yapılır.
+"Cm 4 hece, 1918 7 hece" (Çetinkaya 2010, s.93; Güven 2014, s.516 "1916" diye
+aktarıyor). Burada sayılar kuralla, kısaltmalar sabit bir listeyle açılır
+(2026-09-16, Efe); hece sayımı açılan metin üzerinden yapılır.
 
 Açılmayanlar ``docs/limitations.md``'de: listede olmayan kısaltmalar, gerçek
 kelimeyle aynı yazılan kısaltmalar (tel, sok, av, no), tek harfli birimler,

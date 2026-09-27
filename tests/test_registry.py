@@ -12,7 +12,6 @@ from dataclasses import fields
 
 import pytest
 
-from turkish_linguistic_features.params import FeatureParams
 from turkish_linguistic_features.features.registry import (
     BIBLIOGRAPHY,
     DYNAMIC_PREFIXES,
@@ -31,6 +30,7 @@ from turkish_linguistic_features.features.registry import (
     describe_feature,
     get_group,
 )
+from turkish_linguistic_features.params import FeatureParams
 
 TUM_STATIK = [k for ks in STATIC_GROUP_KEYS.values() for k in ks]
 
