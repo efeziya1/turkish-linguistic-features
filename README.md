@@ -43,26 +43,27 @@ pip install -e .
 
 ### Language data
 
-Language data is **not** installed automatically — a library that writes to your
-environment at import time is one you cannot trust in CI or in a read-only
-container. Install it yourself, once:
+`pip install` sets up the Python dependencies but not the language data.
+Install the data for the language(s) you use, once:
 
 ```bash
-# Turkish — 156 MB, not in spaCy's registry, install the wheel directly
+# Turkish — 156 MB. The model is by turkish-nlp-suite and is not in spaCy's
+# registry, so install the wheel directly:
 pip install https://huggingface.co/turkish-nlp-suite/tr_core_news_md/resolve/main/tr_core_news_md-1.0-py3-none-any.whl
 
-# English — two pieces: the spaCy model (12 MB) and the CMU pronouncing
-# dictionary for syllable counts (1 MB)
+# English — the spaCy model (12 MB) and the CMU Pronouncing Dictionary for
+# syllable counts (1 MB):
 python -m spacy download en_core_web_sm
 python -m nltk.downloader cmudict
 ```
 
-Verified with spaCy 3.8.16, `en_core_web_sm` 3.8.0 and `tr_core_news_md` 1.0.
+If something is missing, `analyze()` stops with an error that shows the
+command to run.
 
-Two things about the Turkish model look like bugs and are not: its wheel
-says `1.0` in the filename and `3.4.2` in the metadata, and loading it prints
-a harmless `W094` warning. Details in the
-[tutorial](docs/en/getting-started.md).
+Verified with spaCy 3.8.16, `en_core_web_sm` 3.8.0 and `tr_core_news_md` 1.0.
+The Turkish wheel says `1.0` in its filename but `3.4.2` in its metadata, and
+loading it prints a `W094` warning; both are harmless
+([details](docs/en/getting-started.md)).
 
 ## The whole API
 

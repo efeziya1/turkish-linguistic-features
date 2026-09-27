@@ -21,12 +21,12 @@ sağlar. Bir kez kurarsınız, `git pull` yeter.
 
 ## 2. Dil verisini kurun
 
-Dil verisi **kendiliğinden kurulmaz.** Bu bilinçli bir karar: içe aktarılırken
-ortamınıza yazan bir kütüphaneye CI'da ya da salt-okunur bir konteynerde
-güvenemezsiniz. Kendiniz kurarsınız, bir kez:
+`pip install` Python bağımlılıklarını kurar, dil verisini kurmaz.
+Kullandığınız dilin verisini bir kez kurun:
 
 ```bash
-# Türkçe — 156 MB, spaCy'nin kayıt defterinde yok, wheel'i doğrudan kurulur
+# Türkçe — 156 MB. Model turkish-nlp-suite'e ait ve spaCy'nin kayıt
+# defterinde yok, bu yüzden wheel doğrudan kurulur:
 pip install https://huggingface.co/turkish-nlp-suite/tr_core_news_md/resolve/main/tr_core_news_md-1.0-py3-none-any.whl
 
 # İngilizce — iki parça: spaCy modeli (12 MB) ve hece sayımı için CMU

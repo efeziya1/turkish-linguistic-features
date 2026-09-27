@@ -22,9 +22,8 @@ pip install -e .
 
 ## 2. Install the language data
 
-Language data is **not** installed for you. That is deliberate: a library that
-writes to your environment at import time is one you cannot trust in CI or
-in a read-only container. You install them yourself, once:
+`pip install` sets up the Python dependencies but not the language data.
+Install the data for the language(s) you use, once:
 
 ```bash
 # Turkish — 156 MB, not in spaCy's registry, install the wheel directly
