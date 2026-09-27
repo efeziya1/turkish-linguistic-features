@@ -5,15 +5,13 @@ gerisi ``tr_core_news_md`` kurulu değilse atlanır.
 """
 
 import pytest
-import spacy.util
 
+import turkish_linguistic_features as tlf
 from turkish_linguistic_features import analyze
 
-_KURULU = set(spacy.util.get_installed_models())
-tr_model = pytest.mark.skipif("tr_core_news_md" not in _KURULU,
-                              reason="tr_core_news_md kurulu değil")
-en_model = pytest.mark.skipif("en_core_web_sm" not in _KURULU,
-                              reason="en_core_web_sm kurulu değil")
+# Veri kontrolü tests/conftest.py'de: eksikse atla, TLF_REQUIRE_MODELS=1 ise başarısız ol.
+tr_model = pytest.mark.tr_model
+en_model = pytest.mark.en_model
 
 TR_TABAN = 208
 EN_TABAN = 182
@@ -50,6 +48,7 @@ def test_turkce_taban_sema():
 
 
 @en_model
+@pytest.mark.cmudict
 def test_ingilizce_taban_sema():
     assert len(analyze("This is a test. A second sentence.", lang="en")) == EN_TABAN
 
@@ -151,6 +150,7 @@ def test_zeyrek_grubu_gercekten_olculuyor():
 
 
 @en_model
+@pytest.mark.cmudict
 def test_ingilizcede_zeyrek_grubu_hic_yok(recwarn):
     """K11 — İngilizcede grup üretilmez ve bunun için uyarı da verilmez."""
     from turkish_linguistic_features.features.registry import STATIC_GROUP_KEYS
@@ -196,3 +196,20 @@ def test_cok_uzun_metin_cokmuyor():
     """
     feats = analyze("Bu bir cümledir. " * 300_000, lang="tr")
     assert len(feats) == TR_TABAN
+
+
+# ── model yoksa: analyze() net hata ───────────────────────────────────
+
+
+@pytest.mark.parametrize("lang, komut", [
+    ("tr", "pip install https://huggingface.co"),
+    ("en", "python -m spacy download en_core_web_sm"),
+])
+def test_analyze_model_yoksa_kurulum_komutunu_soyler(lang, komut):
+    """Model adı bilerek var olmayan: gerçek modeller kurulu olsa da hep koşar.
+
+    ``groups=["lexical"]`` — İngilizcede cmudict denetimi devreye girmesin,
+    sınanan şey spaCy modelinin yokluğu.
+    """
+    with pytest.raises(tlf.ModelNotFoundError, match=komut):
+        analyze("Deneme.", lang=lang, model="boyle_bir_model_yok", groups=["lexical"])

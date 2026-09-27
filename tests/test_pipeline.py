@@ -5,16 +5,13 @@ Parçalama testleri model gerektirmez. Model gerektirenler `tr_core_news_md` ve
 """
 
 import pytest
-import spacy.util
 
 from turkish_linguistic_features.exceptions import ModelNotFoundError
 from turkish_linguistic_features.pipeline.spacy_pipeline import Preprocessor, _split_chunks
 
-_KURULU = set(spacy.util.get_installed_models())
-tr_model = pytest.mark.skipif("tr_core_news_md" not in _KURULU,
-                              reason="tr_core_news_md kurulu değil")
-en_model = pytest.mark.skipif("en_core_web_sm" not in _KURULU,
-                              reason="en_core_web_sm kurulu değil")
+# Veri kontrolü tests/conftest.py'de: eksikse atla, TLF_REQUIRE_MODELS=1 ise başarısız ol.
+tr_model = pytest.mark.tr_model
+en_model = pytest.mark.en_model
 
 
 # ── parçalama — model GEREKTİRMEZ ─────────────────────────────────────
@@ -147,6 +144,7 @@ def test_ingilizcede_morfem_listesi_bos():
 
 
 @en_model
+@pytest.mark.cmudict
 def test_ingilizce_taban_sema():
     from turkish_linguistic_features.features.extractor import _extract_features
     pt = Preprocessor(lang="en").process(

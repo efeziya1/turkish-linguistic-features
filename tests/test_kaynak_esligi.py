@@ -23,6 +23,9 @@ import pytest
 from scripts.dogrulama_raporu import METIN_1, METIN_2, METIN_3
 from turkish_linguistic_features import analyze
 
+# Rapor iki dilde tam analiz yapıyor (conftest.py'deki kural).
+pytestmark = [pytest.mark.tr_model, pytest.mark.en_model, pytest.mark.cmudict]
+
 # Kalyoncu & Memiş (2024) Tablo 9 — üç metnin okunabilirlik değerleri.
 # Bezirci-Yılmaz sütunu makalede karekök içinde basılmış (√606,202 gibi).
 BEKLENEN = {

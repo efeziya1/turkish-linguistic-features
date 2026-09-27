@@ -111,6 +111,7 @@ def test_taban_anahtar_sayisi_tr():
     assert len(_extract_features(**ORNEK_GIRDI)) == TR_DEP_SIZ
 
 
+@pytest.mark.cmudict            # İngilizce hece sayımı
 def test_taban_anahtar_sayisi_en():
     assert len(_extract_features(**{**ORNEK_GIRDI, "lang": "en"})) == EN_DEP_SIZ
 
@@ -118,12 +119,14 @@ def test_taban_anahtar_sayisi_en():
 # ── dil ve grup davranışı ─────────────────────────────────────────────
 
 
+@pytest.mark.cmudict            # İngilizce hece sayımı
 def test_ingilizcede_zeyrek_grubu_hic_uretilmez():
     """EN şemasında `morphological_zeyrek` YOK — Zeyrek İngilizce çözümlemiyor."""
     feats = _extract_features(**{**ORNEK_GIRDI, "lang": "en"})
     assert not (set(STATIC_GROUP_KEYS["morphological_zeyrek"]) & set(feats))
 
 
+@pytest.mark.cmudict            # İngilizce hece sayımı
 def test_okunabilirlik_dile_gore_ayriliyor():
     """TR'de 3 Türkçe formül, EN'de 4 İngilizce formül; karşı tarafta hiç yok."""
     tr = _extract_features(**ORNEK_GIRDI)
@@ -135,6 +138,7 @@ def test_okunabilirlik_dile_gore_ayriliyor():
     assert not {"flesch_reading_ease", "smog"} & set(tr)
 
 
+@pytest.mark.cmudict            # İngilizce hece sayımı
 def test_params_none_ise_dil_varsayilani():
     """TR ve EN farklı cümle eşikleri kullanır (4 / 7) → farklı sonuç."""
     tr = _extract_features(**ORNEK_GIRDI)

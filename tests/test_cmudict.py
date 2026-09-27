@@ -9,12 +9,10 @@ söyleyen ``ModelNotFoundError`` verir — spaCy modelleriyle aynı ilke.
 import socket
 
 import pytest
-import spacy.util
+import spacy
 
 import turkish_linguistic_features as tlf
 from turkish_linguistic_features.features import phonetic
-
-_KURULU = spacy.util.get_installed_models()
 
 
 @pytest.fixture
@@ -57,13 +55,13 @@ def test_hece_sayaci_textstat_i_verisiz_cagirmaz(cmudict_yok):
     assert cmudict_yok == []
 
 
-@pytest.mark.skipif("en_core_web_sm" not in _KURULU, reason="en_core_web_sm not installed")
+@pytest.mark.en_model
 def test_hece_gerektirmeyen_ingilizce_grup_veri_istemez(cmudict_yok):
     oz = tlf.analyze("The cat sat on the mat. It was warm.", lang="en", groups=["lexical"])
     assert "ttr" in oz
 
 
-@pytest.mark.skipif("tr_core_news_md" not in _KURULU, reason="tr_core_news_md not installed")
+@pytest.mark.tr_model
 def test_turkce_etkilenmez(cmudict_yok):
     oz = tlf.analyze("Kedi paspasın üstüne oturdu. Hava ılıktı.", lang="tr")
     assert len(oz) == 208

@@ -172,6 +172,7 @@ def test_hece_say_buyuk_harf_unsuz_kisaltma():
     assert hece_say("PTT", "tr") == 3
 
 
+@pytest.mark.cmudict            # İngilizce hece sayımı
 def test_hece_say_sayilamayan_tokenler():
     """Okunuşu çıkarılamayan biçimler, listede olmayan küçük harfli ünsüz
     tokenler ve noktalama hecelenmez."""
@@ -239,11 +240,13 @@ def test_hece_say_kesmeli_ek_kisaltmaya_eklenir():
     assert hece_say("cm'lik", "tr") == 5
 
 
+@pytest.mark.cmudict            # İngilizce hece sayımı
 def test_hece_say_ingilizce_textstat():
     assert hece_say("make", "en") == 1              # sessiz e — ünlü öbeği sayımı 2 derdi
     assert hece_say("beautiful", "en") == 3
 
 
+@pytest.mark.cmudict            # İngilizce hece sayımı
 def test_hece_say_ingilizce_unlusuz_kelime():
     """textstat 0 verirse 1 sayılır (2026-09-16, Efe)."""
     assert hece_say("shh", "en") == 1

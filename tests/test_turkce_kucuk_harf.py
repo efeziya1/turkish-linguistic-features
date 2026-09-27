@@ -57,12 +57,11 @@ def test_ingilizce_davranis_degismedi():
     assert dict(items) == {"it": 2, "india": 1}
 
 
-@pytest.mark.parametrize("lang", ["tr"])
-def test_lemma_yolu_turkce_kucuk_harf(lang):
+@pytest.mark.tr_model
+def test_lemma_yolu_turkce_kucuk_harf():
     """spaCy lemmaları da dile göre küçültülür (``Preprocessor``)."""
-    pytest.importorskip("tr_core_news_md")
     from turkish_linguistic_features.pipeline.spacy_pipeline import Preprocessor
-    lemmalar = Preprocessor(lang=lang).process("İstanbul büyük. Işık yandı.").lemma_tokens
+    lemmalar = Preprocessor(lang="tr").process("İstanbul büyük. Işık yandı.").lemma_tokens
     assert "i̇stanbul" not in lemmalar                  # U+0307'li bozuk biçim yok
     assert all("̇" not in lem for lem in lemmalar)
     assert "istanbul" in lemmalar

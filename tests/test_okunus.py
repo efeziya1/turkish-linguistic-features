@@ -1,3 +1,5 @@
+import pytest
+
 from turkish_linguistic_features.features.okunus import (
     SEMBOLLER,
     sayi_oku,
@@ -19,6 +21,7 @@ def test_turkce_sayi_okunusu():
 # ── İngilizce sayı (2026-09-17, Efe) ──────────────────────────────────
 
 
+@pytest.mark.cmudict            # İngilizce hece sayımı
 def test_ingilizce_yil_ikiser_okunur():
     """Kincaid ve ark. (1975): "1918 (nineteen eighteen) 4 syllables"."""
     assert sayi_oku_en("1918") == "nineteen eighteen"
@@ -52,6 +55,7 @@ def test_ingilizce_okunamayanlar():
         assert sayi_oku_en(token) is None, token
 
 
+@pytest.mark.cmudict            # İngilizce hece sayımı
 def test_ingilizce_sayi_hecesi():
     assert hece_say("105", "en") == 4              # one hun-dred five
     assert hece_say("3.5", "en") == 3              # three point five

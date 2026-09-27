@@ -142,7 +142,12 @@ def test_tablo_eksiksiz():
     assert set(FONKSIYONLAR) == set(DURUMLAR)
 
 
-@pytest.mark.parametrize("ad", sorted(DURUMLAR))
+# İngilizce okunabilirlik hece sayar → cmudict ister (conftest.py).
+_CMUDICT_ISTER = {"readability.english_readability_formulas"}
+
+
+@pytest.mark.parametrize("ad", [pytest.param(a, marks=pytest.mark.cmudict) if a in _CMUDICT_ISTER
+                                else a for a in sorted(DURUMLAR)])
 @pytest.mark.parametrize("hal", ["bos", "tek"])
 def test_bos_ve_tek_eleman_cokmez(ad, hal):
     girdi = DURUMLAR[ad][0 if hal == "bos" else 1]

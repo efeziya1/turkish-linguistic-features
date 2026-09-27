@@ -9,8 +9,13 @@ değil (onlar ``test_analyze.py``'nin işi), **zincirin şekli** — kayıt
 alanları, parça sayısı, parametre geçişi.
 """
 
+import pytest
+
 import turkish_linguistic_features as tlf
 from turkish_linguistic_features._corpus import analyze_corpus
+
+# Her test Türkçe analiz yapıyor (conftest.py'deki kural).
+pytestmark = pytest.mark.tr_model
 
 
 def _korpus_yaz(kok, metin_uzunlugu: int = 120) -> None:

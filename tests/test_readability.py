@@ -55,11 +55,13 @@ def test_tek_basina_sembol_ayri_tutulur():
 # ── birim hecesi ──────────────────────────────────────────────────────
 
 
+@pytest.mark.cmudict            # İngilizce hece sayımı
 def test_tireli_kelime_parcalarin_toplami():
     assert birim_hecesi("Türk-İslam", "tr") == 3
     assert birim_hecesi("well-known", "en") == 2
 
 
+@pytest.mark.cmudict            # İngilizce hece sayımı
 def test_sembollu_birim_okunusuyla():
     assert birim_hecesi("%50", "tr") == 4        # yüz-de el-li
     assert birim_hecesi("50%", "en") == 4        # fif-ty per-cent
@@ -67,12 +69,14 @@ def test_sembollu_birim_okunusuyla():
     assert birim_hecesi("¢", "en") == 1          # Kincaid: "¢ (cent) 1 syllable"
 
 
+@pytest.mark.cmudict            # İngilizce hece sayımı
 def test_noktali_bas_harfler_harf_harf():
     assert birim_hecesi("F.O.B", "en") == 3
     assert birim_hecesi("A.Ş", "tr") == 2
     assert birim_hecesi("W.H.O", "en") == 5      # double-u
 
 
+@pytest.mark.cmudict            # İngilizce hece sayımı
 def test_kisaltmali_bicim_ingilizce():
     assert birim_hecesi("couldn't", "en") == hece_say("couldnt", "en")
 
@@ -211,6 +215,7 @@ def test_cetinkaya_unlem_cumle_sonu():
 # ── İngilizce formüller ───────────────────────────────────────────────
 
 
+@pytest.mark.cmudict            # İngilizce hece sayımı
 def test_flesch_ve_fkgl_kincaid_sayimi():
     """Kelime: sembol dahil; cümle: . ? ! ; (Kincaid ve ark. 1975; iki nokta
     yargı gerektirdiği için cümle sonu sayılmaz — 2026-09-17, Efe)."""
@@ -224,6 +229,7 @@ def test_flesch_ve_fkgl_kincaid_sayimi():
         0.39 * kelime / cumle + 11.8 * hece / kelime - 15.59, abs=1e-3)
 
 
+@pytest.mark.cmudict            # İngilizce hece sayımı
 def test_flesch_iki_noktayi_cumle_sonu_saymaz():
     metin = "They won: we lost."
     sonuc = english_readability_formulas(metin, _tok(metin, "en"))
@@ -232,11 +238,13 @@ def test_flesch_iki_noktayi_cumle_sonu_saymaz():
         206.835 - 1.015 * 4 / 1 - 84.6 * hece / 4, abs=1e-3)
 
 
+@pytest.mark.cmudict            # İngilizce hece sayımı
 def test_smog_30_cumleden_kisada_nan():
     metin = "Comprehension matters. " * 29
     assert _nan(english_readability_formulas(metin, _tok(metin, "en"))["smog"])
 
 
+@pytest.mark.cmudict            # İngilizce hece sayımı
 def test_smog_mclaughlin_denklem_d():
     """30 cümlede 30 çok heceli kelime → 3.1291 + 1.0430·√30."""
     metin = "Comprehension matters. " * 30
@@ -244,12 +252,14 @@ def test_smog_mclaughlin_denklem_d():
         3.1291 + 1.0430 * math.sqrt(30), abs=1e-3)
 
 
+@pytest.mark.cmudict            # İngilizce hece sayımı
 def test_smog_30_cumleye_olceklenir():
     metin = "Comprehension matters. " * 30 + "The cat sat. " * 30
     assert english_readability_formulas(metin, _tok(metin, "en"))["smog"] == pytest.approx(
         3.1291 + 1.0430 * math.sqrt(15), abs=1e-3)
 
 
+@pytest.mark.cmudict            # İngilizce hece sayımı
 def test_cok_heceli_kelime_orani():
     metin = "A beautiful cat and a banana."
     sonuc = english_readability_formulas(metin, _tok(metin, "en"))
