@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this software in your research, please cite it using this metadata."
+type: software
+title: "turkish-linguistic-features"
+abstract: >-
+  A toolkit for extracting quantitative linguistic features from Turkish and
+  English text. Every feature is tied to a source in the literature.
+authors:
+  - given-names: "Efe Ziya"
+    family-names: "Okul"
+  - given-names: "Ferhat"
+    family-names: "Ersoy"
+version: "0.1.0"
+license: MIT
+repository-code: "https://github.com/efeziya1/turkish-linguistic-features"
+keywords:
+  - turkish
+  - computational-linguistics
+  - feature-extraction
+  - readability
+  - lexical-richness
+  - morphology
+  - digital-humanities
