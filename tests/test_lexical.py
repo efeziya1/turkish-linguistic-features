@@ -1,4 +1,5 @@
 import math
+import random
 
 import numpy as np
 import pytest
@@ -232,6 +233,44 @@ def test_heaps_beta_kirpilmaz():
     """Tekrarla başlayıp açılan metinde eğim 1'i aşar; olduğu gibi yazılır (2026-09-17, Efe)."""
     tokens = ["ve"] * 300 + [f"k{i}" for i in range(300)]
     assert heaps_beta(tokens)["heaps_beta"] == pytest.approx(2.829, abs=1e-3)
+
+
+def _heaps_beta_eski(tokens, min_tokens=300, step=50):
+    """O(N²/step) özgün uygulama — tek geçişli sürümün referansı (değiştirme)."""
+    N = len(tokens)
+    if N < min_tokens:
+        return {"heaps_beta": math.nan}
+    nt, vt = [], []
+    for kesim in range(step, N + 1, step):
+        nt.append(kesim)
+        vt.append(len(set(tokens[:kesim])))
+    if len(nt) < 5:
+        return {"heaps_beta": math.nan}
+    beta = float(np.polyfit(np.log(nt), np.log(vt), 1)[0])
+    return {"heaps_beta": round(beta, 4) + 0.0}
+
+
+def test_heaps_beta_tek_gecis_eskisiyle_birebir():
+    """Tek geçişli sayım, eski ``len(set(tokens[:kesim]))`` ile BİREBİR aynı sonucu verir.
+
+    Uzunluk, sözlük büyüklüğü, ``min_tokens`` ve ``step`` rastgele; NaN
+    dalları (kısa metin, 5'ten az nokta, negatif step) da kapsanıyor.
+    """
+    rng = random.Random(20260927)
+    for _ in range(300):
+        n = rng.choice([0, 1, 7, 249, 300, 301, 551, rng.randint(0, 3000)])
+        sozluk = rng.choice([1, 2, 10, 200, 5000])
+        tokens = [f"w{rng.randrange(sozluk)}" for _ in range(n)]
+        min_tokens = rng.choice([0, 1, 50, 300, rng.randint(0, 800)])
+        step = rng.choice([1, 3, 50, 97, rng.randint(1, 400), -5])
+        yeni = heaps_beta(tokens, min_tokens, step)["heaps_beta"]
+        eski = _heaps_beta_eski(tokens, min_tokens, step)["heaps_beta"]
+        assert (_nan(yeni) and _nan(eski)) or yeni == eski, (n, sozluk, min_tokens, step)
+
+
+def test_heaps_beta_step_sifir_eskisi_gibi_hata():
+    with pytest.raises(ValueError):
+        heaps_beta(["a"] * 400, 300, 0)
 
 
 # ── kenar durumlar (Faz 1 zorunlu 3 testin 2'si ve 3'ü) ───────────────

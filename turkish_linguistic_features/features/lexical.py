@@ -232,14 +232,22 @@ def heaps_beta(tokens: list[str], min_tokens: int = 300,
     if N < min_tokens:
         return {"heaps_beta": math.nan}     # kısa metinde uydurma yapma
 
-    nt: list[int] = []
-    vt: list[int] = []
-    for kesim in range(step, N + 1, step):
-        nt.append(kesim)
-        vt.append(len(set(tokens[:kesim])))
-
+    # Kontrol noktaları eskisi gibi `range` ile: step=0 hatası ve negatif
+    # step'te boş liste (→ NaN) davranışı aynı kalıyor.
+    nt = list(range(step, N + 1, step))
     if len(nt) < 5:                          # 5 noktadan az → regresyon güvenilmez
         return {"heaps_beta": math.nan}
+
+    # Tek geçiş, O(N): küme bir kez kurulup token'lar sırayla eklenir. Eskiden
+    # her noktada `set(tokens[:kesim])` baştan kuruluyordu — O(N²/step);
+    # 1 milyon token'da ~7 dakika. Sonuç birebir aynı (test_lexical'de sınanıyor).
+    gorulen: set[str] = set()
+    vt: list[int] = []
+    onceki = 0
+    for kesim in nt:
+        gorulen.update(tokens[onceki:kesim])
+        onceki = kesim
+        vt.append(len(gorulen))
 
     beta = float(np.polyfit(np.log(nt), np.log(vt), 1)[0])
     return {"heaps_beta": round(beta, 4) + 0.0}      # + 0.0: -0.0 → 0.0
