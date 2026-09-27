@@ -14,10 +14,18 @@ version: "0.1.0"
 license: MIT
 repository-code: "https://github.com/efeziya1/turkish-linguistic-features"
 keywords:
-  - turkish
+  - quantitative-linguistics
   - computational-linguistics
+  - corpus-linguistics
+  - stylometry
+  - turkish
+  - english
   - feature-extraction
+  - text-analysis
+  - natural-language-processing
   - readability
   - lexical-richness
+  - lexical-diversity
+  - syntactic-complexity
   - morphology
   - digital-humanities
