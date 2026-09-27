@@ -25,6 +25,8 @@ from pathlib import Path
 
 import turkish_linguistic_features as tlf
 
+from _demo import demo_korpus_yaz
+
 # Ayarlar en üstte, tek yerde.
 PARCA_BOYUTU = 1000        # gerçek korpus için tipik değer (kelime)
 DEMO_PARCA_BOYUTU = 60     # demo metinleri kısa; 1000 ile hiç parça çıkmazdı
@@ -32,61 +34,6 @@ DIL = "tr"
 CIKTI_DIZINI = Path("examples/output")
 KORELASYON_ESIGI = 0.95
 EN_COK_DEGISEN = 10
-
-# Demo korpus: iki etiket, ikişer dosya. İçerik bu depo için yazıldı.
-DEMO_METINLER = {
-    "Anlatı_sabah": (
-        "Sabah erken kalktı. Pencereyi açtığında sokak henüz boştu ve uzaktan "
-        "bir kamyonun sesi geliyordu. Çayını tazeledi, defterini masaya koydu "
-        "ve dün gece yarım bıraktığı cümleyi yeniden okudu. Cümle ona artık "
-        "yabancı geliyordu; sanki başka biri yazmıştı. Kalemi eline aldı, "
-        "birkaç kelimeyi çizdi, yerine daha kısa olanları yazdı. Dışarıda "
-        "yağmur başlamıştı. Camın kenarında biriken damlaları izledi ve "
-        "yazmaya devam etti. Öğleye doğru defteri kapattı, paltosunu giydi ve "
-        "kapıyı arkasından yavaşça çekti. Merdivenlerde komşusuyla karşılaştı, "
-        "selamlaştılar, hava üzerine iki cümle kurdular. Sokağa çıktığında "
-        "yağmur dinmiş, kaldırımlar ıslak kalmıştı."
-    ),
-    "Anlatı_akşam": (
-        "Akşam olduğunda ışıkları yakmadı. Karanlık odada oturdu ve caddeden "
-        "gelen sesleri dinledi. Bir araba korna çaldı, ardından biri güldü. "
-        "Masanın üstünde duran defteri eline aldı ama açmadı. Ne yazacağını "
-        "biliyordu, yalnız başlamak istemiyordu. Mutfağa gitti, bir bardak su "
-        "içti ve geri döndü. Saat geç olmuştu. Sonunda lambayı yaktı, defteri "
-        "açtı ve sabah bıraktığı yerden devam etti. Yazdıkça cümleler "
-        "kısalıyordu. Gece yarısına doğru son noktayı koydu, defteri kapattı "
-        "ve uyumaya gitti. Ertesi sabah aynı cümleyi bir kez daha okuyacaktı."
-    ),
-    "Bilgi_tokenizasyon": (
-        "Tokenizasyon, bir metni işlenebilir birimlere ayırma işlemidir. "
-        "Birimler çoğunlukla kelimelerdir, ancak noktalama işaretleri ve "
-        "sayılar da ayrı birim sayılır. Ayırma kuralları dile göre değişir: "
-        "Türkçede kesme işareti ekleri ayırırken, İngilizcede kısaltmaların "
-        "içinde geçebilir. Bu nedenle dilden bağımsız bir kural kümesi "
-        "yeterli olmaz. Ayrıca aynı metnin iki farklı yöntemle sayılması "
-        "farklı birim sayıları verir; uzunluğa duyarlı ölçütler bu farktan "
-        "doğrudan etkilenir. Ölçümlerin karşılaştırılabilir olması için "
-        "tokenizasyon yönteminin baştan sabitlenmesi ve raporlanması gerekir."
-    ),
-    "Bilgi_parcalama": (
-        "Parçalama, uzun bir metni eşit büyüklükte bölümlere ayırma işlemidir. "
-        "Sözcüksel zenginlik ölçütlerinin çoğu metin uzunluğuna duyarlıdır, "
-        "yani aynı metnin uzun ve kısa bölümleri farklı değerler üretir. "
-        "Bu yüzden karşılaştırılacak bölümlerin yakın uzunlukta olması "
-        "beklenir. Son bölüm çoğu zaman eksik kalır; eşiğin altındaki artığı "
-        "atmak, ölçülen farkın metinden mi yoksa bölüm uzunluğundan mı "
-        "geldiği sorusunu ortadan kaldırır. Bölüm boyu seçimi yöntem "
-        "bölümünde belirtilmesi gereken bir karardır."
-    ),
-}
-
-
-def demo_korpus_yaz(dizin: Path) -> None:
-    """Depoda korpus yok; küçük bir demo korpusu diske yazar."""
-    dizin.mkdir(parents=True, exist_ok=True)
-    for ad, metin in DEMO_METINLER.items():
-        (dizin / f"{ad}.txt").write_text(metin, encoding="utf-8")
-
 
 def main() -> None:
     if len(sys.argv) > 1:
