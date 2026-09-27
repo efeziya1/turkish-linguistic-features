@@ -9,12 +9,6 @@ Every feature the library can produce, grouped as it is grouped in the code.
 This page is **generated from the registry**, so it cannot fall out of step
 with what `describe_feature()` returns.
 
-!!! info "This section is in English"
-
-    Feature descriptions, formulas and citations are kept in a single
-    language so that no translation layer sits between a number and the
-    source it is compared against. The Turkish documentation links here.
-
 **Reading the columns**
 
 | Column | Meaning |
@@ -119,7 +113,7 @@ published is a separate question — see the
 | `sentence_length_cv` | spread of sentence length | `population std / mean of words per sentence` | at least 2 sentences with a letter | — |
 | `sent_len_skewness` | skew of sentence length; positive = long-sentence tail | `Fisher-Pearson g1 = m3 / m2^1.5 over words per sentence` | at least 2 sentences of different length | — |
 | `short_sent_ratio` | share of short sentences | `sentences with fewer than short_sent_threshold words / sentences` | at least 1 sentence with a letter | Ateşman (1997) p.74 — the easiest Turkish text has a sentence length of 4 words; Threshold calibration (2026-07-28) produced the same number independently (Turkish novel corpus, 15th percentile = 4). The EN threshold of 7 comes from calibration only |
-| `long_sent_ratio` | share of long sentences | `sentences with more than long_sent_threshold words / sentences` | at least 1 sentence with a letter | Threshold calibration (2026-07-28); TR 18, EN 39 — 85th percentile. Ateşman's 30 was not used: that is THE MEAN OF THE HARDEST TEXT, not a single-sentence threshold (in Turkish novels 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on novels/fiction only |
+| `long_sent_ratio` | share of long sentences | `sentences with more than long_sent_threshold words / sentences` | at least 1 sentence with a letter | Threshold calibration (2026-07-28); TR 18, EN 39 — 85th percentile. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish novels 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on novels/fiction only |
 | `med_sent_len` | median sentence length | `median words per sentence` | at least 1 sentence with a letter | — |
 | `sent_len_entropy` | variety of sentence lengths | `Shannon entropy (bits) of the distribution of words per sentence` | at least 2 sentences with a letter | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision |
 
@@ -451,7 +445,7 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 :   Smith, E. A., & Senter, R. J. (1967). Automated readability index. AMRL-TR-66-220. Wright-Patterson AFB, OH: Aerospace Medical Research Laboratories. 22 s.
 
 **Threshold calibration (2026-07-28)**
-:   This library's own measurement, not a published source. short_sent_threshold and long_sent_threshold were derived from the 15th and 85th percentiles of the sentence-length distribution in novel corpora: TR 15 authors / 1,089,841 sentences, EN 10 authors / 341,892 sentences. Method and raw percentile table: docs/esik-kalibrasyonu.md.
+:   This library's own measurement, not a published source. short_sent_threshold and long_sent_threshold were derived from the 15th and 85th percentiles of the sentence-length distribution in novel corpora: TR 15 authors / 1,089,841 sentences, EN 10 authors / 341,892 sentences. Method and raw percentile table: docs/threshold-calibration.md.
 
 **Tweedie & Baayen (1998)**
 :   Tweedie, F. J., & Baayen, R. H. (1998). How variable may a constant be? Measures of lexical richness in perspective. Computers and the Humanities, 32(5), 323–352. DOI 10.1023/A:1001749303137

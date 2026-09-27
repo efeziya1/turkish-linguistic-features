@@ -33,12 +33,6 @@ Every feature the library can produce, grouped as it is grouped in the code.
 This page is **generated from the registry**, so it cannot fall out of step
 with what `describe_feature()` returns.
 
-!!! info "This section is in English"
-
-    Feature descriptions, formulas and citations are kept in a single
-    language so that no translation layer sits between a number and the
-    source it is compared against. The Turkish documentation links here.
-
 **Reading the columns**
 
 | Column | Meaning |

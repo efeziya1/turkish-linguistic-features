@@ -32,8 +32,7 @@ oz["atesman"]             # 77.2479  (Ateşman 1997 okunabilirlik)
 
 - **[Başvuru · Reference →](reference/index.md)**
 
-    208 özniteliğin tam listesi ve genel API. Bu bölüm İngilizcedir —
-    kaynağı registry'dir. *This section is in English.*
+    208 özniteliğin tam listesi ve genel API (İngilizce).
 
 - **[Doğrulama · Verification →](dogrulama-raporu.md)**
 

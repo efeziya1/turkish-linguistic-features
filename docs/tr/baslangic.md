@@ -167,12 +167,6 @@ print(json.dumps(tlf.describe_feature("mattr"), ensure_ascii=False, indent=2))
 kısa işaretçidir ve **ne bilmediğimizi de söyler** — yukarıdaki örnekte
 varsayılan pencere boyunun kaynaktan gelmediğini açıkça yazıyor.
 
-!!! info "Bu bölüm İngilizce"
-
-    `describe_feature` çıktısı İngilizcedir. Künyeler, formüller ve
-    tanımlar tek dilde tutuluyor ki kaynakla karşılaştırırken çeviri
-    katmanı araya girmesin.
-
 ## 7. Bir korpusu tabloya çevirin
 
 Tek metin nadiren yeterlidir. Dizin yapınız şöyle olsun:

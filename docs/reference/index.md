@@ -7,17 +7,6 @@ Look-up material. Not meant to be read front to back.
 | [Feature reference](features.md) | All 208 feature keys: description, formula, requirement, source |
 | [Public API](api.md) | The ten public names, with full signatures |
 
-!!! info "This section is in English · Bu bölüm İngilizcedir"
-
-    Feature descriptions, formulas and citations are kept in one language so
-    that no translation layer sits between a number and the source it is
-    compared against. The `describe_feature()` output you see in Python is
-    the same text you see here.
-
-    Öznitelik tanımları, formüller ve künyeler tek dilde tutulur ki bir sayı
-    ile karşılaştırıldığı kaynak arasına çeviri katmanı girmesin. Python'da
-    `describe_feature()` ile gördüğünüz metnin aynısı burada.
-
 ## Generated, not written
 
 `features.md` is produced by `scripts/basvuru_uret.py` from the registry.
@@ -39,4 +28,4 @@ python scripts/dogrulama_raporu.py
 - How to read that report →
   [TR](../tr/aciklama/dogrulama.md) · [EN](../en/explanation/verification.md)
 - Where the sentence thresholds come from →
-  [threshold calibration](../esik-kalibrasyonu.md) (Turkish)
+  [threshold calibration](../threshold-calibration.md)
