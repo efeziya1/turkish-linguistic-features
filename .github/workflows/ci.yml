@@ -24,8 +24,8 @@ jobs:
   lint:
     runs-on: ubuntu-latest                # GitHub'ın verdiği temiz bir Linux makinesi
     steps:
-      - uses: actions/checkout@v4         # depoyu makineye indir
-      - uses: actions/setup-python@v5     # Python'u kur
+      - uses: actions/checkout@v7         # depoyu makineye indir
+      - uses: actions/setup-python@v7     # Python'u kur
         with:
           python-version: "3.12"
           cache: pip                      # pip indirmelerini koşular arası sakla
@@ -57,8 +57,8 @@ jobs:
       TLF_REQUIRE_MODELS: "1"
       TR_MODEL_URL: https://huggingface.co/turkish-nlp-suite/tr_core_news_md/resolve/main/tr_core_news_md-1.0-py3-none-any.whl
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
@@ -73,7 +73,7 @@ jobs:
       # indirilip önbellekte tutulur. Anahtar model sürümüne bağlı: TR_MODEL_URL'deki
       # sürüm değişirse anahtarı da değiştir, yoksa eski wheel kullanılır.
       - name: Cache Turkish model wheel
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/tlf-models
           key: tr-core-news-md-1.0
