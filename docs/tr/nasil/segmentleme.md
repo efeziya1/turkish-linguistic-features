@@ -5,7 +5,9 @@
 Sözcüksel zenginlik öznitelikleri **metin uzunluğuna duyarlıdır.** TTR uzun
 metinde mutlaka düşer, `hapax_ratio` düşer, `yule_k` oynar. 50 000 kelimelik
 bir romanla 800 kelimelik bir köşe yazısını aynı tabloda karşılaştırırsanız
-ölçtüğünüz şey üslup değil, uzunluk olur.
+ölçtüğünüz şey üslup değil, uzunluk olur. `mattr`, `mtld` ve `vocd_d` TTR'den
+daha az duyarlıdır ama bağımsız değildir
+([ölçüm örneği](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/09_uzunluk_duyarliligi.py)).
 
 Çözüm: hepsini aynı boya getirin.
 

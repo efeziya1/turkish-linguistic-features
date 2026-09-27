@@ -90,10 +90,11 @@ seçmez.
 Sözcüksel zenginlik ölçülerinin çoğu uzunlukla değişir. `ttr` en uçtaki
 örnektir: metin uzadıkça mutlaka düşer.
 
-Farklı uzunluktaki metinleri karşılaştırıyorsanız ya parçalayıp eşitleyin
-([nasıl](../nasil/segmentleme.md)) ya da uzunluktan görece bağımsız
-tasarlanmış ölçüleri kullanın: `mattr`, `mtld`, `vocd_d`. Onlar da en az
-100 kelime ister.
+`mattr`, `mtld` ve `vocd_d` uzunluğa TTR'den daha az duyarlıdır ama
+bağımsız değildir; `mtld` ve `vocd_d` Türkçede belirgin biçimde kayar
+([ölçüm örneği](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/09_uzunluk_duyarliligi.py)). Onlar da en az
+100 kelime ister. Farklı uzunluktaki metinleri karşılaştırıyorsanız önce
+`segment_size` ile aynı boya getirin ([nasıl](../nasil/segmentleme.md)).
 
 ## 7. Paragraf öznitelikleri girdinin biçimlendirmesine bağlı
 

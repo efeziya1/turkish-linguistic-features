@@ -81,8 +81,11 @@ How to read it:
         before, after = tlf.analyze(p1[0], lang="en"), tlf.analyze(p2[0], lang="en")
     ```
 
-    The measures designed to be length-independent are `mattr`, `mtld` and
-    `vocd_d` — but they also need at least 100 words.
+    `mattr`, `mtld` and `vocd_d` are **less** sensitive to length than TTR,
+    but **not independent** of it; `mtld` and `vocd_d` drift noticeably in
+    Turkish ([measured example](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/09_uzunluk_duyarliligi.py)). They
+    also need at least 100 words. When comparing texts of different lengths,
+    bring them to the same size with `segment_size` first.
 
 Sentence length, syllable mean, word length and the readability formulas
 are relatively length-independent and can be compared even in short texts.

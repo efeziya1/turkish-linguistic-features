@@ -92,10 +92,12 @@ context.
 Most lexical richness measures change with length. `ttr` is the extreme
 case: it always falls as a text grows.
 
-If you compare texts of different lengths, either segment them to equal
-size ([how](../how-to/segmenting.md)) or use measures designed to be
-length-independent: `mattr`, `mtld`, `vocd_d`. Those also need at least
-100 words.
+`mattr`, `mtld` and `vocd_d` are less sensitive to length than TTR but not
+independent of it; `mtld` and `vocd_d` drift noticeably in Turkish
+([measured example](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/09_uzunluk_duyarliligi.py)). They also
+need at least 100 words. If you compare texts of different lengths, bring
+them to the same size with `segment_size` first
+([how](../how-to/segmenting.md)).
 
 ## 7. Paragraph features depend on how the input is formatted
 

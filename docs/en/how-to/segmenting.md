@@ -5,7 +5,9 @@
 Lexical richness features are **sensitive to text length**. TTR always
 falls as a text gets longer, `hapax_ratio` falls, `yule_k` drifts. Put a
 50 000-word novel and an 800-word column in the same table and what you
-measure is not style, it is length.
+measure is not style, it is length. `mattr`, `mtld` and `vocd_d` are less
+sensitive than TTR but not independent of length
+([measured example](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/09_uzunluk_duyarliligi.py)).
 
 The fix is to bring everything to the same size.
 

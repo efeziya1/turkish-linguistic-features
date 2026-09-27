@@ -77,8 +77,11 @@ Okunuşu:
         once, sonra = tlf.analyze(p1[0], lang="tr"), tlf.analyze(p2[0], lang="tr")
     ```
 
-    Uzunluktan bağımsız tasarlanmış ölçüler `mattr`, `mtld` ve `vocd_d`'dir
-    — ama onlar da en az 100 kelime ister.
+    `mattr`, `mtld` ve `vocd_d` uzunluğa TTR'den **daha az** duyarlıdır ama
+    **bağımsız değildir**; `mtld` ve `vocd_d` Türkçede belirgin biçimde
+    kayar ([ölçüm örneği](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/09_uzunluk_duyarliligi.py)). En az 100
+    kelime de isterler. Farklı uzunluktaki metinleri karşılaştırırken önce
+    `segment_size` ile aynı boya getirin.
 
 Cümle uzunluğu, hece ortalaması, kelime uzunluğu ve okunabilirlik
 formülleri uzunluktan görece bağımsızdır; kısa metinlerde bile

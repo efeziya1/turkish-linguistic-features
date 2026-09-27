@@ -110,8 +110,10 @@ Bunlar ne anlatıyor:
 
     TTR metin uzunluğuna çok duyarlıdır: metin uzadıkça mutlaka düşer.
     Bu yüzden farklı uzunluktaki metinleri TTR ile karşılaştıramazsınız.
-    Uzunluktan bağımsız olması için `mattr`, `mtld` ya da `vocd_d`
-    kullanın — ama onlar daha uzun metin ister (bkz. adım 5).
+    `mattr`, `mtld` ve `vocd_d` uzunluğa daha az duyarlıdır ama bağımsız
+    değildir ([ölçüm örneği](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/09_uzunluk_duyarliligi.py)); daha uzun
+    metin de isterler (bkz. adım 5). Farklı uzunluktaki metinleri
+    karşılaştırırken önce `segment_size` ile aynı boya getirin.
 
 ## 5. Neden bazı değerler `nan`?
 
