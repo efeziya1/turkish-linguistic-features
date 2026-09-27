@@ -70,11 +70,15 @@ How to read it:
 
     When an edit shortens a text, `ttr`, `hapax_ratio` and `yule_k` change
     **because of length**. For a real comparison on those measures, bring
-    both texts to the same size:
+    both texts to the same size. That only works when both texts are at
+    least `size` tokens long; it does not suit the short examples on this
+    page (`segment_text` returns an empty list).
 
     ```python
-    p1 = tlf.segment_text(before_text, size=500, lang="en")[0]
-    p2 = tlf.segment_text(after_text,  size=500, lang="en")[0]
+    p1 = tlf.segment_text(before_text, size=500, lang="en")
+    p2 = tlf.segment_text(after_text,  size=500, lang="en")
+    if p1 and p2:                      # both ≥ 500 tokens
+        before, after = tlf.analyze(p1[0], lang="en"), tlf.analyze(p2[0], lang="en")
     ```
 
     The measures designed to be length-independent are `mattr`, `mtld` and

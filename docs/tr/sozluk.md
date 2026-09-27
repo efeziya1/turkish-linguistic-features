@@ -58,7 +58,7 @@ Kütüphanede bunlar **iki ayrı alandır**:
 
 ```python
 tlf.describe_feature("mattr")["citation"]   # künye: kısa işaretçi
-tlf.describe_feature("mattr")["references"] # kaynakça kaydı: tam künye
+tlf.describe_feature("mattr")["references"] # kaynakça kaydı: tam kaynakça kaydı
 ```
 
 Künyeyi metin içinde, kaynakça kaydını kaynakçada kullanırsınız.

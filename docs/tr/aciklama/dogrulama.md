@@ -40,7 +40,7 @@ Bu ayrım raporun en önemli parçası. 208 özniteliğin bir kısmı, tanımı 
 
 | | Neden aday değil |
 |---|---|
-| ⚪ **kaynak yok** | Saf tanım. `punc_,_ratio` "virgül / kelime" demektir; aranacak bir literatür sayısı yoktur. `char_a`…`char_z` tek başına 26 anahtar. |
+| ⚪ **kaynak yok** | Saf tanım. `punc_,_ratio` "virgül / kelime" demektir; aranacak bir literatür sayısı yoktur. Harf sıklık vektörü tek başına 29 anahtar (Türkçe). |
 | ⚫ **etiket şeması** | Bir ölçü değil, dış bir şemanın kategorisini sayıyor. `pos_noun` → UD, `case_loc_ratio` → Zeyrek. **Şema kategori tanımlar, ölçüm yayımlamaz** — de Marneffe'in makalesi "morph_case_loc = 0,07" diye bir sayı basmaz, basamaz. |
 | 🔧 **türev** | Formül bir kaynaktan, **uygulaması bizden**. `entropy_std` Shannon'ın entropisidir ama parçalar arası standart sapması bizim; `long_sent_ratio`'nun eşiği kendi kalibrasyonumuzdan gelir. Bu ölçüleri kimse yayımlamadı — kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
 
@@ -147,7 +147,9 @@ yuvarlamasından geliyor. ⚪ → ✅
 
 ## 🟡 nasıl görünür — Kincaid örneği
 
-İki okunabilirlik özniteliği, `ari` ve `flesch_kincaid_grade`, 🟡 durumunda.
+İngilizce raporda iki okunabilirlik özniteliği, `ari` ve
+`flesch_kincaid_grade`, 🟡 durumunda. `ari` Türkçe şemada da var ve aynı
+karşılaştırmayla orada da 🟡; `flesch_kincaid_grade` yalnız İngilizcede var.
 Üç soruyla anlatılabilir.
 
 **Ne karşılaştırıldı?** Bu iki ölçünün kaynağı 1975 tarihli bir ABD Donanması
@@ -157,8 +159,10 @@ hesapladığı ARI ve FKGL değerleri var. Yani kaynak hem girdiyi hem cevabı
 basmış — doğrulama için elde olabilecek en iyi malzeme. 18 parçanın hepsini
 boru hattımızdan geçirdik.
 
-**Sapma ne kadar?** Ortalama **0,54 ARI puanı**. Tolerans 0,05, yani ✅
-olamıyor.
+**Sapma ne kadar?** Pasaj başına mutlak farkların ortalaması **0,54 ARI
+puanı**. Raporda görünen −0,485 başka bir sayıdır: kaynağın Tablo 1'de
+bastığı ortalama (12,3) ile bizim 18 pasajlık ortalamamız arasındaki fark.
+İkisi de tolerans olan 0,05'in çok üstünde, yani ✅ olamıyor.
 
 **Neden ❌ değil?** Çünkü sapmanın nereden geldiğini tahmin etmedik, ölçtük.
 Her iki formülün girdisi "kelime başına vuruş" (harf ve rakam sayısı), ve
@@ -226,7 +230,7 @@ Sık kullanılan altısı:
 | `entropy_std` | ayrık `mattr_window` kelimelik parçaların entropilerinin (bit) yığın standart sapması | entropi formülü — Shannon (1948) |
 | `punct_entropy` | on noktalama türünün dağılımının Shannon entropisi (bit) | entropi formülü — Shannon (1948) |
 | `sent_len_entropy` | cümle başına kelime dağılımının Shannon entropisi (bit) | entropi formülü — Shannon (1948) |
-| `short_sent_ratio` | `short_sent_threshold` kelimeden az cümle / cümle | eşik değeri — Ateşman (1997) s.74 ve [eşik kalibrasyonu](../../esik-kalibrasyonu.md) |
+| `short_sent_ratio` | `short_sent_threshold` kelimeden az cümle / cümle | eşik değeri — [eşik kalibrasyonu](../../esik-kalibrasyonu.md) |
 | `long_sent_ratio` | `long_sent_threshold` kelimeden çok cümle / cümle | eşik değeri — [eşik kalibrasyonu](../../esik-kalibrasyonu.md) |
 | `polysyllabic_word_ratio` | 3+ heceli kelime / hecelenebilir kelime | çok heceli tanımı — McLaughlin (1969) s.641 |
 

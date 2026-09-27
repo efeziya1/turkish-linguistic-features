@@ -4,8 +4,8 @@
 
 **Öznitelik** (feature), bir metinden çıkarılan tek bir sayıdır. `ttr`,
 `avg_word_length`, `atesman` — her biri bir öznitelik. Adları
-`snake_case`'dir ve hiç değişmez; sürüm yükseltmeleri anahtar adını
-bozmaz.
+`snake_case`'dir. Sürüm 0.1.0: 1.0'a kadar anahtar adları değişebilir;
+değişen adlar sürüm notlarında duyurulur.
 
 Öznitelik üç şeyden biridir:
 
@@ -34,8 +34,8 @@ sayfasında.
 
 Bazı anahtarlar tek tek yazılmamıştır, kalıptan üretilir:
 
-- `char_a` … `char_z` — harf sıklık vektörü
-- `punc_,_ratio`, `punc_._ratio` … — noktalama oranları
+- `char_*` — harf sıklık vektörü; alfabenin her harfi için bir anahtar
+  (Türkçe 29: `char_a`, `char_ç` … `char_z`; İngilizce 26)
 - `ng_*` — `custom_ngrams` verirseniz oluşan n-gram sayaçları
 
 `describe_feature("char_a")` çağırırsanız `formula` ve `requires` alanları
@@ -48,9 +48,12 @@ Her özniteliğin bir ölçeği vardır ve grafik kurarken bu önemlidir:
 | Ölçek | Anlamı | Örnek |
 |---|---|---|
 | `ratio_0_1` | 0 ile 1 arası oran | `ttr`, `mattr` |
-| `score` | Formülün ürettiği puan, sınırı yok | `atesman`, `ari` |
+| `score` | Formülün ürettiği puan; sabit bir aralığı yok | `atesman`, `yule_k`, `mtld` |
+| `length` | Birimi karakter, kelime ya da cümle olan ortalama uzunluk | `avg_word_length`, `avg_sent_len_word` |
+| `cv` | Değişim katsayısı (standart sapma / ortalama) | `sentence_length_cv` |
+| `bits` | Bit cinsinden entropi | `entropy`, `punct_entropy` |
+| `signed` | Eksi de olabilen değer (eğim, çarpıklık) | `ttr_moving_slope`, `sent_len_skewness` |
 | `count` | Sayım | `n_lemma_count` |
-| `chars` / `words` | Birimi karakter ya da kelime olan ortalama | `avg_word_length` |
 
 `ratio_0_1` olan iki özniteliği aynı eksende çizebilirsiniz; `score` olanı
 onların yanına koymak yanıltır.

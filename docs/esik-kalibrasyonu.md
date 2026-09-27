@@ -77,9 +77,10 @@ eşit, çünkü Türkçede 10. ve 15. yüzdelik aynı değeri (4,0) veriyor.
 Ateşman (1997), s.74'te formülün kalibrasyon uçlarını veriyor: en kolay metin
 ortalama **4** sözcüklük cümle, en zor metin **30**.
 
-Türkçe `short_sent_threshold=4`, Ateşman'ın "en kolay metin" değeriyle birebir
-aynı. İki bağımsız yol — 1997'de metin zorluğu üzerinden küme analizi, 2026'da
-roman korpusunun dağılımı — aynı sayıyı verdi. Ateşman s.73'teki Türkçe normu
+Türkçe `short_sent_threshold=4` kalibrasyondan gelir. Ateşman'ın "en kolay
+metin" değeriyle örtüşmesi yalnız bir nottur: o sayı bir metnin ortalamasıdır,
+eşik değildir, bu yüzden kaynak olarak gösterilmez — 30 için geçerli olan
+gerekçenin aynısı. Ateşman s.73'teki Türkçe normu
 (ortalama cümle 9-10 sözcük) da korpusun medyanıyla (9,0) tutuyor.
 
 Ateşman'ın 30'u `long` için **kullanılmadı**: o sayı en zor metnin ortalaması,

@@ -742,7 +742,7 @@ onun literatürdeki değeri tuttuğunu görebilmeniz.
 | 🔍 **açık** | Kaynak formülü veriyor ama uygulanmış bir örnek vermiyor. Doğrulanabilir, henüz doğrulanmadı; formül ve sınır durumları kendi test dosyalarında sınanıyor. |
 | ❌ **uyuşmazlık** | **Açıklanmamış** fark. **Yayın kapısı:** bir tane bile varsa sürüm çıkmaz. |
 
-Aşağıdaki iki durum **doğrulama adayı değildir** — aranacak bir sayı yoktur:
+Aşağıdaki üç durum **doğrulama adayı değildir** — aranacak bir sayı yoktur:
 
 | | Anlamı |
 |---|---|
@@ -794,7 +794,7 @@ value in the literature.
 | 🔍 **open** | The source gives the formula but no applied example. Verifiable, not yet verified; the formula and its edge cases are tested in their own test files. |
 | ❌ **mismatch** | An **unexplained** difference. **Release gate:** a single one blocks a release. |
 
-The two statuses below are **not verification candidates** — there is no
+The three statuses below are **not verification candidates** — there is no
 number to look for:
 
 | | Meaning |

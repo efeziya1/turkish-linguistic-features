@@ -74,8 +74,8 @@ Yukarıdaki örnekte ikisi de 4 veriyor çünkü artık 32 token = %32, yani
 !!! warning "Atılan veri sessizce atılır"
 
     Kütüphane kaç parça attığını size söylemez. `min_fill=1.0` ile 1400
-    kelimelik bir dosyadan `size=1000` ile **tek** parça çıkar; kalan 400
-    kelime gider. Korpusunuzda kısa dosyalar varsa hiç parça
+    tokenlık bir dosyadan `size=1000` ile **tek** parça çıkar; kalan 400
+    token (noktalama dahil, ~330 kelime) gider. Korpusunuzda kısa dosyalar varsa hiç parça
     üretmeyebilirler.
 
     Bunu bilerek kullanın. Şüpheliyseniz önce sayın:

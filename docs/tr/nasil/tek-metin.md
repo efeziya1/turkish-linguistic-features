@@ -20,9 +20,17 @@ len(tr)   # 208
 len(en)   # 182
 ```
 
-Aradaki 26 öznitelik Türkçeye özgüdür: ünlü uyumu, ek zinciri derinliği,
-durum eki oranları, Ateşman/Çetinkaya/Bezirci-Yılmaz okunabilirlik
-formülleri. İngilizcede bunların yerine Flesch, Flesch-Kincaid ve SMOG var.
+Aradaki 26'nın dökümü:
+
+- **+24** Zeyrek ek çözümlemesi (`morphological_zeyrek`; ek zinciri,
+  durum ekleri, kip ve zaman) — yalnız Türkçe.
+- **+3** harf: Türkçe alfabe 29 harf, İngilizce 26 (`ç ğ ı ö ş ü` yalnız
+  Türkçede, `q w x` yalnız İngilizcede).
+- **−1** okunabilirlik: Türkçede üç formül (Ateşman, Çetinkaya-Uzun,
+  Bezirci-Yılmaz), İngilizcede dört (Flesch, Flesch-Kincaid, SMOG ve çok
+  heceli kelime oranı); ortak olanlar iki dilde de var.
+
+Ünlü uyumu öznitelikleri iki dilde de üretilir.
 
 `lang` yalnız `"tr"` ve `"en"` alır. Başka bir değer `ValueError` verir.
 
@@ -40,7 +48,7 @@ Mevcut gruplar ve Türkçede kaç öznitelik içerdikleri:
 | Grup | Öznitelik | İçerik |
 |---|---|---|
 | `lexical` | 32 | Sözcüksel zenginlik, sıklık |
-| `chars` | 29 | Harf sıklık vektörü (`char_a`…`char_z` + 3) |
+| `chars` | 29 | Harf sıklık vektörü: Türkçe alfabenin her harfi için bir anahtar (İngilizcede 26; `q`, `w`, `x` yalnız orada) |
 | `morphological_zeyrek` | 24 | Zeyrek ek çözümlemesi (yalnız TR) |
 | `morphological` | 19 | UD morfolojik özellikleri |
 | `punctuation` | 18 | Noktalama oranları |
@@ -66,8 +74,9 @@ oz = tlf.analyze(metin, lang="tr", show_progress=True)
 
 ## Uyarıları susturun
 
-İsteğe bağlı bir paket (`pandas`, `wordfreq`) kurulu değilse kütüphane
-`MissingDependencyWarning` basar ve o özniteliği `nan` bırakır. Bunu bilerek
+İsteğe bağlı `wordfreq` paketi kurulu değilse kütüphane
+`MissingDependencyWarning` basar ve ona bağlı iki özniteliği (`wordfreq_*`)
+`nan` bırakır. Bunu bilerek
 kabul ediyorsanız:
 
 ```python

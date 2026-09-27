@@ -99,8 +99,6 @@ Boş liste dönerse o öznitelik hiçbir parametreye bağlı değildir.
 Covington & McFall (2010) üslup analizi için **500** öneriyor. Kütüphanenin
 varsayılanı 50 — onda biri. Neden:
 
-- 50, dil öğrenimi yazınının yerleşik değeri (MSTTR, MTTRSS çalışmalarında
-  `n` genelde 50).
 - Pencere boyu aynı zamanda **alt sınırdır**: `mattr` en az `2 × window`
   kelime ister. 500 olsaydı 1000 kelimeden kısa hiçbir metin sayı
   üretemezdi.

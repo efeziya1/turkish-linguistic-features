@@ -47,7 +47,7 @@ GROUP_LABELS: dict[str, str] = {
     "phonetic": "Phonetic patterns",
     "readability": "Readability scores",
     "punctuation": "Punctuation & digits",
-    "chars": "Character frequency vector  [dynamic: char_a...char_z]",
+    "chars": "Character frequency vector  [dynamic: one key per letter — TR 29, EN 26]",
     "custom_ngrams": "User-defined n-gram ratios  [dynamic: ng_{...}]",
 }
 
@@ -375,10 +375,10 @@ def describe_feature(key: str) -> dict:
         olan budur.
 
         ``citation`` ``None`` ise o anahtar adlandırılmış bir literatür
-        ölçüsü değildir. Ölçünün **kime ait olduğu** hakkında bir şey
-        söylemez: kimi anahtar saf tanımdır (``punc_,_ratio``), kimi ise
-        bir dış etiket şemasının kategorilerini sayar (``morph_case_loc``
-        → UD; ``case_loc_ratio`` → Zeyrek).
+        ölçüsü değildir, saf tanımdır (``punc_,_ratio``, ``char_a``). Dış
+        bir etiket şemasının kategorisini sayan anahtarların künyesi
+        ``None`` değildir, şemayı gösterir (``morph_case_loc`` → UD;
+        ``case_loc_ratio`` → Zeyrek).
 
     Raises
     ------

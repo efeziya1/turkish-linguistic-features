@@ -102,8 +102,6 @@ An empty list means the feature depends on no parameter.
 Covington & McFall (2010) recommend **500** for stylometric analysis. The
 default here is 50 — a tenth of that. The reasons:
 
-- 50 is the established value in the language-learning literature
-  (in MSTTR and MTTRSS work `n` is usually 50).
 - The window size is also a **lower bound**: `mattr` requires at least
   `2 × window` words. At 500, no text under 1000 words could produce a
   value at all.

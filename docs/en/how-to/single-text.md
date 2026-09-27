@@ -21,9 +21,17 @@ len(tr)   # 208
 len(en)   # 182
 ```
 
-The 26-feature difference is Turkish-specific: vowel harmony, suffix chain
-depth, case-marker ratios, and the Ateşman / Çetinkaya / Bezirci-Yılmaz
-readability formulas. English gets Flesch, Flesch-Kincaid and SMOG instead.
+The 26-feature difference breaks down as:
+
+- **+24** Zeyrek suffix analysis (`morphological_zeyrek`: suffix chain,
+  case markers, mood and tense) — Turkish only.
+- **+3** letters: the Turkish alphabet has 29, English 26 (`ç ğ ı ö ş ü`
+  only in Turkish, `q w x` only in English).
+- **−1** readability: three formulas in Turkish (Ateşman, Çetinkaya-Uzun,
+  Bezirci-Yılmaz), four in English (Flesch, Flesch-Kincaid, SMOG and the
+  polysyllabic word ratio); the shared ones exist in both.
+
+The vowel harmony features are produced in both languages.
 
 `lang` accepts only `"tr"` and `"en"`. Anything else raises `ValueError`.
 
@@ -41,7 +49,7 @@ The groups, with their Turkish feature counts:
 | Group | Features | Contents |
 |---|---|---|
 | `lexical` | 32 | Lexical richness, frequency |
-| `chars` | 29 | Letter frequency vector (`char_a`…`char_z` + 3) |
+| `chars` | 29 | Letter frequency vector: one key per letter of the Turkish alphabet (26 in English; `q`, `w`, `x` only there) |
 | `morphological_zeyrek` | 24 | Zeyrek suffix analysis (Turkish only) |
 | `morphological` | 19 | UD morphological features |
 | `punctuation` | 18 | Punctuation ratios |
@@ -66,8 +74,9 @@ oz = tlf.analyze(text, lang="en", show_progress=True)
 
 ## Silence the warnings
 
-If an optional package (`pandas`, `wordfreq`) is missing, the library
-raises `MissingDependencyWarning` and leaves that feature as `nan`. If you
+If the optional `wordfreq` package is missing, the library raises
+`MissingDependencyWarning` and leaves the two features that depend on it
+(`wordfreq_*`) as `nan`. If you
 are accepting that knowingly:
 
 ```python

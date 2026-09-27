@@ -85,12 +85,15 @@ tlf.describe_feature("punc_,_ratio")
 ```
 
 `citation` `None` ise o anahtar **adlandırılmış bir literatür ölçüsü
-değildir.** Bu, ölçünün kime ait olduğu hakkında bir şey söylemez: kimi
-anahtar saf tanımdır (`punc_,_ratio`), kimi bir dış etiket şemasının
-kategorilerini sayar (`morph_case_loc` → UD; `case_loc_ratio` → Zeyrek).
+değildir,** saf bir tanımdır: `punc_,_ratio` ("virgül / kelime"),
+`char_a` ("a harfinin payı"), `avg_sent_len_word` ("cümle başına kelime").
+Bir dış etiket şemasının kategorisini sayan anahtarların künyesi ise `None`
+değildir, şemayı gösterir (`morph_case_loc` → UD; `case_loc_ratio` →
+Zeyrek).
 
-208 anahtarın **67'sinin** kaynağı yoktur. Bunların 26'sı tek başına harf
-sıklık vektörüdür (`char_a`…`char_z`).
+Türkçedeki 208 anahtarın **67'sinin** künyesi yoktur: 29'u harf sıklık
+vektörü (Türkçe alfabenin her harfi için bir anahtar), 17'si noktalama
+oranı, 21'i uzunluk ve dağılım gibi başka saf tanımlar.
 
 ## Yöntem bölümüne yazarken
 

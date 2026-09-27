@@ -3,8 +3,9 @@
 ## Feature
 
 A **feature** is a single number extracted from a text. `ttr`,
-`avg_word_length`, `atesman` — each is one feature. Names are `snake_case`
-and they do not change; version upgrades never rename a key.
+`avg_word_length`, `atesman` — each is one feature. Names are `snake_case`.
+This is version 0.1.0: until 1.0 a key may be renamed, and renamed keys are
+announced in the release notes.
 
 A feature is one of three things:
 
@@ -35,8 +36,8 @@ The groups and their sizes are listed in
 Some keys are not written out one by one; they are generated from a
 pattern:
 
-- `char_a` … `char_z` — the letter-frequency vector
-- `punc_,_ratio`, `punc_._ratio` … — punctuation ratios
+- `char_*` — the letter-frequency vector, one key per letter of the alphabet
+  (Turkish 29: `char_a`, `char_ç` … `char_z`; English 26)
 - `ng_*` — n-gram counters created when you pass `custom_ngrams`
 
 If you call `describe_feature("char_a")`, the `formula` and `requires`
@@ -50,9 +51,12 @@ Every feature has a scale, and it matters when you plot:
 | Scale | Meaning | Example |
 |---|---|---|
 | `ratio_0_1` | A ratio between 0 and 1 | `ttr`, `mattr` |
-| `score` | A formula score with no bound | `atesman`, `ari` |
+| `score` | A formula score with no fixed range | `atesman`, `yule_k`, `mtld` |
+| `length` | A mean length in characters, words or sentences | `avg_word_length`, `avg_sent_len_word` |
+| `cv` | Coefficient of variation (standard deviation / mean) | `sentence_length_cv` |
+| `bits` | Entropy in bits | `entropy`, `punct_entropy` |
+| `signed` | A value that can be negative (slope, skewness) | `ttr_moving_slope`, `sent_len_skewness` |
 | `count` | A count | `n_lemma_count` |
-| `chars` / `words` | A mean whose unit is characters or words | `avg_word_length` |
 
 Two `ratio_0_1` features can share an axis; putting a `score` next to them
 misleads.

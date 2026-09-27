@@ -76,9 +76,12 @@ analyze_corpus(
 ) -> list[dict[str, object]]
 ```
 
-Runs `analyze` over every file in a one-level directory tree. Each row
-carries `label` (folder name), `source` (file stem) and `segment_id`
-alongside the features.
+Runs `analyze` over every text in a corpus. Three layouts are recognised:
+subfolders (`corpus/label/file.txt`), `Label_Title.txt` files at the root
+(the part before the first underscore is the label), or a single CSV/TSV
+file with a text column. Each row carries `label`, `source` and
+`segment_id` alongside the features. Details and accepted CSV headers:
+[TR](../tr/nasil/korpus.md) · [EN](../en/how-to/corpus.md).
 
 `segment_size` applies **per file**, not across the corpus. Leave it
 `None` to analyse each file whole.
@@ -177,7 +180,7 @@ sample counts. Nineteen fields; the full table is in
 |---|---|
 | `LinguisticFeaturesError` | Base class for everything the library raises |
 | `ModelNotFoundError` | Required language data is not installed: a spaCy model, or NLTK's `cmudict` for English syllable counts. The message contains the install command |
-| `MissingDependencyWarning` | An optional package (`pandas`, `wordfreq`) is missing; the affected features return `nan` |
+| `MissingDependencyWarning` | The optional `wordfreq` package is missing; the two `wordfreq_*` features return `nan` |
 | `ParagraphStructureWarning` | A text over 1000 words has no blank-line paragraph boundary; `para_*` features describe the whole text as one paragraph |
 
 Catching `LinguisticFeaturesError` catches every error the library raises

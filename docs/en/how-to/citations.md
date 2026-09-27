@@ -88,12 +88,15 @@ tlf.describe_feature("punc_,_ratio")
 ```
 
 A `citation` of `None` means the key is **not a named measure from the
-literature**. It says nothing about who the measure belongs to: some keys
-are plain definitions (`punc_,_ratio`), others count the categories of an
-external tag scheme (`morph_case_loc` → UD; `case_loc_ratio` → Zeyrek).
+literature**; it is a plain definition: `punc_,_ratio` ("commas / words"),
+`char_a` ("share of the letter a"), `avg_sent_len_word` ("words per
+sentence"). Keys that count the categories of an external tag scheme do
+have a citation, pointing at the scheme (`morph_case_loc` → UD;
+`case_loc_ratio` → Zeyrek).
 
-**67 of 208** keys have no citation. 26 of those are the letter-frequency
-vector alone (`char_a`…`char_z`).
+**67 of the 208** Turkish keys have no citation: 29 are the letter-frequency
+vector (one key per letter of the Turkish alphabet), 17 are punctuation
+ratios, and 21 are other plain definitions such as lengths and spreads.
 
 ## Building a bibliography for your methods section
 

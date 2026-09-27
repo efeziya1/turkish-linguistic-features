@@ -39,7 +39,7 @@ published is a separate question — see the
 | `phonetic` | 15 | Phonetic patterns |
 | `readability` | 11 | Readability scores |
 | `punctuation` | 18 | Punctuation & digits |
-| `chars` | dynamic | Character frequency vector  [dynamic: char_a...char_z] |
+| `chars` | dynamic | Character frequency vector  [dynamic: one key per letter — TR 29, EN 26] |
 | `custom_ngrams` | dynamic | User-defined n-gram ratios  [dynamic: ng_{...}] |
 
 
@@ -112,7 +112,7 @@ published is a separate question — see the
 | `avg_sent_len_char` | mean sentence length in characters | `mean len(tokens joined by single spaces)` | at least 1 sentence | — |
 | `sentence_length_cv` | spread of sentence length | `population std / mean of words per sentence` | at least 2 sentences with a letter | — |
 | `sent_len_skewness` | skew of sentence length; positive = long-sentence tail | `Fisher-Pearson g1 = m3 / m2^1.5 over words per sentence` | at least 2 sentences of different length | — |
-| `short_sent_ratio` | share of short sentences | `sentences with fewer than short_sent_threshold words / sentences` | at least 1 sentence with a letter | Ateşman (1997) p.74 — the easiest Turkish text has a sentence length of 4 words; Threshold calibration (2026-07-28) produced the same number independently (Turkish novel corpus, 15th percentile = 4). The EN threshold of 7 comes from calibration only |
+| `short_sent_ratio` | share of short sentences | `sentences with fewer than short_sent_threshold words / sentences` | at least 1 sentence with a letter | Threshold calibration (2026-07-28); TR 4, EN 7 — 15th percentile. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on novels/fiction only |
 | `long_sent_ratio` | share of long sentences | `sentences with more than long_sent_threshold words / sentences` | at least 1 sentence with a letter | Threshold calibration (2026-07-28); TR 18, EN 39 — 85th percentile. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish novels 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on novels/fiction only |
 | `med_sent_len` | median sentence length | `median words per sentence` | at least 1 sentence with a letter | — |
 | `sent_len_entropy` | variety of sentence lengths | `Shannon entropy (bits) of the distribution of words per sentence` | at least 2 sentences with a letter | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision |
@@ -310,7 +310,7 @@ published is a separate question — see the
 | `uppercase_ratio` | share of capitalised tokens | `tokens whose first letter is upper case / tokens with a letter` | at least 1 token with a letter | — |
 | `all_caps_word_ratio` | share of all-caps tokens | `tokens with 2+ letters, all upper case / tokens with a letter` | at least 1 token with a letter | — |
 
-## `chars` — Character frequency vector  [dynamic: char_a...char_z]
+## `chars` — Character frequency vector  [dynamic: one key per letter — TR 29, EN 26]
 
 Dynamic group: keys are generated with the prefix `char_`. The description, formula and requirement below are stated at the group level, not per key.
 

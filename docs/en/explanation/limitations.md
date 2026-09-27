@@ -132,5 +132,6 @@ what has been verified, what has not, and what cannot be, distinguishable.
 
 ## 9. The package is not on PyPI yet
 
-Version 0.1.0, early development. You install from a clone. Feature key
-names are stable, but the public API can be expected to grow.
+Version 0.1.0, early development. You install from a clone. Until 1.0, key
+names and the public API may change; changes are announced in the release
+notes.

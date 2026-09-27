@@ -42,7 +42,7 @@ some of the 208 features are **not even candidates** for verification:
 
 | | Why not a candidate |
 |---|---|
-| ⚪ **no source** | A plain definition. `punc_,_ratio` means "commas / words"; there is no number in the literature to look for. `char_a`…`char_z` is 26 keys on its own. |
+| ⚪ **no source** | A plain definition. `punc_,_ratio` means "commas / words"; there is no number in the literature to look for. The letter-frequency vector alone is 29 keys (Turkish). |
 | ⚫ **tag scheme** | Not a measure but a count of an external scheme's categories. `pos_noun` → UD, `case_loc_ratio` → Zeyrek. **A scheme defines categories; it does not publish measurements** — de Marneffe's paper does not print "morph_case_loc = 0.07", and could not. |
 | 🔧 **derivative** | The formula is from a source, **the application is ours**. `entropy_std` is Shannon's entropy, but taking its standard deviation across segments is ours; `long_sent_ratio`'s threshold comes from our own calibration. Nobody has published these measures — testing them against our own calibration would be reading our own answer sheet. |
 
@@ -157,7 +157,9 @@ intermediate value. ⚪ → ✅
 
 ## What a 🟡 looks like — the Kincaid case
 
-Two readability features, `ari` and `flesch_kincaid_grade`, sit at 🟡. Three
+In the English report two readability features, `ari` and
+`flesch_kincaid_grade`, sit at 🟡. `ari` is also in the Turkish schema and is
+🟡 there on the same comparison; `flesch_kincaid_grade` is English-only. Three
 questions explain it.
 
 **What was compared?** The source for both measures is a 1975 US Navy technical
@@ -167,8 +169,11 @@ values the report itself computed for those 18 passages. So the source published
 both the input and the answer — the best material verification can hope for. All
 18 went through our pipeline.
 
-**How large is the deviation?** **0.54 ARI points** on average. The tolerance is
-0.05, so ✅ is out.
+**How large is the deviation?** The mean of the per-passage absolute
+differences is **0.54 ARI points**. The −0.485 shown in the report is a
+different number: the gap between the mean the source printed in Table 1
+(12.3) and our mean over the 18 passages. Both are far above the 0.05
+tolerance, so ✅ is out.
 
 **Why is it not ❌?** Because we did not guess where the deviation comes from, we
 measured it. Both formulas take "strokes per word" (letters and digits) as an
@@ -242,7 +247,7 @@ The six that come up most often:
 | `entropy_std` | population standard deviation of the entropies (bits) of disjoint `mattr_window`-word chunks | the entropy formula — Shannon (1948) |
 | `punct_entropy` | Shannon entropy (bits) of the distribution over the ten mark types | the entropy formula — Shannon (1948) |
 | `sent_len_entropy` | Shannon entropy (bits) of the distribution of words per sentence | the entropy formula — Shannon (1948) |
-| `short_sent_ratio` | sentences with fewer than `short_sent_threshold` words / sentences | the threshold value — Ateşman (1997) p.74 and [threshold calibration](../../threshold-calibration.md) |
+| `short_sent_ratio` | sentences with fewer than `short_sent_threshold` words / sentences | the threshold value — [threshold calibration](../../threshold-calibration.md) |
 | `long_sent_ratio` | sentences with more than `long_sent_threshold` words / sentences | the threshold value — [threshold calibration](../../threshold-calibration.md) |
 | `polysyllabic_word_ratio` | 3+ syllable words / syllabifiable words | the definition of polysyllabic — McLaughlin (1969) p.641 |
 

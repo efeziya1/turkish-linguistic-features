@@ -142,7 +142,7 @@ parçalama:
 satirlar = tlf.analyze_corpus("korpus/", lang="tr", segment_size=1000)
 ```
 
-1000 kelimelik parçalar 208 özniteliğin neredeyse tamamını besler. Ayrıntı:
+1000 tokenlık parçalar 208 özniteliğin neredeyse tamamını besler. Ayrıntı:
 [Metni parçalara böl](../nasil/segmentleme.md).
 
 ## Neden `None` değil de `nan`

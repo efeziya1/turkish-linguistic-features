@@ -2,17 +2,49 @@
 
 ## Directory layout
 
-`analyze_corpus` expects **one level of folders**. The folder name becomes
-the label:
+`analyze_corpus` recognises three layouts on its own. Every row carries a
+`label` and a `source`.
+
+**1. Subfolders — the folder name is the label:**
 
 ```text
 corpus/
   author_a/
-    text1.txt
+    text1.txt       → label "author_a", source "text1"
     text2.txt
   author_b/
     text3.txt
 ```
+
+**2. `Label_Title.txt` at the root — everything up to the first underscore
+is the label:**
+
+```text
+corpus/
+  Novel_Barren.txt    → label "Novel", source "Barren"
+  notes.txt           → label "" (no underscore), source "notes"
+```
+
+!!! warning "File names with underscores"
+
+    If a file at the root has an underscore in its name, the first part
+    becomes the **label**: `text_1.txt` → label `"text"`, source `"1"`. If
+    you do not want a label, avoid underscores in the name or use the
+    subfolder layout.
+
+The two layouts can coexist in one folder.
+
+**3. A single CSV or TSV file** — `analyze_corpus("corpus.csv")`. Column
+headers must be one of these (the first match is used):
+
+| Field | Accepted headers |
+|---|---|
+| text (required) | `text`, `Text`, `metin`, `Metin`, `METIN`, `content` |
+| label | `label`, `Label`, `etiket`, `Etiket`, `ETIKET`, `author`, `Author`, `yazar`, `Yazar`, `kategori`, `category` |
+| source | `source`, `Source`, `kaynak`, `Kaynak`, `başlık`, `title`, `book`, `file` |
+
+Without a source column the file name is used. A `.tsv` file is read as
+tab-separated.
 
 The label does not have to be an author — period, genre, grade level,
 experimental arm, whatever you are measuring.

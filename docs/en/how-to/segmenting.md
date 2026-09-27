@@ -76,8 +76,9 @@ threshold as well.
 !!! warning "Discarded data is discarded silently"
 
     The library does not tell you how many segments it dropped. With
-    `min_fill=1.0` and `size=1000`, a 1400-word file yields **one**
-    segment and the remaining 400 words are gone. Short files in your
+    `min_fill=1.0` and `size=1000`, a 1400-token file yields **one**
+    segment and the remaining 400 tokens (punctuation included, ~330
+    words) are gone. Short files in your
     corpus may produce no segments at all.
 
     Use it knowingly. If in doubt, count first:

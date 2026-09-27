@@ -81,9 +81,10 @@ value (4.0) in Turkish.
 Ateşman (1997), p.74, gives the calibration endpoints of the formula: the
 easiest text has a mean sentence length of **4** words, the hardest **30**.
 
-The Turkish `short_sent_threshold=4` matches Ateşman's "easiest text" value
-exactly. Two independent routes — cluster analysis over text difficulty in
-1997, the distribution of a novel corpus in 2026 — arrived at the same number.
+The Turkish `short_sent_threshold=4` comes from the calibration. That it
+coincides with Ateşman's "easiest text" value is only a note: that number is
+the mean of a text, not a threshold, so it is not cited as the source — the
+same reasoning that applies to 30.
 Ateşman's Turkish norm on p.73 (mean sentence length of 9–10 words) also agrees
 with the corpus median (9.0).
 

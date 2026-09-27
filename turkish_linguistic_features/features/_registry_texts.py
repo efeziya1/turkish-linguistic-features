@@ -711,10 +711,10 @@ FEATURE_CITATIONS: dict[str, str] = {
         'Shannon (1948) — the entropy formula; applying it to the distribution of '
         "punctuation types is this library's own decision",
     'short_sent_ratio':
-        'Ateşman (1997) p.74 — the easiest Turkish text has a sentence length of 4 '
-        'words; Threshold calibration (2026-07-28) produced the same number '
-        'independently (Turkish novel corpus, 15th percentile = 4). The EN threshold '
-        'of 7 comes from calibration only',
+        'Threshold calibration (2026-07-28); TR 4, EN 7 — 15th percentile. Note: the '
+        'TR value coincides with Ateşman (1997) p.74, where the easiest text has a '
+        'mean sentence length of 4 words; that is a text mean, not a threshold, '
+        'so it is not the source. Calibrated on novels/fiction only',
     'long_sent_ratio':
         "Threshold calibration (2026-07-28); TR 18, EN 39 — 85th percentile. Ateşman's "
         '30 was not used: that is the mean of the hardest text, not a single-sentence '

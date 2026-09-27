@@ -2,16 +2,48 @@
 
 ## Dizin düzeni
 
-`analyze_corpus` **bir seviye klasör** bekler. Klasör adı etikettir:
+`analyze_corpus` üç düzeni kendiliğinden tanır. Her satır bir `label`
+(etiket) ve bir `source` (kaynak) taşır.
+
+**1. Alt klasör — klasör adı etikettir:**
 
 ```text
 korpus/
   yazar_a/
-    metin1.txt
+    metin1.txt      → label "yazar_a", source "metin1"
     metin2.txt
   yazar_b/
     metin3.txt
 ```
+
+**2. Kökte `Etiket_Başlık.txt` — dosya adının ilk alt çizgisine kadarki kısım
+etikettir:**
+
+```text
+korpus/
+  Roman_Yaban.txt     → label "Roman", source "Yaban"
+  notlar.txt          → label "" (alt çizgi yok), source "notlar"
+```
+
+!!! warning "Alt çizgili dosya adları"
+
+    Kökteki bir dosyanın adında alt çizgi varsa ilk kısım **etiket** olur:
+    `metin_1.txt` → label `"metin"`, source `"1"`. Etiket istemiyorsanız
+    dosya adında alt çizgi kullanmayın ya da alt klasör düzenini seçin.
+
+İki düzen aynı klasörde birlikte bulunabilir.
+
+**3. Tek bir CSV ya da TSV dosyası** — `analyze_corpus("korpus.csv")`. Sütun
+başlıkları şu adlardan biri olmalı (ilk eşleşen kullanılır):
+
+| Alan | Kabul edilen başlıklar |
+|---|---|
+| metin (zorunlu) | `text`, `Text`, `metin`, `Metin`, `METIN`, `content` |
+| etiket | `label`, `Label`, `etiket`, `Etiket`, `ETIKET`, `author`, `Author`, `yazar`, `Yazar`, `kategori`, `category` |
+| kaynak | `source`, `Source`, `kaynak`, `Kaynak`, `başlık`, `title`, `book`, `file` |
+
+Kaynak sütunu yoksa dosyanın adı kullanılır. `.tsv` uzantılı dosya sekmeyle
+ayrılmış okunur.
 
 Etiket yazar olmak zorunda değil — dönem, tür, sınıf düzeyi, deney kolu,
 ne ölçüyorsanız o.

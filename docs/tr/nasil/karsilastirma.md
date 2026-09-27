@@ -66,11 +66,15 @@ Okunuşu:
 
     Düzenleme metni kısaltmışsa `ttr`, `hapax_ratio`, `yule_k` gibi
     öznitelikler **uzunluk yüzünden** değişir. Bu ölçülerde gerçek bir
-    karşılaştırma istiyorsanız iki metni aynı boya getirin:
+    karşılaştırma istiyorsanız iki metni aynı boya getirin. Bu yalnız iki
+    metin de en az `size` token uzunluğundaysa işe yarar; bu sayfadaki kısa
+    örnekler için uygun değildir (`segment_text` boş liste döndürür).
 
     ```python
-    p1 = tlf.segment_text(once_metin,  size=500, lang="tr")[0]
-    p2 = tlf.segment_text(sonra_metin, size=500, lang="tr")[0]
+    p1 = tlf.segment_text(once_metin,  size=500, lang="tr")
+    p2 = tlf.segment_text(sonra_metin, size=500, lang="tr")
+    if p1 and p2:                      # ikisi de ≥ 500 token
+        once, sonra = tlf.analyze(p1[0], lang="tr"), tlf.analyze(p2[0], lang="tr")
     ```
 
     Uzunluktan bağımsız tasarlanmış ölçüler `mattr`, `mtld` ve `vocd_d`'dir
