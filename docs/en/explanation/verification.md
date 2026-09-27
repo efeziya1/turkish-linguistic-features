@@ -53,13 +53,13 @@ On the Turkish side **141 rows** are one of these three. That leaves
 
 | | Meaning |
 |---|---|
-| ✅ **exact** | Within tolerance of the number the source published. |
-| 🟡 **documented deviation** | There is a difference and **the reason is written down** — the source rounded an intermediate value, the source's own numbers were produced by hand, and so on. |
+| ✅ **exact** | Within tolerance of the number the source published. If the cause of a small difference is known, it is noted under the row. |
+| 🟡 **documented deviation** | The difference is **beyond the tolerance** and **the reason is written down** — the source rounded an intermediate value, the source's own numbers were produced by hand, and so on. |
 | 🔍 **open** | The source gives the formula but never applies it to anything. Verifiable, not yet verified. |
 | ❌ **mismatch** | An **unexplained** difference. **Release gate: a single one blocks a release.** |
 
-Where things stand today: **48 of the 92 candidates are done** (45 ✅ +
-3 🟡), 44 are 🔍 open.
+Where things stand today: **48 of the 92 candidates are done** (47 ✅ +
+1 🟡), 44 are 🔍 open.
 
 The tolerance is **0.05**. Sources print rounded intermediate values, so
 exact equality is not expected.

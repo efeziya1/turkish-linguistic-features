@@ -120,7 +120,7 @@ the `paragraph` group out via `groups`.
 ## 8. Half the candidates are still unverified
 
 141 rows are not verification candidates at all (plain definitions, tag
-schemes, or our own derivations). Of the remaining **92 candidates, 48 are done** (45 ✅ + 3 🟡)
+schemes, or our own derivations). Of the remaining **92 candidates, 48 are done** (47 ✅ + 1 🟡)
 and **44 are 🔍 open**.
 
 The reason is in [The verification system](verification.md): most sources

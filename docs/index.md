@@ -64,8 +64,8 @@ oz["atesman"]             # 77.2479  (Ateşman 1997 okunabilirlik)
 | Künyesi olmayan, saf tanım (Türkçe) | 67 |
 | Kaynakçadaki eser | 45 |
 | Doğrulama adayı rapor satırı (Türkçe) | 92 |
-| — kaynağın sayısıyla birebir tutan (✅) | 45 |
-| — farkı ölçülmüş ve açıklanmış (🟡) | 3 |
+| — kaynağın sayısıyla tolerans içinde tutan (✅) | 47 |
+| — tolerans dışında, nedeni açıklanmış (🟡) | 1 |
 
 **Formüller ile doğrulama iki ayrı şeydir.** 208 özniteliğin hepsinin
 formülü yazılıdır ve testlerle sınanır. Künyesi olan 141 özniteliğin formülü

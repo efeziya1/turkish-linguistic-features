@@ -13,8 +13,8 @@ onun literatürdeki değeri tuttuğunu görebilmeniz.
 
 | | Anlamı |
 |---|---|
-| ✅ **birebir** | Kaynağın yayımladığı sayıyla tolerans içinde aynı. |
-| 🟡 **belgelenmiş sapma** | Fark var ve **nedeni yazılı**. Kaynağın ara değerleri yuvarlaması, ya da kaynağın sayılarının elle üretilmiş olması gibi. Sapmanın sonuca etkisi satırda anlatılır. |
+| ✅ **birebir** | Kaynağın yayımladığı sayıyla tolerans içinde aynı. Küçük bir farkın nedeni biliniyorsa satırın altında not olarak yazılır. |
+| 🟡 **belgelenmiş sapma** | Fark **toleransın dışında** ve **nedeni yazılı**. Kaynağın ara değerleri yuvarlaması, ya da kaynağın sayılarının elle üretilmiş olması gibi. Sapmanın sonuca etkisi satırda anlatılır. |
 | 🔍 **açık** | Kaynak formülü veriyor ama uygulanmış bir örnek vermiyor. Doğrulanabilir, henüz doğrulanmadı; formül ve sınır durumları kendi test dosyalarında sınanıyor. |
 | ❌ **uyuşmazlık** | **Açıklanmamış** fark. **Yayın kapısı:** bir tane bile varsa sürüm çıkmaz. |
 
@@ -56,8 +56,8 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 | Durum | Satır sayısı |
 |---|---|
-| ✅ birebir | 45 |
-| 🟡 belgelenmiş sapma | 3 |
+| ✅ birebir | 47 |
+| 🟡 belgelenmiş sapma | 1 |
 | 🔍 açık — kaynakta sayısal örnek yok | 44 |
 
 
@@ -114,13 +114,13 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `atesman` | Ateşman (1997) p.74 | kalibrasyon: en kolay metin | formül | 100.000 | 100.000 | -0.000 | ✅ |
 | `atesman` | Ateşman (1997) p.74 | kalibrasyon: en zor metin | formül | 0.000 | 0.000 | +0.000 | ✅ |
 | `cetinkaya_uzun` | Çetinkaya (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 2 | uçtan uca | 23.084 | 23.084 | -0.000 | ✅ |
-| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 2 | uçtan uca | 30.423 | 30.392 | -0.031 | 🟡 |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 2 | uçtan uca | 30.423 | 30.392 | -0.031 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 5 | E7 3.03 · OKS 7 | formül | 4.610 | 4.605 | -0.005 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 5 | E7 8.3 · OKS 10 | formül | 9.110 | 9.110 | +0.000 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 5 | E7 18.82 · OKS 14 | formül | 16.230 | 16.232 | +0.002 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | en kolay metnin H değerleri | formül | 3.030 | 3.025 | -0.005 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | en zor metnin H değerleri | formül | 18.820 | 18.815 | -0.005 | ✅ |
-| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | ortalama H değerleri | formül | 8.300 | 8.341 | +0.041 | 🟡 |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | ortalama H değerleri | formül | 8.300 | 8.341 | +0.041 | ✅ |
 
 **`ari` sapması:** Kaynağın sayıları 1975'te daktiloya takılı mekanik bir sayaçla **elle** üretildi (Ek B, ARI talimatı). 18 pasajın 17'sinde, kaynağın ARI'sını verecek vuruş sayısı bizim saydığımızın 0,996-1,041 katı — yani birkaç karakterlik fark. Pasaj 2 aykırı (oran 1,145) ve kaynağın kendi iki sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/kelime 6,269 gerektiriyor, metnin gerçek değeri 5,475; üstelik o ARI'nın ima ettiği kelime/cümle FKGL'yi 18,69 yapıyor, oysa Tablo 2 16,7 basmış. Bizim vuruş tanımımız ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten 4,24'e çıkarıyor, yani boşluksuz sayım doğru.
 

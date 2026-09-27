@@ -51,12 +51,12 @@ adayı** kalıyor. Gerçek payda budur.
 
 | | Anlamı |
 |---|---|
-| ✅ **birebir** | Kaynağın yayımladığı sayıyla tolerans içinde aynı. |
-| 🟡 **belgelenmiş sapma** | Fark var ve **nedeni yazılı** — kaynağın ara değeri yuvarlaması, kaynağın sayılarının elle üretilmiş olması gibi. |
+| ✅ **birebir** | Kaynağın yayımladığı sayıyla tolerans içinde aynı. Küçük bir farkın nedeni biliniyorsa satırın altında not olarak yazılır. |
+| 🟡 **belgelenmiş sapma** | Fark **toleransın dışında** ve **nedeni yazılı** — kaynağın ara değeri yuvarlaması, kaynağın sayılarının elle üretilmiş olması gibi. |
 | 🔍 **açık** | Kaynak formülü veriyor ama uygulanmış bir örnek vermiyor. Doğrulanabilir, henüz doğrulanmadı. |
 | ❌ **uyuşmazlık** | **Açıklanmamış** fark. **Yayın kapısı: bir tane bile varsa sürüm çıkmaz.** |
 
-Bugünkü durum: **92 adayın 48'i bitmiş** (45 ✅ + 3 🟡), 44'ü 🔍 açık.
+Bugünkü durum: **92 adayın 48'i bitmiş** (47 ✅ + 1 🟡), 44'ü 🔍 açık.
 
 Tolerans **0,05**. Kaynaklar ara değerleri yuvarlayarak bastığı için mutlak
 eşitlik beklenmez.

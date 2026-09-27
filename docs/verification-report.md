@@ -14,8 +14,8 @@ value in the literature.
 
 | | Meaning |
 |---|---|
-| ✅ **exact** | Within tolerance of the number the source published. |
-| 🟡 **documented deviation** | There is a difference and **the reason is written down** — the source rounded an intermediate value, or the source's own numbers were produced by hand, and so on. The effect of the deviation is explained in the row. |
+| ✅ **exact** | Within tolerance of the number the source published. If the cause of a small difference is known, it is noted under the row. |
+| 🟡 **documented deviation** | The difference is **beyond the tolerance** and **the reason is written down** — the source rounded an intermediate value, or the source's own numbers were produced by hand, and so on. The effect of the deviation is explained in the row. |
 | 🔍 **open** | The source gives the formula but no applied example. Verifiable, not yet verified; the formula and its edge cases are tested in their own test files. |
 | ❌ **mismatch** | An **unexplained** difference. **Release gate:** a single one blocks a release. |
 
@@ -61,8 +61,8 @@ A key may have more than one worked example in its source; each one is its own r
 
 | Status | Rows |
 |---|---|
-| ✅ exact | 45 |
-| 🟡 documented deviation | 3 |
+| ✅ exact | 47 |
+| 🟡 documented deviation | 1 |
 | 🔍 open — no worked example in source | 44 |
 
 
@@ -119,13 +119,13 @@ A key may have more than one worked example in its source; each one is its own r
 | `atesman` | Ateşman (1997) p.74 | calibration: easiest text | formula | 100.000 | 100.000 | -0.000 | ✅ |
 | `atesman` | Ateşman (1997) p.74 | calibration: hardest text | formula | 0.000 | 0.000 | +0.000 | ✅ |
 | `cetinkaya_uzun` | Çetinkaya (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 2 | end-to-end | 23.084 | 23.084 | -0.000 | ✅ |
-| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 2 | end-to-end | 30.423 | 30.392 | -0.031 | 🟡 |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 2 | end-to-end | 30.423 | 30.392 | -0.031 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 5 | E7 3.03 · OKS 7 | formula | 4.610 | 4.605 | -0.005 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 5 | E7 8.3 · OKS 10 | formula | 9.110 | 9.110 | +0.000 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 5 | E7 18.82 · OKS 14 | formula | 16.230 | 16.232 | +0.002 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | H values of the easiest text | formula | 3.030 | 3.025 | -0.005 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | H values of the hardest text | formula | 18.820 | 18.815 | -0.005 | ✅ |
-| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | mean H values | formula | 8.300 | 8.341 | +0.041 | 🟡 |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | mean H values | formula | 8.300 | 8.341 | +0.041 | ✅ |
 
 **`ari` deviation:** The source's numbers were produced **by hand** in 1975 with a mechanical counter attached to a typewriter (Appendix B, ARI instructions). In 17 of the 18 passages, the stroke count that would yield the source's ARI is 0.996-1.041 times ours — a difference of a few characters. Passage 2 is an outlier (ratio 1.145), and there the source's own two numbers contradict each other: Table 1's ARI of 20.3 requires 6.269 strokes per word, while the text's actual value is 5.475; moreover, the words per sentence implied by that ARI give an FKGL of 18.69, whereas Table 2 printed 16.7. Our stroke definition was tested separately: counting spaces raises the difference from 0.54 to 4.24, so counting without spaces is correct.
 

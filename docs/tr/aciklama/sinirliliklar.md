@@ -118,7 +118,7 @@ metni paragrafları boş satırla ayrılmış hâlde yeniden çıkarın, ya da
 
 141 satır doğrulama adayı bile değil (saf tanım, etiket şeması ya da
 bizim türevimiz).
-Kalan **92 adayın 48'i** bitmiş (45 ✅ + 3 🟡), **44'ü 🔍 açık**.
+Kalan **92 adayın 48'i** bitmiş (47 ✅ + 1 🟡), **44'ü 🔍 açık**.
 
 Sebebi [doğrulama sistemi](dogrulama.md) sayfasında: kaynakların çoğu
 formülü yayımlar, o formülün uygulandığı bir sayısal örnek vermez. Bu

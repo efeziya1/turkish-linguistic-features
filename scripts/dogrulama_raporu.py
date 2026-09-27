@@ -691,12 +691,12 @@ def rapor_satirlari(lang: str = "tr") -> list[dict[str, object]]:
             # uret()'te, RAPORUN diline göre. `lang` burada analiz dili.
             gerekce = kars.gerekce
             fark = bizim - kars.beklenen
-            # ❌ "açıklanmamış fark" demek — legend'ın kendi tanımı bu.
-            # Tolerans dışı bir fark, NEDENİ YAZILIYSA 🟡'dir. Gerekçesiz
-            # kalan her tolerans aşımı ❌ olur ve yayın kapısını kapatır.
-            # (2026-09-24, Efe onayı: Kincaid Ek A karşılaştırması.)
+            # Tolerans içi → ✅ (gerekçe varsa yine not olarak basılır):
+            # tolerans, kaynağın ara değerleri yuvarlaması için var.
+            # Tolerans dışı bir fark NEDENİ YAZILIYSA 🟡, yazılı değilse ❌
+            # — ❌ yayın kapısını kapatır.
             if abs(fark) <= TOLERANS:
-                durum = SAPMA if (abs(fark) > 1e-3 and gerekce) else BIREBIR
+                durum = BIREBIR
             elif gerekce:
                 durum = SAPMA
             else:
@@ -737,8 +737,8 @@ onun literatürdeki değeri tuttuğunu görebilmeniz.
 
 | | Anlamı |
 |---|---|
-| ✅ **birebir** | Kaynağın yayımladığı sayıyla tolerans içinde aynı. |
-| 🟡 **belgelenmiş sapma** | Fark var ve **nedeni yazılı**. Kaynağın ara değerleri yuvarlaması, ya da kaynağın sayılarının elle üretilmiş olması gibi. Sapmanın sonuca etkisi satırda anlatılır. |
+| ✅ **birebir** | Kaynağın yayımladığı sayıyla tolerans içinde aynı. Küçük bir farkın nedeni biliniyorsa satırın altında not olarak yazılır. |
+| 🟡 **belgelenmiş sapma** | Fark **toleransın dışında** ve **nedeni yazılı**. Kaynağın ara değerleri yuvarlaması, ya da kaynağın sayılarının elle üretilmiş olması gibi. Sapmanın sonuca etkisi satırda anlatılır. |
 | 🔍 **açık** | Kaynak formülü veriyor ama uygulanmış bir örnek vermiyor. Doğrulanabilir, henüz doğrulanmadı; formül ve sınır durumları kendi test dosyalarında sınanıyor. |
 | ❌ **uyuşmazlık** | **Açıklanmamış** fark. **Yayın kapısı:** bir tane bile varsa sürüm çıkmaz. |
 
@@ -789,8 +789,8 @@ value in the literature.
 
 | | Meaning |
 |---|---|
-| ✅ **exact** | Within tolerance of the number the source published. |
-| 🟡 **documented deviation** | There is a difference and **the reason is written down** — the source rounded an intermediate value, or the source's own numbers were produced by hand, and so on. The effect of the deviation is explained in the row. |
+| ✅ **exact** | Within tolerance of the number the source published. If the cause of a small difference is known, it is noted under the row. |
+| 🟡 **documented deviation** | The difference is **beyond the tolerance** and **the reason is written down** — the source rounded an intermediate value, or the source's own numbers were produced by hand, and so on. The effect of the deviation is explained in the row. |
 | 🔍 **open** | The source gives the formula but no applied example. Verifiable, not yet verified; the formula and its edge cases are tested in their own test files. |
 | ❌ **mismatch** | An **unexplained** difference. **Release gate:** a single one blocks a release. |
 
