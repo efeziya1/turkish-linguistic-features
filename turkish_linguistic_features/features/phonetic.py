@@ -29,6 +29,7 @@ import numpy as np
 import textstat
 
 from ..alfabe import _ALFABE, _kucuk_harf
+from ..exceptions import ModelNotFoundError
 from .okunus import okunus, sayi_oku_en
 
 _UNLULER: dict[str, str] = {"tr": "aeıioöuü", "en": "aeiou"}
@@ -39,6 +40,35 @@ _ARKA: dict[str, str] = {"tr": "aıou", "en": "aou"}
 _YUVARLAK: dict[str, str] = {"tr": "oöuü", "en": "ou"}
 _DAR_YUVARLAK: dict[str, str] = {"tr": "uü", "en": "u"}
 _GENIS_DUZ: dict[str, str] = {"tr": "ae", "en": "ae"}
+
+
+# İngilizce hece sayımı (textstat ≥ 0.7.10) NLTK'nın `cmudict` verisini ister
+# ve veri yoksa textstat onu kendisi internetten indirir; ağ yoksa `LookupError`
+# ile çöker. Kütüphane ortama kendiliğinden bir şey yazmaz (spaCy modelleriyle
+# aynı ilke): textstat'ı çağırmadan önce `nltk.data.find` ile bakıyoruz —
+# indirme yapmaz, `NLTK_DATA` ortam değişkenine uyar. Bulununca bayrak
+# kalkar, kelime başına tekrar aranmaz.
+_CMUDICT_VAR = False
+_CMUDICT_KOMUTU = "python -m nltk.downloader cmudict"
+
+
+def _cmudict_denetle() -> None:
+    """cmudict kurulu değilse ``ModelNotFoundError``; kuruluysa hiçbir şey."""
+    global _CMUDICT_VAR
+    if _CMUDICT_VAR:
+        return
+    import nltk
+    try:
+        nltk.data.find("corpora/cmudict")
+    except LookupError:
+        raise ModelNotFoundError(
+            "NLTK's 'cmudict' corpus is required for English syllable counts "
+            "(phonetic and readability features) but is not installed.\n\n"
+            f"Install it once with:\n    {_CMUDICT_KOMUTU}\n\n"
+            "The library never downloads it by itself. To use a custom location, "
+            "set the NLTK_DATA environment variable."
+        ) from None
+    _CMUDICT_VAR = True
 
 
 def _dil_denetle(lang: str) -> None:
@@ -193,6 +223,7 @@ def hece_say(word: str, lang: str = "tr") -> int | None:
     """
     _dil_denetle(lang)
     if lang == "en":
+        _cmudict_denetle()           # textstat'ı verisiz çağırma: indirme tetikler
         sayi = sayi_oku_en(word)
         if sayi is not None:
             return sum(max(1, int(textstat.syllable_count(k))) for k in sayi.split())

@@ -21,4 +21,6 @@ class MissingDependencyError(LinguisticFeaturesError, ImportError):
 
 
 class ModelNotFoundError(LinguisticFeaturesError, OSError):
-    """İstenen spaCy modeli sistemde bulunamadı."""
+    """Gereken dil verisi kurulu değil: spaCy modeli ya da (İngilizce hece için)
+    NLTK ``cmudict``. İkisi de kullanıcının bir kez kurduğu, kütüphanenin
+    kendiliğinden indirmediği veri; mesaj kurulum komutunu içerir."""

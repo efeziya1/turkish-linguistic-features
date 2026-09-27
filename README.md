@@ -37,18 +37,20 @@ cd turkish-linguistic-features
 pip install -e .
 ```
 
-### Language models
+### Language data
 
-Models are **not** installed automatically — a library that writes to your
+Language data is **not** installed automatically — a library that writes to your
 environment at import time is one you cannot trust in CI or in a read-only
-container. Install them yourself, once:
+container. Install it yourself, once:
 
 ```bash
-# English — 12 MB
-python -m spacy download en_core_web_sm
-
 # Turkish — 156 MB, not in spaCy's registry, install the wheel directly
 pip install https://huggingface.co/turkish-nlp-suite/tr_core_news_md/resolve/main/tr_core_news_md-1.0-py3-none-any.whl
+
+# English — two pieces: the spaCy model (12 MB) and the CMU pronouncing
+# dictionary for syllable counts (1 MB)
+python -m spacy download en_core_web_sm
+python -m nltk.downloader cmudict
 ```
 
 Verified with spaCy 3.8.16, `en_core_web_sm` 3.8.0 and `tr_core_news_md` 1.0.

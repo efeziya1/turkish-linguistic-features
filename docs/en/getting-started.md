@@ -20,18 +20,20 @@ pip install -e .
 `-e` (editable) means the installed package tracks the repository, so
 `git pull` is enough to update it.
 
-## 2. Install the language models
+## 2. Install the language data
 
-Models are **not** installed for you. That is deliberate: a library that
+Language data is **not** installed for you. That is deliberate: a library that
 writes to your environment at import time is one you cannot trust in CI or
 in a read-only container. You install them yourself, once:
 
 ```bash
-# English — 12 MB
-python -m spacy download en_core_web_sm
-
 # Turkish — 156 MB, not in spaCy's registry, install the wheel directly
 pip install https://huggingface.co/turkish-nlp-suite/tr_core_news_md/resolve/main/tr_core_news_md-1.0-py3-none-any.whl
+
+# English — two pieces: the spaCy model (12 MB) and the CMU pronouncing
+# dictionary for syllable counts (1 MB)
+python -m spacy download en_core_web_sm
+python -m nltk.downloader cmudict
 ```
 
 !!! warning "Two things about the Turkish model that look like bugs"

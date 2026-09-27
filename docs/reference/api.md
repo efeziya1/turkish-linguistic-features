@@ -49,7 +49,9 @@ Extracts every feature from one text. Returns a flat `dict`; values are
 | `show_progress` | Print progress to stdout |
 | `warn` | `False` silences `MissingDependencyWarning` and `ParagraphStructureWarning`; does not change the result |
 
-Raises `ModelNotFoundError` if the spaCy model is not installed.
+Raises `ModelNotFoundError` if the spaCy model is not installed, or — for
+English, when `phonetic` or `readability` is requested — if NLTK's `cmudict`
+corpus is not. The check runs before any model is loaded.
 
 See: [TR](../tr/nasil/tek-metin.md) · [EN](../en/how-to/single-text.md)
 
@@ -173,7 +175,7 @@ counts. Nineteen fields; the full table is in
 | Name | When |
 |---|---|
 | `LinguisticFeaturesError` | Base class for everything the library raises |
-| `ModelNotFoundError` | A required spaCy model is not installed. The message contains the install command |
+| `ModelNotFoundError` | Required language data is not installed: a spaCy model, or NLTK's `cmudict` for English syllable counts. The message contains the install command |
 | `MissingDependencyWarning` | An optional package (`pandas`, `wordfreq`) is missing; the affected features return `nan` |
 | `ParagraphStructureWarning` | A text over 1000 words has no blank-line paragraph boundary; `para_*` features describe the whole text as one paragraph |
 

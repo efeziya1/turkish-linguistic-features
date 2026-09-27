@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from ._analyze import analyze
+from ._analyze import _dil_verisini_denetle, analyze
 from .file_loader import _load_corpus
 
 if TYPE_CHECKING:
@@ -97,7 +97,8 @@ def analyze_corpus(path: str | Path, lang: str = "tr",
     FileNotFoundError
         ``path`` yoksa.
     ModelNotFoundError
-        Dil modeli kurulu değilse; mesaj kurulum komutunu içerir.
+        Dil modeli ya da (İngilizce) ``cmudict`` kurulu değilse; mesaj kurulum
+        komutunu içerir. Korpus okunmadan önce denetlenir.
 
     See Also
     --------
@@ -105,6 +106,7 @@ def analyze_corpus(path: str | Path, lang: str = "tr",
     segment_text : Yalnız parçalama, analiz yok.
     save_csv : Dönen kayıtları CSV'ye yazar.
     """
+    _dil_verisini_denetle(lang, groups)          # korpusu okumadan önce
     kayitlar = _load_corpus(path, segment_size=segment_size, min_fill=min_fill,
                             unit=unit, lang=lang)
 

@@ -19,18 +19,20 @@ pip install -e .
 `-e` (editable) kurulum, depoyu güncellediğinizde paketin de güncel kalmasını
 sağlar. Bir kez kurarsınız, `git pull` yeter.
 
-## 2. Dil modellerini kurun
+## 2. Dil verisini kurun
 
-Modeller **kendiliğinden kurulmaz.** Bu bilinçli bir karar: içe aktarılırken
+Dil verisi **kendiliğinden kurulmaz.** Bu bilinçli bir karar: içe aktarılırken
 ortamınıza yazan bir kütüphaneye CI'da ya da salt-okunur bir konteynerde
 güvenemezsiniz. Kendiniz kurarsınız, bir kez:
 
 ```bash
-# İngilizce — 12 MB
-python -m spacy download en_core_web_sm
-
 # Türkçe — 156 MB, spaCy'nin kayıt defterinde yok, wheel'i doğrudan kurulur
 pip install https://huggingface.co/turkish-nlp-suite/tr_core_news_md/resolve/main/tr_core_news_md-1.0-py3-none-any.whl
+
+# İngilizce — iki parça: spaCy modeli (12 MB) ve hece sayımı için CMU
+# telaffuz sözlüğü (1 MB)
+python -m spacy download en_core_web_sm
+python -m nltk.downloader cmudict
 ```
 
 !!! warning "Türkçe modelde hata sanacağınız iki şey"

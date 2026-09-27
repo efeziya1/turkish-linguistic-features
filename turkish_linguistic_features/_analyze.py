@@ -13,6 +13,7 @@ from typing import TYPE_CHECKING
 from ._warnings import MissingDependencyWarning, ParagraphStructureWarning
 from .alfabe import _ALFABE
 from .features.extractor import _extract_features
+from .features.phonetic import _cmudict_denetle
 
 if TYPE_CHECKING:
     from .params import FeatureParams
@@ -45,6 +46,19 @@ def _get_preprocessor(lang: str, model: str | None) -> Preprocessor:
         from .pipeline.spacy_pipeline import Preprocessor
         _preprocessor_cache[anahtar] = Preprocessor(lang=lang, model=model)
     return _preprocessor_cache[anahtar]
+
+
+# İngilizce hece sayan gruplar; yalnız bunlar istenince cmudict gerekir.
+_HECE_GRUPLARI = frozenset({"phonetic", "readability"})
+
+
+def _dil_verisini_denetle(lang: str, groups: list[str] | None) -> None:
+    """İngilizce hece verisi eksikse spaCy yüklenmeden hata ver (hızlı başarısız).
+
+    Türkçe hece sayımı dış veri kullanmaz; ``lang="tr"`` hiç etkilenmez.
+    """
+    if lang == "en" and (groups is None or _HECE_GRUPLARI & set(groups)):
+        _cmudict_denetle()
 
 
 def analyze(text: str, lang: str = "tr", model: str | None = None,
@@ -104,6 +118,7 @@ def analyze(text: str, lang: str = "tr", model: str | None = None,
     """
     if lang not in _ALFABE:
         raise ValueError(f"Unsupported language: {lang!r}. Expected one of: {sorted(_ALFABE)}")
+    _dil_verisini_denetle(lang, groups)
 
     islenmis = _get_preprocessor(lang, model).process(text, show_progress=show_progress)
     with warnings.catch_warnings():

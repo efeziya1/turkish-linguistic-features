@@ -110,7 +110,7 @@ class Preprocessor:
             raise ModelNotFoundError(
                 f"spaCy model '{self.model_name}' not found.\n\n"
                 f"{_KURULUM.get(self.lang, _KURULUM['en'])}\n\n"
-                "Details and known quirks: see README, 'Language models'."
+                "Details and known quirks: see README, 'Language data'."
             ) from None
 
     @staticmethod
