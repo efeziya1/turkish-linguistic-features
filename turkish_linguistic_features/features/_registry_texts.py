@@ -1,4 +1,4 @@
-"""Registry metin tabloları — 182 statik anahtarın açıklaması, formülü,
+"""Registry metin tabloları — 183 statik anahtarın açıklaması, formülü,
 ölçüm şartı ve künyesi.
 
 Bu dosya **veridir**, mantık içermez. ``registry.py``'den ayrı durmasının
@@ -247,7 +247,7 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
 }
 
 # Anahtar → NASIL hesaplandığı. Dinamik gruplarda anahtar başına değil,
-# GRUP adıyla tek satır — 182 satır yazmak gerekmiyor.
+# GRUP adıyla tek satır — 183 satır yazmak gerekmiyor.
 FEATURE_FORMULAS: dict[str, str] = {
     # ── lexical ─────────────────────────────────────────────────
     'n_lemma_count': 'V over lemmas',
