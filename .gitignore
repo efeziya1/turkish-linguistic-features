@@ -16,3 +16,4 @@ site-offline/
 # Yerel çalışma dosyaları — diskte durur, depoya girmez
 plan/
 _referans/
+scripts/check_plan.py
