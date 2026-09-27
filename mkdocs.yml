@@ -1,0 +1,104 @@
+site_name: turkish-linguistic-features
+site_description: >-
+  Türkçe ve İngilizce metinlerden 208 nicel dilbilimsel öznitelik çıkaran
+  Python kütüphanesi · A Python library that extracts 208 quantitative
+  linguistic features from Turkish and English text
+repo_url: https://github.com/efeziya1/turkish-linguistic-features
+repo_name: efeziya1/turkish-linguistic-features
+copyright: MIT
+
+theme:
+  name: material
+  language: tr
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - content.code.copy
+    - search.highlight
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue grey
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Koyu temaya geç
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue grey
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Açık temaya geç
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+plugins:
+  - search:
+      lang:
+        - tr
+        - en
+
+nav:
+  - Başlangıç / Start: index.md
+  - Türkçe:
+      - tr/index.md
+      - Öğretici: tr/baslangic.md
+      - Nasıl yapılır:
+          - tr/nasil/index.md
+          - Tek metni analiz et: tr/nasil/tek-metin.md
+          - Korpusu CSV'ye çıkar: tr/nasil/korpus.md
+          - Metni parçalara böl: tr/nasil/segmentleme.md
+          - İki sürümü karşılaştır: tr/nasil/karsilastirma.md
+          - Bir özniteliğin kaynağını bul: tr/nasil/kunye.md
+          - Eşikleri değiştir: tr/nasil/parametreler.md
+      - Açıklama:
+          - tr/aciklama/index.md
+          - Kavramlar: tr/aciklama/kavramlar.md
+          - NaN ne demek: tr/aciklama/nan.md
+          - Doğrulama sistemi: tr/aciklama/dogrulama.md
+          - Sınırlılıklar: tr/aciklama/sinirliliklar.md
+      - Terim sözlüğü: tr/sozluk.md
+  - English:
+      - en/index.md
+      - Tutorial: en/getting-started.md
+      - How-to:
+          - en/how-to/index.md
+          - Analyse a single text: en/how-to/single-text.md
+          - Export a corpus to CSV: en/how-to/corpus.md
+          - Split a text into segments: en/how-to/segmenting.md
+          - Compare two versions: en/how-to/comparison.md
+          - Find a feature's source: en/how-to/citations.md
+          - Change the thresholds: en/how-to/parameters.md
+      - Explanation:
+          - en/explanation/index.md
+          - Concepts: en/explanation/concepts.md
+          - What NaN means: en/explanation/nan.md
+          - The verification system: en/explanation/verification.md
+          - Limitations: en/explanation/limitations.md
+      - Glossary: en/glossary.md
+  - Reference:
+      - reference/index.md
+      - Feature reference: reference/features.md
+      - Public API: reference/api.md
+  - Verification:
+      - Doğrulama raporu (TR): dogrulama-raporu.md
+      - Verification report (EN): verification-report.md
+      - Eşik kalibrasyonu: esik-kalibrasyonu.md

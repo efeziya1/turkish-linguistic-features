@@ -44,7 +44,7 @@ _tokenizer_cache: dict[str, Tokenizer] = {}
 
 def _get_tokenizer(lang: str) -> Tokenizer:
     if lang not in _ALFABE:
-        raise ValueError(f"Desteklenmeyen dil: {lang!r}. Beklenen: {sorted(_ALFABE)}")
+        raise ValueError(f"Unsupported language: {lang!r}. Expected one of: {sorted(_ALFABE)}")
     if lang not in _tokenizer_cache:
         _tokenizer_cache[lang] = spacy.blank(lang).tokenizer
     return _tokenizer_cache[lang]
@@ -98,9 +98,9 @@ def segment_text(text: str, size: int = 1000, min_fill: float = 1.0,
         Parçalar. Hiçbiri ``min_fill`` eşiğinin altında değildir.
     """
     if unit not in ("word", "char"):
-        raise ValueError(f"unit 'word' ya da 'char' olmalı, {unit!r} değil")
+        raise ValueError(f"unit must be 'word' or 'char', not {unit!r}")
     if size <= 0:
-        raise ValueError(f"size pozitif olmalı: {size}")
+        raise ValueError(f"size must be positive: {size}")
     tokenizer = _get_tokenizer(lang)       # geçersiz dil burada patlar
 
     if unit == "char":
@@ -129,7 +129,7 @@ def _csv_kayitlari(yol: Path) -> list[tuple[str, str, str]]:
     metin_sutunu = bul(_TEXT_KEYS)
     if metin_sutunu is None:
         raise ValueError(
-            f"{yol.name}: metin sütunu bulunamadı. Beklenen başlıklardan biri: "
+            f"{yol.name}: no text column found. Expected one of these headers: "
             f"{list(_TEXT_KEYS)}"
         )
     etiket_sutunu = bul(_LABEL_KEYS)
@@ -208,7 +208,7 @@ def _load_corpus(path: str | Path, segment_size: int | None = None,
     """
     kok = Path(path)
     if not kok.exists():
-        raise FileNotFoundError(f"Yol bulunamadı: {kok}")
+        raise FileNotFoundError(f"Path not found: {kok}")
 
     ham = _csv_kayitlari(kok) if kok.is_file() else _klasor_kayitlari(kok)
 

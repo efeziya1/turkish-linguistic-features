@@ -1,86 +1,102 @@
 # turkish-linguistic-features
 
-A comprehensive toolkit for extracting quantitative linguistic features from
-Turkish and English texts.
+Extracts **208 quantitative linguistic features** from Turkish text and 182
+from English. Every feature is tied to a source in the literature, and the
+[verification report](docs/verification-report.md) shows which ones match the
+number that source published.
 
-**Status: early development (0.1.0).** The nine public names are implemented
-and tested; the package is not on PyPI yet — publishing is the last open task.
-See `plan/from-scratch/`.
+**Status: early development (0.1.0).** Not on PyPI yet.
 
-## What it does
+```python
+import turkish_linguistic_features as tlf
 
-Given a text, the library produces a flat `dict` of named numeric features:
-lexical richness, phonetics, Turkish morphology (Zeyrek), syntax, readability and punctuation.
+oz = tlf.analyze("Dil, insanın düşüncesini taşıyan en eski araçtır.", lang="tr")
+oz["avg_word_length"]     # 5.7667
+oz["atesman"]             # 70.9483  (Ateşman 1997 readability)
+```
+
+## Documentation
+
+**→ [Full documentation](docs/index.md)** — tutorial, how-to guides, feature
+reference and limitations, in **Turkish and English**.
+
+Build and read it locally:
+
+```bash
+pip install mkdocs-material
+mkdocs serve          # http://127.0.0.1:8000
+```
+
+Or build the static site and open `site/index.html`:
+
+```bash
+mkdocs build
+```
+
+| | |
+|---|---|
+| Türkçe | [docs/tr/](docs/tr/index.md) |
+| English | [docs/en/](docs/en/index.md) |
+| Feature reference | [docs/reference/features.md](docs/reference/features.md) |
+| Verification report | [TR](docs/dogrulama-raporu.md) · [EN](docs/verification-report.md) |
 
 ## Install
 
-Not on PyPI yet. From a clone:
+From a clone:
 
 ```bash
 pip install -e .
 ```
 
-Once published:
-
-```bash
-pip install turkish-linguistic-features
-```
-
 ### Language models
 
-Models are **not** installed automatically and the library will not install
-them for you — a library that writes to your environment at import time is a
-library you cannot trust in CI or in a read-only container. Install them
-yourself, once:
+Models are **not** installed automatically — a library that writes to your
+environment at import time is one you cannot trust in CI or in a read-only
+container. Install them yourself, once:
 
 ```bash
-# English
-python -m spacy download en_core_web_sm          # 3.8.0
+# English — 12 MB
+python -m spacy download en_core_web_sm
 
-# Turkish — not in spaCy's registry, install the wheel directly
+# Turkish — 156 MB, not in spaCy's registry, install the wheel directly
 pip install https://huggingface.co/turkish-nlp-suite/tr_core_news_md/resolve/main/tr_core_news_md-1.0-py3-none-any.whl
 ```
 
-Verified with spaCy 3.8.16, `en_core_web_sm` 3.8.0 and `tr_core_news_md` 1.0
-(whose own metadata reports 3.4.2 — see below).
+Verified with spaCy 3.8.16, `en_core_web_sm` 3.8.0 and `tr_core_news_md` 1.0.
 
-**Two things about the Turkish model that will look like bugs and are not.**
+Two things about the Turkish model look like bugs and are not: its wheel
+says `1.0` in the filename and `3.4.2` in the metadata, and loading it prints
+a harmless `W094` warning. Details in the
+[tutorial](docs/en/getting-started.md).
 
-Its wheel disagrees with itself: the filename says version 1.0, the metadata
-inside says 3.4.2. `pip` accepts this and installs it; stricter installers
-refuse it as a malformed wheel.
+## The whole API
 
-Loading it prints a `W094` warning about an under-constrained spaCy version
-requirement. That is the model's own `meta.json` talking, it is harmless, and
-there is nothing to fix on either side.
-
-The Turkish model is ~156 MB, the English one ~12 MB.
-
-## Usage
+Nine public names:
 
 ```python
-import turkish_linguistic_features as tlf
+tlf.analyze(text, lang="tr")                     # 208 features (TR) / 182 (EN)
+tlf.analyze(text, groups=["readability"])        # one group only
+tlf.analyze_corpus("corpus/")                    # one row per file
+tlf.analyze_corpus("corpus/", segment_size=1000) # or split into chunks
+tlf.save_csv(rows, "features.csv")               # write them out
+tlf.segment_text(long_text, size=1000)           # split a single text
+tlf.describe_feature("mtld")                     # what a key measures, and its source
+tlf.FeatureParams(mattr_window=100)              # metric constants
 
-result = tlf.analyze("Bir metin.", lang="tr")          # 208 features (TR) / 182 (EN)
-result = tlf.analyze(text, groups=["readability"])     # one group only
-rows   = tlf.analyze_corpus("corpus/")                 # one row per file
-rows   = tlf.analyze_corpus("corpus/", segment_size=1000)  # or split into chunks
-tlf.save_csv(rows, "features.csv")                     # write them out
-chunks = tlf.segment_text(long_text, size=1000)        # split a single text
-info   = tlf.describe_feature("mtld")                  # what a key measures, and its source
-params = tlf.FeatureParams(mattr_window=100)           # metric constants
-
-try:
-    tlf.analyze(text)
-except tlf.ModelNotFoundError as e:
-    print(e)                       # the message includes the install command
-except tlf.LinguisticFeaturesError:
-    ...                            # the root of every error this library raises
+# tlf.LinguisticFeaturesError  tlf.ModelNotFoundError  tlf.MissingDependencyWarning
 ```
 
-`MissingDependencyWarning` is emitted when an optional package is missing. Turn
-it into an error with `warnings.simplefilter("error", tlf.MissingDependencyWarning)`,
-or silence it with `tlf.analyze(text, warn=False)`.
+Full signatures: [docs/reference/api.md](docs/reference/api.md).
+
+## Development
+
+```bash
+pip install -r requirements.txt
+pytest                          # 715 tests
+ruff check .
+python scripts/dogrulama_raporu.py   # regenerate the verification reports
+python scripts/basvuru_uret.py       # regenerate the feature reference
+```
 
 ## License
 

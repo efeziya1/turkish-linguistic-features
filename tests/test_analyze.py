@@ -180,11 +180,19 @@ def test_cok_uzun_metin_cokmuyor():
     ``chunk_chars`` imzada olmadığı için bu davranış ayarlanmıyor, sadece
     çalışıyor (2026-08-25).
 
-    🔴 **Ölçüldü (2026-09-19): 660 saniye**, yani 11 dakika. ``slow``
-    işaretli ve varsayılan koşuda atlanıyor; elle çalıştıran bilsin diye
-    süre buraya yazıldı. Bu aynı zamanda bir performans bilgisi —
-    ``analyze()`` 5 MB'lık tek bir metinde 11 dakika harcıyor, T28'de
-    ``docs/limitations.md``'ye girmeli.
+    🔴 **Ölçüldü: 660 sn (2026-09-19), 1108 sn (2026-09-24)** — 11 ile 18
+    dakika. Aradaki farkın nedeni araştırılmadı; ikisi de aynı makinede,
+    tek fark oturumun yükü. Elle çalıştıran hangi büyüklüğü beklediğini
+    bilsin diye ikisi de burada.
+
+    ``slow`` işaretli ve ``pyproject.toml``'daki ``addopts`` onu varsayılan
+    koşudan **çıkarır** (2026-09-24'e kadar künye bunu söylüyordu ama ayar
+    bağlı değildi, test her koşuda çalışıyordu ve süitin %87'siydi).
+    Hepsini koşmak için: ``pytest -m ""``.
+
+    Bu aynı zamanda bir performans bilgisi — ``analyze()`` 5 MB'lık tek bir
+    metne 11-18 dakika harcıyor. T28'de ``docs/limitations.md``'ye girmeli;
+    o dosya henüz yok.
     """
     feats = analyze("Bu bir cümledir. " * 300_000, lang="tr")
     assert len(feats) == TR_TABAN

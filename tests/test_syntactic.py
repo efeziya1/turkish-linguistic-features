@@ -1,10 +1,11 @@
 import ast
 import inspect
 import math
+import warnings
 
 import pytest
 
-from turkish_linguistic_features import vocab
+from turkish_linguistic_features import ParagraphStructureWarning, vocab
 from turkish_linguistic_features.features.syntactic import (
     activity_ratio,
     avg_sent_len_char,
@@ -178,7 +179,7 @@ def test_pos_dist_std_tek_pos_hepsiyse_buyuk():
 
 def test_pos_dagilim_hizalama_bozuksa_hata():
     """Token sayıları uyuşmuyor → ön işleme hatası, ValueError (2026-09-16, Efe)."""
-    with pytest.raises(ValueError, match="hizal"):
+    with pytest.raises(ValueError, match="not aligned"):
         pos_distribution_stats([("a", "NOUN")], [["a", "b", "c"]])
 
 
@@ -277,6 +278,54 @@ def test_ucnokta_tek_cumle_sonu():
 def test_paragraf_windows_satir_sonu():
     """\\r\\n de \\n gibi bölünmeli."""
     assert paragraph_stats("A.\n\nB.") == paragraph_stats("A.\r\n\r\nB.")
+
+
+# ── paragraf sınırı yok: uyar, sayıyı değiştirme (2026-09-24, Efe) ────
+
+
+def test_uzun_metin_paragraf_sinirsizsa_uyarir():
+    """1000 kelimeyi geçen metin tek paragraf çıkıyorsa uyarı basılır.
+
+    PDF/EPUB dökümü metinlerde satır sonları silinmiş oluyor; ölçüldü
+    (2026-09-24): bir roman derlemesinde 163 dosyanın 120'sinde hiç boş satır
+    yok. O dosyalarda `para_len_mean` bütün kitabın kelime sayısına eşitleniyor.
+    """
+    metin = " ".join(f"Cümle {i}." for i in range(600))      # 1200 kelime
+    with pytest.warns(ParagraphStructureWarning, match="No paragraph boundary found"):
+        sonuc = paragraph_stats(metin)
+    # Karar (2026-09-24, Efe): sayılar değişmez, yalnız görünür kılınır.
+    assert sonuc["para_len_mean"] == 1200.0
+    assert _nan(sonuc["para_len_cv"])
+
+
+def test_uyari_mesaji_kullanicinin_sayisini_verir():
+    """Mesaj İngilizce ve kullanıcının kendi sayılarını taşır (2026-09-24, Efe)."""
+    metin = " ".join(f"Cümle {i}." for i in range(600))
+    with pytest.warns(ParagraphStructureWarning) as kayit:
+        paragraph_stats(metin)
+    mesaj = str(kayit[0].message)
+    assert "1200 words" in mesaj and "600 sentences" in mesaj
+
+
+def test_paragrafli_uzun_metin_uyarmaz():
+    """Eşiği geçse de boş satır varsa uyarı yok — ölçüt paragraf, uzunluk değil."""
+    metin = "\n\n".join(" ".join(f"Cümle {i}." for i in range(50)) for _ in range(12))
+    with warnings.catch_warnings():
+        warnings.simplefilter("error", ParagraphStructureWarning)
+        assert paragraph_stats(metin)["para_len_cv"] == 0.0
+
+
+def test_kisa_tek_paragraf_uyarmaz():
+    """Öğretici ve docstring örnekleri uyarı basmamalı (2026-09-24, Efe).
+
+    Ölçüldü: dokümandaki örnek metinler 7-24 kelime. Kısa metnin gerçekten
+    tek paragraf olması normaldir; orada uyarı gürültü olur.
+    """
+    with warnings.catch_warnings():
+        warnings.simplefilter("error", ParagraphStructureWarning)
+        assert paragraph_stats("Bu bir deneme metnidir. İkinci cümle.")["para_len_mean"] == 6.0
+        assert paragraph_stats("Tek bir cümle var.")["para_len_mean"] == 4.0
+        assert _nan(paragraph_stats("")["para_len_mean"])
 
 
 # ── cümle uzunluğu: payda kelime, token değil ─────────────────────────

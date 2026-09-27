@@ -10,7 +10,7 @@ from __future__ import annotations
 import warnings
 from typing import TYPE_CHECKING
 
-from ._warnings import MissingDependencyWarning
+from ._warnings import MissingDependencyWarning, ParagraphStructureWarning
 from .alfabe import _ALFABE
 from .features.extractor import _extract_features
 
@@ -79,8 +79,9 @@ def analyze(text: str, lang: str = "tr", model: str | None = None,
         Uzun metin parçalanırken ilerleme yazdırılsın mı. Varsayılan
         ``False`` — kütüphane kendiliğinden ekrana yazmaz.
     warn
-        ``False`` ise eksik opsiyonel bağımlılık uyarıları bastırılır
-        (şu an yalnız ``wordfreq``). Diğer uyarılar susturulmaz.
+        ``False`` ise bu kütüphanenin kendi uyarıları bastırılır: eksik
+        opsiyonel bağımlılık (şu an yalnız ``wordfreq``) ve paragraf sınırı
+        bulunamadı uyarısı. Üçüncü taraf uyarıları susturulmaz.
 
     Returns
     -------
@@ -102,11 +103,12 @@ def analyze(text: str, lang: str = "tr", model: str | None = None,
     3.5
     """
     if lang not in _ALFABE:
-        raise ValueError(f"Desteklenmeyen dil: {lang!r}. Beklenen: {sorted(_ALFABE)}")
+        raise ValueError(f"Unsupported language: {lang!r}. Expected one of: {sorted(_ALFABE)}")
 
     islenmis = _get_preprocessor(lang, model).process(text, show_progress=show_progress)
     with warnings.catch_warnings():
         if not warn:
             warnings.simplefilter("ignore", MissingDependencyWarning)
+            warnings.simplefilter("ignore", ParagraphStructureWarning)
         return _extract_features(**islenmis.to_dict(), groups=groups, params=params,
                                  custom_ngrams=custom_ngrams)

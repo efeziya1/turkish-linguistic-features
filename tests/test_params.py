@@ -4,10 +4,9 @@ import pytest
 
 from turkish_linguistic_features.params import (
     DEFAULT_PARAMS,
-    DEFAULT_PARAMS_BY_LANG,
-    DEFAULT_PARAMS_EN,
-    DEFAULT_PARAMS_TR,
+    SENT_THRESHOLDS_BY_LANG,
     FeatureParams,
+    resolve_sent_thresholds,
 )
 from turkish_linguistic_features.pipeline.preprocess import ProcessedText
 
@@ -29,9 +28,46 @@ def test_params_hashlenebilir():
 
 def test_dil_varsayilanlari_farkli():
     """TR cümleleri EN'den kısa — eşikler de farklı olmalı."""
-    assert DEFAULT_PARAMS_TR.short_sent_threshold == 4
-    assert DEFAULT_PARAMS_EN.short_sent_threshold == 7
-    assert DEFAULT_PARAMS_TR.long_sent_threshold < DEFAULT_PARAMS_EN.long_sent_threshold
+    assert resolve_sent_thresholds(DEFAULT_PARAMS, "tr") == (4, 18)
+    assert resolve_sent_thresholds(DEFAULT_PARAMS, "en") == (7, 39)
+    tr_uzun = resolve_sent_thresholds(DEFAULT_PARAMS, "tr")[1]
+    en_uzun = resolve_sent_thresholds(DEFAULT_PARAMS, "en")[1]
+    assert tr_uzun < en_uzun
+
+
+def test_cumle_esigi_alan_varsayilani_yok():
+    """5/30 diye bir varsayılan kalmadı — iki alan sentinel.
+
+    Eskiden bu iki alan 5 ve 30 yazıyordu; hiçbir dilde kullanılmayan bu
+    sayılar dokümanda "varsayılan" diye görünüyordu (2026-09-24, Efe).
+    """
+    assert FeatureParams().short_sent_threshold is None
+    assert FeatureParams().long_sent_threshold is None
+
+
+def test_ilgisiz_alan_kalibrasyonu_bozmaz():
+    """`FeatureParams(mattr_window=100)` cümle eşiklerini düşürmemeli.
+
+    B1 öncesi davranış: `params` nesnesi komple değiştiği için eşikler sınıf
+    varsayılanı 5/30'a düşüyordu — kullanıcı istemediği hâlde, sessizce.
+    """
+    p = FeatureParams(mattr_window=100)
+    assert resolve_sent_thresholds(p, "tr") == (4, 18)
+    assert resolve_sent_thresholds(p, "en") == (7, 39)
+
+
+def test_acik_verilen_esik_kalibrasyonu_yener():
+    """Kullanıcı sayı verirse o sayı kazanır; vermediği alan kalibre kalır."""
+    p = FeatureParams(long_sent_threshold=12)
+    assert resolve_sent_thresholds(p, "tr") == (4, 12)      # kısa kalibre, uzun elle
+    assert resolve_sent_thresholds(p, "en") == (7, 12)
+    tam = FeatureParams(short_sent_threshold=3, long_sent_threshold=12)
+    assert resolve_sent_thresholds(tam, "tr") == (3, 12)
+
+
+def test_kalibre_esikler_tek_kaynaktan():
+    """Eşikler tek sözlükte durur — iki yerde 4/18 tutulmaz."""
+    assert SENT_THRESHOLDS_BY_LANG == {"tr": (4, 18), "en": (7, 39)}
 
 
 def test_brunet_sabiti_parametre_olarak_gorunur():
@@ -45,8 +81,9 @@ def test_brunet_sabiti_parametre_olarak_gorunur():
     assert FeatureParams(brunet_w_a=0.165).brunet_w_a == 0.165
 
 
-def test_bilinmeyen_dil_genel_varsayilana_duser():
-    assert DEFAULT_PARAMS_BY_LANG.get("de", DEFAULT_PARAMS) is DEFAULT_PARAMS
+def test_bilinmeyen_dil_notr_yedege_duser():
+    """`analyze()` dili tr/en ile sınırlıyor; yedek yine de patlamamalı."""
+    assert resolve_sent_thresholds(DEFAULT_PARAMS, "de") == (5, 30)
 
 
 def test_processed_text_to_dict_anahtarlari():

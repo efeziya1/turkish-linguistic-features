@@ -150,11 +150,24 @@ def curve_length(freqs: np.ndarray) -> dict[str, float]:
 
 
 def curve_length_indicator(freqs: np.ndarray, h: float) -> dict[str, float]:
-    """``R = 1 − Lh / L`` — eğri uzunluğunun h-point altında kalan payı.
+    """``R = 1 − Lh / L`` — eğri uzunluğunun h-point üstünde kalan payı.
 
-    ``Lh = Σ_{r=1}^{⌊h⌋} √((f(r) − f(r+1))² + 1)``, en fazla ``V − 1`` segment.
-    QUITA s. 37'nin yazılı ifadesi 4 terim gösteriyor ama yayımlanan sonuç
-    (14.29145) 5 terimle, yani ``r = 1..⌊h⌋`` ile tutuyor.
+    ``Lh = Σ_{r=1}^{⌈h⌉} √((f(r) − f(r+1))² + 1)``, en fazla ``V − 1`` segment.
+
+    **Kesirli h'de yukarı yuvarlanır** ve bu ``vocab_richness_r1``'in
+    ``⌊h⌋``'sinden bilinçli olarak farklıdır. Sebep, sayılan nesnenin
+    farklı olması:
+
+    - ``R1`` **rank'lardaki frekansları** toplar. h = 4,75 iken 5. rank
+      kesişimin altındadır, sayılmaz → ``⌊h⌋``.
+    - ``Lh`` **rank'lar arası parçaları** toplar. 4 → 5 parçası kesişimi
+      *içerir*, yani bir bölümü h-point'in üstündedir → ``⌈h⌉``.
+
+    QUITA s.37 ikisini de örnekliyor ve sayıları bunu doğruluyor: Text 2'de
+    (h = 4,75) R1 dört frekans topluyor (20+9+8+7), ``Lh`` ise beş parça —
+    ``18,03607``. ``⌊h⌋`` ile ``17,03607`` çıkar, tam 1,0 eksik. Text 1'de
+    h = 5 tam sayı olduğu için iki okuma çakışır ve ayrım görünmez; ayrımı
+    yalnız Text 2 ortaya koyar (2026-09-24, Efe onayıyla düzeltildi).
 
     ``V < 2`` (L = 0, payda sıfır) ya da geçersiz ``h`` → NaN.
     """
@@ -162,7 +175,7 @@ def curve_length_indicator(freqs: np.ndarray, h: float) -> dict[str, float]:
         return {"curve_length_r": math.nan}
     seg = _segments(freqs)
     L = float(seg.sum())
-    Lh = float(seg[:min(int(h), len(seg))].sum())
+    Lh = float(seg[:min(math.ceil(h), len(seg))].sum())
     return {"curve_length_r": round(1 - Lh / L, 6)}
 
 

@@ -25,7 +25,7 @@ from __future__ import annotations
 import math
 from typing import Any
 
-from ..params import DEFAULT_PARAMS, DEFAULT_PARAMS_BY_LANG, FeatureParams
+from ..params import DEFAULT_PARAMS, FeatureParams, resolve_sent_thresholds
 from ..vocab import NON_WORD_POS
 from .dependency import dependency_features
 from .frequency_structure import (
@@ -171,7 +171,11 @@ def _extract_features(
         birbirleriyle hizalı değilse.
     """
     if params is None:
-        params = DEFAULT_PARAMS_BY_LANG.get(lang, DEFAULT_PARAMS)
+        params = DEFAULT_PARAMS
+    # Cümle eşikleri alan alan çözümlenir, nesne komple değiştirilmez —
+    # kullanıcının verdiği bir alan yüzünden başka alanın kalibrasyonu
+    # düşmesin (2026-09-24, Efe).
+    kisa_esik, uzun_esik = resolve_sent_thresholds(params, lang)
 
     if groups is None:
         secili: frozenset[str] | None = None
@@ -179,7 +183,7 @@ def _extract_features(
         bilinmeyen = [g for g in groups if g not in GROUP_LABELS]
         if bilinmeyen:
             raise ValueError(
-                f"Bilinmeyen grup(lar): {bilinmeyen}. Mevcut: {list(GROUP_LABELS)}"
+                f"Unknown group(s): {bilinmeyen}. Available: {list(GROUP_LABELS)}"
             )
         secili = frozenset(groups)
 
@@ -258,8 +262,7 @@ def _extract_features(
     if istiyor("sentence"):
         feats.update(sentence_stats(cumleler))
         feats.update(avg_sent_len_char(cumleler))
-        feats.update(sentence_distribution_stats(
-            cumleler, params.short_sent_threshold, params.long_sent_threshold))
+        feats.update(sentence_distribution_stats(cumleler, kisa_esik, uzun_esik))
         feats.update(sent_len_entropy(cumleler))
 
     # ── paragraph (5) ─────────────────────────────────────────────────

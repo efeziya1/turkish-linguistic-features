@@ -151,7 +151,7 @@ def test_gruplar_parametresi_daralttir():
 
 
 def test_bilinmeyen_grup_hata_verir():
-    with pytest.raises(ValueError, match="Bilinmeyen grup"):
+    with pytest.raises(ValueError, match="Unknown group"):
         _extract_features(**ORNEK_GIRDI, groups=["olmayan_grup"])
 
 

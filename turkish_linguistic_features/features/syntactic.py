@@ -32,6 +32,14 @@ from ..alfabe import _kucuk_harf
 from ..vocab import LEXICAL_POS, NON_WORD_POS, NOUN_POS, POS_TAGS
 
 _PARA_SPLIT = re.compile(r"\n[ \t]*\n")   # boş satır = paragraf sınırı
+
+# Tek paragraf çıkan metinde uyarı eşiği, kelime (2026-09-24, Efe). Kısa
+# metnin gerçekten tek paragraf olması normaldir; uyarı orada gürültü olur.
+# 1000 depoda hâlihazırda kullanılan büyüklük: `segment_text` varsayılanı ve
+# kalibrasyon korpusunun segment boyu. Ölçüldü (2026-09-24): dokümanın örnek
+# metinleri 7-24 kelime, paragrafı silinmiş bir roman dosyası 52.521 — araya
+# konan her eşik ikisini ayırıyor, bu yüzden yeni bir sayı uydurulmadı.
+_PARA_UYARI_KELIME = 1000
 _SENT_END = re.compile(r"[.!?…]+")        # cümle sonu işareti
 
 
@@ -185,7 +193,8 @@ def pos_distribution_stats(pos_data: list[tuple[str, str]],
     n = sum(len(c) for c in sentences_as_tokens)
     if n != len(pos_data):
         raise ValueError(
-            f"cümle token toplamı ({n}) ile pos_data ({len(pos_data)}) hizalı değil — ön işleme hatası"
+            f"total sentence tokens ({n}) is not aligned with pos_data ({len(pos_data)})"
+            f" — preprocessing error"
         )
     if not pos_data:
         return {"pos_dist_std": math.nan, "pos_kl_div": math.nan}
@@ -250,9 +259,13 @@ def sentence_distribution_stats(cumleler: list[list[str]], short_threshold: int,
                                 long_threshold: int) -> dict[str, float]:
     """Eşikten **kesin** kısa ve **kesin** uzun cümlelerin oranı.
 
-    Uzunluk **kelimeyle** ölçülür (``_cumle_kelimeleri``). Eşikler dile göre
-    farklı (``FeatureParams.short_sent_threshold`` / ``long_sent_threshold``);
-    tam eşikteki cümle iki tarafa da girmez. Cümle yoksa NaN.
+    Uzunluk **kelimeyle** ölçülür (``_cumle_kelimeleri``); tam eşikteki cümle
+    iki tarafa da girmez. Cümle yoksa NaN.
+
+    Eşikler dile göre farklıdır ve çağıran taraf çözümler
+    (``params.resolve_sent_thresholds``): ``FeatureParams``'ta verilmeyen alan
+    dilin kalibre edilmiş değerinde kalır (TR 4/18, EN 7/39), verilen alan
+    kullanıcıdan gelir. Bu fonksiyon çözümlenmiş iki sayıyı alır.
     """
     kelimeler = _cumle_kelimeleri(cumleler)
     if not kelimeler:
@@ -299,6 +312,11 @@ def paragraph_stats(raw_text: str) -> dict[str, float]:
     spaCy token'ı sayar; ikisi sistematik olarak farklıdır, karşılaştırılmamalı.
 
     Paragraf yoksa hepsi NaN; tek paragrafta iki CV NaN.
+
+    Çok cümleli bir metin tek paragraf çıkıyorsa ``ParagraphStructureWarning``
+    basılır — sayılar değişmez (2026-09-24, Efe). Girdide paragraf sınırı
+    olmaması yaygın: PDF/EPUB dökümlerinde satır sonları silinmiş oluyor ve
+    ``para_len_mean`` sessizce bütün metnin kelime sayısına eşitleniyor.
     """
     paras = [p for p in _PARA_SPLIT.split(raw_text.replace("\r\n", "\n")) if p.strip()]
     if not paras:
@@ -307,6 +325,9 @@ def paragraph_stats(raw_text: str) -> dict[str, float]:
     # K11 istisnası: yerel sayım — paragrafı token akışına hizalamak ikinci geçiş ister
     kelime = np.array([len(p.split()) for p in paras], dtype=np.float64)
     cumle = np.array([max(len(_SENT_END.findall(p)), 1) for p in paras], dtype=np.float64)
+    if len(paras) == 1 and kelime[0] > _PARA_UYARI_KELIME:
+        from .._warnings import uyar_paragraf_yok
+        uyar_paragraf_yok(int(cumle[0]), int(kelime[0]))
     toplam_kelime = float(kelime.sum())
     return {
         "para_len_mean": round(float(kelime.mean()), 4),
@@ -386,7 +407,7 @@ def word_ngram_ratios(
         pencere = len(kelimeler) - n + 1
         anahtar = "ng_" + "_".join(aranan)
         if n == 0:
-            raise ValueError("custom_ngrams içinde boş öbek var")
+            raise ValueError("custom_ngrams contains an empty phrase")
         if pencere <= 0:
             sonuc[anahtar] = math.nan
             continue

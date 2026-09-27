@@ -49,6 +49,10 @@ testpaths = ["tests"]
 # Why: console-script pytest.exe repo kokunu sys.path'e koymaz; tests/ icindeki
 # `from scripts...` importlari yalniz `python -m pytest` ile calisirdi.
 pythonpath = ["."]
+# Why: `slow` testi (5 MB metin, ~18 dk) sürenin %87'sini yiyordu; künyesi
+# zaten "varsayılan koşuda atlanıyor" diyordu ama bunu bağlayan ayar yoktu.
+# Hepsini koşmak için: pytest -m ""
+addopts = "-m 'not slow'"
 markers = [
     "slow: dakikalar sürebilen test (5 MB metin gibi); -m 'not slow' ile atlanır",
 ]

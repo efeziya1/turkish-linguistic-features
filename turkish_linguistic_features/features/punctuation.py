@@ -189,7 +189,7 @@ def char_freq_vector(text: str, lang: str) -> dict[str, float]:
         ``lang`` ``"tr"`` ya da ``"en"`` değilse.
     """
     if lang not in _ALFABE:
-        raise ValueError(f"Desteklenmeyen dil: {lang!r}. Beklenen: {sorted(_ALFABE)}")
+        raise ValueError(f"Unsupported language: {lang!r}. Expected one of: {sorted(_ALFABE)}")
     alfabe = _ALFABE[lang]
     say = Counter(ch for ch in _kucuk_harf(text, lang) if ch in alfabe)
     toplam = sum(say.values())

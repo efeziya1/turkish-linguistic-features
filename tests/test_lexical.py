@@ -451,7 +451,7 @@ def test_kelime_disi_pos_kumesi():
 
 def test_pos_variation_hizasiz_listelerde_hata():
     """Hizasızlık ön işleme hatasıdır, metnin özelliği değil (2026-09-16, Efe)."""
-    with pytest.raises(ValueError, match="hizal"):
+    with pytest.raises(ValueError, match="not aligned"):
         pos_lexical_variation(["a", "b"], [("a", "NOUN")])
 
 
@@ -673,7 +673,7 @@ def test_wordfreq_anlamli_kelime_yoksa_nan(sahte_wordfreq):
 
 
 def test_wordfreq_hizasiz_listelerde_hata(sahte_wordfreq):
-    with pytest.raises(ValueError, match="hizal"):
+    with pytest.raises(ValueError, match="not aligned"):
         reference_frequency_sophistication(["kitap", "oku"], [("kitap", "NOUN")], "tr")
 
 

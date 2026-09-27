@@ -140,13 +140,37 @@ def test_curve_length_quita():
 
 
 def test_curve_length_r_quita():
-    """QUITA s. 37 denk. (6.22-23): Lh(Metin 1) = 14.29145 → R = 1 − 14.29145/129.3559.
+    """QUITA s.37 denk. (6.22-23), iki metin de.
 
-    Kılavuzun yazılı ifadesi 4 terim gösteriyor ama sonuç 5 terimle tutuyor:
-    toplam r = 1..⌊h⌋, son segment f(5) → f(6).
+    Text 1 (h = 5 tam sayı) yuvarlama yönünü ayırt etmez; ayrımı Text 2
+    (h = 4,75) yapar. Kılavuz orada ``Lh = 18,03607`` basıyor — beş parça,
+    yani ``⌈h⌉``. ``⌊h⌋`` ile 17,03607 çıkar, tam 1,0 eksik.
     """
-    beklenen = 1 - 14.29145 / 129.3559
-    assert abs(curve_length_indicator(ORWELL_1984, 5.0)["curve_length_r"] - beklenen) < 5e-5
+    for freqs, h, Lh, L in ((ORWELL_1984, 5.0, 14.29145, 129.3559),
+                            (ANIMAL_FARM, 4.75, 18.03607, 134.2787)):
+        beklenen = 1 - Lh / L
+        assert abs(curve_length_indicator(freqs, h)["curve_length_r"]
+                   - beklenen) < 5e-5
+
+
+def test_kesirli_h_yukari_yuvarlanir():
+    """``Lh`` kesişimi içeren parçayı dâhil eder — ``R1``'in ⌊h⌋'sinin tersi.
+
+    Sayılan nesne farklı: ``R1`` rank'lardaki frekansları toplar (5. rank
+    h = 4,75'in altında, sayılmaz), ``Lh`` rank'lar arası parçaları toplar
+    (4 → 5 parçası kesişimi içerir, sayılır).
+    """
+    import numpy as np
+    seg = np.sqrt(np.diff(ANIMAL_FARM.astype(float)) ** 2 + 1)
+    assert abs(float(seg[:5].sum()) - 18.03607) < 1e-4    # ⌈4.75⌉ = 5
+    assert abs(float(seg[:4].sum()) - 17.03607) < 1e-4    # ⌊4.75⌋ = 4
+
+
+def test_quita_spektrumlari_ayni():
+    """Rapor üreticisiyle bu dosya aynı sıklık dağılımını kullanmalı."""
+    from scripts.dogrulama_raporu import _T1, _T2
+    assert sorted(_T1, reverse=True) == list(ORWELL_1984)
+    assert sorted(_T2, reverse=True) == list(ANIMAL_FARM)
 
 
 def test_lambda_quita_formulu():
