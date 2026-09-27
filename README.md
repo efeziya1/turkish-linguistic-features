@@ -20,19 +20,6 @@ oz["atesman"]             # 77.2479  (Ateşman 1997 readability)
 **→ [Full documentation](docs/index.md)** — tutorial, how-to guides, feature
 reference and limitations, in **Turkish and English**.
 
-Build and read it locally:
-
-```bash
-pip install mkdocs-material
-mkdocs serve          # http://127.0.0.1:8000
-```
-
-Or build the static site and open `site/index.html`:
-
-```bash
-mkdocs build
-```
-
 | | |
 |---|---|
 | Türkçe | [docs/tr/](docs/tr/index.md) |
@@ -99,6 +86,7 @@ pytest                          # 727 tests; pytest -m "" adds 1 slow one
 ruff check .
 python scripts/dogrulama_raporu.py   # regenerate the verification reports
 python scripts/basvuru_uret.py       # regenerate the feature reference
+mkdocs serve                         # preview the docs site at http://127.0.0.1:8000
 ```
 
 ## License
