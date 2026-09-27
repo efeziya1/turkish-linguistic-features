@@ -35,7 +35,7 @@ The library has **ten** public names. That is all of them:
 | `describe_feature` | Gives a feature's definition and source |
 | `FeatureParams` | The settings object holding thresholds and windows |
 | `LinguisticFeaturesError` | Base class for every error the library raises |
-| `ModelNotFoundError` | Raised when a spaCy model is missing |
+| `ModelNotFoundError` | Raised when required language data is missing: a spaCy model, or NLTK's `cmudict` for English syllable counts |
 | `MissingDependencyWarning` | Warned when an optional package is missing |
 | `ParagraphStructureWarning` | Warned when a text over 1000 words has no paragraph boundary |
 

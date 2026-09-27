@@ -75,7 +75,8 @@ def analyze_corpus(path: str | Path, lang: str = "tr",
     model, groups, params, custom_ngrams, warn
         Olduğu gibi ``analyze()``'a geçer; anlamları orada.
     show_progress
-        Parça sayacı yazdırılsın mı: ``[12/87] Etiket_Başlık.txt #3``.
+        Parça sayacı yazdırılsın mı: ``[12/87] Başlık #3`` (kaynak adı, uzantısız;
+        ``#`` parça numarası).
         Varsayılan ``False`` — kütüphane kendiliğinden ekrana yazmaz.
 
         ``analyze()``'a **her zaman** ``show_progress=False`` geçilir:

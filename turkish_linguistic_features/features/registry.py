@@ -1,4 +1,4 @@
-"""Öznitelik registry — 182 statik anahtarın tek doğruluk kaynağı (T19).
+"""Öznitelik registry — 183 statik anahtarın tek doğruluk kaynağı (T19).
 
 ``describe_feature(key)`` bir anahtar hakkında bilinen her şeyi tek çağrıda
 döndürür: ne ölçtüğü, nasıl hesaplandığı, hangi ölçekte olduğu, hangi

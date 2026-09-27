@@ -162,7 +162,7 @@ def _extract_features(
     Returns
     -------
     dict[str, float]
-        Anahtar → değer. Türkçe taban 207, İngilizce 181; ``dep_data``
+        Anahtar → değer. Türkçe taban 208, İngilizce 182; ``dep_data``
         verilmezse her ikisinden de 16 eksik.
 
     Raises

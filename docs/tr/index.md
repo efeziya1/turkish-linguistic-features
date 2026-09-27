@@ -33,7 +33,7 @@ Kütüphanenin **on** genel adı var, hepsi bu kadar:
 | `describe_feature` | Bir özniteliğin tanımını ve kaynağını verir |
 | `FeatureParams` | Eşikleri ve pencere boylarını taşıyan ayar nesnesi |
 | `LinguisticFeaturesError` | Kütüphanenin bütün hatalarının atası |
-| `ModelNotFoundError` | spaCy modeli kurulu değilse |
+| `ModelNotFoundError` | Gereken dil verisi kurulu değilse: spaCy modeli ya da İngilizce hece sayımı için NLTK `cmudict` |
 | `MissingDependencyWarning` | İsteğe bağlı bir paket yoksa |
 | `ParagraphStructureWarning` | 1000 kelimeyi geçen metinde paragraf sınırı bulunamazsa |
 
