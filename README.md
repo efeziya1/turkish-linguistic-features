@@ -68,7 +68,7 @@ tlf.analyze(text, groups=["readability"])        # one group only
 tlf.analyze_corpus("corpus/")                    # one row per file
 tlf.analyze_corpus("corpus/", segment_size=1000) # or split into chunks
 tlf.save_csv(rows, "features.csv")               # write them out
-tlf.segment_text(text, size=1000, lang="tr")      # split a single text
+tlf.segment_text(text, size=1000, lang="tr")     # split a single text
 tlf.describe_feature("mtld")                     # what a key measures, and its source
 tlf.FeatureParams(mattr_window=100)              # metric constants
 
