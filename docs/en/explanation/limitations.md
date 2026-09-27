@@ -17,8 +17,7 @@ distribution in novel corpora:
 Both sets are the **same genre**: novels/fiction. There is **no guarantee**
 they generalise to technical writing, transcripts, poetry or children's
 books. If you work in another genre, consider deriving the thresholds from
-your own corpus — [the method is here](../../esik-kalibrasyonu.md) (in
-Turkish).
+your own corpus — [the method is here](../../threshold-calibration.md).
 
 ## 2. Some features are this library's own derivations
 

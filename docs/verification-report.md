@@ -202,7 +202,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `med_sent_len` | — | ⚪ |
 | `avg_sent_len_char` | — | ⚪ |
 | `short_sent_ratio` | Ateşman (1997) p.74 — the easiest Turkish text has a sentence length of 4 words; Threshold calibration (2026-07-28) produced the same number independently (Turkish novel corpus, 15th percentile = 4). The EN threshold of 7 comes from calibration only | 🔧 |
-| `long_sent_ratio` | Threshold calibration (2026-07-28); TR 18, EN 39 — 85th percentile. Ateşman's 30 was not used: that is THE MEAN OF THE HARDEST TEXT, not a single-sentence threshold (in Turkish novels 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on novels/fiction only | 🔧 |
+| `long_sent_ratio` | Threshold calibration (2026-07-28); TR 18, EN 39 — 85th percentile. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish novels 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on novels/fiction only | 🔧 |
 | `sent_len_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision | 🔧 |
 | `para_len_mean` | — | ⚪ |
 | `para_len_cv` | — | ⚪ |
@@ -470,7 +470,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `med_sent_len` | — | ⚪ |
 | `avg_sent_len_char` | — | ⚪ |
 | `short_sent_ratio` | Ateşman (1997) p.74 — the easiest Turkish text has a sentence length of 4 words; Threshold calibration (2026-07-28) produced the same number independently (Turkish novel corpus, 15th percentile = 4). The EN threshold of 7 comes from calibration only | 🔧 |
-| `long_sent_ratio` | Threshold calibration (2026-07-28); TR 18, EN 39 — 85th percentile. Ateşman's 30 was not used: that is THE MEAN OF THE HARDEST TEXT, not a single-sentence threshold (in Turkish novels 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on novels/fiction only | 🔧 |
+| `long_sent_ratio` | Threshold calibration (2026-07-28); TR 18, EN 39 — 85th percentile. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish novels 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on novels/fiction only | 🔧 |
 | `sent_len_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision | 🔧 |
 | `para_len_mean` | — | ⚪ |
 | `para_len_cv` | — | ⚪ |

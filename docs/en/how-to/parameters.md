@@ -64,7 +64,7 @@ threshold cannot serve both.
 They were derived from the 15th and 85th percentiles of the sentence-length
 distribution in novel corpora (Turkish: 15 authors / 1,089,841 sentences;
 English: 10 authors / 341,892 sentences). Method:
-[Threshold calibration](../../esik-kalibrasyonu.md) (in Turkish).
+[Threshold calibration](../../threshold-calibration.md).
 
 **Resolution is per field.** A field you set uses your number; a field you
 leave out keeps the calibrated value for the language. Changing an unrelated

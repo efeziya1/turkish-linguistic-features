@@ -101,4 +101,5 @@ nav:
   - Verification:
       - Doğrulama raporu (TR): dogrulama-raporu.md
       - Verification report (EN): verification-report.md
-      - Eşik kalibrasyonu: esik-kalibrasyonu.md
+      - Eşik kalibrasyonu (TR): esik-kalibrasyonu.md
+      - Threshold calibration (EN): threshold-calibration.md

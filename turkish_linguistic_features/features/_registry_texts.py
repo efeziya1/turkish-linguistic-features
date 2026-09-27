@@ -717,7 +717,7 @@ FEATURE_CITATIONS: dict[str, str] = {
         'of 7 comes from calibration only',
     'long_sent_ratio':
         "Threshold calibration (2026-07-28); TR 18, EN 39 — 85th percentile. Ateşman's "
-        '30 was not used: that is THE MEAN OF THE HARDEST TEXT, not a single-sentence '
+        '30 was not used: that is the mean of the hardest text, not a single-sentence '
         'threshold (in Turkish novels 30 words is above the 95th percentile, so as a '
         'threshold it would almost never fire). Calibrated on novels/fiction only',
     'sent_len_entropy':
@@ -969,7 +969,7 @@ BIBLIOGRAPHY: dict[str, str] = {
         'and long_sent_threshold were derived from the 15th and 85th percentiles of '
         'the sentence-length distribution in novel corpora: TR 15 authors / 1,089,841 '
         'sentences, EN 10 authors / 341,892 sentences. Method and raw percentile '
-        'table: docs/esik-kalibrasyonu.md.',
+        'table: docs/threshold-calibration.md.',
     'Ateşman (1997)':
         'Ateşman, E. (1997). Türkçede okunabilirliğin ölçülmesi. Dil Dergisi, 58, '
         '71–74. Ankara Üniversitesi TÖMER. ISSN 1300-3542.',
