@@ -136,7 +136,7 @@ def test_turev_kunyeleri_isaretli():
     from turkish_linguistic_features.features._registry_texts import (
         FEATURE_CITATIONS,
     )
-    IZLER = ("this library's own", "Threshold calibration",
+    IZLER = ("this library's own", "threshold calibration",
              "not the source's own")
     for anahtar in TUREV_ANAHTARLARI:
         kunye = FEATURE_CITATIONS[anahtar]

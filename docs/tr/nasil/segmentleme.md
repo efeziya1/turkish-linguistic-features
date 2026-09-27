@@ -17,10 +17,14 @@ parcalar = tlf.segment_text(metin, size=1000, lang="tr")
 
 ## `size` spaCy token sayar, boşlukla ayrılmış kelime değil
 
-Bu en çok şaşırtan noktadır. Ölçüm:
+Bu en çok şaşırtan noktadır. [Öğreticideki](../baslangic.md) 30 kelimelik
+`metin` ile:
 
 ```python
-uzun = tr_metin * 12
+import spacy
+
+tokenizer = spacy.blank("tr").tokenizer
+uzun = " ".join([metin] * 12)
 len(uzun.split())              # 360  ← boşlukla ayrılmış "kelime"
 len(tokenizer(uzun))           # 432  ← spaCy token
 ```
@@ -37,22 +41,8 @@ len(parcalar)                                  # 4
 432 token ÷ 100 = 4 tam parça, artan 32 token atılır. Her parça 100
 **token** ama 83–84 **kelime**.
 
-??? note "Neden spaCy token, neden `\S+` değil"
-
-    Planın ilk sürümü `re.finditer(r"\S+")` kullanıyordu. Ölçüldü ve
-    araştırma kullanımı için yeterince kesin çıkmadı: `\S+` ile "tam 1000
-    kelime" diye kesilen 40 parça gerçekte **1018–1562** spaCy token çıktı
-    (en uzunu en kısadan %53 uzun) ve aynı metinde bu aralıkta TTR **%7,6**
-    oynadı.
-
-    Yani `min_fill`'in önlemek için var olduğu uzunluk karışıklığı, sayım
-    yönteminin kendisinden giriyordu.
-
-    Maliyet ölçüldü ve önemsiz: 1,2 saniye/MB — ardından gelen `analyze()`
-    çağrılarının %1'i kadar.
-
-    Cümle sınırında bölmek de denendi, daha kötü: bozuk noktalamalı metinde
-    tek "cümle" 2611 token olabiliyor, parça boyu 385–2611'e yayılıyor.
+`size` spaCy token sayar, çünkü boşlukla bölmek parça boylarını %50'ye
+varan oranda değiştiriyordu.
 
 ## Son parça: `min_fill`
 

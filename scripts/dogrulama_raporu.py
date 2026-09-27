@@ -863,8 +863,7 @@ _METIN = {
         "ozet_basligi": ("Durum", "Satır sayısı"),
         "ozet_aday": "**Doğrulama adayı — {n} satır**\n\n",
         "ozet_disi": "\n\n**Doğrulama adayı olmayan — {n} satır.** "
-                     "Bunlarda aranacak bir sayı yoktur; yokluğu bir eksiklik "
-                     "değil, tanımın kendisidir.\n\n",
+                     "Bunlarda aranacak yayımlanmış bir sayı yoktur.\n\n",
         "olculen_basligi": "\n\n### Sayısal karşılaştırması olanlar\n\n",
         "olculen_sutun": "| Anahtar | Kaynak | Örnek | Kanıt | Beklenen "
                          "| Bizim | Fark | Durum |\n",
@@ -923,8 +922,7 @@ _METIN = {
         "ozet_basligi": ("Status", "Rows"),
         "ozet_aday": "**Verification candidates — {n} rows**\n\n",
         "ozet_disi": "\n\n**Not verification candidates — {n} rows.** There is "
-                     "no number to look for in these; its absence is not a gap "
-                     "but the definition itself.\n\n",
+                     "no published number to look for in these.\n\n",
         "olculen_basligi": "\n\n### Keys with a numeric comparison\n\n",
         "olculen_sutun": "| Key | Source | Example | Evidence | Expected "
                          "| Ours | Diff | Status |\n",

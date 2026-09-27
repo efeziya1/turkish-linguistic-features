@@ -23,7 +23,7 @@ print(json.dumps(tlf.describe_feature("mattr"), indent=2))
   "inputs": ["surface_tokens", "lemma_tokens", "pos_data"],
   "params": ["mattr_window"],
   "requires": "at least 100 words (2 x mattr_window)",
-  "citation": "Covington & McFall (2010); default window 50 — C&M's own recommendation is 500, 50 was settled on after measurement",
+  "citation": "Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window)",
   "references": [
     "Covington, M. A., & McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098"
   ]
@@ -47,8 +47,8 @@ print(json.dumps(tlf.describe_feature("mattr"), indent=2))
 
 In the example above the citation says:
 
-> default window 50 — C&M's own recommendation is 500, 50 was settled on
-> after measurement
+> default window 50 — C&M recommend a window of 500; 50 is used here so
+> that texts of 100+ words can be measured (mattr needs 2 × window)
 
 That is: the method is Covington & McFall's, **but the default window size
 is not theirs.** Being able to read that distinction off the citation is
@@ -64,11 +64,6 @@ Other forms of the same pattern:
 - `"McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form
   of SMOG's input, not the source's own measure"` — derived from the
   source, but not a measure the source itself defines.
-
-There is one more mechanism: if a constant in a formula could not be
-verified, `[unverified constant]` is appended to the citation. **No feature
-currently carries it** (the list is empty); the mechanism is there in case
-it is needed.
 
 ## Features without a source
 

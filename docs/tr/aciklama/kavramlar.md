@@ -21,7 +21,8 @@ değişen adlar sürüm notlarında duyurulur.
 
 ## Grup
 
-Öznitelikler 13 gruba ayrılır. Grup, hem düzenleme hem de seçim aracıdır:
+Öznitelikler 13 gruba ayrılır (`custom_ngrams` verirseniz oluşan `ng_*`
+anahtarlarıyla 14). Grup, hem düzenleme hem de seçim aracıdır:
 
 ```python
 oz = tlf.analyze(metin, lang="tr", groups=["readability", "lexical"])

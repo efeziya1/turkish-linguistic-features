@@ -43,7 +43,7 @@ Sebep basit: Shannon entropiyi tanımladı, parçalar arası standart sapmasın�
 tanımlamadı. Birinci yazım okuyucuya, kaynakta aranınca bulunacak bir ölçü
 olduğunu ima ediyor.
 
-## 3. Onbir künye ikincil kaynaktan
+## 3. On bir künye ikincil kaynaktan
 
 145 künyenin **11'i** `as cited in` ile işaretlidir — birincil kaynağa
 ulaşılamadı, formül aktaran kaynaktan alındı. Örnek:
@@ -67,13 +67,9 @@ değişirse sayılar değişir.
 Doğrulanmış kombinasyon: spaCy 3.8.16, `en_core_web_sm` 3.8.0,
 `tr_core_news_md` 1.0.
 
-Türkçe modelin bilinen tuhaflıkları:
-
-- Wheel kendisiyle çelişiyor: dosya adı `1.0`, içindeki üstveri `3.4.2`.
-- Yüklenirken `W094` uyarısı basar. Modelin kendi `meta.json`'ı gevşek
-  yazılmış; zararsızdır.
-
-Bunlar hata değildir ve düzeltilecek bir tarafı yoktur.
+Türkçe modelin hata sanılabilecek iki tuhaflığı (sürüm numarası çelişkisi ve
+`W094` uyarısı) [öğreticide](../baslangic.md#2-dil-verisini-kurun)
+anlatılıyor; ikisi de zararsız.
 
 ## 5. Türkçe morfoloji Zeyrek'e bağlı
 
@@ -106,9 +102,10 @@ Sonuç: metninizde boş satır yoksa metnin tamamı tek paragraf sayılır.
 `para_len_mean` bütün metnin kelime sayısına eşitlenir, iki CV NaN döner.
 Kütüphane bunu düzeltemez — silinmiş paragraf sınırı geri getirilemez.
 
-Bu, PDF ve EPUB'dan çıkarılmış metinlerde **yaygındır**. Ölçüldü:
-elimizdeki bir Türkçe roman derlemesinde 163 dosyanın **120'sinde** hiç boş
-satır yok; bir dosyanın tamamı tek satır (191.806 karakter, 7.347 cümle).
+Bu, PDF ve EPUB'dan çıkarılmış metinlerde **yaygındır**: paragraflar arasındaki
+boş satırlar çıkarım sırasında kaybolur. Kendi metninizde hangi özniteliklerin
+bu yüzden ölçülemediğini [NaN haritası örneğiyle](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/07_nan_haritasi.py)
+görebilirsiniz.
 
 1000 kelimeyi geçen bir metinde hiç paragraf sınırı bulunamazsa
 `ParagraphStructureWarning` basılır. Uyarıyı görürseniz iki yol var: kaynak
@@ -124,10 +121,6 @@ Kalan **92 adayın 48'i** bitmiş (47 ✅ + 1 🟡), **44'ü 🔍 açık**.
 Sebebi [doğrulama sistemi](dogrulama.md) sayfasında: kaynakların çoğu
 formülü yayımlar, o formülün uygulandığı bir sayısal örnek vermez. Bu
 özellikle `lexical` grubunda belirgin — 30 adayın 7'si doğrulanmış.
-
-Bu bir kalite sorunu değil, bir **görünürlük** tercihi: kütüphane neyin
-doğrulandığını, neyin doğrulanmadığını ve neyin doğrulanamayacağını ayırt
-edilebilir kılıyor.
 
 ## 9. Paket henüz PyPI'da değil
 

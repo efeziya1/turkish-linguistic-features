@@ -89,7 +89,7 @@ Türkçede 95. yüzdeliğin üstünde kalıyor.
 
 ## Kapsam sınırı
 
-🔴 **Eşikler yalnız roman/kurgu türü için kalibre edildi.**
+**Eşikler yalnız roman/kurgu türü için kalibre edildi.**
 
 Teknik metin, transkript, şiir, hukuk metni ya da ders kitabında aynı
 eşiklerin uygun olacağı **garanti değildir**. Bu türlerle çalışıyorsanız kendi

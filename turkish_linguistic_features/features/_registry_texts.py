@@ -671,8 +671,9 @@ FEATURE_CITATIONS: dict[str, str] = {
     # ── lexical ─────────────────────────────────────────────
     'ttr': 'Malvern et al. (2004); QUITA §6.1.1',
     'mattr':
-        "Covington & McFall (2010); default window 50 — C&M's own recommendation is "
-        '500, 50 was settled on after measurement',
+        'Covington & McFall (2010); default window 50 — C&M recommend a window of 500; '
+        '50 is used here so that texts of 100+ words can be measured (mattr needs '
+        '2 × window)',
     'herdan_c':
         'Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)',
     'sichel_s': 'Sichel (1975); formula from Malvern et al. (2004) eq. 3.10',
@@ -711,12 +712,14 @@ FEATURE_CITATIONS: dict[str, str] = {
         'Shannon (1948) — the entropy formula; applying it to the distribution of '
         "punctuation types is this library's own decision",
     'short_sent_ratio':
-        'Threshold calibration (2026-07-28); TR 4, EN 7 — 15th percentile. Note: the '
+        "This library's threshold calibration (docs/threshold-calibration.md); "
+        'TR 4, EN 7 — 15th percentile. Note: the '
         'TR value coincides with Ateşman (1997) p.74, where the easiest text has a '
         'mean sentence length of 4 words; that is a text mean, not a threshold, '
         'so it is not the source. Calibrated on novels/fiction only',
     'long_sent_ratio':
-        "Threshold calibration (2026-07-28); TR 18, EN 39 — 85th percentile. Ateşman's "
+        "This library's threshold calibration (docs/threshold-calibration.md); "
+        "TR 18, EN 39 — 85th percentile. Ateşman's "
         '30 was not used: that is the mean of the hardest text, not a single-sentence '
         'threshold (in Turkish novels 30 words is above the 95th percentile, so as a '
         'threshold it would almost never fire). Calibrated on novels/fiction only',
@@ -964,7 +967,7 @@ BIBLIOGRAPHY: dict[str, str] = {
     'Anderson (1983)':
         'Anderson, J. (1983). Lix and Rix: Variations on a little-known readability '
         'index. Journal of Reading, 26(6), 490–496. JSTOR 40031755.',
-    'Threshold calibration (2026-07-28)':
+    "This library's threshold calibration":
         "This library's own measurement, not a published source. short_sent_threshold "
         'and long_sent_threshold were derived from the 15th and 85th percentiles of '
         'the sentence-length distribution in novel corpora: TR 15 authors / 1,089,841 '

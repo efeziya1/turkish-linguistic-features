@@ -9,7 +9,7 @@ sayfada iki ad vermemek.
 |---|---|---|
 | **öznitelik** | feature | Metinden çıkarılan tek bir sayı (`ttr`, `atesman`) |
 | **anahtar** | key | Özniteliğin adı; sözlükteki `dict` anahtarı |
-| **grup** | group | Özniteliklerin 13 kümesinden biri (`lexical`, `readability`…) |
+| **grup** | group | Özniteliklerin 13 kümesinden biri (`lexical`, `readability`…; `custom_ngrams` ile 14) |
 | **künye** | citation | Kısa kaynak işaretçisi — yöntem bölümüne parantez içi |
 | **kaynakça kaydı** | reference | Tam bibliyografik kayıt — kaynakçaya kopyalanan |
 | **kayıt defteri** | registry | Bütün öznitelik üstverisinin durduğu tek yer |

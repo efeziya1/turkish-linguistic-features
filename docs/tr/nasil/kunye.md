@@ -23,7 +23,7 @@ print(json.dumps(tlf.describe_feature("mattr"), ensure_ascii=False, indent=2))
   "inputs": ["surface_tokens", "lemma_tokens", "pos_data"],
   "params": ["mattr_window"],
   "requires": "at least 100 words (2 x mattr_window)",
-  "citation": "Covington & McFall (2010); default window 50 — C&M's own recommendation is 500, 50 was settled on after measurement",
+  "citation": "Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window)",
   "references": [
     "Covington, M. A., & McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098"
   ]
@@ -47,8 +47,8 @@ print(json.dumps(tlf.describe_feature("mattr"), ensure_ascii=False, indent=2))
 
 Yukarıdaki örnekte künye şunu yazıyor:
 
-> default window 50 — C&M's own recommendation is 500, 50 was settled on
-> after measurement
+> default window 50 — C&M recommend a window of 500; 50 is used here so
+> that texts of 100+ words can be measured (mattr needs 2 × window)
 
 Yani: yöntem Covington & McFall'ın, **ama varsayılan pencere boyu onlardan
 gelmiyor.** Bu ayrımı künyeden okuyabilmeniz kasıtlıdır. Bir sayıyı
@@ -62,10 +62,6 @@ Aynı kalıbın başka biçimleri:
 - `"McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form of
   SMOG's input, not the source's own measure"` — ölçü kaynaktan türetilmiş
   ama kaynağın kendi ölçüsü değil.
-
-Ayrıca bir mekanizma daha var: formüldeki bir sabit doğrulanamamışsa künyenin
-sonuna `[unverified constant]` eklenir. **Şu anda böyle bir öznitelik yok**
-(liste boş); mekanizma ileride gerekirse diye duruyor.
 
 ## Kaynağı olmayan öznitelikler
 

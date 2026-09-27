@@ -94,7 +94,7 @@ lies above the 95th percentile in Turkish.
 
 ## Scope
 
-🔴 **The thresholds were calibrated on novels/fiction only.**
+**The thresholds were calibrated on novels/fiction only.**
 
 There is **no guarantee** that the same thresholds suit technical writing,
 transcripts, poetry, legal text or textbooks. If you work with those genres,

@@ -10,7 +10,7 @@ pages.
 |---|---|
 | **feature** | A single number extracted from a text (`ttr`, `atesman`) |
 | **key** | A feature's name; the `dict` key in the returned mapping |
-| **group** | One of the 13 sets features belong to (`lexical`, `readability`…) |
+| **group** | One of the 13 sets features belong to (`lexical`, `readability`…; 14 with `custom_ngrams`) |
 | **citation** | The short source pointer — the parenthetical in a methods section |
 | **reference** | The full bibliographic record — what goes in a bibliography |
 | **registry** | The single place all feature metadata lives |

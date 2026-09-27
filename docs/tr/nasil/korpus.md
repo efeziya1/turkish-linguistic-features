@@ -58,6 +58,8 @@ import turkish_linguistic_features as tlf
 
 satirlar = tlf.analyze_corpus("korpus/", lang="tr")
 tlf.save_csv(satirlar, "oznitelikler.csv")
+print("satır sayısı:", len(satirlar))
+print("sütun sayısı:", len(satirlar[0]))
 ```
 
 Bu kadar. Zincirin tamamı bu.
@@ -109,13 +111,21 @@ satirlar = tlf.analyze_corpus("korpus/", lang="tr", show_progress=True)
 satirlar = tlf.analyze_corpus("korpus/", lang="tr", segment_size=1000)
 ```
 
-Ölçüm:
+Örneğin 648 tokenlık tek bir dosya içeren `tek_dosya/` klasöründe:
+
+```python
+butun   = tlf.analyze_corpus("tek_dosya/", lang="tr")
+parcali = tlf.analyze_corpus("tek_dosya/", lang="tr", segment_size=200)
+print(len(butun), len(parcali), [s["segment_id"] for s in parcali])
+```
+
+Çıktı:
 
 ```text
-segment_size verilmezse : 1 satır (dosya başına bir satır)
-segment_size=200        : 3 satır
-segment_id'ler          : [0, 1, 2]
+1 3 [0, 1, 2]
 ```
+
+648 ÷ 200 = 3 tam parça; kalan 48 token varsayılan `min_fill=1.0` ile atılır.
 
 !!! danger "Parçalama dosya dosya yapılır, korpus geneli değil"
 

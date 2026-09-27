@@ -13,7 +13,9 @@ import turkish_linguistic_features as tlf
 before = tlf.analyze(before_text, lang="en")
 after  = tlf.analyze(after_text,  lang="en")
 
-for k in ("avg_sent_len_word", "flesch_reading_ease", "ari"):
+print(f"{'key':22s} {'before':>10} {'after':>10} {'diff':>10}")
+for k in ("avg_sent_len_word", "avg_word_length", "flesch_reading_ease",
+          "flesch_kincaid_grade", "ari", "coleman_liau", "ttr", "long_word_ratio"):
     print(f"{k:22s} {before[k]:10.4f} {after[k]:10.4f} {after[k]-before[k]:+10.4f}")
 ```
 
@@ -35,7 +37,7 @@ An academic paragraph in its heavy form and its plain form:
     > This study compares English readability formulas. The aim is to show
     > how far they agree. We looked at three formulas that are widely used.
 
-Measured:
+Output:
 
 ```text
 key                        before      after       diff
@@ -56,8 +58,8 @@ How to read it:
 - **Flesch Reading Ease 10.7 → 68.3.** On the 0–100 scale, 10.7 is
   "very difficult" (postgraduate) and 68.3 is "standard". A 57-point jump.
 - **All three grade-level formulas agree on the direction** and roughly on
-  the size: FKGL −12.6, ARI −15.0, Coleman-Liau −10.1. When formulas that
-  disagree in absolute terms agree on a change, the change is real.
+  the size: FKGL −12.6, ARI −15.0, Coleman-Liau −10.1. Agreement in direction
+  is reassuring, but not proof: all three rest on word and sentence length.
 - **`long_word_ratio` 0.45 → 0.21.** "investigation", "concordance",
   "determination" are gone.
 - **`ttr` 0.68 → 0.96 but this means nothing.** The second text is shorter,
@@ -88,7 +90,9 @@ How to read it:
     bring them to the same size with `segment_size` first.
 
 Sentence length, syllable mean, word length and the readability formulas
-are relatively length-independent and can be compared even in short texts.
+are relatively insensitive to length, but noisy in short texts: a change to
+a few sentences moves them noticeably. SMOG needs at least 30 sentences and
+returns `nan` below that.
 
 ## Many pairs at once
 

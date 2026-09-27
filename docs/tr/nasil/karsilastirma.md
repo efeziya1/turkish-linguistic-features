@@ -12,7 +12,9 @@ import turkish_linguistic_features as tlf
 once  = tlf.analyze(once_metin, lang="tr")
 sonra = tlf.analyze(sonra_metin, lang="tr")
 
-for k in ("avg_sent_len_word", "atesman", "syllable_mean"):
+print(f"{'anahtar':22s} {'önce':>10} {'sonra':>10} {'fark':>10}")
+for k in ("avg_sent_len_word", "avg_word_length", "syllable_mean", "atesman",
+          "cetinkaya_uzun", "ttr", "long_word_ratio"):
     print(f"{k:22s} {once[k]:10.4f} {sonra[k]:10.4f} {sonra[k]-once[k]:+10.4f}")
 ```
 
@@ -34,7 +36,7 @@ Akademik bir paragrafın ağır hâli ve sadeleştirilmiş hâli:
     > formüllerin birbiriyle ne kadar uyuştuğunu göstermektir. Alanyazında
     > yaygın olan üç formül ele alındı.
 
-Ölçüm:
+Çıktı:
 
 ```text
 anahtar                      önce      sonra       fark
@@ -84,8 +86,9 @@ Okunuşu:
     `segment_size` ile aynı boya getirin.
 
 Cümle uzunluğu, hece ortalaması, kelime uzunluğu ve okunabilirlik
-formülleri uzunluktan görece bağımsızdır; kısa metinlerde bile
-karşılaştırılabilirler.
+formülleri uzunluğa görece az duyarlıdır, ama kısa metinde gürültülüdür:
+birkaç cümlelik bir değişiklik sonucu belirgin oynatır. SMOG en az 30 cümle
+ister, daha kısa metinde `nan` döner.
 
 ## Birden çok çifti karşılaştırmak
 

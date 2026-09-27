@@ -21,7 +21,8 @@ Of 208 keys, 141 have a citation and 67 do not.
 
 ## Group
 
-Features are organised into 13 groups. A group is both an organising device
+Features are organised into 13 groups (14 with the `ng_*` keys created when
+you pass `custom_ngrams`). A group is both an organising device
 and a selection device:
 
 ```python

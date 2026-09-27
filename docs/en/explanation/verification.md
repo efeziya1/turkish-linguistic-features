@@ -114,7 +114,7 @@ the author gives the formula and leaves the example to the reader.
 
 ## How a 🔍 becomes a ✅
 
-Someone has to find a number the source actually published. Three recent
+Someone has to find a number the source actually published. Three
 examples:
 
 **The QUITA manual — fourteen features at once.** The manual works fourteen
@@ -145,7 +145,7 @@ drops below 0.72; the leftover stretch is added as a fractional factor.
 McCarthy & Jarvis (2010) p.385 work through exactly that fraction: *".887 forms
 40.4% of the range between 1.00 and the full factor of .720."* We ran the same
 sequence through the production code and got a fractional factor of **0.4043** —
-the same as the source's printed 40.4%. ⚪ → ✅
+the same as the source's printed 40.4%.
 
 **`coleman_liau`** — The article defines the measure in two steps: first
 estimate the text's cloze percentage, then convert that percentage to a grade
@@ -153,7 +153,7 @@ level. In practice the two steps are combined into a single equation, and that
 is the standard use in the literature. We measured that running the two steps
 separately and using the single equation give the same result: **7.7041** and
 **7.7046**. The 0.0005 between them comes from the source rounding an
-intermediate value. ⚪ → ✅
+intermediate value.
 
 ## What a 🟡 looks like — the Kincaid case
 
@@ -240,7 +240,7 @@ tlf.describe_feature("entropy_std")["formula"]
 'population std of entropies (bits) of disjoint mattr_window-word chunks'
 ```
 
-The six that come up most often:
+Six examples:
 
 | Feature | Definition | What belongs to the source |
 |---|---|---|

@@ -8,6 +8,7 @@ Window sizes, thresholds and sample counts live in `FeatureParams`.
 import turkish_linguistic_features as tlf
 from turkish_linguistic_features import FeatureParams
 
+# metin: the three-sentence Turkish text from the tutorial (7, 7 and 16 words)
 p = FeatureParams(short_sent_threshold=3, long_sent_threshold=12)
 oz = tlf.analyze(text, lang="tr", params=p)
 ```
@@ -16,7 +17,7 @@ oz = tlf.analyze(text, lang="tr", params=p)
 sentence thresholds that default is not a fixed number but the calibrated value
 for the language — see [below](#the-sentence-thresholds-resolve-per-language).
 
-Measured:
+Output (`short_sent_ratio`, `long_sent_ratio`):
 
 ```text
 default (TR 4/18): short=0.0      long=0.0
@@ -71,11 +72,14 @@ leave out keeps the calibrated value for the language. Changing an unrelated
 field therefore does not disturb the thresholds:
 
 ```python
+text = ("Kapı açıldı. Sabah erkenden yola çıktık. Köyün girişindeki "
+        "yaşlı çınarın altında oturan adam, uzun yıllar önce bu yollardan "
+        "geçen kervanları, pazar günlerini ve kaybolan komşularını anlattı.")
 p = FeatureParams(mattr_window=100)            # thresholds untouched
 feats = tlf.analyze(text, lang="tr", params=p)  # still TR 4/18
 ```
 
-Measured — a three-sentence text with word counts 2, 4 and 19:
+Output — sentences of 2, 4 and 20 words:
 
 ```text
 params=None                       short=0.333333   long=0.333333
@@ -105,9 +109,6 @@ default here is 50 — a tenth of that. The reasons:
 - The window size is also a **lower bound**: `mattr` requires at least
   `2 × window` words. At 500, no text under 1000 words could produce a
   value at all.
-- Measured on 15 Turkish novels: at w=50 the measure varies 0.52% with
-  length, at w=500 it varies 1.26%. The discrimination signal-to-noise
-  ratio is flat (~1.2) across window sizes.
 
 The citation states this distinction openly. If you want 500:
 

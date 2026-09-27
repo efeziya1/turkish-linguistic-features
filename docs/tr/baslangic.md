@@ -101,7 +101,7 @@ Bunlar ne anlatıyor:
 |---|---|---|
 | `ttr` | 1.0 | Tip/token oranı. **1.0 = her kelime bir kez geçmiş.** 30 kelimelik bir metinde bu normaldir; uzun metinde imkânsızdır. |
 | `avg_word_length` | 5.7667 | Kelime başına 5,77 karakter. |
-| `avg_sent_len_word` | 10.0 | Cümle başına 10 kelime. Türkçe roman ortalaması 9 civarıdır. |
+| `avg_sent_len_word` | 10.0 | Cümle başına 10 kelime. Türkçe roman korpusunda medyan 9'dur. |
 | `syllable_mean` | 2.5333 | Kelime başına 2,53 hece. |
 | `atesman` | 70.9483 | Ateşman (1997) okunabilirlik puanı, 0–100. 70 "kolay"a yakın. |
 | `entropy` | 4.906891 | Kelime dağılımının Shannon entropisi, bit. |
@@ -163,7 +163,7 @@ print(json.dumps(tlf.describe_feature("mattr"), ensure_ascii=False, indent=2))
   "inputs": ["surface_tokens", "lemma_tokens", "pos_data"],
   "params": ["mattr_window"],
   "requires": "at least 100 words (2 x mattr_window)",
-  "citation": "Covington & McFall (2010); default window 50 — C&M's own recommendation is 500, 50 was settled on after measurement",
+  "citation": "Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window)",
   "references": [
     "Covington, M. A., & McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098"
   ]
@@ -190,6 +190,8 @@ korpus/
 ```python
 satirlar = tlf.analyze_corpus("korpus/", lang="tr")
 tlf.save_csv(satirlar, "oznitelikler.csv")
+print("satır sayısı:", len(satirlar))
+print("sütun sayısı:", len(satirlar[0]))
 ```
 
 ```text

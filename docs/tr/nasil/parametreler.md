@@ -8,6 +8,7 @@ Pencere boyları, eşikler ve örneklem sayıları `FeatureParams` içinde durur
 import turkish_linguistic_features as tlf
 from turkish_linguistic_features import FeatureParams
 
+# metin: öğreticideki üç cümlelik örnek (7, 7 ve 16 kelime)
 p = FeatureParams(short_sent_threshold=3, long_sent_threshold=12)
 oz = tlf.analyze(metin, lang="tr", params=p)
 ```
@@ -16,7 +17,7 @@ oz = tlf.analyze(metin, lang="tr", params=p)
 Cümle eşiklerinin varsayılanı sabit bir sayı değil, dilin kalibre edilmiş
 değeridir — [aşağıda](#cumle-esikleri-dile-gore-cozumlenir).
 
-Ölçüm:
+Çıktı (`short_sent_ratio`, `long_sent_ratio`):
 
 ```text
 varsayılan (TR 4/18): short=0.0      long=0.0
@@ -69,11 +70,14 @@ dilin kalibre edilmiş değerini kullanır. Yani ilgisiz bir alanı değiştirme
 cümle eşiklerini bozmaz:
 
 ```python
+metin = ("Kapı açıldı. Sabah erkenden yola çıktık. Köyün girişindeki "
+         "yaşlı çınarın altında oturan adam, uzun yıllar önce bu yollardan "
+         "geçen kervanları, pazar günlerini ve kaybolan komşularını anlattı.")
 p = FeatureParams(mattr_window=100)          # eşiklere dokunulmadı
 oz = tlf.analyze(metin, lang="tr", params=p)  # eşikler hâlâ TR 4/18
 ```
 
-Ölçüm — üç cümlelik bir metin, kelime sayıları 2, 4 ve 19:
+Çıktı — cümlelerin kelime sayıları 2, 4 ve 20:
 
 ```text
 params=None                       short=0.333333   long=0.333333
@@ -102,9 +106,6 @@ varsayılanı 50 — onda biri. Neden:
 - Pencere boyu aynı zamanda **alt sınırdır**: `mattr` en az `2 × window`
   kelime ister. 500 olsaydı 1000 kelimeden kısa hiçbir metin sayı
   üretemezdi.
-- Ölçüldü: 15 Türkçe romanda w=50 uzunluk değişimine %0,52 duyarlı,
-  w=500 %1,26. Ayırt edicilik sinyal/gürültü oranı pencere boyları
-  arasında düz (~1,2).
 
 Künye bu ayrımı açıkça yazar. 500 istiyorsanız:
 

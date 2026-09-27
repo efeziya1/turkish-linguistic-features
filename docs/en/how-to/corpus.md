@@ -59,6 +59,8 @@ import turkish_linguistic_features as tlf
 
 rows = tlf.analyze_corpus("corpus/", lang="tr")
 tlf.save_csv(rows, "features.csv")
+print("row count:   ", len(rows))
+print("column count:", len(rows[0]))
 ```
 
 That is the whole chain.
@@ -110,13 +112,22 @@ rows = tlf.analyze_corpus("corpus/", lang="tr", show_progress=True)
 rows = tlf.analyze_corpus("corpus/", lang="tr", segment_size=1000)
 ```
 
-Measured:
+For example, in a folder `one_file/` holding a single 648-token file:
+
+```python
+whole    = tlf.analyze_corpus("one_file/", lang="tr")
+segments = tlf.analyze_corpus("one_file/", lang="tr", segment_size=200)
+print(len(whole), len(segments), [s["segment_id"] for s in segments])
+```
+
+Output:
 
 ```text
-without segment_size : 1 row  (one row per file)
-segment_size=200     : 3 rows
-segment_id values    : [0, 1, 2]
+1 3 [0, 1, 2]
 ```
+
+648 ÷ 200 = 3 full segments; the remaining 48 tokens are dropped under the
+default `min_fill=1.0`.
 
 !!! danger "Segmenting is per file, not across the corpus"
 

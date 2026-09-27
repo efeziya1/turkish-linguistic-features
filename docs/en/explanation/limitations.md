@@ -68,14 +68,10 @@ Change the model and the numbers change.
 Verified combination: spaCy 3.8.16, `en_core_web_sm` 3.8.0,
 `tr_core_news_md` 1.0.
 
-Known oddities of the Turkish model:
-
-- The wheel disagrees with itself: the filename says `1.0`, the internal
-  metadata says `3.4.2`.
-- Loading it prints a `W094` warning. The model's own `meta.json` is
-  loosely written; this is harmless.
-
-Neither is a bug, and neither has anything to fix.
+The Turkish model has two oddities that look like bugs (a version-number
+mismatch and a `W094` warning); both are explained in the
+[tutorial](../getting-started.md#2-install-the-language-data) and both are
+harmless.
 
 ## 5. Turkish morphology depends on Zeyrek
 
@@ -110,9 +106,9 @@ paragraph. `para_len_mean` becomes the word count of the entire text and both
 CVs return NaN. The library cannot fix this — a boundary that was deleted
 cannot be recovered.
 
-This is **common** in text extracted from PDF and EPUB. Measured:
-in one Turkish novel collection, **120 of 163** files contain no blank line at
-all; one file is a single line of 191,806 characters and 7,347 sentences.
+This is **common** in text extracted from PDF and EPUB: blank lines between
+paragraphs are lost during extraction. The [NaN map example](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/07_nan_haritasi.py)
+shows which features this leaves unmeasurable in your own text.
 
 If a text longer than 1000 words yields no paragraph boundary at all, a
 `ParagraphStructureWarning` is raised. If you see it you have two options:
@@ -128,9 +124,6 @@ and **44 are 🔍 open**.
 The reason is in [The verification system](verification.md): most sources
 publish a formula but never a worked numerical example. This is most
 pronounced in the `lexical` group — 7 of its 30 candidates are verified.
-
-This is not a quality problem but a **visibility** choice: the library makes
-what has been verified, what has not, and what cannot be, distinguishable.
 
 ## 9. The package is not on PyPI yet
 

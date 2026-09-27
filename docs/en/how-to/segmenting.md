@@ -17,10 +17,14 @@ segments = tlf.segment_text(text, size=1000, lang="en")
 
 ## `size` counts spaCy tokens, not whitespace words
 
-This is the part that surprises people. Measured:
+This is the part that surprises people. With the 30-word Turkish `metin` from
+the [Turkish tutorial](../../tr/baslangic.md):
 
 ```python
-long_text = tr_text * 12
+import spacy
+
+tokenizer = spacy.blank("tr").tokenizer
+long_text = " ".join([metin] * 12)
 len(long_text.split())         # 360  ← whitespace "words"
 len(tokenizer(long_text))      # 432  ← spaCy tokens
 ```
@@ -37,24 +41,8 @@ len(segments)                             # 4
 432 tokens ÷ 100 = 4 full segments, and the remaining 32 tokens are
 dropped. Each segment holds 100 **tokens** but 83–84 **words**.
 
-??? note "Why spaCy tokens and not `\S+`"
-
-    The first version of the plan used `re.finditer(r"\S+")`. It was
-    measured and found not precise enough for research use: cutting at
-    "exactly 1000 words" with `\S+` produced 40 segments that actually
-    contained **1018–1562** spaCy tokens (the longest 53% longer than the
-    shortest), and across that range TTR moved by **7.6%** in the same
-    text.
-
-    In other words, the length confusion that `min_fill` exists to prevent
-    was entering through the counting method itself.
-
-    The cost was measured and is negligible: 1.2 seconds per MB, about 1%
-    of the `analyze()` calls that follow.
-
-    Splitting on sentence boundaries was also tried and is worse: in text
-    with broken punctuation a single "sentence" can be 2611 tokens, and
-    segment size spreads over 385–2611.
+`size` counts spaCy tokens because splitting on whitespace changed segment
+lengths by up to 50%.
 
 ## The last segment: `min_fill`
 

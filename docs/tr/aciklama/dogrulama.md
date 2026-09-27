@@ -108,7 +108,7 @@ verir, örneği okuyucuya bırakır.
 
 ## 🔍 nasıl ✅ olur
 
-Kaynağın yayımladığı bir sayı bulunması gerekir. Üç taze örnek:
+Kaynağın yayımladığı bir sayı bulunması gerekir. Üç örnek:
 
 **QUITA kılavuzu — tek seferde on dört öznitelik.** Kılavuz on dört göstergeyi iki
 örnek metin üzerinde baştan sona hesaplayıp sonucu basıyor, üstelik o
@@ -136,14 +136,13 @@ telifli (Orwell) ve depoya girmiyor; sayılardan metin geri kurulamaz.
 Jarvis (2010) s.385 tam da o kesri örnekliyor: *".887 forms 40,4% of the range
 between 1.00 and the full factor of .720."* Aynı diziyi üretim kodundan
 geçirdik, kesirli faktör **0,4043** çıktı — kaynağın bastığı %40,4 ile aynı.
-⚪ → ✅
 
 **`coleman_liau`** — Makale ölçüyü iki adımda tanımlıyor: önce metnin cloze
 yüzdesi kestiriliyor, sonra o yüzde sınıf düzeyine çevriliyor. Uygulamada bu
 iki adım tek denklemde birleştirilir; literatürde standart olan kullanım da
 budur. İki adımı ayrı ayrı yürütmekle tek denklemi kullanmanın aynı sonucu
 verdiğini ölçtük: **7,7041** ve **7,7046**. Aradaki 0,0005 kaynağın ara değeri
-yuvarlamasından geliyor. ⚪ → ✅
+yuvarlamasından geliyor.
 
 ## 🟡 nasıl görünür — Kincaid örneği
 
@@ -223,11 +222,11 @@ tlf.describe_feature("entropy_std")["formula"]
 'population std of entropies (bits) of disjoint mattr_window-word chunks'
 ```
 
-Sık kullanılan altısı:
+Örnek olarak altısı:
 
 | Öznitelik | Tanım | Kaynağa ait olan |
 |---|---|---|
-| `entropy_std` | ayrık `mattr_window` kelimelik parçaların entropilerinin (bit) yığın standart sapması | entropi formülü — Shannon (1948) |
+| `entropy_std` | ayrık `mattr_window` kelimelik parçaların entropilerinin (bit) popülasyon standart sapması | entropi formülü — Shannon (1948) |
 | `punct_entropy` | on noktalama türünün dağılımının Shannon entropisi (bit) | entropi formülü — Shannon (1948) |
 | `sent_len_entropy` | cümle başına kelime dağılımının Shannon entropisi (bit) | entropi formülü — Shannon (1948) |
 | `short_sent_ratio` | `short_sent_threshold` kelimeden az cümle / cümle | eşik değeri — [eşik kalibrasyonu](../../esik-kalibrasyonu.md) |
