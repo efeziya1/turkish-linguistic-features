@@ -19,6 +19,7 @@ from typing import TYPE_CHECKING
 
 import spacy
 
+from ..alfabe import _kucuk_harf
 from ..exceptions import ModelNotFoundError
 from ..vocab import NON_WORD_POS
 from .preprocess import Morpheme, ProcessedText
@@ -113,7 +114,7 @@ class Preprocessor:
             ) from None
 
     @staticmethod
-    def _tokens_from_doc(doc) -> tuple:
+    def _tokens_from_doc(doc, lang: str) -> tuple:
         """Bir spaCy ``Doc``'undan altı alanı çıkarır.
 
         Returns
@@ -138,7 +139,9 @@ class Preprocessor:
             # ölçüleri bunları saymamalı. `surface_tokens`'a girer: karakter ve
             # noktalama oranları için gerekli.
             if tok.pos_ not in NON_WORD_POS:
-                lemma_tokens.append(tok.lemma_.lower())
+                # Dile göre küçük harf: `str.lower()` "İstanbul"u U+0307'li
+                # "i̇stanbul" yapıyordu, "istanbul"la aynı lemma sayılmıyordu.
+                lemma_tokens.append(_kucuk_harf(tok.lemma_, lang))
 
         for sent in doc.sents:
             toks = [t for t in sent if not t.is_space]
@@ -185,7 +188,7 @@ class Preprocessor:
         dep: list[tuple] = []
 
         for doc in dokumanlar:
-            s, p, m, c, lm, d = self._tokens_from_doc(doc)
+            s, p, m, c, lm, d = self._tokens_from_doc(doc, self.lang)
             surface += s
             pos += p
             morph += m

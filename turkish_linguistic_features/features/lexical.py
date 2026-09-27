@@ -37,6 +37,7 @@ from collections import Counter
 
 import numpy as np
 
+from ..alfabe import _kucuk_harf
 from ..vocab import LEXICAL_POS, NON_WORD_POS, NOUN_POS
 
 # Brunet's W üs sabiti — Kademe C.
@@ -55,8 +56,12 @@ from ..vocab import LEXICAL_POS, NON_WORD_POS, NOUN_POS
 _BRUNET_A = 0.172
 
 
-def rank_word_freq_table(tokens: list[str]) -> tuple[np.ndarray, int, int, list]:
+def rank_word_freq_table(tokens: list[str],
+                         lang: str = "tr") -> tuple[np.ndarray, int, int, list]:
     """Küçük harfe indirgenmiş frekans tablosu.
+
+    Küçültme dile göre (``_kucuk_harf``): Türkçede ``I → ı``, ``İ → i``.
+    ``str.lower()`` "Işık"ı "işık" yapıp "ışık"tan ayrı tip sayardı.
 
     Returns
     -------
@@ -65,7 +70,7 @@ def rank_word_freq_table(tokens: list[str]) -> tuple[np.ndarray, int, int, list]
     V : int                 tekil tip sayısı
     items : list            (kelime, frekans) çiftleri, azalan sıralı
     """
-    counter = Counter(t.lower() for t in tokens)
+    counter = Counter(_kucuk_harf(t, lang) for t in tokens)
     items = counter.most_common()
     freqs = np.array([f for _, f in items], dtype=np.int64)
     return freqs, int(freqs.sum()), len(items), items

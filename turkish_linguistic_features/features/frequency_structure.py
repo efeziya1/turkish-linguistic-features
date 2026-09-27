@@ -44,6 +44,7 @@ from collections import Counter
 
 import numpy as np
 
+from ..alfabe import _kucuk_harf
 from ..vocab import THEMATIC_POS
 
 
@@ -241,25 +242,25 @@ def _ortalama_ranklar(items: list[tuple[str, int]]) -> list[float]:
     return ranklar
 
 
-def _pos_haritasi(pos_data: list[tuple[str, str]]) -> dict[str, str]:
-    """Küçük harfli kelime → en sık aldığı POS etiketi."""
+def _pos_haritasi(pos_data: list[tuple[str, str]], lang: str) -> dict[str, str]:
+    """Küçük harfli kelime → en sık aldığı POS etiketi. Küçültme dile göre."""
     sayim: dict[str, Counter] = {}
     for token, pos in pos_data:
-        sayim.setdefault(token.lower(), Counter())[pos] += 1
+        sayim.setdefault(_kucuk_harf(token, lang), Counter())[pos] += 1
     return {k: c.most_common(1)[0][0] for k, c in sayim.items()}
 
 
 def _tematik_toplam(items: list[tuple[str, int]], pos_data: list[tuple[str, str]],
-                    ust_sinir: float) -> float:
+                    ust_sinir: float, lang: str) -> float:
     """``Σ (ust_sinir − r')·f(r')`` — rank'ı ``ust_sinir``'dan küçük otosemantikler."""
-    pos = _pos_haritasi(pos_data)
+    pos = _pos_haritasi(pos_data, lang)
     return sum((ust_sinir - r) * f
                for (kelime, f), r in zip(items, _ortalama_ranklar(items))
-               if r < ust_sinir and pos.get(kelime.lower()) in THEMATIC_POS)
+               if r < ust_sinir and pos.get(_kucuk_harf(kelime, lang)) in THEMATIC_POS)
 
 
 def thematic_concentration(items: list[tuple[str, int]], pos_data: list[tuple[str, str]],
-                           h: float) -> dict[str, float]:
+                           h: float, lang: str = "tr") -> dict[str, float]:
     """``TC = Σ 2(h − r')·f(r') / (h(h−1)·f₁)`` — h-point üstündeki içerik kelimeleri.
 
     ``r'`` konu kelimesinin (``THEMATIC_POS``: isim, özel isim, fiil, sıfat) ortalama rankı, yalnız
@@ -272,13 +273,13 @@ def thematic_concentration(items: list[tuple[str, int]], pos_data: list[tuple[st
     if not items or not h > 1:
         return {"thematic_concentration": math.nan}
     f1 = items[0][1]
-    toplam = _tematik_toplam(items, pos_data, h)
+    toplam = _tematik_toplam(items, pos_data, h, lang)
     return {"thematic_concentration": round(2 * toplam / (h * (h - 1) * f1), 6)}
 
 
 def secondary_thematic_concentration(items: list[tuple[str, int]],
                                      pos_data: list[tuple[str, str]],
-                                     h: float) -> dict[str, float]:
+                                     h: float, lang: str = "tr") -> dict[str, float]:
     """``STC = Σ_{r' ≤ 2h} (2h − r')·f(r') / (h(2h−1)·f₁)`` — QUITA denk. (6.42).
 
     TC'nin h yerine 2h ile hesaplanmış hali: rank 1'den 2h'ye kadar **bütün**
@@ -291,5 +292,5 @@ def secondary_thematic_concentration(items: list[tuple[str, int]],
     if not items or not h > 0.5:
         return {"secondary_thematic_concentration": math.nan}
     f1 = items[0][1]
-    toplam = _tematik_toplam(items, pos_data, 2 * h)
+    toplam = _tematik_toplam(items, pos_data, 2 * h, lang)
     return {"secondary_thematic_concentration": round(toplam / (h * (2 * h - 1) * f1), 6)}

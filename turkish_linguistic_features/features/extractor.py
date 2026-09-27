@@ -25,6 +25,7 @@ from __future__ import annotations
 import math
 from typing import Any
 
+from ..alfabe import _kucuk_harf
 from ..params import DEFAULT_PARAMS, FeatureParams, resolve_sent_thresholds
 from ..vocab import NON_WORD_POS
 from .dependency import dependency_features
@@ -197,11 +198,13 @@ def _extract_features(
     # bunu okur. `surface_tokens` noktalama içerir ve `pos_data` ile hizalıdır,
     # bu yüzden süzgeç POS etiketi üzerinden çalışır.
     kelimeler = [tok for tok, p in pos_data if p not in NON_WORD_POS]
-    kucuk_kelimeler = [tok.lower() for tok in kelimeler]
+    # Dile göre küçük harf: `str.lower()` Türkçede "I"yı "i" yapar, "İ"ye
+    # birleşik nokta (U+0307) ekler — ttr ve kelime uzunluğu kayardı.
+    kucuk_kelimeler = [_kucuk_harf(tok, lang) for tok in kelimeler]
 
     # ── lexical (32) — yüzey biçim sayar ──────────────────────────────
     if istiyor("lexical"):
-        freqs, N, V, items = rank_word_freq_table(kucuk_kelimeler)
+        freqs, N, V, items = rank_word_freq_table(kucuk_kelimeler, lang)
         ort_uzunluk, uzunluk_cv = word_length_stats(kucuk_kelimeler)
         feats.update({
             # `lemma_tokens` zaten noktalamasız (T21). Lemma yoksa
@@ -239,7 +242,7 @@ def _extract_features(
     if istiyor("frequency_structure"):
         lemma_pos = _lemma_pos(lemma_tokens, pos_data)
         lemmalar = [lem for lem, _ in lemma_pos]
-        l_freqs, l_N, l_V, l_items = rank_word_freq_table(lemmalar)
+        l_freqs, l_N, l_V, l_items = rank_word_freq_table(lemmalar, lang)
         h = h_point(l_freqs)
         f1 = int(l_freqs[0]) if l_V else 0
         feats["h_point"] = h
@@ -255,8 +258,8 @@ def _extract_features(
         feats.update(lambda_pa(egri["curve_length"], l_N))
         feats.update(adjusted_modulus(f1, l_V, h, l_N))
         feats.update(writers_view(f1, l_V, h))
-        feats.update(thematic_concentration(l_items, lemma_pos, h))
-        feats.update(secondary_thematic_concentration(l_items, lemma_pos, h))
+        feats.update(thematic_concentration(l_items, lemma_pos, h, lang))
+        feats.update(secondary_thematic_concentration(l_items, lemma_pos, h, lang))
 
     # ── sentence (8) ──────────────────────────────────────────────────
     if istiyor("sentence"):
