@@ -116,7 +116,7 @@ the author gives the formula and leaves the example to the reader.
 Someone has to find a number the source actually published. Three recent
 examples:
 
-**The QUITA manual — thirteen features at once.** The manual works fourteen
+**The QUITA manual — fourteen features at once.** The manual works fourteen
 indicators through two example texts from beginning to end and prints the
 results, and it also **publishes those texts' frequency distributions**
 (§15.3). Since the distribution is the only input these indicators take, the

@@ -109,7 +109,7 @@ verir, örneği okuyucuya bırakır.
 
 Kaynağın yayımladığı bir sayı bulunması gerekir. Üç taze örnek:
 
-**QUITA kılavuzu — tek seferde on üç öznitelik.** Kılavuz on dört göstergeyi iki
+**QUITA kılavuzu — tek seferde on dört öznitelik.** Kılavuz on dört göstergeyi iki
 örnek metin üzerinde baştan sona hesaplayıp sonucu basıyor, üstelik o
 metinlerin **sıklık dağılımını da yayımlıyor** (§15.3). Dağılım bu
 göstergelerin tek girdisi olduğu için karşılaştırma doğrudan yapılabiliyor:
