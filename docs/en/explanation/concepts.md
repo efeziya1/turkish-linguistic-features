@@ -85,9 +85,10 @@ Two consequences:
 Window sizes, thresholds and sample counts live here. Details:
 [Change the thresholds](../how-to/parameters.md).
 
-The critical point: when you leave `params=None`, the library uses
-**language-specific calibrated** values (TR 4/18, EN 7/39). The moment you
-pass a `FeatureParams()`, that calibration is switched off.
+The sentence thresholds (`short_sent_threshold`, `long_sent_threshold`) are
+**calibrated per language** (TR 4/18, EN 7/39) and resolved field by field:
+a field you set wins, a field you leave out stays calibrated. So
+`FeatureParams(mattr_window=100)` does not change the sentence thresholds.
 
 ## The registry
 

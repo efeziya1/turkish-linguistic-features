@@ -83,9 +83,10 @@ Bunun iki sonucu var:
 Pencere boyları, eşikler ve örneklem sayıları burada durur. Ayrıntı:
 [Eşikleri değiştir](../nasil/parametreler.md).
 
-Kritik nokta: `params=None` bıraktığınızda kütüphane **dile özel kalibre
-edilmiş** değerleri kullanır (TR 4/18, EN 7/39). `FeatureParams()`
-verdiğiniz anda o kalibrasyon devre dışı kalır.
+Cümle eşikleri (`short_sent_threshold`, `long_sent_threshold`) **dile göre
+kalibre edilmiştir** (TR 4/18, EN 7/39) ve alan alan çözümlenir: verdiğiniz
+alan kazanır, vermediğiniz alan kalibre değerinde kalır. Yani
+`FeatureParams(mattr_window=100)` cümle eşiklerini değiştirmez.
 
 ## Kayıt defteri (registry)
 

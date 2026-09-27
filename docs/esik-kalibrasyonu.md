@@ -97,5 +97,7 @@ korpusunuzun yüzdeliklerini hesaplayıp `FeatureParams` ile geçirin.
 Ayrıca `short_sent_ratio` ve `long_sent_ratio` **iki dilde kıyaslanamaz**: aynı
 isimli sütun iki dilde farklı eşikle ölçülür. "Türkçe metinler daha kısa
 cümleli" gibi bir sonuç çıkarmadan önce bunu göz önüne alın; ölçtüğünüz şey dil
-farkı değil, eşik farkı olabilir. Ortak eşik isterseniz aynı `FeatureParams`
-nesnesini iki dile de verin.
+farkı değil, eşik farkı olabilir. Ortak eşik isterseniz **iki alanı da**
+açıkça verin, örneğin `FeatureParams(short_sent_threshold=5,
+long_sent_threshold=30)`, ve aynı nesneyi iki dile geçirin. Yalnız birini
+verirseniz öteki yine dile göre çözümlenir.

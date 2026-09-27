@@ -157,16 +157,17 @@ See: [TR](../tr/nasil/kunye.md) · [EN](../en/how-to/citations.md)
 
 ## `FeatureParams`
 
-A frozen-style dataclass holding thresholds, window sizes and sample
-counts. Nineteen fields; the full table is in
+A frozen dataclass (`frozen=True`) holding thresholds, window sizes and
+sample counts. Nineteen fields; the full table is in
 [TR](../tr/nasil/parametreler.md) · [EN](../en/how-to/parameters.md).
 
-!!! warning
+!!! note
 
-    Passing any `FeatureParams` switches off the language-specific
-    calibration of `short_sent_threshold` and `long_sent_threshold`
-    (TR 4/18, EN 7/39) and falls back to the dataclass defaults of 5/30.
-    Carry the calibrated values over by hand if you need them.
+    `short_sent_threshold` and `long_sent_threshold` default to `None`,
+    which means "use the calibrated value for `lang`" (TR 4/18, EN 7/39).
+    They are resolved field by field: a field you set wins, a field you leave
+    out stays calibrated. Setting an unrelated field such as `mattr_window`
+    does not touch the sentence thresholds.
 
 ---
 

@@ -104,5 +104,7 @@ Also, `short_sent_ratio` and `long_sent_ratio` are **not comparable across
 the two languages**: the column with the same name is measured with a
 different threshold in each. Keep this in mind before concluding something like
 "Turkish texts have shorter sentences" — what you measure may be a difference
-in thresholds, not in languages. If you want a common threshold, pass the same
-`FeatureParams` object for both languages.
+in thresholds, not in languages. If you want a common threshold, set **both**
+fields explicitly, e.g. `FeatureParams(short_sent_threshold=5,
+long_sent_threshold=30)`, and pass the same object for both languages. Set
+only one and the other is still resolved by language.
