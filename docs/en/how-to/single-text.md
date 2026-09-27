@@ -30,7 +30,7 @@ The 28-feature difference breaks down as:
 - **+3** letters: the Turkish alphabet has 29, English 26 (`ç ğ ı ö ş ü`
   only in Turkish, `q w x` only in English).
 - **−1** readability: three formulas in Turkish (Ateşman, Çetinkaya-Uzun,
-  Bezirci-Yılmaz), four in English (Flesch, Flesch-Kincaid, SMOG and the
+  Bezirci-Yılmaz), four features in English (Flesch, Flesch-Kincaid, SMOG and the
   polysyllabic word ratio); the shared ones exist in both.
 
 The `phonetic` group has 15 features in Turkish and 13 in English.

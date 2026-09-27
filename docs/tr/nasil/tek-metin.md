@@ -29,7 +29,7 @@ Aradaki 28'in dökümü:
 - **+3** harf: Türkçe alfabe 29 harf, İngilizce 26 (`ç ğ ı ö ş ü` yalnız
   Türkçede, `q w x` yalnız İngilizcede).
 - **−1** okunabilirlik: Türkçede üç formül (Ateşman, Çetinkaya-Uzun,
-  Bezirci-Yılmaz), İngilizcede dört (Flesch, Flesch-Kincaid, SMOG ve çok
+  Bezirci-Yılmaz), İngilizcede dört öznitelik (Flesch, Flesch-Kincaid, SMOG ve çok
   heceli kelime oranı); ortak olanlar iki dilde de var.
 
 `phonetic` grubu Türkçede 15, İngilizcede 13 öznitelik içerir.

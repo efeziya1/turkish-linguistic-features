@@ -1,8 +1,8 @@
 site_name: turkish-linguistic-features
 site_description: >-
-  Türkçe ve İngilizce metinlerden 208 nicel dilbilimsel öznitelik çıkaran
-  Python kütüphanesi · A Python library that extracts 208 quantitative
-  linguistic features from Turkish and English text
+  Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik
+  çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative
+  linguistic features from Turkish text and 180 from English text
 repo_url: https://github.com/efeziya1/turkish-linguistic-features
 repo_name: efeziya1/turkish-linguistic-features
 copyright: MIT
