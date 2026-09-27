@@ -23,6 +23,7 @@ from typing import TYPE_CHECKING
 import spacy
 
 from .alfabe import _ALFABE
+from .exceptions import LinguisticFeaturesError
 
 if TYPE_CHECKING:
     from spacy.tokenizer import Tokenizer
@@ -115,11 +116,30 @@ def segment_text(text: str, size: int = 1000, min_fill: float = 1.0,
     return [metin for metin, n in parcalar if n >= esik and metin.strip()]
 
 
+# Girdi UTF-8 olmalı. `utf-8-sig` baştaki BOM'u atar (Not Defteri ve Excel
+# ekler); yoksa BOM ilk kelimeye ya da ilk CSV başlığına yapışırdı. BOM'suz
+# UTF-8 dosyada `utf-8` ile birebir aynı sonucu verir.
+_KODLAMA = "utf-8-sig"
+
+
+def _kodlama_hatasi(hatalar: list[tuple[Path, UnicodeDecodeError]]) -> LinguisticFeaturesError:
+    """Okunamayan dosyaların HEPSİNİ tek mesajda listeler — kullanıcı birini
+    düzeltip yeniden çalıştırınca bir sonrakine takılmasın."""
+    liste = "\n".join(f"  {yol} (byte {h.start})" for yol, h in hatalar)
+    return LinguisticFeaturesError(
+        f"{len(hatalar)} file(s) are not valid UTF-8:\n{liste}\n"
+        "Re-save them as UTF-8 (in most editors: Save As -> Encoding: UTF-8)."
+    )
+
+
 def _csv_kayitlari(yol: Path) -> list[tuple[str, str, str]]:
     """CSV/TSV'den ``(etiket, kaynak, metin)`` üçlüleri."""
     ayirac = "\t" if yol.suffix.lower() == ".tsv" else ","
-    with yol.open(encoding="utf-8", newline="") as f:
-        satirlar = list(csv.DictReader(f, delimiter=ayirac))
+    try:
+        with yol.open(encoding=_KODLAMA, newline="") as f:
+            satirlar = list(csv.DictReader(f, delimiter=ayirac))
+    except UnicodeDecodeError as h:
+        raise _kodlama_hatasi([(yol, h)]) from h
     if not satirlar:
         return []
 
@@ -143,18 +163,32 @@ def _csv_kayitlari(yol: Path) -> list[tuple[str, str, str]]:
 
 
 def _klasor_kayitlari(kok: Path) -> list[tuple[str, str, str]]:
-    """Klasörden ``(etiket, kaynak, metin)`` — iki düzen otomatik algılanır."""
+    """Klasörden ``(etiket, kaynak, metin)`` — iki düzen otomatik algılanır.
+
+    Okunamayan dosyada durmaz: hepsini dener, bozukları toplar ve sonunda tek
+    hata verir. Bozuk dosyayı atlayıp sürmek korpusu sessizce eksiltirdi.
+    """
     out: list[tuple[str, str, str]] = []
+    hatalar: list[tuple[Path, UnicodeDecodeError]] = []
+
+    def oku(dosya: Path) -> str:
+        try:
+            return dosya.read_text(encoding=_KODLAMA)
+        except UnicodeDecodeError as h:
+            hatalar.append((dosya, h))
+            return ""
+
     # Düzen 2: etiket alt klasörü
     for alt in sorted(p for p in kok.iterdir() if p.is_dir()):
         for dosya in sorted(alt.glob("*.txt")):
-            out.append((alt.name, dosya.stem, dosya.read_text(encoding="utf-8")))
+            out.append((alt.name, dosya.stem, oku(dosya)))
     # Düzen 1: düz dosya, "Etiket_Başlık.txt"
     for dosya in sorted(kok.glob("*.txt")):
         etiket, _, baslik = dosya.stem.partition("_")
         # Alt çizgi yoksa etiket bilgisi yok demektir; uydurmuyoruz.
-        out.append((etiket if baslik else "", baslik or dosya.stem,
-                    dosya.read_text(encoding="utf-8")))
+        out.append((etiket if baslik else "", baslik or dosya.stem, oku(dosya)))
+    if hatalar:
+        raise _kodlama_hatasi(hatalar) from hatalar[0][1]
     return out
 
 

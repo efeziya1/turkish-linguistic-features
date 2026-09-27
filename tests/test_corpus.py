@@ -137,6 +137,45 @@ def test_utf8_okuma(tmp_path):
     assert "ğ" in _load_corpus(tmp_path, segment_size=100)[0]["text"]
 
 
+def test_bozuk_kodlama_butun_dosyalari_adiyla_soyler(tmp_path):
+    """UTF-8 olmayan dosya: hata DOSYA ADINI verir ve bozukların HEPSİNİ
+    tek seferde listeler — kullanıcı birini düzeltip ötekine takılmasın."""
+    from turkish_linguistic_features import LinguisticFeaturesError
+
+    (tmp_path / "A_iyi.txt").write_text("güzel " * 50, encoding="utf-8")
+    (tmp_path / "B_bozuk.txt").write_bytes("şeker ".encode("cp1254") * 50)
+    (tmp_path / "C_bozuk.txt").write_bytes("ağaç ".encode("cp1254") * 50)
+    with pytest.raises(LinguisticFeaturesError) as hata:
+        _load_corpus(tmp_path)
+    mesaj = str(hata.value)
+    assert "2 file(s)" in mesaj
+    assert "B_bozuk.txt" in mesaj and "C_bozuk.txt" in mesaj
+    assert "A_iyi.txt" not in mesaj
+
+
+def test_bozuk_kodlamali_csv_dosya_adini_soyler(tmp_path):
+    from turkish_linguistic_features import LinguisticFeaturesError
+
+    yol = tmp_path / "korpus.csv"
+    yol.write_bytes("label,text\nA,şeker ağaç\n".encode("cp1254"))
+    with pytest.raises(LinguisticFeaturesError, match="korpus.csv"):
+        _load_corpus(yol)
+
+
+def test_bom_metne_karismaz(tmp_path):
+    """Not Defteri'nin eklediği BOM ilk kelimenin parçası olmamalı."""
+    (tmp_path / "Etiket_Kitap.txt").write_text("merhaba dünya", encoding="utf-8-sig")
+    assert _load_corpus(tmp_path)[0]["text"] == "merhaba dünya"
+
+
+def test_bomlu_csv_basligi_okunur(tmp_path):
+    """Excel CSV'ye BOM ekler; yoksa ilk başlık '\\ufefflabel' olur."""
+    yol = tmp_path / "korpus.csv"
+    yol.write_text("label,text\nA,merhaba dünya\n", encoding="utf-8-sig")
+    kayit = _load_corpus(yol)[0]
+    assert kayit["label"] == "A" and kayit["text"] == "merhaba dünya"
+
+
 def test_bos_klasor(tmp_path):
     assert _load_corpus(tmp_path) == []
 
