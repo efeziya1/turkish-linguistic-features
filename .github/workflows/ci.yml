@@ -1,0 +1,90 @@
+# CI: her push'ta ve her pull request'te lint + tip denetimi + testler.
+# GitHub bu dosyayı `.github/workflows/` altında bulunca kendiliğinden çalıştırır.
+
+name: CI                                  # Actions sekmesinde ve rozette görünen ad
+
+on:                                       # ne zaman çalışsın
+  push:
+    branches: [main]                      # main'e her push
+  pull_request:                           # her pull request (hedef dal fark etmez)
+
+permissions:
+  contents: read                          # yalnız kodu okur; depoya yazamaz
+
+concurrency:                              # aynı dala art arda push'ta eskisini iptal et
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash                           # Windows'ta da aynı komut sözdizimi (Git Bash)
+
+jobs:
+  # ── İş 1: kodu çalıştırmadan denetle ─────────────────────────────────
+  lint:
+    runs-on: ubuntu-latest                # GitHub'ın verdiği temiz bir Linux makinesi
+    steps:
+      - uses: actions/checkout@v4         # depoyu makineye indir
+      - uses: actions/setup-python@v5     # Python'u kur
+        with:
+          python-version: "3.12"
+          cache: pip                      # pip indirmelerini koşular arası sakla
+          cache-dependency-path: |        # bu dosyalar değişince önbellek yenilenir
+            requirements.txt
+            pyproject.toml
+      - name: Install dependencies
+        run: pip install -r requirements.txt   # ruff ve mypy de burada
+      - name: Ruff
+        run: ruff check .
+      - name: Mypy
+        run: mypy                         # ayarı pyproject.toml [tool.mypy]
+
+  # ── İş 2: testler, birden çok Python sürümü ve işletim sisteminde ─────
+  test:
+    name: test (${{ matrix.os }}, py${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false                    # biri kırılsa da ötekiler sonuna kadar koşsun
+      matrix:                             # aşağıdaki her birleşim ayrı bir makinede
+        os: [ubuntu-latest]
+        python-version: ["3.10", "3.11", "3.12"]
+        include:                          # + Windows: zeyrek/spaCy import sırası Windows'a özgü
+          - os: windows-latest
+            python-version: "3.11"
+    env:
+      # Dil verisi eksikse testler ATLANMASIN, başarısız olsun (tests/conftest.py).
+      # Kurulum adımı sessizce bozulursa CI yeşil "skipped" ile geçmesin.
+      TLF_REQUIRE_MODELS: "1"
+      TR_MODEL_URL: https://huggingface.co/turkish-nlp-suite/tr_core_news_md/resolve/main/tr_core_news_md-1.0-py3-none-any.whl
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            pyproject.toml
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # Türkçe model 156 MB ve Hugging Face'ten geliyor: wheel dosyası bir kez
+      # indirilip önbellekte tutulur. Anahtar model sürümüne bağlı: TR_MODEL_URL'deki
+      # sürüm değişirse anahtarı da değiştir, yoksa eski wheel kullanılır.
+      - name: Cache Turkish model wheel
+        uses: actions/cache@v4
+        with:
+          path: ~/tlf-models
+          key: tr-core-news-md-1.0
+      - name: Install language data
+        run: |
+          mkdir -p ~/tlf-models
+          whl=~/tlf-models/tr_core_news_md-1.0-py3-none-any.whl
+          [ -f "$whl" ] || curl -fsSL -o "$whl" "$TR_MODEL_URL"
+          pip install "$whl"
+          python -m spacy download en_core_web_sm
+          python -m nltk.downloader cmudict      # İngilizce hece sayımı (textstat)
+
+      - name: Tests
+        run: python -m pytest

@@ -1,5 +1,7 @@
 # turkish-linguistic-features
 
+[![CI](https://github.com/efeziya1/turkish-linguistic-features/actions/workflows/ci.yml/badge.svg)](https://github.com/efeziya1/turkish-linguistic-features/actions/workflows/ci.yml)
+
 Extracts **208 quantitative linguistic features** from Turkish text and 182
 from English. Every feature is tied to a source in the literature, and the
 [verification report](docs/verification-report.md) shows which ones match the
