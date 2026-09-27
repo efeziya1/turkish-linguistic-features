@@ -21,16 +21,17 @@ yanlış okunuyor.
 
 | Katman | Ne garanti eder | Kapsam |
 |---|---|---|
-| **Formül eşdeğerliği** | Kod, kaynaktaki denklemi uyguluyor. Künye sayfa ve denklem numarası verir; testler formülü ve sınır durumlarını sınar. | **208 özniteliğin hepsi** |
-| **Kaynak sayısı doğrulaması** | Kaynağın *yayımladığı bir sayı* bulundu ve bizim çıktımızla karşılaştırıldı. | 92 adayın 48'i |
+| **Formül eşdeğerliği** | Kod, kaynaktaki denklemi uyguluyor. Künye sayfa ve denklem numarası verir; testler formülü ve sınır durumlarını sınar. | Künyesi olan 141 öznitelik (Türkçe; 67'si saf tanım, kaynağı yok) |
+| **Kaynak sayısı doğrulaması** | Kaynağın *yayımladığı bir sayı* bulundu ve bizim çıktımızla karşılaştırıldı. | 92 aday rapor satırının 48'i (Türkçe) |
 
 İkinci katman ek bir çalışmadır, birincinin koşulu değil. Bir öznitelik "🔍
 açık" diye işaretliyse **formülü şüpheli değildir**; karşılaştırılacak
 yayımlanmış bir sayı bulunamamıştır. Yule (1944) K'yı tanımlar, bir romanda
 K'nın kaç çıktığını basmaz — basmadığı için bizim K'mız yanlış olmuyor.
 
-Formülü ve künyesi olmayan bir öznitelik bu kütüphanede yok. Formülü
-kaynağıyla eşlenmemiş bir öznitelik de yok.
+Her özniteliğin formülü yazılıdır. Künyesi olmayan 67 öznitelik saf tanımdır
+(bir harfin ya da noktalama işaretinin payı gibi); bir kaynağa dayanmadıkları
+için kaynakla eşlenecek bir denklemleri de yoktur.
 
 ## Önce: her öznitelik doğrulanamaz
 

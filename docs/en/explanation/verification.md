@@ -23,16 +23,17 @@ misread.
 
 | Layer | What it guarantees | Coverage |
 |---|---|---|
-| **Formula equivalence** | The code implements the equation in the source. The citation gives page and equation number; tests exercise the formula and its edge cases. | **all 208 features** |
-| **Source-number verification** | A number the source *published* was found and compared against our output. | 48 of 92 candidates |
+| **Formula equivalence** | The code implements the equation in the source. The citation gives page and equation number; tests exercise the formula and its edge cases. | The 141 features with a citation (Turkish; the other 67 are plain definitions with no source) |
+| **Source-number verification** | A number the source *published* was found and compared against our output. | 48 of 92 candidate report rows (Turkish) |
 
 The second layer is additional work, not a precondition for the first. A
 feature marked "🔍 open" does **not** have a questionable formula; no published
 number was found to compare against. Yule (1944) defines K but never prints
 what K comes to in a novel — his not printing it does not make our K wrong.
 
-There is no feature in this library without a formula and a citation, and none
-whose formula has not been matched to its source.
+Every feature has its formula written out. The 67 features without a citation
+are plain definitions (a letter's or a punctuation mark's share, for example);
+they rest on no source, so there is no source equation to match.
 
 ## First: not every feature can be verified
 

@@ -3,9 +3,11 @@
 [![CI](https://github.com/efeziya1/turkish-linguistic-features/actions/workflows/ci.yml/badge.svg)](https://github.com/efeziya1/turkish-linguistic-features/actions/workflows/ci.yml)
 
 Extracts **208 quantitative linguistic features** from Turkish text and 182
-from English. Every feature is tied to a source in the literature, and the
-[verification report](docs/verification-report.md) shows which ones match the
-number that source published.
+from English. Every feature has its formula written out; 141 of the Turkish
+features cite a source in the literature, the rest are plain definitions
+(such as a letter's share of the text). The
+[verification report](docs/verification-report.md) shows which ones have been
+checked against a number their source published.
 
 **Status: early development (0.1.0).** Not on PyPI yet.
 
