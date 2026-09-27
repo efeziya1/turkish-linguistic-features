@@ -16,7 +16,7 @@ with what `describe_feature()` returns.
 | Key | The `dict` key `analyze()` returns |
 | Description | One-sentence definition |
 | Formula | The computation, in words |
-| Requires | Minimum data needed; below it the feature returns `nan` |
+| Requires | Minimum data needed; below it the feature returns `nan`. A "word" is any token that is not punctuation or a symbol |
 | Source | Short citation. `—` means it is not a named measure from the literature |
 
 Whether a feature's number has been checked against the number its source

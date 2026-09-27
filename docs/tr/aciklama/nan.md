@@ -54,6 +54,10 @@ tlf.describe_feature("mattr")["requires"]
 'at least 100 words (2 x mattr_window)'
 ```
 
+Buradaki **kelime**, noktalama ya da sembol olmayan tokendır; sayılar kelime
+sayılır. `segment_text`'in `size` değeri ise noktalamayı da sayar: 100 tokenlık
+parça ~83 kelime eder ve 100 kelime isteyen bir ölçüye yetmeyebilir.
+
 Sınırın altındaysanız `nan` gelir. Sınırların bir kısmı kaynaktan gelir
 (`mtld` için "texts as short as 100 tokens can be used"), bir kısmı
 matematikten: `mattr` tek pencerede düz TTR'a çöker, yani "hareketli

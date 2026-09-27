@@ -53,6 +53,10 @@ tlf.describe_feature("mattr")["requires"]
 'at least 100 words (2 x mattr_window)'
 ```
 
+A **word** here is any token that is not punctuation or a symbol; numbers
+count as words. `segment_text`'s `size`, by contrast, counts punctuation too:
+a 100-token segment is about 83 words and may fall short of a 100-word minimum.
+
 Below the minimum you get `nan`. Some minimums come from the source
 (`mtld`: "texts as short as 100 tokens can be used"), others from the
 mathematics: with a single window, `mattr` collapses to plain TTR and stops
