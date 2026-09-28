@@ -1,15 +1,18 @@
 # turkish-linguistic-features
 
 Türkçe metinden **208**, İngilizce metinden **180 nicel dilbilimsel öznitelik**
-çıkarır. Her özniteliğin formülü yazılıdır; Türkçedeki 208 özniteliğin 141'i
-literatürde bir kaynağa dayanır, geri kalanı saf tanımdır. Bir kısmı da
-kaynağın yayımladığı sayıyla karşılaştırılmıştır.
+çıkarır. Her özniteliğin formülü yazılıdır; Türkçedeki 208 özniteliğin 141'i,
+İngilizcedeki 180 özniteliğin 116'sı literatürde bir kaynağa dayanır, geri
+kalanı saf tanımdır (örneğin bir harfin metindeki payı).
+[Doğrulama raporu](dogrulama-raporu.md), hangilerinin kaynağın yayımladığı bir
+sayıyla karşılaştırıldığını gösterir.
 
-Extracts **208 quantitative linguistic features** from Turkish text and **180**
-from English. Every feature has its formula written out; 141 of the 208
-Turkish features rest on a source in the literature, the rest are plain
-definitions. Some have also been checked against the number their source
-published.
+Extracts 208 quantitative linguistic features from Turkish text and 180 from
+English. Every feature has its formula written out; 141 of the Turkish features
+and 116 of the English ones cite a source in the literature, and the rest are
+plain definitions (such as a letter's share of the text). The
+[verification report](verification-report.md) shows which ones have been
+checked against a number their source published.
 
 ```python
 import turkish_linguistic_features as tlf
@@ -56,16 +59,16 @@ oz["atesman"]             # 77.2479  (Ateşman 1997 okunabilirlik)
 
 ## Sayılar
 
-| | |
-|---|---|
-| Öznitelik (Türkçe) | 208 |
-| Öznitelik (İngilizce) | 180 |
-| Künyesi olan öznitelik (Türkçe) | 141 |
-| Künyesi olmayan, saf tanım (Türkçe) | 67 |
-| Kaynakçadaki eser | 45 |
-| Doğrulama adayı rapor satırı (Türkçe) | 92 |
-| — kaynağın sayısıyla tolerans içinde tutan (✅) | 47 |
-| — tolerans dışında, nedeni açıklanmış (🟡) | 1 |
+| | Türkçe (TR) | İngilizce (EN) |
+|---|---:|---:|
+| Öznitelik | 208 | 180 |
+| Künyesi olan öznitelik | 141 | 116 |
+| Künyesi olmayan, saf tanım | 67 | 64 |
+| Doğrulama adayı rapor satırı | 92 | 81 |
+| — kaynağın sayısıyla tolerans içinde tutan (✅) | 47 | 36 |
+| — tolerans dışında, nedeni açıklanmış (🟡) | 1 | 2 |
+
+Kaynakçada 45 eser var (iki dil için tek kaynakça).
 
 **Formüller ile doğrulama iki ayrı şeydir.** 208 özniteliğin hepsinin
 formülü yazılıdır ve testlerle sınanır. Künyesi olan 141 özniteliğin formülü
