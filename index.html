@@ -2048,14 +2048,17 @@
 
 <h1 id="turkish-linguistic-features">turkish-linguistic-features<a class="headerlink" href="#turkish-linguistic-features" title="Permanent link">&para;</a></h1>
 <p>Türkçe metinden <strong>208</strong>, İngilizce metinden <strong>180 nicel dilbilimsel öznitelik</strong>
-çıkarır. Her özniteliğin formülü yazılıdır; Türkçedeki 208 özniteliğin 141'i
-literatürde bir kaynağa dayanır, geri kalanı saf tanımdır. Bir kısmı da
-kaynağın yayımladığı sayıyla karşılaştırılmıştır.</p>
-<p>Extracts <strong>208 quantitative linguistic features</strong> from Turkish text and <strong>180</strong>
-from English. Every feature has its formula written out; 141 of the 208
-Turkish features rest on a source in the literature, the rest are plain
-definitions. Some have also been checked against the number their source
-published.</p>
+çıkarır. Her özniteliğin formülü yazılıdır; Türkçedeki 208 özniteliğin 141'i,
+İngilizcedeki 180 özniteliğin 116'sı literatürde bir kaynağa dayanır, geri
+kalanı saf tanımdır (örneğin bir harfin metindeki payı).
+<a href="dogrulama-raporu/">Doğrulama raporu</a>, hangilerinin kaynağın yayımladığı bir
+sayıyla karşılaştırıldığını gösterir.</p>
+<p>Extracts 208 quantitative linguistic features from Turkish text and 180 from
+English. Every feature has its formula written out; 141 of the Turkish features
+and 116 of the English ones cite a source in the literature, and the rest are
+plain definitions (such as a letter's share of the text). The
+<a href="verification-report/">verification report</a> shows which ones have been
+checked against a number their source published.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="s2">"Dil, insanın düşüncesini taşıyan en eski araçtır."</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
@@ -2099,44 +2102,44 @@ published.</p>
 <thead>
 <tr>
 <th></th>
-<th></th>
+<th style="text-align: right;">Türkçe (TR)</th>
+<th style="text-align: right;">İngilizce (EN)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Öznitelik (Türkçe)</td>
-<td>208</td>
+<td>Öznitelik</td>
+<td style="text-align: right;">208</td>
+<td style="text-align: right;">180</td>
 </tr>
 <tr>
-<td>Öznitelik (İngilizce)</td>
-<td>180</td>
+<td>Künyesi olan öznitelik</td>
+<td style="text-align: right;">141</td>
+<td style="text-align: right;">116</td>
 </tr>
 <tr>
-<td>Künyesi olan öznitelik (Türkçe)</td>
-<td>141</td>
+<td>Künyesi olmayan, saf tanım</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">64</td>
 </tr>
 <tr>
-<td>Künyesi olmayan, saf tanım (Türkçe)</td>
-<td>67</td>
-</tr>
-<tr>
-<td>Kaynakçadaki eser</td>
-<td>45</td>
-</tr>
-<tr>
-<td>Doğrulama adayı rapor satırı (Türkçe)</td>
-<td>92</td>
+<td>Doğrulama adayı rapor satırı</td>
+<td style="text-align: right;">92</td>
+<td style="text-align: right;">81</td>
 </tr>
 <tr>
 <td>— kaynağın sayısıyla tolerans içinde tutan (✅)</td>
-<td>47</td>
+<td style="text-align: right;">47</td>
+<td style="text-align: right;">36</td>
 </tr>
 <tr>
 <td>— tolerans dışında, nedeni açıklanmış (🟡)</td>
-<td>1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
 </tr>
 </tbody>
 </table>
+<p>Kaynakçada 45 eser var (iki dil için tek kaynakça).</p>
 <p><strong>Formüller ile doğrulama iki ayrı şeydir.</strong> 208 özniteliğin hepsinin
 formülü yazılıdır ve testlerle sınanır. Künyesi olan 141 özniteliğin formülü
 kaynağına dayanır; künye sayfa ve denklem numarası verir. Kalan 67'si saf
