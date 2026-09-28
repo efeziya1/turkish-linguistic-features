@@ -41,7 +41,7 @@ dependencies = [
 
 [project.urls]
 Repository    = "https://github.com/efeziya1/turkish-linguistic-features"
-Documentation = "https://github.com/efeziya1/turkish-linguistic-features/tree/main/docs"
+Documentation = "https://efeziya1.github.io/turkish-linguistic-features/"
 Issues        = "https://github.com/efeziya1/turkish-linguistic-features/issues"
 
 [project.optional-dependencies]

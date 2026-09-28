@@ -1,0 +1,41 @@
+# Docs: main'e her push'ta dokümantasyonu MkDocs ile kurar ve gh-pages dalına yazar.
+# GitHub Pages ayarı: Settings → Pages → Source "Deploy from a branch",
+# Branch "gh-pages" / "(root)". ("main /docs" seçilirse GitHub ham Markdown'ı
+# Jekyll ile kurar; menü, sekmeler ve bilgi kutuları bozulur.)
+
+name: Docs
+
+on:
+  push:
+    branches: [main]
+    paths:                                # yalnız dokümantasyon değişince
+      - "docs/**"
+      - "mkdocs.yml"
+      - ".github/workflows/docs.yml"
+  workflow_dispatch:                      # Actions sekmesinden elle de çalıştırılabilir
+
+permissions:
+  contents: write                         # gh-pages dalına yazabilmek için
+
+concurrency:                              # iki yayın aynı anda gh-pages'e yazmasın
+  group: docs
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0                  # gh-deploy'un gh-pages dalını görebilmesi için
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Install MkDocs
+        run: pip install "mkdocs-material>=9.5"   # requirements.txt ile aynı alt sınır
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Build and deploy
+        run: mkdocs gh-deploy --strict --force
