@@ -9,6 +9,7 @@ features cite a source in the literature, the rest are plain definitions
 (such as a letter's share of the text). The
 [verification report](docs/verification-report.md) shows which ones have been
 checked against a number their source published.
+Documentation: https://efeziya1.github.io/turkish-linguistic-features/
 
 **Status: early development (0.x).** Not on PyPI yet. Changes: [CHANGELOG](CHANGELOG.md).
 
@@ -22,15 +23,15 @@ oz["atesman"]             # 77.2479  (Ateşman 1997 readability)
 
 ## Documentation
 
-**→ [Full documentation](docs/index.md)** — tutorial, how-to guides, feature
-reference and limitations, in **Turkish and English**.
+**→ [Full documentation](https://efeziya1.github.io/turkish-linguistic-features/)** — tutorial, how-to
+guides, feature reference and limitations, in **Turkish and English**.
 
 | | |
 |---|---|
-| Türkçe | [docs/tr/](docs/tr/index.md) |
-| English | [docs/en/](docs/en/index.md) |
-| Feature reference | [docs/reference/features.md](docs/reference/features.md) |
-| Verification report | [TR](docs/dogrulama-raporu.md) · [EN](docs/verification-report.md) |
+| Türkçe | [tr/](https://efeziya1.github.io/turkish-linguistic-features/tr/) |
+| English | [en/](https://efeziya1.github.io/turkish-linguistic-features/en/) |
+| Feature reference | [reference/features/](https://efeziya1.github.io/turkish-linguistic-features/reference/features/) |
+| Verification report | [TR](https://efeziya1.github.io/turkish-linguistic-features/dogrulama-raporu/) · [EN](https://efeziya1.github.io/turkish-linguistic-features/verification-report/) |
 
 ## Install
 
