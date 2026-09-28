@@ -127,6 +127,6 @@ pronounced in the `lexical` group — 7 of its 30 candidates are verified.
 
 ## 9. The package is not on PyPI yet
 
-Version 0.1.0, early development. You install from a clone. Until 1.0, key
+Early development (0.x). You install from a clone. Until 1.0, key
 names and the public API may change; changes are announced in the release
 notes.

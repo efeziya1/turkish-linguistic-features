@@ -4,8 +4,8 @@
 
 **Öznitelik** (feature), bir metinden çıkarılan tek bir sayıdır. `ttr`,
 `avg_word_length`, `atesman` — her biri bir öznitelik. Adları
-`snake_case`'dir. Sürüm 0.1.0: 1.0'a kadar anahtar adları değişebilir;
-değişen adlar sürüm notlarında duyurulur.
+`snake_case`'dir. Sürüm 1.0'a kadar anahtar adları değişebilir; değişen
+adlar sürüm notlarında duyurulur.
 
 Öznitelik üç şeyden biridir:
 

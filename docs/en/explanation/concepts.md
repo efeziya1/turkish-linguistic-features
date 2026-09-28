@@ -4,8 +4,8 @@
 
 A **feature** is a single number extracted from a text. `ttr`,
 `avg_word_length`, `atesman` — each is one feature. Names are `snake_case`.
-This is version 0.1.0: until 1.0 a key may be renamed, and renamed keys are
-announced in the release notes.
+Until version 1.0 a key may be renamed; renamed keys are announced in the
+release notes.
 
 A feature is one of three things:
 

@@ -9,7 +9,7 @@ features cite a source in the literature, the rest are plain definitions
 [verification report](docs/verification-report.md) shows which ones have been
 checked against a number their source published.
 
-**Status: early development (0.1.0).** Not on PyPI yet. Changes: [CHANGELOG](CHANGELOG.md).
+**Status: early development (0.x).** Not on PyPI yet. Changes: [CHANGELOG](CHANGELOG.md).
 
 ```python
 import turkish_linguistic_features as tlf

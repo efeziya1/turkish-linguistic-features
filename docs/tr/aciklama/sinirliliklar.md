@@ -124,5 +124,5 @@ formülü yayımlar, o formülün uygulandığı bir sayısal örnek vermez. Bu
 
 ## 9. Paket henüz PyPI'da değil
 
-Sürüm 0.1.0, erken geliştirme. Kurulum klondan yapılır. 1.0'a kadar anahtar
+Erken geliştirme aşamasında (0.x). Kurulum klondan yapılır. 1.0'a kadar anahtar
 adları ve genel API değişebilir; değişiklikler sürüm notlarında duyurulur.
