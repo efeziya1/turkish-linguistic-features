@@ -12,6 +12,11 @@ authors:
   - given-names: "Ferhat"
     family-names: "Ersoy"
 version: "0.1.0"
+doi: 10.5281/zenodo.23009540
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.23009541
+    description: "Version 0.1.0"
 license: MIT
 repository-code: "https://github.com/efeziya1/turkish-linguistic-features"
 keywords:

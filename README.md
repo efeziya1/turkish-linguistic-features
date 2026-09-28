@@ -1,6 +1,7 @@
 # turkish-linguistic-features
 
 [![CI](https://github.com/efeziya1/turkish-linguistic-features/actions/workflows/ci.yml/badge.svg)](https://github.com/efeziya1/turkish-linguistic-features/actions/workflows/ci.yml)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23009540.svg)](https://doi.org/10.5281/zenodo.23009540)
 
 Extracts **208 quantitative linguistic features** from Turkish text and 180
 from English. Every feature has its formula written out; 141 of the Turkish
