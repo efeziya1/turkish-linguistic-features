@@ -1,0 +1,4111 @@
+
+<!doctype html>
+<html lang="tr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 180 from English text">
+      
+      
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../api/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Feature reference - turkish-linguistic-features</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#feature-reference" class="md-skip">
+          Ana içeriğe geç
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Başlık">
+    <a href="../.." title="turkish-linguistic-features" class="md-header__button md-logo" aria-label="turkish-linguistic-features" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            turkish-linguistic-features
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Feature reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="indigo"  aria-label="Koyu temaya geç"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Koyu temaya geç" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="indigo"  aria-label="Açık temaya geç"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Açık temaya geç" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Ara" placeholder="Ara" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Ara">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Temizle" aria-label="Temizle" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Arama başlatılıyor
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/efeziya1/turkish-linguistic-features" title="Depoya git" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    efeziya1/turkish-linguistic-features
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Sekmeler" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Başlangıç / Start
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tr/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Türkçe
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../en/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  English
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../dogrulama-raporu/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Verification
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigasyon" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="turkish-linguistic-features" class="md-nav__button md-logo" aria-label="turkish-linguistic-features" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    turkish-linguistic-features
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/efeziya1/turkish-linguistic-features" title="Depoya git" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    efeziya1/turkish-linguistic-features
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Başlangıç / Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../tr/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Türkçe
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Türkçe
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tr/baslangic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Öğretici
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../tr/nasil/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nasıl yapılır
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Nasıl yapılır
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tr/nasil/tek-metin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tek metni analiz et
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tr/nasil/korpus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Korpusu CSV'ye çıkar
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tr/nasil/segmentleme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metni parçalara böl
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tr/nasil/karsilastirma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    İki sürümü karşılaştır
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tr/nasil/kunye/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bir özniteliğin kaynağını bul
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tr/nasil/parametreler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Eşikleri değiştir
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../tr/aciklama/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Açıklama
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Açıklama
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tr/aciklama/kavramlar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kavramlar
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tr/aciklama/nan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NaN ne demek
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tr/aciklama/dogrulama/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Doğrulama sistemi
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tr/aciklama/sinirliliklar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sınırlılıklar
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tr/sozluk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terim sözlüğü
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../en/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    English
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    English
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../en/how-to/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How-to
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    How-to
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/how-to/single-text/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analyse a single text
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/how-to/corpus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Export a corpus to CSV
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/how-to/segmenting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Split a text into segments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/how-to/comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compare two versions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/how-to/citations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Find a feature's source
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/how-to/parameters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Change the thresholds
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../en/explanation/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Explanation
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Explanation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/explanation/concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/explanation/nan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What NaN means
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/explanation/verification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The verification system
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/explanation/limitations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Limitations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feature reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feature reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="İçindekiler">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      İçindekiler
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Groups
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lexical-lexical-richness-frequency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        lexical — Lexical richness &amp; frequency
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#frequency_structure-frequency-structure-h-point-family-popescu-altmann" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        frequency_structure — Frequency structure (h-point family, Popescu &amp; Altmann)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sentence-sentence-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sentence — Sentence statistics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paragraph-paragraph-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        paragraph — Paragraph structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pos-part-of-speech-ratios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pos — Part-of-speech ratios
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syntactic-discourse-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        syntactic — Discourse &amp; syntax
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syntactic_dep-dependency-tree-distance-depth-sentence-final-pos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        syntactic_dep — Dependency tree (distance, depth, sentence-final POS)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#morphological-morphological-style-spacy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        morphological — Morphological style (spaCy)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#morphological_zeyrek-morphological-style-zeyrek-tr-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        morphological_zeyrek — Morphological style (Zeyrek, TR only)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phonetic-phonetic-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        phonetic — Phonetic patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#readability-readability-scores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        readability — Readability scores
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#punctuation-punctuation-digits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        punctuation — Punctuation &amp; digits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chars-character-frequency-vector-dynamic-one-key-per-letter-tr-29-en-26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        chars — Character frequency vector [dynamic: one key per letter — TR 29, EN 26]
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom_ngrams-user-defined-n-gram-ratios-dynamic-ng_" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        custom_ngrams — User-defined n-gram ratios [dynamic: ng_{...}]
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bibliography" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bibliography
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verification
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Verification
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dogrulama-raporu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Doğrulama raporu (TR)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../verification-report/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verification report (EN)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../esik-kalibrasyonu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Eşik kalibrasyonu (TR)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../threshold-calibration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Threshold calibration (EN)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="İçindekiler">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      İçindekiler
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Groups
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lexical-lexical-richness-frequency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        lexical — Lexical richness &amp; frequency
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#frequency_structure-frequency-structure-h-point-family-popescu-altmann" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        frequency_structure — Frequency structure (h-point family, Popescu &amp; Altmann)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sentence-sentence-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sentence — Sentence statistics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paragraph-paragraph-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        paragraph — Paragraph structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pos-part-of-speech-ratios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pos — Part-of-speech ratios
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syntactic-discourse-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        syntactic — Discourse &amp; syntax
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syntactic_dep-dependency-tree-distance-depth-sentence-final-pos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        syntactic_dep — Dependency tree (distance, depth, sentence-final POS)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#morphological-morphological-style-spacy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        morphological — Morphological style (spaCy)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#morphological_zeyrek-morphological-style-zeyrek-tr-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        morphological_zeyrek — Morphological style (Zeyrek, TR only)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phonetic-phonetic-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        phonetic — Phonetic patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#readability-readability-scores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        readability — Readability scores
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#punctuation-punctuation-digits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        punctuation — Punctuation &amp; digits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chars-character-frequency-vector-dynamic-one-key-per-letter-tr-29-en-26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        chars — Character frequency vector [dynamic: one key per letter — TR 29, EN 26]
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom_ngrams-user-defined-n-gram-ratios-dynamic-ng_" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        custom_ngrams — User-defined n-gram ratios [dynamic: ng_{...}]
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bibliography" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bibliography
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<!-- GENERATED FILE — do not edit by hand.
+     Source: scripts/basvuru_uret.py
+     To regenerate:
+       python scripts/basvuru_uret.py -->
+
+<h1 id="feature-reference">Feature reference<a class="headerlink" href="#feature-reference" title="Permanent link">&para;</a></h1>
+<p>Every feature the library can produce, grouped as it is grouped in the code.
+This page is <strong>generated from the registry</strong>, so it cannot fall out of step
+with what <code>describe_feature()</code> returns.</p>
+<p><strong>Reading the columns</strong></p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Key</td>
+<td>The <code>dict</code> key <code>analyze()</code> returns</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>One-sentence definition</td>
+</tr>
+<tr>
+<td>Formula</td>
+<td>The computation, in words</td>
+</tr>
+<tr>
+<td>Requires</td>
+<td>Minimum data needed; below it the feature returns <code>nan</code>. A "word" is any token that is not punctuation or a symbol</td>
+</tr>
+<tr>
+<td>Source</td>
+<td>Short citation. <code>—</code> means it is not a named measure from the literature</td>
+</tr>
+</tbody>
+</table>
+<p>Whether a feature's number has been checked against the number its source
+published is a separate question — see the
+<a href="../../verification-report/">verification report</a>.</p>
+<h2 id="groups">Groups<a class="headerlink" href="#groups" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Group</th>
+<th>Keys</th>
+<th>What it covers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lexical</code></td>
+<td>32</td>
+<td>Lexical richness &amp; frequency</td>
+</tr>
+<tr>
+<td><code>frequency_structure</code></td>
+<td>13</td>
+<td>Frequency structure (h-point family, Popescu &amp; Altmann)</td>
+</tr>
+<tr>
+<td><code>sentence</code></td>
+<td>8</td>
+<td>Sentence statistics</td>
+</tr>
+<tr>
+<td><code>paragraph</code></td>
+<td>5</td>
+<td>Paragraph structure</td>
+</tr>
+<tr>
+<td><code>pos</code></td>
+<td>13</td>
+<td>Part-of-speech ratios</td>
+</tr>
+<tr>
+<td><code>syntactic</code></td>
+<td>9</td>
+<td>Discourse &amp; syntax</td>
+</tr>
+<tr>
+<td><code>syntactic_dep</code></td>
+<td>16</td>
+<td>Dependency tree (distance, depth, sentence-final POS)</td>
+</tr>
+<tr>
+<td><code>morphological</code></td>
+<td>19</td>
+<td>Morphological style (spaCy)</td>
+</tr>
+<tr>
+<td><code>morphological_zeyrek</code></td>
+<td>24</td>
+<td>Morphological style (Zeyrek, TR only)</td>
+</tr>
+<tr>
+<td><code>phonetic</code></td>
+<td>15</td>
+<td>Phonetic patterns</td>
+</tr>
+<tr>
+<td><code>readability</code></td>
+<td>11</td>
+<td>Readability scores</td>
+</tr>
+<tr>
+<td><code>punctuation</code></td>
+<td>18</td>
+<td>Punctuation &amp; digits</td>
+</tr>
+<tr>
+<td><code>chars</code></td>
+<td>dynamic</td>
+<td>Character frequency vector  [dynamic: one key per letter — TR 29, EN 26]</td>
+</tr>
+<tr>
+<td><code>custom_ngrams</code></td>
+<td>dynamic</td>
+<td>User-defined n-gram ratios  [dynamic: ng_{...}]</td>
+</tr>
+</tbody>
+</table>
+<h2 id="lexical-lexical-richness-frequency"><code>lexical</code> — Lexical richness &amp; frequency<a class="headerlink" href="#lexical-lexical-richness-frequency" title="Permanent link">&para;</a></h2>
+<p>32 keys.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Formula</th>
+<th>Requires</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>n_lemma_count</code></td>
+<td>number of distinct lemmas</td>
+<td><code>V over lemmas</code></td>
+<td>at least 1 word</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>avg_word_length</code></td>
+<td>mean word length in characters</td>
+<td><code>sum(len(w)) / N</code></td>
+<td>at least 1 word</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>word_length_cv</code></td>
+<td>spread of word length</td>
+<td><code>std(len(w)) / mean(len(w)), population std</code></td>
+<td>at least 2 words</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>ttr</code></td>
+<td>type-token ratio; falls as the text grows</td>
+<td><code>V / N</code></td>
+<td>at least 1 word</td>
+<td>Malvern et al. (2004); QUITA §6.1.1</td>
+</tr>
+<tr>
+<td><code>mattr</code></td>
+<td>moving-average TTR</td>
+<td><code>mean TTR of every sliding window of mattr_window words</code></td>
+<td>at least 100 words (2 x mattr_window)</td>
+<td>Covington &amp; McFall (2010); default window 50 — C&amp;M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window)</td>
+</tr>
+<tr>
+<td><code>entropy_std</code></td>
+<td>how much word entropy varies across the text</td>
+<td><code>population std of entropies (bits) of disjoint mattr_window-word chunks</code></td>
+<td>at least 100 words (2 x mattr_window)</td>
+<td>Shannon (1948) — the entropy formula; the standard deviation across segments is this library's own derivation</td>
+</tr>
+<tr>
+<td><code>herdan_c</code></td>
+<td>Herdan's C (LogTTR)</td>
+<td><code>log(V) / log(N)</code></td>
+<td>at least 2 words</td>
+<td>Herdan (1960/1964), as cited in Tweedie &amp; Baayen (1998) p.327, eq. (5)</td>
+</tr>
+<tr>
+<td><code>sichel_s</code></td>
+<td>share of types occurring exactly twice</td>
+<td><code>V2 / V</code></td>
+<td>at least 1 word</td>
+<td>Sichel (1975); formula from Malvern et al. (2004) eq. 3.10</td>
+</tr>
+<tr>
+<td><code>zipf_exponent</code></td>
+<td>Zipf slope</td>
+<td><code>abs(slope) of least-squares fit log f(r) ~ log r</code></td>
+<td>at least 10 distinct words</td>
+<td>Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus</td>
+</tr>
+<tr>
+<td><code>zipf_r2</code></td>
+<td>fit quality of the Zipf line</td>
+<td><code>R² of that fit</code></td>
+<td>at least 10 distinct words, not all equally frequent</td>
+<td>Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus</td>
+</tr>
+<tr>
+<td><code>zipf_mandelbrot_q</code></td>
+<td>Zipf-Mandelbrot shift</td>
+<td><code>q minimising the residual of log f ~ log(r + q), grid 0–10 step 0.1</code></td>
+<td>at least 10 distinct words</td>
+<td>Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus</td>
+</tr>
+<tr>
+<td><code>zipf_mandelbrot_s</code></td>
+<td>Zipf-Mandelbrot slope</td>
+<td><code>abs(slope) at that q</code></td>
+<td>at least 10 distinct words</td>
+<td>Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus</td>
+</tr>
+<tr>
+<td><code>mtld</code></td>
+<td>measure of textual lexical diversity</td>
+<td><code>mean words per factor (TTR drops to mtld_threshold), forward and backward averaged</code></td>
+<td>at least 100 words (mtld_min_tokens) with some repetition</td>
+<td>McCarthy (2005) is the dissertation that introduced the measure — its abstract (p.vii) reads "we introduce and test a new measure of lexical diversity: the measure of textual, lexical diversity (MTLD)"; the body of the dissertation could not be obtained, so no page is given. The procedure implemented follows McCarthy &amp; Jarvis (2010) pp.383–385</td>
+</tr>
+<tr>
+<td><code>dugast_u</code></td>
+<td>Dugast's Uber index</td>
+<td><code>log10(N)^2 / (log10(N) - log10(V))</code></td>
+<td>at least 2 words, at least one repeated</td>
+<td>Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7</td>
+</tr>
+<tr>
+<td><code>guiraud_r</code></td>
+<td>Guiraud's root TTR</td>
+<td><code>V / sqrt(N)</code></td>
+<td>at least 1 word</td>
+<td>Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only</td>
+</tr>
+<tr>
+<td><code>ttr_moving_slope</code></td>
+<td>whether vocabulary thins out towards the end</td>
+<td><code>linear slope of TTR over disjoint ttr_slope_chunk_size-word chunks</code></td>
+<td>at least 100 words (2 x ttr_slope_chunk_size)</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>heaps_beta</code></td>
+<td>vocabulary growth rate</td>
+<td><code>least-squares slope of log V ~ log N over prefixes every heaps_step words, notclipped</code></td>
+<td>at least 300 words (heaps_min_tokens)</td>
+<td>Heaps (1978), as cited in Manning et al. (2008) §5.1.1</td>
+</tr>
+<tr>
+<td><code>entropy</code></td>
+<td>Shannon entropy of word frequencies</td>
+<td><code>-sum(p * log2 p)</code></td>
+<td>at least 1 word</td>
+<td>Shannon (1948), as cited in QUITA §6.1.12</td>
+</tr>
+<tr>
+<td><code>yule_k</code></td>
+<td>Yule's K; higher = more repetitive</td>
+<td><code>10000 * (sum(f^2) - N) / N^2</code></td>
+<td>at least 1 word</td>
+<td>Yule (1944), as cited in Malvern et al. (2004) eq. 3.9</td>
+</tr>
+<tr>
+<td><code>simpson_d</code></td>
+<td>chance that two words drawn without replacement are the same type</td>
+<td><code>sum(f(f-1)) / (N(N-1))</code></td>
+<td>at least 2 words</td>
+<td>Simpson (1949), as cited in Bestgen (2023)</td>
+</tr>
+<tr>
+<td><code>brunet_w</code></td>
+<td>Brunet's W</td>
+<td><code>N^(V^-a), a = brunet_w_a</code></td>
+<td>at least 1 word</td>
+<td>Brunet (1978), as cited in Tweedie &amp; Baayen (1998) p.328, eq. (10)</td>
+</tr>
+<tr>
+<td><code>hapax_ratio</code></td>
+<td>share of types occurring once</td>
+<td><code>V1 / V</code></td>
+<td>at least 1 word</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>hapax_percentage</code></td>
+<td>share of tokens that occur once</td>
+<td><code>V1 / N</code></td>
+<td>at least 1 word</td>
+<td>QUITA §6.1.6</td>
+</tr>
+<tr>
+<td><code>vocd_d</code></td>
+<td>voc-D</td>
+<td><code>D fitted to mean TTR of random samples of vocd_sample_min–vocd_sample_max words,vocd_num_runs runs averaged</code></td>
+<td>at least 50 words (vocd_min_tokens, vocd_sample_max)</td>
+<td>Malvern et al. (2004) pp.56–57; procedure from McCarthy &amp; Jarvis (2010) p.383</td>
+</tr>
+<tr>
+<td><code>hdd</code></td>
+<td>HD-D</td>
+<td><code>expected TTR of a hdd_sample_size-word sample (hypergeometric)</code></td>
+<td>at least 42 words (hdd_sample_size)</td>
+<td>McCarthy &amp; Jarvis (2007), as cited in McCarthy &amp; Jarvis (2010) p.383</td>
+</tr>
+<tr>
+<td><code>msttr</code></td>
+<td>mean segmental TTR</td>
+<td><code>mean TTR of full msttr_segment_size-word segments</code></td>
+<td>at least 100 words (msttr_segment_size)</td>
+<td>Johnson (1944), as cited in Malvern et al. (2004) p.25 and McCarthy &amp; Jarvis (2010) p.385</td>
+</tr>
+<tr>
+<td><code>noun_variation</code></td>
+<td>noun variation NV</td>
+<td><code>distinct noun lemmas / lexical-word tokens</code></td>
+<td>at least 1 lexical word (NOUN, PROPN, VERB, ADJ, ADV)</td>
+<td>Lu (2012) Table 2</td>
+</tr>
+<tr>
+<td><code>verb_variation</code></td>
+<td>verb variation VV1</td>
+<td><code>distinct verb lemmas / verb tokens</code></td>
+<td>at least 1 verb</td>
+<td>Lu (2012) Table 2</td>
+</tr>
+<tr>
+<td><code>adj_variation</code></td>
+<td>adjective variation AdjV</td>
+<td><code>distinct adjective lemmas / lexical-word tokens</code></td>
+<td>at least 1 lexical word</td>
+<td>Lu (2012) Table 2</td>
+</tr>
+<tr>
+<td><code>adv_variation</code></td>
+<td>adverb variation AdvV</td>
+<td><code>distinct adverb lemmas / lexical-word tokens</code></td>
+<td>at least 1 lexical word</td>
+<td>Lu (2012) Table 2</td>
+</tr>
+<tr>
+<td><code>wordfreq_mean</code></td>
+<td>how common the lexical words are in general language</td>
+<td><code>mean wordfreq Zipf score of lexical-word lemmas (unlisted = 0)</code></td>
+<td>at least 1 lexical word; wordfreq installed</td>
+<td>van Heuven et al. (2014) (Zipf scale)</td>
+</tr>
+<tr>
+<td><code>wordfreq_rare_ratio</code></td>
+<td>share of rare lexical words</td>
+<td><code>lexical-word lemmas with Zipf score &lt;= 3 / lexical words</code></td>
+<td>at least 1 lexical word; wordfreq installed</td>
+<td>van Heuven et al. (2014) Table 1 (Zipf ≤ 3 = low frequency)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="frequency_structure-frequency-structure-h-point-family-popescu-altmann"><code>frequency_structure</code> — Frequency structure (h-point family, Popescu &amp; Altmann)<a class="headerlink" href="#frequency_structure-frequency-structure-h-point-family-popescu-altmann" title="Permanent link">&para;</a></h2>
+<p>13 keys.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Formula</th>
+<th>Requires</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>h_point</code></td>
+<td>rank where frequency equals rank</td>
+<td><code>r with f(r) = r, interpolated otherwise</code></td>
+<td>at least 1 word</td>
+<td>QUITA §6.1.2; Popescu &amp; Altmann (2006)</td>
+</tr>
+<tr>
+<td><code>vocab_richness_r1</code></td>
+<td>share of the text below the h-point</td>
+<td><code>1 - (F(h) - h^2 / (2N))</code></td>
+<td>at least 1 word</td>
+<td>Popescu et al. (2009) eq. 3.8</td>
+</tr>
+<tr>
+<td><code>vocab_richness_r4</code></td>
+<td>inverted Gini</td>
+<td><code>1 - G</code></td>
+<td>at least 1 word</td>
+<td>Popescu et al. (2009) eq. 3.24</td>
+</tr>
+<tr>
+<td><code>repeat_rate</code></td>
+<td>chance that two words drawn with replacement are the same type</td>
+<td><code>sum((f/N)^2)</code></td>
+<td>at least 1 word</td>
+<td>QUITA §6.1.4</td>
+</tr>
+<tr>
+<td><code>rr_mcintosh</code></td>
+<td>McIntosh relative repeat rate</td>
+<td><code>(1 - sqrt(RR)) / (1 - 1/sqrt(V))</code></td>
+<td>at least 2 distinct words</td>
+<td>QUITA §6.1.5</td>
+</tr>
+<tr>
+<td><code>gini_coef</code></td>
+<td>inequality of word use</td>
+<td><code>(V + 1 - 2 * sum(r * f(r)) / N) / V, rank 1 = most frequent</code></td>
+<td>at least 1 word</td>
+<td>QUITA §6.1.8</td>
+</tr>
+<tr>
+<td><code>curve_length</code></td>
+<td>arc length of the rank-frequency curve</td>
+<td><code>sum(sqrt((f(r) - f(r+1))^2 + 1))</code></td>
+<td>at least 1 word</td>
+<td>QUITA §6.1.10</td>
+</tr>
+<tr>
+<td><code>curve_length_r</code></td>
+<td>share of the curve length below the h-point</td>
+<td><code>1 - L(h) / L</code></td>
+<td>at least 2 distinct words</td>
+<td>QUITA §6.1.11</td>
+</tr>
+<tr>
+<td><code>lambda_pa</code></td>
+<td>length-normalised curve length</td>
+<td><code>L * log10(N) / N</code></td>
+<td>at least 1 word</td>
+<td>QUITA §6.1.7; Popescu, Čech &amp; Altmann (2011)</td>
+</tr>
+<tr>
+<td><code>adjusted_modulus</code></td>
+<td>distance from the h-point to the curve ends</td>
+<td><code>sqrt((f1/h)^2 + (V/h)^2) / log10(N)</code></td>
+<td>at least 2 words</td>
+<td>QUITA §6.1.13</td>
+</tr>
+<tr>
+<td><code>writers_view_alpha</code></td>
+<td>angle at the h-point, in radians</td>
+<td><code>arccos of the angle between (1, f1) and (V, 1) seen from (h, h)</code></td>
+<td>at least 1 word; undefined when the h-point meets a curve end</td>
+<td>Popescu, Mačutek &amp; Altmann (2009) eq. 4.5</td>
+</tr>
+<tr>
+<td><code>thematic_concentration</code></td>
+<td>weight of content words above the h-point</td>
+<td><code>sum(2(h - r') f(r')) / (h(h-1) f1), content words with r' &lt; h</code></td>
+<td>at least one repeated word</td>
+<td>QUITA §6.2.5</td>
+</tr>
+<tr>
+<td><code>secondary_thematic_concentration</code></td>
+<td>same, up to rank 2h</td>
+<td><code>sum((2h - r') f(r')) / (h(2h-1) f1), r' &lt;= 2h</code></td>
+<td>at least 1 word</td>
+<td>QUITA §6.2.6</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sentence-sentence-statistics"><code>sentence</code> — Sentence statistics<a class="headerlink" href="#sentence-sentence-statistics" title="Permanent link">&para;</a></h2>
+<p>8 keys.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Formula</th>
+<th>Requires</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>avg_sent_len_word</code></td>
+<td>mean sentence length in words</td>
+<td><code>mean words per sentence</code></td>
+<td>at least 1 sentence with a letter</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>avg_sent_len_char</code></td>
+<td>mean sentence length in characters</td>
+<td><code>mean len(tokens joined by single spaces)</code></td>
+<td>at least 1 sentence</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>sentence_length_cv</code></td>
+<td>spread of sentence length</td>
+<td><code>population std / mean of words per sentence</code></td>
+<td>at least 2 sentences with a letter</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>sent_len_skewness</code></td>
+<td>skew of sentence length; positive = long-sentence tail</td>
+<td><code>Fisher-Pearson g1 = m3 / m2^1.5 over words per sentence</code></td>
+<td>at least 2 sentences of different length</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>short_sent_ratio</code></td>
+<td>share of short sentences</td>
+<td><code>sentences with fewer than short_sent_threshold words / sentences</code></td>
+<td>at least 1 sentence with a letter</td>
+<td>This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 7 — 15th percentile. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on novels/fiction only</td>
+</tr>
+<tr>
+<td><code>long_sent_ratio</code></td>
+<td>share of long sentences</td>
+<td><code>sentences with more than long_sent_threshold words / sentences</code></td>
+<td>at least 1 sentence with a letter</td>
+<td>This library's threshold calibration (docs/threshold-calibration.md); TR 18, EN 39 — 85th percentile. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish novels 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on novels/fiction only</td>
+</tr>
+<tr>
+<td><code>med_sent_len</code></td>
+<td>median sentence length</td>
+<td><code>median words per sentence</code></td>
+<td>at least 1 sentence with a letter</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>sent_len_entropy</code></td>
+<td>variety of sentence lengths</td>
+<td><code>Shannon entropy (bits) of the distribution of words per sentence</code></td>
+<td>at least 2 sentences with a letter</td>
+<td>Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision</td>
+</tr>
+</tbody>
+</table>
+<h2 id="paragraph-paragraph-structure"><code>paragraph</code> — Paragraph structure<a class="headerlink" href="#paragraph-paragraph-structure" title="Permanent link">&para;</a></h2>
+<p>5 keys.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Formula</th>
+<th>Requires</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>para_len_mean</code></td>
+<td>mean paragraph length</td>
+<td><code>mean whitespace-separated words per paragraph (blank line = boundary)</code></td>
+<td>at least 1 paragraph</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>para_len_cv</code></td>
+<td>spread of paragraph length</td>
+<td><code>population std / mean</code></td>
+<td>at least 2 paragraphs</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>sents_per_para_mean</code></td>
+<td>mean sentences per paragraph</td>
+<td><code>mean count of [.!?…]+ per paragraph (at least 1)</code></td>
+<td>at least 1 paragraph</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>sents_per_para_cv</code></td>
+<td>spread of sentences per paragraph</td>
+<td><code>population std / mean</code></td>
+<td>at least 2 paragraphs</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>para_count_norm</code></td>
+<td>paragraphs per 1000 words</td>
+<td><code>paragraphs / words * 1000</code></td>
+<td>at least 1 paragraph</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pos-part-of-speech-ratios"><code>pos</code> — Part-of-speech ratios<a class="headerlink" href="#pos-part-of-speech-ratios" title="Permanent link">&para;</a></h2>
+<p>13 keys.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Formula</th>
+<th>Requires</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pos_noun</code></td>
+<td>share of NOUN tokens</td>
+<td><code>tag count / all tokens (punctuation included)</code></td>
+<td>at least 1 token</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>pos_propn</code></td>
+<td>share of PROPN tokens</td>
+<td><code>tag count / all tokens (punctuation included)</code></td>
+<td>at least 1 token</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>pos_verb</code></td>
+<td>share of VERB tokens</td>
+<td><code>tag count / all tokens (punctuation included)</code></td>
+<td>at least 1 token</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>pos_adj</code></td>
+<td>share of ADJ tokens</td>
+<td><code>tag count / all tokens (punctuation included)</code></td>
+<td>at least 1 token</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>pos_adv</code></td>
+<td>share of ADV tokens</td>
+<td><code>tag count / all tokens (punctuation included)</code></td>
+<td>at least 1 token</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>pos_det</code></td>
+<td>share of DET tokens</td>
+<td><code>tag count / all tokens (punctuation included)</code></td>
+<td>at least 1 token</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>pos_adp</code></td>
+<td>share of ADP tokens</td>
+<td><code>tag count / all tokens (punctuation included)</code></td>
+<td>at least 1 token</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>pos_aux</code></td>
+<td>share of AUX tokens</td>
+<td><code>tag count / all tokens (punctuation included)</code></td>
+<td>at least 1 token</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>pos_cconj</code></td>
+<td>share of CCONJ tokens</td>
+<td><code>tag count / all tokens (punctuation included)</code></td>
+<td>at least 1 token</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>pos_sconj</code></td>
+<td>share of SCONJ tokens</td>
+<td><code>tag count / all tokens (punctuation included)</code></td>
+<td>at least 1 token</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>pos_num</code></td>
+<td>share of NUM tokens</td>
+<td><code>tag count / all tokens (punctuation included)</code></td>
+<td>at least 1 token</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>pos_intj</code></td>
+<td>share of INTJ tokens</td>
+<td><code>tag count / all tokens (punctuation included)</code></td>
+<td>at least 1 token</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>pos_punct</code></td>
+<td>share of PUNCT tokens</td>
+<td><code>tag count / all tokens (punctuation included)</code></td>
+<td>at least 1 token</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="syntactic-discourse-syntax"><code>syntactic</code> — Discourse &amp; syntax<a class="headerlink" href="#syntactic-discourse-syntax" title="Permanent link">&para;</a></h2>
+<p>9 keys.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Formula</th>
+<th>Requires</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>question_per_sent</code></td>
+<td>share of sentences ending in "?"</td>
+<td><code>sentences whose final mark contains "?" / sentences</code></td>
+<td>at least 1 sentence</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pronoun_freq</code></td>
+<td>share of pronoun tokens</td>
+<td><code>PRON / all tokens</code></td>
+<td>at least 1 token</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>nominal_verbal_ratio</code></td>
+<td>noun-to-verb balance</td>
+<td><code>(NOUN + PROPN) / VERB</code></td>
+<td>at least 1 verb</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>verb_dist_mean</code></td>
+<td>mean token gap between consecutive verbs</td>
+<td><code>mean difference of VERB positions</code></td>
+<td>at least 2 verbs</td>
+<td>QUITA §6.2.1</td>
+</tr>
+<tr>
+<td><code>verb_dist_cv</code></td>
+<td>spread of verb gaps</td>
+<td><code>population std / mean of those gaps</code></td>
+<td>at least 3 verbs</td>
+<td>QUITA §6.2.1</td>
+</tr>
+<tr>
+<td><code>activity_ratio</code></td>
+<td>activity Q</td>
+<td><code>VERB / (VERB + ADJ)</code></td>
+<td>at least 1 verb or adjective</td>
+<td>QUITA §6.2.2</td>
+</tr>
+<tr>
+<td><code>lexical_density</code></td>
+<td>share of lexical words</td>
+<td><code>(NOUN + PROPN + VERB + ADJ + ADV) / all words, PUNCT and SYM excluded</code></td>
+<td>at least 1 word</td>
+<td>Lu (2012); definition in the broad Hallidayan sense — all open-class words</td>
+</tr>
+<tr>
+<td><code>pos_dist_std</code></td>
+<td>how uneven the POS distribution is</td>
+<td><code>population std of the 13 pos_* shares</code></td>
+<td>at least 1 token</td>
+<td>Deutsch, Jasbi &amp; Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 13 UD tags</td>
+</tr>
+<tr>
+<td><code>pos_kl_div</code></td>
+<td>how much sentences differ from the document in POS make-up</td>
+<td><code>mean over sentences of KL(sentence POS ‖ document POS), bits</code></td>
+<td>at least 1 token</td>
+<td>Deutsch, Jasbi &amp; Shieber (2020) Definition 3.4 (POSdiv), in bits</td>
+</tr>
+</tbody>
+</table>
+<h2 id="syntactic_dep-dependency-tree-distance-depth-sentence-final-pos"><code>syntactic_dep</code> — Dependency tree (distance, depth, sentence-final POS)<a class="headerlink" href="#syntactic_dep-dependency-tree-distance-depth-sentence-final-pos" title="Permanent link">&para;</a></h2>
+<p>16 keys.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Formula</th>
+<th>Requires</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>arc_len_mean</code></td>
+<td>mean dependency distance (MDD2)</td>
+<td><code>mean over sentences of mean abs(word position - head position), punctuation removed,root excluded</code></td>
+<td>at least 1 sentence with 2 words</td>
+<td>Liu (2008) eq. (1); text level from Jing &amp; Liu (2015) p.164, eq. (3) (MDD2)</td>
+</tr>
+<tr>
+<td><code>parse_depth_mean</code></td>
+<td>mean hierarchical distance (MHD2)</td>
+<td><code>mean over sentences of mean steps to the root, capped at max_parse_depth</code></td>
+<td>at least 1 sentence with 2 words</td>
+<td>Jing &amp; Liu (2015) p.164, eq. (2) and (4) (MHD2)</td>
+</tr>
+<tr>
+<td><code>sentfinal_noun</code></td>
+<td>share of sentences ending in a NOUN</td>
+<td><code>sentences ending in that tag / sentences</code></td>
+<td>at least 1 sentence with a word</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>sentfinal_propn</code></td>
+<td>share of sentences ending in a PROPN</td>
+<td><code>sentences ending in that tag / sentences</code></td>
+<td>at least 1 sentence with a word</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>sentfinal_verb</code></td>
+<td>share of sentences ending in a VERB</td>
+<td><code>sentences ending in that tag / sentences</code></td>
+<td>at least 1 sentence with a word</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>sentfinal_adj</code></td>
+<td>share of sentences ending in a ADJ</td>
+<td><code>sentences ending in that tag / sentences</code></td>
+<td>at least 1 sentence with a word</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>sentfinal_adv</code></td>
+<td>share of sentences ending in a ADV</td>
+<td><code>sentences ending in that tag / sentences</code></td>
+<td>at least 1 sentence with a word</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>sentfinal_det</code></td>
+<td>share of sentences ending in a DET</td>
+<td><code>sentences ending in that tag / sentences</code></td>
+<td>at least 1 sentence with a word</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>sentfinal_adp</code></td>
+<td>share of sentences ending in a ADP</td>
+<td><code>sentences ending in that tag / sentences</code></td>
+<td>at least 1 sentence with a word</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>sentfinal_intj</code></td>
+<td>share of sentences ending in a INTJ</td>
+<td><code>sentences ending in that tag / sentences</code></td>
+<td>at least 1 sentence with a word</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>sentfinal_cconj</code></td>
+<td>share of sentences ending in a CCONJ</td>
+<td><code>sentences ending in that tag / sentences</code></td>
+<td>at least 1 sentence with a word</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>sentfinal_sconj</code></td>
+<td>share of sentences ending in a SCONJ</td>
+<td><code>sentences ending in that tag / sentences</code></td>
+<td>at least 1 sentence with a word</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>sentfinal_num</code></td>
+<td>share of sentences ending in a NUM</td>
+<td><code>sentences ending in that tag / sentences</code></td>
+<td>at least 1 sentence with a word</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>sentfinal_aux</code></td>
+<td>share of sentences ending in a AUX</td>
+<td><code>sentences ending in that tag / sentences</code></td>
+<td>at least 1 sentence with a word</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>sentfinal_pron</code></td>
+<td>share of sentences ending in a PRON</td>
+<td><code>sentences ending in that tag / sentences</code></td>
+<td>at least 1 sentence with a word</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+<tr>
+<td><code>sentfinal_other</code></td>
+<td>share of sentences ending in any other tag</td>
+<td><code>same, tags outside the 13</code></td>
+<td>at least 1 sentence with a word</td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="morphological-morphological-style-spacy"><code>morphological</code> — Morphological style (spaCy)<a class="headerlink" href="#morphological-morphological-style-spacy" title="Permanent link">&para;</a></h2>
+<p>19 keys.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Formula</th>
+<th>Requires</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>surface_per_lemma</code></td>
+<td>distinct forms per lemma</td>
+<td><code>distinct (lemma, form) pairs / distinct lemmas, lowercased</code></td>
+<td>at least 1 word</td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+</tr>
+<tr>
+<td><code>morph_tense_past</code></td>
+<td>share of tokens tagged Tense=Past</td>
+<td><code>tokens with Tense=X / tokens with any Tense</code></td>
+<td>at least 1 token with a Tense tag</td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+</tr>
+<tr>
+<td><code>morph_tense_pres</code></td>
+<td>share of tokens tagged Tense=Pres</td>
+<td><code>tokens with Tense=X / tokens with any Tense</code></td>
+<td>at least 1 token with a Tense tag</td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+</tr>
+<tr>
+<td><code>morph_tense_fut</code></td>
+<td>share of tokens tagged Tense=Fut</td>
+<td><code>tokens with Tense=X / tokens with any Tense</code></td>
+<td>at least 1 token with a Tense tag</td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+</tr>
+<tr>
+<td><code>morph_aspect_perf</code></td>
+<td>share of tokens tagged Aspect=Perf</td>
+<td><code>same with Aspect</code></td>
+<td>at least 1 token with an Aspect tag</td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+</tr>
+<tr>
+<td><code>morph_aspect_imp</code></td>
+<td>share of tokens tagged Aspect=Imp</td>
+<td><code>same with Aspect</code></td>
+<td>at least 1 token with an Aspect tag</td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+</tr>
+<tr>
+<td><code>morph_aspect_prog</code></td>
+<td>share of tokens tagged Aspect=Prog</td>
+<td><code>same with Aspect</code></td>
+<td>at least 1 token with an Aspect tag</td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+</tr>
+<tr>
+<td><code>morph_case_nom</code></td>
+<td>share of tokens tagged Case=Nom</td>
+<td><code>same with Case</code></td>
+<td>at least 1 token with a Case tag</td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+</tr>
+<tr>
+<td><code>morph_case_acc</code></td>
+<td>share of tokens tagged Case=Acc</td>
+<td><code>same with Case</code></td>
+<td>at least 1 token with a Case tag</td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+</tr>
+<tr>
+<td><code>morph_case_dat</code></td>
+<td>share of tokens tagged Case=Dat</td>
+<td><code>same with Case</code></td>
+<td>at least 1 token with a Case tag</td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+</tr>
+<tr>
+<td><code>morph_case_loc</code></td>
+<td>share of tokens tagged Case=Loc</td>
+<td><code>same with Case</code></td>
+<td>at least 1 token with a Case tag</td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+</tr>
+<tr>
+<td><code>morph_case_abl</code></td>
+<td>share of tokens tagged Case=Abl</td>
+<td><code>same with Case</code></td>
+<td>at least 1 token with a Case tag</td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+</tr>
+<tr>
+<td><code>morph_case_gen</code></td>
+<td>share of tokens tagged Case=Gen</td>
+<td><code>same with Case</code></td>
+<td>at least 1 token with a Case tag</td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+</tr>
+<tr>
+<td><code>morph_person_1</code></td>
+<td>share of tokens tagged Person=1</td>
+<td><code>same with Person</code></td>
+<td>at least 1 token with a Person tag</td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+</tr>
+<tr>
+<td><code>morph_person_2</code></td>
+<td>share of tokens tagged Person=2</td>
+<td><code>same with Person</code></td>
+<td>at least 1 token with a Person tag</td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+</tr>
+<tr>
+<td><code>morph_person_3</code></td>
+<td>share of tokens tagged Person=3</td>
+<td><code>same with Person</code></td>
+<td>at least 1 token with a Person tag</td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+</tr>
+<tr>
+<td><code>morph_number_sing</code></td>
+<td>share of tokens tagged Number=Sing</td>
+<td><code>same with Number</code></td>
+<td>at least 1 token with a Number tag</td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+</tr>
+<tr>
+<td><code>morph_number_plur</code></td>
+<td>share of tokens tagged Number=Plur</td>
+<td><code>same with Number</code></td>
+<td>at least 1 token with a Number tag</td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+</tr>
+<tr>
+<td><code>morph_voice_pass</code></td>
+<td>share of passive verbs</td>
+<td><code>VERB with Voice=Pass / VERB</code></td>
+<td>at least 1 verb</td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="morphological_zeyrek-morphological-style-zeyrek-tr-only"><code>morphological_zeyrek</code> — Morphological style (Zeyrek, TR only)<a class="headerlink" href="#morphological_zeyrek-morphological-style-zeyrek-tr-only" title="Permanent link">&para;</a></h2>
+<p>24 keys.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Formula</th>
+<th>Requires</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>agglutination_depth</code></td>
+<td>visible suffixes per word</td>
+<td><code>visible suffixes / analysed words</code></td>
+<td>at least 1 analysed word</td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+<tr>
+<td><code>suffix_char_length_ratio</code></td>
+<td>share of word letters in suffixes</td>
+<td><code>suffix letters / word letters</code></td>
+<td>at least 1 analysed word</td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+<tr>
+<td><code>suffix_bigram_entropy</code></td>
+<td>variety of suffix sequences</td>
+<td><code>Shannon entropy (bits) of within-word visible suffix pairs</code></td>
+<td>at least 1 word with 2 visible suffixes</td>
+<td>Shannon (1948) — the entropy formula; Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+<tr>
+<td><code>derivational_suffix_ratio</code></td>
+<td>share of derivational suffixes</td>
+<td><code>derivational / visible suffixes</code></td>
+<td>at least 1 visible suffix</td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+<tr>
+<td><code>verb_suffix_diversity</code></td>
+<td>suffix variety on verbs</td>
+<td><code>mean distinct visible suffix tags per verb_suffix_window-verb chunk</code></td>
+<td>at least 50 verbs (verb_suffix_window)</td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+<tr>
+<td><code>tense_past_def</code></td>
+<td>share of verbs in the definite past (-DI)</td>
+<td><code>verbs whose last tense tag is X / verbs</code></td>
+<td>at least 1 verb</td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+<tr>
+<td><code>tense_past_nar</code></td>
+<td>share of verbs in the reported past (-mIş)</td>
+<td><code>verbs whose last tense tag is X / verbs</code></td>
+<td>at least 1 verb</td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+<tr>
+<td><code>tense_present</code></td>
+<td>share of verbs in the present</td>
+<td><code>verbs whose last tense tag is X / verbs</code></td>
+<td>at least 1 verb</td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+<tr>
+<td><code>tense_future</code></td>
+<td>share of verbs in the future (-AcAk)</td>
+<td><code>verbs whose last tense tag is X / verbs</code></td>
+<td>at least 1 verb</td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+<tr>
+<td><code>negation_ratio</code></td>
+<td>share of negative verbs</td>
+<td><code>verbs with Neg or Unable / verbs</code></td>
+<td>at least 1 verb</td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+<tr>
+<td><code>passive_ratio</code></td>
+<td>share of passive verbs</td>
+<td><code>verbs with Pass / verbs</code></td>
+<td>at least 1 verb</td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+<tr>
+<td><code>plural_ratio</code></td>
+<td>share of plural nominals</td>
+<td><code>words with A3pl on a non-verb part / analysed words</code></td>
+<td>at least 1 analysed word</td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+<tr>
+<td><code>case_acc_ratio</code></td>
+<td>share of words in the accusative case</td>
+<td><code>words with Acc … Ins / analysed words</code></td>
+<td>at least 1 analysed word</td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+<tr>
+<td><code>case_dat_ratio</code></td>
+<td>share of words in the dative case</td>
+<td><code>words with Acc … Ins / analysed words</code></td>
+<td>at least 1 analysed word</td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+<tr>
+<td><code>case_loc_ratio</code></td>
+<td>share of words in the locative case</td>
+<td><code>words with Acc … Ins / analysed words</code></td>
+<td>at least 1 analysed word</td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+<tr>
+<td><code>case_abl_ratio</code></td>
+<td>share of words in the ablative case</td>
+<td><code>words with Acc … Ins / analysed words</code></td>
+<td>at least 1 analysed word</td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+<tr>
+<td><code>case_gen_ratio</code></td>
+<td>share of words in the genitive case</td>
+<td><code>words with Acc … Ins / analysed words</code></td>
+<td>at least 1 analysed word</td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+<tr>
+<td><code>case_ins_ratio</code></td>
+<td>share of words in the instrumental case</td>
+<td><code>words with Acc … Ins / analysed words</code></td>
+<td>at least 1 analysed word</td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+<tr>
+<td><code>conditional_suffix_ratio</code></td>
+<td>share of conditional verbs</td>
+<td><code>verbs with Cond / verbs</code></td>
+<td>at least 1 verb</td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+<tr>
+<td><code>causative_suffix_ratio</code></td>
+<td>share of causative verbs</td>
+<td><code>verbs with Caus / verbs</code></td>
+<td>at least 1 verb</td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+<tr>
+<td><code>suffix_chain_cv</code></td>
+<td>spread of suffix-chain length</td>
+<td><code>population std / mean of visible suffixes per word</code></td>
+<td>at least 2 analysed words, at least 1 suffix</td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+<tr>
+<td><code>modal_possibility_ratio</code></td>
+<td>share of ability verbs</td>
+<td><code>verbs with Able or Unable / verbs</code></td>
+<td>at least 1 verb</td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+<tr>
+<td><code>modal_necessity_ratio</code></td>
+<td>share of necessity verbs</td>
+<td><code>verbs with Neces / verbs</code></td>
+<td>at least 1 verb</td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+<tr>
+<td><code>question_particle_ratio</code></td>
+<td>share of question particles</td>
+<td><code>words with root Ques / analysed words</code></td>
+<td>at least 1 analysed word</td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="phonetic-phonetic-patterns"><code>phonetic</code> — Phonetic patterns<a class="headerlink" href="#phonetic-phonetic-patterns" title="Permanent link">&para;</a></h2>
+<p>15 keys.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Formula</th>
+<th>Requires</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vowel_ratio</code></td>
+<td>share of vowels</td>
+<td><code>vowels / alphabet letters</code></td>
+<td>at least 1 alphabet letter</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>front_vowel_ratio</code></td>
+<td>share of front vowels</td>
+<td><code>front vowels / alphabet letters</code></td>
+<td>at least 1 alphabet letter</td>
+<td>Göksel &amp; Kerslake (2005) ch. 2 (the vowel system, front/back)</td>
+</tr>
+<tr>
+<td><code>back_vowel_ratio</code></td>
+<td>share of back vowels</td>
+<td><code>back vowels / alphabet letters</code></td>
+<td>at least 1 alphabet letter</td>
+<td>Göksel &amp; Kerslake (2005) ch. 2 (the vowel system, front/back)</td>
+</tr>
+<tr>
+<td><code>harmony_fronting_ratio</code></td>
+<td>share of words obeying front/back vowel harmony (TR only)</td>
+<td><code>words whose vowels are all front or all back / words with 2+ vowels</code></td>
+<td>at least 1 word with 2 vowels</td>
+<td>Göksel &amp; Kerslake (2005) §3.1 (fronting harmony); exceptions §3.4 — the measure counts them as disharmonic</td>
+</tr>
+<tr>
+<td><code>harmony_rounding_ratio</code></td>
+<td>share of words obeying rounding vowel harmony (TR only)</td>
+<td><code>words where every vowel after an unrounded one is unrounded and every vowel after a rounded one is close-rounded or open-unrounded / words with 2+ vowels</code></td>
+<td>at least 1 word with 2 vowels</td>
+<td>Göksel &amp; Kerslake (2005) §3.1 (rounding harmony); strictly a suffix phenomenon, measured here as a whole-word pattern</td>
+</tr>
+<tr>
+<td><code>syllable_mean</code></td>
+<td>word-length distribution in syllables</td>
+<td><code>words with k syllables (6+ pooled) / syllabifiable words</code></td>
+<td>at least 1 syllabifiable word</td>
+<td>Bezirci &amp; Yılmaz (2010) Table 1-c</td>
+</tr>
+<tr>
+<td><code>syllable_cv</code></td>
+<td>word-length distribution in syllables</td>
+<td><code>words with k syllables (6+ pooled) / syllabifiable words</code></td>
+<td>at least 1 syllabifiable word</td>
+<td>Bezirci &amp; Yılmaz (2010) Table 1-c</td>
+</tr>
+<tr>
+<td><code>syllable_1_ratio</code></td>
+<td>share of words with 1 syllable</td>
+<td><code>words with k syllables (6+ pooled) / syllabifiable words</code></td>
+<td>at least 1 syllabifiable word</td>
+<td>Bezirci &amp; Yılmaz (2010) Table 1-c</td>
+</tr>
+<tr>
+<td><code>syllable_2_ratio</code></td>
+<td>share of words with 2 syllables</td>
+<td><code>words with k syllables (6+ pooled) / syllabifiable words</code></td>
+<td>at least 1 syllabifiable word</td>
+<td>Bezirci &amp; Yılmaz (2010) Table 1-c</td>
+</tr>
+<tr>
+<td><code>syllable_3_ratio</code></td>
+<td>share of words with 3 syllables</td>
+<td><code>words with k syllables (6+ pooled) / syllabifiable words</code></td>
+<td>at least 1 syllabifiable word</td>
+<td>Bezirci &amp; Yılmaz (2010) Table 1-c</td>
+</tr>
+<tr>
+<td><code>syllable_4_ratio</code></td>
+<td>share of words with 4 syllables</td>
+<td><code>words with k syllables (6+ pooled) / syllabifiable words</code></td>
+<td>at least 1 syllabifiable word</td>
+<td>Bezirci &amp; Yılmaz (2010) Table 1-c</td>
+</tr>
+<tr>
+<td><code>syllable_5_ratio</code></td>
+<td>share of words with 5 syllables</td>
+<td><code>words with k syllables (6+ pooled) / syllabifiable words</code></td>
+<td>at least 1 syllabifiable word</td>
+<td>Bezirci &amp; Yılmaz (2010) Table 1-c</td>
+</tr>
+<tr>
+<td><code>syllable_6plus_ratio</code></td>
+<td>share of words with 6 or more syllables</td>
+<td><code>words with k syllables (6+ pooled) / syllabifiable words</code></td>
+<td>at least 1 syllabifiable word</td>
+<td>Bezirci &amp; Yılmaz (2010) Table 1-c</td>
+</tr>
+<tr>
+<td><code>sentence_syllable_mean</code></td>
+<td>syllables per sentence</td>
+<td><code>mean syllables per sentence</code></td>
+<td>at least 1 sentence with a syllabifiable word</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>sentence_syllable_cv</code></td>
+<td>spread of syllables per sentence</td>
+<td><code>population std / mean</code></td>
+<td>at least 2 such sentences</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="readability-readability-scores"><code>readability</code> — Readability scores<a class="headerlink" href="#readability-readability-scores" title="Permanent link">&para;</a></h2>
+<p>11 keys.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Formula</th>
+<th>Requires</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bezirci_yilmaz</code></td>
+<td>Bezirci-Yılmaz; higher = harder</td>
+<td><code>sqrt(words/sentence * (0.84 H3 + 1.5 H4 + 3.5 H5 + 26.25 H6)), Hk per sentence</code></td>
+<td>at least 1 syllabifiable word</td>
+<td>Bezirci &amp; Yılmaz (2010) p.371, eq. (9)</td>
+</tr>
+<tr>
+<td><code>atesman</code></td>
+<td>Ateşman; higher = easier</td>
+<td><code>198.825 - 40.175 * syllables/word - 2.610 * words/sentence</code></td>
+<td>at least 1 syllabifiable word</td>
+<td>Ateşman (1997) p.74, eq. (2)</td>
+</tr>
+<tr>
+<td><code>cetinkaya_uzun</code></td>
+<td>Çetinkaya-Uzun; higher = easier</td>
+<td><code>118.823 - 25.987 * syllables/word - 0.971 * words/sentence; ": ( )" end sentences</code></td>
+<td>at least 1 syllabifiable word</td>
+<td>Çetinkaya (2010) p.85; counting rules p.93</td>
+</tr>
+<tr>
+<td><code>flesch_reading_ease</code></td>
+<td>Flesch Reading Ease (EN)</td>
+<td><code>206.835 - 1.015 * words/sentence - 84.6 * syllables/word</code></td>
+<td>at least 1 syllabifiable word</td>
+<td>Flesch (1948) Formula A; coefficient .846, unit = syllables per 100 words</td>
+</tr>
+<tr>
+<td><code>flesch_kincaid_grade</code></td>
+<td>Flesch-Kincaid grade (EN)</td>
+<td><code>0.39 * words/sentence + 11.8 * syllables/word - 15.59</code></td>
+<td>at least 1 syllabifiable word</td>
+<td>Kincaid et al. (1975) p.14, Table 3, "New"</td>
+</tr>
+<tr>
+<td><code>smog</code></td>
+<td>SMOG grade (EN)</td>
+<td><code>3.1291 + 1.0430 * sqrt(polysyllables * 30 / sentences)</code></td>
+<td>at least 30 sentences</td>
+<td>McLaughlin (1969) p.643, Table 1, eq. (d); p = polysyllabic words in a 30-sentence sample</td>
+</tr>
+<tr>
+<td><code>ari</code></td>
+<td>Automated Readability Index</td>
+<td><code>4.71 * strokes/word + 0.5 * words/sentence - 21.43</code></td>
+<td>at least 1 word</td>
+<td>Smith &amp; Senter (1967) p.8, AMRL-TR-66-220; reproduced verbatim in Kincaid et al. (1975) p.14, Table 3 ("Old")</td>
+</tr>
+<tr>
+<td><code>coleman_liau</code></td>
+<td>Coleman-Liau index</td>
+<td><code>0.0588 * letters per 100 words - 0.296 * sentences per 100 words - 15.8</code></td>
+<td>at least 1 word</td>
+<td>Coleman &amp; Liau (1975) p.284; the formula is a composition of two equations, it does not appear in this form in the article</td>
+</tr>
+<tr>
+<td><code>lix</code></td>
+<td>Björnsson's LIX</td>
+<td><code>words/sentence + 100 * long words/words, long = 7+ letters</code></td>
+<td>at least 1 word</td>
+<td>Björnsson (1968), as cited in Anderson (1983) p.490; long word = 7+ letters</td>
+</tr>
+<tr>
+<td><code>polysyllabic_word_ratio</code></td>
+<td>share of 3+ syllable words (EN)</td>
+<td><code>3+ syllable words / syllabifiable words</code></td>
+<td>at least 1 syllabifiable word</td>
+<td>McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form of SMOG's input, not the source's own measure</td>
+</tr>
+<tr>
+<td><code>long_word_ratio</code></td>
+<td>share of 7+ letter words</td>
+<td><code>long words / words</code></td>
+<td>at least 1 word</td>
+<td>Anderson (1983); long word = 7+ letters</td>
+</tr>
+</tbody>
+</table>
+<h2 id="punctuation-punctuation-digits"><code>punctuation</code> — Punctuation &amp; digits<a class="headerlink" href="#punctuation-punctuation-digits" title="Permanent link">&para;</a></h2>
+<p>18 keys.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Formula</th>
+<th>Requires</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>digit_vs_all</code></td>
+<td>share of digit characters</td>
+<td><code>digits / characters</code></td>
+<td>non-empty text</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>punc_,_ratio</code></td>
+<td>comma marks per word</td>
+<td><code>marks / words</code></td>
+<td>at least 1 word</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>punc_._ratio</code></td>
+<td>full stop marks per word</td>
+<td><code>marks / words</code></td>
+<td>at least 1 word</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>punc_;_ratio</code></td>
+<td>semicolon marks per word</td>
+<td><code>marks / words</code></td>
+<td>at least 1 word</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>punc_!_ratio</code></td>
+<td>exclamation mark marks per word</td>
+<td><code>marks / words</code></td>
+<td>at least 1 word</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>punc_:_ratio</code></td>
+<td>colon marks per word</td>
+<td><code>marks / words</code></td>
+<td>at least 1 word</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>punc_-_ratio</code></td>
+<td>hyphen or dash marks per word</td>
+<td><code>marks / words</code></td>
+<td>at least 1 word</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>punc_ellipsis_ratio</code></td>
+<td>ellipsis marks per word</td>
+<td><code>marks / words</code></td>
+<td>at least 1 word</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>punc_paren_ratio</code></td>
+<td>parenthesis marks per word</td>
+<td><code>marks / words</code></td>
+<td>at least 1 word</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>punc_quote_ratio</code></td>
+<td>quotation mark marks per word</td>
+<td><code>marks / words</code></td>
+<td>at least 1 word</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>punc_question_ratio</code></td>
+<td>question mark marks per word</td>
+<td><code>marks / words</code></td>
+<td>at least 1 word</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>punct_density</code></td>
+<td>punctuation marks per character</td>
+<td><code>marks / characters</code></td>
+<td>non-empty text</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>punct_entropy</code></td>
+<td>variety of punctuation types</td>
+<td><code>Shannon entropy (bits) of the 10 mark types</code></td>
+<td>at least 1 punctuation mark</td>
+<td>Shannon (1948) — the entropy formula; applying it to the distribution of punctuation types is this library's own decision</td>
+</tr>
+<tr>
+<td><code>consecutive_punct_ratio</code></td>
+<td>share of marks directly next to another mark</td>
+<td><code>adjacent marks / marks</code></td>
+<td>at least 1 punctuation mark</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>whitespace_ratio</code></td>
+<td>share of whitespace characters</td>
+<td><code>whitespace / characters</code></td>
+<td>non-empty text</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>punct_variety</code></td>
+<td>number of punctuation types used (0–10)</td>
+<td><code>distinct mark types</code></td>
+<td>non-empty text</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>uppercase_ratio</code></td>
+<td>share of capitalised tokens</td>
+<td><code>tokens whose first letter is upper case / tokens with a letter</code></td>
+<td>at least 1 token with a letter</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>all_caps_word_ratio</code></td>
+<td>share of all-caps tokens</td>
+<td><code>tokens with 2+ letters, all upper case / tokens with a letter</code></td>
+<td>at least 1 token with a letter</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="chars-character-frequency-vector-dynamic-one-key-per-letter-tr-29-en-26"><code>chars</code> — Character frequency vector  [dynamic: one key per letter — TR 29, EN 26]<a class="headerlink" href="#chars-character-frequency-vector-dynamic-one-key-per-letter-tr-29-en-26" title="Permanent link">&para;</a></h2>
+<p>Dynamic group: keys are generated with the prefix <code>char_</code>. The description, formula and requirement below are stated at the group level, not per key.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Formula</th>
+<th>Requires</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>char_…</code></td>
+<td>share of that letter among alphabet letters</td>
+<td><code>letter count / alphabet letters</code></td>
+<td>at least 1 alphabet letter</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="custom_ngrams-user-defined-n-gram-ratios-dynamic-ng_"><code>custom_ngrams</code> — User-defined n-gram ratios  [dynamic: ng_{...}]<a class="headerlink" href="#custom_ngrams-user-defined-n-gram-ratios-dynamic-ng_" title="Permanent link">&para;</a></h2>
+<p>Dynamic group: keys are generated with the prefix <code>ng_</code>. The description, formula and requirement below are stated at the group level, not per key.</p>
+<p>Created only when you pass <code>custom_ngrams</code> to <code>analyze()</code>.</p>
+<h2 id="bibliography">Bibliography<a class="headerlink" href="#bibliography" title="Permanent link">&para;</a></h2>
+<p>45 works. Every citation above names at least one of these verbatim, and every entry here is named by at least one citation — both directions are tested.</p>
+<dl>
+<dt><strong>Akın &amp; Akın (2007)</strong></dt>
+<dd>Akın, A. A., &amp; Akın, M. D. (2007). Zemberek, an open source NLP framework for Turkic Languages. 8 pp. Source code: github.com/ahmetaa/zemberek-nlp. (The document does not state a place of publication.)</dd>
+<dt><strong>Anderson (1983)</strong></dt>
+<dd>Anderson, J. (1983). Lix and Rix: Variations on a little-known readability index. Journal of Reading, 26(6), 490–496. JSTOR 40031755.</dd>
+<dt><strong>Ateşman (1997)</strong></dt>
+<dd>Ateşman, E. (1997). Türkçede okunabilirliğin ölçülmesi. Dil Dergisi, 58, 71–74. Ankara Üniversitesi TÖMER. ISSN 1300-3542.</dd>
+<dt><strong>Bestgen (2023)</strong></dt>
+<dd>Bestgen, Y. (2023). Measuring lexical diversity in texts: The twofold length problem. arXiv:2307.04626. Published version: Language Learning, 74(3), 638–671 (2024), DOI 10.1111/lang.12630 — the preprint was used here.</dd>
+<dt><strong>Bezirci &amp; Yılmaz (2010)</strong></dt>
+<dd>Bezirci, B., &amp; Yılmaz, A. E. (2010). Türkçe için yeni bir okunabilirlik ölçütü önerisi. SIU2010 — IEEE 18. Sinyal İşleme ve İletişim Uygulamaları Kurultayı, Diyarbakır, 368–371.</dd>
+<dt><strong>Björnsson (1968)</strong></dt>
+<dd>Björnsson, C. H. (1968). Läsbarhet. Stockholm: Bokförlaget Liber. (Book.) The record was verified from three secondary reference lists: Anderson (1983), Çetinkaya (2010), Falkenjack et al. (2013). The primary source could not be obtained.</dd>
+<dt><strong>Brunet (1978)</strong></dt>
+<dd>Brunet, E. (1978). Vocabulaire de Jean Giraudoux: structure et évolution. Genève: Slatkine. (Book.) The record was verified from the reference list of Popescu, Čech &amp; Altmann (2011). The primary source could not be obtained.</dd>
+<dt><strong>Coleman &amp; Liau (1975)</strong></dt>
+<dd>Coleman, M., &amp; Liau, T. L. (1975). A computer readability formula designed for machine scoring. Journal of Applied Psychology, 60(2), 283–284. DOI 10.1037/h0076540</dd>
+<dt><strong>Covington &amp; McFall (2010)</strong></dt>
+<dd>Covington, M. A., &amp; McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098</dd>
+<dt><strong>Daller (2010)</strong></dt>
+<dd>Daller, M. (2010). Guiraud's Index. BAAL 2010, Aberdeen. (Sunum.)</dd>
+<dt><strong>Deutsch, Jasbi &amp; Shieber (2020)</strong></dt>
+<dd>Deutsch, T., Jasbi, M., &amp; Shieber, S. (2020). Linguistic features for readability assessment. Proceedings of the 15th Workshop on Innovative Use of NLP for Building Educational Applications (BEA), 1–17. DOI 10.18653/v1/2020.bea-1.1</dd>
+<dt><strong>Dugast (1978)</strong></dt>
+<dd>Dugast, D. (1978). Sur quoi se fonde la notion d'étendue théoretique du vocabulaire? Le Français Moderne, 46(1), 25–32. The record was verified from four secondary reference lists: Malvern et al. (2004), McCarthy &amp; Jarvis (2010), Šišková (2012) and an authorship-attribution review. The primary source could not be obtained. The literature often cites Dugast (1978, 1979) together; 1979 is a separate work (Vocabulaire et stylistique I, Travaux de linguistique quantitative 8, Genève: Slatkine-Champion) and is not used here.</dd>
+<dt><strong>Flesch (1948)</strong></dt>
+<dd>Flesch, R. (1948). A new readability yardstick. Journal of Applied Psychology, 32(3), 221–233. DOI 10.1037/h0057532</dd>
+<dt><strong>Guiraud (1954)</strong></dt>
+<dd>Guiraud, P. (1954). Les Caractères Statistiques du Vocabulaire. Essai de méthodologie. Paris: Presses Universitaires de France.</dd>
+<dt><strong>Göksel &amp; Kerslake (2005)</strong></dt>
+<dd>Göksel, A., &amp; Kerslake, C. (2005). Turkish: A Comprehensive Grammar. London &amp; New York: Routledge. 535 s. ISBN 0-415-11494-2 (pbk), 0-415-21761-X (hbk).</dd>
+<dt><strong>Heaps (1978)</strong></dt>
+<dd>Heaps, H. S. (1978). Information Retrieval: Computational and Theoretical Aspects. New York: Academic Press.</dd>
+<dt><strong>Herdan (1960/1964)</strong></dt>
+<dd>Herdan, G. (1960). Type-Token Mathematics. The Hague: Mouton. / Herdan, G. (1964). Quantitative Linguistics. London: Butterworths.</dd>
+<dt><strong>Jing &amp; Liu (2015)</strong></dt>
+<dd>Jing, Y., &amp; Liu, H. (2015). Mean hierarchical distance: Augmenting mean dependency distance. Proceedings of Depling 2015, Uppsala, 161–170.</dd>
+<dt><strong>Johnson (1944)</strong></dt>
+<dd>Johnson, W. (1944). Studies in language behavior: I. A program of research. Psychological Monographs, 56(2), 1–15. DOI 10.1037/h0093508</dd>
+<dt><strong>Kincaid et al. (1975)</strong></dt>
+<dd>Kincaid, J. P., Fishburne, R. P., Rogers, R. L., &amp; Chissom, B. S. (1975). Derivation of new readability formulas for Navy enlisted personnel. Research Branch Report 8-75. Millington, TN: Naval Air Station Memphis. DOI 10.21236/ADA006655</dd>
+<dt><strong>Liu (2008)</strong></dt>
+<dd>Liu, H. (2008). Dependency distance as a metric of language comprehension difficulty. Journal of Cognitive Science, 9(2), 159–191. DOI 10.17791/jcs.2008.9.2.159</dd>
+<dt><strong>Lu (2012)</strong></dt>
+<dd>Lu, X. (2012). The relationship of lexical richness to the quality of ESL learners' oral narratives. The Modern Language Journal, 96(2), 190–208. DOI 10.1111/j.1540-4781.2011.01232.x</dd>
+<dt><strong>Malvern et al. (2004)</strong></dt>
+<dd>Malvern, D., Richards, B., Chipere, N., &amp; Durán, P. (2004). Lexical Diversity and Language Development: Quantification and Assessment. Basingstoke: Palgrave Macmillan. ISBN 978-1-4039-0232-0. DOI 10.1057/9780230511804.</dd>
+<dt><strong>Manning et al. (2008)</strong></dt>
+<dd>Manning, C. D., Raghavan, P., &amp; Schütze, H. (2008). Introduction to Information Retrieval. Cambridge University Press. (The file in the archive is the 2009 online edition.) DOI 10.1017/CBO9780511809071</dd>
+<dt><strong>McCarthy &amp; Jarvis (2007)</strong></dt>
+<dd>McCarthy, P. M., &amp; Jarvis, S. (2007). vocd: A theoretical and empirical evaluation. Language Testing, 24(4), 459–488. DOI 10.1177/0265532207080767</dd>
+<dt><strong>McCarthy &amp; Jarvis (2010)</strong></dt>
+<dd>McCarthy, P. M., &amp; Jarvis, S. (2010). MTLD, vocd-D, and HD-D: A validation study of sophisticated approaches to lexical diversity assessment. Behavior Research Methods, 42(2), 381–392. DOI 10.3758/BRM.42.2.381</dd>
+<dt><strong>McCarthy (2005)</strong></dt>
+<dd>McCarthy, P. M. (2005). An Assessment of the Range and Usefulness of Lexical Diversity Measures and the Potential of the Measure of Textual, Lexical Diversity (MTLD). Doctoral dissertation, The University of Memphis, August 2005. Advisor: Charles E. Hall. (Only a preview is available: 24 pages of front matter + abstract, no body.)</dd>
+<dt><strong>McLaughlin (1969)</strong></dt>
+<dd>McLaughlin, G. H. (1969). SMOG grading — a new readability formula. Journal of Reading, 12(8), 639–646.</dd>
+<dt><strong>Piantadosi (2014)</strong></dt>
+<dd>Piantadosi, S. T. (2014). Zipf's word frequency law in natural language: A critical review and future directions. Psychonomic Bulletin &amp; Review, 21(5), 1112–1130. DOI 10.3758/s13423-014-0585-6</dd>
+<dt><strong>Popescu &amp; Altmann (2006)</strong></dt>
+<dd>Popescu, I.-I., &amp; Altmann, G. (2006). Some aspects of word frequencies. Glottometrics, 13, 23–46. RAM-Verlag; dergi ISSN 2625-8226.</dd>
+<dt><strong>Popescu et al. (2009)</strong></dt>
+<dd>Popescu, I.-I., Altmann, G., Grzybek, P., et al. (2009). Word Frequency Studies. Berlin: Mouton de Gruyter. (Quantitative Linguistics 64.) ISBN 978-3-11-021852-7, ISSN 0179-3616. DOI 10.1515/9783110218534</dd>
+<dt><strong>Popescu, Mačutek &amp; Altmann (2009)</strong></dt>
+<dd>Popescu, I.-I., Mačutek, J., &amp; Altmann, G. (2009). Aspects of Word Frequencies. Lüdenscheid: RAM-Verlag.</dd>
+<dt><strong>Popescu, Čech &amp; Altmann (2011)</strong></dt>
+<dd>Popescu, I.-I., Čech, R., &amp; Altmann, G. (2011). The Lambda-structure of Texts. Lüdenscheid: RAM-Verlag. ISBN 978-3-942303-05-7.</dd>
+<dt><strong>QUITA</strong></dt>
+<dd>Kubát, M., Matlach, V., &amp; Čech, R. (2014). QUITA — Quantitative Index Text Analyzer. Lüdenscheid: RAM-Verlag. ISBN 978-3-942303-28-6.</dd>
+<dt><strong>Shannon (1948)</strong></dt>
+<dd>Shannon, C. E. (1948). A mathematical theory of communication. Bell System Technical Journal, 27(3), 379–423; 27(4), 623–656. DOI 10.1002/j.1538-7305.1948.tb01338.x</dd>
+<dt><strong>Sichel (1975)</strong></dt>
+<dd>Sichel, H. S. (1975). On a distribution law for word frequencies. Journal of the American Statistical Association, 70(351a), 542–547. DOI 10.1080/01621459.1975.10482469</dd>
+<dt><strong>Simpson (1949)</strong></dt>
+<dd>Simpson, E. H. (1949). Measurement of diversity. Nature, 163(4148), 688. DOI 10.1038/163688a0</dd>
+<dt><strong>Smith &amp; Senter (1967)</strong></dt>
+<dd>Smith, E. A., &amp; Senter, R. J. (1967). Automated readability index. AMRL-TR-66-220. Wright-Patterson AFB, OH: Aerospace Medical Research Laboratories. 22 s.</dd>
+<dt><strong>This library's threshold calibration</strong></dt>
+<dd>This library's own measurement, not a published source. short_sent_threshold and long_sent_threshold were derived from the 15th and 85th percentiles of the sentence-length distribution in novel corpora: TR 15 authors / 1,089,841 sentences, EN 10 authors / 341,892 sentences. Method and raw percentile table: docs/threshold-calibration.md.</dd>
+<dt><strong>Tweedie &amp; Baayen (1998)</strong></dt>
+<dd>Tweedie, F. J., &amp; Baayen, R. H. (1998). How variable may a constant be? Measures of lexical richness in perspective. Computers and the Humanities, 32(5), 323–352. DOI 10.1023/A:1001749303137</dd>
+<dt><strong>Yule (1944)</strong></dt>
+<dd>Yule, G. U. (1944). The Statistical Study of Literary Vocabulary. Cambridge University Press.</dd>
+<dt><strong>Zeyrek</strong></dt>
+<dd>Zeyrek — a Python port of the Zemberek morphological analyser. github.com/obulat/zeyrek</dd>
+<dt><strong>de Marneffe et al. (2021)</strong></dt>
+<dd>de Marneffe, M.-C., Manning, C. D., Nivre, J., &amp; Zeman, D. (2021). Universal Dependencies. Computational Linguistics, 47(2), 255–308. DOI 10.1162/COLI_a_00402</dd>
+<dt><strong>van Heuven et al. (2014)</strong></dt>
+<dd>van Heuven, W. J. B., Mandera, P., Keuleers, E., &amp; Brysbaert, M. (2014). SUBTLEX-UK: A new and improved word frequency database for British English. Quarterly Journal of Experimental Psychology, 67(6), 1176–1190. DOI 10.1080/17470218.2013.850521</dd>
+<dt><strong>Çetinkaya (2010)</strong></dt>
+<dd>Çetinkaya, G. (2010). Türkçe metinlerin okunabilirlik düzeylerinin tanımlanması ve sınıflandırılması [Unpublished doctoral dissertation]. Ankara Üniversitesi, Sosyal Bilimler Enstitüsü. Advisor: Leylâ Uzun. 252 pp. hdl:20.500.12812/519962</dd>
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Başa dön
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      MIT
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
