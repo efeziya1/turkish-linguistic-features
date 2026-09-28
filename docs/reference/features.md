@@ -1,7 +1,7 @@
 <!-- GENERATED FILE — do not edit by hand.
-     Source: scripts/basvuru_uret.py
+     Source: scripts/generate_feature_reference.py
      To regenerate:
-       python scripts/basvuru_uret.py -->
+       python scripts/generate_feature_reference.py -->
 
 # Feature reference
 

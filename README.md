@@ -93,9 +93,8 @@ Full signatures: [docs/reference/api.md](docs/reference/api.md).
 pip install -r requirements.txt
 pytest                          # pytest -m "" also runs the slow test
 ruff check .
-python scripts/dogrulama_raporu.py   # regenerate the verification reports
-python scripts/basvuru_uret.py       # regenerate the feature reference
-mkdocs serve                         # preview the docs site at http://127.0.0.1:8000
+python scripts/generate_verification_report.py  # regenerate the verification reports
+python scripts/generate_feature_reference.py    # regenerate the feature reference
 ```
 
 ## License

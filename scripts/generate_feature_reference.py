@@ -1,12 +1,12 @@
 """docs/reference/features.md dosyasını üretir.
 
 Kapsam listesi registry'den gelir — elle tutulmaz, yani hiçbir öznitelik
-başvurudan kaçamaz. Rapor üreticisiyle (``dogrulama_raporu.py``) aynı
+başvurudan kaçamaz. Rapor üreticisiyle (``generate_verification_report.py``) aynı
 kaynağı okur.
 
 Kullanım::
 
-    python scripts/basvuru_uret.py
+    python scripts/generate_feature_reference.py
 
 Bu dosya elle DÜZENLENMEZ.
 """
@@ -23,9 +23,9 @@ from turkish_linguistic_features.features.registry import (
 )
 
 BASLIK = """<!-- GENERATED FILE — do not edit by hand.
-     Source: scripts/basvuru_uret.py
+     Source: scripts/generate_feature_reference.py
      To regenerate:
-       python scripts/basvuru_uret.py -->
+       python scripts/generate_feature_reference.py -->
 
 # Feature reference
 

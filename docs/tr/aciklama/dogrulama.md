@@ -184,9 +184,10 @@ ek tabloda duruyor, farkın hangi girdiden geldiği görülebilsin diye.
 
 ## Rapor testlerden üretilir
 
-`docs/dogrulama-raporu.md` elle yazılmaz. `scripts/dogrulama_raporu.py`
-üretir ve `tests/test_kaynak_esligi.py` **aynı karşılaştırma tablosunu**
-okur. Yani rapor ile testler ayrışamaz; rapor bayatsa test düşer.
+`docs/dogrulama-raporu.md` elle yazılmaz.
+`scripts/generate_verification_report.py` üretir ve
+`tests/test_kaynak_esligi.py` **aynı karşılaştırma tablosunu** okur. Yani
+rapor ile testler ayrışamaz; rapor bayatsa test düşer.
 
 Kapsam listesi de kayıt defterinden gelir — bir öznitelik eklenip rapora
 girmemesi mümkün değil.

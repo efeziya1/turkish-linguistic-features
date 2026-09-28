@@ -168,7 +168,7 @@ def test_kesirli_h_yukari_yuvarlanir():
 
 def test_quita_spektrumlari_ayni():
     """Rapor üreticisiyle bu dosya aynı sıklık dağılımını kullanmalı."""
-    from scripts.dogrulama_raporu import _T1, _T2
+    from scripts.generate_verification_report import _T1, _T2
     assert sorted(_T1, reverse=True) == list(ORWELL_1984)
     assert sorted(_T2, reverse=True) == list(ANIMAL_FARM)
 

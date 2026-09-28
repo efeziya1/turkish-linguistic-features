@@ -200,7 +200,7 @@ where it comes from.*
 ## The report is generated from the tests
 
 `docs/verification-report.md` is not written by hand.
-`scripts/dogrulama_raporu.py` generates it, and
+`scripts/generate_verification_report.py` generates it, and
 `tests/test_kaynak_esligi.py` reads **the same comparison table**. The
 report and the tests cannot drift apart; if the report goes stale, a test
 fails.

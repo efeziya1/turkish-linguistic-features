@@ -9,7 +9,7 @@ Look-up material. Not meant to be read front to back.
 
 ## Generated, not written
 
-`features.md` is produced by `scripts/basvuru_uret.py` from the registry.
+`features.md` is produced by `scripts/generate_feature_reference.py` from the registry.
 Its coverage list comes from the same place the
 [verification report](../verification-report.md) takes its own, so a
 feature cannot exist in the code and be missing from the documentation.
@@ -17,8 +17,8 @@ feature cannot exist in the code and be missing from the documentation.
 To regenerate after changing the registry:
 
 ```bash
-python scripts/basvuru_uret.py
-python scripts/dogrulama_raporu.py
+python scripts/generate_feature_reference.py
+python scripts/generate_verification_report.py
 ```
 
 ## Related

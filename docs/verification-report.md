@@ -1,7 +1,7 @@
 <!-- GENERATED FILE — do not edit by hand.
-     Source: scripts/dogrulama_raporu.py
+     Source: scripts/generate_verification_report.py
      To regenerate:
-       python scripts/dogrulama_raporu.py -->
+       python scripts/generate_verification_report.py -->
 
 # Verification report
 

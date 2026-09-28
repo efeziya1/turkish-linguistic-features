@@ -89,8 +89,8 @@ ignore = ["UP038"]
 "turkish_linguistic_features/pipeline/zeyrek_backend.py" = ["I001"]
 # Üreticilerdeki uzun satırlar üretilen Markdown tablolarının kendisi;
 # bölmek rapor çıktısını değiştirir.
-"scripts/dogrulama_raporu.py" = ["E501"]
-"scripts/basvuru_uret.py" = ["E501"]
+"scripts/generate_verification_report.py" = ["E501"]
+"scripts/generate_feature_reference.py" = ["E501"]
 
 [tool.mypy]
 packages = ["turkish_linguistic_features"]

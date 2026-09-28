@@ -20,7 +20,7 @@ import math
 
 import pytest
 
-from scripts.dogrulama_raporu import METIN_1, METIN_2, METIN_3
+from scripts.generate_verification_report import METIN_1, METIN_2, METIN_3
 from turkish_linguistic_features import analyze
 
 # Rapor iki dilde tam analiz yapıyor (conftest.py'deki kural).
@@ -87,7 +87,7 @@ def test_raporda_her_taban_anahtar_var(lang):
     Kapsam listesi ``analyze()``dan okunuyor, elle tutulmuyor — registry'ye
     yeni bir anahtar girdiğinde rapor kendiliğinden büyür.
     """
-    from scripts.dogrulama_raporu import ORNEK_METIN, rapor_satirlari
+    from scripts.generate_verification_report import ORNEK_METIN, rapor_satirlari
     anahtarlar = {s["anahtar"] for s in rapor_satirlari(lang)}
     assert anahtarlar == set(analyze(ORNEK_METIN[lang], lang=lang))
 
@@ -95,7 +95,7 @@ def test_raporda_her_taban_anahtar_var(lang):
 @pytest.mark.parametrize("lang", ("tr", "en"))
 def test_raporda_uyusmazlik_yok(lang):
     """🔴 Yayın kapısı: açıklanmamış bir fark varsa T30 başlamaz."""
-    from scripts.dogrulama_raporu import UYUSMAZLIK, rapor_satirlari
+    from scripts.generate_verification_report import UYUSMAZLIK, rapor_satirlari
     kotu = [s for s in rapor_satirlari(lang) if s["durum"] == UYUSMAZLIK]
     assert not kotu, f"açıklanmamış fark: {[s['anahtar'] for s in kotu]}"
 
@@ -103,7 +103,7 @@ def test_raporda_uyusmazlik_yok(lang):
 @pytest.mark.parametrize("lang", ("tr", "en"))
 def test_sapma_satirlarinin_gerekcesi_var(lang):
     """🟡 sayılmak için sapmanın NEDENİ yazılı olmalı — yoksa o bir ❌."""
-    from scripts.dogrulama_raporu import SAPMA, rapor_satirlari
+    from scripts.generate_verification_report import SAPMA, rapor_satirlari
     gerekcesiz = [s["anahtar"] for s in rapor_satirlari(lang)
                   if s["durum"] == SAPMA and not s["gerekce"]]
     assert not gerekcesiz, f"gerekçesiz sapma: {gerekcesiz}"
@@ -116,12 +116,12 @@ def test_rapor_guncel():
     """
     from pathlib import Path
 
-    from scripts.dogrulama_raporu import DOSYA_ADI, uret
+    from scripts.generate_verification_report import DOSYA_ADI, uret
     belgeler = Path(__file__).resolve().parents[1] / "docs"
     for dil, ad in DOSYA_ADI.items():
         yol = belgeler / ad
         assert yol.read_text(encoding="utf-8") == uret(dil), (
-            f"docs/{ad} bayat — python scripts/dogrulama_raporu.py"
+            f"docs/{ad} bayat — python scripts/generate_verification_report.py"
         )
 
 
@@ -132,7 +132,7 @@ def test_turev_kunyeleri_isaretli():
     sözcük değişince sessizce kayar). Bunun bedeli listenin künyeden
     ayrışabilmesi; bu test onu yakalar.
     """
-    from scripts.dogrulama_raporu import TUREV_ANAHTARLARI
+    from scripts.generate_verification_report import TUREV_ANAHTARLARI
     from turkish_linguistic_features.features._registry_texts import (
         FEATURE_CITATIONS,
     )
@@ -153,11 +153,11 @@ def test_basvuru_guncel():
     """
     from pathlib import Path
 
-    from scripts.basvuru_uret import uret as basvuru_uret
+    from scripts.generate_feature_reference import uret as referans_uret
     yol = (Path(__file__).resolve().parents[1] / "docs" / "reference"
            / "features.md")
-    assert yol.read_text(encoding="utf-8") == basvuru_uret(), (
-        "docs/reference/features.md bayat — python scripts/basvuru_uret.py"
+    assert yol.read_text(encoding="utf-8") == referans_uret(), (
+        "docs/reference/features.md bayat — python scripts/generate_feature_reference.py"
     )
 
 
@@ -170,7 +170,7 @@ def test_tdk_heceleme():
     Sayı karşılaştırması yetmez: yanlış yerden bölünmüş bir kelime doğru
     sayıda hece verebilir. Burada bölütlemenin kendisi sınanıyor.
     """
-    from scripts.dogrulama_raporu import UYUSMAZLIK, heceleme_satirlari
+    from scripts.generate_verification_report import UYUSMAZLIK, heceleme_satirlari
     kotu = [(s["kelime"], s["bizim"], s["beklenen"])
             for s in heceleme_satirlari() if s["durum"] == UYUSMAZLIK]
     assert not kotu, f"TDK ile uyuşmayan heceleme: {kotu}"

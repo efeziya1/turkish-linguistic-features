@@ -1,7 +1,7 @@
 <!-- ÜRETİLMİŞ DOSYA — elle düzenlemeyin.
-     Kaynak: scripts/dogrulama_raporu.py
+     Kaynak: scripts/generate_verification_report.py
      Yeniden üretmek için:
-       python scripts/dogrulama_raporu.py -->
+       python scripts/generate_verification_report.py -->
 
 # Doğrulama raporu
 
