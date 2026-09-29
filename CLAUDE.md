@@ -1,0 +1,113 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Proje
+
+Türkçe (208) ve İngilizce (180) metinden nicel dilbilimsel öznitelik çıkaran Python kütüphanesi
+(`import turkish_linguistic_features as tlf`). Public API `__init__.py`'deki on addan ibaret;
+kullanıcıların çoğu yalnız `tlf.analyze()` çağırır.
+
+**Yön (2026-09-29):** proje yalnız Türkçeye dönüyor. İngilizce destek, `docs/en/` ve spaCy'nin Türkçe
+modeli kalkacak; yerine kural tabanlı çözümleyici + BERT seçici geliyor. Tasarım
+`plan/2026-09-28-in-house-turkce-on-isleme.md`, iş listesi `plan/todo.md`. Yeni İngilizce kod ya da
+öznitelik ekleme.
+
+## Komutlar
+
+```bash
+pip install -r requirements.txt      # -e . + pytest, mypy, ruff, pandas, wordfreq, mkdocs-material
+# Dil verisi ayrıca, bir kez kurulur (TR wheel, en_core_web_sm, nltk cmudict): README → "Language data"
+
+python -m pytest                                  # slow testler hariç (addopts: -m 'not slow')
+python -m pytest -m ""                            # slow dahil (5 MB metin, ~18 dk)
+python -m pytest tests/test_lexical.py::test_adi  # tek test
+TLF_REQUIRE_MODELS=1 python -m pytest             # eksik dil verisi skip değil fail (CI böyle koşar)
+ruff check .
+mypy                                              # ayar: pyproject [tool.mypy]
+mkdocs build --strict                             # docs iş akışı --strict ile yayınlar
+```
+
+Dil verisine ihtiyaç duyan testler `tr_model` / `en_model` / `cmudict` işaretleyicisi taşır; veri yoksa
+atlanır (`tests/conftest.py`).
+
+**Üretilen dosyalar elle düzenlenmez.** Registry ya da doğrulama tablosu değişince üreticiyi koş —
+`tests/test_kaynak_esligi.py` commit'lenmiş dosya bayatsa kırılır:
+
+- `docs/reference/features.md` ← `python scripts/generate_feature_reference.py`
+- `docs/dogrulama-raporu.md`, `docs/verification-report.md` ← `python scripts/generate_verification_report.py`
+
+## Mimari
+
+Akış: `analyze()` (`_analyze.py`) → `Preprocessor.process()` (`pipeline/spacy_pipeline.py`) →
+`ProcessedText` (`pipeline/preprocess.py`) → `_extract_features()` (`features/extractor.py`) →
+`dict[str, float]`. `analyze_corpus()` (`_corpus.py`) = `file_loader._load_corpus` + parçalama + `analyze`.
+
+- **Ön işleme:** spaCy modeli token, POS, lemma, `morph_tags`, `dep_data` ve cümleleri üretir; yalnız
+  `morpheme_lists` (Türkçe ek bölütlemesi) Zeyrek'ten gelir (`pipeline/zeyrek_backend.py`; zeyrek#42
+  yaması da orada). Preprocessor `(lang, model)` başına `_analyze._preprocessor_cache`'te tutulur, model
+  ilk `process()`'te yüklenir. `segment_text` eğitilmiş model değil `spacy.blank(lang)` tokenizer'ı kullanır.
+- **Öznitelik katmanı model gerektirmez:** `_extract_features` hazır listelerle çalışır, öznitelik
+  fonksiyonları saf hesaptır. Bir grubun girdisi (`dep_data`, `morph_tags`, `morpheme_lists`) `None` ise o
+  grup sessizce atlanır.
+- **Registry (`features/registry.py`) anahtarların tek doğruluk kaynağı:** `STATIC_GROUP_KEYS` (183 statik
+  anahtar), dinamik önekler `char_` / `ng_`, `GROUP_INPUTS`, ölçekler, `FEATURE_PARAMS`. Açıklama, formül,
+  `requires` ve künye metinleri `features/_registry_texts.py`'de (yalnız veri). `describe_feature()`
+  hepsini birleştirir.
+
+### Katman kuralı — `tests/test_import_katmanlari.py` denetler
+
+- L0 (`alfabe`, `vocab`, `params`, `exceptions`, `_warnings`): paket içinden hiçbir şey import etmez.
+- `features/` ve `pipeline/`: yalnız L0'ı ve kendi paketini görür, birbirini görmez.
+- Kök (`_analyze`, `_corpus`, `file_loader`, `__init__`): ikisini bağlar.
+- Opsiyonel `pandas` / `wordfreq` yalnız fonksiyon gövdesinde import edilir.
+
+### Windows yükleme sırası — bozma
+
+Zeyrek'in native uzantıları spaCy'ninkilerden önce yüklenmezse Windows'ta süreç traceback'siz çöker.
+
+- `__init__.py`'deki Zeyrek ısınma bloğu dosyanın ilk kodu kalır.
+- `pipeline/__init__.py` boş kalır (test denetler).
+- `zeyrek_backend.py`'de `import zeyrek`, `import spacy`'den önce gelir; ruff I001 orada kapalı —
+  `ruff check --fix` ya da isort ile sıralama.
+
+## Değişmezler
+
+- **NaN (K4):** ölçülemeyen değer `math.nan`; sonsuz ya da istisna yok, boş metinde her şey NaN. Girdi
+  listelerinin birbirine hizasızlığı ise ön işleme hatasıdır → `ValueError`.
+  `tests/test_faz1_kapisi.py` her public öznitelik fonksiyonunu boş ve tek elemanlı girdiyle çağırır; yeni
+  fonksiyon `DURUMLAR` tablosuna eklenmezse `test_tablo_eksiksiz` kırılır.
+- **Küçük harf:** `alfabe._kucuk_harf(metin, lang)` — `str.lower()` Türkçe I/İ'yi bozar.
+- **Kelime:** POS'u `vocab.NON_WORD_POS` (PUNCT, SYM) dışında kalan token. `surface_tokens` noktalama
+  içerir ve `pos_data` ile hizalıdır; `lemma_tokens` noktalamasızdır.
+- **Sabitler** fonksiyona gömülmez, `params.FeatureParams`'ta durur.
+- **Künye (K10):** `citation` yalnız bir kaynağa dayanır (özgün yayın yoksa "aktaran" zinciri açıkça
+  yazılır). Adlandırılmış literatür ölçüsü olmayan anahtarın künyesi bilerek `None`. Sabiti birincil
+  kaynağa karşı doğrulanmamış anahtar `UNVERIFIED_CONSTANTS`'a girer.
+- **Dil:** kod içi yorum ve docstring Türkçe; kullanıcıya çıkan metin (uyarı, hata mesajı, anahtar adı,
+  registry açıklama ve formülleri) İngilizce.
+- Yorumlardaki `K4`, `T21` gibi kodlar ortak plandaki karar/görev numaraları; `(2026-09-xx, Efe)` notları
+  kararın tarihi ve sahibi.
+
+## Yeni öznitelik eklerken
+
+1. Fonksiyonu `features/<grup>.py`'ye yaz, `features/extractor.py`'de ilgili grup bloğuna bağla.
+2. Anahtarı `STATIC_GROUP_KEYS`'e; açıklama, formül, `requires` ve (varsa) künyeyi `_registry_texts.py`'ye
+   ekle. Ölçek grup varsayılanından farklıysa `FEATURE_SCALES`'e yaz (aynıysa yazma — test yasaklar);
+   `FeatureParams` alanı kullanıyorsa `FEATURE_PARAMS`'a ekle.
+3. `test_faz1_kapisi.DURUMLAR`'a satır ekle.
+4. Anahtar sayıları (183 statik / TR 208 / EN 180) `tests/test_registry.py`, README, `CITATION.cff`,
+   `mkdocs.yml` ve `docs/` altında geçiyor — birlikte güncelle, sonra iki üreticiyi koş.
+5. Kaynağın yayımladığı bir sayı varsa `scripts/generate_verification_report.py`'deki
+   `KARSILASTIRMALAR`'a ekle; rapor ve `tests/test_kaynak_esligi.py` aynı modülü okur.
+
+## Depo notları
+
+- `plan/` git-crypt ile şifreli (`.gitattributes`); pre-commit hook'u (`scripts/check_plan_encrypted.py`)
+  düz metin plan dosyasının commit'ini engeller. `plan/benchmark/onnx/` ve `plan/benchmark/veri/` depoya
+  girmez; ruff `plan/`'ı denetlemez.
+- Sürüm numarası yalnız `__init__.py` (`__version__`, hatch buradan okur), `CITATION.cff` ve
+  `CHANGELOG.md`'de; doküman metinlerine sürüm yazılmaz.
+- Commit mesajları Türkçe, Conventional Commits: `fix(phonetic): …`, `docs(registry): …`.
+- Dokümantasyon MkDocs Material; `docs/tr/` ve `docs/en/` birbirinin aynası, nav `mkdocs.yml`'de. `main`'e
+  push'ta `.github/workflows/docs.yml` gh-pages'e yayınlar.
