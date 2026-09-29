@@ -14,10 +14,11 @@ kural tabanlı çözümleyici + ELECTRA-small seçici (`plan/2026-09-28-in-house
 `plan/2026-09-29-cok-dilli-mimari.md`'de (Ferhat onayladı 2026-09-29; Efe'nin onayı bekleniyor).
 In-house planın "Paralel: EN" adımının yerini "Paralel: çok dilli iskelet" aldı. İş listesi `plan/todo.md`.
 
-**Çözümleyici:** kural tabanlı çözümleyici + belirsizlik giderici Efe'nin `morphotr` projesinde
-(geçici ad; özel repo `efeziya1/morphotr`) planlanıyor. Belgeleri tek dosyada: `plan/2026-09-29-cozumleyici.md`;
+**Çözümleyici:** kural tabanlı çözümleyici + belirsizlik giderici tlf'nin içinde bir alt paket olarak
+geliştiriliyor; bütün geliştirme bu deponun `dev` dalında, `main`'e doğrudan yapılmaz. Eski ayrı repo
+`efeziya1/morphotr` 2026-09-29'da arşivlendi. Belgeleri tek dosyada: `plan/2026-09-29-cozumleyici.md`;
 çözümleyici kararlarının tek kaynağı onun §4'ü. Tlf planlarıyla çelişkiler
-(ayrı paket mi, TabiBERT mi ELECTRA mı, biçimbirim listesi, türetme) aynı belgenin §8'inde.
+(TabiBERT mi ELECTRA mı, biçimbirim listesi, türetme) aynı belgenin §8'inde.
 
 ## Kim ve nasıl çalışılır
 
@@ -114,8 +115,8 @@ Zeyrek'in native uzantıları spaCy'ninkilerden önce yüklenmezse Windows'ta s�
   yorumlar toplu çevrilmez; çeviri gerekirse davranış değiştirmeyen ayrı bir commit'le yapılır.
 - **Kodlar:** yorumlardaki `K4`, `T21` gibi kodlar tlf'nin ilk ortak planındaki karar/görev numaraları;
   `(2026-09-xx, Efe)` notları kararın tarihi ve sahibi. Aynı harfler başka numaralamalarda da var:
-  çözümleyici belgelerinde morphotr kodları (K1–K33, A, B, M, E, F…), in-house planda kilometre taşları
-  (K0–K10). Karışmasın diye çözümleyici kodları "morphotr K30" diye anılır (tablo:
+  çözümleyici belgelerinde çözümleyici kodları (K1–K33, A, B, M, E, F…), in-house planda kilometre taşları
+  (K0–K10). Karışmasın diye çözümleyici kodları "çözümleyici K30" diye anılır (tablo:
   `plan/2026-09-29-cozumleyici.md` §0).
 
 ## Yeni öznitelik eklerken
@@ -144,9 +145,9 @@ Zeyrek'in native uzantıları spaCy'ninkilerden önce yüklenmezse Windows'ta s�
   Commit yazarı her zaman geliştiricinin kendi git kimliğidir.
 - `plan/` belgeleri Türkçe yazılır (iç belge, Efe ile ortak); içlerindeki kod parçaları İngilizce.
   Başka yerden alınan belge başında kaynak satırı taşır (repo, yol, commit); makaleler `plan/kaynaklar/`'da.
-- Çözümleyicinin veri klasörü `plan/data/`'da (morphotr `data/`'sı: ham kaynaklar, işlenmiş çıktılar,
+- Çözümleyicinin veri klasörü `plan/data/`'da (arşivlenen morphotr reposunun `data/`'sı: ham kaynaklar, işlenmiş çıktılar,
   `scripts/`; ~182 MB, şifreli). İçinde IMST (CC BY-NC-SA), BOUN'un `not-to-release` dosyası ve TrMor
-  (izin belirsiz, morphotr A24) var: şifreli `plan/` dışına çıkmaz, pakete ve belgelere girmez.
+  (izin belirsiz, çözümleyici A24) var: şifreli `plan/` dışına çıkmaz, pakete ve belgelere girmez.
   `plan/data/raw/`'a elle dokunulmaz. İndirme betikleri (`indir_*.py`) burada değil: Efe'nin reposunda
   (`data/`) ve `4eed7d6` commit'inde. Alt klasöre `CLAUDE.md` konmaz (Claude Code onu otomatik yükler).
 - Dokümantasyon MkDocs Material; `docs/tr/` ve `docs/en/` birbirinin aynası, nav `mkdocs.yml`'de. `main`'e
