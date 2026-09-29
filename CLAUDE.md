@@ -12,7 +12,7 @@ kullanıcıların çoğu yalnız `tlf.analyze()` çağırır.
 kural tabanlı çözümleyici + ELECTRA-small seçici (`plan/2026-09-28-in-house-turkce-on-isleme.md`).
 İngilizce kalkmıyor, ilk genel yol dili oluyor; dil profili + ön işleyici mimarisi
 `plan/2026-09-29-cok-dilli-mimari.md`'de (Ferhat onayladı 2026-09-29; Efe'nin onayı bekleniyor).
-In-house planın "Paralel: EN" adımı bu kararla geçersiz. İş listesi `plan/todo.md`.
+In-house planın "Paralel: EN" adımının yerini "Paralel: çok dilli iskelet" aldı. İş listesi `plan/todo.md`.
 
 **Çözümleyici:** kural tabanlı çözümleyici + belirsizlik giderici Efe'nin `morphotr` projesinde
 (geçici ad; özel repo `efeziya1/morphotr`) planlanıyor. Belgeleri `plan/*-cozumleyici-*.md`; çözümleyici
@@ -144,7 +144,10 @@ Zeyrek'in native uzantıları spaCy'ninkilerden önce yüklenmezse Windows'ta s�
   Commit yazarı her zaman geliştiricinin kendi git kimliğidir.
 - `plan/` belgeleri Türkçe yazılır (iç belge, Efe ile ortak); içlerindeki kod parçaları İngilizce.
   Başka yerden alınan belge başında kaynak satırı taşır (repo, yol, commit); makaleler `plan/kaynaklar/`'da.
-- Çözümleyicinin verisi (UD 2.18, TRmorph, Zemberek… ~174 MB) ve betikleri Efe'nin reposunda;
-  `plan/`'a yalnız belgeler alınır. Alt klasöre `CLAUDE.md` konmaz (Claude Code onu otomatik yükler).
+- Çözümleyicinin veri klasörü `plan/data/`'da (morphotr `data/`'nın tamamı: indirme betikleri, ham
+  kaynaklar, işlenmiş çıktılar; ~182 MB, şifreli). İçinde IMST (CC BY-NC-SA), BOUN'un `not-to-release`
+  dosyası ve TrMor (izin belirsiz, morphotr A24) var: şifreli `plan/` dışına çıkmaz, pakete ve belgelere
+  girmez. `plan/data/raw/`'a elle dokunulmaz, yalnız `indir_*.py` yazar. Alt klasöre `CLAUDE.md` konmaz
+  (Claude Code onu otomatik yükler).
 - Dokümantasyon MkDocs Material; `docs/tr/` ve `docs/en/` birbirinin aynası, nav `mkdocs.yml`'de. `main`'e
   push'ta `.github/workflows/docs.yml` gh-pages'e yayınlar.
