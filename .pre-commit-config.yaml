@@ -7,3 +7,10 @@ repos:
       - id: check-yaml
       - id: check-added-large-files
         args: [--maxkb=500]
+  - repo: local
+    hooks:
+      - id: plan-encrypted
+        name: plan/ git-crypt ile şifreli mi
+        language: python
+        entry: python scripts/check_plan_encrypted.py
+        files: ^plan/

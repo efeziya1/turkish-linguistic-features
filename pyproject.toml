@@ -54,6 +54,11 @@ all = ["pandas>=1.5", "wordfreq>=3.0"]
 [tool.hatch.version]
 path = "turkish_linguistic_features/__init__.py"
 
+# Why: `plan/` proje planlaması; depoda durur ama PyPI'ye yüklenen sdist'e
+# girmesin. (Wheel zaten yalnız paket klasörünü alır; MkDocs yalnız docs/'u.)
+[tool.hatch.build.targets.sdist]
+exclude = ["plan/"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 # Why: console-script pytest.exe repo kokunu sys.path'e koymaz; tests/ icindeki
@@ -73,6 +78,8 @@ target-version = "py310"   # requires-python ile aynı
 # `examples/` betikleri kardeş modül `_demo`'yu içe aktarıyor; isort onu
 # üçüncü parti sanmasın.
 src = [".", "examples"]
+# Why: plan/benchmark betikleri deneme kodu; CI'daki `ruff check .` onları denetlemesin.
+extend-exclude = ["plan"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]

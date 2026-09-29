@@ -1,0 +1,4 @@
+# plan/ yalnız katkıcılar arasında: GitHub'a git-crypt ile şifreli gider.
+# Anahtarı olmayan (CI, dışarıdan klonlayan) ikili çöp görür.
+# Açmak için: git-crypt unlock <anahtar-dosyası>
+plan/** filter=git-crypt diff=git-crypt

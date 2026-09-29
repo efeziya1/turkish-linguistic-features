@@ -14,6 +14,9 @@ site/
 site-offline/
 
 # Yerel çalışma dosyaları — diskte durur, depoya girmez
-plan/
 _referans/
 scripts/check_plan.py
+
+# Benchmark çıktıları — yeniden üretilebilir, büyük (ONNX ~1,6 GB); depoya girmez
+plan/benchmark/onnx/
+plan/benchmark/veri/
