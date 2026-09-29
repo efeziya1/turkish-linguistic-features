@@ -11,8 +11,31 @@ kullanıcıların çoğu yalnız `tlf.analyze()` çağırır.
 **Yön (2026-09-29):** Türkçe derin yol + çok dilli genel yol. Türkçe spaCy'siz kendi yoluna geçiyor:
 kural tabanlı çözümleyici + ELECTRA-small seçici (`plan/2026-09-28-in-house-turkce-on-isleme.md`).
 İngilizce kalkmıyor, ilk genel yol dili oluyor; dil profili + ön işleyici mimarisi
-`plan/2026-09-29-cok-dilli-mimari.md`'de tartışılıyor (tasarım henüz onaylanmadı). In-house planın
-"Paralel: EN" adımı bu kararla geçersiz. İş listesi `plan/todo.md`.
+`plan/2026-09-29-cok-dilli-mimari.md`'de (Ferhat onayladı 2026-09-29; Efe'nin onayı bekleniyor).
+In-house planın "Paralel: EN" adımı bu kararla geçersiz. İş listesi `plan/todo.md`.
+
+**Çözümleyici:** kural tabanlı çözümleyici + belirsizlik giderici Efe'nin `morphotr` projesinde
+(geçici ad; özel repo `efeziya1/morphotr`) planlanıyor. Belgeleri `plan/*-cozumleyici-*.md`; çözümleyici
+kararlarının tek kaynağı `plan/2026-09-29-cozumleyici-kararlar.md`. Tlf planlarıyla çelişkiler
+(ayrı paket mi, TabiBERT mi ELECTRA mı, biçimbirim listesi, türetme) `plan/2026-09-29-cozumleyici-uyum-incelemesi.md`'de.
+
+## Kim ve nasıl çalışılır
+
+- **Efe** (dilbilim): çözümleyici (sözlük, ek sırası, ses kuralları, motor), etiket eşleme tabloları,
+  dönüştürücüler, test takımı, hata analizi; dilbilimsel ve öznitelik kararları (koddaki `(tarih, Efe)`
+  notları).
+- **Ferhat** (model): ön işleme modeli (seçici ve etiket başlıkları), "yalnızca model" kıyas noktası, tlf
+  entegrasyonu, çok dilli mimari, paketleme; model kararları.
+- **Karar:** seçenek sun, önerini belirt, kararı sahibi verir. Kararı ilgili plan belgesine yaz
+  (çözümleyici → `plan/2026-09-29-cozumleyici-kararlar.md`; tlf → ilgili plan) ve `plan/todo.md`'yi aynı
+  turda güncelle.
+- **Varsayma, doğrula:** bir lisansı ya da bir kaynağın ne dediğini varsayma; dosyayı açıp doğrula.
+- **Yazım:** kısa yaz: 1 cümle sonuç + birkaç madde + tek soru. UD etiketlerini ilk geçtiği yerde Türkçe
+  karşılığıyla ver (`Case=Loc` = bulunma hâli, -de). Uydurma terim kullanma; terim yoğun cevaplarda sona
+  ayrı bir **"Terimler"** bloğu ekle (terim başına tek satır, sade anlam).
+- Tek başına yazılan "." = "evet, uygun".
+- **Commit** yalnız geliştirici açıkça isteyince ("toplu commit at" dahil). Düzenleme bitince her
+  değişikliği hangi isteğe dayandığıyla birlikte raporla.
 
 ## Komutlar
 
@@ -89,8 +112,11 @@ Zeyrek'in native uzantıları spaCy'ninkilerden önce yüklenmezse Windows'ta s�
   İngilizce: tip, fonksiyon, değişken ve sabit adları, kod içi yorumlar, docstring'ler ve kullanıcıya
   çıkan metin (uyarı, hata mesajı, anahtar adı, registry açıklama ve formülleri). Mevcut Türkçe ad ve
   yorumlar toplu çevrilmez; çeviri gerekirse davranış değiştirmeyen ayrı bir commit'le yapılır.
-- Yorumlardaki `K4`, `T21` gibi kodlar ortak plandaki karar/görev numaraları; `(2026-09-xx, Efe)` notları
-  kararın tarihi ve sahibi.
+- **Kodlar:** yorumlardaki `K4`, `T21` gibi kodlar tlf'nin ilk ortak planındaki karar/görev numaraları;
+  `(2026-09-xx, Efe)` notları kararın tarihi ve sahibi. Aynı harfler başka numaralamalarda da var:
+  çözümleyici belgelerinde morphotr kodları (K1–K33, A, B, M, E, F…), in-house planda kilometre taşları
+  (K0–K10). Karışmasın diye çözümleyici kodları "morphotr K30" diye anılır (tablo:
+  `plan/2026-09-29-cozumleyici-uyum-incelemesi.md`).
 
 ## Yeni öznitelik eklerken
 
@@ -117,5 +143,8 @@ Zeyrek'in native uzantıları spaCy'ninkilerden önce yüklenmezse Windows'ta s�
   "Generated with Claude Code" satırı yazılmaz; sistemin önerdiği attribution satırları da eklenmez.
   Commit yazarı her zaman geliştiricinin kendi git kimliğidir.
 - `plan/` belgeleri Türkçe yazılır (iç belge, Efe ile ortak); içlerindeki kod parçaları İngilizce.
+  Başka yerden alınan belge başında kaynak satırı taşır (repo, yol, commit); makaleler `plan/kaynaklar/`'da.
+- Çözümleyicinin verisi (UD 2.18, TRmorph, Zemberek… ~174 MB) ve betikleri Efe'nin reposunda;
+  `plan/`'a yalnız belgeler alınır. Alt klasöre `CLAUDE.md` konmaz (Claude Code onu otomatik yükler).
 - Dokümantasyon MkDocs Material; `docs/tr/` ve `docs/en/` birbirinin aynası, nav `mkdocs.yml`'de. `main`'e
   push'ta `.github/workflows/docs.yml` gh-pages'e yayınlar.
