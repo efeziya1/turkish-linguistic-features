@@ -144,10 +144,10 @@ Zeyrek'in native uzantıları spaCy'ninkilerden önce yüklenmezse Windows'ta s�
   Commit yazarı her zaman geliştiricinin kendi git kimliğidir.
 - `plan/` belgeleri Türkçe yazılır (iç belge, Efe ile ortak); içlerindeki kod parçaları İngilizce.
   Başka yerden alınan belge başında kaynak satırı taşır (repo, yol, commit); makaleler `plan/kaynaklar/`'da.
-- Çözümleyicinin veri klasörü `plan/data/`'da (morphotr `data/`'nın tamamı: indirme betikleri, ham
-  kaynaklar, işlenmiş çıktılar; ~182 MB, şifreli). İçinde IMST (CC BY-NC-SA), BOUN'un `not-to-release`
-  dosyası ve TrMor (izin belirsiz, morphotr A24) var: şifreli `plan/` dışına çıkmaz, pakete ve belgelere
-  girmez. `plan/data/raw/`'a elle dokunulmaz, yalnız `indir_*.py` yazar. Alt klasöre `CLAUDE.md` konmaz
-  (Claude Code onu otomatik yükler).
+- Çözümleyicinin veri klasörü `plan/data/`'da (morphotr `data/`'sı: ham kaynaklar, işlenmiş çıktılar,
+  `scripts/`; ~182 MB, şifreli). İçinde IMST (CC BY-NC-SA), BOUN'un `not-to-release` dosyası ve TrMor
+  (izin belirsiz, morphotr A24) var: şifreli `plan/` dışına çıkmaz, pakete ve belgelere girmez.
+  `plan/data/raw/`'a elle dokunulmaz. İndirme betikleri (`indir_*.py`) burada değil: Efe'nin reposunda
+  (`data/`) ve `4eed7d6` commit'inde. Alt klasöre `CLAUDE.md` konmaz (Claude Code onu otomatik yükler).
 - Dokümantasyon MkDocs Material; `docs/tr/` ve `docs/en/` birbirinin aynası, nav `mkdocs.yml`'de. `main`'e
   push'ta `.github/workflows/docs.yml` gh-pages'e yayınlar.
