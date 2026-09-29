@@ -15,9 +15,9 @@ kural tabanlı çözümleyici + ELECTRA-small seçici (`plan/2026-09-28-in-house
 In-house planın "Paralel: EN" adımının yerini "Paralel: çok dilli iskelet" aldı. İş listesi `plan/todo.md`.
 
 **Çözümleyici:** kural tabanlı çözümleyici + belirsizlik giderici Efe'nin `morphotr` projesinde
-(geçici ad; özel repo `efeziya1/morphotr`) planlanıyor. Belgeleri `plan/*-cozumleyici-*.md`; çözümleyici
-kararlarının tek kaynağı `plan/2026-09-29-cozumleyici-kararlar.md`. Tlf planlarıyla çelişkiler
-(ayrı paket mi, TabiBERT mi ELECTRA mı, biçimbirim listesi, türetme) `plan/2026-09-29-cozumleyici-uyum-incelemesi.md`'de.
+(geçici ad; özel repo `efeziya1/morphotr`) planlanıyor. Belgeleri tek dosyada: `plan/2026-09-29-cozumleyici.md`;
+çözümleyici kararlarının tek kaynağı onun §4'ü. Tlf planlarıyla çelişkiler
+(ayrı paket mi, TabiBERT mi ELECTRA mı, biçimbirim listesi, türetme) aynı belgenin §8'inde.
 
 ## Kim ve nasıl çalışılır
 
@@ -27,7 +27,7 @@ kararlarının tek kaynağı `plan/2026-09-29-cozumleyici-kararlar.md`. Tlf plan
 - **Ferhat** (model): ön işleme modeli (seçici ve etiket başlıkları), "yalnızca model" kıyas noktası, tlf
   entegrasyonu, çok dilli mimari, paketleme; model kararları.
 - **Karar:** seçenek sun, önerini belirt, kararı sahibi verir. Kararı ilgili plan belgesine yaz
-  (çözümleyici → `plan/2026-09-29-cozumleyici-kararlar.md`; tlf → ilgili plan) ve `plan/todo.md`'yi aynı
+  (çözümleyici → `plan/2026-09-29-cozumleyici.md` §4; tlf → ilgili plan) ve `plan/todo.md`'yi aynı
   turda güncelle.
 - **Varsayma, doğrula:** bir lisansı ya da bir kaynağın ne dediğini varsayma; dosyayı açıp doğrula.
 - **Yazım:** kısa yaz: 1 cümle sonuç + birkaç madde + tek soru. UD etiketlerini ilk geçtiği yerde Türkçe
@@ -116,7 +116,7 @@ Zeyrek'in native uzantıları spaCy'ninkilerden önce yüklenmezse Windows'ta s�
   `(2026-09-xx, Efe)` notları kararın tarihi ve sahibi. Aynı harfler başka numaralamalarda da var:
   çözümleyici belgelerinde morphotr kodları (K1–K33, A, B, M, E, F…), in-house planda kilometre taşları
   (K0–K10). Karışmasın diye çözümleyici kodları "morphotr K30" diye anılır (tablo:
-  `plan/2026-09-29-cozumleyici-uyum-incelemesi.md`).
+  `plan/2026-09-29-cozumleyici.md` §0).
 
 ## Yeni öznitelik eklerken
 
