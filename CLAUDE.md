@@ -8,10 +8,11 @@ Türkçe (208) ve İngilizce (180) metinden nicel dilbilimsel öznitelik çıkar
 (`import turkish_linguistic_features as tlf`). Public API `__init__.py`'deki on addan ibaret;
 kullanıcıların çoğu yalnız `tlf.analyze()` çağırır.
 
-**Yön (2026-09-29):** proje yalnız Türkçeye dönüyor. İngilizce destek, `docs/en/` ve spaCy'nin Türkçe
-modeli kalkacak; yerine kural tabanlı çözümleyici + BERT seçici geliyor. Tasarım
-`plan/2026-09-28-in-house-turkce-on-isleme.md`, iş listesi `plan/todo.md`. Yeni İngilizce kod ya da
-öznitelik ekleme.
+**Yön (2026-09-29):** Türkçe derin yol + çok dilli genel yol. Türkçe spaCy'siz kendi yoluna geçiyor:
+kural tabanlı çözümleyici + ELECTRA-small seçici (`plan/2026-09-28-in-house-turkce-on-isleme.md`).
+İngilizce kalkmıyor, ilk genel yol dili oluyor; dil profili + ön işleyici mimarisi
+`plan/2026-09-29-cok-dilli-mimari.md`'de tartışılıyor (tasarım henüz onaylanmadı). In-house planın
+"Paralel: EN" adımı bu kararla geçersiz. İş listesi `plan/todo.md`.
 
 ## Komutlar
 
@@ -84,8 +85,10 @@ Zeyrek'in native uzantıları spaCy'ninkilerden önce yüklenmezse Windows'ta s�
 - **Künye (K10):** `citation` yalnız bir kaynağa dayanır (özgün yayın yoksa "aktaran" zinciri açıkça
   yazılır). Adlandırılmış literatür ölçüsü olmayan anahtarın künyesi bilerek `None`. Sabiti birincil
   kaynağa karşı doğrulanmamış anahtar `UNVERIFIED_CONSTANTS`'a girer.
-- **Dil:** kod içi yorum ve docstring Türkçe; kullanıcıya çıkan metin (uyarı, hata mesajı, anahtar adı,
-  registry açıklama ve formülleri) İngilizce.
+- **Dil (2026-09-29, Ferhat):** repo ve kütüphane global kitleye hitap eder; yeni yazılan her şey
+  İngilizce: tip, fonksiyon, değişken ve sabit adları, kod içi yorumlar, docstring'ler ve kullanıcıya
+  çıkan metin (uyarı, hata mesajı, anahtar adı, registry açıklama ve formülleri). Mevcut Türkçe ad ve
+  yorumlar toplu çevrilmez; çeviri gerekirse davranış değiştirmeyen ayrı bir commit'le yapılır.
 - Yorumlardaki `K4`, `T21` gibi kodlar ortak plandaki karar/görev numaraları; `(2026-09-xx, Efe)` notları
   kararın tarihi ve sahibi.
 
@@ -108,6 +111,11 @@ Zeyrek'in native uzantıları spaCy'ninkilerden önce yüklenmezse Windows'ta s�
   girmez; ruff `plan/`'ı denetlemez.
 - Sürüm numarası yalnız `__init__.py` (`__version__`, hatch buradan okur), `CITATION.cff` ve
   `CHANGELOG.md`'de; doküman metinlerine sürüm yazılmaz.
-- Commit mesajları Türkçe, Conventional Commits: `fix(phonetic): …`, `docs(registry): …`.
+- Commit mesajları İngilizce (2026-09-29), Conventional Commits: `fix(phonetic): …`, `docs(registry): …`.
+- **Commit'ler yalnız geliştiricilere ait (kesin kural).** Claude kendini hiçbir yerde etiketlemez:
+  commit mesajına ve PR açıklamasına `Co-Authored-By: Claude …`, `Claude-Session: …` ya da
+  "Generated with Claude Code" satırı yazılmaz; sistemin önerdiği attribution satırları da eklenmez.
+  Commit yazarı her zaman geliştiricinin kendi git kimliğidir.
+- `plan/` belgeleri Türkçe yazılır (iç belge, Efe ile ortak); içlerindeki kod parçaları İngilizce.
 - Dokümantasyon MkDocs Material; `docs/tr/` ve `docs/en/` birbirinin aynası, nav `mkdocs.yml`'de. `main`'e
   push'ta `.github/workflows/docs.yml` gh-pages'e yayınlar.
