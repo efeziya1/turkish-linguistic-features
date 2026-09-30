@@ -34,6 +34,15 @@ geliştiriliyor; bütün geliştirme bu deponun `dev` dalında, `main`'e doğrud
 - **Yazım:** kısa yaz: 1 cümle sonuç + birkaç madde + tek soru. UD etiketlerini ilk geçtiği yerde Türkçe
   karşılığıyla ver (`Case=Loc` = bulunma hâli, -de). Uydurma terim kullanma; terim yoğun cevaplarda sona
   ayrı bir **"Terimler"** bloğu ekle (terim başına tek satır, sade anlam).
+- **Çözümleyici ilkesi (2026-09-30, Efe):** hedef iyi bir Türkçe morfolojik çözümleyici. Tasarım
+  kararları dilbilimsel ve UD gerekçeleriyle verilir; tlf tasarımı yönlendirmez, ama tlf'nin
+  ihtiyaçları eksiksiz karşılanır (iyi bir çözümleyici bunları zaten karşılar). tlf'nin ihtiyaçları
+  kontrol listesinde tutulur; her kapsam kararında ve her sürümden önce ona bakılır. Karşılanmayan
+  ihtiyaç dilbilimsel bir eksikse çözümleyiciye eklenir; yalnız biçim farkıysa (etiket adı, alan
+  düzeni) tlf'deki dönüştürücü çözer. Hiçbir karar tlf'yi eksik bırakamaz: tlf'ye etkisi açıkça
+  yazılır ve nasıl karşılanacağı aynı kararda belirtilir. tlf'de özellik eklenebilir ya da
+  değiştirilebilir (sürüm artışı, CHANGELOG, doğrulama raporu). Ayrıntı:
+  `plan/2026-09-29-cozumleyici.md` §1.
 - Tek başına yazılan "." = "evet, uygun".
 - **Commit** yalnız geliştirici açıkça isteyince ("toplu commit at" dahil). Düzenleme bitince her
   değişikliği hangi isteğe dayandığıyla birlikte raporla.
