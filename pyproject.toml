@@ -92,8 +92,10 @@ ignore = ["UP038"]
 # durum bozulup traceback'siz çöküyor). isort alfabetik sıralayıp spacy'yi öne
 # alırdı; `ruff check --fix` bu korumayı bozmasın diye I001 bu dosyada kapalı.
 # (`__init__.py`'deki ısınma bloğu isort'tan etkilenmez: isort kod satırının
-# — oradaki `if` — üstünden import taşımaz; denetlendi.)
+# — oradaki `_ZB()._ensure_loaded()` çağrısı — üstünden import taşımaz.)
 "turkish_linguistic_features/pipeline/zeyrek_backend.py" = ["I001"]
+# The public imports must come after the warm-up call, by design (2026-10-01).
+"turkish_linguistic_features/__init__.py" = ["E402"]
 # Üreticilerdeki uzun satırlar üretilen Markdown tablolarının kendisi;
 # bölmek rapor çıktısını değiştirir.
 "scripts/generate_verification_report.py" = ["E501"]

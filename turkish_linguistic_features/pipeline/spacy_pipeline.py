@@ -9,8 +9,7 @@ morfolojik **ek bölütlemesi** üretmiyor — onlar farklı şeyler (K11). O al
 Türkçede ``ZeyrekBackend`` dolduruyor, İngilizcede boş kalıyor.
 
 Katman **sessiz**: varsayılan çağrıda hiçbir şey yazdırmaz, uyarı vermez
-(2026-08-25). Ayrıştırma şeması uyuşmazlığı gibi bilgiler veride zaten
-görünüyor (``dep_other`` yükselir) ve ``docs/limitations.md``'de anlatılıyor.
+(2026-08-25).
 """
 
 from __future__ import annotations
