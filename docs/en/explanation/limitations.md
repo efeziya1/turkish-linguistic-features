@@ -140,3 +140,21 @@ If a text longer than 1000 words yields no paragraph boundary at all, a
 `ParagraphStructureWarning` is raised. If you see it you have two options:
 re-extract the source text with paragraphs separated by blank lines, or leave
 the `paragraph` group out via `groups`.
+
+### 10. What the syllable count reads aloud, and what it skips
+
+The readability formulas and the syllable features count numbers,
+abbreviations and symbols **as they are read aloud**, following the
+Çetinkaya-Uzun (2010) counting protocol: `1918` → bin dokuz yüz on sekiz
+(7 syllables), `cm` → santimetre, `%50` → yüzde elli, `3. kat` → üçüncü kat,
+`10:30` → on otuz, `3kg` → üç kilogram, `TBMM` → te-be-me-me.
+
+In Turkish, a dot after a number marks an ordinal when a word or a comma
+follows it (`3. kat`); otherwise it ends the sentence (`Sonuç 3.` → üç).
+
+Forms whose reading cannot be told from the text are not guessed; they are
+**left out** of the syllable count: a unit letter on its own (`m` may be metre
+or minute), symbols whose reading depends on context (`/`, `#`, `*`), and
+unlisted lowercase abbreviations without vowels. In text dense with symbols
+and abbreviations, the syllable count therefore comes out slightly lower than a
+hand count following the protocol.
