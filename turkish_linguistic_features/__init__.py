@@ -12,15 +12,12 @@
 #
 # Blok ayrıca zeyrek#42 yamasını yükler (bkz. pipeline/zeyrek_backend.py).
 #
-# Yalnızca İngilizce çalışan ve import süresine duyarlı kullanıcı için kaçış:
-# LINGUISTIC_FEATURES_NO_ZEYREK_WARMUP=1 — README'de değil, yalnız
-# docs/limitations.md'nin sorun giderme bölümünde anılır.
-import os as _os
+# No opt-out: skipping the warm-up and later analysing Turkish in the same
+# process can crash on Windows (2026-10-01, Efe). The block goes away together
+# with Zeyrek (multilingual plan, step 9).
+from .pipeline.zeyrek_backend import ZeyrekBackend as _ZB
 
-if not _os.environ.get("LINGUISTIC_FEATURES_NO_ZEYREK_WARMUP"):
-    from .pipeline.zeyrek_backend import ZeyrekBackend as _ZB
-
-    _ZB()._ensure_loaded()
+_ZB()._ensure_loaded()
 # --------------------------------------------------------------------------
 
 from ._analyze import analyze
