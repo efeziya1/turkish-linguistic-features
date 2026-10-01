@@ -168,7 +168,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `back_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `harmony_fronting_ratio` | Göksel & Kerslake (2005) §3.1 (fronting harmony); exceptions §3.4 — the measure counts them as disharmonic | 🔍 |
 | `harmony_rounding_ratio` | Göksel & Kerslake (2005) §3.1 (rounding harmony); strictly a suffix phenomenon, measured here as a whole-word pattern | 🔍 |
-| `syllable_mean` | Ateşman (1997) p.73 | 🔍 |
+| `syllable_mean` | Flesch (1948) Formula A, wl; unit there = syllables per 100 words, here per word | 🔍 |
 | `syllable_1_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_2_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_3_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
@@ -432,7 +432,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `pos_kl_div` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv), in bits | 🔍 |
 | `front_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `back_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
-| `syllable_mean` | Ateşman (1997) p.73 | 🔍 |
+| `syllable_mean` | Flesch (1948) Formula A, wl; unit there = syllables per 100 words, here per word | 🔍 |
 | `syllable_1_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_2_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_3_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |

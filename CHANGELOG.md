@@ -15,8 +15,9 @@
   readability formulas already did. The symbol still does not count as a word.
 - Registry metadata of `syllable_mean` and `syllable_cv` (description,
   formula, requirement, citation) had been copied from the syllable-bucket
-  keys. `syllable_mean` now cites Ateşman (1997) p.73, which gives mean
-  syllables per word as a Turkish norm; `syllable_cv` has no citation (not a
+  keys. `syllable_mean` now cites Flesch (1948), whose Formula A defines
+  average word length in syllables (per 100 words; per word here) and which
+  Ateşman (1997) adapted for Turkish; `syllable_cv` has no citation (not a
   named measure) and requires at least 2 syllabifiable words, as the code
   always did. Cited features: TR 141 → 140, EN 116 → 115; verification
   candidates: TR 92 → 91, EN 81 → 80. No values change.

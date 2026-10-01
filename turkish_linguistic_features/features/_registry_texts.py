@@ -922,10 +922,12 @@ FEATURE_CITATIONS: dict[str, str] = {
     'harmony_rounding_ratio':
         'Göksel & Kerslake (2005) §3.1 (rounding harmony); strictly a suffix '
         'phenomenon, measured here as a whole-word pattern',
-    # Ateşman (1997) p.73 gives mean syllables per word as a Turkish norm
-    # (2.6) and uses it in eq. (2); the CV of syllables is not a named
+    # Flesch (1948) p.223 defines "average word length in syllables" as an
+    # element of its own; Ateşman (1997) p.73 adapts Flesch's formula. The
+    # measure is not language-specific. The CV of syllables is not a named
     # measure, so syllable_cv has no citation (K10, 2026-10-01, Efe).
-    'syllable_mean': 'Ateşman (1997) p.73',
+    'syllable_mean':
+        'Flesch (1948) Formula A, wl; unit there = syllables per 100 words, here per word',
     'syllable_1_ratio': 'Bezirci & Yılmaz (2010) Table 1-c',
     'syllable_2_ratio': 'Bezirci & Yılmaz (2010) Table 1-c',
     'syllable_3_ratio': 'Bezirci & Yılmaz (2010) Table 1-c',
