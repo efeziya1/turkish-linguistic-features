@@ -414,14 +414,14 @@ FEATURE_FORMULAS: dict[str, str] = {
         'words where every vowel after an unrounded one is unrounded and every '
         'vowel after a rounded one is close-rounded or open-unrounded / words '
         'with 2+ vowels',
-    'syllable_mean': 'words with k syllables (6+ pooled) / syllabifiable words',
-    'syllable_cv': 'words with k syllables (6+ pooled) / syllabifiable words',
-    'syllable_1_ratio': 'words with k syllables (6+ pooled) / syllabifiable words',
-    'syllable_2_ratio': 'words with k syllables (6+ pooled) / syllabifiable words',
-    'syllable_3_ratio': 'words with k syllables (6+ pooled) / syllabifiable words',
-    'syllable_4_ratio': 'words with k syllables (6+ pooled) / syllabifiable words',
-    'syllable_5_ratio': 'words with k syllables (6+ pooled) / syllabifiable words',
-    'syllable_6plus_ratio': 'words with k syllables (6+ pooled) / syllabifiable words',
+    'syllable_mean': 'mean syllables per syllabifiable word',
+    'syllable_cv': 'population std / mean of syllables per syllabifiable word',
+    'syllable_1_ratio': 'words with 1 syllable / syllabifiable words',
+    'syllable_2_ratio': 'words with 2 syllables / syllabifiable words',
+    'syllable_3_ratio': 'words with 3 syllables / syllabifiable words',
+    'syllable_4_ratio': 'words with 4 syllables / syllabifiable words',
+    'syllable_5_ratio': 'words with 5 syllables / syllabifiable words',
+    'syllable_6plus_ratio': 'words with 6 or more syllables / syllabifiable words',
     'sentence_syllable_mean': 'mean syllables per sentence',
     'sentence_syllable_cv': 'population std / mean',
     # ── readability ─────────────────────────────────────────────
