@@ -52,20 +52,20 @@ testleri kendi dosyalarında duruyor.
 
 Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
-**Doğrulama adayı — 92 satır**
+**Doğrulama adayı — 91 satır**
 
 | Durum | Satır sayısı |
 |---|---|
 | ✅ birebir | 47 |
 | 🟡 belgelenmiş sapma | 1 |
-| 🔍 açık — kaynakta sayısal örnek yok | 44 |
+| 🔍 açık — kaynakta sayısal örnek yok | 43 |
 
 
-**Doğrulama adayı olmayan — 141 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
+**Doğrulama adayı olmayan — 142 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
 
 | Durum | Satır sayısı |
 |---|---|
-| ⚪ kaynak yok — saf tanım | 67 |
+| ⚪ kaynak yok — saf tanım | 68 |
 | ⚫ etiket şeması — ölçü değil | 69 |
 | 🔧 türev — uygulaması bu kütüphaneye ait | 5 |
 
@@ -130,7 +130,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 ### 🔍 Açık — doğrulanabilir, henüz doğrulanmadı
 
-44 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
+43 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
@@ -168,8 +168,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `back_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `harmony_fronting_ratio` | Göksel & Kerslake (2005) §3.1 (fronting harmony); exceptions §3.4 — the measure counts them as disharmonic | 🔍 |
 | `harmony_rounding_ratio` | Göksel & Kerslake (2005) §3.1 (rounding harmony); strictly a suffix phenomenon, measured here as a whole-word pattern | 🔍 |
-| `syllable_mean` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
-| `syllable_cv` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
+| `syllable_mean` | Ateşman (1997) p.73 | 🔍 |
 | `syllable_1_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_2_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_3_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
@@ -181,7 +180,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 ### Doğrulama adayı olmayanlar
 
-141 anahtar. ⚪ olanlar saf tanım (`punc_,_ratio`, `char_a`) — adlandırılmış bir literatür ölçüsü değil. ⚫ olanlar bir ölçü değil, dış bir etiket şemasının kategorisini sayıyor; şema kategori tanımlar, ölçüm yayımlamaz. 🔧 olanların formülü bir kaynaktan gelir ama uygulaması bu kütüphaneye aittir. Üçünde de aranacak bir sayı yok.
+142 anahtar. ⚪ olanlar saf tanım (`punc_,_ratio`, `char_a`) — adlandırılmış bir literatür ölçüsü değil. ⚫ olanlar bir ölçü değil, dış bir etiket şemasının kategorisini sayıyor; şema kategori tanımlar, ölçüm yayımlamaz. 🔧 olanların formülü bir kaynaktan gelir ama uygulaması bu kütüphaneye aittir. Üçünde de aranacak bir sayı yok.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
@@ -277,6 +276,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `question_particle_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
 | `verb_suffix_diversity` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
 | `vowel_ratio` | — | ⚪ |
+| `syllable_cv` | — | ⚪ |
 | `sentence_syllable_mean` | — | ⚪ |
 | `sentence_syllable_cv` | — | ⚪ |
 | `digit_vs_all` | — | ⚪ |
@@ -331,20 +331,20 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
-**Doğrulama adayı — 81 satır**
+**Doğrulama adayı — 80 satır**
 
 | Durum | Satır sayısı |
 |---|---|
 | ✅ birebir | 36 |
 | 🟡 belgelenmiş sapma | 2 |
-| 🔍 açık — kaynakta sayısal örnek yok | 43 |
+| 🔍 açık — kaynakta sayısal örnek yok | 42 |
 
 
-**Doğrulama adayı olmayan — 116 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
+**Doğrulama adayı olmayan — 117 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
 
 | Durum | Satır sayısı |
 |---|---|
-| ⚪ kaynak yok — saf tanım | 64 |
+| ⚪ kaynak yok — saf tanım | 65 |
 | ⚫ etiket şeması — ölçü değil | 46 |
 | 🔧 türev — uygulaması bu kütüphaneye ait | 6 |
 
@@ -397,7 +397,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 ### 🔍 Açık — doğrulanabilir, henüz doğrulanmadı
 
-43 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
+42 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
@@ -432,8 +432,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `pos_kl_div` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv), in bits | 🔍 |
 | `front_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `back_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
-| `syllable_mean` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
-| `syllable_cv` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
+| `syllable_mean` | Ateşman (1997) p.73 | 🔍 |
 | `syllable_1_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_2_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_3_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
@@ -447,7 +446,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 ### Doğrulama adayı olmayanlar
 
-116 anahtar. ⚪ olanlar saf tanım (`punc_,_ratio`, `char_a`) — adlandırılmış bir literatür ölçüsü değil. ⚫ olanlar bir ölçü değil, dış bir etiket şemasının kategorisini sayıyor; şema kategori tanımlar, ölçüm yayımlamaz. 🔧 olanların formülü bir kaynaktan gelir ama uygulaması bu kütüphaneye aittir. Üçünde de aranacak bir sayı yok.
+117 anahtar. ⚪ olanlar saf tanım (`punc_,_ratio`, `char_a`) — adlandırılmış bir literatür ölçüsü değil. ⚫ olanlar bir ölçü değil, dış bir etiket şemasının kategorisini sayıyor; şema kategori tanımlar, ölçüm yayımlamaz. 🔧 olanların formülü bir kaynaktan gelir ama uygulaması bu kütüphaneye aittir. Üçünde de aranacak bir sayı yok.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
@@ -520,6 +519,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `morph_number_plur` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
 | `morph_voice_pass` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
 | `vowel_ratio` | — | ⚪ |
+| `syllable_cv` | — | ⚪ |
 | `sentence_syllable_mean` | — | ⚪ |
 | `sentence_syllable_cv` | — | ⚪ |
 | `polysyllabic_word_ratio` | McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form of SMOG's input, not the source's own measure | 🔧 |

@@ -24,7 +24,7 @@ ya da çocuk kitabı için genelleneceği **garanti değil.** Kendi türünüzde
 
 ### 2. On bir künye ikincil kaynaktan
 
-145 künyenin **11'i** `as cited in` ile işaretlidir — birincil kaynağa
+144 künyenin **11'i** `as cited in` ile işaretlidir — birincil kaynağa
 ulaşılamadı, formül aktaran kaynaktan alındı. Örnek:
 
 ```text
@@ -62,9 +62,9 @@ seçmez.
 
 ### 5. Adayların yarısı hâlâ doğrulanmadı
 
-141 satır doğrulama adayı bile değil (saf tanım, etiket şeması ya da
+142 satır doğrulama adayı bile değil (saf tanım, etiket şeması ya da
 bizim türevimiz).
-Kalan **92 adayın 48'i** bitmiş (47 ✅ + 1 🟡), **44'ü 🔍 açık**.
+Kalan **91 adayın 48'i** bitmiş (47 ✅ + 1 🟡), **43'ü 🔍 açık**.
 
 Sebebi [doğrulama sistemi](dogrulama.md) sayfasında: kaynakların çoğu
 formülü yayımlar, o formülün uygulandığı bir sayısal örnek vermez. Bu

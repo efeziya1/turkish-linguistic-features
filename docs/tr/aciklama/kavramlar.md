@@ -17,7 +17,7 @@ adlar sürüm notlarında duyurulur.
 3. **Saf tanım** — `punc_,_ratio` ("virgül / kelime"). Künyesi yoktur,
    çünkü tanımlanacak bir şey yoktur.
 
-208 anahtarın 141'inin künyesi vardır, 67'sinin yoktur.
+208 anahtarın 140'ının künyesi vardır, 68'inin yoktur.
 
 ## Grup
 

@@ -1,15 +1,15 @@
 # turkish-linguistic-features
 
 Türkçe metinden **208**, İngilizce metinden **180 nicel dilbilimsel öznitelik**
-çıkarır. Her özniteliğin formülü yazılıdır; Türkçedeki 208 özniteliğin 141'i,
-İngilizcedeki 180 özniteliğin 116'sı literatürde bir kaynağa dayanır, geri
+çıkarır. Her özniteliğin formülü yazılıdır; Türkçedeki 208 özniteliğin 140'ı,
+İngilizcedeki 180 özniteliğin 115'i literatürde bir kaynağa dayanır, geri
 kalanı saf tanımdır (örneğin bir harfin metindeki payı).
 [Doğrulama raporu](dogrulama-raporu.md), hangilerinin kaynağın yayımladığı bir
 sayıyla karşılaştırıldığını gösterir.
 
 Extracts 208 quantitative linguistic features from Turkish text and 180 from
-English. Every feature has its formula written out; 141 of the Turkish features
-and 116 of the English ones cite a source in the literature, and the rest are
+English. Every feature has its formula written out; 140 of the Turkish features
+and 115 of the English ones cite a source in the literature, and the rest are
 plain definitions (such as a letter's share of the text). The
 [verification report](verification-report.md) shows which ones have been
 checked against a number their source published.
@@ -62,26 +62,25 @@ oz["atesman"]             # 77.2479  (Ateşman 1997 okunabilirlik)
 | | Türkçe (TR) | İngilizce (EN) |
 |---|---:|---:|
 | Öznitelik | 208 | 180 |
-| Künyesi olan öznitelik | 141 | 116 |
-| Künyesi olmayan, saf tanım | 67 | 64 |
-| Doğrulama adayı rapor satırı | 92 | 81 |
+| Künyesi olan öznitelik | 140 | 115 |
+| Künyesi olmayan, saf tanım | 68 | 65 |
+| Doğrulama adayı rapor satırı | 91 | 80 |
 | — kaynağın sayısıyla tolerans içinde tutan (✅) | 47 | 36 |
 | — tolerans dışında, nedeni açıklanmış (🟡) | 1 | 2 |
 
 Kaynakçada 45 eser var (iki dil için tek kaynakça).
 
 **Formüller ile doğrulama iki ayrı şeydir.** 208 özniteliğin hepsinin
-formülü yazılıdır ve testlerle sınanır. Künyesi olan 141 özniteliğin formülü
-kaynağına dayanır; künye sayfa ve denklem numarası verir. Kalan 67'si saf
+formülü yazılıdır ve testlerle sınanır. Künyesi olan 140 özniteliğin formülü
+kaynağına dayanır; künye sayfa ve denklem numarası verir. Kalan 68'i saf
 tanımdır (`char_a`, `punc_,_ratio`), bir kaynağı yoktur.
 
 İkinci katman, kaynağın *yayımladığı bir sayıyı* alıp bizim çıktımızla
 karşılaştırmaktır. Bu her öznitelikte mümkün değil. Doğrulama raporunda
-141 **satır** aday değildir: saf tanım (`char_a`), bir etiket şemasının
+142 **satır** aday değildir: saf tanım (`char_a`), bir etiket şemasının
 kategorisi (`pos_noun`) ya da bu kütüphanenin kendi türevi (`entropy_std`);
-aranacak bir literatür sayısı yoktur. (Yukarıdaki 141 künyeli **öznitelik**
-ile aynı sayı olması rastlantıdır; ikisi farklı şeyleri sayar.) Kalan 92
-aday satırın 48'i kaynağın sayısıyla karşılaştırıldı; 44'ünde kaynak
+aranacak bir literatür sayısı yoktur. Kalan 91
+aday satırın 48'i kaynağın sayısıyla karşılaştırıldı; 43'ünde kaynak
 formülü yayımlamış ama uygulanmış bir örnek basmamış, bu yüzden açık
 duruyor.
 

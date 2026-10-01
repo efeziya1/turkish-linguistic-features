@@ -23,15 +23,15 @@ misread.
 
 | Layer | What it guarantees | Coverage |
 |---|---|---|
-| **Formula equivalence** | The code implements the equation in the source. The citation gives page and equation number; tests exercise the formula and its edge cases. | The 141 features with a citation (Turkish; the other 67 are plain definitions with no source) |
-| **Source-number verification** | A number the source *published* was found and compared against our output. | 48 of 92 candidate report rows (Turkish) |
+| **Formula equivalence** | The code implements the equation in the source. The citation gives page and equation number; tests exercise the formula and its edge cases. | The 140 features with a citation (Turkish; the other 68 are plain definitions with no source) |
+| **Source-number verification** | A number the source *published* was found and compared against our output. | 48 of 91 candidate report rows (Turkish) |
 
 The second layer is additional work, not a precondition for the first. A
 feature marked "🔍 open" does **not** have a questionable formula; no published
 number was found to compare against. Yule (1944) defines K but never prints
 what K comes to in a novel — his not printing it does not make our K wrong.
 
-Every feature has its formula written out. The 67 features without a citation
+Every feature has its formula written out. The 68 features without a citation
 are plain definitions (a letter's or a punctuation mark's share, for example);
 they rest on no source, so there is no source equation to match.
 
@@ -46,8 +46,8 @@ some of the 208 features are **not even candidates** for verification:
 | ⚫ **tag scheme** | Not a measure but a count of an external scheme's categories. `pos_noun` → UD, `case_loc_ratio` → Zeyrek. **A scheme defines categories; it does not publish measurements** — de Marneffe's paper does not print "morph_case_loc = 0.07", and could not. |
 | 🔧 **derivative** | The formula is from a source, **the application is ours**. `entropy_std` is Shannon's entropy, but taking its standard deviation across segments is ours; `long_sent_ratio`'s threshold comes from our own calibration. Nobody has published these measures — testing them against our own calibration would be reading our own answer sheet. |
 
-On the Turkish side **141 rows** are one of these three. That leaves
-**92 verification candidates**. That is the real denominator.
+On the Turkish side **142 rows** are one of these three. That leaves
+**91 verification candidates**. That is the real denominator.
 
 ## The four statuses a candidate can have
 
@@ -58,8 +58,8 @@ On the Turkish side **141 rows** are one of these three. That leaves
 | 🔍 **open** | The source gives the formula but never applies it to anything. Verifiable, not yet verified. |
 | ❌ **mismatch** | An **unexplained** difference. **Release gate: a single one blocks a release.** |
 
-Where things stand today: **48 of the 92 candidates are done** (47 ✅ +
-1 🟡), 44 are 🔍 open.
+Where things stand today: **48 of the 91 candidates are done** (47 ✅ +
+1 🟡), 43 are 🔍 open.
 
 The tolerance is **0.05**. Sources print rounded intermediate values, so
 exact equality is not expected.
@@ -87,7 +87,7 @@ step leading to it is correct.
 and its coefficients, not the pipeline. It is what is available when the
 source published no text.
 
-## Why 44 rows are still 🔍 open
+## Why 43 rows are still 🔍 open
 
 The source published the formula but never applied it to a text and printed
 the result. In quantitative linguistics this is **ordinary**. Yule (1944)
@@ -105,7 +105,7 @@ Which groups are verified follows from their genre, not from chance:
 | `frequency_structure` | 22 | 0 | 2 |
 | `readability` | 13 | 1 | 2 |
 | `lexical` | 7 | 0 | 22 |
-| `phonetic` | 0 | 0 | 12 |
+| `phonetic` | 0 | 0 | 11 |
 
 Readability formulas are **practical instruments** — their authors publish
 the formula together with a worked example, because the point is for someone

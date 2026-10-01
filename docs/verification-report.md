@@ -57,20 +57,20 @@ other known-value tests live in their own files.
 
 A key may have more than one worked example in its source; each one is its own row.
 
-**Verification candidates — 92 rows**
+**Verification candidates — 91 rows**
 
 | Status | Rows |
 |---|---|
 | ✅ exact | 47 |
 | 🟡 documented deviation | 1 |
-| 🔍 open — no worked example in source | 44 |
+| 🔍 open — no worked example in source | 43 |
 
 
-**Not verification candidates — 141 rows.** There is no published number to look for in these.
+**Not verification candidates — 142 rows.** There is no published number to look for in these.
 
 | Status | Rows |
 |---|---|
-| ⚪ no source — plain definition | 67 |
+| ⚪ no source — plain definition | 68 |
 | ⚫ tag scheme — not a measure | 69 |
 | 🔧 derivative — the application is this library's | 5 |
 
@@ -135,7 +135,7 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### 🔍 Open — verifiable, not yet verified
 
-44 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
+43 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
 
 | Key | Source | Status |
 |---|---|---|
@@ -173,8 +173,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `back_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `harmony_fronting_ratio` | Göksel & Kerslake (2005) §3.1 (fronting harmony); exceptions §3.4 — the measure counts them as disharmonic | 🔍 |
 | `harmony_rounding_ratio` | Göksel & Kerslake (2005) §3.1 (rounding harmony); strictly a suffix phenomenon, measured here as a whole-word pattern | 🔍 |
-| `syllable_mean` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
-| `syllable_cv` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
+| `syllable_mean` | Ateşman (1997) p.73 | 🔍 |
 | `syllable_1_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_2_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_3_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
@@ -186,7 +185,7 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### Not verification candidates
 
-141 keys. The ⚪ ones are plain definitions (`punc_,_ratio`, `char_a`) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.
+142 keys. The ⚪ ones are plain definitions (`punc_,_ratio`, `char_a`) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.
 
 | Key | Source | Status |
 |---|---|---|
@@ -282,6 +281,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `question_particle_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
 | `verb_suffix_diversity` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
 | `vowel_ratio` | — | ⚪ |
+| `syllable_cv` | — | ⚪ |
 | `sentence_syllable_mean` | — | ⚪ |
 | `sentence_syllable_cv` | — | ⚪ |
 | `digit_vs_all` | — | ⚪ |
@@ -336,20 +336,20 @@ A key may have more than one worked example in its source; each one is its own r
 
 A key may have more than one worked example in its source; each one is its own row.
 
-**Verification candidates — 81 rows**
+**Verification candidates — 80 rows**
 
 | Status | Rows |
 |---|---|
 | ✅ exact | 36 |
 | 🟡 documented deviation | 2 |
-| 🔍 open — no worked example in source | 43 |
+| 🔍 open — no worked example in source | 42 |
 
 
-**Not verification candidates — 116 rows.** There is no published number to look for in these.
+**Not verification candidates — 117 rows.** There is no published number to look for in these.
 
 | Status | Rows |
 |---|---|
-| ⚪ no source — plain definition | 64 |
+| ⚪ no source — plain definition | 65 |
 | ⚫ tag scheme — not a measure | 46 |
 | 🔧 derivative — the application is this library's | 6 |
 
@@ -402,7 +402,7 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### 🔍 Open — verifiable, not yet verified
 
-43 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
+42 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
 
 | Key | Source | Status |
 |---|---|---|
@@ -437,8 +437,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `pos_kl_div` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv), in bits | 🔍 |
 | `front_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `back_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
-| `syllable_mean` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
-| `syllable_cv` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
+| `syllable_mean` | Ateşman (1997) p.73 | 🔍 |
 | `syllable_1_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_2_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_3_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
@@ -452,7 +451,7 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### Not verification candidates
 
-116 keys. The ⚪ ones are plain definitions (`punc_,_ratio`, `char_a`) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.
+117 keys. The ⚪ ones are plain definitions (`punc_,_ratio`, `char_a`) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.
 
 | Key | Source | Status |
 |---|---|---|
@@ -525,6 +524,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `morph_number_plur` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
 | `morph_voice_pass` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
 | `vowel_ratio` | — | ⚪ |
+| `syllable_cv` | — | ⚪ |
 | `sentence_syllable_mean` | — | ⚪ |
 | `sentence_syllable_cv` | — | ⚪ |
 | `polysyllabic_word_ratio` | McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form of SMOG's input, not the source's own measure | 🔧 |

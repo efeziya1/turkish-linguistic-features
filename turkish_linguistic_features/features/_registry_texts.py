@@ -199,8 +199,8 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'back_vowel_ratio': 'share of back vowels',
     'harmony_fronting_ratio': 'share of words obeying front/back vowel harmony (TR only)',
     'harmony_rounding_ratio': 'share of words obeying rounding vowel harmony (TR only)',
-    'syllable_mean': 'word-length distribution in syllables',
-    'syllable_cv': 'word-length distribution in syllables',
+    'syllable_mean': 'mean syllables per word',
+    'syllable_cv': 'spread of syllables per word',
     'syllable_1_ratio': 'share of words with 1 syllable',
     'syllable_2_ratio': 'share of words with 2 syllables',
     'syllable_3_ratio': 'share of words with 3 syllables',
@@ -620,7 +620,7 @@ FEATURE_REQUIRES: dict[str, str] = {
     'harmony_fronting_ratio': 'at least 1 word with 2 vowels',
     'harmony_rounding_ratio': 'at least 1 word with 2 vowels',
     'syllable_mean': 'at least 1 syllabifiable word',
-    'syllable_cv': 'at least 1 syllabifiable word',
+    'syllable_cv': 'at least 2 syllabifiable words',
     'syllable_1_ratio': 'at least 1 syllabifiable word',
     'syllable_2_ratio': 'at least 1 syllabifiable word',
     'syllable_3_ratio': 'at least 1 syllabifiable word',
@@ -922,8 +922,10 @@ FEATURE_CITATIONS: dict[str, str] = {
     'harmony_rounding_ratio':
         'Göksel & Kerslake (2005) §3.1 (rounding harmony); strictly a suffix '
         'phenomenon, measured here as a whole-word pattern',
-    'syllable_mean': 'Bezirci & Yılmaz (2010) Table 1-c',
-    'syllable_cv': 'Bezirci & Yılmaz (2010) Table 1-c',
+    # Ateşman (1997) p.73 gives mean syllables per word as a Turkish norm
+    # (2.6) and uses it in eq. (2); the CV of syllables is not a named
+    # measure, so syllable_cv has no citation (K10, 2026-10-01, Efe).
+    'syllable_mean': 'Ateşman (1997) p.73',
     'syllable_1_ratio': 'Bezirci & Yılmaz (2010) Table 1-c',
     'syllable_2_ratio': 'Bezirci & Yılmaz (2010) Table 1-c',
     'syllable_3_ratio': 'Bezirci & Yılmaz (2010) Table 1-c',
