@@ -96,7 +96,7 @@ words and 7347 sentences were counted as a single paragraph. ...
 Uyarı metinleri İngilizcedir — öznitelik anahtarları ve künyeler de öyle.
 
 Bu genellikle metnin PDF/EPUB'dan çıkarılırken satır sonlarını kaybetmesinden
-olur; [sınırlılıklar §7](sinirliliklar.md) ölçümü veriyor.
+olur; [sınırlılıklar §9](sinirliliklar.md) ölçümü veriyor.
 
 ### 4. İsteğe bağlı bir paket kurulu değil
 
