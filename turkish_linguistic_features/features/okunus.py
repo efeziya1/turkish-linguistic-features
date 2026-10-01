@@ -9,9 +9,12 @@ T10'un hece sayacı (``phonetic.hece_say``) bu modülü kullanır. Çetinkaya-Uz
 aktarıyor). Burada sayılar kuralla, kısaltmalar sabit bir listeyle açılır
 (2026-09-16, Efe); hece sayımı açılan metin üzerinden yapılır.
 
-Açılmayanlar ``docs/limitations.md``'de: listede olmayan kısaltmalar, gerçek
-kelimeyle aynı yazılan kısaltmalar (tel, sok, av, no), tek harfli birimler,
-semboller, sıra sayıları, saat ve karışık biçimler.
+Sıra sayısı (``3.``), saat/skor (``10:30``) ve sayıdan sonraki tek harfli
+birim (``100m``) 2026-10-01'den beri okunur (Efe). Okunuşu metinden
+belirlenemeyenler (tek başına ``m``, ``/``, ``#``) okunmaz; hece sayımından
+atlanırlar — sınırlılıklar §10 (``docs/tr/aciklama/sinirliliklar.md``).
+Gerçek kelimeyle aynı yazılan kısaltmalar (tel, sok, av, no) yazıldığı gibi
+okunur, bu yüzden listede yok.
 """
 
 from __future__ import annotations
@@ -121,9 +124,75 @@ def kisaltma_oku(token: str) -> str | None:
 
 
 def okunus(token: str) -> str | None:
-    """Kısaltma ya da sayıysa Türkçe okunuşu, değilse ``None``."""
-    acilim = kisaltma_oku(token)
-    return acilim if acilim is not None else sayi_oku(token)
+    """Kısaltma, sayı, saat/skor ya da sıra sayısıysa Türkçe okunuşu, değilse ``None``."""
+    for oku in (kisaltma_oku, sayi_oku, read_time, read_ordinal):
+        acilim = oku(token)
+        if acilim is not None:
+            return acilim
+    return None
+
+
+# ── Turkish ordinals, times, units after a number (2026-10-01, Efe) ──
+#
+# The token alone cannot tell an ordinal "3." from a sentence-final "3.";
+# callers that see the next token decide (``phonetic``, ``readability``).
+
+_ORDINAL = re.compile(r"(\d+)\.")
+_COLON_PAIR = re.compile(r"(\d+):(\d+)")
+# Turkish writes the decimal separator as a comma and groups thousands in
+# threes, so "10.30" (two digits after the dot) can only be a time.
+_DOT_TIME = re.compile(r"(\d{1,2})\.(\d{2})")
+
+# Single-letter units are ambiguous on their own ("m": metre or minute) but
+# not right after a number ("100m"). Lowercase only: "3G" is read as letters.
+UNITS_AFTER_NUMBER: dict[str, str] = {"m": "metre", "g": "gram", "l": "litre"}
+
+_FRONT_VOWELS = frozenset("eiöü")
+_ROUNDED_VOWELS = frozenset("ouöü")
+
+
+def _ordinal_suffix(word: str) -> str:
+    """-(I)ncI with vowel harmony; the buffer vowel drops after a vowel."""
+    last = next(c for c in reversed(word) if c in "aeıioöuü")
+    front, rounded = last in _FRONT_VOWELS, last in _ROUNDED_VOWELS
+    vowel = ("ü" if rounded else "i") if front else ("u" if rounded else "ı")
+    suffix = f"nc{vowel}"
+    return suffix if word[-1] in "aeıioöuü" else vowel + suffix
+
+
+def read_ordinal(token: str) -> str | None:
+    """``3.`` → "üçüncü"; ``None`` if the token is not digits + one dot."""
+    m = _ORDINAL.fullmatch(token)
+    if m is None:
+        return None
+    n = int(m.group(1))
+    if n >= _UST_SINIR:
+        return None
+    words = _tam_sayi(n)
+    last = "dörd" if words[-1] == "dört" else words[-1]   # t → d before a vowel
+    return " ".join(words[:-1] + [last + _ordinal_suffix(last)])
+
+
+def read_time(token: str) -> str | None:
+    """``10:30`` / ``10.30`` → "on otuz"; ``3:2`` → "üç iki" (scores, ratios).
+
+    In a time the hour is read as a number and ":00" is not read
+    (``14:00`` → "on dört"); other minutes keep a leading zero ("sıfır beş").
+    """
+    m = _COLON_PAIR.fullmatch(token) or _DOT_TIME.fullmatch(token)
+    if m is None:
+        return None
+    left, right = m.group(1), m.group(2)
+    is_time = len(right) == 2 and int(left) <= 24 and int(right) < 60
+    if m.re is _DOT_TIME and not is_time:
+        return None
+    if is_time:
+        hour = _tam_sayi(int(left))
+        return " ".join(hour if right == "00" else hour + (_basamaklar(right) or []))
+    parts = [_basamaklar(left), _basamaklar(right)]
+    if parts[0] is None or parts[1] is None:
+        return None
+    return " ".join(parts[0] + parts[1])
 
 
 # ── İngilizce sayılar (2026-09-17, Efe) ──────────────────────────────

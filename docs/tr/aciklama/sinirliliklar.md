@@ -134,3 +134,20 @@ görebilirsiniz.
 `ParagraphStructureWarning` basılır. Uyarıyı görürseniz iki yol var: kaynak
 metni paragrafları boş satırla ayrılmış hâlde yeniden çıkarın, ya da
 `groups` ile `paragraph` grubunu dışarıda bırakın.
+
+### 10. Hece sayımında okunuşla sayılanlar ve atlananlar
+
+Okunabilirlik formülleri ve hece öznitelikleri, Çetinkaya-Uzun (2010) sayım
+protokolündeki gibi sayıları, kısaltmaları ve sembolleri **okunuşlarıyla**
+sayar: `1918` → bin dokuz yüz on sekiz (7 hece), `cm` → santimetre, `%50` →
+yüzde elli, `3. kat` → üçüncü kat, `10:30` → on otuz, `3kg` → üç kilogram,
+`TBMM` → te-be-me-me.
+
+Sayıdan sonraki nokta, ardından kelime ya da virgül geliyorsa sıra sayısıdır
+(`3. kat`); gelmiyorsa cümle sonudur (`Sonuç 3.` → üç).
+
+Okunuşu metinden belirlenemeyen biçimler tahmin edilmez, hece sayımından
+**atlanır**: tek başına birim harfi (`m` metre de olabilir dakika da),
+okunuşu bağlama göre değişen semboller (`/`, `#`, `*`), listede olmayan ünsüz
+küçük harfli kısaltmalar. Bu yüzden sembol ve kısaltma yoğun bir metinde hece
+sayısı, protokole göre elle yapılan sayımdan biraz düşük çıkar.

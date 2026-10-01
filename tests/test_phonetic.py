@@ -176,7 +176,7 @@ def test_hece_say_buyuk_harf_unsuz_kisaltma():
 def test_hece_say_sayilamayan_tokenler():
     """Okunuşu çıkarılamayan biçimler, listede olmayan küçük harfli ünsüz
     tokenler ve noktalama hecelenmez."""
-    for token in ("3G", "10:30", "4x4", "2.", "1.5", "xyz", "%", ".", "", "..."):
+    for token in ("4x4", "3x", "1.5", "xyz", "m", "%", ".", "", "..."):
         assert hece_say(token, "tr") is None, token
     assert hece_say("3G", "en") is None
 
@@ -253,7 +253,7 @@ def test_hece_say_ingilizce_unlusuz_kelime():
 
 
 def test_toplam_hece_sayilamayanlari_atlar():
-    assert toplam_hece(["Ali", "3G", "okula", ".", "gitti"], "tr") == 7
+    assert toplam_hece(["Ali", "4x4", "okula", ".", "gitti"], "tr") == 7
 
 
 # ── T10: kelime başına hece ───────────────────────────────────────────
@@ -267,12 +267,12 @@ def test_hece_ortalamasi_ve_cv_elle():
 
 
 def test_hece_istatistigi_sayilamayanlari_atlar():
-    assert syllable_count_stats(["xyz", "3G", "kitap", "masa"], "tr")["syllable_mean"] == 2.0
+    assert syllable_count_stats(["xyz", "4x4", "kitap", "masa"], "tr")["syllable_mean"] == 2.0
 
 
 def test_hece_istatistigi_bos_ve_tek():
     assert all(_nan(v) for v in syllable_count_stats([], "tr").values())
-    assert all(_nan(v) for v in syllable_count_stats(["3G", "."], "tr").values())
+    assert all(_nan(v) for v in syllable_count_stats(["4x4", "."], "tr").values())
     sonuc = syllable_count_stats(["ev"], "tr")
     assert sonuc["syllable_mean"] == 1.0
     assert _nan(sonuc["syllable_cv"])               # tek değer
@@ -323,7 +323,7 @@ def test_cumle_hecesi_elle():
 
 def test_cumle_hecesi_hecesiz_cumle_sayilmaz():
     """Yalnız rakam/noktalama içeren cümlenin hecesi ölçülemez, hesaba girmez."""
-    sonuc = sentence_syllable_stats([["ev", "."], ["3G", "."], ["okul", "."]], "tr")
+    sonuc = sentence_syllable_stats([["ev", "."], ["4x4", "."], ["okul", "."]], "tr")
     assert sonuc["sentence_syllable_mean"] == 1.5
 
 
