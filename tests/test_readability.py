@@ -82,7 +82,24 @@ def test_kisaltmali_bicim_ingilizce():
 
 
 def test_hecelenemeyen_birim():
-    assert birim_hecesi("3G", "tr") is None
+    assert birim_hecesi("3x", "tr") is None
+
+
+def test_turkish_ordinal_keeps_its_dot_when_a_word_or_comma_follows():
+    """Ordinal 3. = üçüncü; a sentence-final 3. is the cardinal (2026-10-01, Efe)."""
+    kelimeler, _ = kelime_birimleri("3. kat, 4., 5. ve 6. sınıf. Sonuç 3.", "tr")
+    assert kelimeler == ["3.", "kat", "4.", "5.", "ve", "6.", "sınıf", "Sonuç", "3"]
+    assert birim_hecesi("3.", "tr") == 3
+
+
+def test_english_number_with_dot_is_not_an_ordinal():
+    kelimeler, _ = kelime_birimleri("Chapter 3. Next", "en")
+    assert kelimeler == ["Chapter", "3", "Next"]
+
+
+def test_turkish_time_and_number_unit_units():
+    assert birim_hecesi("10:30", "tr") == 3     # on o-tuz
+    assert birim_hecesi("3kg", "tr") == 4       # üç ki-lo-gram
 
 
 # ── cümle sayısı ──────────────────────────────────────────────────────

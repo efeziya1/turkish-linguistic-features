@@ -18,7 +18,8 @@ kaynağının sayımını izler:
 - Cümle = formüle özel işaretlerden biriyle biten dizi (``_CUMLE_SONU``).
   İşaretler spaCy tokenlarından okunur, böylece ``Dr.`` cümle bitirmez.
 - Hece = T10'un ``hece_say``'i; tireli kelime parçaların toplamı, sembol ve
-  noktalı baş harf okunuşuyla (``birim_hecesi``).
+  noktalı baş harf okunuşuyla (``birim_hecesi``). Türkçe sıra sayısı
+  (``3.`` → üçüncü) noktasıyla kelime olur (``kelime_birimleri``).
 - Ortalama hece yalnız hecelenebilen kelimelerden hesaplanır; cümle uzunluğu
   bütün kelimelerden.
 
@@ -71,20 +72,37 @@ def kelime_birimleri(raw_text: str, lang: str) -> tuple[list[str], list[str]]:
     Kenar noktalaması atılır (``okudu.`` → ``okudu``). Harf ya da rakam içeren
     birim kelimedir; yalnız listedeki sembollerden oluşan birim ayrı döner;
     geri kalanlar (``-``, ``#``) sayılmaz.
+
+    Turkish ordinals keep their dot (``3. kat`` → ``3.``) when a word or a
+    comma follows; a sentence-final ``3.`` stays the cardinal ``3``
+    (2026-10-01, Efe).
     """
     _dil_denetle(lang)
     semboller = SEMBOLLER[lang]
     kelimeler: list[str] = []
     tek_semboller: list[str] = []
-    for ham in raw_text.split():
+    hamlar = raw_text.split()
+    for i, ham in enumerate(hamlar):
         birim = ham.strip(_KENAR)
         if not birim:
             continue
+        if lang == "tr" and birim.isdigit() and _ordinal_dot(ham, birim, hamlar[i + 1:]):
+            birim += "."
         if any(c.isalnum() for c in birim):
             kelimeler.append(birim)
         elif all(c in semboller for c in birim):
             tek_semboller.append(birim)
     return kelimeler, tek_semboller
+
+
+def _ordinal_dot(ham: str, birim: str, sonrakiler: list[str]) -> bool:
+    """The dot after the number is ordinal: a comma follows it, or a word."""
+    sonra = ham[ham.find(birim) + len(birim):]
+    if not sonra.startswith("."):
+        return False
+    if sonra[1:2] == ",":
+        return True
+    return sonra == "." and bool(sonrakiler) and any(c.isalnum() for c in sonrakiler[0])
 
 
 def _okunus_hecesi(okunus: str, lang: str) -> int:

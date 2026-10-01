@@ -23,6 +23,7 @@ Fonksiyonlar saftır (K3). K4 (2026-09-16, Efe): ölçülemeyen değer ``math.na
 from __future__ import annotations
 
 import math
+import re
 from collections import Counter
 
 import numpy as np
@@ -30,7 +31,7 @@ import textstat
 
 from ..alfabe import _ALFABE, _kucuk_harf
 from ..exceptions import ModelNotFoundError
-from .okunus import okunus, sayi_oku_en
+from .okunus import SEMBOLLER, UNITS_AFTER_NUMBER, okunus, sayi_oku, sayi_oku_en
 
 _UNLULER: dict[str, str] = {"tr": "aeıioöuü", "en": "aeiou"}
 _ON: dict[str, str] = {"tr": "eiöü", "en": "ei"}
@@ -193,11 +194,22 @@ def _unlu_sayisi(metin: str) -> int:
     return sum(1 for c in _kucuk_harf(metin, "tr") if c in _TR_HECE_UNLULERI)
 
 
+# A number glued to letters: "3kg", "100m", "3G", "2li" (2026-10-01, Efe).
+_NUMBER_LETTERS = re.compile(r"(\d+(?:,\d+)?)([^\W\d_]+)")
+
+
 def _tr_kok_hecesi(kok: str) -> int | None:
     """Kesme işaretinden önceki kısmın hecesi (Türkçe)."""
     acilim = okunus(kok)
     if acilim is not None:
         return _unlu_sayisi(acilim)
+    glued = _NUMBER_LETTERS.fullmatch(kok)
+    if glued is not None:
+        number = sayi_oku(glued.group(1))
+        letters = glued.group(2)
+        unit = UNITS_AFTER_NUMBER.get(letters)
+        rest = _unlu_sayisi(unit) if unit is not None else _tr_kok_hecesi(letters)
+        return None if number is None or rest is None else _unlu_sayisi(number) + rest
     if not kok.isalpha():
         return None
     n = _unlu_sayisi(kok)
@@ -215,8 +227,11 @@ def hece_say(word: str, lang: str = "tr") -> int | None:
       sayılar (``1916`` → 7) ve listedeki kısaltmalar (``cm`` → 4, ``vb.`` → 4).
       Listede olmayan ünlüsüz token tamamı büyük harfse harf adları tek heceli
       olduğu için hece = harf sayısı (``TBMM`` → 4); değilse ``None``.
-      Okunuşu çıkarılamayan biçimler (``3G``, ``10:30``, ``2.``) ve noktalama
-      → ``None``.
+      Saat ve skor (``10:30`` → 3), sıra sayısı (``3.`` → üçüncü → 3) ve
+      harfe bitişik sayı (``3kg`` → 4, ``100m`` → 3, ``3G`` → 2) okunuşuyla
+      (2026-10-01, Efe). Tek başına ``3.`` sıra sayısı sayılır; cümle sonundaki
+      sayıyı ayırmak bağlam ister (``toplam_hece``). Okunuşu çıkarılamayan
+      biçimler (``4x4``, tek başına ``m``) ve noktalama → ``None``.
     - EN — harflerden oluşan tokenler ``textstat.syllable_count`` ile, 0 verirse
       1 (``shh``). Sayılar okunuşuyla (``1918`` → nineteen eighteen → 4;
       Kincaid ve ark. 1975, 2026-09-17, Efe).
@@ -239,13 +254,64 @@ def hece_say(word: str, lang: str = "tr") -> int | None:
     return None if kok_hece is None else kok_hece + _unlu_sayisi(ek)
 
 
+_ORDINAL_TOKEN = re.compile(r"\d+\.")
+
+
+def _in_context(tokens: list[str], lang: str) -> list[str]:
+    """Turkish "3." is an ordinal only if a word or a comma follows it;
+    otherwise the dot ends the sentence and the number is a cardinal."""
+    if lang != "tr":
+        return tokens
+    out = []
+    for i, tok in enumerate(tokens):
+        if _ORDINAL_TOKEN.fullmatch(tok):
+            nxt = tokens[i + 1] if i + 1 < len(tokens) else ""
+            if not (nxt == "," or any(c.isalnum() for c in nxt)):
+                tok = tok[:-1]
+        out.append(tok)
+    return out
+
+
 def toplam_hece(tokens: list[str], lang: str = "tr") -> int:
     """Hecelenebilen tokenlerin toplam hece sayısı. T13 bunu kullanır."""
-    return sum(h for h in (hece_say(t, lang) for t in tokens) if h is not None)
+    return sum(_hece_sayilari(tokens, lang))
+
+
+def _symbol_targets(tokens: list[str], lang: str) -> dict[int, list[str]]:
+    """Number index → readings of the listed symbols that belong to it.
+
+    spaCy splits "%50" into "%" + "50". The symbol is not a word, but it is
+    read aloud with the number, so its reading joins that number: first the
+    number after it ("%50", "$5"), else the one before it ("25°"). Each symbol
+    joins one number only, so "5 + 3" reads "artı" once (2026-10-01, Efe).
+    """
+    semboller = SEMBOLLER[lang]
+
+    def is_number(i: int) -> bool:
+        return 0 <= i < len(tokens) and any(c.isdigit() for c in tokens[i])
+
+    targets: dict[int, list[str]] = {}
+    for i, tok in enumerate(tokens):
+        if tok not in semboller:
+            continue
+        hedef = i + 1 if is_number(i + 1) else i - 1 if is_number(i - 1) else None
+        if hedef is not None:
+            targets.setdefault(hedef, []).append(semboller[tok])
+    return targets
 
 
 def _hece_sayilari(tokens: list[str], lang: str) -> list[int]:
-    return [h for h in (hece_say(t, lang) for t in tokens) if h is not None]
+    tokens = _in_context(tokens, lang)
+    targets = _symbol_targets(tokens, lang)
+    sayilar = []
+    for i, tok in enumerate(tokens):
+        h = hece_say(tok, lang)
+        if h is None:
+            continue
+        for okunus_ in targets.get(i, []):
+            h += sum(hece_say(k, lang) or 0 for k in okunus_.split())
+        sayilar.append(h)
+    return sayilar
 
 
 def _ortalama_cv(degerler: list[int]) -> tuple[float, float]:
