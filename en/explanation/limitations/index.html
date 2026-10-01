@@ -1710,6 +1710,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#10-what-the-syllable-count-reads-aloud-and-what-it-skips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. What the syllable count reads aloud, and what it skips
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2236,6 +2247,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#10-what-the-syllable-count-reads-aloud-and-what-it-skips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. What the syllable count reads aloud, and what it skips
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2384,6 +2406,20 @@ shows which features this leaves unmeasurable in your own text.</p>
 <code>ParagraphStructureWarning</code> is raised. If you see it you have two options:
 re-extract the source text with paragraphs separated by blank lines, or leave
 the <code>paragraph</code> group out via <code>groups</code>.</p>
+<h3 id="10-what-the-syllable-count-reads-aloud-and-what-it-skips">10. What the syllable count reads aloud, and what it skips<a class="headerlink" href="#10-what-the-syllable-count-reads-aloud-and-what-it-skips" title="Permanent link">&para;</a></h3>
+<p>The readability formulas and the syllable features count numbers,
+abbreviations and symbols <strong>as they are read aloud</strong>, following the
+Çetinkaya-Uzun (2010) counting protocol: <code>1918</code> → bin dokuz yüz on sekiz
+(7 syllables), <code>cm</code> → santimetre, <code>%50</code> → yüzde elli, <code>3. kat</code> → üçüncü kat,
+<code>10:30</code> → on otuz, <code>3kg</code> → üç kilogram, <code>TBMM</code> → te-be-me-me.</p>
+<p>In Turkish, a dot after a number marks an ordinal when a word or a comma
+follows it (<code>3. kat</code>); otherwise it ends the sentence (<code>Sonuç 3.</code> → üç).</p>
+<p>Forms whose reading cannot be told from the text are not guessed; they are
+<strong>left out</strong> of the syllable count: a unit letter on its own (<code>m</code> may be metre
+or minute), symbols whose reading depends on context (<code>/</code>, <code>#</code>, <code>*</code>), and
+unlisted lowercase abbreviations without vowels. In text dense with symbols
+and abbreviations, the syllable count therefore comes out slightly lower than a
+hand count following the protocol.</p>
 
 
 
