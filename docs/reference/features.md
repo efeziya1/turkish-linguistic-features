@@ -256,14 +256,14 @@ published is a separate question — see the
 | `back_vowel_ratio` | share of back vowels | `back vowels / alphabet letters` | at least 1 alphabet letter | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) |
 | `harmony_fronting_ratio` | share of words obeying front/back vowel harmony (TR only) | `words whose vowels are all front or all back / words with 2+ vowels` | at least 1 word with 2 vowels | Göksel & Kerslake (2005) §3.1 (fronting harmony); exceptions §3.4 — the measure counts them as disharmonic |
 | `harmony_rounding_ratio` | share of words obeying rounding vowel harmony (TR only) | `words where every vowel after an unrounded one is unrounded and every vowel after a rounded one is close-rounded or open-unrounded / words with 2+ vowels` | at least 1 word with 2 vowels | Göksel & Kerslake (2005) §3.1 (rounding harmony); strictly a suffix phenomenon, measured here as a whole-word pattern |
-| `syllable_mean` | word-length distribution in syllables | `words with k syllables (6+ pooled) / syllabifiable words` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
-| `syllable_cv` | word-length distribution in syllables | `words with k syllables (6+ pooled) / syllabifiable words` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
-| `syllable_1_ratio` | share of words with 1 syllable | `words with k syllables (6+ pooled) / syllabifiable words` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
-| `syllable_2_ratio` | share of words with 2 syllables | `words with k syllables (6+ pooled) / syllabifiable words` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
-| `syllable_3_ratio` | share of words with 3 syllables | `words with k syllables (6+ pooled) / syllabifiable words` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
-| `syllable_4_ratio` | share of words with 4 syllables | `words with k syllables (6+ pooled) / syllabifiable words` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
-| `syllable_5_ratio` | share of words with 5 syllables | `words with k syllables (6+ pooled) / syllabifiable words` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
-| `syllable_6plus_ratio` | share of words with 6 or more syllables | `words with k syllables (6+ pooled) / syllabifiable words` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
+| `syllable_mean` | word-length distribution in syllables | `mean syllables per syllabifiable word` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
+| `syllable_cv` | word-length distribution in syllables | `population std / mean of syllables per syllabifiable word` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
+| `syllable_1_ratio` | share of words with 1 syllable | `words with 1 syllable / syllabifiable words` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
+| `syllable_2_ratio` | share of words with 2 syllables | `words with 2 syllables / syllabifiable words` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
+| `syllable_3_ratio` | share of words with 3 syllables | `words with 3 syllables / syllabifiable words` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
+| `syllable_4_ratio` | share of words with 4 syllables | `words with 4 syllables / syllabifiable words` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
+| `syllable_5_ratio` | share of words with 5 syllables | `words with 5 syllables / syllabifiable words` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
+| `syllable_6plus_ratio` | share of words with 6 or more syllables | `words with 6 or more syllables / syllabifiable words` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
 | `sentence_syllable_mean` | syllables per sentence | `mean syllables per sentence` | at least 1 sentence with a syllabifiable word | — |
 | `sentence_syllable_cv` | spread of syllables per sentence | `population std / mean` | at least 2 such sentences | — |
 
