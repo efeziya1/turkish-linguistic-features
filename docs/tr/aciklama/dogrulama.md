@@ -97,8 +97,8 @@ Hangi grupların doğrulandığı türle ilgili, tesadüf değil:
 | Grup | ✅ | 🟡 | 🔍 |
 |---|---|---|---|
 | `frequency_structure` | 22 | 0 | 2 |
-| `readability` | 11 | 3 | 2 |
-| `lexical` | 7 | 0 | 23 |
+| `readability` | 13 | 1 | 2 |
+| `lexical` | 7 | 0 | 22 |
 | `phonetic` | 0 | 0 | 12 |
 
 Okunabilirlik formülleri **pratik araçlardır** — yazarları formülü örnek

@@ -103,8 +103,8 @@ Which groups are verified follows from their genre, not from chance:
 | Group | ✅ | 🟡 | 🔍 |
 |---|---|---|---|
 | `frequency_structure` | 22 | 0 | 2 |
-| `readability` | 11 | 3 | 2 |
-| `lexical` | 7 | 0 | 23 |
+| `readability` | 13 | 1 | 2 |
+| `lexical` | 7 | 0 | 22 |
 | `phonetic` | 0 | 0 | 12 |
 
 Readability formulas are **practical instruments** — their authors publish
