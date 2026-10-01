@@ -127,7 +127,8 @@ class ZeyrekBackend:
 
     **Belirsizlik:** Zeyrek bir kelime için birden çok çözümleme döndürebilir
     (``yüz`` → organ / sayı / fiil). Kural **ilk çözümlemeyi al**. Bağlam
-    kullanılmıyor; bu bir sınırlama ve ``docs/limitations.md``'de yazılı.
+    kullanılmıyor; bu bir sınırlama ve sınırlılıklar §4'te yazılı
+    (``docs/tr/aciklama/sinirliliklar.md``).
     Ölçüldü (2026-09-18): eşit adaylar arasında Zeyrek kararlı bir sıralama
     tanımlamıyor, yani bu kelimelerde seçim keyfî.
     """
@@ -176,7 +177,7 @@ class ZeyrekBackend:
             return (("Unk", word, False),)
 
         # Belirsizlikte ilk çözümleme alınır; bağlam kullanılmıyor. Bu bir
-        # sınırlama ve `docs/limitations.md`'de yazılı. Zeyrek eşit adaylar
+        # sınırlama ve sınırlılıklar §4'te yazılı. Zeyrek eşit adaylar
         # arasında kararlı bir sıralama da tanımlamıyor (ölçüldü, 2026-09-18),
         # yani o kelimelerde seçim keyfî.
         return tuple((m.id_, yuzey, bool(m.derivational))
