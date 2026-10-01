@@ -1,9 +1,13 @@
 # Limitations
 
-This page says where the library is weak. Read it while writing your
+This page has two parts. The first says where the library is weak; the
+second covers points that are not weaknesses of the library but that you
+need to know when interpreting the results. Read both while writing your
 methods section.
 
-## 1. The sentence thresholds were calibrated on fiction only
+## Limitations of the library
+
+### 1. The sentence thresholds were calibrated on fiction only
 
 The `short_sent_ratio` and `long_sent_ratio` thresholds (TR 4/18, EN 7/39)
 were derived from the 15th and 85th percentiles of the sentence-length
@@ -19,7 +23,68 @@ they generalise to technical writing, transcripts, poetry or children's
 books. If you work in another genre, consider deriving the thresholds from
 your own corpus — [the method is here](../../threshold-calibration.md).
 
-## 2. Some features are this library's own derivations
+### 2. Eleven citations are secondary
+
+**11 of 145** citations carry `as cited in` — the primary source could not
+be obtained and the formula was taken from the citing work. For example:
+
+```text
+Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)
+```
+
+Affected measures include `herdan_c`, `brunet_w`, `dugast_u`, `yule_k`,
+`simpson_d`, `heaps_beta` and `lix`. The formulas were verified, but not
+against the **primary source's own wording**.
+
+Carry the "as cited in" through into your own methods section. Do not
+present it as though you read the primary.
+
+### 3. The spaCy model is part of the result
+
+Sentence splitting, POS tags and dependency features come from the model.
+Change the model and the numbers change.
+
+Verified combination: spaCy 3.8.16, `en_core_web_sm` 3.8.0,
+`tr_core_news_md` 1.0.
+
+The Turkish model has two oddities that look like bugs (a version-number
+mismatch and a `W094` warning); both are explained in the
+[tutorial](../getting-started.md#2-install-the-language-data) and both are
+harmless.
+
+### 4. Turkish morphology depends on Zeyrek
+
+The 24 features in the `morphological_zeyrek` group come from Zeyrek, a
+Python port of Zemberek's morphotactics. A word Zeyrek cannot analyse drops
+out of those features.
+
+Zeyrek is an **analyser, not a disambiguator**: it can return several
+analyses for the same surface form and does not pick the right one from
+context.
+
+### 5. Half the candidates are still unverified
+
+141 rows are not verification candidates at all (plain definitions, tag
+schemes, or our own derivations). Of the remaining **92 candidates, 48 are done** (47 ✅ + 1 🟡)
+and **44 are 🔍 open**.
+
+The reason is in [The verification system](verification.md): most sources
+publish a formula but never a worked numerical example. This is most
+pronounced in the `lexical` group — 7 of its 29 candidates are verified.
+
+### 6. The package is not on PyPI yet
+
+Early development (0.x). You install from a clone. Until 1.0, key
+names and the public API may change; changes are announced in the release
+notes.
+
+## Things to know when using it
+
+These are not shortcomings of the library: they are how the measures
+themselves behave, an input requirement, or an attribution rule. They still
+affect your results.
+
+### 7. Some features are this library's own derivations
 
 A few features are not named measures from the literature but definitions
 this library made. Their citations say so plainly:
@@ -44,46 +109,7 @@ The reason is simple: Shannon defined the entropy, not its standard deviation
 across segments. The first wording implies a measure the reader could look up
 in the source and find.
 
-## 3. Eleven citations are secondary
-
-**11 of 145** citations carry `as cited in` — the primary source could not
-be obtained and the formula was taken from the citing work. For example:
-
-```text
-Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)
-```
-
-Affected measures include `herdan_c`, `brunet_w`, `dugast_u`, `yule_k`,
-`simpson_d`, `heaps_beta` and `lix`. The formulas were verified, but not
-against the **primary source's own wording**.
-
-Carry the "as cited in" through into your own methods section. Do not
-present it as though you read the primary.
-
-## 4. The spaCy model is part of the result
-
-Sentence splitting, POS tags and dependency features come from the model.
-Change the model and the numbers change.
-
-Verified combination: spaCy 3.8.16, `en_core_web_sm` 3.8.0,
-`tr_core_news_md` 1.0.
-
-The Turkish model has two oddities that look like bugs (a version-number
-mismatch and a `W094` warning); both are explained in the
-[tutorial](../getting-started.md#2-install-the-language-data) and both are
-harmless.
-
-## 5. Turkish morphology depends on Zeyrek
-
-The 24 features in the `morphological_zeyrek` group come from Zeyrek, a
-Python port of Zemberek's morphotactics. A word Zeyrek cannot analyse drops
-out of those features.
-
-Zeyrek is an **analyser, not a disambiguator**: it can return several
-analyses for the same surface form and does not pick the right one from
-context.
-
-## 6. Sensitivity to text length
+### 8. Sensitivity to text length
 
 Most lexical richness measures change with length. `ttr` is the extreme
 case: it always falls as a text grows.
@@ -95,7 +121,7 @@ need at least 100 words. If you compare texts of different lengths, bring
 them to the same size with `segment_size` first
 ([how](../how-to/segmenting.md)).
 
-## 7. Paragraph features depend on how the input is formatted
+### 9. Paragraph features depend on how the input is formatted
 
 The five `para_*` features find paragraph boundaries from **blank lines**. A
 single line break does not count as one — otherwise every line of a
@@ -114,19 +140,3 @@ If a text longer than 1000 words yields no paragraph boundary at all, a
 `ParagraphStructureWarning` is raised. If you see it you have two options:
 re-extract the source text with paragraphs separated by blank lines, or leave
 the `paragraph` group out via `groups`.
-
-## 8. Half the candidates are still unverified
-
-141 rows are not verification candidates at all (plain definitions, tag
-schemes, or our own derivations). Of the remaining **92 candidates, 48 are done** (47 ✅ + 1 🟡)
-and **44 are 🔍 open**.
-
-The reason is in [The verification system](verification.md): most sources
-publish a formula but never a worked numerical example. This is most
-pronounced in the `lexical` group — 7 of its 30 candidates are verified.
-
-## 9. The package is not on PyPI yet
-
-Early development (0.x). You install from a clone. Until 1.0, key
-names and the public API may change; changes are announced in the release
-notes.
