@@ -21,15 +21,15 @@ yanlış okunuyor.
 
 | Katman | Ne garanti eder | Kapsam |
 |---|---|---|
-| **Formül eşdeğerliği** | Kod, kaynaktaki denklemi uyguluyor. Künye sayfa ve denklem numarası verir; testler formülü ve sınır durumlarını sınar. | Künyesi olan 141 öznitelik (Türkçe; 67'si saf tanım, kaynağı yok) |
-| **Kaynak sayısı doğrulaması** | Kaynağın *yayımladığı bir sayı* bulundu ve bizim çıktımızla karşılaştırıldı. | 92 aday rapor satırının 48'i (Türkçe) |
+| **Formül eşdeğerliği** | Kod, kaynaktaki denklemi uyguluyor. Künye sayfa ve denklem numarası verir; testler formülü ve sınır durumlarını sınar. | Künyesi olan 140 öznitelik (Türkçe; 68'i saf tanım, kaynağı yok) |
+| **Kaynak sayısı doğrulaması** | Kaynağın *yayımladığı bir sayı* bulundu ve bizim çıktımızla karşılaştırıldı. | 91 aday rapor satırının 48'i (Türkçe) |
 
 İkinci katman ek bir çalışmadır, birincinin koşulu değil. Bir öznitelik "🔍
 açık" diye işaretliyse **formülü şüpheli değildir**; karşılaştırılacak
 yayımlanmış bir sayı bulunamamıştır. Yule (1944) K'yı tanımlar, bir romanda
 K'nın kaç çıktığını basmaz — basmadığı için bizim K'mız yanlış olmuyor.
 
-Her özniteliğin formülü yazılıdır. Künyesi olmayan 67 öznitelik saf tanımdır
+Her özniteliğin formülü yazılıdır. Künyesi olmayan 68 öznitelik saf tanımdır
 (bir harfin ya da noktalama işaretinin payı gibi); bir kaynağa dayanmadıkları
 için kaynakla eşlenecek bir denklemleri de yoktur.
 
@@ -44,7 +44,7 @@ Bu ayrım raporun en önemli parçası. 208 özniteliğin bir kısmı, tanımı 
 | ⚫ **etiket şeması** | Bir ölçü değil, dış bir şemanın kategorisini sayıyor. `pos_noun` → UD, `case_loc_ratio` → Zeyrek. **Şema kategori tanımlar, ölçüm yayımlamaz** — de Marneffe'in makalesi "morph_case_loc = 0,07" diye bir sayı basmaz, basamaz. |
 | 🔧 **türev** | Formül bir kaynaktan, **uygulaması bizden**. `entropy_std` Shannon'ın entropisidir ama parçalar arası standart sapması bizim; `long_sent_ratio`'nun eşiği kendi kalibrasyonumuzdan gelir. Bu ölçüleri kimse yayımlamadı — kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
 
-Türkçe tarafında **141 satır** bu üçünden biri. Geriye **92 doğrulama
+Türkçe tarafında **142 satır** bu üçünden biri. Geriye **91 doğrulama
 adayı** kalıyor. Gerçek payda budur.
 
 ## Aday satırların dört durumu
@@ -56,7 +56,7 @@ adayı** kalıyor. Gerçek payda budur.
 | 🔍 **açık** | Kaynak formülü veriyor ama uygulanmış bir örnek vermiyor. Doğrulanabilir, henüz doğrulanmadı. |
 | ❌ **uyuşmazlık** | **Açıklanmamış** fark. **Yayın kapısı: bir tane bile varsa sürüm çıkmaz.** |
 
-Bugünkü durum: **92 adayın 48'i bitmiş** (47 ✅ + 1 🟡), 44'ü 🔍 açık.
+Bugünkü durum: **91 adayın 48'i bitmiş** (47 ✅ + 1 🟡), 43'ü 🔍 açık.
 
 Tolerans **0,05**. Kaynaklar ara değerleri yuvarlayarak bastığı için mutlak
 eşitlik beklenmez.
@@ -81,7 +81,7 @@ sayı tutuyorsa yalnız formül değil, ona giden bütün adımlar doğrudur.
 ve sözcük/cümle 4". Formülü ve katsayıları doğrular, boru hattını
 doğrulamaz. Kaynak bir metin yayımlamamışsa elde olan budur.
 
-## Neden 44 satır hâlâ 🔍 açık
+## Neden 43 satır hâlâ 🔍 açık
 
 Kaynak formülü yayımlamış ama o formülü bir metne uygulayıp sonucu basmamış.
 Bu, nicel dilbilim literatüründe **olağandır**. Yule (1944) K'yı tanımlar,
@@ -99,7 +99,7 @@ Hangi grupların doğrulandığı türle ilgili, tesadüf değil:
 | `frequency_structure` | 22 | 0 | 2 |
 | `readability` | 13 | 1 | 2 |
 | `lexical` | 7 | 0 | 22 |
-| `phonetic` | 0 | 0 | 12 |
+| `phonetic` | 0 | 0 | 11 |
 
 Okunabilirlik formülleri **pratik araçlardır** — yazarları formülü örnek
 metinle birlikte yayımlar, çünkü amaç başkasının uygulayabilmesidir.

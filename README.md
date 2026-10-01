@@ -4,8 +4,8 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23009540.svg)](https://doi.org/10.5281/zenodo.23009540)
 
 Extracts 208 quantitative linguistic features from Turkish text and 180 from
-English. Every feature has its formula written out; 141 of the Turkish features
-and 116 of the English ones cite a source in the literature, and the rest are
+English. Every feature has its formula written out; 140 of the Turkish features
+and 115 of the English ones cite a source in the literature, and the rest are
 plain definitions (such as a letter's share of the text). The
 [verification report](docs/verification-report.md) shows which ones have been
 checked against a number their source published. Documentation:

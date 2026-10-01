@@ -25,7 +25,7 @@ your own corpus — [the method is here](../../threshold-calibration.md).
 
 ### 2. Eleven citations are secondary
 
-**11 of 145** citations carry `as cited in` — the primary source could not
+**11 of 144** citations carry `as cited in` — the primary source could not
 be obtained and the formula was taken from the citing work. For example:
 
 ```text
@@ -64,9 +64,9 @@ context.
 
 ### 5. Half the candidates are still unverified
 
-141 rows are not verification candidates at all (plain definitions, tag
-schemes, or our own derivations). Of the remaining **92 candidates, 48 are done** (47 ✅ + 1 🟡)
-and **44 are 🔍 open**.
+142 rows are not verification candidates at all (plain definitions, tag
+schemes, or our own derivations). Of the remaining **91 candidates, 48 are done** (47 ✅ + 1 🟡)
+and **43 are 🔍 open**.
 
 The reason is in [The verification system](verification.md): most sources
 publish a formula but never a worked numerical example. This is most

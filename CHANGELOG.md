@@ -7,12 +7,19 @@
 - Turkish syllable counts now read ordinals (`3. kat` → üçüncü), times and
   scores (`10:30` → on otuz) and numbers glued to letters (`3kg` → üç
   kilogram, `100m` → yüz metre, `3G` → üç ge). These forms used to be skipped
-  or, in the readability formulas, counted as cardinals.
-- Syllable features (both languages) now add the reading of a listed symbol to
-  the number next to it (`%50` → yüzde elli, `$5` → five dollars), as the
-  readability formulas already did. The symbol still does not count as a word. The readability
+  or, in the readability formulas, counted as cardinals. The readability
   formulas and the syllable features change on texts that contain them; no
   verification row changed.
+- Syllable features (both languages) now add the reading of a listed symbol to
+  the number next to it (`%50` → yüzde elli, `$5` → five dollars), as the
+  readability formulas already did. The symbol still does not count as a word.
+- Registry metadata of `syllable_mean` and `syllable_cv` (description,
+  formula, requirement, citation) had been copied from the syllable-bucket
+  keys. `syllable_mean` now cites Ateşman (1997) p.73, which gives mean
+  syllables per word as a Turkish norm; `syllable_cv` has no citation (not a
+  named measure) and requires at least 2 syllabifiable words, as the code
+  always did. Cited features: TR 141 → 140, EN 116 → 115; verification
+  candidates: TR 92 → 91, EN 81 → 80. No values change.
 
 ### Removed
 
