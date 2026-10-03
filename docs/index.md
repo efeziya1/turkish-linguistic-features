@@ -65,8 +65,8 @@ oz["atesman"]             # 77.2479  (Ateşman 1997 okunabilirlik)
 | Künyesi olan öznitelik | 140 | 115 |
 | Künyesi olmayan, saf tanım | 68 | 65 |
 | Doğrulama adayı rapor satırı | 91 | 80 |
-| — kaynağın sayısıyla tolerans içinde tutan (✅) | 47 | 36 |
-| — tolerans dışında, nedeni açıklanmış (🟡) | 1 | 2 |
+| — kaynağın sayısıyla tolerans içinde tutan (✅) | 46 | 35 |
+| — tolerans dışında, nedeni açıklanmış (🟡) | 2 | 3 |
 
 Kaynakçada 45 eser var (iki dil için tek kaynakça).
 

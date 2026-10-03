@@ -28,8 +28,9 @@ number to look for:
 | ⚫ **tag scheme** | Not a measure but a count of an external scheme's categories (`pos_noun` → UD; `case_loc_ratio` → Zeyrek). A scheme defines categories; it does not publish measurements. |
 | 🔧 **derivative** | The formula comes from a source, **the application is this library's**. `entropy_std` is Shannon's entropy, but taking its standard deviation across segments is ours; `long_sent_ratio`'s threshold comes from our own calibration. Nobody has published this measure, so there is no number to compare against. Testing it against our own calibration would be reading our own answer sheet. |
 
-Tolerance 0.05. Sources print rounded intermediate values, so exact
-equality is not expected.
+The tolerance is **1% relative** to the published value. Sources print rounded
+intermediate values, so exact equality is not expected; a relative tolerance
+means the same thing at every scale.
 
 **Exceeding the tolerance does not automatically make a row ❌.** What decides
 is not the size of the difference but **whether its cause is known**: if the
@@ -61,8 +62,8 @@ A key may have more than one worked example in its source; each one is its own r
 
 | Status | Rows |
 |---|---|
-| ✅ exact | 47 |
-| 🟡 documented deviation | 1 |
+| ✅ exact | 46 |
+| 🟡 documented deviation | 2 |
 | 🔍 open — no worked example in source | 43 |
 
 
@@ -81,7 +82,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26) | formula | 6.438 | 6.438 | +0.000 | ✅ |
 | `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26) | formula | 6.395 | 6.395 | +0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formula | 0.665 | 0.665 | -0.000 | ✅ |
-| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; source printed 0.590 (typo) | formula | 0.590 | 0.599 | +0.009 | ✅ |
+| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; source printed 0.590 (typo) | formula | 0.590 | 0.599 | +0.009 | 🟡 |
 | `hapax_percentage` | QUITA §6.1.6 | Text 1 · 98/179 | formula | 0.547 | 0.547 | +0.000 | ✅ |
 | `hapax_percentage` | QUITA §6.1.6 | Text 2 · 92/202 | formula | 0.455 | 0.455 | +0.000 | ✅ |
 | `mtld` | McCarthy & Jarvis (2010) p.385 | partial factor · TTR .887 → 40.4% | formula | 0.404 | 0.404 | +0.000 | ✅ |
@@ -126,6 +127,8 @@ A key may have more than one worked example in its source; each one is its own r
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | H values of the easiest text | formula | 3.030 | 3.025 | -0.005 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | H values of the hardest text | formula | 18.820 | 18.815 | -0.005 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | mean H values | formula | 8.300 | 8.341 | +0.041 | ✅ |
+
+**`ttr` deviation:** The source's own counts (V=121, N=202) give 121/202 = 0.599; the printed 0.590 does not match that arithmetic (typo). Our value follows the arithmetic; the difference is 1.5% of the published value.
 
 **`ari` deviation:** The source's numbers were produced **by hand** in 1975 with a mechanical counter attached to a typewriter (Appendix B, ARI instructions). In 17 of the 18 passages, the stroke count that would yield the source's ARI is 0.996-1.041 times ours — a difference of a few characters. Passage 2 is an outlier (ratio 1.145), and there the source's own two numbers contradict each other: Table 1's ARI of 20.3 requires 6.269 strokes per word, while the text's actual value is 5.475; moreover, the words per sentence implied by that ARI give an FKGL of 18.69, whereas Table 2 printed 16.7. Our stroke definition was tested separately: counting spaces raises the difference from 0.54 to 4.24, so counting without spaces is correct.
 
@@ -340,8 +343,8 @@ A key may have more than one worked example in its source; each one is its own r
 
 | Status | Rows |
 |---|---|
-| ✅ exact | 36 |
-| 🟡 documented deviation | 2 |
+| ✅ exact | 35 |
+| 🟡 documented deviation | 3 |
 | 🔍 open — no worked example in source | 42 |
 
 
@@ -360,7 +363,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26) | formula | 6.438 | 6.438 | +0.000 | ✅ |
 | `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26) | formula | 6.395 | 6.395 | +0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formula | 0.665 | 0.665 | -0.000 | ✅ |
-| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; source printed 0.590 (typo) | formula | 0.590 | 0.599 | +0.009 | ✅ |
+| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; source printed 0.590 (typo) | formula | 0.590 | 0.599 | +0.009 | 🟡 |
 | `hapax_percentage` | QUITA §6.1.6 | Text 1 · 98/179 | formula | 0.547 | 0.547 | +0.000 | ✅ |
 | `hapax_percentage` | QUITA §6.1.6 | Text 2 · 92/202 | formula | 0.455 | 0.455 | +0.000 | ✅ |
 | `mtld` | McCarthy & Jarvis (2010) p.385 | partial factor · TTR .887 → 40.4% | formula | 0.404 | 0.404 | +0.000 | ✅ |
@@ -395,6 +398,8 @@ A key may have more than one worked example in its source; each one is its own r
 | `coleman_liau` | Coleman & Liau (1975) p.284 | composition of the two equations · 13 words, 2 sentences | formula | 7.704 | 7.705 | +0.000 | ✅ |
 | `coleman_liau` | Coleman & Liau (1975) p.284, Table 1 | cloze 40.4% → grade 12 | formula | 12.000 | 11.994 | -0.006 | ✅ |
 | `flesch_kincaid_grade` | Kincaid et al. (1975) p.12, Table 2 | Appendix A · 18 passages, mean | end-to-end | 10.700 | 10.362 | -0.338 | 🟡 |
+
+**`ttr` deviation:** The source's own counts (V=121, N=202) give 121/202 = 0.599; the printed 0.590 does not match that arithmetic (typo). Our value follows the arithmetic; the difference is 1.5% of the published value.
 
 **`ari` deviation:** The source's numbers were produced **by hand** in 1975 with a mechanical counter attached to a typewriter (Appendix B, ARI instructions). In 17 of the 18 passages, the stroke count that would yield the source's ARI is 0.996-1.041 times ours — a difference of a few characters. Passage 2 is an outlier (ratio 1.145), and there the source's own two numbers contradict each other: Table 1's ARI of 20.3 requires 6.269 strokes per word, while the text's actual value is 5.475; moreover, the words per sentence implied by that ARI give an FKGL of 18.69, whereas Table 2 printed 16.7. Our stroke definition was tested separately: counting spaces raises the difference from 0.54 to 4.24, so counting without spaces is correct.
 

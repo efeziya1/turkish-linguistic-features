@@ -64,7 +64,7 @@ seçmez.
 
 142 satır doğrulama adayı bile değil (saf tanım, etiket şeması ya da
 bizim türevimiz).
-Kalan **91 adayın 48'i** bitmiş (47 ✅ + 1 🟡), **43'ü 🔍 açık**.
+Kalan **91 adayın 48'i** bitmiş (46 ✅ + 2 🟡), **43'ü 🔍 açık**.
 
 Sebebi [doğrulama sistemi](dogrulama.md) sayfasında: kaynakların çoğu
 formülü yayımlar, o formülün uygulandığı bir sayısal örnek vermez. Bu

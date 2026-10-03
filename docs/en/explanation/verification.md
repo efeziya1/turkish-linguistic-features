@@ -58,11 +58,14 @@ On the Turkish side **142 rows** are one of these three. That leaves
 | 🔍 **open** | The source gives the formula but never applies it to anything. Verifiable, not yet verified. |
 | ❌ **mismatch** | An **unexplained** difference. **Release gate: a single one blocks a release.** |
 
-Where things stand today: **48 of the 91 candidates are done** (47 ✅ +
-1 🟡), 43 are 🔍 open.
+Where things stand today: **48 of the 91 candidates are done** (46 ✅ +
+2 🟡), 43 are 🔍 open.
 
-The tolerance is **0.05**. Sources print rounded intermediate values, so
-exact equality is not expected.
+The tolerance is **1% of the published value** (relative). Sources print
+rounded intermediate values, so exact equality is not expected. A relative
+tolerance means the same at every scale: the old fixed 0.05 was far too loose
+for ratios between 0 and 1 (`ttr`) and far too tight for values in the
+hundreds (`curve_length` ≈ 134).
 
 **Exceeding the tolerance does not automatically make a row ❌.** What decides
 is not the size of the difference but **whether its cause is known**. If the
@@ -104,7 +107,7 @@ Which groups are verified follows from their genre, not from chance:
 |---|---|---|---|
 | `frequency_structure` | 22 | 0 | 2 |
 | `readability` | 13 | 1 | 2 |
-| `lexical` | 7 | 0 | 22 |
+| `lexical` | 6 | 1 | 22 |
 | `phonetic` | 0 | 0 | 11 |
 
 Readability formulas are **practical instruments** — their authors publish
@@ -130,9 +133,11 @@ comparison can be made directly:
 | `curve_length` Text 2 | 134.2787 | 134.27870 |
 | `entropy` Text 1 | 6.438043 | 6.438043 |
 
-All twenty-eight comparisons fall within tolerance. Twenty-seven of them
-deviate by zero. The remaining one deviates by 0.009, and the cause is plain:
-for `ttr` on Text 2 the source printed 0.590, but dividing the numbers it
+Twenty-seven of the twenty-eight comparisons fall within tolerance (the
+largest relative difference is under 0.1%, and most deviate by zero). The
+remaining one deviates by 0.009, which is 1.5% of the published value; it is
+outside the 1% tolerance, so the row is 🟡, and the cause is plain: for `ttr`
+on Text 2 the source printed 0.590, but dividing the numbers it
 supplies itself gives 121 ÷ 202 = **0.599**. The published figure has a typo;
 ours is the arithmetically correct value.
 
@@ -172,8 +177,8 @@ both the input and the answer — the best material verification can hope for. A
 **How large is the deviation?** The mean of the per-passage absolute
 differences is **0.54 ARI points**. The −0.485 shown in the report is a
 different number: the gap between the mean the source printed in Table 1
-(12.3) and our mean over the 18 passages. Both are far above the 0.05
-tolerance, so ✅ is out.
+(12.3) and our mean over the 18 passages. Relative to the published
+value that is about 3.9% (0.485 ÷ 12.3), far above the 1% tolerance, so ✅ is out.
 
 **Why is it not ❌?** Because we did not guess where the deviation comes from, we
 measured it. Both formulas take "strokes per word" (letters and digits) as an

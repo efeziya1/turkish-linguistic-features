@@ -65,7 +65,7 @@ context.
 ### 5. Half the candidates are still unverified
 
 142 rows are not verification candidates at all (plain definitions, tag
-schemes, or our own derivations). Of the remaining **91 candidates, 48 are done** (47 ✅ + 1 🟡)
+schemes, or our own derivations). Of the remaining **91 candidates, 48 are done** (46 ✅ + 2 🟡)
 and **43 are 🔍 open**.
 
 The reason is in [The verification system](verification.md): most sources

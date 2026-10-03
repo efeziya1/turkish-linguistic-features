@@ -129,9 +129,15 @@ TUREV_ANAHTARLARI = frozenset({
 # açık listede kalır.
 SEMA_ONEKLERI = ("de Marneffe et al. (2021)", "Zeyrek (a Python port")
 
-# Birebir sayılmak için gereken yakınlık. Kaynaklar ara değerleri yuvarlayarak
-# bastığı için mutlak eşitlik beklenmiyor.
-TOLERANS = 0.05
+# Birebir sayılmak için gereken yakınlık: yayımlanan değerin %1'i. Kaynaklar
+# ara değerleri yuvarlayarak bastığı için mutlak eşitlik beklenmiyor. Göreli
+# olmasının nedeni ölçekten bağımsızlık: sabit mutlak fark 0-1 arası oranlarda
+# (ttr) çok gevşek, yüzlerle ölçülen değerlerde (curve_length ≈ 134) çok
+# sıkıydı. ``abs_tol`` bir tolerans değil, kayan nokta güvenliği: beklenen
+# değer 0 iken (Ateşman'ın "en zor metin" ucu) göreli tolerans da 0'a düşer ve
+# en küçük kayan nokta artığı satırı düşürürdü.
+TOLERANS_GORELI = 0.01
+_MUTLAK_TABAN = 1e-9
 
 
 # Kanıtın türü. Aradaki fark önemli: uçtan uca karşılaştırma kaynağın
@@ -594,8 +600,9 @@ _QUITA_ORNEKLER: dict[str, tuple[str, float, float, str | dict[str, str],
                                  str | dict[str, str]]] = {
     # Text 2'de kaynak 0,590 basmış ama kendi verdiği sayılar 121/202 = 0,599
     # veriyor: yayımlanmış değerde basım hatası var, bizimki aritmetik olarak
-    # doğru olan. Sapma (+0,009) tolerans içinde kaldığı için satır ✅; neden
-    # olduğu açıklama sütununda duruyor (2026-09-24, Efe).
+    # doğru olan. Sapma (+0,009) yayımlanan değerin %1,5'i, yani %1 toleransın
+    # dışında; nedeni (aşağıdaki _QUITA_T2_GEREKCE) yazılı olduğu için satır 🟡
+    # (2026-09-24 Efe; tolerans göreli yapılınca ✅'den 🟡'ye geçti).
     "ttr": ("§6.1.1", 0.665, 0.59,
             "Text 1 · V/N = 119/179",
             _iki("Text 2 · V/N = 121/202 = 0.599; kaynak 0.590 basmış (baskı hatası)",
@@ -635,13 +642,26 @@ _QUITA_ORNEKLER: dict[str, tuple[str, float, float, str | dict[str, str],
                          "Text 1 · M=24.01416249", "Text 2 · M=25.81931678"),
 }
 
+# Text 2 satırında tolerans dışı sapmanın ölçülmüş nedeni.
+_QUITA_T2_GEREKCE: dict[str, dict[str, str]] = {
+    "ttr": _iki(
+        "Kaynağın kendi sayıları (V=121, N=202) 121/202 = 0,599 verir; basılan "
+        "0,590 bu aritmetikle tutmuyor (baskı hatası). Bizim değer aritmetiğe "
+        "uyuyor; fark yayımlanan değerin %1,5'i.",
+        "The source's own counts (V=121, N=202) give 121/202 = 0.599; the "
+        "printed 0.590 does not match that arithmetic (typo). Our value "
+        "follows the arithmetic; the difference is 1.5% of the published "
+        "value."),
+}
+
 for _anahtar, (_bolum, _b1, _b2, _o1, _o2) in _QUITA_ORNEKLER.items():
     KARSILASTIRMALAR.setdefault(_anahtar, []).extend([
         Karsilastirma(f"QUITA {_bolum}", _o1, _b1,
                       (lambda a=_anahtar: _quita(a, _T1)), tur=FORMUL),
         Karsilastirma(
             f"QUITA {_bolum}", _o2, _b2,
-            (lambda a=_anahtar: _quita(a, _T2)), tur=FORMUL),
+            (lambda a=_anahtar: _quita(a, _T2)),
+            gerekce=_QUITA_T2_GEREKCE.get(_anahtar, ""), tur=FORMUL),
     ])
 
 
@@ -695,7 +715,8 @@ def rapor_satirlari(lang: str = "tr") -> list[dict[str, object]]:
             # tolerans, kaynağın ara değerleri yuvarlaması için var.
             # Tolerans dışı bir fark NEDENİ YAZILIYSA 🟡, yazılı değilse ❌
             # — ❌ yayın kapısını kapatır.
-            if abs(fark) <= TOLERANS:
+            if math.isclose(bizim, kars.beklenen, rel_tol=TOLERANS_GORELI,
+                            abs_tol=_MUTLAK_TABAN):
                 durum = BIREBIR
             elif gerekce:
                 durum = SAPMA
@@ -750,8 +771,9 @@ Aşağıdaki üç durum **doğrulama adayı değildir** — aranacak bir sayı y
 | ⚫ **etiket şeması** | Bir ölçü değil, dış bir şemanın kategorisini sayıyor (`pos_noun` → UD; `case_loc_ratio` → Zeyrek). Şema kategori tanımlar, ölçüm yayımlamaz. |
 | 🔧 **türev** | Formül bir kaynaktan, **uygulaması bu kütüphaneden**. `entropy_std` Shannon'ın entropisidir ama parçalar arası standart sapması bizim; `long_sent_ratio`'nun eşiği kendi kalibrasyonumuzdan gelir. Kimse bu ölçüyü yayımlamadı, dolayısıyla karşılaştırılacak sayı da yok. Kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
 
-Tolerans {tolerans}. Kaynaklar ara değerleri yuvarlayarak bastığı için mutlak
-eşitlik beklenmiyor.
+Tolerans yayımlanan değerin **%1'i** (göreli). Kaynaklar ara değerleri
+yuvarlayarak bastığı için mutlak eşitlik beklenmiyor; göreli tolerans her
+ölçekte aynı anlama gelir.
 
 **Toleransı aşan fark otomatik olarak ❌ değildir.** Belirleyici olan farkın
 büyüklüğü değil, **nedeninin bilinip bilinmediğidir**: nedeni ölçülmüş ve
@@ -803,8 +825,9 @@ number to look for:
 | ⚫ **tag scheme** | Not a measure but a count of an external scheme's categories (`pos_noun` → UD; `case_loc_ratio` → Zeyrek). A scheme defines categories; it does not publish measurements. |
 | 🔧 **derivative** | The formula comes from a source, **the application is this library's**. `entropy_std` is Shannon's entropy, but taking its standard deviation across segments is ours; `long_sent_ratio`'s threshold comes from our own calibration. Nobody has published this measure, so there is no number to compare against. Testing it against our own calibration would be reading our own answer sheet. |
 
-Tolerance {tolerans}. Sources print rounded intermediate values, so exact
-equality is not expected.
+The tolerance is **1% relative** to the published value. Sources print rounded
+intermediate values, so exact equality is not expected; a relative tolerance
+means the same thing at every scale.
 
 **Exceeding the tolerance does not automatically make a row ❌.** What decides
 is not the size of the difference but **whether its cause is known**: if the
@@ -1033,7 +1056,7 @@ def uret(dil: str = "tr") -> str:
     kaynak adları registry'den geldiği için zaten İngilizce.
     """
     m = _METIN[dil]
-    parcalar = [_BASLIK_DIL[dil].replace("{tolerans}", str(TOLERANS))]
+    parcalar = [_BASLIK_DIL[dil]]
     for lang in ("tr", "en"):
         satirlar = rapor_satirlari(lang)
         n_anahtar = len({s["anahtar"] for s in satirlar})
