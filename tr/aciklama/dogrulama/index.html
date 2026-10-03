@@ -2345,9 +2345,11 @@ adayı</strong> kalıyor. Gerçek payda budur.</p>
 </tr>
 </tbody>
 </table>
-<p>Bugünkü durum: <strong>91 adayın 48'i bitmiş</strong> (47 ✅ + 1 🟡), 43'ü 🔍 açık.</p>
-<p>Tolerans <strong>0,05</strong>. Kaynaklar ara değerleri yuvarlayarak bastığı için mutlak
-eşitlik beklenmez.</p>
+<p>Bugünkü durum: <strong>91 adayın 48'i bitmiş</strong> (46 ✅ + 2 🟡), 43'ü 🔍 açık.</p>
+<p>Tolerans yayımlanan değerin <strong>%1'i</strong> (göreli). Kaynaklar ara değerleri
+yuvarlayarak bastığı için mutlak eşitlik beklenmez. Göreli tolerans her ölçekte
+aynı şeyi söyler: eskiden sabit 0,05 fark, 0–1 arası oranlarda (<code>ttr</code>) çok
+gevşek, yüzlerle ölçülen değerlerde (<code>curve_length</code> ≈ 134) çok sıkıydı.</p>
 <p><strong>Toleransı aşan fark otomatik olarak ❌ değildir.</strong> Belirleyici olan farkın
 büyüklüğü değil, <strong>nedeninin bilinip bilinmediğidir</strong>. Nedeni ölçülmüş ve
 yazılmışsa satır 🟡 olur; yazılmamışsa ❌ olur ve sürüm çıkmaz.</p>
@@ -2395,8 +2397,8 @@ karşılaştırmayı takip eder.</p>
 </tr>
 <tr>
 <td><code>lexical</code></td>
-<td>7</td>
-<td>0</td>
+<td>6</td>
+<td>1</td>
 <td>22</td>
 </tr>
 <tr>
@@ -2448,11 +2450,12 @@ göstergelerin tek girdisi olduğu için karşılaştırma doğrudan yapılabili
 </tr>
 </tbody>
 </table>
-<p>Yirmi sekiz karşılaştırmanın <strong>hepsi</strong> tolerans içinde. Yirmi yedisinde
-sapma sıfır. Kalan bir tanesinde sapma 0,009 ve nedeni belli: <code>ttr</code> Text 2 için
-kaynak 0,590 basmış, ama kendi verdiği sayıları bölünce 121 ÷ 202 = <strong>0,599</strong>
-çıkıyor. Yayımlanmış sayıda basım hatası var; bizim değerimiz aritmetik olarak
-doğru olan.</p>
+<p>Yirmi sekiz karşılaştırmanın yirmi yedisi tolerans içinde (en büyük göreli
+fark %0,1'in altında; çoğunda sapma sıfır). Kalan bir tanesinde sapma 0,009,
+yani yayımlanan değerin %1,5'i; %1 toleransın dışında kaldığı için satır 🟡 ve
+nedeni belli: <code>ttr</code> Text 2 için kaynak 0,590 basmış, ama kendi verdiği sayıları
+bölünce 121 ÷ 202 = <strong>0,599</strong> çıkıyor. Yayımlanmış sayıda basım hatası var;
+bizim değerimiz aritmetik olarak doğru olan.</p>
 <p>Depoda duran şey iki sıklık dağılımı: 119 ve 121 tam sayı. Metinlerin kendisi
 telifli (Orwell) ve depoya girmiyor; sayılardan metin geri kurulamaz.</p>
 <p><strong><code>mtld</code></strong> — Bu ölçü metni tarayıp TTR 0,72'nin altına her düştüğünde bir
@@ -2480,7 +2483,7 @@ boru hattımızdan geçirdik.</p>
 <p><strong>Sapma ne kadar?</strong> Pasaj başına mutlak farkların ortalaması <strong>0,54 ARI
 puanı</strong>. Raporda görünen −0,485 başka bir sayıdır: kaynağın Tablo 1'de
 bastığı ortalama (12,3) ile bizim 18 pasajlık ortalamamız arasındaki fark.
-İkisi de tolerans olan 0,05'in çok üstünde, yani ✅ olamıyor.</p>
+Yayımlanan değere oranı yaklaşık %3,9 (0,485 ÷ 12,3); %1 toleransın çok üstünde, yani ✅ olamıyor.</p>
 <p><strong>Neden ❌ değil?</strong> Çünkü sapmanın nereden geldiğini tahmin etmedik, ölçtük.
 Her iki formülün girdisi "kelime başına vuruş" (harf ve rakam sayısı), ve
 1975'te bu sayım elle yapılıyordu: daktiloya takılı mekanik bir sayaçla. Farkın

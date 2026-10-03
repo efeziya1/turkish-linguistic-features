@@ -2347,10 +2347,13 @@ some of the 208 features are <strong>not even candidates</strong> for verificati
 </tr>
 </tbody>
 </table>
-<p>Where things stand today: <strong>48 of the 91 candidates are done</strong> (47 ✅ +
-1 🟡), 43 are 🔍 open.</p>
-<p>The tolerance is <strong>0.05</strong>. Sources print rounded intermediate values, so
-exact equality is not expected.</p>
+<p>Where things stand today: <strong>48 of the 91 candidates are done</strong> (46 ✅ +
+2 🟡), 43 are 🔍 open.</p>
+<p>The tolerance is <strong>1% of the published value</strong> (relative). Sources print
+rounded intermediate values, so exact equality is not expected. A relative
+tolerance means the same at every scale: the old fixed 0.05 was far too loose
+for ratios between 0 and 1 (<code>ttr</code>) and far too tight for values in the
+hundreds (<code>curve_length</code> ≈ 134).</p>
 <p><strong>Exceeding the tolerance does not automatically make a row ❌.</strong> What decides
 is not the size of the difference but <strong>whether its cause is known</strong>. If the
 cause has been measured and written down the row is 🟡; if it has not, the row
@@ -2401,8 +2404,8 @@ comparison <em>against the source's number</em>.</p>
 </tr>
 <tr>
 <td><code>lexical</code></td>
-<td>7</td>
-<td>0</td>
+<td>6</td>
+<td>1</td>
 <td>22</td>
 </tr>
 <tr>
@@ -2456,9 +2459,11 @@ comparison can be made directly:</p>
 </tr>
 </tbody>
 </table>
-<p>All twenty-eight comparisons fall within tolerance. Twenty-seven of them
-deviate by zero. The remaining one deviates by 0.009, and the cause is plain:
-for <code>ttr</code> on Text 2 the source printed 0.590, but dividing the numbers it
+<p>Twenty-seven of the twenty-eight comparisons fall within tolerance (the
+largest relative difference is under 0.1%, and most deviate by zero). The
+remaining one deviates by 0.009, which is 1.5% of the published value; it is
+outside the 1% tolerance, so the row is 🟡, and the cause is plain: for <code>ttr</code>
+on Text 2 the source printed 0.590, but dividing the numbers it
 supplies itself gives 121 ÷ 202 = <strong>0.599</strong>. The published figure has a typo;
 ours is the arithmetically correct value.</p>
 <p>What the repository stores is two frequency distributions: 119 and 121 plain
@@ -2491,8 +2496,8 @@ both the input and the answer — the best material verification can hope for. A
 <p><strong>How large is the deviation?</strong> The mean of the per-passage absolute
 differences is <strong>0.54 ARI points</strong>. The −0.485 shown in the report is a
 different number: the gap between the mean the source printed in Table 1
-(12.3) and our mean over the 18 passages. Both are far above the 0.05
-tolerance, so ✅ is out.</p>
+(12.3) and our mean over the 18 passages. Relative to the published
+value that is about 3.9% (0.485 ÷ 12.3), far above the 1% tolerance, so ✅ is out.</p>
 <p><strong>Why is it not ❌?</strong> Because we did not guess where the deviation comes from, we
 measured it. Both formulas take "strokes per word" (letters and digits) as an
 input, and in 1975 that count was made by hand, with a mechanical counter
