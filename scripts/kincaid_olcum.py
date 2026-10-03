@@ -8,7 +8,7 @@ için.
 
     python scripts/kincaid_olcum.py
 
-Bu bir **test değil**, ölçüm aracı. Sonuçlar 0,05 toleransını tutmuyor;
+Bu bir **test değil**, ölçüm aracı. Sonuçlar %1 göreli toleransı tutmuyor;
 nedeni doğrulama raporundaki `ari` sapma notunda yazılı.
 """
 from __future__ import annotations

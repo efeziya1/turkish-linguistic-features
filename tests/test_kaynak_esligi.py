@@ -34,9 +34,10 @@ BEKLENEN = {
     "bezirci_yilmaz": (math.sqrt(606.202), math.sqrt(925.5625), math.sqrt(338.1)),
 }
 
-# Ölçüldü (2026-09-19): dokuz karşılaştırmanın en büyük farkı 0,031.
-# Üçü (Metin 2'nin atesman ve cetinkaya_uzun'u) üç ondalığa kadar birebir.
-TOLERANS = 0.05
+# Ölçüldü (2026-10-04): dokuz karşılaştırmanın en büyük göreli farkı %0,10
+# (bezirci_yilmaz Metin 2: 0,031 / 30,423); tolerans %1 göreli, rapordakiyle
+# aynı. Üçü (Metin 2'nin atesman ve cetinkaya_uzun'u) üç ondalığa kadar birebir.
+GORELI_TOLERANS = 0.01
 
 
 @pytest.fixture(scope="module")
@@ -50,7 +51,7 @@ def test_kalyoncu_memis_tablo9(ozellikler, anahtar, metin_no):
     """Kalyoncu & Memiş (2024) Tablo 9 · Ana Dili Eğitimi Dergisi 12(2), 417-436."""
     bizim = ozellikler[metin_no - 1][anahtar]
     beklenen = BEKLENEN[anahtar][metin_no - 1]
-    assert bizim == pytest.approx(beklenen, abs=TOLERANS), (
+    assert bizim == pytest.approx(beklenen, rel=GORELI_TOLERANS, abs=1e-9), (
         f"{anahtar} / Metin {metin_no}: bizim {bizim:.3f}, makalede {beklenen:.3f}"
     )
 

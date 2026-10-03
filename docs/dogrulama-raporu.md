@@ -26,8 +26,9 @@ Aşağıdaki üç durum **doğrulama adayı değildir** — aranacak bir sayı y
 | ⚫ **etiket şeması** | Bir ölçü değil, dış bir şemanın kategorisini sayıyor (`pos_noun` → UD; `case_loc_ratio` → Zeyrek). Şema kategori tanımlar, ölçüm yayımlamaz. |
 | 🔧 **türev** | Formül bir kaynaktan, **uygulaması bu kütüphaneden**. `entropy_std` Shannon'ın entropisidir ama parçalar arası standart sapması bizim; `long_sent_ratio`'nun eşiği kendi kalibrasyonumuzdan gelir. Kimse bu ölçüyü yayımlamadı, dolayısıyla karşılaştırılacak sayı da yok. Kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
 
-Tolerans 0.05. Kaynaklar ara değerleri yuvarlayarak bastığı için mutlak
-eşitlik beklenmiyor.
+Tolerans yayımlanan değerin **%1'i** (göreli). Kaynaklar ara değerleri
+yuvarlayarak bastığı için mutlak eşitlik beklenmiyor; göreli tolerans her
+ölçekte aynı anlama gelir.
 
 **Toleransı aşan fark otomatik olarak ❌ değildir.** Belirleyici olan farkın
 büyüklüğü değil, **nedeninin bilinip bilinmediğidir**: nedeni ölçülmüş ve
@@ -56,8 +57,8 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 | Durum | Satır sayısı |
 |---|---|
-| ✅ birebir | 47 |
-| 🟡 belgelenmiş sapma | 1 |
+| ✅ birebir | 46 |
+| 🟡 belgelenmiş sapma | 2 |
 | 🔍 açık — kaynakta sayısal örnek yok | 43 |
 
 
@@ -76,7 +77,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26) | formül | 6.438 | 6.438 | +0.000 | ✅ |
 | `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26) | formül | 6.395 | 6.395 | +0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formül | 0.665 | 0.665 | -0.000 | ✅ |
-| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; kaynak 0.590 basmış (baskı hatası) | formül | 0.590 | 0.599 | +0.009 | ✅ |
+| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; kaynak 0.590 basmış (baskı hatası) | formül | 0.590 | 0.599 | +0.009 | 🟡 |
 | `hapax_percentage` | QUITA §6.1.6 | Text 1 · 98/179 | formül | 0.547 | 0.547 | +0.000 | ✅ |
 | `hapax_percentage` | QUITA §6.1.6 | Text 2 · 92/202 | formül | 0.455 | 0.455 | +0.000 | ✅ |
 | `mtld` | McCarthy & Jarvis (2010) p.385 | kısmi faktör · TTR .887 → 40.4% | formül | 0.404 | 0.404 | +0.000 | ✅ |
@@ -121,6 +122,8 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | en kolay metnin H değerleri | formül | 3.030 | 3.025 | -0.005 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | en zor metnin H değerleri | formül | 18.820 | 18.815 | -0.005 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | ortalama H değerleri | formül | 8.300 | 8.341 | +0.041 | ✅ |
+
+**`ttr` sapması:** Kaynağın kendi sayıları (V=121, N=202) 121/202 = 0,599 verir; basılan 0,590 bu aritmetikle tutmuyor (baskı hatası). Bizim değer aritmetiğe uyuyor; fark yayımlanan değerin %1,5'i.
 
 **`ari` sapması:** Kaynağın sayıları 1975'te daktiloya takılı mekanik bir sayaçla **elle** üretildi (Ek B, ARI talimatı). 18 pasajın 17'sinde, kaynağın ARI'sını verecek vuruş sayısı bizim saydığımızın 0,996-1,041 katı — yani birkaç karakterlik fark. Pasaj 2 aykırı (oran 1,145) ve kaynağın kendi iki sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/kelime 6,269 gerektiriyor, metnin gerçek değeri 5,475; üstelik o ARI'nın ima ettiği kelime/cümle FKGL'yi 18,69 yapıyor, oysa Tablo 2 16,7 basmış. Bizim vuruş tanımımız ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten 4,24'e çıkarıyor, yani boşluksuz sayım doğru.
 
@@ -335,8 +338,8 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 | Durum | Satır sayısı |
 |---|---|
-| ✅ birebir | 36 |
-| 🟡 belgelenmiş sapma | 2 |
+| ✅ birebir | 35 |
+| 🟡 belgelenmiş sapma | 3 |
 | 🔍 açık — kaynakta sayısal örnek yok | 42 |
 
 
@@ -355,7 +358,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26) | formül | 6.438 | 6.438 | +0.000 | ✅ |
 | `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26) | formül | 6.395 | 6.395 | +0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formül | 0.665 | 0.665 | -0.000 | ✅ |
-| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; kaynak 0.590 basmış (baskı hatası) | formül | 0.590 | 0.599 | +0.009 | ✅ |
+| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; kaynak 0.590 basmış (baskı hatası) | formül | 0.590 | 0.599 | +0.009 | 🟡 |
 | `hapax_percentage` | QUITA §6.1.6 | Text 1 · 98/179 | formül | 0.547 | 0.547 | +0.000 | ✅ |
 | `hapax_percentage` | QUITA §6.1.6 | Text 2 · 92/202 | formül | 0.455 | 0.455 | +0.000 | ✅ |
 | `mtld` | McCarthy & Jarvis (2010) p.385 | kısmi faktör · TTR .887 → 40.4% | formül | 0.404 | 0.404 | +0.000 | ✅ |
@@ -390,6 +393,8 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `coleman_liau` | Coleman & Liau (1975) p.284 | iki denklemin bileşimi · 13 kelime, 2 cümle | formül | 7.704 | 7.705 | +0.000 | ✅ |
 | `coleman_liau` | Coleman & Liau (1975) p.284, Table 1 | cloze 40.4% → 12. sınıf | formül | 12.000 | 11.994 | -0.006 | ✅ |
 | `flesch_kincaid_grade` | Kincaid et al. (1975) p.12, Table 2 | Appendix A · 18 passages, mean | uçtan uca | 10.700 | 10.362 | -0.338 | 🟡 |
+
+**`ttr` sapması:** Kaynağın kendi sayıları (V=121, N=202) 121/202 = 0,599 verir; basılan 0,590 bu aritmetikle tutmuyor (baskı hatası). Bizim değer aritmetiğe uyuyor; fark yayımlanan değerin %1,5'i.
 
 **`ari` sapması:** Kaynağın sayıları 1975'te daktiloya takılı mekanik bir sayaçla **elle** üretildi (Ek B, ARI talimatı). 18 pasajın 17'sinde, kaynağın ARI'sını verecek vuruş sayısı bizim saydığımızın 0,996-1,041 katı — yani birkaç karakterlik fark. Pasaj 2 aykırı (oran 1,145) ve kaynağın kendi iki sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/kelime 6,269 gerektiriyor, metnin gerçek değeri 5,475; üstelik o ARI'nın ima ettiği kelime/cümle FKGL'yi 18,69 yapıyor, oysa Tablo 2 16,7 basmış. Bizim vuruş tanımımız ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten 4,24'e çıkarıyor, yani boşluksuz sayım doğru.
 

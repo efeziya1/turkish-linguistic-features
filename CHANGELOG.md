@@ -4,6 +4,16 @@
 
 ### Changed
 
+- The verification tolerance changed from a fixed absolute 0.05 to 1% relative
+  to the published value (`math.isclose(rel_tol=0.01)`, with a 1e-9 absolute
+  floor only as float-arithmetic safety for expected values of 0). The fixed
+  difference was far too loose for ratios in 0-1 (`ttr`) and far too tight for
+  values in the hundreds (`curve_length` ≈ 134). One row moves: `ttr` QUITA
+  §6.1.1 Text 2 (published 0.590, ours 0.599, difference 1.5%; the source's
+  own counts give 121/202 = 0.599) goes from ✅ to 🟡, with its reason now
+  written in the report. Turkish report: 47 ✅ + 1 🟡 → 46 ✅ + 2 🟡; English
+  report: 36 ✅ + 2 🟡 → 35 ✅ + 3 🟡. No row became ❌ and every other row
+  keeps its status.
 - Turkish syllable counts now read ordinals (`3. kat` → üçüncü), times and
   scores (`10:30` → on otuz) and numbers glued to letters (`3kg` → üç
   kilogram, `100m` → yüz metre, `3G` → üç ge). These forms used to be skipped

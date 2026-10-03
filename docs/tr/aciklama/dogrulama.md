@@ -56,10 +56,12 @@ adayı** kalıyor. Gerçek payda budur.
 | 🔍 **açık** | Kaynak formülü veriyor ama uygulanmış bir örnek vermiyor. Doğrulanabilir, henüz doğrulanmadı. |
 | ❌ **uyuşmazlık** | **Açıklanmamış** fark. **Yayın kapısı: bir tane bile varsa sürüm çıkmaz.** |
 
-Bugünkü durum: **91 adayın 48'i bitmiş** (47 ✅ + 1 🟡), 43'ü 🔍 açık.
+Bugünkü durum: **91 adayın 48'i bitmiş** (46 ✅ + 2 🟡), 43'ü 🔍 açık.
 
-Tolerans **0,05**. Kaynaklar ara değerleri yuvarlayarak bastığı için mutlak
-eşitlik beklenmez.
+Tolerans yayımlanan değerin **%1'i** (göreli). Kaynaklar ara değerleri
+yuvarlayarak bastığı için mutlak eşitlik beklenmez. Göreli tolerans her ölçekte
+aynı şeyi söyler: eskiden sabit 0,05 fark, 0–1 arası oranlarda (`ttr`) çok
+gevşek, yüzlerle ölçülen değerlerde (`curve_length` ≈ 134) çok sıkıydı.
 
 **Toleransı aşan fark otomatik olarak ❌ değildir.** Belirleyici olan farkın
 büyüklüğü değil, **nedeninin bilinip bilinmediğidir**. Nedeni ölçülmüş ve
@@ -98,7 +100,7 @@ Hangi grupların doğrulandığı türle ilgili, tesadüf değil:
 |---|---|---|---|
 | `frequency_structure` | 22 | 0 | 2 |
 | `readability` | 13 | 1 | 2 |
-| `lexical` | 7 | 0 | 22 |
+| `lexical` | 6 | 1 | 22 |
 | `phonetic` | 0 | 0 | 11 |
 
 Okunabilirlik formülleri **pratik araçlardır** — yazarları formülü örnek
@@ -122,11 +124,12 @@ göstergelerin tek girdisi olduğu için karşılaştırma doğrudan yapılabili
 | `curve_length` Text 2 | 134,2787 | 134,27870 |
 | `entropy` Text 1 | 6,438043 | 6,438043 |
 
-Yirmi sekiz karşılaştırmanın **hepsi** tolerans içinde. Yirmi yedisinde
-sapma sıfır. Kalan bir tanesinde sapma 0,009 ve nedeni belli: `ttr` Text 2 için
-kaynak 0,590 basmış, ama kendi verdiği sayıları bölünce 121 ÷ 202 = **0,599**
-çıkıyor. Yayımlanmış sayıda basım hatası var; bizim değerimiz aritmetik olarak
-doğru olan.
+Yirmi sekiz karşılaştırmanın yirmi yedisi tolerans içinde (en büyük göreli
+fark %0,1'in altında; çoğunda sapma sıfır). Kalan bir tanesinde sapma 0,009,
+yani yayımlanan değerin %1,5'i; %1 toleransın dışında kaldığı için satır 🟡 ve
+nedeni belli: `ttr` Text 2 için kaynak 0,590 basmış, ama kendi verdiği sayıları
+bölünce 121 ÷ 202 = **0,599** çıkıyor. Yayımlanmış sayıda basım hatası var;
+bizim değerimiz aritmetik olarak doğru olan.
 
 Depoda duran şey iki sıklık dağılımı: 119 ve 121 tam sayı. Metinlerin kendisi
 telifli (Orwell) ve depoya girmiyor; sayılardan metin geri kurulamaz.
@@ -161,7 +164,7 @@ boru hattımızdan geçirdik.
 **Sapma ne kadar?** Pasaj başına mutlak farkların ortalaması **0,54 ARI
 puanı**. Raporda görünen −0,485 başka bir sayıdır: kaynağın Tablo 1'de
 bastığı ortalama (12,3) ile bizim 18 pasajlık ortalamamız arasındaki fark.
-İkisi de tolerans olan 0,05'in çok üstünde, yani ✅ olamıyor.
+Yayımlanan değere oranı yaklaşık %3,9 (0,485 ÷ 12,3); %1 toleransın çok üstünde, yani ✅ olamıyor.
 
 **Neden ❌ değil?** Çünkü sapmanın nereden geldiğini tahmin etmedik, ölçtük.
 Her iki formülün girdisi "kelime başına vuruş" (harf ve rakam sayısı), ve
