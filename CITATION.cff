@@ -9,8 +9,6 @@ abstract: >-
 authors:
   - given-names: "Efe Ziya"
     family-names: "Okul"
-  - given-names: "Ferhat"
-    family-names: "Ersoy"
 version: "0.1.0"
 doi: 10.5281/zenodo.23009540
 identifiers:

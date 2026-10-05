@@ -17,7 +17,6 @@ requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [
     { name = "Efe Ziya Okul", email = "efeziya@live.com" },
-    { name = "Ferhat Ersoy", email = "eferhaters@gmail.com" },
 ]
 classifiers = [
     "Development Status :: 3 - Alpha",
