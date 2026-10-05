@@ -2278,9 +2278,9 @@ thresholds.</p>
 <h2 id="which-feature-depends-on-which-parameter">Which feature depends on which parameter<a class="headerlink" href="#which-feature-depends-on-which-parameter" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"mattr"</span><span class="p">)[</span><span class="s2">"params"</span><span class="p">]</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>['mattr_window']
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>('mattr_window',)
 </code></pre></div>
-<p>An empty list means the feature depends on no parameter.</p>
+<p>An empty tuple, <code>()</code>, means the feature depends on no parameter.</p>
 <h2 id="why-mattr_window-is-50">Why <code>mattr_window</code> is 50<a class="headerlink" href="#why-mattr_window-is-50" title="Permanent link">&para;</a></h2>
 <p>Covington &amp; McFall (2010) recommend <strong>500</strong> for stylometric analysis. The
 default here is 50 — a tenth of that. The reasons:</p>

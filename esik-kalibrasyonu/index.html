@@ -2155,7 +2155,7 @@
 
 <h1 id="cumle-uzunlugu-esiklerinin-kalibrasyonu">Cümle uzunluğu eşiklerinin kalibrasyonu<a class="headerlink" href="#cumle-uzunlugu-esiklerinin-kalibrasyonu" title="Permanent link">&para;</a></h1>
 <p><code>short_sent_threshold</code> ve <code>long_sent_threshold</code> yayımlanmış bir kaynaktan
-alınmadı, roman korpuslarında ölçülerek seçildi. Bu belge ölçümü kayda geçirir.</p>
+alınmadı, edebi metin ağırlıklı korpuslarda ölçülerek seçildi. Bu belge ölçümü kayda geçirir.</p>
 <p><strong>Ölçüm:</strong> 2026-07-28</p>
 <h2 id="sonuc">Sonuç<a class="headerlink" href="#sonuc" title="Permanent link">&para;</a></h2>
 <table>
@@ -2209,7 +2209,9 @@ değerinde kalır (<a href="../tr/nasil/parametreler/">ayrıntı</a>).</p>
 </tr>
 </tbody>
 </table>
-<p>Her iki set de roman/kurgu. Tam korpus kullanıldı, örnekleme yapılmadı. Cümle
+<p>Türkçe set ağırlıklı olarak roman, ama saf kurgu değil: İlber Ortaylı'nın tarih
+kitapları (682 segment, %6,9) ve birkaç başka kurgu dışı ya da karma kitap da
+içinde. Tam korpus kullanıldı, örnekleme yapılmadı. Cümle
 sınırları üretimde kullanılan spaCy modelinin kendisiyle bulundu; öznitelik
 çıkarımı çalıştırılmadı, yalnız cümle başına sözcük sayısı gerekiyordu.</p>
 <p>Eşik olarak 15. ve 85. yüzdelik seçildi. "Aykırı değer ortalaması" gibi bir
@@ -2328,7 +2330,7 @@ gerekçenin aynısı. Ateşman s.73'teki Türkçe normu
 tek bir cümlenin "uzun" sayılma eşiği değil. Eşik olarak kullanıldığında
 Türkçede 95. yüzdeliğin üstünde kalıyor.</p>
 <h2 id="kapsam-snr">Kapsam sınırı<a class="headerlink" href="#kapsam-snr" title="Permanent link">&para;</a></h2>
-<p><strong>Eşikler yalnız roman/kurgu türü için kalibre edildi.</strong></p>
+<p><strong>Eşikler ağırlıklı olarak roman/edebi metinle kalibre edildi.</strong></p>
 <p>Teknik metin, transkript, şiir, hukuk metni ya da ders kitabında aynı
 eşiklerin uygun olacağı <strong>garanti değildir</strong>. Bu türlerle çalışıyorsanız kendi
 korpusunuzun yüzdeliklerini hesaplayıp <code>FeatureParams</code> ile geçirin.</p>
