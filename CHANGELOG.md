@@ -32,6 +32,21 @@
   always did. Cited features: TR 141 → 140, EN 116 → 115; verification
   candidates: TR 92 → 91, EN 81 → 80. No values change.
 
+### Fixed
+
+- `segment_text(unit="word")` no longer counts whitespace and line-break
+  tokens. `analyze` discards them, so a text with hard line breaks produced
+  segments with fewer real tokens than `size` (about 11% fewer in a text
+  wrapped every 8 words: 178 instead of 200). Each segment now holds exactly
+  `size` tokens by the same count `analyze` uses. Segment boundaries, and so
+  segment counts and values, change for texts with line breaks or repeated
+  spaces; single-spaced text is unaffected.
+- Three registry description texts ran words together ("notclipped",
+  "words,vocd_num_runs", "removed,root"); they appear in `describe_feature()`
+  and in the feature reference.
+- The `describe_feature(...)["params"]` examples in the parameter guide showed
+  a list; the function returns a tuple.
+
 ### Removed
 
 - The undocumented `LINGUISTIC_FEATURES_NO_ZEYREK_WARMUP` environment variable.

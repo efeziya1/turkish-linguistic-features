@@ -108,9 +108,14 @@ def segment_text(text: str, size: int = 1000, min_fill: float = 1.0,
         parcalar = [(text[i:i + size], len(text[i:i + size]))
                     for i in range(0, len(text), size)]
     else:
-        doc = tokenizer(text)
-        parcalar = [(doc[i:i + size].text, len(doc[i:i + size]))
-                    for i in range(0, len(doc), size)]
+        # Boşluk/satır sonu tokenları SAYILMAZ: `analyze` onları atıyor
+        # (spacy_pipeline `tok.is_space`), parça boyu aynı sayımla ölçülmeli.
+        # Parça, ilk ve son sözcük tokenı arasındaki ham metin dilimidir.
+        tokenlar = [t for t in tokenizer(text) if not t.is_space]
+        parcalar = []
+        for i in range(0, len(tokenlar), size):
+            kume = tokenlar[i:i + size]
+            parcalar.append((text[kume[0].idx:kume[-1].idx + len(kume[-1])], len(kume)))
 
     esik = size * min_fill
     return [metin for metin, n in parcalar if n >= esik and metin.strip()]

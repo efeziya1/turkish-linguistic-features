@@ -93,10 +93,10 @@ tlf.describe_feature("mattr")["params"]
 ```
 
 ```text
-['mattr_window']
+('mattr_window',)
 ```
 
-Boş liste dönerse o öznitelik hiçbir parametreye bağlı değildir.
+Boş demet `()` dönerse o öznitelik hiçbir parametreye bağlı değildir.
 
 ## `mattr_window` neden 50
 

@@ -1,7 +1,7 @@
 # Cümle uzunluğu eşiklerinin kalibrasyonu
 
 `short_sent_threshold` ve `long_sent_threshold` yayımlanmış bir kaynaktan
-alınmadı, roman korpuslarında ölçülerek seçildi. Bu belge ölçümü kayda geçirir.
+alınmadı, edebi metin ağırlıklı korpuslarda ölçülerek seçildi. Bu belge ölçümü kayda geçirir.
 
 **Ölçüm:** 2026-07-28
 
@@ -24,7 +24,9 @@ değerinde kalır ([ayrıntı](tr/nasil/parametreler.md)).
 | Segment (1000 sözcük) | 9.838 | 6.263 |
 | **Ölçülen cümle** | **1.089.841** | **341.892** |
 
-Her iki set de roman/kurgu. Tam korpus kullanıldı, örnekleme yapılmadı. Cümle
+Türkçe set ağırlıklı olarak roman, ama saf kurgu değil: İlber Ortaylı'nın tarih
+kitapları (682 segment, %6,9) ve birkaç başka kurgu dışı ya da karma kitap da
+içinde. Tam korpus kullanıldı, örnekleme yapılmadı. Cümle
 sınırları üretimde kullanılan spaCy modelinin kendisiyle bulundu; öznitelik
 çıkarımı çalıştırılmadı, yalnız cümle başına sözcük sayısı gerekiyordu.
 
@@ -89,7 +91,7 @@ Türkçede 95. yüzdeliğin üstünde kalıyor.
 
 ## Kapsam sınırı
 
-**Eşikler yalnız roman/kurgu türü için kalibre edildi.**
+**Eşikler ağırlıklı olarak roman/edebi metinle kalibre edildi.**
 
 Teknik metin, transkript, şiir, hukuk metni ya da ders kitabında aynı
 eşiklerin uygun olacağı **garanti değildir**. Bu türlerle çalışıyorsanız kendi

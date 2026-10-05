@@ -268,7 +268,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'guiraud_r': 'V / sqrt(N)',
     'ttr_moving_slope': 'linear slope of TTR over disjoint ttr_slope_chunk_size-word chunks',
     'heaps_beta':
-        'least-squares slope of log V ~ log N over prefixes every heaps_step words, not'
+        'least-squares slope of log V ~ log N over prefixes every heaps_step words, not '
         'clipped',
     'entropy': '-sum(p * log2 p)',
     'yule_k': '10000 * (sum(f^2) - N) / N^2',
@@ -277,7 +277,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'hapax_ratio': 'V1 / V',
     'hapax_percentage': 'V1 / N',
     'vocd_d':
-        'D fitted to mean TTR of random samples of vocd_sample_min–vocd_sample_max words,'
+        'D fitted to mean TTR of random samples of vocd_sample_min–vocd_sample_max words, '
         'vocd_num_runs runs averaged',
     'hdd': 'expected TTR of a hdd_sample_size-word sample (hypergeometric)',
     'msttr': 'mean TTR of full msttr_segment_size-word segments',
@@ -342,7 +342,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'pos_kl_div': 'mean over sentences of KL(sentence POS ‖ document POS), bits',
     # ── syntactic_dep ───────────────────────────────────────────
     'arc_len_mean':
-        'mean over sentences of mean abs(word position - head position), punctuation removed,'
+        'mean over sentences of mean abs(word position - head position), punctuation removed, '
         'root excluded',
     'parse_depth_mean': 'mean over sentences of mean steps to the root, capped at max_parse_depth',
     'sentfinal_noun': 'sentences ending in that tag / sentences',

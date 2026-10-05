@@ -96,10 +96,10 @@ tlf.describe_feature("mattr")["params"]
 ```
 
 ```text
-['mattr_window']
+('mattr_window',)
 ```
 
-An empty list means the feature depends on no parameter.
+An empty tuple, `()`, means the feature depends on no parameter.
 
 ## Why `mattr_window` is 50
 

@@ -65,14 +65,14 @@ published is a separate question — see the
 | `dugast_u` | Dugast's Uber index | `log10(N)^2 / (log10(N) - log10(V))` | at least 2 words, at least one repeated | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 |
 | `guiraud_r` | Guiraud's root TTR | `V / sqrt(N)` | at least 1 word | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only |
 | `ttr_moving_slope` | whether vocabulary thins out towards the end | `linear slope of TTR over disjoint ttr_slope_chunk_size-word chunks` | at least 100 words (2 x ttr_slope_chunk_size) | — |
-| `heaps_beta` | vocabulary growth rate | `least-squares slope of log V ~ log N over prefixes every heaps_step words, notclipped` | at least 300 words (heaps_min_tokens) | Heaps (1978), as cited in Manning et al. (2008) §5.1.1 |
+| `heaps_beta` | vocabulary growth rate | `least-squares slope of log V ~ log N over prefixes every heaps_step words, not clipped` | at least 300 words (heaps_min_tokens) | Heaps (1978), as cited in Manning et al. (2008) §5.1.1 |
 | `entropy` | Shannon entropy of word frequencies | `-sum(p * log2 p)` | at least 1 word | Shannon (1948), as cited in QUITA §6.1.12 |
 | `yule_k` | Yule's K; higher = more repetitive | `10000 * (sum(f^2) - N) / N^2` | at least 1 word | Yule (1944), as cited in Malvern et al. (2004) eq. 3.9 |
 | `simpson_d` | chance that two words drawn without replacement are the same type | `sum(f(f-1)) / (N(N-1))` | at least 2 words | Simpson (1949), as cited in Bestgen (2023) |
 | `brunet_w` | Brunet's W | `N^(V^-a), a = brunet_w_a` | at least 1 word | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) |
 | `hapax_ratio` | share of types occurring once | `V1 / V` | at least 1 word | — |
 | `hapax_percentage` | share of tokens that occur once | `V1 / N` | at least 1 word | QUITA §6.1.6 |
-| `vocd_d` | voc-D | `D fitted to mean TTR of random samples of vocd_sample_min–vocd_sample_max words,vocd_num_runs runs averaged` | at least 50 words (vocd_min_tokens, vocd_sample_max) | Malvern et al. (2004) pp.56–57; procedure from McCarthy & Jarvis (2010) p.383 |
+| `vocd_d` | voc-D | `D fitted to mean TTR of random samples of vocd_sample_min–vocd_sample_max words, vocd_num_runs runs averaged` | at least 50 words (vocd_min_tokens, vocd_sample_max) | Malvern et al. (2004) pp.56–57; procedure from McCarthy & Jarvis (2010) p.383 |
 | `hdd` | HD-D | `expected TTR of a hdd_sample_size-word sample (hypergeometric)` | at least 42 words (hdd_sample_size) | McCarthy & Jarvis (2007), as cited in McCarthy & Jarvis (2010) p.383 |
 | `msttr` | mean segmental TTR | `mean TTR of full msttr_segment_size-word segments` | at least 100 words (msttr_segment_size) | Johnson (1944), as cited in Malvern et al. (2004) p.25 and McCarthy & Jarvis (2010) p.385 |
 | `noun_variation` | noun variation NV | `distinct noun lemmas / lexical-word tokens` | at least 1 lexical word (NOUN, PROPN, VERB, ADJ, ADV) | Lu (2012) Table 2 |
@@ -171,7 +171,7 @@ published is a separate question — see the
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
-| `arc_len_mean` | mean dependency distance (MDD2) | `mean over sentences of mean abs(word position - head position), punctuation removed,root excluded` | at least 1 sentence with 2 words | Liu (2008) eq. (1); text level from Jing & Liu (2015) p.164, eq. (3) (MDD2) |
+| `arc_len_mean` | mean dependency distance (MDD2) | `mean over sentences of mean abs(word position - head position), punctuation removed, root excluded` | at least 1 sentence with 2 words | Liu (2008) eq. (1); text level from Jing & Liu (2015) p.164, eq. (3) (MDD2) |
 | `parse_depth_mean` | mean hierarchical distance (MHD2) | `mean over sentences of mean steps to the root, capped at max_parse_depth` | at least 1 sentence with 2 words | Jing & Liu (2015) p.164, eq. (2) and (4) (MHD2) |
 | `sentfinal_noun` | share of sentences ending in a NOUN | `sentences ending in that tag / sentences` | at least 1 sentence with a word | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
 | `sentfinal_propn` | share of sentences ending in a PROPN | `sentences ending in that tag / sentences` | at least 1 sentence with a word | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
