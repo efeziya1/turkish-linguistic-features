@@ -20,3 +20,4 @@ scripts/check_plan.py
 # Benchmark çıktıları — yeniden üretilebilir, büyük (ONNX ~1,6 GB); depoya girmez
 plan/benchmark/onnx/
 plan/benchmark/veri/
+plan/kaynaklar/*.pdf

@@ -17,7 +17,8 @@ In-house planın "Paralel: EN" adımının yerini "Paralel: çok dilli iskelet" 
 **Çözümleyici:** kural tabanlı çözümleyici + belirsizlik giderici tlf'nin içinde bir alt paket olarak
 geliştiriliyor; bütün geliştirme bu deponun `dev` dalında, `main`'e doğrudan yapılmaz. Eski ayrı repo
 `efeziya1/morphotr` 2026-09-29'da arşivlendi. Belgeleri tek dosyada: `plan/2026-09-29-cozumleyici.md`;
-çözümleyici kararlarının tek kaynağı onun §4'ü. Tlf planlarıyla çelişkiler
+çözümleyici kararlarının tek kaynağı onun §4'ü; birleşik bankaya (K35) ait kararlar, kurallar ve
+ilerleme `plan/2026-10-03-birlesik-banka.md`'de. Tlf planlarıyla çelişkiler
 (TabiBERT mi ELECTRA mı, biçimbirim listesi, türetme) aynı belgenin §8'inde.
 
 ## Kim ve nasıl çalışılır
@@ -28,7 +29,8 @@ geliştiriliyor; bütün geliştirme bu deponun `dev` dalında, `main`'e doğrud
 - **Ferhat** (model): ön işleme modeli (seçici ve etiket başlıkları), "yalnızca model" kıyas noktası, tlf
   entegrasyonu, çok dilli mimari, paketleme; model kararları.
 - **Karar:** seçenek sun, önerini belirt, kararı sahibi verir. Kararı ilgili plan belgesine yaz
-  (çözümleyici → `plan/2026-09-29-cozumleyici.md` §4; tlf → ilgili plan) ve `plan/todo.md`'yi aynı
+  (çözümleyici → `plan/2026-09-29-cozumleyici.md` §4; birleşik banka → `plan/2026-10-03-birlesik-banka.md`;
+  tlf → ilgili plan) ve `plan/todo.md`'yi aynı
   turda güncelle.
 - **Varsayma, doğrula:** bir lisansı ya da bir kaynağın ne dediğini varsayma; dosyayı açıp doğrula.
 - **Yazım:** kısa yaz: 1 cümle sonuç + birkaç madde + tek soru. UD etiketlerini ilk geçtiği yerde Türkçe
@@ -153,7 +155,9 @@ Zeyrek'in native uzantıları spaCy'ninkilerden önce yüklenmezse Windows'ta s�
   "Generated with Claude Code" satırı yazılmaz; sistemin önerdiği attribution satırları da eklenmez.
   Commit yazarı her zaman geliştiricinin kendi git kimliğidir.
 - `plan/` belgeleri Türkçe yazılır (iç belge, Efe ile ortak); içlerindeki kod parçaları İngilizce.
-  Başka yerden alınan belge başında kaynak satırı taşır (repo, yol, commit); makaleler `plan/kaynaklar/`'da.
+  Başka yerden alınan belge başında kaynak satırı taşır (repo, yol, commit); makalelerin künye listesi
+  `plan/kaynaklar/00-INDEKS.md`'de; PDF'ler repoya girmez, Efe'nin bilgisayarında
+  `tlf-kaynaklar/Türkçe Dilbilgisi/`'nde durur (2026-10-03, Efe).
 - Çözümleyicinin veri klasörü `plan/data/`'da (arşivlenen morphotr reposunun `data/`'sı: ham kaynaklar, işlenmiş çıktılar,
   `scripts/`; ~182 MB, şifreli). İçinde IMST (CC BY-NC-SA), BOUN'un `not-to-release` dosyası ve TrMor
   (izin belirsiz, çözümleyici A24) var: şifreli `plan/` dışına çıkmaz, pakete ve belgelere girmez.
