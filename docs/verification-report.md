@@ -54,17 +54,17 @@ table as `tests/test_kaynak_esligi.py`, so the two cannot drift apart. The
 other known-value tests live in their own files.
 
 
-## Turkish — 208 keys, 233 rows
+## Turkish — 212 keys, 237 rows
 
 A key may have more than one worked example in its source; each one is its own row.
 
-**Verification candidates — 91 rows**
+**Verification candidates — 95 rows**
 
 | Status | Rows |
 |---|---|
 | ✅ exact | 46 |
 | 🟡 documented deviation | 2 |
-| 🔍 open — no worked example in source | 43 |
+| 🔍 open — no worked example in source | 47 |
 
 
 **Not verification candidates — 142 rows.** There is no published number to look for in these.
@@ -79,8 +79,8 @@ A key may have more than one worked example in its source; each one is its own r
 
 | Key | Source | Example | Evidence | Expected | Ours | Diff | Status |
 |---|---|---|---|---|---|---|---|
-| `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26) | formula | 6.438 | 6.438 | +0.000 | ✅ |
-| `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26) | formula | 6.395 | 6.395 | +0.000 | ✅ |
+| `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26); source 6.438043 in bits → × ln 2 | formula | 4.463 | 4.463 | +0.000 | ✅ |
+| `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26); source 6.395099 in bits → × ln 2 | formula | 4.433 | 4.433 | +0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formula | 0.665 | 0.665 | -0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; source printed 0.590 (typo) | formula | 0.590 | 0.599 | +0.009 | 🟡 |
 | `hapax_percentage` | QUITA §6.1.6 | Text 1 · 98/179 | formula | 0.547 | 0.547 | +0.000 | ✅ |
@@ -102,10 +102,10 @@ A key may have more than one worked example in its source; each one is its own r
 | `curve_length` | QUITA §6.1.10 | Text 2 · eq. (6.21) | formula | 134.279 | 134.279 | +0.000 | ✅ |
 | `curve_length_r` | QUITA §6.1.11 | Text 1 · Lh=14.29145 | formula | 0.889 | 0.890 | +0.000 | ✅ |
 | `curve_length_r` | QUITA §6.1.11 | Text 2 · Lh=18.03607 | formula | 0.866 | 0.866 | -0.000 | ✅ |
-| `lambda_pa` | QUITA §6.1.7 | Text 1 · L·log₁₀N/N, L=129.3559482 | formula | 1.628 | 1.628 | +0.000 | ✅ |
-| `lambda_pa` | QUITA §6.1.7 | Text 2 · L·log₁₀N/N, L=134.2787065 | formula | 1.532 | 1.532 | +0.000 | ✅ |
-| `adjusted_modulus` | QUITA §6.1.13 | Text 1 · M=24.01416249 | formula | 10.659 | 10.659 | +0.000 | ✅ |
-| `adjusted_modulus` | QUITA §6.1.13 | Text 2 · M=25.81931678 | formula | 11.200 | 11.200 | -0.000 | ✅ |
+| `lambda_pa` | QUITA §6.1.7 | Text 1 · L·ln N/N, L=129.3559482; source 1.628 in log₁₀ → × ln 10 | formula | 3.749 | 3.749 | +0.000 | ✅ |
+| `lambda_pa` | QUITA §6.1.7 | Text 2 · L·ln N/N, L=134.2787065; source 1.5325 in log₁₀ → × ln 10 | formula | 3.529 | 3.529 | -0.000 | ✅ |
+| `adjusted_modulus` | QUITA §6.1.13 | Text 1 · M=24.01416249; source 10.6594 in log₁₀ → / ln 10 | formula | 4.629 | 4.629 | -0.000 | ✅ |
+| `adjusted_modulus` | QUITA §6.1.13 | Text 2 · M=25.81931678; source 11.19973 in log₁₀ → / ln 10 | formula | 4.864 | 4.864 | +0.000 | ✅ |
 | `writers_view_alpha` | QUITA §6.2.3 | Text 1 · arccos(−0.374487816) | formula | 1.955 | 1.955 | -0.000 | ✅ |
 | `writers_view_alpha` | QUITA §6.2.3 | Text 2 · arccos(−0.269972586) | formula | 1.844 | 1.844 | +0.000 | ✅ |
 | `activity_ratio` | QUITA §6.2.2 | Text 1 · 26 verbs / 14 adjectives | formula | 0.650 | 0.650 | +0.000 | ✅ |
@@ -138,17 +138,21 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### 🔍 Open — verifiable, not yet verified
 
-43 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
+47 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
 
 | Key | Source | Status |
 |---|---|---|
-| `yule_k` | Yule (1944), as cited in Malvern et al. (2004) eq. 3.9 | 🔍 |
+| `yule_k` | Yule (1944) p.53, eq. (3.22) | 🔍 |
 | `simpson_d` | Simpson (1949), as cited in Bestgen (2023) | 🔍 |
 | `brunet_w` | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) | 🔍 |
 | `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
 | `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) | 🔍 |
 | `dugast_u` | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 | 🔍 |
 | `guiraud_r` | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only | 🔍 |
+| `cttr` | Carroll (1964), as cited in Torruella & Capsada (2013) p.448 | 🔍 |
+| `summer_s` | Somers (1966), as cited in Torruella & Capsada (2013) p.448, where it is named "Summer"; the source gives no logarithm base, the natural logarithm is this library's choice | 🔍 |
+| `maas_a2` | Maas (1972), as cited in Tweedie & Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella & Capsada (2013) Table 1; all logarithms in this library are natural | 🔍 |
+| `herdan_vm` | Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18) | 🔍 |
 | `heaps_beta` | Heaps (1978), as cited in Manning et al. (2008) §5.1.1 | 🔍 |
 | `sichel_s` | Sichel (1975); formula from Malvern et al. (2004) eq. 3.10 | 🔍 |
 | `noun_variation` | Lu (2012) Table 2 | 🔍 |
@@ -170,7 +174,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `verb_dist_cv` | QUITA §6.2.1 | 🔍 |
 | `lexical_density` | Lu (2012); definition in the broad Hallidayan sense — all open-class words | 🔍 |
 | `pos_dist_std` | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 13 UD tags | 🔍 |
-| `pos_kl_div` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv), in bits | 🔍 |
+| `pos_kl_div` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits | 🔍 |
 | `suffix_bigram_entropy` | Shannon (1948) — the entropy formula; Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | 🔍 |
 | `front_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `back_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
@@ -335,17 +339,17 @@ A key may have more than one worked example in its source; each one is its own r
 | `char_y` | — | ⚪ |
 | `char_z` | — | ⚪ |
 
-## English — 180 keys, 197 rows
+## English — 184 keys, 201 rows
 
 A key may have more than one worked example in its source; each one is its own row.
 
-**Verification candidates — 80 rows**
+**Verification candidates — 84 rows**
 
 | Status | Rows |
 |---|---|
 | ✅ exact | 35 |
 | 🟡 documented deviation | 3 |
-| 🔍 open — no worked example in source | 42 |
+| 🔍 open — no worked example in source | 46 |
 
 
 **Not verification candidates — 117 rows.** There is no published number to look for in these.
@@ -360,8 +364,8 @@ A key may have more than one worked example in its source; each one is its own r
 
 | Key | Source | Example | Evidence | Expected | Ours | Diff | Status |
 |---|---|---|---|---|---|---|---|
-| `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26) | formula | 6.438 | 6.438 | +0.000 | ✅ |
-| `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26) | formula | 6.395 | 6.395 | +0.000 | ✅ |
+| `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26); source 6.438043 in bits → × ln 2 | formula | 4.463 | 4.463 | +0.000 | ✅ |
+| `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26); source 6.395099 in bits → × ln 2 | formula | 4.433 | 4.433 | +0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formula | 0.665 | 0.665 | -0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; source printed 0.590 (typo) | formula | 0.590 | 0.599 | +0.009 | 🟡 |
 | `hapax_percentage` | QUITA §6.1.6 | Text 1 · 98/179 | formula | 0.547 | 0.547 | +0.000 | ✅ |
@@ -383,10 +387,10 @@ A key may have more than one worked example in its source; each one is its own r
 | `curve_length` | QUITA §6.1.10 | Text 2 · eq. (6.21) | formula | 134.279 | 134.279 | +0.000 | ✅ |
 | `curve_length_r` | QUITA §6.1.11 | Text 1 · Lh=14.29145 | formula | 0.889 | 0.890 | +0.000 | ✅ |
 | `curve_length_r` | QUITA §6.1.11 | Text 2 · Lh=18.03607 | formula | 0.866 | 0.866 | -0.000 | ✅ |
-| `lambda_pa` | QUITA §6.1.7 | Text 1 · L·log₁₀N/N, L=129.3559482 | formula | 1.628 | 1.628 | +0.000 | ✅ |
-| `lambda_pa` | QUITA §6.1.7 | Text 2 · L·log₁₀N/N, L=134.2787065 | formula | 1.532 | 1.532 | +0.000 | ✅ |
-| `adjusted_modulus` | QUITA §6.1.13 | Text 1 · M=24.01416249 | formula | 10.659 | 10.659 | +0.000 | ✅ |
-| `adjusted_modulus` | QUITA §6.1.13 | Text 2 · M=25.81931678 | formula | 11.200 | 11.200 | -0.000 | ✅ |
+| `lambda_pa` | QUITA §6.1.7 | Text 1 · L·ln N/N, L=129.3559482; source 1.628 in log₁₀ → × ln 10 | formula | 3.749 | 3.749 | +0.000 | ✅ |
+| `lambda_pa` | QUITA §6.1.7 | Text 2 · L·ln N/N, L=134.2787065; source 1.5325 in log₁₀ → × ln 10 | formula | 3.529 | 3.529 | -0.000 | ✅ |
+| `adjusted_modulus` | QUITA §6.1.13 | Text 1 · M=24.01416249; source 10.6594 in log₁₀ → / ln 10 | formula | 4.629 | 4.629 | -0.000 | ✅ |
+| `adjusted_modulus` | QUITA §6.1.13 | Text 2 · M=25.81931678; source 11.19973 in log₁₀ → / ln 10 | formula | 4.864 | 4.864 | +0.000 | ✅ |
 | `writers_view_alpha` | QUITA §6.2.3 | Text 1 · arccos(−0.374487816) | formula | 1.955 | 1.955 | -0.000 | ✅ |
 | `writers_view_alpha` | QUITA §6.2.3 | Text 2 · arccos(−0.269972586) | formula | 1.844 | 1.844 | +0.000 | ✅ |
 | `activity_ratio` | QUITA §6.2.2 | Text 1 · 26 verbs / 14 adjectives | formula | 0.650 | 0.650 | +0.000 | ✅ |
@@ -407,17 +411,21 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### 🔍 Open — verifiable, not yet verified
 
-42 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
+46 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
 
 | Key | Source | Status |
 |---|---|---|
-| `yule_k` | Yule (1944), as cited in Malvern et al. (2004) eq. 3.9 | 🔍 |
+| `yule_k` | Yule (1944) p.53, eq. (3.22) | 🔍 |
 | `simpson_d` | Simpson (1949), as cited in Bestgen (2023) | 🔍 |
 | `brunet_w` | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) | 🔍 |
 | `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
 | `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) | 🔍 |
 | `dugast_u` | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 | 🔍 |
 | `guiraud_r` | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only | 🔍 |
+| `cttr` | Carroll (1964), as cited in Torruella & Capsada (2013) p.448 | 🔍 |
+| `summer_s` | Somers (1966), as cited in Torruella & Capsada (2013) p.448, where it is named "Summer"; the source gives no logarithm base, the natural logarithm is this library's choice | 🔍 |
+| `maas_a2` | Maas (1972), as cited in Tweedie & Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella & Capsada (2013) Table 1; all logarithms in this library are natural | 🔍 |
+| `herdan_vm` | Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18) | 🔍 |
 | `heaps_beta` | Heaps (1978), as cited in Manning et al. (2008) §5.1.1 | 🔍 |
 | `sichel_s` | Sichel (1975); formula from Malvern et al. (2004) eq. 3.10 | 🔍 |
 | `noun_variation` | Lu (2012) Table 2 | 🔍 |
@@ -439,7 +447,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `verb_dist_cv` | QUITA §6.2.1 | 🔍 |
 | `lexical_density` | Lu (2012); definition in the broad Hallidayan sense — all open-class words | 🔍 |
 | `pos_dist_std` | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 13 UD tags | 🔍 |
-| `pos_kl_div` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv), in bits | 🔍 |
+| `pos_kl_div` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits | 🔍 |
 | `front_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `back_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `syllable_mean` | Flesch (1948) Formula A, wl; unit there = syllables per 100 words, here per word | 🔍 |

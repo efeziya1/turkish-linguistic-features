@@ -71,7 +71,7 @@ satır sayısı: 3
 sütun sayısı: 211
 ```
 
-Her dosya bir satır. 211 sütun = 208 öznitelik + üç kimlik sütunu:
+Her dosya bir satır. 215 sütun = 212 öznitelik + üç kimlik sütunu:
 
 ```text
 label=yazar_a  source=metin1     segment_id=0  ttr=1.0

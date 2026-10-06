@@ -17,8 +17,8 @@ number.
 tr = tlf.analyze(tr_text, lang="tr")
 en = tlf.analyze(en_text, lang="en")
 
-len(tr)   # 208
-len(en)   # 180
+len(tr)   # 212
+len(en)   # 184
 ```
 
 The 28-feature difference breaks down as:
@@ -39,7 +39,7 @@ The `phonetic` group has 15 features in Turkish and 13 in English.
 
 ## Ask for specific groups
 
-Computing all 208 features takes time. If you do not need them all:
+Computing all 212 features takes time. If you do not need them all:
 
 ```python
 oz = tlf.analyze(text, lang="tr", groups=["readability", "lexical"])
@@ -50,7 +50,7 @@ The groups, with their Turkish feature counts:
 
 | Group | Features | Contents |
 |---|---|---|
-| `lexical` | 32 | Lexical richness, frequency |
+| `lexical` | 36 | Lexical richness, frequency |
 | `chars` | 29 | Letter frequency vector: one key per letter of the Turkish alphabet (26 in English; `q`, `w`, `x` only there) |
 | `morphological_zeyrek` | 24 | Zeyrek suffix analysis (Turkish only) |
 | `morphological` | 19 | UD morphological features |

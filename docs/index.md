@@ -1,15 +1,15 @@
 # turkish-linguistic-features
 
-Türkçe metinden **208**, İngilizce metinden **180 nicel dilbilimsel öznitelik**
-çıkarır. Her özniteliğin formülü yazılıdır; Türkçedeki 208 özniteliğin 140'ı,
-İngilizcedeki 180 özniteliğin 115'i literatürde bir kaynağa dayanır, geri
+Türkçe metinden **212**, İngilizce metinden **184 nicel dilbilimsel öznitelik**
+çıkarır. Her özniteliğin formülü yazılıdır; Türkçedeki 212 özniteliğin 144'ü,
+İngilizcedeki 184 özniteliğin 119'u literatürde bir kaynağa dayanır, geri
 kalanı saf tanımdır (örneğin bir harfin metindeki payı).
 [Doğrulama raporu](dogrulama-raporu.md), hangilerinin kaynağın yayımladığı bir
 sayıyla karşılaştırıldığını gösterir.
 
-Extracts 208 quantitative linguistic features from Turkish text and 180 from
-English. Every feature has its formula written out; 140 of the Turkish features
-and 115 of the English ones cite a source in the literature, and the rest are
+Extracts 212 quantitative linguistic features from Turkish text and 184 from
+English. Every feature has its formula written out; 144 of the Turkish features
+and 119 of the English ones cite a source in the literature, and the rest are
 plain definitions (such as a letter's share of the text). The
 [verification report](verification-report.md) shows which ones have been
 checked against a number their source published.
@@ -38,7 +38,7 @@ oz["atesman"]             # 77.2479  (Ateşman 1997 okunabilirlik)
 
 - **[Başvuru · Reference →](reference/index.md)**
 
-    208 özniteliğin tam listesi ve genel API (İngilizce).
+    212 özniteliğin tam listesi ve genel API (İngilizce).
 
 - **[Doğrulama · Verification →](dogrulama-raporu.md)**
 
@@ -61,17 +61,17 @@ oz["atesman"]             # 77.2479  (Ateşman 1997 okunabilirlik)
 
 | | Türkçe (TR) | İngilizce (EN) |
 |---|---:|---:|
-| Öznitelik | 208 | 180 |
-| Künyesi olan öznitelik | 140 | 115 |
+| Öznitelik | 212 | 184 |
+| Künyesi olan öznitelik | 144 | 119 |
 | Künyesi olmayan, saf tanım | 68 | 65 |
-| Doğrulama adayı rapor satırı | 91 | 80 |
+| Doğrulama adayı rapor satırı | 95 | 84 |
 | — kaynağın sayısıyla tolerans içinde tutan (✅) | 46 | 35 |
 | — tolerans dışında, nedeni açıklanmış (🟡) | 2 | 3 |
 
-Kaynakçada 45 eser var (iki dil için tek kaynakça).
+Kaynakçada 50 eser var (iki dil için tek kaynakça).
 
-**Formüller ile doğrulama iki ayrı şeydir.** 208 özniteliğin hepsinin
-formülü yazılıdır ve testlerle sınanır. Künyesi olan 140 özniteliğin formülü
+**Formüller ile doğrulama iki ayrı şeydir.** 212 özniteliğin hepsinin
+formülü yazılıdır ve testlerle sınanır. Künyesi olan 144 özniteliğin formülü
 kaynağına dayanır; künye sayfa ve denklem numarası verir. Kalan 68'i saf
 tanımdır (`char_a`, `punc_,_ratio`), bir kaynağı yoktur.
 

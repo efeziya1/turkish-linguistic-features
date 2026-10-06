@@ -21,7 +21,8 @@ def test_hata_hiyerarsisi():
 
 
 def test_kurulum_ipucu_bilinen_paket():
-    assert "turkish-linguistic-features[lexical_freq]" in kurulum_ipucu("wordfreq")
+    # Paket PyPI'da yok: ekstra değil paketin kendisi önerilir (2026-10-06).
+    assert kurulum_ipucu("wordfreq") == "pip install 'wordfreq>=3.0'"
 
 
 def test_zorunlu_paketler_tabloda_degil():
@@ -36,7 +37,7 @@ def test_kurulum_ipucu_bilinmeyen_paket():
 
 
 def test_uyari_kurulum_komutunu_icerir():
-    with pytest.warns(MissingDependencyWarning, match="turkish-linguistic-features\\[lexical_freq\\]"):
+    with pytest.warns(MissingDependencyWarning, match="wordfreq>=3.0"):
         uyar_eksik_bagimlilik("wordfreq", "wordfreq_* (2 öznitelik)")
 
 

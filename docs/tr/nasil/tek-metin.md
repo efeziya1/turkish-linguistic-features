@@ -16,8 +16,8 @@ Dönen şey düz bir `dict`: anahtar öznitelik adı, değer sayı.
 tr = tlf.analyze(tr_metin, lang="tr")
 en = tlf.analyze(en_metin, lang="en")
 
-len(tr)   # 208
-len(en)   # 180
+len(tr)   # 212
+len(en)   # 184
 ```
 
 Aradaki 28'in dökümü:
@@ -38,7 +38,7 @@ Aradaki 28'in dökümü:
 
 ## Yalnız bazı grupları isteyin
 
-208 özniteliğin hepsini hesaplamak zaman alır. İhtiyacınız yoksa grup seçin:
+212 özniteliğin hepsini hesaplamak zaman alır. İhtiyacınız yoksa grup seçin:
 
 ```python
 oz = tlf.analyze(metin, lang="tr", groups=["readability", "lexical"])
@@ -49,7 +49,7 @@ Mevcut gruplar ve Türkçede kaç öznitelik içerdikleri:
 
 | Grup | Öznitelik | İçerik |
 |---|---|---|
-| `lexical` | 32 | Sözcüksel zenginlik, sıklık |
+| `lexical` | 36 | Sözcüksel zenginlik, sıklık |
 | `chars` | 29 | Harf sıklık vektörü: Türkçe alfabenin her harfi için bir anahtar (İngilizcede 26; `q`, `w`, `x` yalnız orada) |
 | `morphological_zeyrek` | 24 | Zeyrek ek çözümlemesi (yalnız TR) |
 | `morphological` | 19 | UD morfolojik özellikleri |

@@ -17,7 +17,7 @@ A feature is one of three things:
 3. **A plain definition** — `punc_,_ratio` ("commas / words"). No citation,
    because there is nothing to attribute.
 
-Of 208 keys, 140 have a citation and 68 do not.
+Of 212 keys, 144 have a citation and 68 do not.
 
 ## Group
 
@@ -55,7 +55,7 @@ Every feature has a scale, and it matters when you plot:
 | `score` | A formula score with no fixed range | `atesman`, `yule_k`, `mtld` |
 | `length` | A mean length in characters, words or sentences | `avg_word_length`, `avg_sent_len_word` |
 | `cv` | Coefficient of variation (standard deviation / mean) | `sentence_length_cv` |
-| `bits` | Entropy in bits | `entropy`, `punct_entropy` |
+| `nats` | Entropy in nats (natural logarithm; every logarithm in the library is ln) | `entropy`, `punct_entropy` |
 | `signed` | A value that can be negative (slope, skewness) | `ttr_moving_slope`, `sent_len_skewness` |
 | `count` | A count | `n_lemma_count` |
 
@@ -73,7 +73,7 @@ surface tokens · lemmas · POS tags · dependency tree · sentence boundaries
    ↓  Zeyrek (Turkish only)
 suffix analysis
    ↓  feature extractors
-208 numbers
+212 numbers
 ```
 
 Two consequences:
@@ -81,7 +81,7 @@ Two consequences:
 1. **The spaCy model is part of the result.** Change the model and
    sentence splitting, POS tags and dependency features change with it.
    State which model you used in your methods section.
-2. **Preprocessing runs once.** All 208 features draw on the same analysis,
+2. **Preprocessing runs once.** All 212 features draw on the same analysis,
    so asking for fewer `groups` does not speed up preprocessing — it only
    shortens the extraction step.
 

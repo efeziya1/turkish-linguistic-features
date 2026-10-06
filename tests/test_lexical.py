@@ -7,6 +7,7 @@ import pytest
 from turkish_linguistic_features.features.lexical import (
     advanced_lexical_richness,
     brunet_w,
+    cttr,
     dugast_u,
     guiraud_r,
     hapax_count,
@@ -14,6 +15,8 @@ from turkish_linguistic_features.features.lexical import (
     hapax_ratio,
     hdd,
     heaps_beta,
+    herdan_vm,
+    maas_a2,
     msttr,
     mtld,
     pos_lexical_variation,
@@ -22,6 +25,7 @@ from turkish_linguistic_features.features.lexical import (
     reference_frequency_sophistication,
     shannon_entropy,
     simpsons_d,
+    summer_s,
     ttr_moving_slope,
     type_token_ratio,
     vocd_d,
@@ -53,9 +57,9 @@ def test_frekans_tablosu_kucuk_harfe_indirger():
 # ── entropi ───────────────────────────────────────────────────────────
 
 
-def test_entropi_esit_dagilimda_log2_n():
-    """4 kelime eşit frekansta → entropi tam olarak 2 bit."""
-    assert shannon_entropy(np.array([1, 1, 1, 1])) == 2.0
+def test_entropi_esit_dagilimda_ln_n():
+    """4 kelime eşit frekansta → entropi ln 4 nat (= 2 bit). Logaritma ln (2026-10-06)."""
+    assert shannon_entropy(np.array([1, 1, 1, 1])) == round(math.log(4), 6)
 
 
 def test_entropi_tek_kelimede_sifir():
@@ -371,10 +375,10 @@ def test_mattr_esik_tam_iki_katinda_hesaplaniyor():
 
 
 def test_entropy_std_ayrik_parcalar_artik_atilir():
-    """Parça 2: [a b] H=1 bit, [a a] H=0 → popülasyon sapması 0.5.
+    """Parça 2: [a b] H=ln 2 nat, [a a] H=0 → popülasyon sapması ln 2 / 2.
     Sondaki tek kelimelik artık parça ('c') hesaba girmez."""
     sonuc = advanced_lexical_richness(["a", "b", "a", "a", "c"], window=2)
-    assert sonuc["entropy_std"] == pytest.approx(0.5, abs=1e-4)
+    assert sonuc["entropy_std"] == pytest.approx(math.log(2) / 2, abs=1e-4)
 
 
 def test_entropy_std_tek_parcada_sifir():
@@ -425,8 +429,8 @@ def test_dugast_u_tum_kelimeler_farkliysa_sifir():
 
 
 def test_dugast_u_tek_tipte_log_n():
-    """V = 1 → U = (log N)² / log N = log₁₀ N."""
-    assert dugast_u(["a"] * 100)["dugast_u"] == 2.0
+    """V = 1 → U = (ln N)² / ln N = ln N."""
+    assert dugast_u(["a"] * 100)["dugast_u"] == round(math.log(100), 4)
 
 
 def test_guiraud_r_bilinen_deger():
@@ -752,3 +756,57 @@ def test_wordfreq_yoksa_nan_doner_ve_uyarir(monkeypatch):
     with pytest.warns(MissingDependencyWarning, match="wordfreq"):
         sonuc = reference_frequency_sophistication(["kitap"], [("kitap", "NOUN")], "tr")
     assert _hepsi_nan(sonuc)
+
+
+# ── CTTR, Summer'ın S'si, Maas a², Herdan Vm (2026-10-06) ─────────────
+
+
+def test_cttr_bilinen_deger_ve_guiraud_iliskisi():
+    """V=3, N=4 → 3/√8 = 1.06066; CTTR = Guiraud R / √2."""
+    t = ["a", "b", "a", "c"]
+    assert cttr(t)["cttr"] == 1.06066
+    assert cttr(t)["cttr"] == pytest.approx(guiraud_r(t)["guiraud_r"] / math.sqrt(2), abs=1e-5)
+    assert _nan(cttr([])["cttr"])
+
+
+def test_summer_s_bilinen_deger_ve_nan():
+    """V=3, N=4 → ln(ln 3) / ln(ln 4) = 0.094048 / 0.326634 = 0.28793."""
+    assert summer_s(["a", "b", "a", "c"])["summer_s"] == 0.28793
+    assert summer_s(["a", "b", "c"])["summer_s"] == 1.0          # V = N → 1
+    assert _nan(summer_s(["a", "b"])["summer_s"])                 # N < 3: ln(ln N) ≤ 0
+    assert _nan(summer_s(["a"] * 5)["summer_s"])                  # V = 1: ln(ln 1) tanımsız
+
+
+def test_maas_a2_bilinen_deger_ve_nan():
+    """V=3, N=4 → (ln 4 − ln 3) / (ln 4)² = 0.287682 / 1.921812 = 0.149693."""
+    assert maas_a2(["a", "b", "a", "c"])["maas_a2"] == 0.149693
+    assert maas_a2(["a", "b", "c"])["maas_a2"] == 0.0              # V = N → 0
+    assert _nan(maas_a2(["a"])["maas_a2"])
+
+
+def test_maas_a2_torruella_capsada_tablo1():
+    """Torruella & Capsada (2013) Tablo 1, 1. blok: N = 24.606, V ≈ 3.480 → Mass 0,019.
+
+    Doğal logaritma bu değeri veriyor; taban 10 0,044 verirdi.
+    """
+    tokenler = [f"w{i}" for i in range(3480)] + ["w0"] * (24606 - 3480)
+    assert round(maas_a2(tokenler)["maas_a2"], 3) == 0.019
+
+
+def test_herdan_vm_bilinen_deger_ve_k_bagintisi():
+    """f = (2, 1, 1): Σf²/N² − 1/V = 6/16 − 1/3 = 0.041667 → Vm = 0.204124.
+
+    Tweedie & Baayen (1998) denk. (19): Vm² = K/10⁴ + (1/N − 1/V).
+    """
+    freqs = np.array([2, 1, 1])
+    vm = herdan_vm(freqs)["herdan_vm"]
+    assert vm == 0.204124
+    assert vm ** 2 == pytest.approx(yules_k(freqs) / 1e4 + (1 / 4 - 1 / 3), abs=1e-5)
+    assert _nan(herdan_vm(np.array([], dtype=np.int64))["herdan_vm"])
+    assert herdan_vm(np.array([1, 1, 1]))["herdan_vm"] == 0.0     # tekrar yok → 0
+
+
+def test_maas_a2_dugast_u_tersi():
+    """İkisi de ln (2026-10-06): Tweedie & Baayen (1998) a² = 1/U tam tutar."""
+    t = ["a", "b", "a", "c", "d", "a", "b"]
+    assert maas_a2(t)["maas_a2"] * dugast_u(t)["dugast_u"] == pytest.approx(1.0, abs=1e-3)

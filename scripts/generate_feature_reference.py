@@ -105,7 +105,9 @@ def uret() -> str:
     for ad in sorted(BIBLIOGRAPHY):
         p.append(f"**{ad}**\n:   {BIBLIOGRAPHY[ad]}\n\n")
 
-    return "".join(p)
+    # Tek satır sonuyla biter: pre-commit end-of-file-fixer sondaki boş satırı siliyor,
+    # dosya üretilenden ayrılınca test_basvuru_guncel kırılıyordu.
+    return "".join(p).rstrip("\n") + "\n"
 
 
 if __name__ == "__main__":

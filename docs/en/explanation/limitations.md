@@ -25,17 +25,17 @@ suit technical writing, transcripts, poetry or children's books. If you work
 in another genre, consider deriving the thresholds from your own corpus —
 [the method is here](../../threshold-calibration.md).
 
-### 2. Eleven citations are secondary
+### 2. Fourteen citations are secondary
 
-**11 of 144** citations carry `as cited in` — the primary source could not
+**14 of 148** citations carry `as cited in` — the primary source could not
 be obtained and the formula was taken from the citing work. For example:
 
 ```text
 Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)
 ```
 
-Affected measures include `herdan_c`, `brunet_w`, `dugast_u`, `yule_k`,
-`simpson_d`, `heaps_beta` and `lix`. The formulas were verified, but not
+Affected measures include `herdan_c`, `herdan_vm`, `maas_a2`, `brunet_w`,
+`dugast_u`, `simpson_d`, `heaps_beta`, `lix`, `cttr` and `summer_s`. The formulas were verified, but not
 against the **primary source's own wording**.
 
 Carry the "as cited in" through into your own methods section. Do not
@@ -71,7 +71,16 @@ out of those features.
 
 Zeyrek is an **analyser, not a disambiguator**: it can return several
 analyses for the same surface form and does not pick the right one from
-context.
+context. The library takes the **first** analysis, with no context.
+
+Zeyrek orders the analyses by the number of suffix transitions, fewest first.
+Ties used to follow the order of same-spelled stems in Zeyrek's lexicon, which
+it loads from a Python set, so the order depended on `PYTHONHASHSEED`: on the
+TOMA set (8,225 distinct words) 612 words changed their first analysis across
+hash seeds 0–3. The library now sorts those stems in a fixed order, so the
+result no longer depends on the seed; a recorded golden set of 315 words is
+tested against it. Which analysis comes first among ties is still arbitrary —
+it is fixed, not chosen from context.
 
 ### 5. Half the candidates are still unverified
 

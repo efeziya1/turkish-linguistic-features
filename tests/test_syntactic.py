@@ -157,9 +157,9 @@ def test_pos_dist_std_elle():
 
 
 def test_pos_kl_div_elle():
-    """[N N] ve [V V] cümleleri, belge N=V=0.5 → her cümle 1 bit → ortalama 1."""
+    """[N N] ve [V V] cümleleri, belge N=V=0.5 → her cümle ln 2 nat (1 bit) → ortalama ln 2."""
     pos = [("a", "NOUN"), ("b", "NOUN"), ("c", "VERB"), ("d", "VERB")]
-    assert pos_distribution_stats(pos, [["a", "b"], ["c", "d"]])["pos_kl_div"] == 1.0
+    assert pos_distribution_stats(pos, [["a", "b"], ["c", "d"]])["pos_kl_div"] == round(math.log(2), 5)
 
 
 def test_pos_kl_div_ozdes_cumlelerde_sifir():
@@ -227,7 +227,8 @@ def test_avg_sent_len_char_bosluklar_dahil():
 
 
 def test_sent_len_entropy_elle():
-    assert sent_len_entropy([["a"] * 2, ["a"] * 2, ["a"] * 4, ["a"] * 4])["sent_len_entropy"] == 1.0
+    iki_uzunluk = [["a"] * 2, ["a"] * 2, ["a"] * 4, ["a"] * 4]
+    assert sent_len_entropy(iki_uzunluk)["sent_len_entropy"] == round(math.log(2), 5)
     assert sent_len_entropy([["a"] * 3] * 3)["sent_len_entropy"] == 0.0
     assert _nan(sent_len_entropy([["a"] * 3])["sent_len_entropy"])   # tek cümle
 

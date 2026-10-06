@@ -27,7 +27,7 @@ published is a separate question — see the
 
 | Group | Keys | What it covers |
 |---|---|---|
-| `lexical` | 32 | Lexical richness & frequency |
+| `lexical` | 36 | Lexical richness & frequency |
 | `frequency_structure` | 13 | Frequency structure (h-point family, Popescu & Altmann) |
 | `sentence` | 8 | Sentence statistics |
 | `paragraph` | 5 | Paragraph structure |
@@ -45,7 +45,7 @@ published is a separate question — see the
 
 ## `lexical` — Lexical richness & frequency
 
-32 keys.
+36 keys.
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
@@ -54,7 +54,7 @@ published is a separate question — see the
 | `word_length_cv` | spread of word length | `std(len(w)) / mean(len(w)), population std` | at least 2 words | — |
 | `ttr` | type-token ratio; falls as the text grows | `V / N` | at least 1 word | Malvern et al. (2004); QUITA §6.1.1 |
 | `mattr` | moving-average TTR | `mean TTR of every sliding window of mattr_window words` | at least 100 words (2 x mattr_window) | Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) |
-| `entropy_std` | how much word entropy varies across the text | `population std of entropies (bits) of disjoint mattr_window-word chunks` | at least 100 words (2 x mattr_window) | Shannon (1948) — the entropy formula; the standard deviation across segments is this library's own derivation |
+| `entropy_std` | how much word entropy varies across the text | `population std of entropies (nats) of disjoint mattr_window-word chunks` | at least 100 words (2 x mattr_window) | Shannon (1948) — the entropy formula; the standard deviation across segments is this library's own derivation |
 | `herdan_c` | Herdan's C (LogTTR) | `log(V) / log(N)` | at least 2 words | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) |
 | `sichel_s` | share of types occurring exactly twice | `V2 / V` | at least 1 word | Sichel (1975); formula from Malvern et al. (2004) eq. 3.10 |
 | `zipf_exponent` | Zipf slope | `abs(slope) of least-squares fit log f(r) ~ log r` | at least 10 distinct words | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus |
@@ -62,12 +62,16 @@ published is a separate question — see the
 | `zipf_mandelbrot_q` | Zipf-Mandelbrot shift | `q minimising the residual of log f ~ log(r + q), grid 0–10 step 0.1` | at least 10 distinct words | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus |
 | `zipf_mandelbrot_s` | Zipf-Mandelbrot slope | `abs(slope) at that q` | at least 10 distinct words | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus |
 | `mtld` | measure of textual lexical diversity | `mean words per factor (TTR drops to mtld_threshold), forward and backward averaged` | at least 100 words (mtld_min_tokens) with some repetition | McCarthy (2005) is the dissertation that introduced the measure — its abstract (p.vii) reads "we introduce and test a new measure of lexical diversity: the measure of textual, lexical diversity (MTLD)"; the body of the dissertation could not be obtained, so no page is given. The procedure implemented follows McCarthy & Jarvis (2010) pp.383–385 |
-| `dugast_u` | Dugast's Uber index | `log10(N)^2 / (log10(N) - log10(V))` | at least 2 words, at least one repeated | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 |
+| `dugast_u` | Dugast's Uber index | `(ln N)^2 / (ln N - ln V)` | at least 2 words, at least one repeated | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 |
 | `guiraud_r` | Guiraud's root TTR | `V / sqrt(N)` | at least 1 word | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only |
+| `cttr` | Carroll's corrected TTR | `V / sqrt(2N)` | at least 1 word | Carroll (1964), as cited in Torruella & Capsada (2013) p.448 |
+| `summer_s` | Summer's S, log-log type-token ratio | `ln(ln V) / ln(ln N)` | at least 3 words and 2 distinct words | Somers (1966), as cited in Torruella & Capsada (2013) p.448, where it is named "Summer"; the source gives no logarithm base, the natural logarithm is this library's choice |
+| `maas_a2` | Maas' a²; higher = more repetitive | `(ln N - ln V) / (ln N)^2` | at least 2 words | Maas (1972), as cited in Tweedie & Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella & Capsada (2013) Table 1; all logarithms in this library are natural |
+| `herdan_vm` | Herdan's Vm; higher = more repetitive | `sqrt(sum(f^2) / N^2 - 1 / V)` | at least 1 word | Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18) |
 | `ttr_moving_slope` | whether vocabulary thins out towards the end | `linear slope of TTR over disjoint ttr_slope_chunk_size-word chunks` | at least 100 words (2 x ttr_slope_chunk_size) | — |
 | `heaps_beta` | vocabulary growth rate | `least-squares slope of log V ~ log N over prefixes every heaps_step words, not clipped` | at least 300 words (heaps_min_tokens) | Heaps (1978), as cited in Manning et al. (2008) §5.1.1 |
-| `entropy` | Shannon entropy of word frequencies | `-sum(p * log2 p)` | at least 1 word | Shannon (1948), as cited in QUITA §6.1.12 |
-| `yule_k` | Yule's K; higher = more repetitive | `10000 * (sum(f^2) - N) / N^2` | at least 1 word | Yule (1944), as cited in Malvern et al. (2004) eq. 3.9 |
+| `entropy` | Shannon entropy of word frequencies | `-sum(p * ln p)` | at least 1 word | Shannon (1948), as cited in QUITA §6.1.12 |
+| `yule_k` | Yule's K; higher = more repetitive | `10000 * (sum(f^2) - N) / N^2` | at least 1 word | Yule (1944) p.53, eq. (3.22) |
 | `simpson_d` | chance that two words drawn without replacement are the same type | `sum(f(f-1)) / (N(N-1))` | at least 2 words | Simpson (1949), as cited in Bestgen (2023) |
 | `brunet_w` | Brunet's W | `N^(V^-a), a = brunet_w_a` | at least 1 word | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) |
 | `hapax_ratio` | share of types occurring once | `V1 / V` | at least 1 word | — |
@@ -96,8 +100,8 @@ published is a separate question — see the
 | `gini_coef` | inequality of word use | `(V + 1 - 2 * sum(r * f(r)) / N) / V, rank 1 = most frequent` | at least 1 word | QUITA §6.1.8 |
 | `curve_length` | arc length of the rank-frequency curve | `sum(sqrt((f(r) - f(r+1))^2 + 1))` | at least 1 word | QUITA §6.1.10 |
 | `curve_length_r` | share of the curve length below the h-point | `1 - L(h) / L` | at least 2 distinct words | QUITA §6.1.11 |
-| `lambda_pa` | length-normalised curve length | `L * log10(N) / N` | at least 1 word | QUITA §6.1.7; Popescu, Čech & Altmann (2011) |
-| `adjusted_modulus` | distance from the h-point to the curve ends | `sqrt((f1/h)^2 + (V/h)^2) / log10(N)` | at least 2 words | QUITA §6.1.13 |
+| `lambda_pa` | length-normalised curve length | `L * ln(N) / N` | at least 1 word | QUITA §6.1.7; Popescu, Čech & Altmann (2011) |
+| `adjusted_modulus` | distance from the h-point to the curve ends | `sqrt((f1/h)^2 + (V/h)^2) / ln(N)` | at least 2 words | QUITA §6.1.13 |
 | `writers_view_alpha` | angle at the h-point, in radians | `arccos of the angle between (1, f1) and (V, 1) seen from (h, h)` | at least 1 word; undefined when the h-point meets a curve end | Popescu, Mačutek & Altmann (2009) eq. 4.5 |
 | `thematic_concentration` | weight of content words above the h-point | `sum(2(h - r') f(r')) / (h(h-1) f1), content words with r' < h` | at least one repeated word | QUITA §6.2.5 |
 | `secondary_thematic_concentration` | same, up to rank 2h | `sum((2h - r') f(r')) / (h(2h-1) f1), r' <= 2h` | at least 1 word | QUITA §6.2.6 |
@@ -115,7 +119,7 @@ published is a separate question — see the
 | `short_sent_ratio` | share of short sentences | `sentences with fewer than short_sent_threshold words / sentences` | at least 1 sentence with a letter | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only |
 | `long_sent_ratio` | share of long sentences | `sentences with more than long_sent_threshold words / sentences` | at least 1 sentence with a letter | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only |
 | `med_sent_len` | median sentence length | `median words per sentence` | at least 1 sentence with a letter | — |
-| `sent_len_entropy` | variety of sentence lengths | `Shannon entropy (bits) of the distribution of words per sentence` | at least 2 sentences with a letter | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision |
+| `sent_len_entropy` | variety of sentence lengths | `Shannon entropy (nats) of the distribution of words per sentence` | at least 2 sentences with a letter | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision |
 
 ## `paragraph` — Paragraph structure
 
@@ -163,7 +167,7 @@ published is a separate question — see the
 | `activity_ratio` | activity Q | `VERB / (VERB + ADJ)` | at least 1 verb or adjective | QUITA §6.2.2 |
 | `lexical_density` | share of lexical words | `(NOUN + PROPN + VERB + ADJ + ADV) / all words, PUNCT and SYM excluded` | at least 1 word | Lu (2012); definition in the broad Hallidayan sense — all open-class words |
 | `pos_dist_std` | how uneven the POS distribution is | `population std of the 13 pos_* shares` | at least 1 token | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 13 UD tags |
-| `pos_kl_div` | how much sentences differ from the document in POS make-up | `mean over sentences of KL(sentence POS ‖ document POS), bits` | at least 1 token | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv), in bits |
+| `pos_kl_div` | how much sentences differ from the document in POS make-up | `mean over sentences of KL(sentence POS ‖ document POS), nats` | at least 1 token | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits |
 
 ## `syntactic_dep` — Dependency tree (distance, depth, sentence-final POS)
 
@@ -222,7 +226,7 @@ published is a separate question — see the
 |---|---|---|---|---|
 | `agglutination_depth` | visible suffixes per word | `visible suffixes / analysed words` | at least 1 analysed word | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) |
 | `suffix_char_length_ratio` | share of word letters in suffixes | `suffix letters / word letters` | at least 1 analysed word | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) |
-| `suffix_bigram_entropy` | variety of suffix sequences | `Shannon entropy (bits) of within-word visible suffix pairs` | at least 1 word with 2 visible suffixes | Shannon (1948) — the entropy formula; Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) |
+| `suffix_bigram_entropy` | variety of suffix sequences | `Shannon entropy (nats) of within-word visible suffix pairs` | at least 1 word with 2 visible suffixes | Shannon (1948) — the entropy formula; Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) |
 | `derivational_suffix_ratio` | share of derivational suffixes | `derivational / visible suffixes` | at least 1 visible suffix | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) |
 | `verb_suffix_diversity` | suffix variety on verbs | `mean distinct visible suffix tags per verb_suffix_window-verb chunk` | at least 50 verbs (verb_suffix_window) | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) |
 | `tense_past_def` | share of verbs in the definite past (-DI) | `verbs whose last tense tag is X / verbs` | at least 1 verb | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) |
@@ -303,7 +307,7 @@ published is a separate question — see the
 | `punc_quote_ratio` | quotation mark marks per word | `marks / words` | at least 1 word | — |
 | `punc_question_ratio` | question mark marks per word | `marks / words` | at least 1 word | — |
 | `punct_density` | punctuation marks per character | `marks / characters` | non-empty text | — |
-| `punct_entropy` | variety of punctuation types | `Shannon entropy (bits) of the 10 mark types` | at least 1 punctuation mark | Shannon (1948) — the entropy formula; applying it to the distribution of punctuation types is this library's own decision |
+| `punct_entropy` | variety of punctuation types | `Shannon entropy (nats) of the 10 mark types` | at least 1 punctuation mark | Shannon (1948) — the entropy formula; applying it to the distribution of punctuation types is this library's own decision |
 | `consecutive_punct_ratio` | share of marks directly next to another mark | `adjacent marks / marks` | at least 1 punctuation mark | — |
 | `whitespace_ratio` | share of whitespace characters | `whitespace / characters` | non-empty text | — |
 | `punct_variety` | number of punctuation types used (0–10) | `distinct mark types` | non-empty text | — |
@@ -328,7 +332,7 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 
 ## Bibliography
 
-45 works. Every citation above names at least one of these verbatim, and every entry here is named by at least one citation — both directions are tested.
+50 works. Every citation above names at least one of these verbatim, and every entry here is named by at least one citation — both directions are tested.
 
 **Akın & Akın (2007)**
 :   Akın, A. A., & Akın, M. D. (2007). Zemberek, an open source NLP framework for Turkic Languages. 8 pp. Source code: github.com/ahmetaa/zemberek-nlp. (The document does not state a place of publication.)
@@ -351,6 +355,9 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 **Brunet (1978)**
 :   Brunet, E. (1978). Vocabulaire de Jean Giraudoux: structure et évolution. Genève: Slatkine. (Book.) The record was verified from the reference list of Popescu, Čech & Altmann (2011). The primary source could not be obtained.
 
+**Carroll (1964)**
+:   Carroll, J. B. (1964). Language and Thought. Englewood Cliffs, NJ: Prentice-Hall. The record was verified from the reference list of Torruella & Capsada (2013). The primary source could not be obtained.
+
 **Coleman & Liau (1975)**
 :   Coleman, M., & Liau, T. L. (1975). A computer readability formula designed for machine scoring. Journal of Applied Psychology, 60(2), 283–284. DOI 10.1037/h0076540
 
@@ -358,7 +365,7 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 :   Covington, M. A., & McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098
 
 **Daller (2010)**
-:   Daller, M. (2010). Guiraud's Index. BAAL 2010, Aberdeen. (Sunum.)
+:   Daller, M. (2010). Guiraud's Index. BAAL 2010, Aberdeen. (Presentation.)
 
 **Deutsch, Jasbi & Shieber (2020)**
 :   Deutsch, T., Jasbi, M., & Shieber, S. (2020). Linguistic features for readability assessment. Proceedings of the 15th Workshop on Innovative Use of NLP for Building Educational Applications (BEA), 1–17. DOI 10.18653/v1/2020.bea-1.1
@@ -373,10 +380,13 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 :   Guiraud, P. (1954). Les Caractères Statistiques du Vocabulaire. Essai de méthodologie. Paris: Presses Universitaires de France.
 
 **Göksel & Kerslake (2005)**
-:   Göksel, A., & Kerslake, C. (2005). Turkish: A Comprehensive Grammar. London & New York: Routledge. 535 s. ISBN 0-415-11494-2 (pbk), 0-415-21761-X (hbk).
+:   Göksel, A., & Kerslake, C. (2005). Turkish: A Comprehensive Grammar. London & New York: Routledge. 535 pp. ISBN 0-415-11494-2 (pbk), 0-415-21761-X (hbk).
 
 **Heaps (1978)**
 :   Heaps, H. S. (1978). Information Retrieval: Computational and Theoretical Aspects. New York: Academic Press.
+
+**Herdan (1955)**
+:   Herdan, G. (1955). A new derivation and interpretation of Yule's characteristic K. Zeitschrift für Angewandte Mathematik und Physik, 6. The record was verified from the reference list of Tweedie & Baayen (1998). The primary source could not be obtained.
 
 **Herdan (1960/1964)**
 :   Herdan, G. (1960). Type-Token Mathematics. The Hague: Mouton. / Herdan, G. (1964). Quantitative Linguistics. London: Butterworths.
@@ -395,6 +405,9 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 
 **Lu (2012)**
 :   Lu, X. (2012). The relationship of lexical richness to the quality of ESL learners' oral narratives. The Modern Language Journal, 96(2), 190–208. DOI 10.1111/j.1540-4781.2011.01232.x
+
+**Maas (1972)**
+:   Maas, H.-D. (1972). Zusammenhang zwischen Wortschatzumfang und Länge eines Textes. Zeitschrift für Literaturwissenschaft und Linguistik, 8, 73–79. The record was verified from the reference list of Tweedie & Baayen (1998). The primary source could not be obtained.
 
 **Malvern et al. (2004)**
 :   Malvern, D., Richards, B., Chipere, N., & Durán, P. (2004). Lexical Diversity and Language Development: Quantification and Assessment. Basingstoke: Palgrave Macmillan. ISBN 978-1-4039-0232-0. DOI 10.1057/9780230511804.
@@ -418,7 +431,7 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 :   Piantadosi, S. T. (2014). Zipf's word frequency law in natural language: A critical review and future directions. Psychonomic Bulletin & Review, 21(5), 1112–1130. DOI 10.3758/s13423-014-0585-6
 
 **Popescu & Altmann (2006)**
-:   Popescu, I.-I., & Altmann, G. (2006). Some aspects of word frequencies. Glottometrics, 13, 23–46. RAM-Verlag; dergi ISSN 2625-8226.
+:   Popescu, I.-I., & Altmann, G. (2006). Some aspects of word frequencies. Glottometrics, 13, 23–46. RAM-Verlag; journal ISSN 2625-8226.
 
 **Popescu et al. (2009)**
 :   Popescu, I.-I., Altmann, G., Grzybek, P., et al. (2009). Word Frequency Studies. Berlin: Mouton de Gruyter. (Quantitative Linguistics 64.) ISBN 978-3-11-021852-7, ISSN 0179-3616. DOI 10.1515/9783110218534
@@ -442,10 +455,16 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 :   Simpson, E. H. (1949). Measurement of diversity. Nature, 163(4148), 688. DOI 10.1038/163688a0
 
 **Smith & Senter (1967)**
-:   Smith, E. A., & Senter, R. J. (1967). Automated readability index. AMRL-TR-66-220. Wright-Patterson AFB, OH: Aerospace Medical Research Laboratories. 22 s.
+:   Smith, E. A., & Senter, R. J. (1967). Automated readability index. AMRL-TR-66-220. Wright-Patterson AFB, OH: Aerospace Medical Research Laboratories. 22 pp.
+
+**Somers (1966)**
+:   Somers, H. H. (1966). Statistical methods in literary analysis. In J. Leeds (Ed.), The Computer and Literary Style (pp. 128–140). Kent, OH: Kent State University Press. The record was verified from the reference list of Torruella & Capsada (2013). The primary source could not be obtained.
 
 **This library's threshold calibration**
 :   This library's own measurement, not a published source. short_sent_threshold and long_sent_threshold were derived from the 15th and 85th percentiles of the sentence-length distribution of newspaper columns under the default sentence and word rules: TR 162 columnists / 4,321 articles / 197,990 sentences, EN 30 columnists / 1,485 articles / 52,745 sentences. Method and raw percentile table: docs/threshold-calibration.md.
+
+**Torruella & Capsada (2013)**
+:   Torruella, J., & Capsada, R. (2013). Lexical statistics and tipological structures: A measure of lexical richness. Procedia - Social and Behavioral Sciences, 95, 447–454. DOI 10.1016/j.sbspro.2013.10.668
 
 **Tweedie & Baayen (1998)**
 :   Tweedie, F. J., & Baayen, R. H. (1998). How variable may a constant be? Measures of lexical richness in perspective. Computers and the Humanities, 32(5), 323–352. DOI 10.1023/A:1001749303137
@@ -464,4 +483,3 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 
 **Çetinkaya (2010)**
 :   Çetinkaya, G. (2010). Türkçe metinlerin okunabilirlik düzeylerinin tanımlanması ve sınıflandırılması [Unpublished doctoral dissertation]. Ankara Üniversitesi, Sosyal Bilimler Enstitüsü. Advisor: Leylâ Uzun. 252 pp. hdl:20.500.12812/519962
-

@@ -35,7 +35,7 @@ için kaynakla eşlenecek bir denklemleri de yoktur.
 
 ## Önce: her öznitelik doğrulanamaz
 
-Bu ayrım raporun en önemli parçası. 208 özniteliğin bir kısmı, tanımı gereği
+Bu ayrım raporun en önemli parçası. 212 özniteliğin bir kısmı, tanımı gereği
 **doğrulama adayı bile değildir**:
 
 | | Neden aday değil |
@@ -223,16 +223,16 @@ tlf.describe_feature("entropy_std")["formula"]
 ```
 
 ```text
-'population std of entropies (bits) of disjoint mattr_window-word chunks'
+'population std of entropies (nats) of disjoint mattr_window-word chunks'
 ```
 
 Örnek olarak altısı:
 
 | Öznitelik | Tanım | Kaynağa ait olan |
 |---|---|---|
-| `entropy_std` | ayrık `mattr_window` kelimelik parçaların entropilerinin (bit) popülasyon standart sapması | entropi formülü — Shannon (1948) |
-| `punct_entropy` | on noktalama türünün dağılımının Shannon entropisi (bit) | entropi formülü — Shannon (1948) |
-| `sent_len_entropy` | cümle başına kelime dağılımının Shannon entropisi (bit) | entropi formülü — Shannon (1948) |
+| `entropy_std` | ayrık `mattr_window` kelimelik parçaların entropilerinin (nat) popülasyon standart sapması | entropi formülü — Shannon (1948) |
+| `punct_entropy` | on noktalama türünün dağılımının Shannon entropisi (nat) | entropi formülü — Shannon (1948) |
+| `sent_len_entropy` | cümle başına kelime dağılımının Shannon entropisi (nat) | entropi formülü — Shannon (1948) |
 | `short_sent_ratio` | `short_sent_threshold` kelimeden az cümle / cümle | eşik değeri — [eşik kalibrasyonu](../../esik-kalibrasyonu.md) |
 | `long_sent_ratio` | `long_sent_threshold` kelimeden çok cümle / cümle | eşik değeri — [eşik kalibrasyonu](../../esik-kalibrasyonu.md) |
 | `polysyllabic_word_ratio` | 3+ heceli kelime / hecelenebilir kelime | çok heceli tanımı — McLaughlin (1969) s.641 |

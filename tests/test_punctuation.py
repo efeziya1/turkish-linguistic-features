@@ -111,8 +111,8 @@ def test_punct_density_kesme_isareti_sayilmaz():
 
 
 def test_punct_entropy_elle():
-    """Virgül + nokta eşit → 1 bit; hep üç nokta → 0."""
-    assert punct_entropy("a, b.")["punct_entropy"] == 1.0
+    """Virgül + nokta eşit → ln 2 nat (1 bit); hep üç nokta → 0."""
+    assert punct_entropy("a, b.")["punct_entropy"] == round(math.log(2), 6)
     assert punct_entropy("a... b…")["punct_entropy"] == 0.0
 
 

@@ -1,6 +1,6 @@
 """Sözcüksel temel: frekans tablosu ve klasik kelime zenginliği ölçütleri.
 
-Bu modül 31 öznitelik anahtarı üretir (`lexical` grubunun 32'sinden; kalan
+Bu modül 35 öznitelik anahtarı üretir (`lexical` grubunun 36'sından; kalan
 ``n_lemma_count`` T20'de sayılır):
 
 - T04 (11): ``ttr`` · ``entropy`` · ``yule_k`` · ``simpson_d`` · ``brunet_w`` ·
@@ -12,6 +12,7 @@ Bu modül 31 öznitelik anahtarı üretir (`lexical` grubunun 32'sinden; kalan
 - T06 (3): ``vocd_d`` · ``hdd`` · ``msttr``
 - T07 (6): ``zipf_exponent`` · ``zipf_r2`` · ``zipf_mandelbrot_q`` ·
   ``zipf_mandelbrot_s`` · ``wordfreq_mean`` · ``wordfreq_rare_ratio``
+- 2026-10-06 (4): ``cttr`` · ``summer_s`` · ``maas_a2`` · ``herdan_vm``
 
 Bütün fonksiyonlar saftır: girdi token listesi, çıktı sayı. NLP modeli
 gerekmez — tokenizasyonu çağıran taraf yapmıştır.
@@ -95,12 +96,15 @@ def type_token_ratio(N: int, V: int) -> dict[str, float]:
 
 
 def shannon_entropy(freqs: np.ndarray) -> float:
-    """Frekans dağılımının Shannon entropisi, bit cinsinden: ``-Σ p·log₂(p)``. Boşsa NaN."""
+    """Frekans dağılımının Shannon entropisi, nat cinsinden: ``-Σ p·ln(p)``. Boşsa NaN.
+
+    Doğal logaritma (2026-10-06, Efe: kütüphanenin bütün logaritmaları ln); bit = nat / ln 2.
+    """
     N = freqs.sum()
     if N == 0:
         return math.nan
     p = freqs.astype(np.float64) / N
-    return round(float(-np.sum(p * np.log2(p))), 6)
+    return round(float(-np.sum(p * np.log(p))), 6)
 
 
 def yules_k(freqs: np.ndarray) -> float:
@@ -307,7 +311,7 @@ def advanced_lexical_richness(tokens: list[str], window: int = 50) -> dict[str, 
       boyundayken tek pencere kalıyordu: ortalama alacak bir şey olmuyor,
       MATTR matematiksel olarak düz TTR'a çöküyordu — yani düzeltmek için
       var olduğu şeye dönüşüp bunu sessizce yapıyordu.
-    - ``entropy_std`` — ``window``'luk **ayrık** parçaların entropileri (bit)
+    - ``entropy_std`` — ``window``'luk **ayrık** parçaların entropileri (nat)
       arasındaki popülasyon sapması (2026-09-15, Efe). 2'den az tam parça → NaN.
     - ``herdan_c`` — ``log V / log N``; taban oranda sadeleşir. ``N = 1`` → NaN.
 
@@ -387,17 +391,18 @@ def mtld(tokens: list[str], threshold: float = 0.72,
 
 
 def dugast_u(tokens: list[str]) -> dict[str, float]:
-    """Dugast'ın Uber indeksi ``U = (log₁₀ N)² / (log₁₀ N − log₁₀ V)``.
+    """Dugast'ın Uber indeksi ``U = (ln N)² / (ln N − ln V)``.
 
-    Taban 10 (2026-09-15, Efe): quanteda ve koRpus ile aynı. Taban sonucu
-    ölçekler (ln ile 2.3 kat), sıralamayı değiştirmez. ``N < 2`` ya da
-    ``N == V`` (payda 0) → NaN. ``V = 1`` tanımlıdır: ``U = log₁₀ N``.
+    Doğal logaritma (2026-10-06, Efe: kütüphanenin bütün logaritmaları ln; 2026-09-15'ten beri
+    taban 10'du, quanteda ve koRpus gibi). Taban sonucu ölçekler (ln değeri = log₁₀ değeri ×
+    ln 10), sıralamayı değiştirmez; ``maas_a2`` ile tam ``U = 1 / a²``. ``N < 2`` ya da
+    ``N == V`` (payda 0) → NaN. ``V = 1`` tanımlıdır: ``U = ln N``.
     """
     N = len(tokens)
     V = len(set(tokens))
     if N < 2 or N == V:
         return {"dugast_u": math.nan}
-    return {"dugast_u": round(math.log10(N) ** 2 / (math.log10(N) - math.log10(V)), 4)}
+    return {"dugast_u": round(math.log(N) ** 2 / (math.log(N) - math.log(V)), 4)}
 
 
 def guiraud_r(tokens: list[str]) -> dict[str, float]:
@@ -405,6 +410,60 @@ def guiraud_r(tokens: list[str]) -> dict[str, float]:
     if not tokens:
         return {"guiraud_r": math.nan}
     return {"guiraud_r": round(len(set(tokens)) / math.sqrt(len(tokens)), 5)}
+
+
+def cttr(tokens: list[str]) -> dict[str, float]:
+    """Carroll'un düzeltilmiş TTR'si ``V / √(2N)`` (Carroll 1964, aktaran Torruella & Capsada
+    2013 s.448). ``guiraud_r``'nin √2'ye bölünmüş hâli; Guiraud'un asıl yasası da bu biçim.
+    Boşsa NaN."""
+    if not tokens:
+        return {"cttr": math.nan}
+    return {"cttr": round(len(set(tokens)) / math.sqrt(2 * len(tokens)), 5)}
+
+
+def summer_s(tokens: list[str]) -> dict[str, float]:
+    """Summer'ın S'si ``ln(ln V) / ln(ln N)`` (Somers 1966, aktaran Torruella & Capsada 2013
+    s.448).
+
+    Doğal logaritma (2026-10-06, Efe): kaynak tabanı yazmıyor; aynı tablodaki Maas değerleri
+    (``maas_a2``) doğal logaritmayla tutuyor. ``ln(ln N)`` ``N ≤ 2``'de sıfır ya da tanımsız,
+    ``ln(ln V)`` ``V = 1``'de tanımsız → NaN.
+    """
+    N = len(tokens)
+    V = len(set(tokens))
+    if N < 3 or V < 2:
+        return {"summer_s": math.nan}
+    return {"summer_s": round(math.log(math.log(V)) / math.log(math.log(N)), 5)}
+
+
+def maas_a2(tokens: list[str]) -> dict[str, float]:
+    """Maas'ın a²'si ``(ln N − ln V) / (ln N)²`` (Maas 1972, aktaran Tweedie & Baayen 1998
+    s.327, denk. 7). Kelime tekrarı arttıkça büyür.
+
+    Doğal logaritma (2026-10-06, Efe): kaynak tabanı yazmıyor; Torruella & Capsada (2013)
+    Tablo 1'deki değerler (≈ 0,019) doğal logaritmayla tutuyor. Tweedie & Baayen a²'nin
+    Dugast'ın 1/U'su olduğunu söyler; ikisi de ln kullandığı için ``maas_a2 = 1 / dugast_u``. ``N < 2`` → NaN.
+    """
+    N = len(tokens)
+    if N < 2:
+        return {"maas_a2": math.nan}
+    V = len(set(tokens))
+    return {"maas_a2": round((math.log(N) - math.log(V)) / math.log(N) ** 2, 6)}
+
+
+def herdan_vm(freqs: np.ndarray) -> dict[str, float]:
+    """Herdan'ın Vm'si ``√(Σ V(i,N)·(i/N)² − 1/V)`` (Herdan 1955, aktaran Tweedie & Baayen 1998
+    s.330, denk. 18). ``yule_k``'nın Herdan'ca düzeltilmiş biçimi; tekrar arttıkça büyür.
+
+    ``Σ V(i,N)·(i/N)²`` tiplerin frekansları üzerinden ``Σ f² / N²``'dir. Kök içi hiçbir zaman
+    negatif değil (``Σ f² ≥ N²/V``); yuvarlama hatasına karşı sıfıra kırpılır. Boşsa NaN.
+    """
+    N = int(freqs.sum())
+    if N == 0:
+        return {"herdan_vm": math.nan}
+    f = freqs.astype(np.float64)
+    ic = float(np.sum(f ** 2)) / N ** 2 - 1 / len(f)
+    return {"herdan_vm": round(math.sqrt(max(ic, 0.0)), 6)}
 
 
 def ttr_moving_slope(tokens: list[str], chunk_size: int = 50) -> dict[str, float]:

@@ -20,10 +20,10 @@ len(kisa), len(nan_olan)
 ```
 
 ```text
-(208, 46)
+(212, 46)
 ```
 
-208 öznitelikten **46'sı** `nan`. Örnekler:
+212 öznitelikten **46'sı** `nan`. Örnekler:
 
 ```text
 ['causative_suffix_ratio', 'conditional_suffix_ratio',
@@ -145,7 +145,7 @@ parçalama:
 satirlar = tlf.analyze_corpus("korpus/", lang="tr", segment_size=1000)
 ```
 
-1000 tokenlık parçalar 208 özniteliğin neredeyse tamamını besler. Ayrıntı:
+1000 tokenlık parçalar 212 özniteliğin neredeyse tamamını besler. Ayrıntı:
 [Metni parçalara böl](../nasil/segmentleme.md).
 
 ## Neden `None` değil de `nan`

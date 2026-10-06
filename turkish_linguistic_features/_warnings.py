@@ -29,9 +29,11 @@ class ParagraphStructureWarning(UserWarning):
 # Sadece OPSİYONEL paketler burada. numpy, spaCy, zeyrek ve textstat
 # zorunlu (K1) — onlar eksikse paket zaten kurulamamış demektir, ipucu
 # vermenin anlamı yok. 2026-08-25'te zeyrek ve textstat bu tablodan çıktı.
+# Paket PyPI'da olmadığı için ekstra adı (`[lexical_freq]`) kurulmaz; komut paketin kendisini
+# pyproject'teki alt sınırla kurar (2026-10-06).
 _KURULUM_KOMUTU: dict[str, str] = {
-    "pandas": "pip install 'turkish-linguistic-features[pandas]'",
-    "wordfreq": "pip install 'turkish-linguistic-features[lexical_freq]'",
+    "pandas": "pip install 'pandas>=1.5'",
+    "wordfreq": "pip install 'wordfreq>=3.0'",
 }
 
 

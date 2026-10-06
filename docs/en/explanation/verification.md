@@ -38,7 +38,7 @@ they rest on no source, so there is no source equation to match.
 ## First: not every feature can be verified
 
 This distinction is the most important part of the report. By definition,
-some of the 208 features are **not even candidates** for verification:
+some of the 212 features are **not even candidates** for verification:
 
 | | Why not a candidate |
 |---|---|
@@ -242,16 +242,16 @@ tlf.describe_feature("entropy_std")["formula"]
 ```
 
 ```text
-'population std of entropies (bits) of disjoint mattr_window-word chunks'
+'population std of entropies (nats) of disjoint mattr_window-word chunks'
 ```
 
 Six examples:
 
 | Feature | Definition | What belongs to the source |
 |---|---|---|
-| `entropy_std` | population standard deviation of the entropies (bits) of disjoint `mattr_window`-word chunks | the entropy formula — Shannon (1948) |
-| `punct_entropy` | Shannon entropy (bits) of the distribution over the ten mark types | the entropy formula — Shannon (1948) |
-| `sent_len_entropy` | Shannon entropy (bits) of the distribution of words per sentence | the entropy formula — Shannon (1948) |
+| `entropy_std` | population standard deviation of the entropies (nats) of disjoint `mattr_window`-word chunks | the entropy formula — Shannon (1948) |
+| `punct_entropy` | Shannon entropy (nats) of the distribution over the ten mark types | the entropy formula — Shannon (1948) |
+| `sent_len_entropy` | Shannon entropy (nats) of the distribution of words per sentence | the entropy formula — Shannon (1948) |
 | `short_sent_ratio` | sentences with fewer than `short_sent_threshold` words / sentences | the threshold value — [threshold calibration](../../threshold-calibration.md) |
 | `long_sent_ratio` | sentences with more than `long_sent_threshold` words / sentences | the threshold value — [threshold calibration](../../threshold-calibration.md) |
 | `polysyllabic_word_ratio` | 3+ syllable words / syllabifiable words | the definition of polysyllabic — McLaughlin (1969) p.641 |

@@ -67,7 +67,7 @@ print(len(oz))
 ```
 
 ```text
-208
+212
 ```
 
 `lang` verilmezse varsayılan `"tr"`'dir; İngilizce metin için `lang="en"`
@@ -78,7 +78,7 @@ sayılar. İç içe yapı yok, sınıf yok, `pandas` zorunluluğu yok.
 
 ## 4. Çıktıyı okuyun
 
-208 sayıya birden bakmanın anlamı yok. Birkaçına bakalım:
+212 sayıya birden bakmanın anlamı yok. Birkaçına bakalım:
 
 ```python
 for k in ("ttr", "avg_word_length", "avg_sent_len_word",
@@ -92,7 +92,7 @@ avg_word_length      5.7667
 avg_sent_len_word    10.0
 syllable_mean        2.5333
 atesman              70.9483
-entropy              4.906891
+entropy              3.401197
 ```
 
 Bunlar ne anlatıyor:
@@ -104,7 +104,7 @@ Bunlar ne anlatıyor:
 | `avg_sent_len_word` | 10.0 | Cümle başına 10 kelime. Türkçe roman korpusunda medyan 9'dur. |
 | `syllable_mean` | 2.5333 | Kelime başına 2,53 hece. |
 | `atesman` | 70.9483 | Ateşman (1997) okunabilirlik puanı, 0–100. 70 "kolay"a yakın. |
-| `entropy` | 4.906891 | Kelime dağılımının Shannon entropisi, bit. |
+| `entropy` | 3.401197 | Kelime dağılımının Shannon entropisi, nat (doğal logaritma). |
 
 !!! note "`ttr = 1.0` sizi yanıltmasın"
 
@@ -137,10 +137,10 @@ print(len(kisa), len(nan_olan))
 ```
 
 ```text
-208 46
+212 46
 ```
 
-Üç kelimelik bir metinde 208 öznitelikten **46'sı** `nan` döner. Bu bir hata
+Üç kelimelik bir metinde 212 öznitelikten **46'sı** `nan` döner. Bu bir hata
 değil, dürüstlüktür. Ayrıntı: **[NaN ne demek](aciklama/nan.md)**.
 
 ## 6. Bir özniteliğin kaynağını görün
@@ -199,7 +199,7 @@ satır sayısı: 3
 sütun sayısı: 211
 ```
 
-Her dosya bir satır olur. 211 sütun = 208 öznitelik + üç kimlik sütunu:
+Her dosya bir satır olur. 215 sütun = 212 öznitelik + üç kimlik sütunu:
 
 ```text
 label=yazar_a  source=metin1     segment_id=0

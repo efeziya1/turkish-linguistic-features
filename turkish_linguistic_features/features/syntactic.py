@@ -44,12 +44,12 @@ _PARA_UYARI_KELIME = 1000
 _SENT_END = re.compile(r"[.!?…]+")        # cümle sonu işareti
 
 
-def _entropy_bits(sayimlar: Counter) -> float:
-    """Sayım dağılımının Shannon entropisi, bit cinsinden. Boşsa NaN."""
+def _entropy_nats(sayimlar: Counter) -> float:
+    """Sayım dağılımının Shannon entropisi, nat cinsinden (ln). Boşsa NaN."""
     toplam = sum(sayimlar.values())
     if toplam == 0:
         return math.nan
-    return -sum((c / toplam) * math.log2(c / toplam) for c in sayimlar.values())
+    return -sum((c / toplam) * math.log(c / toplam) for c in sayimlar.values())
 
 
 def _cv(degerler: np.ndarray) -> float:
@@ -185,7 +185,7 @@ def pos_distribution_stats(pos_data: list[tuple[str, str]],
     Tek bir POS her şeyse büyük, POS'lar eşit dağılmışsa küçüktür.
 
     ``pos_kl_div`` — her cümlenin POS dağılımının belge POS dağılımına
-    Kullback-Leibler ıraksaması, cümle sayısına bölünmüş, bit cinsinden.
+    Kullback-Leibler ıraksaması, cümle sayısına bölünmüş, nat cinsinden (ln).
     Düzleştirme yok: cümlede geçen bir POS belgede de geçtiği için payda
     hiçbir zaman sıfır olmaz.
 
@@ -220,7 +220,7 @@ def pos_distribution_stats(pos_data: list[tuple[str, str]],
         for etiket, c in yerel.items():
             p = c / len(dilim)
             q = belge[etiket] / toplam
-            kl_toplam += p * math.log2(p / q)
+            kl_toplam += p * math.log(p / q)
 
     kl = kl_toplam / cumle_sayisi
     return {"pos_dist_std": round(float(oranlar.std()), 5), "pos_kl_div": round(abs(kl), 5)}
@@ -288,7 +288,7 @@ def avg_sent_len_char(cumleler: list[list[str]]) -> dict[str, float]:
 
 
 def sent_len_entropy(cumleler: list[list[str]]) -> dict[str, float]:
-    """Cümle uzunluğu dağılımının Shannon entropisi (bit) — ritim çeşitliliği.
+    """Cümle uzunluğu dağılımının Shannon entropisi (nat) — ritim çeşitliliği.
 
     Uzunluk **kelimeyle** ölçülür (``_cumle_kelimeleri``); her farklı uzunluk
     bir kategori. Hep aynı uzunlukta cümle → 0. 2'den az cümle → NaN (tek
@@ -297,7 +297,7 @@ def sent_len_entropy(cumleler: list[list[str]]) -> dict[str, float]:
     kelimeler = _cumle_kelimeleri(cumleler)
     if len(kelimeler) < 2:
         return {"sent_len_entropy": math.nan}
-    return {"sent_len_entropy": round(_entropy_bits(Counter(len(c) for c in kelimeler)), 5)}
+    return {"sent_len_entropy": round(_entropy_nats(Counter(len(c) for c in kelimeler)), 5)}
 
 
 # ── paragraf ──────────────────────────────────────────────────────────
