@@ -2855,14 +2855,14 @@ published is a separate question — see the
 <td>share of short sentences</td>
 <td><code>sentences with fewer than short_sent_threshold words / sentences</code></td>
 <td>at least 1 sentence with a letter</td>
-<td>This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 7 — 15th percentile. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on novels/fiction only</td>
+<td>This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 9 — 15th percentile of newspaper columns under the default sentence rule. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only</td>
 </tr>
 <tr>
 <td><code>long_sent_ratio</code></td>
 <td>share of long sentences</td>
 <td><code>sentences with more than long_sent_threshold words / sentences</code></td>
 <td>at least 1 sentence with a letter</td>
-<td>This library's threshold calibration (docs/threshold-calibration.md); TR 18, EN 39 — 85th percentile. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish novels 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on novels/fiction only</td>
+<td>This library's threshold calibration (docs/threshold-calibration.md); TR 18, EN 33 — 85th percentile of newspaper columns under the default sentence rule. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only</td>
 </tr>
 <tr>
 <td><code>med_sent_len</code></td>
@@ -4030,7 +4030,7 @@ published is a separate question — see the
 <dt><strong>Smith &amp; Senter (1967)</strong></dt>
 <dd>Smith, E. A., &amp; Senter, R. J. (1967). Automated readability index. AMRL-TR-66-220. Wright-Patterson AFB, OH: Aerospace Medical Research Laboratories. 22 s.</dd>
 <dt><strong>This library's threshold calibration</strong></dt>
-<dd>This library's own measurement, not a published source. short_sent_threshold and long_sent_threshold were derived from the 15th and 85th percentiles of the sentence-length distribution in novel corpora: TR 15 authors / 1,089,841 sentences, EN 10 authors / 341,892 sentences. Method and raw percentile table: docs/threshold-calibration.md.</dd>
+<dd>This library's own measurement, not a published source. short_sent_threshold and long_sent_threshold were derived from the 15th and 85th percentiles of the sentence-length distribution of newspaper columns under the default sentence rule: TR 162 columnists / 4,321 articles / 197,990 sentences, EN 30 columnists / 1,485 articles / 52,745 sentences. Method and raw percentile table: docs/threshold-calibration.md.</dd>
 <dt><strong>Tweedie &amp; Baayen (1998)</strong></dt>
 <dd>Tweedie, F. J., &amp; Baayen, R. H. (1998). How variable may a constant be? Measures of lexical richness in perspective. Computers and the Humanities, 32(5), 323–352. DOI 10.1023/A:1001749303137</dd>
 <dt><strong>Yule (1944)</strong></dt>

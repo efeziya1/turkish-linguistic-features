@@ -1974,10 +1974,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#15th85th-or-10th90th" class="md-nav__link">
+  <a href="#comparison-with-atesman-1997" class="md-nav__link">
     <span class="md-ellipsis">
       
-        15th/85th or 10th/90th
+        Comparison with Ateşman (1997)
       
     </span>
   </a>
@@ -1985,10 +1985,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#comparison-with-atesman-1997" class="md-nav__link">
+  <a href="#earlier-calibration-2026-07-28-superseded" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Comparison with Ateşman (1997)
+        Earlier calibration (2026-07-28, superseded)
       
     </span>
   </a>
@@ -2099,10 +2099,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#15th85th-or-10th90th" class="md-nav__link">
+  <a href="#comparison-with-atesman-1997" class="md-nav__link">
     <span class="md-ellipsis">
       
-        15th/85th or 10th/90th
+        Comparison with Ateşman (1997)
       
     </span>
   </a>
@@ -2110,10 +2110,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#comparison-with-atesman-1997" class="md-nav__link">
+  <a href="#earlier-calibration-2026-07-28-superseded" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Comparison with Ateşman (1997)
+        Earlier calibration (2026-07-28, superseded)
       
     </span>
   </a>
@@ -2153,9 +2153,9 @@
 
 <h1 id="calibrating-the-sentence-length-thresholds">Calibrating the sentence-length thresholds<a class="headerlink" href="#calibrating-the-sentence-length-thresholds" title="Permanent link">&para;</a></h1>
 <p><code>short_sent_threshold</code> and <code>long_sent_threshold</code> were not taken from a
-published source; they were chosen by measurement on novel corpora. This
-document records that measurement.</p>
-<p><strong>Measured:</strong> 2026-07-28</p>
+published source; they were chosen by measurement on newspaper columns, with the default sentence rule.
+This document records that measurement.</p>
+<p><strong>Measured:</strong> 2026-10-06 (current). The earlier measurement of 2026-07-28 is under "Earlier calibration" below.</p>
 <h2 id="result">Result<a class="headerlink" href="#result" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -2173,8 +2173,8 @@ document records that measurement.</p>
 </tr>
 <tr>
 <td><strong>English</strong></td>
-<td>7</td>
-<td>39</td>
+<td>9</td>
+<td>33</td>
 </tr>
 </tbody>
 </table>
@@ -2192,30 +2192,125 @@ leave out keeps the value above (<a href="../en/how-to/parameters/">details</a>)
 </thead>
 <tbody>
 <tr>
-<td>Authors</td>
-<td>15</td>
-<td>10</td>
+<td>Source</td>
+<td>KEMİK (YTÜ) column corpora</td>
+<td>KEMİK <code>30Columnists</code></td>
 </tr>
 <tr>
-<td>Segments (1000 words)</td>
-<td>9,838</td>
-<td>6,263</td>
+<td>Columnists</td>
+<td>162</td>
+<td>30</td>
+</tr>
+<tr>
+<td>Articles</td>
+<td>4,321</td>
+<td>1,485</td>
+</tr>
+<tr>
+<td>Words measured</td>
+<td>2,114,978</td>
+<td>1,106,919</td>
 </tr>
 <tr>
 <td><strong>Sentences measured</strong></td>
-<td><strong>1,089,841</strong></td>
-<td><strong>341,892</strong></td>
+<td><strong>197,990</strong></td>
+<td><strong>52,745</strong></td>
 </tr>
 </tbody>
 </table>
-<p>Both sets are novels/fiction. The full corpora were used, with no sampling.
-Sentence boundaries were found with the same spaCy model the library uses in
-production; feature extraction was not run, since only the number of words per
+<p>The full corpora were used, with no sampling. The texts are not distributed; only the numbers are published.
+Sentence boundaries were found with the library's default sentence rule (<code>. ? ! …</code>
+always, <code>:</code> only when what follows starts like a new sentence; an abbreviation dot
+does not end a sentence); length is the number of non-punctuation words, as in the
+<code>sentence</code> group. Feature extraction was not run, since only the number of words per
 sentence was needed.</p>
 <p>The 15th and 85th percentiles were chosen as thresholds. A criterion such as
 "mean of the outliers" was not used, because defining an outlier already
 requires a threshold, and deriving the threshold from it would be circular.</p>
 <h3 id="raw-percentile-table">Raw percentile table<a class="headerlink" href="#raw-percentile-table" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Percentile</th>
+<th>TR (n = 197,990)</th>
+<th>EN (n = 52,745)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5th</td>
+<td>2.0</td>
+<td>5.0</td>
+</tr>
+<tr>
+<td>10th</td>
+<td>3.0</td>
+<td>7.0</td>
+</tr>
+<tr>
+<td><strong>15th</strong></td>
+<td><strong>4.0</strong></td>
+<td><strong>9.0</strong></td>
+</tr>
+<tr>
+<td>25th</td>
+<td>5.0</td>
+<td>12.0</td>
+</tr>
+<tr>
+<td>50th (median)</td>
+<td>9.0</td>
+<td>19.0</td>
+</tr>
+<tr>
+<td>75th</td>
+<td>14.0</td>
+<td>28.0</td>
+</tr>
+<tr>
+<td><strong>85th</strong></td>
+<td><strong>18.0</strong></td>
+<td><strong>33.0</strong></td>
+</tr>
+<tr>
+<td>90th</td>
+<td>20.0</td>
+<td>37.0</td>
+</tr>
+<tr>
+<td>95th</td>
+<td>25.0</td>
+<td>44.0</td>
+</tr>
+</tbody>
+</table>
+<h2 id="why-a-language-specific-threshold">Why a language-specific threshold<a class="headerlink" href="#why-a-language-specific-threshold" title="Permanent link">&para;</a></h2>
+<p>A single pair of thresholds for both languages, such as 5 and 30, sits in the
+wrong place in both. In Turkish, 30 words is above even the 95th percentile
+(25), so <code>long_sent_ratio</code> is practically always near zero. In English the same
+number falls between the 75th (28) and 85th (33) percentiles.</p>
+<p>The reason is typological: Turkish is agglutinative, and a single word can
+carry what a subordinate clause carries in an analytic language. The surface
+word count does not measure the same thing in the two languages.</p>
+<h2 id="comparison-with-atesman-1997">Comparison with Ateşman (1997)<a class="headerlink" href="#comparison-with-atesman-1997" title="Permanent link">&para;</a></h2>
+<p>Ateşman (1997), p.74, gives the calibration endpoints of the formula: the
+easiest text has a mean sentence length of <strong>4</strong> words, the hardest <strong>30</strong>.</p>
+<p>The Turkish <code>short_sent_threshold=4</code> comes from the calibration. That it
+coincides with Ateşman's "easiest text" value is only a note: that number is
+the mean of a text, not a threshold, so it is not cited as the source — the
+same reasoning that applies to 30.
+Ateşman's Turkish norm on p.73 (mean sentence length of 9–10 words) also agrees
+with the corpus median (9.0).</p>
+<p>Ateşman's 30 was <strong>not used</strong> for <code>long</code>: it is the mean of the hardest text,
+not a threshold for calling a single sentence long. Used as a threshold, it
+lies above the 95th percentile in Turkish.</p>
+<h2 id="earlier-calibration-2026-07-28-superseded">Earlier calibration (2026-07-28, superseded)<a class="headerlink" href="#earlier-calibration-2026-07-28-superseded" title="Permanent link">&para;</a></h2>
+<p>The thresholds were first measured on novel-heavy corpora with the spaCy parser's
+sentences: TR 15 authors / 1,089,841 sentences, EN 10 authors / 341,892 sentences.
+The result was TR 4/18, EN 7/39. On 2026-10-06 the <code>sentence</code> group moved to the
+default sentence rule, and the thresholds were re-derived from newspaper columns
+measured with that rule. The Turkish values (4/18) did not change; the English
+ones moved from 7/39 to 9/33.</p>
 <table>
 <thead>
 <tr>
@@ -2236,9 +2331,9 @@ requires a threshold, and deriving the threshold from it would be circular.</p>
 <td>6.0</td>
 </tr>
 <tr>
-<td><strong>15th</strong></td>
-<td><strong>4.0</strong></td>
-<td><strong>7.0</strong></td>
+<td>15th</td>
+<td>4.0</td>
+<td>7.0</td>
 </tr>
 <tr>
 <td>25th</td>
@@ -2256,9 +2351,9 @@ requires a threshold, and deriving the threshold from it would be circular.</p>
 <td>30.0</td>
 </tr>
 <tr>
-<td><strong>85th</strong></td>
-<td><strong>18.0</strong></td>
-<td><strong>39.0</strong></td>
+<td>85th</td>
+<td>18.0</td>
+<td>39.0</td>
 </tr>
 <tr>
 <td>90th</td>
@@ -2272,78 +2367,28 @@ requires a threshold, and deriving the threshold from it would be circular.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="why-a-language-specific-threshold">Why a language-specific threshold<a class="headerlink" href="#why-a-language-specific-threshold" title="Permanent link">&para;</a></h2>
-<p>A single pair of thresholds for both languages, such as 5 and 30, sits in the
-wrong place in both. In Turkish, 30 words is above even the 95th percentile
-(28), so <code>long_sent_ratio</code> is practically always zero. In English the same
-number falls exactly on the 75th percentile, so a quarter of the text is
-flagged as "long".</p>
-<p>The reason is typological: Turkish is agglutinative, and a single word can
-carry what a subordinate clause carries in an analytic language. The surface
-word count does not measure the same thing in the two languages.</p>
-<h2 id="15th85th-or-10th90th">15th/85th or 10th/90th<a class="headerlink" href="#15th85th-or-10th90th" title="Permanent link">&para;</a></h2>
-<p>The two candidates were compared by the <strong>proportion of variance in
-<code>short_sent_ratio</code> and <code>long_sent_ratio</code> explained by author identity</strong> (η²).</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>10th/90th</th>
-<th>15th/85th</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>TR <code>short_ratio</code></td>
-<td>0.2745</td>
-<td>0.2745</td>
-</tr>
-<tr>
-<td>TR <code>long_ratio</code></td>
-<td>0.4021</td>
-<td><strong>0.4194</strong></td>
-</tr>
-<tr>
-<td>EN <code>short_ratio</code></td>
-<td>0.0893</td>
-<td><strong>0.1279</strong></td>
-</tr>
-<tr>
-<td>EN <code>long_ratio</code></td>
-<td>0.2701</td>
-<td><strong>0.2801</strong></td>
-</tr>
-</tbody>
-</table>
-<p>15th/85th is equally or more discriminating on all four measures. TR
-<code>short_ratio</code> is a tie because the 10th and 15th percentiles have the same
-value (4.0) in Turkish.</p>
-<h2 id="comparison-with-atesman-1997">Comparison with Ateşman (1997)<a class="headerlink" href="#comparison-with-atesman-1997" title="Permanent link">&para;</a></h2>
-<p>Ateşman (1997), p.74, gives the calibration endpoints of the formula: the
-easiest text has a mean sentence length of <strong>4</strong> words, the hardest <strong>30</strong>.</p>
-<p>The Turkish <code>short_sent_threshold=4</code> comes from the calibration. That it
-coincides with Ateşman's "easiest text" value is only a note: that number is
-the mean of a text, not a threshold, so it is not cited as the source — the
-same reasoning that applies to 30.
-Ateşman's Turkish norm on p.73 (mean sentence length of 9–10 words) also agrees
-with the corpus median (9.0).</p>
-<p>Ateşman's 30 was <strong>not used</strong> for <code>long</code>: it is the mean of the hardest text,
-not a threshold for calling a single sentence long. Used as a threshold, it
-lies above the 95th percentile in Turkish.</p>
+<p>At that time the 15th/85th and 10th/90th candidates were compared by the proportion
+of variance in <code>short_sent_ratio</code> and <code>long_sent_ratio</code> explained by author identity
+(η²); 15th/85th was equally or more discriminating on all four measures (TR short
+0.2745 / 0.2745; TR long 0.4021 / 0.4194; EN short 0.0893 / 0.1279; EN long 0.2701 /
+0.2801). That comparison was <strong>not repeated</strong> on the new corpora; the choice of
+15th/85th rests on the earlier result.</p>
 <h2 id="scope">Scope<a class="headerlink" href="#scope" title="Permanent link">&para;</a></h2>
-<p><strong>The thresholds were calibrated on novels/fiction only.</strong></p>
-<p>There is <strong>no guarantee</strong> that the same thresholds suit technical writing,
-transcripts, poetry, legal text or textbooks. If you work with those genres,
-compute the percentiles of your own corpus and pass them through
-<code>FeatureParams</code>.</p>
-<p>Also, <code>short_sent_ratio</code> and <code>long_sent_ratio</code> are <strong>not comparable across
-the two languages</strong>: the column with the same name is measured with a
-different threshold in each. Keep this in mind before concluding something like
-"Turkish texts have shorter sentences" — what you measure may be a difference
-in thresholds, not in languages. If you want a common threshold, set <strong>both</strong>
-fields explicitly, e.g. <code>FeatureParams(short_sent_threshold=5,
-long_sent_threshold=30)</code>, and pass the same object for both languages. Set
-only one and the other is still resolved by language.</p>
+<p><strong>The thresholds were calibrated on newspaper columns.</strong> A column is a single genre.</p>
+<p>Novels give another distribution because dialogue lines produce very short
+sentences: in Turkish novels under the default rule about 26.5% of sentences are
+shorter than 4 words and 6.6% longer than 18 (12.1% and 13.0% in columns). There is
+also <strong>no guarantee</strong> that the same thresholds suit technical writing, transcripts,
+poetry, legal text or textbooks. If you work with those genres, compute the
+percentiles of your own corpus and pass them through <code>FeatureParams</code>.</p>
+<p>Also, <code>short_sent_ratio</code> and <code>long_sent_ratio</code> are <strong>not comparable across the two
+languages</strong>: the same-named column is measured with a different threshold in each.
+Before concluding that "Turkish texts have shorter sentences", keep in mind that what
+you measure may be the threshold difference, not a language difference. If you want a
+shared threshold, give <strong>both fields</strong> explicitly, e.g.
+<code>FeatureParams(short_sent_threshold=5, long_sent_threshold=30)</code>, and pass the same
+object for both languages. If you give only one, the other is still resolved by
+language.</p>
 
 
 

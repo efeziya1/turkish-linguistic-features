@@ -1948,10 +1948,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1585-mi-1090-m" class="md-nav__link">
+  <a href="#atesman-1997-ile-karslastrma" class="md-nav__link">
     <span class="md-ellipsis">
       
-        15./85. mi, 10./90. mı
+        Ateşman (1997) ile karşılaştırma
       
     </span>
   </a>
@@ -1959,10 +1959,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#atesman-1997-ile-karslastrma" class="md-nav__link">
+  <a href="#onceki-kalibrasyon-2026-07-28-yerini-ald" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Ateşman (1997) ile karşılaştırma
+        Önceki kalibrasyon (2026-07-28, yerini aldı)
       
     </span>
   </a>
@@ -2101,10 +2101,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1585-mi-1090-m" class="md-nav__link">
+  <a href="#atesman-1997-ile-karslastrma" class="md-nav__link">
     <span class="md-ellipsis">
       
-        15./85. mi, 10./90. mı
+        Ateşman (1997) ile karşılaştırma
       
     </span>
   </a>
@@ -2112,10 +2112,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#atesman-1997-ile-karslastrma" class="md-nav__link">
+  <a href="#onceki-kalibrasyon-2026-07-28-yerini-ald" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Ateşman (1997) ile karşılaştırma
+        Önceki kalibrasyon (2026-07-28, yerini aldı)
       
     </span>
   </a>
@@ -2155,8 +2155,8 @@
 
 <h1 id="cumle-uzunlugu-esiklerinin-kalibrasyonu">Cümle uzunluğu eşiklerinin kalibrasyonu<a class="headerlink" href="#cumle-uzunlugu-esiklerinin-kalibrasyonu" title="Permanent link">&para;</a></h1>
 <p><code>short_sent_threshold</code> ve <code>long_sent_threshold</code> yayımlanmış bir kaynaktan
-alınmadı, edebi metin ağırlıklı korpuslarda ölçülerek seçildi. Bu belge ölçümü kayda geçirir.</p>
-<p><strong>Ölçüm:</strong> 2026-07-28</p>
+alınmadı, gazete köşe yazılarında, varsayılan cümle kuralıyla ölçülerek seçildi. Bu belge ölçümü kayda geçirir.</p>
+<p><strong>Ölçüm:</strong> 2026-10-06 (güncel). Önceki ölçüm 2026-07-28, aşağıda "Önceki kalibrasyon".</p>
 <h2 id="sonuc">Sonuç<a class="headerlink" href="#sonuc" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -2174,8 +2174,8 @@ alınmadı, edebi metin ağırlıklı korpuslarda ölçülerek seçildi. Bu belg
 </tr>
 <tr>
 <td><strong>İngilizce</strong></td>
-<td>7</td>
-<td>39</td>
+<td>9</td>
+<td>33</td>
 </tr>
 </tbody>
 </table>
@@ -2193,31 +2193,122 @@ değerinde kalır (<a href="../tr/nasil/parametreler/">ayrıntı</a>).</p>
 </thead>
 <tbody>
 <tr>
-<td>Yazar</td>
-<td>15</td>
-<td>10</td>
+<td>Kaynak</td>
+<td>KEMİK (YTÜ) köşe yazısı korpusları</td>
+<td>KEMİK <code>30Columnists</code></td>
 </tr>
 <tr>
-<td>Segment (1000 sözcük)</td>
-<td>9.838</td>
-<td>6.263</td>
+<td>Yazar</td>
+<td>162</td>
+<td>30</td>
+</tr>
+<tr>
+<td>Yazı</td>
+<td>4.321</td>
+<td>1.485</td>
+</tr>
+<tr>
+<td>Ölçülen sözcük</td>
+<td>2.114.978</td>
+<td>1.106.919</td>
 </tr>
 <tr>
 <td><strong>Ölçülen cümle</strong></td>
-<td><strong>1.089.841</strong></td>
-<td><strong>341.892</strong></td>
+<td><strong>197.990</strong></td>
+<td><strong>52.745</strong></td>
 </tr>
 </tbody>
 </table>
-<p>Türkçe set ağırlıklı olarak roman, ama saf kurgu değil: İlber Ortaylı'nın tarih
-kitapları (682 segment, %6,9) ve birkaç başka kurgu dışı ya da karma kitap da
-içinde. Tam korpus kullanıldı, örnekleme yapılmadı. Cümle
-sınırları üretimde kullanılan spaCy modelinin kendisiyle bulundu; öznitelik
-çıkarımı çalıştırılmadı, yalnız cümle başına sözcük sayısı gerekiyordu.</p>
+<p>Tam korpus kullanıldı, örnekleme yapılmadı. Metinler paylaşılmaz, yalnız sayılar
+yayımlanır. Cümle sınırları kütüphanenin varsayılan cümle kuralıyla bulundu
+(<code>. ? ! …</code> her zaman, <code>:</code> yalnız sonrası yeni cümle gibi başlıyorsa; kısaltma
+noktası bitirmez); uzunluk noktalamasız sözcük sayısıdır (<code>sentence</code> grubuyla aynı).
+Öznitelik çıkarımı çalıştırılmadı, yalnız cümle başına sözcük sayısı gerekiyordu.</p>
 <p>Eşik olarak 15. ve 85. yüzdelik seçildi. "Aykırı değer ortalaması" gibi bir
 ölçüt kullanılmadı, çünkü "aykırı değer" tanımı zaten bir eşik gerektirir ve
 eşiği oradan türetmek döngüsel olurdu.</p>
 <h3 id="ham-yuzdelik-tablosu">Ham yüzdelik tablosu<a class="headerlink" href="#ham-yuzdelik-tablosu" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Yüzdelik</th>
+<th>TR (n = 197.990)</th>
+<th>EN (n = 52.745)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5.</td>
+<td>2,0</td>
+<td>5,0</td>
+</tr>
+<tr>
+<td>10.</td>
+<td>3,0</td>
+<td>7,0</td>
+</tr>
+<tr>
+<td><strong>15.</strong></td>
+<td><strong>4,0</strong></td>
+<td><strong>9,0</strong></td>
+</tr>
+<tr>
+<td>25.</td>
+<td>5,0</td>
+<td>12,0</td>
+</tr>
+<tr>
+<td>50. (medyan)</td>
+<td>9,0</td>
+<td>19,0</td>
+</tr>
+<tr>
+<td>75.</td>
+<td>14,0</td>
+<td>28,0</td>
+</tr>
+<tr>
+<td><strong>85.</strong></td>
+<td><strong>18,0</strong></td>
+<td><strong>33,0</strong></td>
+</tr>
+<tr>
+<td>90.</td>
+<td>20,0</td>
+<td>37,0</td>
+</tr>
+<tr>
+<td>95.</td>
+<td>25,0</td>
+<td>44,0</td>
+</tr>
+</tbody>
+</table>
+<h2 id="neden-dile-ozgu-esik">Neden dile özgü eşik<a class="headerlink" href="#neden-dile-ozgu-esik" title="Permanent link">&para;</a></h2>
+<p>İki dil için tek bir eşik çifti, örneğin 5 ve 30, iki dilde de yanlış yerde
+durur. Türkçede 30 sözcük 95. yüzdeliğin (25) bile üstünde: <code>long_sent_ratio</code>
+pratikte sıfıra yakın üretir. İngilizcede aynı sayı 75. (28) ile 85. (33)
+yüzdelik arasına denk gelir.</p>
+<p>Sebebi tipolojik: Türkçe sondan eklemeli, tek sözcük analitik bir dilde yan
+cümlenin taşıdığı bilgiyi yüklenebiliyor. Yüzeysel sözcük sayısı iki dilde aynı
+şeyi ölçmüyor.</p>
+<h2 id="atesman-1997-ile-karslastrma">Ateşman (1997) ile karşılaştırma<a class="headerlink" href="#atesman-1997-ile-karslastrma" title="Permanent link">&para;</a></h2>
+<p>Ateşman (1997), s.74'te formülün kalibrasyon uçlarını veriyor: en kolay metin
+ortalama <strong>4</strong> sözcüklük cümle, en zor metin <strong>30</strong>.</p>
+<p>Türkçe <code>short_sent_threshold=4</code> kalibrasyondan gelir. Ateşman'ın "en kolay
+metin" değeriyle örtüşmesi yalnız bir nottur: o sayı bir metnin ortalamasıdır,
+eşik değildir, bu yüzden kaynak olarak gösterilmez, 30 için geçerli olan
+gerekçenin aynısı. Ateşman s.73'teki Türkçe normu
+(ortalama cümle 9-10 sözcük) da korpusun medyanıyla (9,0) tutuyor.</p>
+<p>Ateşman'ın 30'u <code>long</code> için <strong>kullanılmadı</strong>: o sayı en zor metnin ortalaması,
+tek bir cümlenin "uzun" sayılma eşiği değil. Eşik olarak kullanıldığında
+Türkçede 95. yüzdeliğin üstünde kalıyor.</p>
+<h2 id="onceki-kalibrasyon-2026-07-28-yerini-ald">Önceki kalibrasyon (2026-07-28, yerini aldı)<a class="headerlink" href="#onceki-kalibrasyon-2026-07-28-yerini-ald" title="Permanent link">&para;</a></h2>
+<p>Eşikler önce roman ağırlıklı korpuslarda, spaCy ayrıştırıcısının cümleleriyle
+ölçülmüştü: TR 15 yazar / 1.089.841 cümle, EN 10 yazar / 341.892 cümle.
+Sonuç TR 4/18, EN 7/39 idi. 2026-10-06'da <code>sentence</code> grubu varsayılan cümle
+kuralına geçti; eşikler bu kuralla ölçülen köşe yazılarına göre yeniden belirlendi.
+Türkçe değerler (4/18) değişmedi, İngilizce 7/39'dan 9/33'e geçti.</p>
 <table>
 <thead>
 <tr>
@@ -2238,9 +2329,9 @@ eşiği oradan türetmek döngüsel olurdu.</p>
 <td>6,0</td>
 </tr>
 <tr>
-<td><strong>15.</strong></td>
-<td><strong>4,0</strong></td>
-<td><strong>7,0</strong></td>
+<td>15.</td>
+<td>4,0</td>
+<td>7,0</td>
 </tr>
 <tr>
 <td>25.</td>
@@ -2258,9 +2349,9 @@ eşiği oradan türetmek döngüsel olurdu.</p>
 <td>30,0</td>
 </tr>
 <tr>
-<td><strong>85.</strong></td>
-<td><strong>18,0</strong></td>
-<td><strong>39,0</strong></td>
+<td>85.</td>
+<td>18,0</td>
+<td>39,0</td>
 </tr>
 <tr>
 <td>90.</td>
@@ -2274,66 +2365,20 @@ eşiği oradan türetmek döngüsel olurdu.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="neden-dile-ozgu-esik">Neden dile özgü eşik<a class="headerlink" href="#neden-dile-ozgu-esik" title="Permanent link">&para;</a></h2>
-<p>İki dil için tek bir eşik çifti, örneğin 5 ve 30, iki dilde de yanlış yerde
-durur. Türkçede 30 sözcük 95. yüzdeliğin (28) bile üstünde — <code>long_sent_ratio</code>
-pratikte sıfır üretir. İngilizcede aynı sayı tam 75. yüzdeliğe denk gelir,
-yani "uzun" diye işaretlenen kesim metnin çeyreği olur.</p>
-<p>Sebebi tipolojik: Türkçe sondan eklemeli, tek sözcük analitik bir dilde yan
-cümlenin taşıdığı bilgiyi yüklenebiliyor. Yüzeysel sözcük sayısı iki dilde aynı
-şeyi ölçmüyor.</p>
-<h2 id="1585-mi-1090-m">15./85. mi, 10./90. mı<a class="headerlink" href="#1585-mi-1090-m" title="Permanent link">&para;</a></h2>
-<p>İki aday, <code>short_sent_ratio</code> ve <code>long_sent_ratio</code> değerlerinin <strong>yazar kimliği
-tarafından açıklanan varyans oranı</strong> (η²) üzerinden karşılaştırıldı.</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>10./90.</th>
-<th>15./85.</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>TR <code>short_ratio</code></td>
-<td>0,2745</td>
-<td>0,2745</td>
-</tr>
-<tr>
-<td>TR <code>long_ratio</code></td>
-<td>0,4021</td>
-<td><strong>0,4194</strong></td>
-</tr>
-<tr>
-<td>EN <code>short_ratio</code></td>
-<td>0,0893</td>
-<td><strong>0,1279</strong></td>
-</tr>
-<tr>
-<td>EN <code>long_ratio</code></td>
-<td>0,2701</td>
-<td><strong>0,2801</strong></td>
-</tr>
-</tbody>
-</table>
-<p>15./85. dört ölçümün hepsinde eşit ya da daha ayırt edici. TR <code>short_ratio</code>
-eşit, çünkü Türkçede 10. ve 15. yüzdelik aynı değeri (4,0) veriyor.</p>
-<h2 id="atesman-1997-ile-karslastrma">Ateşman (1997) ile karşılaştırma<a class="headerlink" href="#atesman-1997-ile-karslastrma" title="Permanent link">&para;</a></h2>
-<p>Ateşman (1997), s.74'te formülün kalibrasyon uçlarını veriyor: en kolay metin
-ortalama <strong>4</strong> sözcüklük cümle, en zor metin <strong>30</strong>.</p>
-<p>Türkçe <code>short_sent_threshold=4</code> kalibrasyondan gelir. Ateşman'ın "en kolay
-metin" değeriyle örtüşmesi yalnız bir nottur: o sayı bir metnin ortalamasıdır,
-eşik değildir, bu yüzden kaynak olarak gösterilmez — 30 için geçerli olan
-gerekçenin aynısı. Ateşman s.73'teki Türkçe normu
-(ortalama cümle 9-10 sözcük) da korpusun medyanıyla (9,0) tutuyor.</p>
-<p>Ateşman'ın 30'u <code>long</code> için <strong>kullanılmadı</strong>: o sayı en zor metnin ortalaması,
-tek bir cümlenin "uzun" sayılma eşiği değil. Eşik olarak kullanıldığında
-Türkçede 95. yüzdeliğin üstünde kalıyor.</p>
+<p>O dönemde 15./85. ile 10./90. adayı, <code>short_sent_ratio</code> ve <code>long_sent_ratio</code>
+değerlerinin yazar kimliği tarafından açıklanan varyans oranı (η²) ile
+karşılaştırılmıştı; 15./85. dört ölçümün hepsinde eşit ya da daha ayırt ediciydi
+(TR short 0,2745 / 0,2745; TR long 0,4021 / 0,4194; EN short 0,0893 / 0,1279; EN long
+0,2701 / 0,2801). Bu karşılaştırma yeni korpusta <strong>tekrarlanmadı</strong>; 15./85. seçimi
+önceki sonuca dayanır.</p>
 <h2 id="kapsam-snr">Kapsam sınırı<a class="headerlink" href="#kapsam-snr" title="Permanent link">&para;</a></h2>
-<p><strong>Eşikler ağırlıklı olarak roman/edebi metinle kalibre edildi.</strong></p>
-<p>Teknik metin, transkript, şiir, hukuk metni ya da ders kitabında aynı
-eşiklerin uygun olacağı <strong>garanti değildir</strong>. Bu türlerle çalışıyorsanız kendi
-korpusunuzun yüzdeliklerini hesaplayıp <code>FeatureParams</code> ile geçirin.</p>
+<p><strong>Eşikler gazete köşe yazılarıyla kalibre edildi.</strong> Köşe yazısı tek bir tür.</p>
+<p>Romanda diyalog satırları çok kısa cümle ürettiği için aynı eşikler başka dağılım verir:
+Türkçe romanda varsayılan kuralla cümlelerin yaklaşık %26,5'i 4 sözcükten kısa,
+%6,6'sı 18 sözcükten uzun (köşe yazısında %12,1 ve %13,0). Teknik metin, transkript,
+şiir, hukuk metni ya da ders kitabında da eşiklerin uygun olacağı <strong>garanti
+değildir</strong>. Bu türlerle çalışıyorsanız kendi korpusunuzun yüzdeliklerini hesaplayıp
+<code>FeatureParams</code> ile geçirin.</p>
 <p>Ayrıca <code>short_sent_ratio</code> ve <code>long_sent_ratio</code> <strong>iki dilde kıyaslanamaz</strong>: aynı
 isimli sütun iki dilde farklı eşikle ölçülür. "Türkçe metinler daha kısa
 cümleli" gibi bir sonuç çıkarmadan önce bunu göz önüne alın; ölçtüğünüz şey dil

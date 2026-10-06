@@ -2273,15 +2273,21 @@ with the default <code>lang="tr"</code>.</p>
 order, so <code>label</code>, <code>source</code> and <code>segment_id</code> come first.</p>
 <hr />
 <h2 id="describe_feature"><code>describe_feature</code><a class="headerlink" href="#describe_feature" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">describe_feature</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">describe_feature</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span>
 </code></pre></div>
 <p>Returns everything known about one key:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>key · group · group_label · description · formula · scale ·
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>inputs · params · requires · citation · references
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>inputs · params · requires · citation · references · definitions
 </code></pre></div>
 <p><code>citation</code> is the short pointer; <code>references</code> holds the full bibliographic
 records to copy into a bibliography. <code>citation is None</code> means the key is
 not a named measure from the literature.</p>
+<p><code>definitions</code> explains the terms the <code>formula</code> uses (<code>sentence</code>, <code>word</code>, <code>syllable</code>,
+<code>letter</code>, <code>type</code>…): for each, <code>{"name": ..., "source": ..., "description": ...}</code> — the
+rule tlf counts it with, who defines that rule (<code>tlf</code>, <code>spacy</code>, <code>zeyrek</code>,
+<code>textstat</code>, <code>wordfreq</code>) and, in one sentence, how it is counted. A term the formula does not use is absent.
+Where the definition differs by language (<code>syllable</code>), <code>describe_feature(key, lang="tr")</code> returns
+that language's entry; without <code>lang</code> you get <code>{"tr": ..., "en": ...}</code>.</p>
 <p>Dynamic keys (<code>char_a</code>, <code>ng_*</code>) are accepted; for them <code>formula</code> and
 <code>requires</code> are stated at the group level.</p>
 <p>See: <a href="../../tr/nasil/kunye/">TR</a> · <a href="../../en/how-to/citations/">EN</a></p>

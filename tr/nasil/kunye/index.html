@@ -2149,8 +2149,12 @@ Kütüphane bunu size hazır verir.</p>
 <a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="nt">"citation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Covington &amp; McFall (2010); default window 50 — C&amp;M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window)"</span><span class="p">,</span>
 <a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">  </span><span class="nt">"references"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="s2">"Covington, M. A., &amp; McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098"</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span><span class="p">]</span>
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="p">}</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span><span class="p">],</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">  </span><span class="nt">"definitions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="nt">"word"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pos_token"</span><span class="p">,</span><span class="w"> </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tlf"</span><span class="p">,</span><span class="w"> </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A spaCy token whose POS tag is not PUNCT or SYM; numbers count."</span><span class="p">},</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"lowercase_surface"</span><span class="p">,</span><span class="w"> </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tlf"</span><span class="p">,</span><span class="w"> </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The word string lowercased by language (Turkish I→ı, İ→i); inflected forms are separate types."</span><span class="p">}</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="p">}</span>
 </code></pre></div>
 <h2 id="alanlar-ne-ise-yarar">Alanlar ne işe yarar<a class="headerlink" href="#alanlar-ne-ise-yarar" title="Permanent link">&para;</a></h2>
 <table>
@@ -2192,6 +2196,10 @@ Kütüphane bunu size hazır verir.</p>
 <tr>
 <td><code>references</code></td>
 <td><strong>Tam bibliyografik kayıt</strong> — kaynakçaya kopyalanacak olan</td>
+</tr>
+<tr>
+<td><code>definitions</code></td>
+<td><code>formula</code>daki terimlerin ne demek olduğu ve tanımın nereden geldiği: her terim için <code>{"name", "source" (kuralı kim koyuyor: tlf, spacy, zeyrek, textstat, wordfreq), "description" (tek cümle: nasıl sayıldığı)}</code>; yalnız o formülün kullandığı terimler; dile göre değişen terimde (<code>syllable</code>) <code>describe_feature(key, lang="tr")</code> dili seçer</td>
 </tr>
 </tbody>
 </table>
