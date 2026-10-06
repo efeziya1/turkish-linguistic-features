@@ -64,7 +64,7 @@ Other forms of the same pattern:
 
 - `"Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)"`
   — **the primary source could not be obtained**; the formula was taken
-  from the citing work. **11 of 144** citations are like this, and all of
+  from the citing work. **14 of 148** citations are like this, and all of
   them carry `as cited in`.
 - `"McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form
   of SMOG's input, not the source's own measure"` — derived from the
@@ -94,7 +94,7 @@ sentence"). Keys that count the categories of an external tag scheme do
 have a citation, pointing at the scheme (`morph_case_loc` → UD;
 `case_loc_ratio` → Zeyrek).
 
-**68 of the 208** Turkish keys have no citation: 29 are the letter-frequency
+**68 of the 212** Turkish keys have no citation: 29 are the letter-frequency
 vector (one key per letter of the Turkish alphabet), 17 are punctuation
 ratios, and 22 are other plain definitions such as lengths and spreads.
 
@@ -112,7 +112,7 @@ for r in sorted(refs):
 ```
 
 This gives you the bibliography for the features **you actually used**, not
-all 45 works.
+all 50 works.
 
 ## Does the number actually match?
 

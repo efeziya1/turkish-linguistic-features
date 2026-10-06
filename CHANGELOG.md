@@ -51,6 +51,17 @@
 
 ### Added
 
+- Four lexical richness measures in the `lexical` group (TR 208 → 212 keys, EN 180 → 184):
+  `cttr` (Carroll's corrected TTR, V/√(2N)), `summer_s` (Summer's S, ln(ln V)/ln(ln N)),
+  `maas_a2` (Maas' a², (ln N − ln V)/(ln N)²) and `herdan_vm` (Herdan's Vm,
+  √(Σf²/N² − 1/V)). Citations: Carroll (1964) and Somers (1966) as cited in Torruella &
+  Capsada (2013) p.448; Maas (1972) and Herdan (1955) as cited in Tweedie & Baayen (1998)
+  eqs. (7) and (18). The sources give no logarithm base; the natural logarithm reproduces the
+  Maas values in Torruella & Capsada (2013) Table 1, so `maas_a2` is not numerically
+  `1 / dugast_u` (which uses base 10). Cited features: TR 140 → 144, EN 115 → 119;
+  verification candidates: TR 91 → 95, EN 80 → 84; bibliography 45 → 50 works.
+- `yule_k` now cites the primary source, Yule (1944) p.53, eq. (3.22), instead of Malvern et
+  al. (2004); secondary citations 11 → 14 of 148.
 - Default sentence rule of the readability formulas (decided 2026-10-06): `. ? ! …` always end a
   sentence, and `:` ends it only when what follows starts like a new sentence (capital letter,
   quote, dash or opening bracket); a colon followed by a lowercase letter or digit (lists,
@@ -111,6 +122,22 @@
   and in the feature reference.
 - The `describe_feature(...)["params"]` examples in the parameter guide showed
   a list; the function returns a tuple.
+- The minimum spaCy version is now 3.8 (`spacy>=3.8,<4`, was 3.5): both language
+  models (`tr_core_news_md`, `en_core_web_sm` 3.8.0) require it.
+- The install hint for a missing optional package named an extra of the package
+  on PyPI, where the package is not yet published; it now names the package
+  itself (`pip install 'wordfreq>=3.0'`, `pip install 'pandas>=1.5'`).
+- The `analyze` docstring example gave 3.5 for a text whose mean sentence length
+  is 3.0; four bibliography entries had Turkish fragments ("Sunum", "s.",
+  "dergi"); the reference index said "208 feature keys" (the fixed keys plus the
+  `char_` and `ng_` families); the feature reference ended with a blank line that
+  the pre-commit end-of-file fixer removes, which broke its freshness test.
+- Words with a curly apostrophe (`Zeynep’i`, `Türkiye’de`) were left unanalysed by Zeyrek,
+  which recognises only the straight `'`, and dropped out of the `morphological_zeyrek`
+  features (0.9% of the words in 11 TOMA texts, mostly proper names). `’` and `‘` are now
+  turned into `'` before analysis. Texts typed with curly apostrophes change.
+- The limitations page now explains how Zeyrek orders its analyses and that the
+  first one can depend on `PYTHONHASHSEED` (200 of 8,215 words on the TOMA set).
 
 ### Removed
 

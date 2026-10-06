@@ -44,7 +44,7 @@ def main() -> None:
         print(f"Korpus verilmedi; demo korpus kullanılıyor: {korpus}\n")
         demo_korpus_yaz(korpus)
 
-    # Yalnız `sentence` grubu: cümle ölçüleri için 208 özniteliğin hepsini
+    # Yalnız `sentence` grubu: cümle ölçüleri için 212 özniteliğin hepsini
     # hesaplamak gereksiz, grup seçmek süreyi birkaç kat kısaltır.
     satirlar = tlf.analyze_corpus(korpus, lang=DIL, segment_size=parca_boyutu,
                                   groups=["sentence"], warn=False)

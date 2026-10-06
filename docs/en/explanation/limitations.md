@@ -25,17 +25,17 @@ suit technical writing, transcripts, poetry or children's books. If you work
 in another genre, consider deriving the thresholds from your own corpus —
 [the method is here](../../threshold-calibration.md).
 
-### 2. Eleven citations are secondary
+### 2. Fourteen citations are secondary
 
-**11 of 144** citations carry `as cited in` — the primary source could not
+**14 of 148** citations carry `as cited in` — the primary source could not
 be obtained and the formula was taken from the citing work. For example:
 
 ```text
 Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)
 ```
 
-Affected measures include `herdan_c`, `brunet_w`, `dugast_u`, `yule_k`,
-`simpson_d`, `heaps_beta` and `lix`. The formulas were verified, but not
+Affected measures include `herdan_c`, `herdan_vm`, `maas_a2`, `brunet_w`,
+`dugast_u`, `simpson_d`, `heaps_beta`, `lix`, `cttr` and `summer_s`. The formulas were verified, but not
 against the **primary source's own wording**.
 
 Carry the "as cited in" through into your own methods section. Do not
@@ -71,7 +71,15 @@ out of those features.
 
 Zeyrek is an **analyser, not a disambiguator**: it can return several
 analyses for the same surface form and does not pick the right one from
-context.
+context. The library takes the **first** analysis, with no context.
+
+Zeyrek orders the analyses by the number of suffix transitions, fewest first;
+ties keep the iteration order of an internal Python set, which depends on
+`PYTHONHASHSEED`. On the TOMA set (57 texts, 8,215 distinct words) 58.2% of
+the words have more than one analysis, and for **200 words (2.4%)** the first
+analysis changed across hash seeds 0–3. The Zeyrek features of the same text
+can therefore differ slightly between Python processes. For reproducible
+numbers, fix the seed before Python starts, e.g. `PYTHONHASHSEED=0`.
 
 ### 5. Half the candidates are still unverified
 

@@ -114,7 +114,7 @@ def analyze(text: str, lang: str = "tr", model: str | None = None,
     --------
     >>> feats = analyze("Bu bir deneme metnidir. İkinci cümle.", lang="tr")
     >>> feats["avg_sent_len_word"]
-    3.5
+    3.0
     """
     if lang not in _ALFABE:
         raise ValueError(f"Unsupported language: {lang!r}. Expected one of: {sorted(_ALFABE)}")

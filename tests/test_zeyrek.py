@@ -19,6 +19,14 @@ def test_basit_kelime_cozumleme():
     assert len(ms) >= 1
 
 
+
+def test_kivrik_kesme_duz_kesme_gibi_cozumlenir():
+    """``’`` ve ``‘`` düz ``'``'ye çevrilir; yoksa özel ad çözümsüz kalıyordu (2026-10-06)."""
+    b = ZeyrekBackend()
+    assert b.analyze_word("Zeynep’i") == b.analyze_word("Zeynep'i")
+    assert b.analyze_word("Türkiye‘de") == b.analyze_word("Türkiye'de")
+    assert b.analyze_word("Zeynep’i")[0][0] != "Unk"
+
 def test_cozumlenemeyen_kelime_cokmez():
     """Boş liste DEĞİL — tek elemanlı liste. ``agglutination_depth`` buna bağlı.
 

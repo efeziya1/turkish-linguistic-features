@@ -49,17 +49,17 @@ karşılaştırma tablosunu okur, yani ikisi ayrışamaz. Diğer bilinen-değer
 testleri kendi dosyalarında duruyor.
 
 
-## Türkçe — 208 anahtar, 233 satır
+## Türkçe — 212 anahtar, 237 satır
 
 Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
-**Doğrulama adayı — 91 satır**
+**Doğrulama adayı — 95 satır**
 
 | Durum | Satır sayısı |
 |---|---|
 | ✅ birebir | 46 |
 | 🟡 belgelenmiş sapma | 2 |
-| 🔍 açık — kaynakta sayısal örnek yok | 43 |
+| 🔍 açık — kaynakta sayısal örnek yok | 47 |
 
 
 **Doğrulama adayı olmayan — 142 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
@@ -133,17 +133,21 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 ### 🔍 Açık — doğrulanabilir, henüz doğrulanmadı
 
-43 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
+47 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
-| `yule_k` | Yule (1944), as cited in Malvern et al. (2004) eq. 3.9 | 🔍 |
+| `yule_k` | Yule (1944) p.53, eq. (3.22) | 🔍 |
 | `simpson_d` | Simpson (1949), as cited in Bestgen (2023) | 🔍 |
 | `brunet_w` | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) | 🔍 |
 | `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
 | `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) | 🔍 |
 | `dugast_u` | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 | 🔍 |
 | `guiraud_r` | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only | 🔍 |
+| `cttr` | Carroll (1964), as cited in Torruella & Capsada (2013) p.448 | 🔍 |
+| `summer_s` | Somers (1966), as cited in Torruella & Capsada (2013) p.448, where it is named "Summer"; the source gives no logarithm base, the natural logarithm is this library's choice | 🔍 |
+| `maas_a2` | Maas (1972), as cited in Tweedie & Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella & Capsada (2013) Table 1 | 🔍 |
+| `herdan_vm` | Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18) | 🔍 |
 | `heaps_beta` | Heaps (1978), as cited in Manning et al. (2008) §5.1.1 | 🔍 |
 | `sichel_s` | Sichel (1975); formula from Malvern et al. (2004) eq. 3.10 | 🔍 |
 | `noun_variation` | Lu (2012) Table 2 | 🔍 |
@@ -330,17 +334,17 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `char_y` | — | ⚪ |
 | `char_z` | — | ⚪ |
 
-## İngilizce — 180 anahtar, 197 satır
+## İngilizce — 184 anahtar, 201 satır
 
 Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
-**Doğrulama adayı — 80 satır**
+**Doğrulama adayı — 84 satır**
 
 | Durum | Satır sayısı |
 |---|---|
 | ✅ birebir | 35 |
 | 🟡 belgelenmiş sapma | 3 |
-| 🔍 açık — kaynakta sayısal örnek yok | 42 |
+| 🔍 açık — kaynakta sayısal örnek yok | 46 |
 
 
 **Doğrulama adayı olmayan — 117 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
@@ -402,17 +406,21 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 ### 🔍 Açık — doğrulanabilir, henüz doğrulanmadı
 
-42 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
+46 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
-| `yule_k` | Yule (1944), as cited in Malvern et al. (2004) eq. 3.9 | 🔍 |
+| `yule_k` | Yule (1944) p.53, eq. (3.22) | 🔍 |
 | `simpson_d` | Simpson (1949), as cited in Bestgen (2023) | 🔍 |
 | `brunet_w` | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) | 🔍 |
 | `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
 | `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) | 🔍 |
 | `dugast_u` | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 | 🔍 |
 | `guiraud_r` | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only | 🔍 |
+| `cttr` | Carroll (1964), as cited in Torruella & Capsada (2013) p.448 | 🔍 |
+| `summer_s` | Somers (1966), as cited in Torruella & Capsada (2013) p.448, where it is named "Summer"; the source gives no logarithm base, the natural logarithm is this library's choice | 🔍 |
+| `maas_a2` | Maas (1972), as cited in Tweedie & Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella & Capsada (2013) Table 1 | 🔍 |
+| `herdan_vm` | Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18) | 🔍 |
 | `heaps_beta` | Heaps (1978), as cited in Manning et al. (2008) §5.1.1 | 🔍 |
 | `sichel_s` | Sichel (1975); formula from Malvern et al. (2004) eq. 3.10 | 🔍 |
 | `noun_variation` | Lu (2012) Table 2 | 🔍 |

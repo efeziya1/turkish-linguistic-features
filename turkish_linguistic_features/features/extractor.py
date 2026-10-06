@@ -47,12 +47,15 @@ from .lexical import (
     _hizala,
     advanced_lexical_richness,
     brunet_w,
+    cttr,
     dugast_u,
     guiraud_r,
     hapax_percentage,
     hapax_ratio,
     hdd,
     heaps_beta,
+    herdan_vm,
+    maas_a2,
     msttr,
     mtld,
     pos_lexical_variation,
@@ -61,6 +64,7 @@ from .lexical import (
     reference_frequency_sophistication,
     shannon_entropy,
     simpsons_d,
+    summer_s,
     ttr_moving_slope,
     type_token_ratio,
     vocd_d,
@@ -211,7 +215,7 @@ def _extract_features(
     # birleşik nokta (U+0307) ekler — ttr ve kelime uzunluğu kayardı.
     kucuk_kelimeler = [_kucuk_harf(tok, lang) for tok in kelimeler]
 
-    # ── lexical (32) — yüzey biçim sayar ──────────────────────────────
+    # ── lexical (36) — yüzey biçim sayar ──────────────────────────────
     if istiyor("lexical"):
         freqs, N, V, items = rank_word_freq_table(kucuk_kelimeler, lang)
         ort_uzunluk, uzunluk_cv = word_length_stats(kucuk_kelimeler)
@@ -233,6 +237,10 @@ def _extract_features(
         feats.update(mtld(kucuk_kelimeler, params.mtld_threshold, params.mtld_min_tokens))
         feats.update(dugast_u(kucuk_kelimeler))
         feats.update(guiraud_r(kucuk_kelimeler))
+        feats.update(cttr(kucuk_kelimeler))
+        feats.update(summer_s(kucuk_kelimeler))
+        feats.update(maas_a2(kucuk_kelimeler))
+        feats.update(herdan_vm(freqs))
         feats.update(ttr_moving_slope(kucuk_kelimeler, params.ttr_slope_chunk_size))
         feats.update(heaps_beta(kucuk_kelimeler, params.heaps_min_tokens, params.heaps_step))
         feats.update(rare_word_metrics(kucuk_kelimeler))

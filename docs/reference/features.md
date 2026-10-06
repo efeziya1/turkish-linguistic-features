@@ -27,7 +27,7 @@ published is a separate question — see the
 
 | Group | Keys | What it covers |
 |---|---|---|
-| `lexical` | 32 | Lexical richness & frequency |
+| `lexical` | 36 | Lexical richness & frequency |
 | `frequency_structure` | 13 | Frequency structure (h-point family, Popescu & Altmann) |
 | `sentence` | 8 | Sentence statistics |
 | `paragraph` | 5 | Paragraph structure |
@@ -45,7 +45,7 @@ published is a separate question — see the
 
 ## `lexical` — Lexical richness & frequency
 
-32 keys.
+36 keys.
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
@@ -64,10 +64,14 @@ published is a separate question — see the
 | `mtld` | measure of textual lexical diversity | `mean words per factor (TTR drops to mtld_threshold), forward and backward averaged` | at least 100 words (mtld_min_tokens) with some repetition | McCarthy (2005) is the dissertation that introduced the measure — its abstract (p.vii) reads "we introduce and test a new measure of lexical diversity: the measure of textual, lexical diversity (MTLD)"; the body of the dissertation could not be obtained, so no page is given. The procedure implemented follows McCarthy & Jarvis (2010) pp.383–385 |
 | `dugast_u` | Dugast's Uber index | `log10(N)^2 / (log10(N) - log10(V))` | at least 2 words, at least one repeated | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 |
 | `guiraud_r` | Guiraud's root TTR | `V / sqrt(N)` | at least 1 word | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only |
+| `cttr` | Carroll's corrected TTR | `V / sqrt(2N)` | at least 1 word | Carroll (1964), as cited in Torruella & Capsada (2013) p.448 |
+| `summer_s` | Summer's S, log-log type-token ratio | `ln(ln V) / ln(ln N)` | at least 3 words and 2 distinct words | Somers (1966), as cited in Torruella & Capsada (2013) p.448, where it is named "Summer"; the source gives no logarithm base, the natural logarithm is this library's choice |
+| `maas_a2` | Maas' a²; higher = more repetitive | `(ln N - ln V) / (ln N)^2` | at least 2 words | Maas (1972), as cited in Tweedie & Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella & Capsada (2013) Table 1 |
+| `herdan_vm` | Herdan's Vm; higher = more repetitive | `sqrt(sum(f^2) / N^2 - 1 / V)` | at least 1 word | Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18) |
 | `ttr_moving_slope` | whether vocabulary thins out towards the end | `linear slope of TTR over disjoint ttr_slope_chunk_size-word chunks` | at least 100 words (2 x ttr_slope_chunk_size) | — |
 | `heaps_beta` | vocabulary growth rate | `least-squares slope of log V ~ log N over prefixes every heaps_step words, not clipped` | at least 300 words (heaps_min_tokens) | Heaps (1978), as cited in Manning et al. (2008) §5.1.1 |
 | `entropy` | Shannon entropy of word frequencies | `-sum(p * log2 p)` | at least 1 word | Shannon (1948), as cited in QUITA §6.1.12 |
-| `yule_k` | Yule's K; higher = more repetitive | `10000 * (sum(f^2) - N) / N^2` | at least 1 word | Yule (1944), as cited in Malvern et al. (2004) eq. 3.9 |
+| `yule_k` | Yule's K; higher = more repetitive | `10000 * (sum(f^2) - N) / N^2` | at least 1 word | Yule (1944) p.53, eq. (3.22) |
 | `simpson_d` | chance that two words drawn without replacement are the same type | `sum(f(f-1)) / (N(N-1))` | at least 2 words | Simpson (1949), as cited in Bestgen (2023) |
 | `brunet_w` | Brunet's W | `N^(V^-a), a = brunet_w_a` | at least 1 word | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) |
 | `hapax_ratio` | share of types occurring once | `V1 / V` | at least 1 word | — |
@@ -328,7 +332,7 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 
 ## Bibliography
 
-45 works. Every citation above names at least one of these verbatim, and every entry here is named by at least one citation — both directions are tested.
+50 works. Every citation above names at least one of these verbatim, and every entry here is named by at least one citation — both directions are tested.
 
 **Akın & Akın (2007)**
 :   Akın, A. A., & Akın, M. D. (2007). Zemberek, an open source NLP framework for Turkic Languages. 8 pp. Source code: github.com/ahmetaa/zemberek-nlp. (The document does not state a place of publication.)
@@ -351,6 +355,9 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 **Brunet (1978)**
 :   Brunet, E. (1978). Vocabulaire de Jean Giraudoux: structure et évolution. Genève: Slatkine. (Book.) The record was verified from the reference list of Popescu, Čech & Altmann (2011). The primary source could not be obtained.
 
+**Carroll (1964)**
+:   Carroll, J. B. (1964). Language and Thought. Englewood Cliffs, NJ: Prentice-Hall. The record was verified from the reference list of Torruella & Capsada (2013). The primary source could not be obtained.
+
 **Coleman & Liau (1975)**
 :   Coleman, M., & Liau, T. L. (1975). A computer readability formula designed for machine scoring. Journal of Applied Psychology, 60(2), 283–284. DOI 10.1037/h0076540
 
@@ -358,7 +365,7 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 :   Covington, M. A., & McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098
 
 **Daller (2010)**
-:   Daller, M. (2010). Guiraud's Index. BAAL 2010, Aberdeen. (Sunum.)
+:   Daller, M. (2010). Guiraud's Index. BAAL 2010, Aberdeen. (Presentation.)
 
 **Deutsch, Jasbi & Shieber (2020)**
 :   Deutsch, T., Jasbi, M., & Shieber, S. (2020). Linguistic features for readability assessment. Proceedings of the 15th Workshop on Innovative Use of NLP for Building Educational Applications (BEA), 1–17. DOI 10.18653/v1/2020.bea-1.1
@@ -373,10 +380,13 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 :   Guiraud, P. (1954). Les Caractères Statistiques du Vocabulaire. Essai de méthodologie. Paris: Presses Universitaires de France.
 
 **Göksel & Kerslake (2005)**
-:   Göksel, A., & Kerslake, C. (2005). Turkish: A Comprehensive Grammar. London & New York: Routledge. 535 s. ISBN 0-415-11494-2 (pbk), 0-415-21761-X (hbk).
+:   Göksel, A., & Kerslake, C. (2005). Turkish: A Comprehensive Grammar. London & New York: Routledge. 535 pp. ISBN 0-415-11494-2 (pbk), 0-415-21761-X (hbk).
 
 **Heaps (1978)**
 :   Heaps, H. S. (1978). Information Retrieval: Computational and Theoretical Aspects. New York: Academic Press.
+
+**Herdan (1955)**
+:   Herdan, G. (1955). A new derivation and interpretation of Yule's characteristic K. Zeitschrift für Angewandte Mathematik und Physik, 6. The record was verified from the reference list of Tweedie & Baayen (1998). The primary source could not be obtained.
 
 **Herdan (1960/1964)**
 :   Herdan, G. (1960). Type-Token Mathematics. The Hague: Mouton. / Herdan, G. (1964). Quantitative Linguistics. London: Butterworths.
@@ -395,6 +405,9 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 
 **Lu (2012)**
 :   Lu, X. (2012). The relationship of lexical richness to the quality of ESL learners' oral narratives. The Modern Language Journal, 96(2), 190–208. DOI 10.1111/j.1540-4781.2011.01232.x
+
+**Maas (1972)**
+:   Maas, H.-D. (1972). Zusammenhang zwischen Wortschatzumfang und Länge eines Textes. Zeitschrift für Literaturwissenschaft und Linguistik, 8, 73–79. The record was verified from the reference list of Tweedie & Baayen (1998). The primary source could not be obtained.
 
 **Malvern et al. (2004)**
 :   Malvern, D., Richards, B., Chipere, N., & Durán, P. (2004). Lexical Diversity and Language Development: Quantification and Assessment. Basingstoke: Palgrave Macmillan. ISBN 978-1-4039-0232-0. DOI 10.1057/9780230511804.
@@ -418,7 +431,7 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 :   Piantadosi, S. T. (2014). Zipf's word frequency law in natural language: A critical review and future directions. Psychonomic Bulletin & Review, 21(5), 1112–1130. DOI 10.3758/s13423-014-0585-6
 
 **Popescu & Altmann (2006)**
-:   Popescu, I.-I., & Altmann, G. (2006). Some aspects of word frequencies. Glottometrics, 13, 23–46. RAM-Verlag; dergi ISSN 2625-8226.
+:   Popescu, I.-I., & Altmann, G. (2006). Some aspects of word frequencies. Glottometrics, 13, 23–46. RAM-Verlag; journal ISSN 2625-8226.
 
 **Popescu et al. (2009)**
 :   Popescu, I.-I., Altmann, G., Grzybek, P., et al. (2009). Word Frequency Studies. Berlin: Mouton de Gruyter. (Quantitative Linguistics 64.) ISBN 978-3-11-021852-7, ISSN 0179-3616. DOI 10.1515/9783110218534
@@ -442,10 +455,16 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 :   Simpson, E. H. (1949). Measurement of diversity. Nature, 163(4148), 688. DOI 10.1038/163688a0
 
 **Smith & Senter (1967)**
-:   Smith, E. A., & Senter, R. J. (1967). Automated readability index. AMRL-TR-66-220. Wright-Patterson AFB, OH: Aerospace Medical Research Laboratories. 22 s.
+:   Smith, E. A., & Senter, R. J. (1967). Automated readability index. AMRL-TR-66-220. Wright-Patterson AFB, OH: Aerospace Medical Research Laboratories. 22 pp.
+
+**Somers (1966)**
+:   Somers, H. H. (1966). Statistical methods in literary analysis. In J. Leeds (Ed.), The Computer and Literary Style (pp. 128–140). Kent, OH: Kent State University Press. The record was verified from the reference list of Torruella & Capsada (2013). The primary source could not be obtained.
 
 **This library's threshold calibration**
 :   This library's own measurement, not a published source. short_sent_threshold and long_sent_threshold were derived from the 15th and 85th percentiles of the sentence-length distribution of newspaper columns under the default sentence and word rules: TR 162 columnists / 4,321 articles / 197,990 sentences, EN 30 columnists / 1,485 articles / 52,745 sentences. Method and raw percentile table: docs/threshold-calibration.md.
+
+**Torruella & Capsada (2013)**
+:   Torruella, J., & Capsada, R. (2013). Lexical statistics and tipological structures: A measure of lexical richness. Procedia - Social and Behavioral Sciences, 95, 447–454. DOI 10.1016/j.sbspro.2013.10.668
 
 **Tweedie & Baayen (1998)**
 :   Tweedie, F. J., & Baayen, R. H. (1998). How variable may a constant be? Measures of lexical richness in perspective. Computers and the Humanities, 32(5), 323–352. DOI 10.1023/A:1001749303137
@@ -464,4 +483,3 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 
 **Çetinkaya (2010)**
 :   Çetinkaya, G. (2010). Türkçe metinlerin okunabilirlik düzeylerinin tanımlanması ve sınıflandırılması [Unpublished doctoral dissertation]. Ankara Üniversitesi, Sosyal Bilimler Enstitüsü. Advisor: Leylâ Uzun. 252 pp. hdl:20.500.12812/519962
-

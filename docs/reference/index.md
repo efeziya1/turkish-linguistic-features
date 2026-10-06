@@ -4,7 +4,7 @@ Look-up material. Not meant to be read front to back.
 
 | Page | Contents |
 |---|---|
-| [Feature reference](features.md) | All 208 feature keys: description, formula, requirement, source |
+| [Feature reference](features.md) | Every feature key (187 fixed keys and the dynamic `char_` and `ng_` families): description, formula, requirement, source |
 | [Public API](api.md) | The ten public names, with full signatures |
 
 ## Generated, not written

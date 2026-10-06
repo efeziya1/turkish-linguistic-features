@@ -1,4 +1,4 @@
-"""Öznitelik registry — 183 statik anahtarın tek doğruluk kaynağı (T19).
+"""Öznitelik registry — 187 statik anahtarın tek doğruluk kaynağı (T19).
 
 ``describe_feature(key)`` bir anahtar hakkında bilinen her şeyi tek çağrıda
 döndürür: ne ölçtüğü, nasıl hesaplandığı, hangi ölçekte olduğu, hangi
@@ -6,7 +6,7 @@ döndürür: ne ölçtüğü, nasıl hesaplandığı, hangi ölçekte olduğu, h
 kadar metin gerektirdiği ve künyesi. Kullanıcı üç ayrı sözlüğe bakmak zorunda
 kalmasın diye tek giriş noktası budur.
 
-Taban şema **TR 208 · EN 180**: 183 statik anahtardan dile özgü olanlar + dile
+Taban şema **TR 212 · EN 184**: 187 statik anahtardan dile özgü olanlar + dile
 göre 26–29 ``char_*``.
 ``custom_ngrams`` istenmedikçe anahtar üretmez, bu yüzden toplama girmez.
 14 grup = 12 statik + 2 dinamik.
@@ -67,7 +67,8 @@ STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
     "lexical": (
         'n_lemma_count', 'avg_word_length', 'word_length_cv', 'ttr', 'mattr', 'entropy_std',
         'herdan_c', 'sichel_s', 'zipf_exponent', 'zipf_r2', 'zipf_mandelbrot_q',
-        'zipf_mandelbrot_s', 'mtld', 'dugast_u', 'guiraud_r', 'ttr_moving_slope', 'heaps_beta',
+        'zipf_mandelbrot_s', 'mtld', 'dugast_u', 'guiraud_r', 'cttr', 'summer_s', 'maas_a2',
+        'herdan_vm', 'ttr_moving_slope', 'heaps_beta',
         'entropy', 'yule_k', 'simpson_d', 'brunet_w', 'hapax_ratio', 'hapax_percentage',
         'vocd_d', 'hdd', 'msttr', 'noun_variation', 'verb_variation', 'adj_variation',
         'adv_variation', 'wordfreq_mean', 'wordfreq_rare_ratio',
@@ -160,7 +161,8 @@ GROUP_INPUTS: dict[str, tuple[str, ...]] = {
 
 # ── ölçek ─────────────────────────────────────────────────────────────
 
-# Kapalı küme. Yeni bir değer eklemek `docs/kullanim.md`'yi de değiştirir.
+# Kapalı küme. Yeni bir değer eklemek ölçek tablosunu da değiştirir (`docs/en/explanation/concepts.md`,
+# `docs/tr/aciklama/kavramlar.md`).
 SCALES: frozenset[str] = frozenset({
     "ratio_0_1", "bits", "length", "cv", "signed", "count", "score",
 })
@@ -203,6 +205,10 @@ FEATURE_SCALES: dict[str, str] = {
     "mtld": "score",
     "dugast_u": "score",
     "guiraud_r": "score",
+    "cttr": "score",
+    "summer_s": "score",
+    "maas_a2": "score",
+    "herdan_vm": "score",
     "vocd_d": "score",
     "heaps_beta": "score",            # kırpılmıyor, 1'i aşabilir (2026-09-17)
     "zipf_exponent": "score",

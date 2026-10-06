@@ -1,4 +1,4 @@
-"""Registry metin tabloları — 183 statik anahtarın açıklaması, formülü,
+"""Registry metin tabloları — 187 statik anahtarın açıklaması, formülü,
 ölçüm şartı ve künyesi.
 
 Bu dosya **veridir**, mantık içermez. ``registry.py``'den ayrı durmasının
@@ -61,6 +61,10 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'mtld': 'measure of textual lexical diversity',
     'dugast_u': "Dugast's Uber index",
     'guiraud_r': "Guiraud's root TTR",
+    'cttr': "Carroll's corrected TTR",
+    'summer_s': "Summer's S, log-log type-token ratio",
+    'maas_a2': "Maas' a²; higher = more repetitive",
+    'herdan_vm': "Herdan's Vm; higher = more repetitive",
     'ttr_moving_slope': 'whether vocabulary thins out towards the end',
     'heaps_beta': 'vocabulary growth rate',
     'entropy': 'Shannon entropy of word frequencies',
@@ -248,7 +252,7 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
 
 # Anahtar → NASIL hesaplandığı. Anahtarın kendi satırı yoksa describe_feature
 # grup adındaki satıra düşer; bu yalnız dinamik gruplarda (chars, custom_ngrams)
-# var, 183 statik anahtarın hepsinin kendi satırı var.
+# var, 187 statik anahtarın hepsinin kendi satırı var.
 FEATURE_FORMULAS: dict[str, str] = {
     # ── lexical ─────────────────────────────────────────────────
     'n_lemma_count': 'V over lemmas',
@@ -266,6 +270,10 @@ FEATURE_FORMULAS: dict[str, str] = {
     'mtld': 'mean words per factor (TTR drops to mtld_threshold), forward and backward averaged',
     'dugast_u': 'log10(N)^2 / (log10(N) - log10(V))',
     'guiraud_r': 'V / sqrt(N)',
+    'cttr': 'V / sqrt(2N)',
+    'summer_s': 'ln(ln V) / ln(ln N)',
+    'maas_a2': '(ln N - ln V) / (ln N)^2',
+    'herdan_vm': 'sqrt(sum(f^2) / N^2 - 1 / V)',
     'ttr_moving_slope': 'linear slope of TTR over disjoint ttr_slope_chunk_size-word chunks',
     'heaps_beta':
         'least-squares slope of log V ~ log N over prefixes every heaps_step words, not '
@@ -481,6 +489,10 @@ FEATURE_REQUIRES: dict[str, str] = {
     'mtld': 'at least 100 words (mtld_min_tokens) with some repetition',
     'dugast_u': 'at least 2 words, at least one repeated',
     'guiraud_r': 'at least 1 word',
+    'cttr': 'at least 1 word',
+    'summer_s': 'at least 3 words and 2 distinct words',
+    'maas_a2': 'at least 2 words',
+    'herdan_vm': 'at least 1 word',
     'ttr_moving_slope': 'at least 100 words (2 x ttr_slope_chunk_size)',
     'heaps_beta': 'at least 300 words (heaps_min_tokens)',
     'entropy': 'at least 1 word',
@@ -700,6 +712,15 @@ FEATURE_CITATIONS: dict[str, str] = {
     'guiraud_r':
         'Guiraud (1954) p.53, alternative form (all word types), as cited in Daller '
         '(2010); his actual law is V/√(2N), content words only',
+    'cttr': 'Carroll (1964), as cited in Torruella & Capsada (2013) p.448',
+    'summer_s':
+        'Somers (1966), as cited in Torruella & Capsada (2013) p.448, where it is named '
+        "\"Summer\"; the source gives no logarithm base, the natural logarithm is this library's "
+        'choice',
+    'maas_a2':
+        'Maas (1972), as cited in Tweedie & Baayen (1998) p.327, eq. (7); natural logarithm, '
+        'which reproduces the values in Torruella & Capsada (2013) Table 1',
+    'herdan_vm': 'Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18)',
     'heaps_beta': 'Heaps (1978), as cited in Manning et al. (2008) §5.1.1',
     # Shannon entropisi beş anahtarda kullanılıyor. Formülün kaynağı hepsinde
     # aynı (Shannon 1948); ayrıldıkları yer formülün NEYE uygulandığı. Künye
@@ -729,7 +750,7 @@ FEATURE_CITATIONS: dict[str, str] = {
     'sent_len_entropy':
         'Shannon (1948) — the entropy formula; applying it to the distribution of '
         "sentence lengths is this library's own decision",
-    'yule_k': 'Yule (1944), as cited in Malvern et al. (2004) eq. 3.9',
+    'yule_k': 'Yule (1944) p.53, eq. (3.22)',
     'simpson_d': 'Simpson (1949), as cited in Bestgen (2023)',
     'brunet_w': 'Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10)',
     'hapax_percentage': 'QUITA §6.1.6',
@@ -1001,6 +1022,10 @@ BIBLIOGRAPHY: dict[str, str] = {
         'Brunet, E. (1978). Vocabulaire de Jean Giraudoux: structure et évolution. '
         'Genève: Slatkine. (Book.) The record was verified from the reference list of '
         'Popescu, Čech & Altmann (2011). The primary source could not be obtained.',
+    'Carroll (1964)':
+        'Carroll, J. B. (1964). Language and Thought. Englewood Cliffs, NJ: Prentice-Hall. '
+        'The record was verified from the reference list of Torruella & Capsada (2013). The '
+        'primary source could not be obtained.',
     'Coleman & Liau (1975)':
         'Coleman, M., & Liau, T. L. (1975). A computer readability formula designed '
         'for machine scoring. Journal of Applied Psychology, 60(2), 283–284. '
@@ -1010,7 +1035,7 @@ BIBLIOGRAPHY: dict[str, str] = {
         'moving-average type–token ratio (MATTR). Journal of Quantitative '
         'Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098',
     'Daller (2010)':
-        "Daller, M. (2010). Guiraud's Index. BAAL 2010, Aberdeen. (Sunum.)",
+        "Daller, M. (2010). Guiraud's Index. BAAL 2010, Aberdeen. (Presentation.)",
     'de Marneffe et al. (2021)':
         'de Marneffe, M.-C., Manning, C. D., Nivre, J., & Zeman, D. (2021). '
         'Universal Dependencies. Computational Linguistics, 47(2), 255–308. DOI '
@@ -1036,10 +1061,14 @@ BIBLIOGRAPHY: dict[str, str] = {
         'méthodologie. Paris: Presses Universitaires de France.',
     'Göksel & Kerslake (2005)':
         'Göksel, A., & Kerslake, C. (2005). Turkish: A Comprehensive Grammar. '
-        'London & New York: Routledge. 535 s. ISBN 0-415-11494-2 (pbk), 0-415-21761-X (hbk).',
+        'London & New York: Routledge. 535 pp. ISBN 0-415-11494-2 (pbk), 0-415-21761-X (hbk).',
     'Heaps (1978)':
         'Heaps, H. S. (1978). Information Retrieval: Computational and Theoretical '
         'Aspects. New York: Academic Press.',
+    'Herdan (1955)':
+        "Herdan, G. (1955). A new derivation and interpretation of Yule's characteristic K. "
+        'Zeitschrift für Angewandte Mathematik und Physik, 6. The record was verified from the '
+        'reference list of Tweedie & Baayen (1998). The primary source could not be obtained.',
     'Herdan (1960/1964)':
         'Herdan, G. (1960). Type-Token Mathematics. The Hague: Mouton. / Herdan, G. '
         '(1964). Quantitative Linguistics. London: Butterworths.',
@@ -1062,6 +1091,11 @@ BIBLIOGRAPHY: dict[str, str] = {
         'Lu, X. (2012). The relationship of lexical richness to the quality of ESL '
         "learners' oral narratives. The Modern Language Journal, 96(2), 190–208. "
         'DOI 10.1111/j.1540-4781.2011.01232.x',
+    'Maas (1972)':
+        'Maas, H.-D. (1972). Zusammenhang zwischen Wortschatzumfang und Länge eines Textes. '
+        'Zeitschrift für Literaturwissenschaft und Linguistik, 8, 73–79. The record was '
+        'verified from the reference list of Tweedie & Baayen (1998). The primary source '
+        'could not be obtained.',
     'Malvern et al. (2004)':
         'Malvern, D., Richards, B., Chipere, N., & Durán, P. (2004). Lexical '
         'Diversity and Language Development: Quantification and Assessment. '
@@ -1092,7 +1126,7 @@ BIBLIOGRAPHY: dict[str, str] = {
         '21(5), 1112–1130. DOI 10.3758/s13423-014-0585-6',
     'Popescu & Altmann (2006)':
         'Popescu, I.-I., & Altmann, G. (2006). Some aspects of word frequencies. '
-        'Glottometrics, 13, 23–46. RAM-Verlag; dergi ISSN 2625-8226.',
+        'Glottometrics, 13, 23–46. RAM-Verlag; journal ISSN 2625-8226.',
     'Popescu et al. (2009)':
         'Popescu, I.-I., Altmann, G., Grzybek, P., et al. (2009). Word Frequency '
         'Studies. Berlin: Mouton de Gruyter. (Quantitative Linguistics 64.) '
@@ -1120,7 +1154,16 @@ BIBLIOGRAPHY: dict[str, str] = {
     'Smith & Senter (1967)':
         'Smith, E. A., & Senter, R. J. (1967). Automated readability index. '
         'AMRL-TR-66-220. Wright-Patterson AFB, OH: Aerospace Medical Research '
-        'Laboratories. 22 s.',
+        'Laboratories. 22 pp.',
+    'Somers (1966)':
+        'Somers, H. H. (1966). Statistical methods in literary analysis. In J. Leeds (Ed.), The '
+        'Computer and Literary Style (pp. 128–140). Kent, OH: Kent State University Press. The '
+        'record was verified from the reference list of Torruella & Capsada (2013). The '
+        'primary source could not be obtained.',
+    'Torruella & Capsada (2013)':
+        'Torruella, J., & Capsada, R. (2013). Lexical statistics and tipological structures: '
+        'A measure of lexical richness. Procedia - Social and Behavioral Sciences, 95, '
+        '447–454. DOI 10.1016/j.sbspro.2013.10.668',
     'Tweedie & Baayen (1998)':
         'Tweedie, F. J., & Baayen, R. H. (1998). How variable may a constant be? '
         'Measures of lexical richness in perspective. Computers and the Humanities, '

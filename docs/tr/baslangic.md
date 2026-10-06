@@ -67,7 +67,7 @@ print(len(oz))
 ```
 
 ```text
-208
+212
 ```
 
 `lang` verilmezse varsayılan `"tr"`'dir; İngilizce metin için `lang="en"`
@@ -78,7 +78,7 @@ sayılar. İç içe yapı yok, sınıf yok, `pandas` zorunluluğu yok.
 
 ## 4. Çıktıyı okuyun
 
-208 sayıya birden bakmanın anlamı yok. Birkaçına bakalım:
+212 sayıya birden bakmanın anlamı yok. Birkaçına bakalım:
 
 ```python
 for k in ("ttr", "avg_word_length", "avg_sent_len_word",
@@ -137,10 +137,10 @@ print(len(kisa), len(nan_olan))
 ```
 
 ```text
-208 46
+212 46
 ```
 
-Üç kelimelik bir metinde 208 öznitelikten **46'sı** `nan` döner. Bu bir hata
+Üç kelimelik bir metinde 212 öznitelikten **46'sı** `nan` döner. Bu bir hata
 değil, dürüstlüktür. Ayrıntı: **[NaN ne demek](aciklama/nan.md)**.
 
 ## 6. Bir özniteliğin kaynağını görün
@@ -199,7 +199,7 @@ satır sayısı: 3
 sütun sayısı: 211
 ```
 
-Her dosya bir satır olur. 211 sütun = 208 öznitelik + üç kimlik sütunu:
+Her dosya bir satır olur. 215 sütun = 212 öznitelik + üç kimlik sütunu:
 
 ```text
 label=yazar_a  source=metin1     segment_id=0

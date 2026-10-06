@@ -23,17 +23,17 @@ genelleneceği **garanti değil.** Kendi türünüzde çalışıyorsanız eşikl
 kendi korpusunuzdan türetmeyi düşünün —
 [yöntem burada](../../esik-kalibrasyonu.md).
 
-### 2. On bir künye ikincil kaynaktan
+### 2. On dört künye ikincil kaynaktan
 
-144 künyenin **11'i** `as cited in` ile işaretlidir — birincil kaynağa
+148 künyenin **14'ü** `as cited in` ile işaretlidir — birincil kaynağa
 ulaşılamadı, formül aktaran kaynaktan alındı. Örnek:
 
 ```text
 Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)
 ```
 
-Etkilenen ölçüler arasında `herdan_c`, `brunet_w`, `dugast_u`, `yule_k`,
-`simpson_d`, `heaps_beta`, `lix` var. Formüller doğrulandı ama **birincil
+Etkilenen ölçüler arasında `herdan_c`, `herdan_vm`, `maas_a2`, `brunet_w`,
+`dugast_u`, `simpson_d`, `heaps_beta`, `lix`, `cttr`, `summer_s` var. Formüller doğrulandı ama **birincil
 kaynağın kendi ifadesiyle** karşılaştırılmadı.
 
 Yöntem bölümünüzde aktarımı aynen taşıyın; birincil kaynağı okumuş gibi
@@ -68,7 +68,16 @@ morfotaktiğinin Python aktarımı. Zeyrek'in çözümleyemediği bir kelime
 
 Zeyrek bir **çözümleyicidir, belirsizlik gidericisi değildir**: aynı yüzey
 biçimi için birden çok çözümleme dönebilir ve bağlama bakarak doğrusunu
-seçmez.
+seçmez. Kütüphane bağlama bakmadan **ilk** çözümlemeyi alır.
+
+Zeyrek çözümlemeleri ek geçişi sayısına göre sıralar, en azı önce gelir;
+eşitlikte sıra, Python'un iç bir kümesinin dolaşım sırasında kalır ve bu sıra
+`PYTHONHASHSEED`'e bağlıdır. TOMA veri setinde (57 metin, 8.215 farklı
+sözcük) sözcüklerin %58,2'sinin birden çok çözümlemesi var ve **200 sözcüğün
+(%2,4)** ilk çözümlemesi 0–3 tohumları arasında değişti. Yani aynı metnin
+Zeyrek öznitelikleri Python süreçleri arasında az da olsa farklı çıkabilir.
+Tekrar üretilebilir sayılar için tohumu Python başlamadan sabitleyin, örneğin
+`PYTHONHASHSEED=0`.
 
 ### 5. Adayların yarısı hâlâ doğrulanmadı
 

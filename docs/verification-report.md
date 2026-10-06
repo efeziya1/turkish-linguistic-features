@@ -54,17 +54,17 @@ table as `tests/test_kaynak_esligi.py`, so the two cannot drift apart. The
 other known-value tests live in their own files.
 
 
-## Turkish — 208 keys, 233 rows
+## Turkish — 212 keys, 237 rows
 
 A key may have more than one worked example in its source; each one is its own row.
 
-**Verification candidates — 91 rows**
+**Verification candidates — 95 rows**
 
 | Status | Rows |
 |---|---|
 | ✅ exact | 46 |
 | 🟡 documented deviation | 2 |
-| 🔍 open — no worked example in source | 43 |
+| 🔍 open — no worked example in source | 47 |
 
 
 **Not verification candidates — 142 rows.** There is no published number to look for in these.
@@ -138,17 +138,21 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### 🔍 Open — verifiable, not yet verified
 
-43 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
+47 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
 
 | Key | Source | Status |
 |---|---|---|
-| `yule_k` | Yule (1944), as cited in Malvern et al. (2004) eq. 3.9 | 🔍 |
+| `yule_k` | Yule (1944) p.53, eq. (3.22) | 🔍 |
 | `simpson_d` | Simpson (1949), as cited in Bestgen (2023) | 🔍 |
 | `brunet_w` | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) | 🔍 |
 | `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
 | `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) | 🔍 |
 | `dugast_u` | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 | 🔍 |
 | `guiraud_r` | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only | 🔍 |
+| `cttr` | Carroll (1964), as cited in Torruella & Capsada (2013) p.448 | 🔍 |
+| `summer_s` | Somers (1966), as cited in Torruella & Capsada (2013) p.448, where it is named "Summer"; the source gives no logarithm base, the natural logarithm is this library's choice | 🔍 |
+| `maas_a2` | Maas (1972), as cited in Tweedie & Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella & Capsada (2013) Table 1 | 🔍 |
+| `herdan_vm` | Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18) | 🔍 |
 | `heaps_beta` | Heaps (1978), as cited in Manning et al. (2008) §5.1.1 | 🔍 |
 | `sichel_s` | Sichel (1975); formula from Malvern et al. (2004) eq. 3.10 | 🔍 |
 | `noun_variation` | Lu (2012) Table 2 | 🔍 |
@@ -335,17 +339,17 @@ A key may have more than one worked example in its source; each one is its own r
 | `char_y` | — | ⚪ |
 | `char_z` | — | ⚪ |
 
-## English — 180 keys, 197 rows
+## English — 184 keys, 201 rows
 
 A key may have more than one worked example in its source; each one is its own row.
 
-**Verification candidates — 80 rows**
+**Verification candidates — 84 rows**
 
 | Status | Rows |
 |---|---|
 | ✅ exact | 35 |
 | 🟡 documented deviation | 3 |
-| 🔍 open — no worked example in source | 42 |
+| 🔍 open — no worked example in source | 46 |
 
 
 **Not verification candidates — 117 rows.** There is no published number to look for in these.
@@ -407,17 +411,21 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### 🔍 Open — verifiable, not yet verified
 
-42 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
+46 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
 
 | Key | Source | Status |
 |---|---|---|
-| `yule_k` | Yule (1944), as cited in Malvern et al. (2004) eq. 3.9 | 🔍 |
+| `yule_k` | Yule (1944) p.53, eq. (3.22) | 🔍 |
 | `simpson_d` | Simpson (1949), as cited in Bestgen (2023) | 🔍 |
 | `brunet_w` | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) | 🔍 |
 | `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
 | `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) | 🔍 |
 | `dugast_u` | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 | 🔍 |
 | `guiraud_r` | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only | 🔍 |
+| `cttr` | Carroll (1964), as cited in Torruella & Capsada (2013) p.448 | 🔍 |
+| `summer_s` | Somers (1966), as cited in Torruella & Capsada (2013) p.448, where it is named "Summer"; the source gives no logarithm base, the natural logarithm is this library's choice | 🔍 |
+| `maas_a2` | Maas (1972), as cited in Tweedie & Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella & Capsada (2013) Table 1 | 🔍 |
+| `herdan_vm` | Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18) | 🔍 |
 | `heaps_beta` | Heaps (1978), as cited in Manning et al. (2008) §5.1.1 | 🔍 |
 | `sichel_s` | Sichel (1975); formula from Malvern et al. (2004) eq. 3.10 | 🔍 |
 | `noun_variation` | Lu (2012) Table 2 | 🔍 |

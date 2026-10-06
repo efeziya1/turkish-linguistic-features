@@ -29,7 +29,9 @@ classifiers = [
 ]
 dependencies = [
     "numpy>=1.21",
-    "spacy>=3.5,<4",
+    # 3.8: iki dil modeli de (tr_core_news_md, en_core_web_sm 3.8.0) spaCy>=3.8 istiyor;
+    # daha eskisinde model W094 uyarısıyla yükleniyor ama uyumu sınanmadı (2026-10-06).
+    "spacy>=3.8,<4",
     "zeyrek>=0.1.3,<0.2",
     # 0.7.10+: İngilizce hece NLTK cmudict ile (veri bir kez elle kurulur,
     # bkz. README). <0.8: hece sayım yöntemi sürüm içinde sabit kalsın.

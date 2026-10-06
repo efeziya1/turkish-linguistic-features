@@ -38,7 +38,7 @@ they rest on no source, so there is no source equation to match.
 ## First: not every feature can be verified
 
 This distinction is the most important part of the report. By definition,
-some of the 208 features are **not even candidates** for verification:
+some of the 212 features are **not even candidates** for verification:
 
 | | Why not a candidate |
 |---|---|

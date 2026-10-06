@@ -63,7 +63,7 @@ Aynı kalıbın başka biçimleri:
 
 - `"Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)"`
   — **birincil kaynağa ulaşılamadı**, formül aktaran kaynaktan alındı.
-  144 künyenin **11'i** böyledir ve hepsi `as cited in` ile işaretlidir.
+  148 künyenin **14'ü** böyledir ve hepsi `as cited in` ile işaretlidir.
 - `"McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form of
   SMOG's input, not the source's own measure"` — ölçü kaynaktan türetilmiş
   ama kaynağın kendi ölçüsü değil.
@@ -92,7 +92,7 @@ Bir dış etiket şemasının kategorisini sayan anahtarların künyesi ise `Non
 değildir, şemayı gösterir (`morph_case_loc` → UD; `case_loc_ratio` →
 Zeyrek).
 
-Türkçedeki 208 anahtarın **68'inin** künyesi yoktur: 29'u harf sıklık
+Türkçedeki 212 anahtarın **68'inin** künyesi yoktur: 29'u harf sıklık
 vektörü (Türkçe alfabenin her harfi için bir anahtar), 17'si noktalama
 oranı, 22'si uzunluk ve dağılım gibi başka saf tanımlar.
 
@@ -110,7 +110,7 @@ for r in sorted(kaynaklar):
     print(r)
 ```
 
-Bu size yalnız **kullandığınız** özniteliklerin kaynakçasını verir — 45
+Bu size yalnız **kullandığınız** özniteliklerin kaynakçasını verir — 50
 eserin tamamını değil.
 
 ## Sayı gerçekten tutuyor mu

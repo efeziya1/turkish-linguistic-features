@@ -35,6 +35,9 @@ if TYPE_CHECKING:
 
 Morpheme = tuple[str, str, bool]
 
+# Zeyrek yalnız düz kesmeyi (') tanıyor; kıvrık kesmeler ona çevrilir.
+_KESME_DUZ = str.maketrans({"’": "'", "‘": "'"})
+
 __all__ = ["ZeyrekBackend"]
 
 
@@ -195,5 +198,9 @@ class ZeyrekBackend:
 
         Yalnız morfem döndürüyor: lemma, POS ve morfoloji etiketleri
         ``Preprocessor``da spaCy modelinden geliyor (T21), Zeyrek'ten değil.
+
+        Kıvrık kesme işaretleri (``’`` ``‘``) düz ``'``'ye çevrilir (2026-10-06, Efe): Zeyrek
+        yalnız düz kesmeyi tanıyor, ``Zeynep’i`` ve ``Türkiye’de`` çözümsüz kalıp Zeyrek
+        özniteliklerinden düşüyordu (TOMA'nın 11 metninde sözcüklerin %0,9'u).
         """
-        return self._cozumle(word)
+        return self._cozumle(word.translate(_KESME_DUZ))
