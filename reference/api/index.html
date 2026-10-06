@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 180 from English text">
+        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
       
       
       
@@ -2183,7 +2183,7 @@ pass <code>lang="en"</code> explicitly.</p>
 </tr>
 <tr>
 <td><code>lang</code></td>
-<td><code>"tr"</code> (default) or <code>"en"</code>. Anything else raises <code>ValueError</code>. Changes the feature set (208 vs 180)</td>
+<td><code>"tr"</code> (default) or <code>"en"</code>. Anything else raises <code>ValueError</code>. Changes the feature set (212 vs 184)</td>
 </tr>
 <tr>
 <td><code>model</code></td>
@@ -2299,7 +2299,7 @@ sample counts. Nineteen fields; the full table is in
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code>short_sent_threshold</code> and <code>long_sent_threshold</code> default to <code>None</code>,
-which means "use the calibrated value for <code>lang</code>" (TR 4/18, EN 7/39).
+which means "use the calibrated value for <code>lang</code>" (TR 4/17, EN 8/32).
 They are resolved field by field: a field you set wins, a field you leave
 out stays calibrated. Setting an unrelated field such as <code>mattr_window</code>
 does not touch the sentence thresholds.</p>

@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 180 from English text">
+        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
       
       
       
@@ -2394,7 +2394,7 @@ published is a separate question — see the
 <tbody>
 <tr>
 <td><code>lexical</code></td>
-<td>32</td>
+<td>36</td>
 <td>Lexical richness &amp; frequency</td>
 </tr>
 <tr>
@@ -2465,7 +2465,7 @@ published is a separate question — see the
 </tbody>
 </table>
 <h2 id="lexical-lexical-richness-frequency"><code>lexical</code> — Lexical richness &amp; frequency<a class="headerlink" href="#lexical-lexical-richness-frequency" title="Permanent link">&para;</a></h2>
-<p>32 keys.</p>
+<p>36 keys.</p>
 <table>
 <thead>
 <tr>
@@ -2515,7 +2515,7 @@ published is a separate question — see the
 <tr>
 <td><code>entropy_std</code></td>
 <td>how much word entropy varies across the text</td>
-<td><code>population std of entropies (bits) of disjoint mattr_window-word chunks</code></td>
+<td><code>population std of entropies (nats) of disjoint mattr_window-word chunks</code></td>
 <td>at least 100 words (2 x mattr_window)</td>
 <td>Shannon (1948) — the entropy formula; the standard deviation across segments is this library's own derivation</td>
 </tr>
@@ -2571,7 +2571,7 @@ published is a separate question — see the
 <tr>
 <td><code>dugast_u</code></td>
 <td>Dugast's Uber index</td>
-<td><code>log10(N)^2 / (log10(N) - log10(V))</code></td>
+<td><code>(ln N)^2 / (ln N - ln V)</code></td>
 <td>at least 2 words, at least one repeated</td>
 <td>Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7</td>
 </tr>
@@ -2581,6 +2581,34 @@ published is a separate question — see the
 <td><code>V / sqrt(N)</code></td>
 <td>at least 1 word</td>
 <td>Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only</td>
+</tr>
+<tr>
+<td><code>cttr</code></td>
+<td>Carroll's corrected TTR</td>
+<td><code>V / sqrt(2N)</code></td>
+<td>at least 1 word</td>
+<td>Carroll (1964), as cited in Torruella &amp; Capsada (2013) p.448</td>
+</tr>
+<tr>
+<td><code>summer_s</code></td>
+<td>Summer's S, log-log type-token ratio</td>
+<td><code>ln(ln V) / ln(ln N)</code></td>
+<td>at least 3 words and 2 distinct words</td>
+<td>Somers (1966), as cited in Torruella &amp; Capsada (2013) p.448, where it is named "Summer"; the source gives no logarithm base, the natural logarithm is this library's choice</td>
+</tr>
+<tr>
+<td><code>maas_a2</code></td>
+<td>Maas' a²; higher = more repetitive</td>
+<td><code>(ln N - ln V) / (ln N)^2</code></td>
+<td>at least 2 words</td>
+<td>Maas (1972), as cited in Tweedie &amp; Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella &amp; Capsada (2013) Table 1; all logarithms in this library are natural</td>
+</tr>
+<tr>
+<td><code>herdan_vm</code></td>
+<td>Herdan's Vm; higher = more repetitive</td>
+<td><code>sqrt(sum(f^2) / N^2 - 1 / V)</code></td>
+<td>at least 1 word</td>
+<td>Herdan (1955), as cited in Tweedie &amp; Baayen (1998) p.330, eq. (18)</td>
 </tr>
 <tr>
 <td><code>ttr_moving_slope</code></td>
@@ -2599,7 +2627,7 @@ published is a separate question — see the
 <tr>
 <td><code>entropy</code></td>
 <td>Shannon entropy of word frequencies</td>
-<td><code>-sum(p * log2 p)</code></td>
+<td><code>-sum(p * ln p)</code></td>
 <td>at least 1 word</td>
 <td>Shannon (1948), as cited in QUITA §6.1.12</td>
 </tr>
@@ -2608,7 +2636,7 @@ published is a separate question — see the
 <td>Yule's K; higher = more repetitive</td>
 <td><code>10000 * (sum(f^2) - N) / N^2</code></td>
 <td>at least 1 word</td>
-<td>Yule (1944), as cited in Malvern et al. (2004) eq. 3.9</td>
+<td>Yule (1944) p.53, eq. (3.22)</td>
 </tr>
 <tr>
 <td><code>simpson_d</code></td>
@@ -2775,14 +2803,14 @@ published is a separate question — see the
 <tr>
 <td><code>lambda_pa</code></td>
 <td>length-normalised curve length</td>
-<td><code>L * log10(N) / N</code></td>
+<td><code>L * ln(N) / N</code></td>
 <td>at least 1 word</td>
 <td>QUITA §6.1.7; Popescu, Čech &amp; Altmann (2011)</td>
 </tr>
 <tr>
 <td><code>adjusted_modulus</code></td>
 <td>distance from the h-point to the curve ends</td>
-<td><code>sqrt((f1/h)^2 + (V/h)^2) / log10(N)</code></td>
+<td><code>sqrt((f1/h)^2 + (V/h)^2) / ln(N)</code></td>
 <td>at least 2 words</td>
 <td>QUITA §6.1.13</td>
 </tr>
@@ -2855,14 +2883,14 @@ published is a separate question — see the
 <td>share of short sentences</td>
 <td><code>sentences with fewer than short_sent_threshold words / sentences</code></td>
 <td>at least 1 sentence with a letter</td>
-<td>This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 9 — 15th percentile of newspaper columns under the default sentence rule. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only</td>
+<td>This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only</td>
 </tr>
 <tr>
 <td><code>long_sent_ratio</code></td>
 <td>share of long sentences</td>
 <td><code>sentences with more than long_sent_threshold words / sentences</code></td>
 <td>at least 1 sentence with a letter</td>
-<td>This library's threshold calibration (docs/threshold-calibration.md); TR 18, EN 33 — 85th percentile of newspaper columns under the default sentence rule. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only</td>
+<td>This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only</td>
 </tr>
 <tr>
 <td><code>med_sent_len</code></td>
@@ -2874,7 +2902,7 @@ published is a separate question — see the
 <tr>
 <td><code>sent_len_entropy</code></td>
 <td>variety of sentence lengths</td>
-<td><code>Shannon entropy (bits) of the distribution of words per sentence</code></td>
+<td><code>Shannon entropy (nats) of the distribution of words per sentence</code></td>
 <td>at least 2 sentences with a letter</td>
 <td>Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision</td>
 </tr>
@@ -2896,7 +2924,7 @@ published is a separate question — see the
 <tr>
 <td><code>para_len_mean</code></td>
 <td>mean paragraph length</td>
-<td><code>mean whitespace-separated words per paragraph (blank line = boundary)</code></td>
+<td><code>mean words per paragraph (blank line = boundary)</code></td>
 <td>at least 1 paragraph</td>
 <td>—</td>
 </tr>
@@ -3108,9 +3136,9 @@ published is a separate question — see the
 <tr>
 <td><code>pos_kl_div</code></td>
 <td>how much sentences differ from the document in POS make-up</td>
-<td><code>mean over sentences of KL(sentence POS ‖ document POS), bits</code></td>
+<td><code>mean over sentences of KL(sentence POS ‖ document POS), nats</code></td>
 <td>at least 1 token</td>
-<td>Deutsch, Jasbi &amp; Shieber (2020) Definition 3.4 (POSdiv), in bits</td>
+<td>Deutsch, Jasbi &amp; Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits</td>
 </tr>
 </tbody>
 </table>
@@ -3419,7 +3447,7 @@ published is a separate question — see the
 <tr>
 <td><code>suffix_bigram_entropy</code></td>
 <td>variety of suffix sequences</td>
-<td><code>Shannon entropy (bits) of within-word visible suffix pairs</code></td>
+<td><code>Shannon entropy (nats) of within-word visible suffix pairs</code></td>
 <td>at least 1 word with 2 visible suffixes</td>
 <td>Shannon (1948) — the entropy formula; Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
@@ -3884,7 +3912,7 @@ published is a separate question — see the
 <tr>
 <td><code>punct_entropy</code></td>
 <td>variety of punctuation types</td>
-<td><code>Shannon entropy (bits) of the 10 mark types</code></td>
+<td><code>Shannon entropy (nats) of the 10 mark types</code></td>
 <td>at least 1 punctuation mark</td>
 <td>Shannon (1948) — the entropy formula; applying it to the distribution of punctuation types is this library's own decision</td>
 </tr>
@@ -3911,16 +3939,16 @@ published is a separate question — see the
 </tr>
 <tr>
 <td><code>uppercase_ratio</code></td>
-<td>share of capitalised tokens</td>
-<td><code>tokens whose first letter is upper case / tokens with a letter</code></td>
-<td>at least 1 token with a letter</td>
+<td>share of capitalised words</td>
+<td><code>words whose first letter is upper case / words with a letter</code></td>
+<td>at least 1 word with a letter</td>
 <td>—</td>
 </tr>
 <tr>
 <td><code>all_caps_word_ratio</code></td>
-<td>share of all-caps tokens</td>
-<td><code>tokens with 2+ letters, all upper case / tokens with a letter</code></td>
-<td>at least 1 token with a letter</td>
+<td>share of all-caps words</td>
+<td><code>words with 2+ letters, all upper case / words with a letter</code></td>
+<td>at least 1 word with a letter</td>
 <td>—</td>
 </tr>
 </tbody>
@@ -3951,7 +3979,7 @@ published is a separate question — see the
 <p>Dynamic group: keys are generated with the prefix <code>ng_</code>. The description, formula and requirement below are stated at the group level, not per key.</p>
 <p>Created only when you pass <code>custom_ngrams</code> to <code>analyze()</code>.</p>
 <h2 id="bibliography">Bibliography<a class="headerlink" href="#bibliography" title="Permanent link">&para;</a></h2>
-<p>45 works. Every citation above names at least one of these verbatim, and every entry here is named by at least one citation — both directions are tested.</p>
+<p>50 works. Every citation above names at least one of these verbatim, and every entry here is named by at least one citation — both directions are tested.</p>
 <dl>
 <dt><strong>Akın &amp; Akın (2007)</strong></dt>
 <dd>Akın, A. A., &amp; Akın, M. D. (2007). Zemberek, an open source NLP framework for Turkic Languages. 8 pp. Source code: github.com/ahmetaa/zemberek-nlp. (The document does not state a place of publication.)</dd>
@@ -3967,12 +3995,14 @@ published is a separate question — see the
 <dd>Björnsson, C. H. (1968). Läsbarhet. Stockholm: Bokförlaget Liber. (Book.) The record was verified from three secondary reference lists: Anderson (1983), Çetinkaya (2010), Falkenjack et al. (2013). The primary source could not be obtained.</dd>
 <dt><strong>Brunet (1978)</strong></dt>
 <dd>Brunet, E. (1978). Vocabulaire de Jean Giraudoux: structure et évolution. Genève: Slatkine. (Book.) The record was verified from the reference list of Popescu, Čech &amp; Altmann (2011). The primary source could not be obtained.</dd>
+<dt><strong>Carroll (1964)</strong></dt>
+<dd>Carroll, J. B. (1964). Language and Thought. Englewood Cliffs, NJ: Prentice-Hall. The record was verified from the reference list of Torruella &amp; Capsada (2013). The primary source could not be obtained.</dd>
 <dt><strong>Coleman &amp; Liau (1975)</strong></dt>
 <dd>Coleman, M., &amp; Liau, T. L. (1975). A computer readability formula designed for machine scoring. Journal of Applied Psychology, 60(2), 283–284. DOI 10.1037/h0076540</dd>
 <dt><strong>Covington &amp; McFall (2010)</strong></dt>
 <dd>Covington, M. A., &amp; McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098</dd>
 <dt><strong>Daller (2010)</strong></dt>
-<dd>Daller, M. (2010). Guiraud's Index. BAAL 2010, Aberdeen. (Sunum.)</dd>
+<dd>Daller, M. (2010). Guiraud's Index. BAAL 2010, Aberdeen. (Presentation.)</dd>
 <dt><strong>Deutsch, Jasbi &amp; Shieber (2020)</strong></dt>
 <dd>Deutsch, T., Jasbi, M., &amp; Shieber, S. (2020). Linguistic features for readability assessment. Proceedings of the 15th Workshop on Innovative Use of NLP for Building Educational Applications (BEA), 1–17. DOI 10.18653/v1/2020.bea-1.1</dd>
 <dt><strong>Dugast (1978)</strong></dt>
@@ -3982,9 +4012,11 @@ published is a separate question — see the
 <dt><strong>Guiraud (1954)</strong></dt>
 <dd>Guiraud, P. (1954). Les Caractères Statistiques du Vocabulaire. Essai de méthodologie. Paris: Presses Universitaires de France.</dd>
 <dt><strong>Göksel &amp; Kerslake (2005)</strong></dt>
-<dd>Göksel, A., &amp; Kerslake, C. (2005). Turkish: A Comprehensive Grammar. London &amp; New York: Routledge. 535 s. ISBN 0-415-11494-2 (pbk), 0-415-21761-X (hbk).</dd>
+<dd>Göksel, A., &amp; Kerslake, C. (2005). Turkish: A Comprehensive Grammar. London &amp; New York: Routledge. 535 pp. ISBN 0-415-11494-2 (pbk), 0-415-21761-X (hbk).</dd>
 <dt><strong>Heaps (1978)</strong></dt>
 <dd>Heaps, H. S. (1978). Information Retrieval: Computational and Theoretical Aspects. New York: Academic Press.</dd>
+<dt><strong>Herdan (1955)</strong></dt>
+<dd>Herdan, G. (1955). A new derivation and interpretation of Yule's characteristic K. Zeitschrift für Angewandte Mathematik und Physik, 6. The record was verified from the reference list of Tweedie &amp; Baayen (1998). The primary source could not be obtained.</dd>
 <dt><strong>Herdan (1960/1964)</strong></dt>
 <dd>Herdan, G. (1960). Type-Token Mathematics. The Hague: Mouton. / Herdan, G. (1964). Quantitative Linguistics. London: Butterworths.</dd>
 <dt><strong>Jing &amp; Liu (2015)</strong></dt>
@@ -3997,6 +4029,8 @@ published is a separate question — see the
 <dd>Liu, H. (2008). Dependency distance as a metric of language comprehension difficulty. Journal of Cognitive Science, 9(2), 159–191. DOI 10.17791/jcs.2008.9.2.159</dd>
 <dt><strong>Lu (2012)</strong></dt>
 <dd>Lu, X. (2012). The relationship of lexical richness to the quality of ESL learners' oral narratives. The Modern Language Journal, 96(2), 190–208. DOI 10.1111/j.1540-4781.2011.01232.x</dd>
+<dt><strong>Maas (1972)</strong></dt>
+<dd>Maas, H.-D. (1972). Zusammenhang zwischen Wortschatzumfang und Länge eines Textes. Zeitschrift für Literaturwissenschaft und Linguistik, 8, 73–79. The record was verified from the reference list of Tweedie &amp; Baayen (1998). The primary source could not be obtained.</dd>
 <dt><strong>Malvern et al. (2004)</strong></dt>
 <dd>Malvern, D., Richards, B., Chipere, N., &amp; Durán, P. (2004). Lexical Diversity and Language Development: Quantification and Assessment. Basingstoke: Palgrave Macmillan. ISBN 978-1-4039-0232-0. DOI 10.1057/9780230511804.</dd>
 <dt><strong>Manning et al. (2008)</strong></dt>
@@ -4012,7 +4046,7 @@ published is a separate question — see the
 <dt><strong>Piantadosi (2014)</strong></dt>
 <dd>Piantadosi, S. T. (2014). Zipf's word frequency law in natural language: A critical review and future directions. Psychonomic Bulletin &amp; Review, 21(5), 1112–1130. DOI 10.3758/s13423-014-0585-6</dd>
 <dt><strong>Popescu &amp; Altmann (2006)</strong></dt>
-<dd>Popescu, I.-I., &amp; Altmann, G. (2006). Some aspects of word frequencies. Glottometrics, 13, 23–46. RAM-Verlag; dergi ISSN 2625-8226.</dd>
+<dd>Popescu, I.-I., &amp; Altmann, G. (2006). Some aspects of word frequencies. Glottometrics, 13, 23–46. RAM-Verlag; journal ISSN 2625-8226.</dd>
 <dt><strong>Popescu et al. (2009)</strong></dt>
 <dd>Popescu, I.-I., Altmann, G., Grzybek, P., et al. (2009). Word Frequency Studies. Berlin: Mouton de Gruyter. (Quantitative Linguistics 64.) ISBN 978-3-11-021852-7, ISSN 0179-3616. DOI 10.1515/9783110218534</dd>
 <dt><strong>Popescu, Mačutek &amp; Altmann (2009)</strong></dt>
@@ -4028,9 +4062,13 @@ published is a separate question — see the
 <dt><strong>Simpson (1949)</strong></dt>
 <dd>Simpson, E. H. (1949). Measurement of diversity. Nature, 163(4148), 688. DOI 10.1038/163688a0</dd>
 <dt><strong>Smith &amp; Senter (1967)</strong></dt>
-<dd>Smith, E. A., &amp; Senter, R. J. (1967). Automated readability index. AMRL-TR-66-220. Wright-Patterson AFB, OH: Aerospace Medical Research Laboratories. 22 s.</dd>
+<dd>Smith, E. A., &amp; Senter, R. J. (1967). Automated readability index. AMRL-TR-66-220. Wright-Patterson AFB, OH: Aerospace Medical Research Laboratories. 22 pp.</dd>
+<dt><strong>Somers (1966)</strong></dt>
+<dd>Somers, H. H. (1966). Statistical methods in literary analysis. In J. Leeds (Ed.), The Computer and Literary Style (pp. 128–140). Kent, OH: Kent State University Press. The record was verified from the reference list of Torruella &amp; Capsada (2013). The primary source could not be obtained.</dd>
 <dt><strong>This library's threshold calibration</strong></dt>
-<dd>This library's own measurement, not a published source. short_sent_threshold and long_sent_threshold were derived from the 15th and 85th percentiles of the sentence-length distribution of newspaper columns under the default sentence rule: TR 162 columnists / 4,321 articles / 197,990 sentences, EN 30 columnists / 1,485 articles / 52,745 sentences. Method and raw percentile table: docs/threshold-calibration.md.</dd>
+<dd>This library's own measurement, not a published source. short_sent_threshold and long_sent_threshold were derived from the 15th and 85th percentiles of the sentence-length distribution of newspaper columns under the default sentence and word rules: TR 162 columnists / 4,321 articles / 197,990 sentences, EN 30 columnists / 1,485 articles / 52,745 sentences. Method and raw percentile table: docs/threshold-calibration.md.</dd>
+<dt><strong>Torruella &amp; Capsada (2013)</strong></dt>
+<dd>Torruella, J., &amp; Capsada, R. (2013). Lexical statistics and tipological structures: A measure of lexical richness. Procedia - Social and Behavioral Sciences, 95, 447–454. DOI 10.1016/j.sbspro.2013.10.668</dd>
 <dt><strong>Tweedie &amp; Baayen (1998)</strong></dt>
 <dd>Tweedie, F. J., &amp; Baayen, R. H. (1998). How variable may a constant be? Measures of lexical richness in perspective. Computers and the Humanities, 32(5), 323–352. DOI 10.1023/A:1001749303137</dd>
 <dt><strong>Yule (1944)</strong></dt>

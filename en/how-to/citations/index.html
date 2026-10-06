@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 180 from English text">
+        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
       
       
       
@@ -2151,7 +2151,7 @@ came from. The library hands you that.</p>
 <a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="s2">"Covington, M. A., &amp; McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098"</span>
 <a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span><span class="p">],</span>
 <a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">  </span><span class="nt">"definitions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="nt">"word"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pos_token"</span><span class="p">,</span><span class="w"> </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tlf"</span><span class="p">,</span><span class="w"> </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A spaCy token whose POS tag is not PUNCT or SYM; numbers count."</span><span class="p">},</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="nt">"word"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"space_unit"</span><span class="p">,</span><span class="w"> </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tlf"</span><span class="p">,</span><span class="w"> </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Whitespace-separated piece of the raw text with edge punctuation stripped, containing a letter or digit; the library's default word."</span><span class="p">},</span>
 <a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"lowercase_surface"</span><span class="p">,</span><span class="w"> </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tlf"</span><span class="p">,</span><span class="w"> </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The word string lowercased by language (Turkish I→ı, İ→i); inflected forms are separate types."</span><span class="p">}</span>
 <a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">  </span><span class="p">}</span>
 <a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="p">}</span>
@@ -2217,7 +2217,7 @@ not, is worse than giving no source at all.</p>
 <ul>
 <li><code>"Herdan (1960/1964), as cited in Tweedie &amp; Baayen (1998) p.327, eq. (5)"</code>
   — <strong>the primary source could not be obtained</strong>; the formula was taken
-  from the citing work. <strong>11 of 144</strong> citations are like this, and all of
+  from the citing work. <strong>14 of 148</strong> citations are like this, and all of
   them carry <code>as cited in</code>.</li>
 <li><code>"McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form
   of SMOG's input, not the source's own measure"</code> — derived from the
@@ -2241,7 +2241,7 @@ literature</strong>; it is a plain definition: <code>punc_,_ratio</code> ("comma
 sentence"). Keys that count the categories of an external tag scheme do
 have a citation, pointing at the scheme (<code>morph_case_loc</code> → UD;
 <code>case_loc_ratio</code> → Zeyrek).</p>
-<p><strong>68 of the 208</strong> Turkish keys have no citation: 29 are the letter-frequency
+<p><strong>68 of the 212</strong> Turkish keys have no citation: 29 are the letter-frequency
 vector (one key per letter of the Turkish alphabet), 17 are punctuation
 ratios, and 22 are other plain definitions such as lengths and spreads.</p>
 <h2 id="building-a-bibliography-for-your-methods-section">Building a bibliography for your methods section<a class="headerlink" href="#building-a-bibliography-for-your-methods-section" title="Permanent link">&para;</a></h2>
@@ -2255,7 +2255,7 @@ ratios, and 22 are other plain definitions such as lengths and spreads.</p>
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
 </code></pre></div>
 <p>This gives you the bibliography for the features <strong>you actually used</strong>, not
-all 45 works.</p>
+all 50 works.</p>
 <h2 id="does-the-number-actually-match">Does the number actually match?<a class="headerlink" href="#does-the-number-actually-match" title="Permanent link">&para;</a></h2>
 <p>The citation tells you the source; it does not tell you the number
 <strong>agrees</strong>. There is a separate document for that:</p>

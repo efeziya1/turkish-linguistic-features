@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 180 from English text">
+        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
       
       
       
@@ -2240,9 +2240,9 @@ to tell.</p>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">nans</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">short</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v</span> <span class="o">!=</span> <span class="n">v</span><span class="p">]</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">len</span><span class="p">(</span><span class="n">short</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">nans</span><span class="p">)</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>(180, 42)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>(184, 42)
 </code></pre></div>
-<p><strong>42 of 180</strong> features are <code>nan</code>. Examples:</p>
+<p><strong>42 of 184</strong> features are <code>nan</code>. Examples:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>['dugast_u', 'entropy_std', 'hdd', 'heaps_beta', 'mattr',
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a> 'morph_aspect_imp', 'morph_aspect_perf', 'morph_aspect_prog']
 </code></pre></div>
@@ -2258,8 +2258,11 @@ to tell.</p>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>'at least 100 words (2 x mattr_window)'
 </code></pre></div>
-<p>A <strong>word</strong> here is any token that is not punctuation or a symbol; numbers
-count as words. <code>segment_text</code>'s <code>size</code>, by contrast, counts punctuation too:
+<p>A <strong>word</strong> here is the library's default word: a whitespace-separated unit
+with edge punctuation stripped that contains a letter or digit (<code>e-posta</code>,
+<code>%50</code> and numbers are one word each). Features that need a POS tag or lemma
+count spaCy tokens that are not punctuation or symbols instead;
+<code>describe_feature(key)["definitions"]["word"]</code> says which. <code>segment_text</code>'s <code>size</code>, by contrast, counts punctuation too:
 a 100-token segment is about 83 words and may fall short of a 100-word minimum.</p>
 <p>Below the minimum you get <code>nan</code>. Some minimums come from the source
 (<code>mtld</code>: "texts as short as 100 tokens can be used"), others from the
@@ -2319,7 +2322,7 @@ column.</p>
 segmenting:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">rows</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"corpus/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 </code></pre></div>
-<p>1000-token segments feed nearly all 208 features. See
+<p>1000-token segments feed nearly all 212 features. See
 <a href="../../how-to/segmenting/">Split a text into segments</a>.</p>
 <h2 id="why-nan-and-not-none">Why <code>nan</code> and not <code>None</code><a class="headerlink" href="#why-nan-and-not-none" title="Permanent link">&para;</a></h2>
 <p><code>nan</code> is a <code>float</code>. That means every value in the returned dictionary has

@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 180 from English text">
+        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
       
       
       
@@ -2165,7 +2165,7 @@ adlar sürüm notlarında duyurulur.</p>
 <li><strong>Saf tanım</strong> — <code>punc_,_ratio</code> ("virgül / kelime"). Künyesi yoktur,
    çünkü tanımlanacak bir şey yoktur.</li>
 </ol>
-<p>208 anahtarın 140'ının künyesi vardır, 68'inin yoktur.</p>
+<p>212 anahtarın 144'ünün künyesi vardır, 68'inin yoktur.</p>
 <h2 id="grup">Grup<a class="headerlink" href="#grup" title="Permanent link">&para;</a></h2>
 <p>Öznitelikler 13 gruba ayrılır (<code>custom_ngrams</code> verirseniz oluşan <code>ng_*</code>
 anahtarlarıyla 14). Grup, hem düzenleme hem de seçim aracıdır:</p>
@@ -2214,8 +2214,8 @@ sayfasında.</p>
 <td><code>sentence_length_cv</code></td>
 </tr>
 <tr>
-<td><code>bits</code></td>
-<td>Bit cinsinden entropi</td>
+<td><code>nats</code></td>
+<td>Nat cinsinden entropi (doğal logaritma; kütüphanedeki bütün logaritmalar ln)</td>
 <td><code>entropy</code>, <code>punct_entropy</code></td>
 </tr>
 <tr>
@@ -2240,14 +2240,14 @@ onların yanına koymak yanıltır.</p>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>   ↓  Zeyrek (yalnız Türkçe)
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>ek çözümlemesi
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>   ↓  öznitelik çıkarıcıları
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>208 sayı
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>212 sayı
 </code></pre></div>
 <p>Bunun iki sonucu var:</p>
 <ol>
 <li><strong>spaCy modeli sonuçların parçasıdır.</strong> Model değişirse cümle bölme,
    sözcük türü ve bağlılık öznitelikleri değişir. Hangi modeli
    kullandığınızı yöntem bölümüne yazın.</li>
-<li><strong>Ön işleme bir kez yapılır.</strong> 208 özniteliğin hepsi aynı çözümlemeden
+<li><strong>Ön işleme bir kez yapılır.</strong> 212 özniteliğin hepsi aynı çözümlemeden
    beslenir; <code>groups</code> ile az öznitelik istemek ön işlemeyi hızlandırmaz,
    yalnız çıkarım adımını kısaltır.</li>
 </ol>
@@ -2255,7 +2255,7 @@ onların yanına koymak yanıltır.</p>
 <p>Pencere boyları, eşikler ve örneklem sayıları burada durur. Ayrıntı:
 <a href="../../nasil/parametreler/">Eşikleri değiştir</a>.</p>
 <p>Cümle eşikleri (<code>short_sent_threshold</code>, <code>long_sent_threshold</code>) <strong>dile göre
-kalibre edilmiştir</strong> (TR 4/18, EN 9/33) ve alan alan çözümlenir: verdiğiniz
+kalibre edilmiştir</strong> (TR 4/17, EN 8/32) ve alan alan çözümlenir: verdiğiniz
 alan kazanır, vermediğiniz alan kalibre değerinde kalır. Yani
 <code>FeatureParams(mattr_window=100)</code> cümle eşiklerini değiştirmez.</p>
 <h2 id="kayt-defteri-registry">Kayıt defteri (registry)<a class="headerlink" href="#kayt-defteri-registry" title="Permanent link">&para;</a></h2>

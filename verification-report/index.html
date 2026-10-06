@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 180 from English text">
+        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
       
       
       
@@ -1892,15 +1892,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#turkish-208-keys-233-rows" class="md-nav__link">
+  <a href="#turkish-212-keys-237-rows" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Turkish — 208 keys, 233 rows
+        Turkish — 212 keys, 237 rows
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Turkish — 208 keys, 233 rows">
+    <nav class="md-nav" aria-label="Turkish — 212 keys, 237 rows">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1942,15 +1942,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#english-180-keys-197-rows" class="md-nav__link">
+  <a href="#english-184-keys-201-rows" class="md-nav__link">
     <span class="md-ellipsis">
       
-        English — 180 keys, 197 rows
+        English — 184 keys, 201 rows
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="English — 180 keys, 197 rows">
+    <nav class="md-nav" aria-label="English — 184 keys, 201 rows">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2134,15 +2134,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#turkish-208-keys-233-rows" class="md-nav__link">
+  <a href="#turkish-212-keys-237-rows" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Turkish — 208 keys, 233 rows
+        Turkish — 212 keys, 237 rows
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Turkish — 208 keys, 233 rows">
+    <nav class="md-nav" aria-label="Turkish — 212 keys, 237 rows">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2184,15 +2184,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#english-180-keys-197-rows" class="md-nav__link">
+  <a href="#english-184-keys-201-rows" class="md-nav__link">
     <span class="md-ellipsis">
       
-        English — 180 keys, 197 rows
+        English — 184 keys, 201 rows
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="English — 180 keys, 197 rows">
+    <nav class="md-nav" aria-label="English — 184 keys, 201 rows">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2355,9 +2355,9 @@ source published no text.</p>
 <p>This report is <strong>generated from the tests</strong> — it reads the same comparison
 table as <code>tests/test_kaynak_esligi.py</code>, so the two cannot drift apart. The
 other known-value tests live in their own files.</p>
-<h2 id="turkish-208-keys-233-rows">Turkish — 208 keys, 233 rows<a class="headerlink" href="#turkish-208-keys-233-rows" title="Permanent link">&para;</a></h2>
+<h2 id="turkish-212-keys-237-rows">Turkish — 212 keys, 237 rows<a class="headerlink" href="#turkish-212-keys-237-rows" title="Permanent link">&para;</a></h2>
 <p>A key may have more than one worked example in its source; each one is its own row.</p>
-<p><strong>Verification candidates — 91 rows</strong></p>
+<p><strong>Verification candidates — 95 rows</strong></p>
 <table>
 <thead>
 <tr>
@@ -2376,7 +2376,7 @@ other known-value tests live in their own files.</p>
 </tr>
 <tr>
 <td>🔍 open — no worked example in source</td>
-<td>43</td>
+<td>47</td>
 </tr>
 </tbody>
 </table>
@@ -2421,20 +2421,20 @@ other known-value tests live in their own files.</p>
 <tr>
 <td><code>entropy</code></td>
 <td>QUITA §6.1.12</td>
-<td>Text 1 · eq. (6.26)</td>
+<td>Text 1 · eq. (6.26); source 6.438043 in bits → × ln 2</td>
 <td>formula</td>
-<td>6.438</td>
-<td>6.438</td>
+<td>4.463</td>
+<td>4.463</td>
 <td>+0.000</td>
 <td>✅</td>
 </tr>
 <tr>
 <td><code>entropy</code></td>
 <td>QUITA §6.1.12</td>
-<td>Text 2 · eq. (6.26)</td>
+<td>Text 2 · eq. (6.26); source 6.395099 in bits → × ln 2</td>
 <td>formula</td>
-<td>6.395</td>
-<td>6.395</td>
+<td>4.433</td>
+<td>4.433</td>
 <td>+0.000</td>
 <td>✅</td>
 </tr>
@@ -2651,41 +2651,41 @@ other known-value tests live in their own files.</p>
 <tr>
 <td><code>lambda_pa</code></td>
 <td>QUITA §6.1.7</td>
-<td>Text 1 · L·log₁₀N/N, L=129.3559482</td>
+<td>Text 1 · L·ln N/N, L=129.3559482; source 1.628 in log₁₀ → × ln 10</td>
 <td>formula</td>
-<td>1.628</td>
-<td>1.628</td>
+<td>3.749</td>
+<td>3.749</td>
 <td>+0.000</td>
 <td>✅</td>
 </tr>
 <tr>
 <td><code>lambda_pa</code></td>
 <td>QUITA §6.1.7</td>
-<td>Text 2 · L·log₁₀N/N, L=134.2787065</td>
+<td>Text 2 · L·ln N/N, L=134.2787065; source 1.5325 in log₁₀ → × ln 10</td>
 <td>formula</td>
-<td>1.532</td>
-<td>1.532</td>
-<td>+0.000</td>
-<td>✅</td>
-</tr>
-<tr>
-<td><code>adjusted_modulus</code></td>
-<td>QUITA §6.1.13</td>
-<td>Text 1 · M=24.01416249</td>
-<td>formula</td>
-<td>10.659</td>
-<td>10.659</td>
-<td>+0.000</td>
-<td>✅</td>
-</tr>
-<tr>
-<td><code>adjusted_modulus</code></td>
-<td>QUITA §6.1.13</td>
-<td>Text 2 · M=25.81931678</td>
-<td>formula</td>
-<td>11.200</td>
-<td>11.200</td>
+<td>3.529</td>
+<td>3.529</td>
 <td>-0.000</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>adjusted_modulus</code></td>
+<td>QUITA §6.1.13</td>
+<td>Text 1 · M=24.01416249; source 10.6594 in log₁₀ → / ln 10</td>
+<td>formula</td>
+<td>4.629</td>
+<td>4.629</td>
+<td>-0.000</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>adjusted_modulus</code></td>
+<td>QUITA §6.1.13</td>
+<td>Text 2 · M=25.81931678; source 11.19973 in log₁₀ → / ln 10</td>
+<td>formula</td>
+<td>4.864</td>
+<td>4.864</td>
+<td>+0.000</td>
 <td>✅</td>
 </tr>
 <tr>
@@ -2905,7 +2905,7 @@ other known-value tests live in their own files.</p>
 <p><strong><code>bezirci_yilmaz</code> deviation:</strong> The paper rounded its H6 intermediate value; the difference is 0.031 and both values fall in the same readability class (academic, 16+).</p>
 <p><strong><code>bezirci_yilmaz</code> deviation:</strong> The paper prints the H6 mean as 0.07, but the value that yields 8.30 is ~0.0684. The coefficient 26.25 inflates that rounding to 0.041; the coefficients themselves are correct.</p>
 <h3 id="open-verifiable-not-yet-verified">🔍 Open — verifiable, not yet verified<a class="headerlink" href="#open-verifiable-not-yet-verified" title="Permanent link">&para;</a></h3>
-<p>43 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are <strong>not untested</strong> — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison <em>against the source's number</em>.</p>
+<p>47 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are <strong>not untested</strong> — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison <em>against the source's number</em>.</p>
 <table>
 <thead>
 <tr>
@@ -2917,7 +2917,7 @@ other known-value tests live in their own files.</p>
 <tbody>
 <tr>
 <td><code>yule_k</code></td>
-<td>Yule (1944), as cited in Malvern et al. (2004) eq. 3.9</td>
+<td>Yule (1944) p.53, eq. (3.22)</td>
 <td>🔍</td>
 </tr>
 <tr>
@@ -2948,6 +2948,26 @@ other known-value tests live in their own files.</p>
 <tr>
 <td><code>guiraud_r</code></td>
 <td>Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>cttr</code></td>
+<td>Carroll (1964), as cited in Torruella &amp; Capsada (2013) p.448</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>summer_s</code></td>
+<td>Somers (1966), as cited in Torruella &amp; Capsada (2013) p.448, where it is named "Summer"; the source gives no logarithm base, the natural logarithm is this library's choice</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>maas_a2</code></td>
+<td>Maas (1972), as cited in Tweedie &amp; Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella &amp; Capsada (2013) Table 1; all logarithms in this library are natural</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>herdan_vm</code></td>
+<td>Herdan (1955), as cited in Tweedie &amp; Baayen (1998) p.330, eq. (18)</td>
 <td>🔍</td>
 </tr>
 <tr>
@@ -3057,7 +3077,7 @@ other known-value tests live in their own files.</p>
 </tr>
 <tr>
 <td><code>pos_kl_div</code></td>
-<td>Deutsch, Jasbi &amp; Shieber (2020) Definition 3.4 (POSdiv), in bits</td>
+<td>Deutsch, Jasbi &amp; Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits</td>
 <td>🔍</td>
 </tr>
 <tr>
@@ -3200,12 +3220,12 @@ other known-value tests live in their own files.</p>
 </tr>
 <tr>
 <td><code>short_sent_ratio</code></td>
-<td>This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 9 — 15th percentile of newspaper columns under the default sentence rule. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only</td>
+<td>This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only</td>
 <td>🔧</td>
 </tr>
 <tr>
 <td><code>long_sent_ratio</code></td>
-<td>This library's threshold calibration (docs/threshold-calibration.md); TR 18, EN 33 — 85th percentile of newspaper columns under the default sentence rule. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only</td>
+<td>This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only</td>
 <td>🔧</td>
 </tr>
 <tr>
@@ -3855,9 +3875,9 @@ other known-value tests live in their own files.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="english-180-keys-197-rows">English — 180 keys, 197 rows<a class="headerlink" href="#english-180-keys-197-rows" title="Permanent link">&para;</a></h2>
+<h2 id="english-184-keys-201-rows">English — 184 keys, 201 rows<a class="headerlink" href="#english-184-keys-201-rows" title="Permanent link">&para;</a></h2>
 <p>A key may have more than one worked example in its source; each one is its own row.</p>
-<p><strong>Verification candidates — 80 rows</strong></p>
+<p><strong>Verification candidates — 84 rows</strong></p>
 <table>
 <thead>
 <tr>
@@ -3876,7 +3896,7 @@ other known-value tests live in their own files.</p>
 </tr>
 <tr>
 <td>🔍 open — no worked example in source</td>
-<td>42</td>
+<td>46</td>
 </tr>
 </tbody>
 </table>
@@ -3921,20 +3941,20 @@ other known-value tests live in their own files.</p>
 <tr>
 <td><code>entropy</code></td>
 <td>QUITA §6.1.12</td>
-<td>Text 1 · eq. (6.26)</td>
+<td>Text 1 · eq. (6.26); source 6.438043 in bits → × ln 2</td>
 <td>formula</td>
-<td>6.438</td>
-<td>6.438</td>
+<td>4.463</td>
+<td>4.463</td>
 <td>+0.000</td>
 <td>✅</td>
 </tr>
 <tr>
 <td><code>entropy</code></td>
 <td>QUITA §6.1.12</td>
-<td>Text 2 · eq. (6.26)</td>
+<td>Text 2 · eq. (6.26); source 6.395099 in bits → × ln 2</td>
 <td>formula</td>
-<td>6.395</td>
-<td>6.395</td>
+<td>4.433</td>
+<td>4.433</td>
 <td>+0.000</td>
 <td>✅</td>
 </tr>
@@ -4151,41 +4171,41 @@ other known-value tests live in their own files.</p>
 <tr>
 <td><code>lambda_pa</code></td>
 <td>QUITA §6.1.7</td>
-<td>Text 1 · L·log₁₀N/N, L=129.3559482</td>
+<td>Text 1 · L·ln N/N, L=129.3559482; source 1.628 in log₁₀ → × ln 10</td>
 <td>formula</td>
-<td>1.628</td>
-<td>1.628</td>
+<td>3.749</td>
+<td>3.749</td>
 <td>+0.000</td>
 <td>✅</td>
 </tr>
 <tr>
 <td><code>lambda_pa</code></td>
 <td>QUITA §6.1.7</td>
-<td>Text 2 · L·log₁₀N/N, L=134.2787065</td>
+<td>Text 2 · L·ln N/N, L=134.2787065; source 1.5325 in log₁₀ → × ln 10</td>
 <td>formula</td>
-<td>1.532</td>
-<td>1.532</td>
-<td>+0.000</td>
-<td>✅</td>
-</tr>
-<tr>
-<td><code>adjusted_modulus</code></td>
-<td>QUITA §6.1.13</td>
-<td>Text 1 · M=24.01416249</td>
-<td>formula</td>
-<td>10.659</td>
-<td>10.659</td>
-<td>+0.000</td>
-<td>✅</td>
-</tr>
-<tr>
-<td><code>adjusted_modulus</code></td>
-<td>QUITA §6.1.13</td>
-<td>Text 2 · M=25.81931678</td>
-<td>formula</td>
-<td>11.200</td>
-<td>11.200</td>
+<td>3.529</td>
+<td>3.529</td>
 <td>-0.000</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>adjusted_modulus</code></td>
+<td>QUITA §6.1.13</td>
+<td>Text 1 · M=24.01416249; source 10.6594 in log₁₀ → / ln 10</td>
+<td>formula</td>
+<td>4.629</td>
+<td>4.629</td>
+<td>-0.000</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>adjusted_modulus</code></td>
+<td>QUITA §6.1.13</td>
+<td>Text 2 · M=25.81931678; source 11.19973 in log₁₀ → / ln 10</td>
+<td>formula</td>
+<td>4.864</td>
+<td>4.864</td>
+<td>+0.000</td>
 <td>✅</td>
 </tr>
 <tr>
@@ -4304,7 +4324,7 @@ other known-value tests live in their own files.</p>
 <p><strong><code>ari</code> deviation:</strong> The source's numbers were produced <strong>by hand</strong> in 1975 with a mechanical counter attached to a typewriter (Appendix B, ARI instructions). In 17 of the 18 passages, the stroke count that would yield the source's ARI is 0.996-1.041 times ours — a difference of a few characters. Passage 2 is an outlier (ratio 1.145), and there the source's own two numbers contradict each other: Table 1's ARI of 20.3 requires 6.269 strokes per word, while the text's actual value is 5.475; moreover, the words per sentence implied by that ARI give an FKGL of 18.69, whereas Table 2 printed 16.7. Our stroke definition was tested separately: counting spaces raises the difference from 0.54 to 4.24, so counting without spaces is correct.</p>
 <p><strong><code>flesch_kincaid_grade</code> deviation:</strong> Same hand-counting source. The per-passage deviation is below 0.6 in 15 of the 18 passages; passage 12 is an outlier (-4.28) and also misses its FRE band, so the deviation is concentrated in a single passage. The difference between the means is 0.34 grade levels — too small to change the readability classification.</p>
 <h3 id="open-verifiable-not-yet-verified_1">🔍 Open — verifiable, not yet verified<a class="headerlink" href="#open-verifiable-not-yet-verified_1" title="Permanent link">&para;</a></h3>
-<p>42 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are <strong>not untested</strong> — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison <em>against the source's number</em>.</p>
+<p>46 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are <strong>not untested</strong> — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison <em>against the source's number</em>.</p>
 <table>
 <thead>
 <tr>
@@ -4316,7 +4336,7 @@ other known-value tests live in their own files.</p>
 <tbody>
 <tr>
 <td><code>yule_k</code></td>
-<td>Yule (1944), as cited in Malvern et al. (2004) eq. 3.9</td>
+<td>Yule (1944) p.53, eq. (3.22)</td>
 <td>🔍</td>
 </tr>
 <tr>
@@ -4347,6 +4367,26 @@ other known-value tests live in their own files.</p>
 <tr>
 <td><code>guiraud_r</code></td>
 <td>Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>cttr</code></td>
+<td>Carroll (1964), as cited in Torruella &amp; Capsada (2013) p.448</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>summer_s</code></td>
+<td>Somers (1966), as cited in Torruella &amp; Capsada (2013) p.448, where it is named "Summer"; the source gives no logarithm base, the natural logarithm is this library's choice</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>maas_a2</code></td>
+<td>Maas (1972), as cited in Tweedie &amp; Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella &amp; Capsada (2013) Table 1; all logarithms in this library are natural</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>herdan_vm</code></td>
+<td>Herdan (1955), as cited in Tweedie &amp; Baayen (1998) p.330, eq. (18)</td>
 <td>🔍</td>
 </tr>
 <tr>
@@ -4456,7 +4496,7 @@ other known-value tests live in their own files.</p>
 </tr>
 <tr>
 <td><code>pos_kl_div</code></td>
-<td>Deutsch, Jasbi &amp; Shieber (2020) Definition 3.4 (POSdiv), in bits</td>
+<td>Deutsch, Jasbi &amp; Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits</td>
 <td>🔍</td>
 </tr>
 <tr>
@@ -4594,12 +4634,12 @@ other known-value tests live in their own files.</p>
 </tr>
 <tr>
 <td><code>short_sent_ratio</code></td>
-<td>This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 9 — 15th percentile of newspaper columns under the default sentence rule. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only</td>
+<td>This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only</td>
 <td>🔧</td>
 </tr>
 <tr>
 <td><code>long_sent_ratio</code></td>
-<td>This library's threshold calibration (docs/threshold-calibration.md); TR 18, EN 33 — 85th percentile of newspaper columns under the default sentence rule. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only</td>
+<td>This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only</td>
 <td>🔧</td>
 </tr>
 <tr>

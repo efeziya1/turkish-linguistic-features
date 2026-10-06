@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 180 from English text">
+        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
       
       
       
@@ -2165,7 +2165,7 @@ release notes.</p>
 <li><strong>A plain definition</strong> — <code>punc_,_ratio</code> ("commas / words"). No citation,
    because there is nothing to attribute.</li>
 </ol>
-<p>Of 208 keys, 140 have a citation and 68 do not.</p>
+<p>Of 212 keys, 144 have a citation and 68 do not.</p>
 <h2 id="group">Group<a class="headerlink" href="#group" title="Permanent link">&para;</a></h2>
 <p>Features are organised into 13 groups (14 with the <code>ng_*</code> keys created when
 you pass <code>custom_ngrams</code>). A group is both an organising device
@@ -2217,8 +2217,8 @@ letter.</p>
 <td><code>sentence_length_cv</code></td>
 </tr>
 <tr>
-<td><code>bits</code></td>
-<td>Entropy in bits</td>
+<td><code>nats</code></td>
+<td>Entropy in nats (natural logarithm; every logarithm in the library is ln)</td>
 <td><code>entropy</code>, <code>punct_entropy</code></td>
 </tr>
 <tr>
@@ -2243,14 +2243,14 @@ misleads.</p>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>   ↓  Zeyrek (Turkish only)
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>suffix analysis
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>   ↓  feature extractors
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>208 numbers
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>212 numbers
 </code></pre></div>
 <p>Two consequences:</p>
 <ol>
 <li><strong>The spaCy model is part of the result.</strong> Change the model and
    sentence splitting, POS tags and dependency features change with it.
    State which model you used in your methods section.</li>
-<li><strong>Preprocessing runs once.</strong> All 208 features draw on the same analysis,
+<li><strong>Preprocessing runs once.</strong> All 212 features draw on the same analysis,
    so asking for fewer <code>groups</code> does not speed up preprocessing — it only
    shortens the extraction step.</li>
 </ol>
@@ -2258,7 +2258,7 @@ misleads.</p>
 <p>Window sizes, thresholds and sample counts live here. Details:
 <a href="../../how-to/parameters/">Change the thresholds</a>.</p>
 <p>The sentence thresholds (<code>short_sent_threshold</code>, <code>long_sent_threshold</code>) are
-<strong>calibrated per language</strong> (TR 4/18, EN 9/33) and resolved field by field:
+<strong>calibrated per language</strong> (TR 4/17, EN 8/32) and resolved field by field:
 a field you set wins, a field you leave out stays calibrated. So
 <code>FeatureParams(mattr_window=100)</code> does not change the sentence thresholds.</p>
 <h2 id="the-registry">The registry<a class="headerlink" href="#the-registry" title="Permanent link">&para;</a></h2>

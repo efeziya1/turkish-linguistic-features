@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 180 from English text">
+        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
       
       
       
@@ -2219,14 +2219,14 @@ harmless and there is nothing to fix on either side.</p>
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)</span>
 <a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">oz</span><span class="p">))</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>180
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>184
 </code></pre></div>
 <p><code>lang</code> defaults to <code>"tr"</code>. Leave it out and English text is analysed with the
 Turkish model and the Turkish feature set, so always pass <code>lang="en"</code>.</p>
 <p><code>analyze</code> returns a <strong>flat dictionary</strong>: keys are feature names, values are
 numbers. No nesting, no classes, no <code>pandas</code> requirement.</p>
 <h2 id="4-read-the-output">4. Read the output<a class="headerlink" href="#4-read-the-output" title="Permanent link">&para;</a></h2>
-<p>Looking at 180 numbers at once is pointless. Look at a few:</p>
+<p>Looking at 184 numbers at once is pointless. Look at a few:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"ttr"</span><span class="p">,</span> <span class="s2">"avg_word_length"</span><span class="p">,</span> <span class="s2">"flesch_reading_ease"</span><span class="p">,</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>          <span class="s2">"flesch_kincaid_grade"</span><span class="p">,</span> <span class="s2">"ari"</span><span class="p">,</span> <span class="s2">"coleman_liau"</span><span class="p">):</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">22s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">oz</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
@@ -2299,9 +2299,9 @@ invent a number from insufficient data — it returns <code>nan</code>.</p>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">nans</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">short</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v</span> <span class="o">!=</span> <span class="n">v</span><span class="p">]</span>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">short</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">nans</span><span class="p">))</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>180 42
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>184 42
 </code></pre></div>
-<p>In a three-word text, <strong>42 of 180</strong> features return <code>nan</code>. That is honesty,
+<p>In a three-word text, <strong>42 of 184</strong> features return <code>nan</code>. That is honesty,
 not failure. See <strong><a href="../explanation/nan/">What NaN means</a></strong>.</p>
 <h2 id="6-see-where-a-feature-comes-from">6. See where a feature comes from<a class="headerlink" href="#6-see-where-a-feature-comes-from" title="Permanent link">&para;</a></h2>
 <p>If you are going to put a number in your own work, you need to know its

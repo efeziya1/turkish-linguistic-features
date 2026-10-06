@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 180 from English text">
+        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
       
       
       
@@ -2119,11 +2119,11 @@
 sentence thresholds that default is not a fixed number but the calibrated value
 for the language — see <a href="#the-sentence-thresholds-resolve-per-language">below</a>.</p>
 <p>Output (<code>short_sent_ratio</code>, <code>long_sent_ratio</code>):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>default (TR 4/18): short=0.0      long=0.0
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>default (TR 4/17): short=0.0      long=0.0
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>manual (3/12)    : short=0.0      long=0.333333
 </code></pre></div>
 <p>Same text, different thresholds, different numbers. One of the three
-sentences is over 12 words; none is over 18.</p>
+sentences is over 12 words; none is over 17.</p>
 <h2 id="every-field">Every field<a class="headerlink" href="#every-field" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -2216,12 +2216,12 @@ sentences is over 12 words; none is over 18.</p>
 </tr>
 <tr>
 <td><code>short_sent_threshold</code></td>
-<td>TR <strong>4</strong> · EN <strong>9</strong></td>
+<td>TR <strong>4</strong> · EN <strong>8</strong></td>
 <td><code>short_sent_ratio</code></td>
 </tr>
 <tr>
 <td><code>long_sent_threshold</code></td>
-<td>TR <strong>18</strong> · EN <strong>33</strong></td>
+<td>TR <strong>17</strong> · EN <strong>32</strong></td>
 <td><code>long_sent_ratio</code></td>
 </tr>
 <tr>
@@ -2267,7 +2267,7 @@ field therefore does not disturb the thresholds:</p>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>        <span class="s2">"yaşlı çınarın altında oturan adam, uzun yıllar önce bu yollardan "</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>        <span class="s2">"geçen kervanları, pazar günlerini ve kaybolan komşularını anlattı."</span><span class="p">)</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">p</span> <span class="o">=</span> <span class="n">FeatureParams</span><span class="p">(</span><span class="n">mattr_window</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>            <span class="c1"># thresholds untouched</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">feats</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>  <span class="c1"># still TR 4/18</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">feats</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>  <span class="c1"># still TR 4/17</span>
 </code></pre></div>
 <p>Output — sentences of 2, 4 and 20 words:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>params=None                       short=0.333333   long=0.333333

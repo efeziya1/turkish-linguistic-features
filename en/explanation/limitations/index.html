@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 180 from English text">
+        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
       
       
       
@@ -1595,10 +1595,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-the-sentence-thresholds-were-calibrated-on-fiction-only" class="md-nav__link">
+  <a href="#1-the-sentence-thresholds-were-calibrated-on-newspaper-columns-only" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. The sentence thresholds were calibrated on fiction only
+        1. The sentence thresholds were calibrated on newspaper columns only
       
     </span>
   </a>
@@ -1606,10 +1606,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-eleven-citations-are-secondary" class="md-nav__link">
+  <a href="#2-fourteen-citations-are-secondary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Eleven citations are secondary
+        2. Fourteen citations are secondary
       
     </span>
   </a>
@@ -2132,10 +2132,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-the-sentence-thresholds-were-calibrated-on-fiction-only" class="md-nav__link">
+  <a href="#1-the-sentence-thresholds-were-calibrated-on-newspaper-columns-only" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. The sentence thresholds were calibrated on fiction only
+        1. The sentence thresholds were calibrated on newspaper columns only
       
     </span>
   </a>
@@ -2143,10 +2143,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-eleven-citations-are-secondary" class="md-nav__link">
+  <a href="#2-fourteen-citations-are-secondary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Eleven citations are secondary
+        2. Fourteen citations are secondary
       
     </span>
   </a>
@@ -2289,48 +2289,58 @@ second covers points that are not weaknesses of the library but that you
 need to know when interpreting the results. Read both while writing your
 methods section.</p>
 <h2 id="limitations-of-the-library">Limitations of the library<a class="headerlink" href="#limitations-of-the-library" title="Permanent link">&para;</a></h2>
-<h3 id="1-the-sentence-thresholds-were-calibrated-on-fiction-only">1. The sentence thresholds were calibrated on fiction only<a class="headerlink" href="#1-the-sentence-thresholds-were-calibrated-on-fiction-only" title="Permanent link">&para;</a></h3>
-<p>The <code>short_sent_ratio</code> and <code>long_sent_ratio</code> thresholds (TR 4/18, EN 7/39)
+<h3 id="1-the-sentence-thresholds-were-calibrated-on-newspaper-columns-only">1. The sentence thresholds were calibrated on newspaper columns only<a class="headerlink" href="#1-the-sentence-thresholds-were-calibrated-on-newspaper-columns-only" title="Permanent link">&para;</a></h3>
+<p>The <code>short_sent_ratio</code> and <code>long_sent_ratio</code> thresholds (TR 4/17, EN 8/32)
 were derived from the 15th and 85th percentiles of the sentence-length
-distribution in novel corpora:</p>
+distribution in newspaper columns, measured with the default sentence rule
+and the default word:</p>
 <table>
 <thead>
 <tr>
 <th>Language</th>
-<th>Authors</th>
+<th>Columnists</th>
 <th>Sentences</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Turkish</td>
-<td>15</td>
-<td>1,089,841</td>
+<td>162</td>
+<td>197,990</td>
 </tr>
 <tr>
 <td>English</td>
-<td>10</td>
-<td>341,892</td>
+<td>30</td>
+<td>52,745</td>
 </tr>
 </tbody>
 </table>
-<p>Both sets are the <strong>same genre</strong>: novels/fiction. There is <strong>no guarantee</strong>
-they generalise to technical writing, transcripts, poetry or children's
-books. If you work in another genre, consider deriving the thresholds from
-your own corpus — <a href="../../../threshold-calibration/">the method is here</a>.</p>
-<h3 id="2-eleven-citations-are-secondary">2. Eleven citations are secondary<a class="headerlink" href="#2-eleven-citations-are-secondary" title="Permanent link">&para;</a></h3>
-<p><strong>11 of 144</strong> citations carry <code>as cited in</code> — the primary source could not
+<p>A column is a <strong>single genre</strong>. Novels already give another distribution
+(dialogue lines are very short), and there is <strong>no guarantee</strong> the thresholds
+suit technical writing, transcripts, poetry or children's books. If you work
+in another genre, consider deriving the thresholds from your own corpus —
+<a href="../../../threshold-calibration/">the method is here</a>.</p>
+<h3 id="2-fourteen-citations-are-secondary">2. Fourteen citations are secondary<a class="headerlink" href="#2-fourteen-citations-are-secondary" title="Permanent link">&para;</a></h3>
+<p><strong>14 of 148</strong> citations carry <code>as cited in</code> — the primary source could not
 be obtained and the formula was taken from the citing work. For example:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Herdan (1960/1964), as cited in Tweedie &amp; Baayen (1998) p.327, eq. (5)
 </code></pre></div>
-<p>Affected measures include <code>herdan_c</code>, <code>brunet_w</code>, <code>dugast_u</code>, <code>yule_k</code>,
-<code>simpson_d</code>, <code>heaps_beta</code> and <code>lix</code>. The formulas were verified, but not
+<p>Affected measures include <code>herdan_c</code>, <code>herdan_vm</code>, <code>maas_a2</code>, <code>brunet_w</code>,
+<code>dugast_u</code>, <code>simpson_d</code>, <code>heaps_beta</code>, <code>lix</code>, <code>cttr</code> and <code>summer_s</code>. The formulas were verified, but not
 against the <strong>primary source's own wording</strong>.</p>
 <p>Carry the "as cited in" through into your own methods section. Do not
 present it as though you read the primary.</p>
 <h3 id="3-the-spacy-model-is-part-of-the-result">3. The spaCy model is part of the result<a class="headerlink" href="#3-the-spacy-model-is-part-of-the-result" title="Permanent link">&para;</a></h3>
-<p>Sentence splitting, POS tags and dependency features come from the model.
-Change the model and the numbers change.</p>
+<p>POS tags, lemmas, morphological tags and the dependency features (with the
+parser's own sentences) come from the model. Change the model and those
+numbers change.</p>
+<p>Word and sentence counts do not use the model's labels. The default word is a
+whitespace-separated unit with edge punctuation stripped; the default sentence
+rule reads sentence-ending marks from the model's tokenizer. Features that need
+a label per word (POS, lemma, morphology, dependency) count the model's tokens
+instead, so two word definitions coexist: <code>e-posta</code> is one word in <code>ttr</code> and two
+tokens in <code>lexical_density</code>. <code>describe_feature(key)["definitions"]["word"]</code>
+names the one each feature uses.</p>
 <p>Verified combination: spaCy 3.8.16, <code>en_core_web_sm</code> 3.8.0,
 <code>tr_core_news_md</code> 1.0.</p>
 <p>The Turkish model has two oddities that look like bugs (a version-number
@@ -2343,7 +2353,15 @@ Python port of Zemberek's morphotactics. A word Zeyrek cannot analyse drops
 out of those features.</p>
 <p>Zeyrek is an <strong>analyser, not a disambiguator</strong>: it can return several
 analyses for the same surface form and does not pick the right one from
-context.</p>
+context. The library takes the <strong>first</strong> analysis, with no context.</p>
+<p>Zeyrek orders the analyses by the number of suffix transitions, fewest first.
+Ties used to follow the order of same-spelled stems in Zeyrek's lexicon, which
+it loads from a Python set, so the order depended on <code>PYTHONHASHSEED</code>: on the
+TOMA set (8,225 distinct words) 612 words changed their first analysis across
+hash seeds 0–3. The library now sorts those stems in a fixed order, so the
+result no longer depends on the seed; a recorded golden set of 315 words is
+tested against it. Which analysis comes first among ties is still arbitrary —
+it is fixed, not chosen from context.</p>
 <h3 id="5-half-the-candidates-are-still-unverified">5. Half the candidates are still unverified<a class="headerlink" href="#5-half-the-candidates-are-still-unverified" title="Permanent link">&para;</a></h3>
 <p>142 rows are not verification candidates at all (plain definitions, tag
 schemes, or our own derivations). Of the remaining <strong>91 candidates, 48 are done</strong> (46 ✅ + 2 🟡)

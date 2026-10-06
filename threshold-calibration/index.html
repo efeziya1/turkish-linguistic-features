@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 180 from English text">
+        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
       
       
       
@@ -1985,13 +1985,41 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#earlier-calibration-2026-07-28-superseded" class="md-nav__link">
+  <a href="#earlier-calibrations" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Earlier calibration (2026-07-28, superseded)
+        Earlier calibrations
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Earlier calibrations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#default-sentence-rule-earlier-word-2026-10-06-superseded" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Default sentence rule, earlier word (2026-10-06, superseded)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#novel-corpora-spacy-parser-sentences-2026-07-28-superseded" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Novel corpora, spaCy parser sentences (2026-07-28, superseded)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2110,13 +2138,41 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#earlier-calibration-2026-07-28-superseded" class="md-nav__link">
+  <a href="#earlier-calibrations" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Earlier calibration (2026-07-28, superseded)
+        Earlier calibrations
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Earlier calibrations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#default-sentence-rule-earlier-word-2026-10-06-superseded" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Default sentence rule, earlier word (2026-10-06, superseded)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#novel-corpora-spacy-parser-sentences-2026-07-28-superseded" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Novel corpora, spaCy parser sentences (2026-07-28, superseded)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2153,9 +2209,10 @@
 
 <h1 id="calibrating-the-sentence-length-thresholds">Calibrating the sentence-length thresholds<a class="headerlink" href="#calibrating-the-sentence-length-thresholds" title="Permanent link">&para;</a></h1>
 <p><code>short_sent_threshold</code> and <code>long_sent_threshold</code> were not taken from a
-published source; they were chosen by measurement on newspaper columns, with the default sentence rule.
+published source; they were chosen by measurement on newspaper columns, with the default sentence rule
+and the default word.
 This document records that measurement.</p>
-<p><strong>Measured:</strong> 2026-10-06 (current). The earlier measurement of 2026-07-28 is under "Earlier calibration" below.</p>
+<p><strong>Measured:</strong> 2026-10-06 (current, with the default word). Earlier measurements are under "Earlier calibrations" below.</p>
 <h2 id="result">Result<a class="headerlink" href="#result" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -2169,12 +2226,12 @@ This document records that measurement.</p>
 <tr>
 <td><strong>Turkish</strong></td>
 <td>4</td>
-<td>18</td>
+<td>17</td>
 </tr>
 <tr>
 <td><strong>English</strong></td>
-<td>9</td>
-<td>33</td>
+<td>8</td>
+<td>32</td>
 </tr>
 </tbody>
 </table>
@@ -2208,8 +2265,8 @@ leave out keeps the value above (<a href="../en/how-to/parameters/">details</a>)
 </tr>
 <tr>
 <td>Words measured</td>
-<td>2,114,978</td>
-<td>1,106,919</td>
+<td>2,108,415</td>
+<td>1,078,588</td>
 </tr>
 <tr>
 <td><strong>Sentences measured</strong></td>
@@ -2221,8 +2278,9 @@ leave out keeps the value above (<a href="../en/how-to/parameters/">details</a>)
 <p>The full corpora were used, with no sampling. The texts are not distributed; only the numbers are published.
 Sentence boundaries were found with the library's default sentence rule (<code>. ? ! …</code>
 always, <code>:</code> only when what follows starts like a new sentence; an abbreviation dot
-does not end a sentence); length is the number of non-punctuation words, as in the
-<code>sentence</code> group. Feature extraction was not run, since only the number of words per
+does not end a sentence). Length is the number of default words in the sentence: a
+whitespace-separated unit with edge punctuation stripped that contains a letter or digit (the
+<code>sentence</code> group's own path: <code>kural_cumleleri</code> + <code>cumle_birimleri</code>). Feature extraction was not run, since only the number of words per
 sentence was needed.</p>
 <p>The 15th and 85th percentiles were chosen as thresholds. A criterion such as
 "mean of the outliers" was not used, because defining an outlier already
@@ -2250,7 +2308,91 @@ requires a threshold, and deriving the threshold from it would be circular.</p>
 <tr>
 <td><strong>15th</strong></td>
 <td><strong>4.0</strong></td>
-<td><strong>9.0</strong></td>
+<td><strong>8.0</strong></td>
+</tr>
+<tr>
+<td>25th</td>
+<td>5.0</td>
+<td>11.0</td>
+</tr>
+<tr>
+<td>50th (median)</td>
+<td>9.0</td>
+<td>19.0</td>
+</tr>
+<tr>
+<td>75th</td>
+<td>14.0</td>
+<td>27.0</td>
+</tr>
+<tr>
+<td><strong>85th</strong></td>
+<td><strong>17.0</strong></td>
+<td><strong>32.0</strong></td>
+</tr>
+<tr>
+<td>90th</td>
+<td>20.0</td>
+<td>36.0</td>
+</tr>
+<tr>
+<td>95th</td>
+<td>25.0</td>
+<td>43.0</td>
+</tr>
+</tbody>
+</table>
+<p>In Turkish the 85th percentile sits on the boundary: at 17, 15.0% of sentences count as long; at 18, 12.9%.</p>
+<h2 id="why-a-language-specific-threshold">Why a language-specific threshold<a class="headerlink" href="#why-a-language-specific-threshold" title="Permanent link">&para;</a></h2>
+<p>A single pair of thresholds for both languages, such as 5 and 30, sits in the
+wrong place in both. In Turkish, 30 words is above even the 95th percentile
+(25), so <code>long_sent_ratio</code> is practically always near zero. In English the same
+number falls between the 75th (27) and 85th (32) percentiles.</p>
+<p>The reason is typological: Turkish is agglutinative, and a single word can
+carry what a subordinate clause carries in an analytic language. The surface
+word count does not measure the same thing in the two languages.</p>
+<h2 id="comparison-with-atesman-1997">Comparison with Ateşman (1997)<a class="headerlink" href="#comparison-with-atesman-1997" title="Permanent link">&para;</a></h2>
+<p>Ateşman (1997), p.74, gives the calibration endpoints of the formula: the
+easiest text has a mean sentence length of <strong>4</strong> words, the hardest <strong>30</strong>.</p>
+<p>The Turkish <code>short_sent_threshold=4</code> comes from the calibration. That it
+coincides with Ateşman's "easiest text" value is only a note: that number is
+the mean of a text, not a threshold, so it is not cited as the source — the
+same reasoning that applies to 30.
+Ateşman's Turkish norm on p.73 (mean sentence length of 9–10 words) also agrees
+with the corpus median (9.0).</p>
+<p>Ateşman's 30 was <strong>not used</strong> for <code>long</code>: it is the mean of the hardest text,
+not a threshold for calling a single sentence long. Used as a threshold, it
+lies above the 95th percentile in Turkish.</p>
+<h2 id="earlier-calibrations">Earlier calibrations<a class="headerlink" href="#earlier-calibrations" title="Permanent link">&para;</a></h2>
+<h3 id="default-sentence-rule-earlier-word-2026-10-06-superseded">Default sentence rule, earlier word (2026-10-06, superseded)<a class="headerlink" href="#default-sentence-rule-earlier-word-2026-10-06-superseded" title="Permanent link">&para;</a></h3>
+<p>Same columns and same sentences; word = a spaCy token containing a letter or digit. The result
+was TR 4/18, EN 9/33. The same day the default word became the whitespace unit and the thresholds
+were measured again. The word definition changes a length only where spaCy splits a whitespace
+unit (<code>e-posta</code>, <code>%50</code>, English <code>don't</code> → <code>do</code> + <code>n't</code>): 2.8% of Turkish and 37.6% of English
+sentences got shorter, none longer.</p>
+<table>
+<thead>
+<tr>
+<th>Percentile</th>
+<th>TR (n = 197,990)</th>
+<th>EN (n = 52,745)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5th</td>
+<td>2.0</td>
+<td>5.0</td>
+</tr>
+<tr>
+<td>10th</td>
+<td>3.0</td>
+<td>7.0</td>
+</tr>
+<tr>
+<td>15th</td>
+<td>4.0</td>
+<td>9.0</td>
 </tr>
 <tr>
 <td>25th</td>
@@ -2268,9 +2410,9 @@ requires a threshold, and deriving the threshold from it would be circular.</p>
 <td>28.0</td>
 </tr>
 <tr>
-<td><strong>85th</strong></td>
-<td><strong>18.0</strong></td>
-<td><strong>33.0</strong></td>
+<td>85th</td>
+<td>18.0</td>
+<td>33.0</td>
 </tr>
 <tr>
 <td>90th</td>
@@ -2284,33 +2426,14 @@ requires a threshold, and deriving the threshold from it would be circular.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="why-a-language-specific-threshold">Why a language-specific threshold<a class="headerlink" href="#why-a-language-specific-threshold" title="Permanent link">&para;</a></h2>
-<p>A single pair of thresholds for both languages, such as 5 and 30, sits in the
-wrong place in both. In Turkish, 30 words is above even the 95th percentile
-(25), so <code>long_sent_ratio</code> is practically always near zero. In English the same
-number falls between the 75th (28) and 85th (33) percentiles.</p>
-<p>The reason is typological: Turkish is agglutinative, and a single word can
-carry what a subordinate clause carries in an analytic language. The surface
-word count does not measure the same thing in the two languages.</p>
-<h2 id="comparison-with-atesman-1997">Comparison with Ateşman (1997)<a class="headerlink" href="#comparison-with-atesman-1997" title="Permanent link">&para;</a></h2>
-<p>Ateşman (1997), p.74, gives the calibration endpoints of the formula: the
-easiest text has a mean sentence length of <strong>4</strong> words, the hardest <strong>30</strong>.</p>
-<p>The Turkish <code>short_sent_threshold=4</code> comes from the calibration. That it
-coincides with Ateşman's "easiest text" value is only a note: that number is
-the mean of a text, not a threshold, so it is not cited as the source — the
-same reasoning that applies to 30.
-Ateşman's Turkish norm on p.73 (mean sentence length of 9–10 words) also agrees
-with the corpus median (9.0).</p>
-<p>Ateşman's 30 was <strong>not used</strong> for <code>long</code>: it is the mean of the hardest text,
-not a threshold for calling a single sentence long. Used as a threshold, it
-lies above the 95th percentile in Turkish.</p>
-<h2 id="earlier-calibration-2026-07-28-superseded">Earlier calibration (2026-07-28, superseded)<a class="headerlink" href="#earlier-calibration-2026-07-28-superseded" title="Permanent link">&para;</a></h2>
+<h3 id="novel-corpora-spacy-parser-sentences-2026-07-28-superseded">Novel corpora, spaCy parser sentences (2026-07-28, superseded)<a class="headerlink" href="#novel-corpora-spacy-parser-sentences-2026-07-28-superseded" title="Permanent link">&para;</a></h3>
 <p>The thresholds were first measured on novel-heavy corpora with the spaCy parser's
 sentences: TR 15 authors / 1,089,841 sentences, EN 10 authors / 341,892 sentences.
 The result was TR 4/18, EN 7/39. On 2026-10-06 the <code>sentence</code> group moved to the
 default sentence rule, and the thresholds were re-derived from newspaper columns
 measured with that rule. The Turkish values (4/18) did not change; the English
-ones moved from 7/39 to 9/33.</p>
+ones moved from 7/39 to 9/33; when the word definition changed the same day they became
+TR 4/17, EN 8/32 (above).</p>
 <table>
 <thead>
 <tr>
@@ -2376,8 +2499,9 @@ of variance in <code>short_sent_ratio</code> and <code>long_sent_ratio</code> ex
 <h2 id="scope">Scope<a class="headerlink" href="#scope" title="Permanent link">&para;</a></h2>
 <p><strong>The thresholds were calibrated on newspaper columns.</strong> A column is a single genre.</p>
 <p>Novels give another distribution because dialogue lines produce very short
-sentences: in Turkish novels under the default rule about 26.5% of sentences are
-shorter than 4 words and 6.6% longer than 18 (12.1% and 13.0% in columns). There is
+sentences: in Turkish novels (126 books, 992,259 sentences) under the default rule and word,
+26.5% of sentences are shorter than 4 words and 7.6% longer than 17 (12.2% and 15.0% in
+columns). There is
 also <strong>no guarantee</strong> that the same thresholds suit technical writing, transcripts,
 poetry, legal text or textbooks. If you work with those genres, compute the
 percentiles of your own corpus and pass them through <code>FeatureParams</code>.</p>

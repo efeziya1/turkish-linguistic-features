@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 180 from English text">
+        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
       
       
       
@@ -2292,7 +2292,7 @@ K'nın kaç çıktığını basmaz — basmadığı için bizim K'mız yanlış 
 (bir harfin ya da noktalama işaretinin payı gibi); bir kaynağa dayanmadıkları
 için kaynakla eşlenecek bir denklemleri de yoktur.</p>
 <h2 id="once-her-oznitelik-dogrulanamaz">Önce: her öznitelik doğrulanamaz<a class="headerlink" href="#once-her-oznitelik-dogrulanamaz" title="Permanent link">&para;</a></h2>
-<p>Bu ayrım raporun en önemli parçası. 208 özniteliğin bir kısmı, tanımı gereği
+<p>Bu ayrım raporun en önemli parçası. 212 özniteliğin bir kısmı, tanımı gereği
 <strong>doğrulama adayı bile değildir</strong>:</p>
 <table>
 <thead>
@@ -2528,7 +2528,7 @@ gerekmiyor. Kayıt defteri her öznitelik için alıntılanabilir bir tanım
 tutuyor:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"entropy_std"</span><span class="p">)[</span><span class="s2">"formula"</span><span class="p">]</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>'population std of entropies (bits) of disjoint mattr_window-word chunks'
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>'population std of entropies (nats) of disjoint mattr_window-word chunks'
 </code></pre></div>
 <p>Örnek olarak altısı:</p>
 <table>
@@ -2542,17 +2542,17 @@ tutuyor:</p>
 <tbody>
 <tr>
 <td><code>entropy_std</code></td>
-<td>ayrık <code>mattr_window</code> kelimelik parçaların entropilerinin (bit) popülasyon standart sapması</td>
+<td>ayrık <code>mattr_window</code> kelimelik parçaların entropilerinin (nat) popülasyon standart sapması</td>
 <td>entropi formülü — Shannon (1948)</td>
 </tr>
 <tr>
 <td><code>punct_entropy</code></td>
-<td>on noktalama türünün dağılımının Shannon entropisi (bit)</td>
+<td>on noktalama türünün dağılımının Shannon entropisi (nat)</td>
 <td>entropi formülü — Shannon (1948)</td>
 </tr>
 <tr>
 <td><code>sent_len_entropy</code></td>
-<td>cümle başına kelime dağılımının Shannon entropisi (bit)</td>
+<td>cümle başına kelime dağılımının Shannon entropisi (nat)</td>
 <td>entropi formülü — Shannon (1948)</td>
 </tr>
 <tr>

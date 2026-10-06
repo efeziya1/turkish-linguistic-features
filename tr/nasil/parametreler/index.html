@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 180 from English text">
+        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
       
       
       
@@ -2119,11 +2119,11 @@
 Cümle eşiklerinin varsayılanı sabit bir sayı değil, dilin kalibre edilmiş
 değeridir — <a href="#cumle-esikleri-dile-gore-cozumlenir">aşağıda</a>.</p>
 <p>Çıktı (<code>short_sent_ratio</code>, <code>long_sent_ratio</code>):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>varsayılan (TR 4/18): short=0.0      long=0.0
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>varsayılan (TR 4/17): short=0.0      long=0.0
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>elle (3/12)         : short=0.0      long=0.333333
 </code></pre></div>
 <p>Aynı metin, farklı eşik, farklı sayı. Üç cümlenin biri 12 kelimeyi geçiyor;
-18'i geçen yok.</p>
+17'yi geçen yok.</p>
 <h2 id="butun-alanlar">Bütün alanlar<a class="headerlink" href="#butun-alanlar" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -2216,12 +2216,12 @@ değeridir — <a href="#cumle-esikleri-dile-gore-cozumlenir">aşağıda</a>.</p
 </tr>
 <tr>
 <td><code>short_sent_threshold</code></td>
-<td>TR <strong>4</strong> · EN <strong>9</strong></td>
+<td>TR <strong>4</strong> · EN <strong>8</strong></td>
 <td><code>short_sent_ratio</code></td>
 </tr>
 <tr>
 <td><code>long_sent_threshold</code></td>
-<td>TR <strong>18</strong> · EN <strong>33</strong></td>
+<td>TR <strong>17</strong> · EN <strong>32</strong></td>
 <td><code>long_sent_ratio</code></td>
 </tr>
 <tr>
@@ -2265,7 +2265,7 @@ cümle eşiklerini bozmaz:</p>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>         <span class="s2">"yaşlı çınarın altında oturan adam, uzun yıllar önce bu yollardan "</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>         <span class="s2">"geçen kervanları, pazar günlerini ve kaybolan komşularını anlattı."</span><span class="p">)</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">p</span> <span class="o">=</span> <span class="n">FeatureParams</span><span class="p">(</span><span class="n">mattr_window</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>          <span class="c1"># eşiklere dokunulmadı</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>  <span class="c1"># eşikler hâlâ TR 4/18</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>  <span class="c1"># eşikler hâlâ TR 4/17</span>
 </code></pre></div>
 <p>Çıktı — cümlelerin kelime sayıları 2, 4 ve 20:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>params=None                       short=0.333333   long=0.333333

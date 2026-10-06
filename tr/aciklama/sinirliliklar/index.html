@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 180 from English text">
+        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
       
       
       
@@ -1007,10 +1007,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-cumle-esikleri-yalnz-romankurgu-icin-kalibre-edildi" class="md-nav__link">
+  <a href="#1-cumle-esikleri-yalnz-gazete-kose-yazlaryla-kalibre-edildi" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Cümle eşikleri yalnız roman/kurgu için kalibre edildi
+        1. Cümle eşikleri yalnız gazete köşe yazılarıyla kalibre edildi
       
     </span>
   </a>
@@ -1018,10 +1018,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-on-bir-kunye-ikincil-kaynaktan" class="md-nav__link">
+  <a href="#2-on-dort-kunye-ikincil-kaynaktan" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. On bir künye ikincil kaynaktan
+        2. On dört künye ikincil kaynaktan
       
     </span>
   </a>
@@ -2132,10 +2132,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-cumle-esikleri-yalnz-romankurgu-icin-kalibre-edildi" class="md-nav__link">
+  <a href="#1-cumle-esikleri-yalnz-gazete-kose-yazlaryla-kalibre-edildi" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Cümle eşikleri yalnız roman/kurgu için kalibre edildi
+        1. Cümle eşikleri yalnız gazete köşe yazılarıyla kalibre edildi
       
     </span>
   </a>
@@ -2143,10 +2143,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-on-bir-kunye-ikincil-kaynaktan" class="md-nav__link">
+  <a href="#2-on-dort-kunye-ikincil-kaynaktan" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. On bir künye ikincil kaynaktan
+        2. On dört künye ikincil kaynaktan
       
     </span>
   </a>
@@ -2288,10 +2288,10 @@
 ikincisi kütüphanenin zayıflığı olmayan ama sonuçları yorumlarken bilmeniz
 gereken noktaları. Yöntem bölümü yazarken ikisine de bakın.</p>
 <h2 id="kutuphanenin-snrllklar">Kütüphanenin sınırlılıkları<a class="headerlink" href="#kutuphanenin-snrllklar" title="Permanent link">&para;</a></h2>
-<h3 id="1-cumle-esikleri-yalnz-romankurgu-icin-kalibre-edildi">1. Cümle eşikleri yalnız roman/kurgu için kalibre edildi<a class="headerlink" href="#1-cumle-esikleri-yalnz-romankurgu-icin-kalibre-edildi" title="Permanent link">&para;</a></h3>
-<p><code>short_sent_ratio</code> ve <code>long_sent_ratio</code> eşikleri (TR 4/18, EN 7/39) roman
-korpuslarında cümle uzunluğu dağılımının 15. ve 85. yüzdeliğinden
-türetildi:</p>
+<h3 id="1-cumle-esikleri-yalnz-gazete-kose-yazlaryla-kalibre-edildi">1. Cümle eşikleri yalnız gazete köşe yazılarıyla kalibre edildi<a class="headerlink" href="#1-cumle-esikleri-yalnz-gazete-kose-yazlaryla-kalibre-edildi" title="Permanent link">&para;</a></h3>
+<p><code>short_sent_ratio</code> ve <code>long_sent_ratio</code> eşikleri (TR 4/17, EN 8/32) gazete
+köşe yazılarında, varsayılan cümle kuralı ve varsayılan kelimeyle ölçülen
+cümle uzunluğu dağılımının 15. ve 85. yüzdeliğinden türetildi:</p>
 <table>
 <thead>
 <tr>
@@ -2303,33 +2303,42 @@ türetildi:</p>
 <tbody>
 <tr>
 <td>Türkçe</td>
-<td>15</td>
-<td>1 089 841</td>
+<td>162</td>
+<td>197 990</td>
 </tr>
 <tr>
 <td>İngilizce</td>
-<td>10</td>
-<td>341 892</td>
+<td>30</td>
+<td>52 745</td>
 </tr>
 </tbody>
 </table>
-<p>Her iki set de <strong>aynı tür</strong>: roman/kurgu. Teknik metin, transkript, şiir
-ya da çocuk kitabı için genelleneceği <strong>garanti değil.</strong> Kendi türünüzde
-çalışıyorsanız eşikleri kendi korpusunuzdan türetmeyi düşünün —
+<p>Köşe yazısı <strong>tek bir tür</strong>. Roman bile başka bir dağılım verir (diyalog
+satırları çok kısa); teknik metin, transkript, şiir ya da çocuk kitabı için
+genelleneceği <strong>garanti değil.</strong> Kendi türünüzde çalışıyorsanız eşikleri
+kendi korpusunuzdan türetmeyi düşünün —
 <a href="../../../esik-kalibrasyonu/">yöntem burada</a>.</p>
-<h3 id="2-on-bir-kunye-ikincil-kaynaktan">2. On bir künye ikincil kaynaktan<a class="headerlink" href="#2-on-bir-kunye-ikincil-kaynaktan" title="Permanent link">&para;</a></h3>
-<p>144 künyenin <strong>11'i</strong> <code>as cited in</code> ile işaretlidir — birincil kaynağa
+<h3 id="2-on-dort-kunye-ikincil-kaynaktan">2. On dört künye ikincil kaynaktan<a class="headerlink" href="#2-on-dort-kunye-ikincil-kaynaktan" title="Permanent link">&para;</a></h3>
+<p>148 künyenin <strong>14'ü</strong> <code>as cited in</code> ile işaretlidir — birincil kaynağa
 ulaşılamadı, formül aktaran kaynaktan alındı. Örnek:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Herdan (1960/1964), as cited in Tweedie &amp; Baayen (1998) p.327, eq. (5)
 </code></pre></div>
-<p>Etkilenen ölçüler arasında <code>herdan_c</code>, <code>brunet_w</code>, <code>dugast_u</code>, <code>yule_k</code>,
-<code>simpson_d</code>, <code>heaps_beta</code>, <code>lix</code> var. Formüller doğrulandı ama <strong>birincil
+<p>Etkilenen ölçüler arasında <code>herdan_c</code>, <code>herdan_vm</code>, <code>maas_a2</code>, <code>brunet_w</code>,
+<code>dugast_u</code>, <code>simpson_d</code>, <code>heaps_beta</code>, <code>lix</code>, <code>cttr</code>, <code>summer_s</code> var. Formüller doğrulandı ama <strong>birincil
 kaynağın kendi ifadesiyle</strong> karşılaştırılmadı.</p>
 <p>Yöntem bölümünüzde aktarımı aynen taşıyın; birincil kaynağı okumuş gibi
 göstermeyin.</p>
 <h3 id="3-spacy-modeli-sonuclarn-parcas">3. spaCy modeli sonuçların parçası<a class="headerlink" href="#3-spacy-modeli-sonuclarn-parcas" title="Permanent link">&para;</a></h3>
-<p>Cümle bölme, sözcük türü ve bağlılık öznitelikleri modelden gelir. Model
-değişirse sayılar değişir.</p>
+<p>Sözcük türü, lemma, biçimbilim etiketleri ve bağlılık öznitelikleri
+(ayrıştırıcının kendi cümleleriyle) modelden gelir. Model değişirse bu
+sayılar değişir.</p>
+<p>Kelime ve cümle sayımı modelin etiketlerini kullanmaz. Varsayılan kelime,
+boşlukla ayrılan ve kenar noktalaması atılan birimdir; varsayılan cümle
+kuralı cümle bitiren işaretleri modelin tokenizer'ından okur. Kelime başına
+etiket isteyen öznitelikler (sözcük türü, lemma, biçimbilim, bağlılık) ise
+modelin tokenlarını sayar; yani iki kelime tanımı yan yana durur: <code>e-posta</code>
+<code>ttr</code>'de tek kelime, <code>lexical_density</code>'de iki tokendir. Hangi özniteliğin
+hangisini kullandığını <code>describe_feature(key)["definitions"]["word"]</code> söyler.</p>
 <p>Doğrulanmış kombinasyon: spaCy 3.8.16, <code>en_core_web_sm</code> 3.8.0,
 <code>tr_core_news_md</code> 1.0.</p>
 <p>Türkçe modelin hata sanılabilecek iki tuhaflığı (sürüm numarası çelişkisi ve
@@ -2341,7 +2350,15 @@ morfotaktiğinin Python aktarımı. Zeyrek'in çözümleyemediği bir kelime
 öznitelikten düşer.</p>
 <p>Zeyrek bir <strong>çözümleyicidir, belirsizlik gidericisi değildir</strong>: aynı yüzey
 biçimi için birden çok çözümleme dönebilir ve bağlama bakarak doğrusunu
-seçmez.</p>
+seçmez. Kütüphane bağlama bakmadan <strong>ilk</strong> çözümlemeyi alır.</p>
+<p>Zeyrek çözümlemeleri ek geçişi sayısına göre sıralar, en azı önce gelir.
+Eşitlikte sıra, Zeyrek'in sözlüğündeki aynı yazılışlı köklerin sırasından
+geliyordu; sözlük bir Python kümesinden yüklendiği için bu sıra
+<code>PYTHONHASHSEED</code>'e bağlıydı. TOMA veri setinde (8.225 farklı sözcük) 612
+sözcüğün ilk çözümlemesi 0–3 tohumları arasında değişiyordu. Kütüphane artık bu
+kökleri sabit bir sıraya diziyor; sonuç tohuma bağlı değil ve 315 sözcüklük
+kayıtlı bir golden set'e karşı sınanıyor. Eşitler arasında hangisinin öne
+geçtiği yine keyfîdir: sıra sabittir, bağlamdan seçilmez.</p>
 <h3 id="5-adaylarn-yars-hala-dogrulanmad">5. Adayların yarısı hâlâ doğrulanmadı<a class="headerlink" href="#5-adaylarn-yars-hala-dogrulanmad" title="Permanent link">&para;</a></h3>
 <p>142 satır doğrulama adayı bile değil (saf tanım, etiket şeması ya da
 bizim türevimiz).

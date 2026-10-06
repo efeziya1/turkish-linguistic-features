@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 180 from English text">
+        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
       
       
       
@@ -2295,7 +2295,7 @@ are plain definitions (a letter's or a punctuation mark's share, for example);
 they rest on no source, so there is no source equation to match.</p>
 <h2 id="first-not-every-feature-can-be-verified">First: not every feature can be verified<a class="headerlink" href="#first-not-every-feature-can-be-verified" title="Permanent link">&para;</a></h2>
 <p>This distinction is the most important part of the report. By definition,
-some of the 208 features are <strong>not even candidates</strong> for verification:</p>
+some of the 212 features are <strong>not even candidates</strong> for verification:</p>
 <table>
 <thead>
 <tr>
@@ -2547,7 +2547,7 @@ scratch for your methods section. The registry keeps a citable definition for
 every feature:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"entropy_std"</span><span class="p">)[</span><span class="s2">"formula"</span><span class="p">]</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>'population std of entropies (bits) of disjoint mattr_window-word chunks'
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>'population std of entropies (nats) of disjoint mattr_window-word chunks'
 </code></pre></div>
 <p>Six examples:</p>
 <table>
@@ -2561,17 +2561,17 @@ every feature:</p>
 <tbody>
 <tr>
 <td><code>entropy_std</code></td>
-<td>population standard deviation of the entropies (bits) of disjoint <code>mattr_window</code>-word chunks</td>
+<td>population standard deviation of the entropies (nats) of disjoint <code>mattr_window</code>-word chunks</td>
 <td>the entropy formula — Shannon (1948)</td>
 </tr>
 <tr>
 <td><code>punct_entropy</code></td>
-<td>Shannon entropy (bits) of the distribution over the ten mark types</td>
+<td>Shannon entropy (nats) of the distribution over the ten mark types</td>
 <td>the entropy formula — Shannon (1948)</td>
 </tr>
 <tr>
 <td><code>sent_len_entropy</code></td>
-<td>Shannon entropy (bits) of the distribution of words per sentence</td>
+<td>Shannon entropy (nats) of the distribution of words per sentence</td>
 <td>the entropy formula — Shannon (1948)</td>
 </tr>
 <tr>
