@@ -88,7 +88,7 @@ Pencere boyları, eşikler ve örneklem sayıları burada durur. Ayrıntı:
 [Eşikleri değiştir](../nasil/parametreler.md).
 
 Cümle eşikleri (`short_sent_threshold`, `long_sent_threshold`) **dile göre
-kalibre edilmiştir** (TR 4/18, EN 7/39) ve alan alan çözümlenir: verdiğiniz
+kalibre edilmiştir** (TR 4/18, EN 9/33) ve alan alan çözümlenir: verdiğiniz
 alan kazanır, vermediğiniz alan kalibre değerinde kalır. Yani
 `FeatureParams(mattr_window=100)` cümle eşiklerini değiştirmez.
 

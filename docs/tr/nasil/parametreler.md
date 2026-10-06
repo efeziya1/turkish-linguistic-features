@@ -47,8 +47,8 @@ Aynı metin, farklı eşik, farklı sayı. Üç cümlenin biri 12 kelimeyi geçi
 | `ttr_slope_chunk_size` | 50 | `ttr_moving_slope` |
 | `brunet_w_a` | 0.172 | `brunet_w` |
 | `verb_suffix_window` | 50 | `verb_suffix_diversity` |
-| `short_sent_threshold` | TR **4** · EN **7** | `short_sent_ratio` |
-| `long_sent_threshold` | TR **18** · EN **39** | `long_sent_ratio` |
+| `short_sent_threshold` | TR **4** · EN **9** | `short_sent_ratio` |
+| `long_sent_threshold` | TR **18** · EN **33** | `long_sent_ratio` |
 | `max_parse_depth` | 20 | `parse_depth_mean` |
 
 ## Cümle eşikleri dile göre çözümlenir
