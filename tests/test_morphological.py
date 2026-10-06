@@ -289,8 +289,8 @@ def test_yapim_eki_orani_zeyrek_isareti():
 
 
 def test_ek_bigram_entropisi():
-    """kitaplarımızda: (A3pl,P1pl), (P1pl,Loc) eşit → 1 bit; tek desen 0."""
-    assert suffix_ngrams(*_z(KITAPLARIMIZDA))["suffix_bigram_entropy"] == 1.0
+    """kitaplarımızda: (A3pl,P1pl), (P1pl,Loc) eşit → ln 2 nat (1 bit); tek desen 0."""
+    assert suffix_ngrams(*_z(KITAPLARIMIZDA))["suffix_bigram_entropy"] == round(math.log(2), 5)
     assert suffix_ngrams(*_z(GELDILER, GELDILER))["suffix_bigram_entropy"] == 0.0
     assert math.isnan(suffix_ngrams(*_z(EV))["suffix_bigram_entropy"])
 

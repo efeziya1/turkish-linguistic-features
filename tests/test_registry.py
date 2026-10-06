@@ -226,7 +226,7 @@ def test_scale_gruptan_miras_alinir():
 
 
 def test_scale_istisnalari_gruptan_farkli():
-    assert describe_feature("entropy")["scale"] == "bits"
+    assert describe_feature("entropy")["scale"] == "nats"
     assert describe_feature("n_lemma_count")["scale"] == "count"
     assert describe_feature("sent_len_skewness")["scale"] == "signed"
     assert describe_feature("word_length_cv")["scale"] == "cv"

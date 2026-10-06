@@ -67,11 +67,11 @@ def _isaretler(metin: str) -> list[tuple[int, int, str]]:
     return out
 
 
-def _entropy_bits(sayimlar: Counter) -> float:
+def _entropy_nats(sayimlar: Counter) -> float:
     toplam = sum(sayimlar.values())
     if toplam == 0:
         return math.nan
-    return -sum((c / toplam) * math.log2(c / toplam) for c in sayimlar.values()) + 0.0
+    return -sum((c / toplam) * math.log(c / toplam) for c in sayimlar.values()) + 0.0
 
 
 # ── kelime başına noktalama ───────────────────────────────────────────
@@ -114,8 +114,8 @@ def punct_density(text: str) -> dict[str, float]:
 
 
 def punct_entropy(text: str) -> dict[str, float]:
-    """Noktalama **türü** dağılımının Shannon entropisi, bit cinsinden. İşaret yoksa NaN."""
-    return {"punct_entropy": round(_entropy_bits(Counter(t for _, _, t in _isaretler(text))), 6)}
+    """Noktalama **türü** dağılımının Shannon entropisi, nat cinsinden. İşaret yoksa NaN."""
+    return {"punct_entropy": round(_entropy_nats(Counter(t for _, _, t in _isaretler(text))), 6)}
 
 
 def consecutive_punct_ratio(text: str) -> dict[str, float]:

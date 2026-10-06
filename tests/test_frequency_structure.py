@@ -174,19 +174,22 @@ def test_quita_spektrumlari_ayni():
 
 
 def test_lambda_quita_formulu():
-    """QUITA s. 22 denk. (6.13): Λ = L·log₁₀(N)/N, L doğrulanmış değer."""
-    beklenen = 129.3559 * math.log10(179) / 179
+    """QUITA s. 22 denk. (6.13): Λ = L·log(N)/N, L doğrulanmış değer. Logaritma ln (2026-10-06);
+    QUITA log₁₀ basar, Λ(ln) = Λ(log₁₀) × ln 10."""
+    beklenen = 129.3559 * math.log(179) / 179
     assert abs(lambda_pa(129.3559, 179)["lambda_pa"] - beklenen) < 1e-4
 
 
 def test_adjusted_modulus_quita():
     """QUITA s. 41: A(Metin 1) = 10.6594; M(Metin 2) = 25.81931678 → A = M/log₁₀202.
 
+    Logaritma ln (2026-10-06): QUITA değeri / ln 10 bizim değerimiz.
+
     Buradaki ``M`` **modulus**, token sayısı değil: M = √((f₁/h)² + (V/h)²).
     QUITA'da token sayısı ``N`` (Metin 2 için 202).
     """
-    assert abs(adjusted_modulus(16, 119, 5.0, 179)["adjusted_modulus"] - 10.6594) < 1e-4
-    beklenen_2 = 25.81931678 / math.log10(202)
+    assert abs(adjusted_modulus(16, 119, 5.0, 179)["adjusted_modulus"] - 10.6594 / math.log(10)) < 1e-4
+    beklenen_2 = 25.81931678 / math.log(202)
     assert abs(adjusted_modulus(20, 121, 4.75, 202)["adjusted_modulus"] - beklenen_2) < 1e-4
 
 

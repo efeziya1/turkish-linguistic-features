@@ -4,6 +4,13 @@
 
 ### Changed
 
+- Every logarithm in the library is now the natural logarithm (decided 2026-10-06). Changed:
+  `dugast_u`, `lambda_pa` and `adjusted_modulus` (were log₁₀) and the entropy measures
+  `entropy`, `entropy_std`, `punct_entropy`, `sent_len_entropy`, `suffix_bigram_entropy` and
+  `pos_kl_div` (were log₂). Values scale by a constant (log₁₀ → ln: × ln 10 for `dugast_u` and
+  `lambda_pa`, ÷ ln 10 for `adjusted_modulus`; bits → nats: × ln 2), so the ranking of texts does
+  not change. The scale name `"bits"` is now `"nats"`. QUITA publishes these in log₁₀ and bits;
+  the verification report converts the published values to ln units, and all six rows stay ✅.
 - Default word definition (decided 2026-10-06): a whitespace-separated piece of the raw text with
   edge punctuation stripped, counted as a word when it contains a letter or digit (`space_unit`,
   the readability formulas' word). On the TOMA set (57 texts) it equals the expert's word count in
@@ -57,8 +64,8 @@
   √(Σf²/N² − 1/V)). Citations: Carroll (1964) and Somers (1966) as cited in Torruella &
   Capsada (2013) p.448; Maas (1972) and Herdan (1955) as cited in Tweedie & Baayen (1998)
   eqs. (7) and (18). The sources give no logarithm base; the natural logarithm reproduces the
-  Maas values in Torruella & Capsada (2013) Table 1, so `maas_a2` is not numerically
-  `1 / dugast_u` (which uses base 10). Cited features: TR 140 → 144, EN 115 → 119;
+  Maas values in Torruella & Capsada (2013) Table 1 and, with `dugast_u` now also in ln,
+  `maas_a2 = 1 / dugast_u` exactly. Cited features: TR 140 → 144, EN 115 → 119;
   verification candidates: TR 91 → 95, EN 80 → 84; bibliography 45 → 50 works.
 - `yule_k` now cites the primary source, Yule (1944) p.53, eq. (3.22), instead of Malvern et
   al. (2004); secondary citations 11 → 14 of 148.

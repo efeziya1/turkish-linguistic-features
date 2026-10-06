@@ -74,8 +74,8 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 | Anahtar | Kaynak | Örnek | Kanıt | Beklenen | Bizim | Fark | Durum |
 |---|---|---|---|---|---|---|---|
-| `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26) | formül | 6.438 | 6.438 | +0.000 | ✅ |
-| `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26) | formül | 6.395 | 6.395 | +0.000 | ✅ |
+| `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26); kaynak bit ile 6,438043 → × ln 2 | formül | 4.463 | 4.463 | +0.000 | ✅ |
+| `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26); kaynak bit ile 6,395099 → × ln 2 | formül | 4.433 | 4.433 | +0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formül | 0.665 | 0.665 | -0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; kaynak 0.590 basmış (baskı hatası) | formül | 0.590 | 0.599 | +0.009 | 🟡 |
 | `hapax_percentage` | QUITA §6.1.6 | Text 1 · 98/179 | formül | 0.547 | 0.547 | +0.000 | ✅ |
@@ -97,10 +97,10 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `curve_length` | QUITA §6.1.10 | Text 2 · eq. (6.21) | formül | 134.279 | 134.279 | +0.000 | ✅ |
 | `curve_length_r` | QUITA §6.1.11 | Text 1 · Lh=14.29145 | formül | 0.889 | 0.890 | +0.000 | ✅ |
 | `curve_length_r` | QUITA §6.1.11 | Text 2 · Lh=18.03607 | formül | 0.866 | 0.866 | -0.000 | ✅ |
-| `lambda_pa` | QUITA §6.1.7 | Text 1 · L·log₁₀N/N, L=129.3559482 | formül | 1.628 | 1.628 | +0.000 | ✅ |
-| `lambda_pa` | QUITA §6.1.7 | Text 2 · L·log₁₀N/N, L=134.2787065 | formül | 1.532 | 1.532 | +0.000 | ✅ |
-| `adjusted_modulus` | QUITA §6.1.13 | Text 1 · M=24.01416249 | formül | 10.659 | 10.659 | +0.000 | ✅ |
-| `adjusted_modulus` | QUITA §6.1.13 | Text 2 · M=25.81931678 | formül | 11.200 | 11.200 | -0.000 | ✅ |
+| `lambda_pa` | QUITA §6.1.7 | Text 1 · L·ln N/N, L=129.3559482; kaynak log₁₀ ile 1,628 → × ln 10 | formül | 3.749 | 3.749 | +0.000 | ✅ |
+| `lambda_pa` | QUITA §6.1.7 | Text 2 · L·ln N/N, L=134.2787065; kaynak log₁₀ ile 1,5325 → × ln 10 | formül | 3.529 | 3.529 | -0.000 | ✅ |
+| `adjusted_modulus` | QUITA §6.1.13 | Text 1 · M=24.01416249; kaynak log₁₀ ile 10,6594 → / ln 10 | formül | 4.629 | 4.629 | -0.000 | ✅ |
+| `adjusted_modulus` | QUITA §6.1.13 | Text 2 · M=25.81931678; kaynak log₁₀ ile 11,19973 → / ln 10 | formül | 4.864 | 4.864 | +0.000 | ✅ |
 | `writers_view_alpha` | QUITA §6.2.3 | Text 1 · arccos(−0.374487816) | formül | 1.955 | 1.955 | -0.000 | ✅ |
 | `writers_view_alpha` | QUITA §6.2.3 | Text 2 · arccos(−0.269972586) | formül | 1.844 | 1.844 | +0.000 | ✅ |
 | `activity_ratio` | QUITA §6.2.2 | Text 1 · 26 fiil / 14 sıfat | formül | 0.650 | 0.650 | +0.000 | ✅ |
@@ -146,7 +146,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `guiraud_r` | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only | 🔍 |
 | `cttr` | Carroll (1964), as cited in Torruella & Capsada (2013) p.448 | 🔍 |
 | `summer_s` | Somers (1966), as cited in Torruella & Capsada (2013) p.448, where it is named "Summer"; the source gives no logarithm base, the natural logarithm is this library's choice | 🔍 |
-| `maas_a2` | Maas (1972), as cited in Tweedie & Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella & Capsada (2013) Table 1 | 🔍 |
+| `maas_a2` | Maas (1972), as cited in Tweedie & Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella & Capsada (2013) Table 1; all logarithms in this library are natural | 🔍 |
 | `herdan_vm` | Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18) | 🔍 |
 | `heaps_beta` | Heaps (1978), as cited in Manning et al. (2008) §5.1.1 | 🔍 |
 | `sichel_s` | Sichel (1975); formula from Malvern et al. (2004) eq. 3.10 | 🔍 |
@@ -169,7 +169,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `verb_dist_cv` | QUITA §6.2.1 | 🔍 |
 | `lexical_density` | Lu (2012); definition in the broad Hallidayan sense — all open-class words | 🔍 |
 | `pos_dist_std` | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 13 UD tags | 🔍 |
-| `pos_kl_div` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv), in bits | 🔍 |
+| `pos_kl_div` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits | 🔍 |
 | `suffix_bigram_entropy` | Shannon (1948) — the entropy formula; Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | 🔍 |
 | `front_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `back_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
@@ -359,8 +359,8 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 | Anahtar | Kaynak | Örnek | Kanıt | Beklenen | Bizim | Fark | Durum |
 |---|---|---|---|---|---|---|---|
-| `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26) | formül | 6.438 | 6.438 | +0.000 | ✅ |
-| `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26) | formül | 6.395 | 6.395 | +0.000 | ✅ |
+| `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26); kaynak bit ile 6,438043 → × ln 2 | formül | 4.463 | 4.463 | +0.000 | ✅ |
+| `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26); kaynak bit ile 6,395099 → × ln 2 | formül | 4.433 | 4.433 | +0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formül | 0.665 | 0.665 | -0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; kaynak 0.590 basmış (baskı hatası) | formül | 0.590 | 0.599 | +0.009 | 🟡 |
 | `hapax_percentage` | QUITA §6.1.6 | Text 1 · 98/179 | formül | 0.547 | 0.547 | +0.000 | ✅ |
@@ -382,10 +382,10 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `curve_length` | QUITA §6.1.10 | Text 2 · eq. (6.21) | formül | 134.279 | 134.279 | +0.000 | ✅ |
 | `curve_length_r` | QUITA §6.1.11 | Text 1 · Lh=14.29145 | formül | 0.889 | 0.890 | +0.000 | ✅ |
 | `curve_length_r` | QUITA §6.1.11 | Text 2 · Lh=18.03607 | formül | 0.866 | 0.866 | -0.000 | ✅ |
-| `lambda_pa` | QUITA §6.1.7 | Text 1 · L·log₁₀N/N, L=129.3559482 | formül | 1.628 | 1.628 | +0.000 | ✅ |
-| `lambda_pa` | QUITA §6.1.7 | Text 2 · L·log₁₀N/N, L=134.2787065 | formül | 1.532 | 1.532 | +0.000 | ✅ |
-| `adjusted_modulus` | QUITA §6.1.13 | Text 1 · M=24.01416249 | formül | 10.659 | 10.659 | +0.000 | ✅ |
-| `adjusted_modulus` | QUITA §6.1.13 | Text 2 · M=25.81931678 | formül | 11.200 | 11.200 | -0.000 | ✅ |
+| `lambda_pa` | QUITA §6.1.7 | Text 1 · L·ln N/N, L=129.3559482; kaynak log₁₀ ile 1,628 → × ln 10 | formül | 3.749 | 3.749 | +0.000 | ✅ |
+| `lambda_pa` | QUITA §6.1.7 | Text 2 · L·ln N/N, L=134.2787065; kaynak log₁₀ ile 1,5325 → × ln 10 | formül | 3.529 | 3.529 | -0.000 | ✅ |
+| `adjusted_modulus` | QUITA §6.1.13 | Text 1 · M=24.01416249; kaynak log₁₀ ile 10,6594 → / ln 10 | formül | 4.629 | 4.629 | -0.000 | ✅ |
+| `adjusted_modulus` | QUITA §6.1.13 | Text 2 · M=25.81931678; kaynak log₁₀ ile 11,19973 → / ln 10 | formül | 4.864 | 4.864 | +0.000 | ✅ |
 | `writers_view_alpha` | QUITA §6.2.3 | Text 1 · arccos(−0.374487816) | formül | 1.955 | 1.955 | -0.000 | ✅ |
 | `writers_view_alpha` | QUITA §6.2.3 | Text 2 · arccos(−0.269972586) | formül | 1.844 | 1.844 | +0.000 | ✅ |
 | `activity_ratio` | QUITA §6.2.2 | Text 1 · 26 fiil / 14 sıfat | formül | 0.650 | 0.650 | +0.000 | ✅ |
@@ -419,7 +419,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `guiraud_r` | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only | 🔍 |
 | `cttr` | Carroll (1964), as cited in Torruella & Capsada (2013) p.448 | 🔍 |
 | `summer_s` | Somers (1966), as cited in Torruella & Capsada (2013) p.448, where it is named "Summer"; the source gives no logarithm base, the natural logarithm is this library's choice | 🔍 |
-| `maas_a2` | Maas (1972), as cited in Tweedie & Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella & Capsada (2013) Table 1 | 🔍 |
+| `maas_a2` | Maas (1972), as cited in Tweedie & Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella & Capsada (2013) Table 1; all logarithms in this library are natural | 🔍 |
 | `herdan_vm` | Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18) | 🔍 |
 | `heaps_beta` | Heaps (1978), as cited in Manning et al. (2008) §5.1.1 | 🔍 |
 | `sichel_s` | Sichel (1975); formula from Malvern et al. (2004) eq. 3.10 | 🔍 |
@@ -442,7 +442,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `verb_dist_cv` | QUITA §6.2.1 | 🔍 |
 | `lexical_density` | Lu (2012); definition in the broad Hallidayan sense — all open-class words | 🔍 |
 | `pos_dist_std` | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 13 UD tags | 🔍 |
-| `pos_kl_div` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv), in bits | 🔍 |
+| `pos_kl_div` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits | 🔍 |
 | `front_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `back_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `syllable_mean` | Flesch (1948) Formula A, wl; unit there = syllables per 100 words, here per word | 🔍 |

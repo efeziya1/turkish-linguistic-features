@@ -55,7 +55,7 @@ Every feature has a scale, and it matters when you plot:
 | `score` | A formula score with no fixed range | `atesman`, `yule_k`, `mtld` |
 | `length` | A mean length in characters, words or sentences | `avg_word_length`, `avg_sent_len_word` |
 | `cv` | Coefficient of variation (standard deviation / mean) | `sentence_length_cv` |
-| `bits` | Entropy in bits | `entropy`, `punct_entropy` |
+| `nats` | Entropy in nats (natural logarithm; every logarithm in the library is ln) | `entropy`, `punct_entropy` |
 | `signed` | A value that can be negative (slope, skewness) | `ttr_moving_slope`, `sent_len_skewness` |
 | `count` | A count | `n_lemma_count` |
 

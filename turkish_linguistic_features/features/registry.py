@@ -164,7 +164,7 @@ GROUP_INPUTS: dict[str, tuple[str, ...]] = {
 # Kapalı küme. Yeni bir değer eklemek ölçek tablosunu da değiştirir (`docs/en/explanation/concepts.md`,
 # `docs/tr/aciklama/kavramlar.md`).
 SCALES: frozenset[str] = frozenset({
-    "ratio_0_1", "bits", "length", "cv", "signed", "count", "score",
+    "ratio_0_1", "nats", "length", "cv", "signed", "count", "score",
 })
 
 # Her grubun varsayılanı — 14'ünün hepsi burada olmak zorunda.
@@ -197,8 +197,8 @@ FEATURE_SCALES: dict[str, str] = {
     "n_lemma_count": "count",
     "avg_word_length": "length",
     "word_length_cv": "cv",
-    "entropy": "bits",
-    "entropy_std": "bits",
+    "entropy": "nats",
+    "entropy_std": "nats",
     "ttr_moving_slope": "signed",
     "yule_k": "score",
     "brunet_w": "score",
@@ -229,7 +229,7 @@ FEATURE_SCALES: dict[str, str] = {
     "sent_len_skewness": "signed",
     "short_sent_ratio": "ratio_0_1",
     "long_sent_ratio": "ratio_0_1",
-    "sent_len_entropy": "bits",
+    "sent_len_entropy": "nats",
     # paragraph
     "para_len_cv": "cv",
     "sents_per_para_cv": "cv",
@@ -238,7 +238,7 @@ FEATURE_SCALES: dict[str, str] = {
     "nominal_verbal_ratio": "score",
     "verb_dist_mean": "length",
     "verb_dist_cv": "cv",
-    "pos_kl_div": "bits",
+    "pos_kl_div": "nats",
     # syntactic_dep
     "arc_len_mean": "length",
     "parse_depth_mean": "length",
@@ -246,7 +246,7 @@ FEATURE_SCALES: dict[str, str] = {
     "surface_per_lemma": "score",
     # morphological_zeyrek
     "agglutination_depth": "length",
-    "suffix_bigram_entropy": "bits",
+    "suffix_bigram_entropy": "nats",
     "suffix_chain_cv": "cv",
     "verb_suffix_diversity": "count",
     # phonetic
@@ -258,7 +258,7 @@ FEATURE_SCALES: dict[str, str] = {
     "polysyllabic_word_ratio": "ratio_0_1",
     "long_word_ratio": "ratio_0_1",
     # punctuation
-    "punct_entropy": "bits",
+    "punct_entropy": "nats",
     "punct_variety": "count",
     # Kelime başına işaret sayısı — "Ne!!!" → 3. Oran değil (2026-09-18).
     **{f"punc_{isaret}_ratio": "score" for isaret in

@@ -260,7 +260,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'word_length_cv': 'std(len(w)) / mean(len(w)), population std',
     'ttr': 'V / N',
     'mattr': 'mean TTR of every sliding window of mattr_window words',
-    'entropy_std': 'population std of entropies (bits) of disjoint mattr_window-word chunks',
+    'entropy_std': 'population std of entropies (nats) of disjoint mattr_window-word chunks',
     'herdan_c': 'log(V) / log(N)',
     'sichel_s': 'V2 / V',
     'zipf_exponent': 'abs(slope) of least-squares fit log f(r) ~ log r',
@@ -268,7 +268,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'zipf_mandelbrot_q': 'q minimising the residual of log f ~ log(r + q), grid 0–10 step 0.1',
     'zipf_mandelbrot_s': 'abs(slope) at that q',
     'mtld': 'mean words per factor (TTR drops to mtld_threshold), forward and backward averaged',
-    'dugast_u': 'log10(N)^2 / (log10(N) - log10(V))',
+    'dugast_u': '(ln N)^2 / (ln N - ln V)',
     'guiraud_r': 'V / sqrt(N)',
     'cttr': 'V / sqrt(2N)',
     'summer_s': 'ln(ln V) / ln(ln N)',
@@ -278,7 +278,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'heaps_beta':
         'least-squares slope of log V ~ log N over prefixes every heaps_step words, not '
         'clipped',
-    'entropy': '-sum(p * log2 p)',
+    'entropy': '-sum(p * ln p)',
     'yule_k': '10000 * (sum(f^2) - N) / N^2',
     'simpson_d': 'sum(f(f-1)) / (N(N-1))',
     'brunet_w': 'N^(V^-a), a = brunet_w_a',
@@ -304,8 +304,8 @@ FEATURE_FORMULAS: dict[str, str] = {
     'gini_coef': '(V + 1 - 2 * sum(r * f(r)) / N) / V, rank 1 = most frequent',
     'curve_length': 'sum(sqrt((f(r) - f(r+1))^2 + 1))',
     'curve_length_r': '1 - L(h) / L',
-    'lambda_pa': 'L * log10(N) / N',
-    'adjusted_modulus': 'sqrt((f1/h)^2 + (V/h)^2) / log10(N)',
+    'lambda_pa': 'L * ln(N) / N',
+    'adjusted_modulus': 'sqrt((f1/h)^2 + (V/h)^2) / ln(N)',
     'writers_view_alpha': 'arccos of the angle between (1, f1) and (V, 1) seen from (h, h)',
     'thematic_concentration': "sum(2(h - r') f(r')) / (h(h-1) f1), content words with r' < h",
     'secondary_thematic_concentration': "sum((2h - r') f(r')) / (h(2h-1) f1), r' <= 2h",
@@ -317,7 +317,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'short_sent_ratio': 'sentences with fewer than short_sent_threshold words / sentences',
     'long_sent_ratio': 'sentences with more than long_sent_threshold words / sentences',
     'med_sent_len': 'median words per sentence',
-    'sent_len_entropy': 'Shannon entropy (bits) of the distribution of words per sentence',
+    'sent_len_entropy': 'Shannon entropy (nats) of the distribution of words per sentence',
     # ── paragraph ───────────────────────────────────────────────
     'para_len_mean': 'mean words per paragraph (blank line = boundary)',
     'para_len_cv': 'population std / mean',
@@ -347,7 +347,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'activity_ratio': 'VERB / (VERB + ADJ)',
     'lexical_density': '(NOUN + PROPN + VERB + ADJ + ADV) / all words, PUNCT and SYM excluded',
     'pos_dist_std': 'population std of the 13 pos_* shares',
-    'pos_kl_div': 'mean over sentences of KL(sentence POS ‖ document POS), bits',
+    'pos_kl_div': 'mean over sentences of KL(sentence POS ‖ document POS), nats',
     # ── syntactic_dep ───────────────────────────────────────────
     'arc_len_mean':
         'mean over sentences of mean abs(word position - head position), punctuation removed, '
@@ -390,7 +390,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     # ── morphological_zeyrek ────────────────────────────────────
     'agglutination_depth': 'visible suffixes / analysed words',
     'suffix_char_length_ratio': 'suffix letters / word letters',
-    'suffix_bigram_entropy': 'Shannon entropy (bits) of within-word visible suffix pairs',
+    'suffix_bigram_entropy': 'Shannon entropy (nats) of within-word visible suffix pairs',
     'derivational_suffix_ratio': 'derivational / visible suffixes',
     'verb_suffix_diversity': 'mean distinct visible suffix tags per verb_suffix_window-verb chunk',
     'tense_past_def': 'verbs whose last tense tag is X / verbs',
@@ -459,7 +459,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'punc_quote_ratio': 'marks / words',
     'punc_question_ratio': 'marks / words',
     'punct_density': 'marks / characters',
-    'punct_entropy': 'Shannon entropy (bits) of the 10 mark types',
+    'punct_entropy': 'Shannon entropy (nats) of the 10 mark types',
     'consecutive_punct_ratio': 'adjacent marks / marks',
     'whitespace_ratio': 'whitespace / characters',
     'punct_variety': 'distinct mark types',
@@ -719,7 +719,8 @@ FEATURE_CITATIONS: dict[str, str] = {
         'choice',
     'maas_a2':
         'Maas (1972), as cited in Tweedie & Baayen (1998) p.327, eq. (7); natural logarithm, '
-        'which reproduces the values in Torruella & Capsada (2013) Table 1',
+        'which reproduces the values in Torruella & Capsada (2013) Table 1; all logarithms in '
+        'this library are natural',
     'herdan_vm': 'Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18)',
     'heaps_beta': 'Heaps (1978), as cited in Manning et al. (2008) §5.1.1',
     # Shannon entropisi beş anahtarda kullanılıyor. Formülün kaynağı hepsinde
@@ -804,7 +805,9 @@ FEATURE_CITATIONS: dict[str, str] = {
     'pos_dist_std':
         'Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over '
         'ratios, 13 UD tags',
-    'pos_kl_div': 'Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv), in bits',
+    'pos_kl_div':
+        'Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the '
+        'source uses bits',
     # ── syntactic_dep ───────────────────────────────────────
     'arc_len_mean':
         'Liu (2008) eq. (1); text level from Jing & Liu (2015) p.164, eq. (3) (MDD2)',

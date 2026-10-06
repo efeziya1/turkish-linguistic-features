@@ -181,23 +181,27 @@ def curve_length_indicator(freqs: np.ndarray, h: float) -> dict[str, float]:
 
 
 def lambda_pa(L: float, N: int) -> dict[str, float]:
-    """``Λ = L · log₁₀(N) / N`` — metin uzunluğuna göre normalize eğri uzunluğu.
+    """``Λ = L · ln(N) / N`` — metin uzunluğuna göre normalize eğri uzunluğu.
+
+    Doğal logaritma (2026-10-06, Efe: kütüphanenin bütün logaritmaları ln). QUITA log₁₀ basar;
+    QUITA değeri × ln 10 bu değeri verir.
 
     Boş metinde ya da ``L`` NaN ise NaN; ``N = 1``'de Λ = 0 (tanımlı).
     """
     if N == 0 or math.isnan(L):
         return {"lambda_pa": math.nan}
-    return {"lambda_pa": round(L * math.log10(N) / N, 4)}
+    return {"lambda_pa": round(L * math.log(N) / N, 4)}
 
 
 def adjusted_modulus(f1: int, V: int, h: float, N: int) -> dict[str, float]:
-    """``A = √((f₁/h)² + (V/h)²) / log₁₀(N)`` — h-point'ten eğri uçlarına mesafe.
+    """``A = √((f₁/h)² + (V/h)²) / ln(N)`` — h-point'ten eğri uçlarına mesafe.
 
-    ``N ≤ 1`` (log₁₀N = 0) ya da geçersiz ``h`` → NaN.
+    Doğal logaritma (2026-10-06, Efe); QUITA log₁₀ basar, QUITA değeri / ln 10 bu değeri verir.
+    ``N ≤ 1`` (ln N = 0) ya da geçersiz ``h`` → NaN.
     """
     if not h > 0 or N <= 1:
         return {"adjusted_modulus": math.nan}
-    return {"adjusted_modulus": round(math.hypot(f1, V) / h / math.log10(N), 4)}
+    return {"adjusted_modulus": round(math.hypot(f1, V) / h / math.log(N), 4)}
 
 
 def writers_view(f1: int, V: int, h: float) -> dict[str, float]:

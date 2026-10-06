@@ -607,9 +607,14 @@ _QUITA_ORNEKLER: dict[str, tuple[str, float, float, str | dict[str, str],
             "Text 1 · V/N = 119/179",
             _iki("Text 2 · V/N = 121/202 = 0.599; kaynak 0.590 basmış (baskı hatası)",
                  "Text 2 · V/N = 121/202 = 0.599; source printed 0.590 (typo)")),
-    "lambda_pa": ("§6.1.7", 1.628, 1.5325,
-                  "Text 1 · L·log₁₀N/N, L=129.3559482",
-                  "Text 2 · L·log₁₀N/N, L=134.2787065"),
+    # Kütüphanenin bütün logaritmaları ln (2026-10-06, Efe). QUITA Λ'yı log₁₀, A'yı log₁₀, entropiyi
+    # log₂ (bit) ile basıyor; beklenen değer yayımlanan sayının ln karşılığı: Λ × ln 10, A / ln 10,
+    # entropi × ln 2. Formül aynı, yalnız birim çevriliyor.
+    "lambda_pa": ("§6.1.7", 1.628 * math.log(10), 1.5325 * math.log(10),
+                  _iki("Text 1 · L·ln N/N, L=129.3559482; kaynak log₁₀ ile 1,628 → × ln 10",
+                       "Text 1 · L·ln N/N, L=129.3559482; source 1.628 in log₁₀ → × ln 10"),
+                  _iki("Text 2 · L·ln N/N, L=134.2787065; kaynak log₁₀ ile 1,5325 → × ln 10",
+                       "Text 2 · L·ln N/N, L=134.2787065; source 1.5325 in log₁₀ → × ln 10")),
     # Kılavuz kosinüsü basıyor (−0,374487816 / −0,269972586) ve "convert the
     # results of cos a to radians" diyor; beklenen o dönüşümün sonucu.
     "writers_view_alpha": ("§6.2.3", math.acos(-0.374487816),
@@ -636,10 +641,16 @@ _QUITA_ORNEKLER: dict[str, tuple[str, float, float, str | dict[str, str],
                      "Text 1 · eq. (6.21)", "Text 2 · eq. (6.21)"),
     "curve_length_r": ("§6.1.11", 0.8895, 0.8657,
                        "Text 1 · Lh=14.29145", "Text 2 · Lh=18.03607"),
-    "entropy": ("§6.1.12", 6.438043, 6.395099,
-                "Text 1 · eq. (6.26)", "Text 2 · eq. (6.26)"),
-    "adjusted_modulus": ("§6.1.13", 10.6594, 11.19973,
-                         "Text 1 · M=24.01416249", "Text 2 · M=25.81931678"),
+    "entropy": ("§6.1.12", 6.438043 * math.log(2), 6.395099 * math.log(2),
+                _iki("Text 1 · eq. (6.26); kaynak bit ile 6,438043 → × ln 2",
+                     "Text 1 · eq. (6.26); source 6.438043 in bits → × ln 2"),
+                _iki("Text 2 · eq. (6.26); kaynak bit ile 6,395099 → × ln 2",
+                     "Text 2 · eq. (6.26); source 6.395099 in bits → × ln 2")),
+    "adjusted_modulus": ("§6.1.13", 10.6594 / math.log(10), 11.19973 / math.log(10),
+                         _iki("Text 1 · M=24.01416249; kaynak log₁₀ ile 10,6594 → / ln 10",
+                              "Text 1 · M=24.01416249; source 10.6594 in log₁₀ → / ln 10"),
+                         _iki("Text 2 · M=25.81931678; kaynak log₁₀ ile 11,19973 → / ln 10",
+                              "Text 2 · M=25.81931678; source 11.19973 in log₁₀ → / ln 10")),
 }
 
 # Text 2 satırında tolerans dışı sapmanın ölçülmüş nedeni.

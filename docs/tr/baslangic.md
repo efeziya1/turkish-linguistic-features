@@ -92,7 +92,7 @@ avg_word_length      5.7667
 avg_sent_len_word    10.0
 syllable_mean        2.5333
 atesman              70.9483
-entropy              4.906891
+entropy              3.401197
 ```
 
 Bunlar ne anlatıyor:
@@ -104,7 +104,7 @@ Bunlar ne anlatıyor:
 | `avg_sent_len_word` | 10.0 | Cümle başına 10 kelime. Türkçe roman korpusunda medyan 9'dur. |
 | `syllable_mean` | 2.5333 | Kelime başına 2,53 hece. |
 | `atesman` | 70.9483 | Ateşman (1997) okunabilirlik puanı, 0–100. 70 "kolay"a yakın. |
-| `entropy` | 4.906891 | Kelime dağılımının Shannon entropisi, bit. |
+| `entropy` | 3.401197 | Kelime dağılımının Shannon entropisi, nat (doğal logaritma). |
 
 !!! note "`ttr = 1.0` sizi yanıltmasın"
 

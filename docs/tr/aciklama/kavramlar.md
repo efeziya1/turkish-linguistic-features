@@ -52,7 +52,7 @@ Her özniteliğin bir ölçeği vardır ve grafik kurarken bu önemlidir:
 | `score` | Formülün ürettiği puan; sabit bir aralığı yok | `atesman`, `yule_k`, `mtld` |
 | `length` | Birimi karakter, kelime ya da cümle olan ortalama uzunluk | `avg_word_length`, `avg_sent_len_word` |
 | `cv` | Değişim katsayısı (standart sapma / ortalama) | `sentence_length_cv` |
-| `bits` | Bit cinsinden entropi | `entropy`, `punct_entropy` |
+| `nats` | Nat cinsinden entropi (doğal logaritma; kütüphanedeki bütün logaritmalar ln) | `entropy`, `punct_entropy` |
 | `signed` | Eksi de olabilen değer (eğim, çarpıklık) | `ttr_moving_slope`, `sent_len_skewness` |
 | `count` | Sayım | `n_lemma_count` |
 

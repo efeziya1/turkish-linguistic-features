@@ -57,9 +57,9 @@ def test_frekans_tablosu_kucuk_harfe_indirger():
 # ── entropi ───────────────────────────────────────────────────────────
 
 
-def test_entropi_esit_dagilimda_log2_n():
-    """4 kelime eşit frekansta → entropi tam olarak 2 bit."""
-    assert shannon_entropy(np.array([1, 1, 1, 1])) == 2.0
+def test_entropi_esit_dagilimda_ln_n():
+    """4 kelime eşit frekansta → entropi ln 4 nat (= 2 bit). Logaritma ln (2026-10-06)."""
+    assert shannon_entropy(np.array([1, 1, 1, 1])) == round(math.log(4), 6)
 
 
 def test_entropi_tek_kelimede_sifir():
@@ -375,10 +375,10 @@ def test_mattr_esik_tam_iki_katinda_hesaplaniyor():
 
 
 def test_entropy_std_ayrik_parcalar_artik_atilir():
-    """Parça 2: [a b] H=1 bit, [a a] H=0 → popülasyon sapması 0.5.
+    """Parça 2: [a b] H=ln 2 nat, [a a] H=0 → popülasyon sapması ln 2 / 2.
     Sondaki tek kelimelik artık parça ('c') hesaba girmez."""
     sonuc = advanced_lexical_richness(["a", "b", "a", "a", "c"], window=2)
-    assert sonuc["entropy_std"] == pytest.approx(0.5, abs=1e-4)
+    assert sonuc["entropy_std"] == pytest.approx(math.log(2) / 2, abs=1e-4)
 
 
 def test_entropy_std_tek_parcada_sifir():
@@ -429,8 +429,8 @@ def test_dugast_u_tum_kelimeler_farkliysa_sifir():
 
 
 def test_dugast_u_tek_tipte_log_n():
-    """V = 1 → U = (log N)² / log N = log₁₀ N."""
-    assert dugast_u(["a"] * 100)["dugast_u"] == 2.0
+    """V = 1 → U = (ln N)² / ln N = ln N."""
+    assert dugast_u(["a"] * 100)["dugast_u"] == round(math.log(100), 4)
 
 
 def test_guiraud_r_bilinen_deger():
@@ -804,3 +804,9 @@ def test_herdan_vm_bilinen_deger_ve_k_bagintisi():
     assert vm ** 2 == pytest.approx(yules_k(freqs) / 1e4 + (1 / 4 - 1 / 3), abs=1e-5)
     assert _nan(herdan_vm(np.array([], dtype=np.int64))["herdan_vm"])
     assert herdan_vm(np.array([1, 1, 1]))["herdan_vm"] == 0.0     # tekrar yok → 0
+
+
+def test_maas_a2_dugast_u_tersi():
+    """İkisi de ln (2026-10-06): Tweedie & Baayen (1998) a² = 1/U tam tutar."""
+    t = ["a", "b", "a", "c", "d", "a", "b"]
+    assert maas_a2(t)["maas_a2"] * dugast_u(t)["dugast_u"] == pytest.approx(1.0, abs=1e-3)

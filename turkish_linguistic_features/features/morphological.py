@@ -196,7 +196,7 @@ def suffix_char_length_ratio(morpheme_lists: list[list[Morpheme]],
 
 def suffix_ngrams(morpheme_lists: list[list[Morpheme]],
                   pos_data: list[tuple[str, str]]) -> dict[str, float]:
-    """Ek zinciri: kelime içi ardışık ek çiftlerinin entropisi (bit) ve zincir uzunluğu CV'si.
+    """Ek zinciri: kelime içi ardışık ek çiftlerinin entropisi (nat) ve zincir uzunluğu CV'si.
 
     Çift yoksa entropi NaN. CV = popülasyon sapması / ortalama; tek kelime ya da
     ortalama 0 ise NaN.
@@ -207,7 +207,7 @@ def suffix_ngrams(morpheme_lists: list[list[Morpheme]],
     entropi = math.nan
     if ciftler:
         n = sum(ciftler.values())
-        entropi = round(-sum(k / n * math.log2(k / n) for k in ciftler.values()), 5) + 0.0
+        entropi = round(-sum(k / n * math.log(k / n) for k in ciftler.values()), 5) + 0.0
     uzunluklar = np.array([len(z) for z in zincirler], dtype=np.float64)
     cv = math.nan
     if len(uzunluklar) > 1 and uzunluklar.mean() > 0:

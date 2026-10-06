@@ -96,12 +96,15 @@ def type_token_ratio(N: int, V: int) -> dict[str, float]:
 
 
 def shannon_entropy(freqs: np.ndarray) -> float:
-    """Frekans dağılımının Shannon entropisi, bit cinsinden: ``-Σ p·log₂(p)``. Boşsa NaN."""
+    """Frekans dağılımının Shannon entropisi, nat cinsinden: ``-Σ p·ln(p)``. Boşsa NaN.
+
+    Doğal logaritma (2026-10-06, Efe: kütüphanenin bütün logaritmaları ln); bit = nat / ln 2.
+    """
     N = freqs.sum()
     if N == 0:
         return math.nan
     p = freqs.astype(np.float64) / N
-    return round(float(-np.sum(p * np.log2(p))), 6)
+    return round(float(-np.sum(p * np.log(p))), 6)
 
 
 def yules_k(freqs: np.ndarray) -> float:
@@ -308,7 +311,7 @@ def advanced_lexical_richness(tokens: list[str], window: int = 50) -> dict[str, 
       boyundayken tek pencere kalıyordu: ortalama alacak bir şey olmuyor,
       MATTR matematiksel olarak düz TTR'a çöküyordu — yani düzeltmek için
       var olduğu şeye dönüşüp bunu sessizce yapıyordu.
-    - ``entropy_std`` — ``window``'luk **ayrık** parçaların entropileri (bit)
+    - ``entropy_std`` — ``window``'luk **ayrık** parçaların entropileri (nat)
       arasındaki popülasyon sapması (2026-09-15, Efe). 2'den az tam parça → NaN.
     - ``herdan_c`` — ``log V / log N``; taban oranda sadeleşir. ``N = 1`` → NaN.
 
@@ -388,17 +391,18 @@ def mtld(tokens: list[str], threshold: float = 0.72,
 
 
 def dugast_u(tokens: list[str]) -> dict[str, float]:
-    """Dugast'ın Uber indeksi ``U = (log₁₀ N)² / (log₁₀ N − log₁₀ V)``.
+    """Dugast'ın Uber indeksi ``U = (ln N)² / (ln N − ln V)``.
 
-    Taban 10 (2026-09-15, Efe): quanteda ve koRpus ile aynı. Taban sonucu
-    ölçekler (ln ile 2.3 kat), sıralamayı değiştirmez. ``N < 2`` ya da
-    ``N == V`` (payda 0) → NaN. ``V = 1`` tanımlıdır: ``U = log₁₀ N``.
+    Doğal logaritma (2026-10-06, Efe: kütüphanenin bütün logaritmaları ln; 2026-09-15'ten beri
+    taban 10'du, quanteda ve koRpus gibi). Taban sonucu ölçekler (ln değeri = log₁₀ değeri ×
+    ln 10), sıralamayı değiştirmez; ``maas_a2`` ile tam ``U = 1 / a²``. ``N < 2`` ya da
+    ``N == V`` (payda 0) → NaN. ``V = 1`` tanımlıdır: ``U = ln N``.
     """
     N = len(tokens)
     V = len(set(tokens))
     if N < 2 or N == V:
         return {"dugast_u": math.nan}
-    return {"dugast_u": round(math.log10(N) ** 2 / (math.log10(N) - math.log10(V)), 4)}
+    return {"dugast_u": round(math.log(N) ** 2 / (math.log(N) - math.log(V)), 4)}
 
 
 def guiraud_r(tokens: list[str]) -> dict[str, float]:
@@ -438,8 +442,7 @@ def maas_a2(tokens: list[str]) -> dict[str, float]:
 
     Doğal logaritma (2026-10-06, Efe): kaynak tabanı yazmıyor; Torruella & Capsada (2013)
     Tablo 1'deki değerler (≈ 0,019) doğal logaritmayla tutuyor. Tweedie & Baayen a²'nin
-    Dugast'ın 1/U'su olduğunu söyler; ``dugast_u`` taban 10 kullandığı için sayısal olarak
-    ``1 / dugast_u``'ya eşit değildir. ``N < 2`` → NaN.
+    Dugast'ın 1/U'su olduğunu söyler; ikisi de ln kullandığı için ``maas_a2 = 1 / dugast_u``. ``N < 2`` → NaN.
     """
     N = len(tokens)
     if N < 2:
