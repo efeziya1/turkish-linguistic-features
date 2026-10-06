@@ -169,7 +169,8 @@ def test_symbol_between_two_numbers_is_counted_once():
 
 def test_symbol_without_a_number_is_skipped():
     assert _hece_sayilari(["%", "oran"], "tr") == [2]
-    assert syllable_count_stats(["%", "50"], "tr")["syllable_mean"] == 4.0
+    # Hece öznitelikleri kelime birimi okur (2026-10-06): "%50" tek birim, yüz-de el-li.
+    assert syllable_count_stats(["%50"], "tr")["syllable_mean"] == 4.0
 
 
 @pytest.mark.cmudict            # English syllable counts

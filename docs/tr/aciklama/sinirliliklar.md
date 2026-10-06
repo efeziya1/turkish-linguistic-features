@@ -40,8 +40,17 @@ göstermeyin.
 
 ### 3. spaCy modeli sonuçların parçası
 
-Cümle bölme, sözcük türü ve bağlılık öznitelikleri modelden gelir. Model
-değişirse sayılar değişir.
+Sözcük türü, lemma, biçimbilim etiketleri ve bağlılık öznitelikleri
+(ayrıştırıcının kendi cümleleriyle) modelden gelir. Model değişirse bu
+sayılar değişir.
+
+Kelime ve cümle sayımı modelin etiketlerini kullanmaz. Varsayılan kelime,
+boşlukla ayrılan ve kenar noktalaması atılan birimdir; varsayılan cümle
+kuralı cümle bitiren işaretleri modelin tokenizer'ından okur. Kelime başına
+etiket isteyen öznitelikler (sözcük türü, lemma, biçimbilim, bağlılık) ise
+modelin tokenlarını sayar; yani iki kelime tanımı yan yana durur: `e-posta`
+`ttr`'de tek kelime, `lexical_density`'de iki tokendir. Hangi özniteliğin
+hangisini kullandığını `describe_feature(key)["definitions"]["word"]` söyler.
 
 Doğrulanmış kombinasyon: spaCy 3.8.16, `en_core_web_sm` 3.8.0,
 `tr_core_news_md` 1.0.

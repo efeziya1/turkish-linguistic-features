@@ -41,8 +41,17 @@ present it as though you read the primary.
 
 ### 3. The spaCy model is part of the result
 
-Sentence splitting, POS tags and dependency features come from the model.
-Change the model and the numbers change.
+POS tags, lemmas, morphological tags and the dependency features (with the
+parser's own sentences) come from the model. Change the model and those
+numbers change.
+
+Word and sentence counts do not use the model's labels. The default word is a
+whitespace-separated unit with edge punctuation stripped; the default sentence
+rule reads sentence-ending marks from the model's tokenizer. Features that need
+a label per word (POS, lemma, morphology, dependency) count the model's tokens
+instead, so two word definitions coexist: `e-posta` is one word in `ttr` and two
+tokens in `lexical_density`. `describe_feature(key)["definitions"]["word"]`
+names the one each feature uses.
 
 Verified combination: spaCy 3.8.16, `en_core_web_sm` 3.8.0,
 `tr_core_news_md` 1.0.

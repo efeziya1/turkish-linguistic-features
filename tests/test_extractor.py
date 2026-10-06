@@ -238,3 +238,19 @@ def test_tek_kelime_cokmez():
     )
     assert all(isinstance(v, float) for v in sonuc.values())
     assert not any(math.isinf(v) for v in sonuc.values())
+
+
+def test_varsayilan_kelime_tanimi_bosluk_birimi():
+    """Sayıya ve yazılı biçime bakan gruplar boşluk birimini sayar (2026-10-06, Efe):
+    spaCy "e-posta"yı üç tokena böler, kelime birimi tek kelimedir."""
+    metin = "E-posta geldi."
+    tok = ["E", "-", "posta", "geldi", "."]
+    pos = [("E", "NOUN"), ("-", "PUNCT"), ("posta", "NOUN"), ("geldi", "VERB"), (".", "PUNCT")]
+    oz = _extract_features(raw_text=metin, surface_tokens=tok, lemma_tokens=["e", "posta", "gel"],
+                           pos_data=pos, lang="tr",
+                           groups=["sentence", "paragraph", "lexical", "punctuation"])
+    assert oz["avg_sent_len_word"] == 2.0
+    assert oz["para_len_mean"] == 2.0
+    assert oz["ttr"] == 1.0 and oz["avg_word_length"] == 6.0      # "e-posta" 7, "geldi" 5
+    assert oz["punc_._ratio"] == 0.5
+    assert oz["n_lemma_count"] == 3.0                              # lemma spaCy tokenında kalır

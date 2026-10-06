@@ -254,6 +254,53 @@ def hece_say(word: str, lang: str = "tr") -> int | None:
     return None if kok_hece is None else kok_hece + _unlu_sayisi(ek)
 
 
+# Noktalı baş harfler: F.O.B, i.e, A.Ş — harf harf okunur.
+_BAS_HARFLER = re.compile(r"(?:[^\W\d_]\.)+[^\W\d_]?")
+
+
+def _okunus_hecesi(okunus_: str, lang: str) -> int:
+    return sum(hece_say(k, lang) or 0 for k in okunus_.split())
+
+
+def birim_hecesi(birim: str, lang: str) -> int | None:
+    """Kelime biriminin (``readability.kelime_birimleri``) hecesi; hecelenemiyorsa ``None``.
+
+    Sırayla: ``hece_say`` (kelime, sayı, listedeki kısaltma) → kenardaki
+    listedeki semboller okunur (``%50`` → yüzde elli) → tireli kelime
+    parçaların toplamı → noktalı baş harfler harf harf (İngilizcede W üç hece).
+    """
+    h = hece_say(birim, lang)
+    if h is not None:
+        return h
+    semboller = SEMBOLLER[lang]
+    bas, son = 0, len(birim)
+    while bas < son and birim[bas] in semboller:
+        bas += 1
+    while son > bas and birim[son - 1] in semboller:
+        son -= 1
+    if bas or son < len(birim):
+        ek = sum(_okunus_hecesi(semboller[c], lang) for c in birim[:bas] + birim[son:])
+        if bas == son:
+            return ek
+        govde = birim_hecesi(birim[bas:son], lang)
+        return None if govde is None else ek + govde
+    if "-" in birim:
+        parcalar = birim.split("-")
+        heceler = [birim_hecesi(p, lang) for p in parcalar if p]
+        if len(heceler) == len(parcalar) and all(x is not None for x in heceler):
+            return sum(x for x in heceler if x is not None)
+        return None
+    if _BAS_HARFLER.fullmatch(birim):
+        harfler = [c for c in birim if c.isalpha()]
+        return sum(3 if lang == "en" and c.lower() == "w" else 1 for c in harfler)
+    return None
+
+
+def birim_heceleri(birimler: list[str], lang: str) -> list[int]:
+    """Hecelenebilen kelime birimlerinin hece sayıları (hecelenemeyen atlanır)."""
+    return [h for h in (birim_hecesi(b, lang) for b in birimler) if h is not None]
+
+
 _ORDINAL_TOKEN = re.compile(r"\d+\.")
 
 
@@ -324,13 +371,14 @@ def _ortalama_cv(degerler: list[int]) -> tuple[float, float]:
     return round(ortalama, 4), round(cv, 4)
 
 
-def syllable_count_stats(tokens: list[str], lang: str = "tr") -> dict[str, float]:
+def syllable_count_stats(birimler: list[str], lang: str = "tr") -> dict[str, float]:
     """Kelime başına hece: ortalama ve CV (``syllable_stdev`` → CV, 2026-09-16, Efe).
 
-    Yalnız hecelenebilen tokenler sayılır (``hece_say``). CV popülasyon
+    Kelime = varsayılan kelime birimi (``readability.kelime_birimleri``, 2026-10-06, Efe);
+    yalnız hecelenebilen birimler sayılır (``birim_hecesi``). CV popülasyon
     standart sapması / ortalama — ``word_length_cv`` ile aynı kalıp.
     """
-    ortalama, cv = _ortalama_cv(_hece_sayilari(tokens, lang))
+    ortalama, cv = _ortalama_cv(birim_heceleri(birimler, lang))
     return {"syllable_mean": ortalama, "syllable_cv": cv}
 
 
@@ -338,13 +386,13 @@ _HECE_KOVALARI = ("syllable_1_ratio", "syllable_2_ratio", "syllable_3_ratio",
                   "syllable_4_ratio", "syllable_5_ratio", "syllable_6plus_ratio")
 
 
-def syllable_length_distribution(tokens: list[str], lang: str = "tr") -> dict[str, float]:
+def syllable_length_distribution(birimler: list[str], lang: str = "tr") -> dict[str, float]:
     """Kelimelerin hece sayısına göre dağılımı: 1, 2, 3, 4, 5, 6+ (toplam 1).
 
     Kovalar Bezirci & Yılmaz (2010, Tablo 1-c) ile aynı; üst kova sabit 6+.
-    Hecelenebilen token yoksa altısı da NaN.
+    Kelime = varsayılan kelime birimi. Hecelenebilen birim yoksa altısı da NaN.
     """
-    sayilar = _hece_sayilari(tokens, lang)
+    sayilar = birim_heceleri(birimler, lang)
     if not sayilar:
         return dict.fromkeys(_HECE_KOVALARI, math.nan)
     kova = Counter(min(h, 6) for h in sayilar)
@@ -355,13 +403,14 @@ def syllable_length_distribution(tokens: list[str], lang: str = "tr") -> dict[st
 def sentence_syllable_stats(cumleler: list[list[str]], lang: str = "tr") -> dict[str, float]:
     """Cümle başına hece: ortalama ve CV.
 
-    Cümlenin hecesi, hecelenebilen tokenlerinin toplamıdır (noktalama ve rakam
-    sayılmaz). Hiç hecelenebilen tokeni olmayan cümle ölçülemez, hesaba girmez.
-    Cümle yoksa ikisi NaN; tek cümlede CV NaN.
+    ``cumleler`` cümle başına kelime birimleridir (``readability.cumle_birimleri``).
+    Cümlenin hecesi, hecelenebilen birimlerinin toplamıdır. Hiç hecelenebilen
+    birimi olmayan cümle ölçülemez, hesaba girmez. Cümle yoksa ikisi NaN; tek
+    cümlede CV NaN.
     """
     heceler = []
     for cumle in cumleler:
-        sayilar = _hece_sayilari(cumle, lang)
+        sayilar = birim_heceleri(cumle, lang)
         if sayilar:
             heceler.append(sum(sayilar))
     ortalama, cv = _ortalama_cv(heceler)

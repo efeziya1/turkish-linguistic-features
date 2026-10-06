@@ -123,7 +123,7 @@ published is a separate question — see the
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
-| `para_len_mean` | mean paragraph length | `mean whitespace-separated words per paragraph (blank line = boundary)` | at least 1 paragraph | — |
+| `para_len_mean` | mean paragraph length | `mean words per paragraph (blank line = boundary)` | at least 1 paragraph | — |
 | `para_len_cv` | spread of paragraph length | `population std / mean` | at least 2 paragraphs | — |
 | `sents_per_para_mean` | mean sentences per paragraph | `mean count of [.!?…]+ per paragraph (at least 1)` | at least 1 paragraph | — |
 | `sents_per_para_cv` | spread of sentences per paragraph | `population std / mean` | at least 2 paragraphs | — |
@@ -307,8 +307,8 @@ published is a separate question — see the
 | `consecutive_punct_ratio` | share of marks directly next to another mark | `adjacent marks / marks` | at least 1 punctuation mark | — |
 | `whitespace_ratio` | share of whitespace characters | `whitespace / characters` | non-empty text | — |
 | `punct_variety` | number of punctuation types used (0–10) | `distinct mark types` | non-empty text | — |
-| `uppercase_ratio` | share of capitalised tokens | `tokens whose first letter is upper case / tokens with a letter` | at least 1 token with a letter | — |
-| `all_caps_word_ratio` | share of all-caps tokens | `tokens with 2+ letters, all upper case / tokens with a letter` | at least 1 token with a letter | — |
+| `uppercase_ratio` | share of capitalised words | `words whose first letter is upper case / words with a letter` | at least 1 word with a letter | — |
+| `all_caps_word_ratio` | share of all-caps words | `words with 2+ letters, all upper case / words with a letter` | at least 1 word with a letter | — |
 
 ## `chars` — Character frequency vector  [dynamic: one key per letter — TR 29, EN 26]
 

@@ -238,8 +238,8 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'consecutive_punct_ratio': 'share of marks directly next to another mark',
     'whitespace_ratio': 'share of whitespace characters',
     'punct_variety': 'number of punctuation types used (0–10)',
-    'uppercase_ratio': 'share of capitalised tokens',
-    'all_caps_word_ratio': 'share of all-caps tokens',
+    'uppercase_ratio': 'share of capitalised words',
+    'all_caps_word_ratio': 'share of all-caps words',
     # ── chars (dinamik grup) ───────────────────────────────────────
     'chars': 'share of that letter among alphabet letters',
     # ── custom_ngrams (dinamik grup) ───────────────────────────────
@@ -311,7 +311,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'med_sent_len': 'median words per sentence',
     'sent_len_entropy': 'Shannon entropy (bits) of the distribution of words per sentence',
     # ── paragraph ───────────────────────────────────────────────
-    'para_len_mean': 'mean whitespace-separated words per paragraph (blank line = boundary)',
+    'para_len_mean': 'mean words per paragraph (blank line = boundary)',
     'para_len_cv': 'population std / mean',
     'sents_per_para_mean': 'mean count of [.!?…]+ per paragraph (at least 1)',
     'sents_per_para_cv': 'population std / mean',
@@ -455,8 +455,8 @@ FEATURE_FORMULAS: dict[str, str] = {
     'consecutive_punct_ratio': 'adjacent marks / marks',
     'whitespace_ratio': 'whitespace / characters',
     'punct_variety': 'distinct mark types',
-    'uppercase_ratio': 'tokens whose first letter is upper case / tokens with a letter',
-    'all_caps_word_ratio': 'tokens with 2+ letters, all upper case / tokens with a letter',
+    'uppercase_ratio': 'words whose first letter is upper case / words with a letter',
+    'all_caps_word_ratio': 'words with 2+ letters, all upper case / words with a letter',
     # ── chars (dinamik grup) ───────────────────────────────────────
     'chars': 'letter count / alphabet letters',
     # ── custom_ngrams (dinamik grup) ───────────────────────────────
@@ -658,8 +658,8 @@ FEATURE_REQUIRES: dict[str, str] = {
     'consecutive_punct_ratio': 'at least 1 punctuation mark',
     'whitespace_ratio': 'non-empty text',
     'punct_variety': 'non-empty text',
-    'uppercase_ratio': 'at least 1 token with a letter',
-    'all_caps_word_ratio': 'at least 1 token with a letter',
+    'uppercase_ratio': 'at least 1 word with a letter',
+    'all_caps_word_ratio': 'at least 1 word with a letter',
     # ── chars (dinamik grup) ───────────────────────────────────────
     'chars': 'at least 1 alphabet letter',
     # ── custom_ngrams (dinamik grup) ───────────────────────────────

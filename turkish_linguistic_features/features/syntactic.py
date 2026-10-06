@@ -30,6 +30,7 @@ import numpy as np
 
 from ..alfabe import _kucuk_harf
 from ..vocab import LEXICAL_POS, NON_WORD_POS, NOUN_POS, POS_TAGS
+from .readability import kelime_birimleri
 
 _PARA_SPLIT = re.compile(r"\n[ \t]*\n")   # boş satır = paragraf sınırı
 
@@ -75,8 +76,10 @@ def _cumle_kelimeleri(cumleler: list[list[str]]) -> list[list[str]]:
       Tek başına ``"..."`` cümle değildir; uzunluğu 0 sayıp ortalamayı aşağı
       çekmesindense hiç sayılmaz.
 
-    Cümle uzunluğu literatürde kelimeyle ölçülür, ``sentences_as_tokens`` ise
-    noktalamayı da taşır; süzme bu yüzden fonksiyonların **içinde** yapılır.
+    Cümle uzunluğu literatürde kelimeyle ölçülür. ``_extract_features`` bu
+    fonksiyonlara 2026-10-06'dan beri (Efe) cümle başına varsayılan kelime
+    birimlerini verir (``readability.cumle_birimleri``); onlarda noktalama zaten
+    yoktur, token süzgeci yalnız token listesi verilirse iş görür.
     ``pos_distribution_stats`` bu yardımcıyı **kullanmaz**: orada cümleler
     ``pos_data`` ile token token dilimlenir, süzülmüş liste hizayı bozar.
     """
@@ -300,16 +303,17 @@ def sent_len_entropy(cumleler: list[list[str]]) -> dict[str, float]:
 # ── paragraf ──────────────────────────────────────────────────────────
 
 
-def paragraph_stats(raw_text: str) -> dict[str, float]:
+def paragraph_stats(raw_text: str, lang: str = "tr") -> dict[str, float]:
     """Paragraf uzunluğu, paragraf başına cümle ve 1000 kelimede paragraf sayısı.
 
     Üç kural: paragraf = boş satır (tek satır sonu saymaz); paragraf başına
-    kelime = boşlukla bölme; paragraf başına cümle = ``[.!?…]+`` sayımı, hiç
+    kelime = varsayılan kelime birimi (``readability.kelime_birimleri``: boşlukla
+    ayrılan birim, kenar noktalaması atılır, yalnız noktalamadan oluşan birim
+    sayılmaz; 2026-10-06, Efe); paragraf başına cümle = ``[.!?…]+`` sayımı, hiç
     yoksa 1. ``\\r\\n`` önce ``\\n``'e çevrilir — aksi halde Windows'ta yazılmış
     korpus farklı bölünür.
 
-    ``para_len_mean`` boşlukla ayrılmış kelime sayar, ``avg_sent_len_word``
-    spaCy token'ı sayar; ikisi sistematik olarak farklıdır, karşılaştırılmamalı.
+    ``para_len_mean`` ile ``avg_sent_len_word`` aynı kelime tanımını kullanır.
 
     Paragraf yoksa hepsi NaN; tek paragrafta iki CV NaN.
 
@@ -323,7 +327,7 @@ def paragraph_stats(raw_text: str) -> dict[str, float]:
         return {"para_len_mean": math.nan, "para_len_cv": math.nan, "sents_per_para_mean": math.nan,
                 "sents_per_para_cv": math.nan, "para_count_norm": math.nan}
     # K11 istisnası: yerel sayım — paragrafı token akışına hizalamak ikinci geçiş ister
-    kelime = np.array([len(p.split()) for p in paras], dtype=np.float64)
+    kelime = np.array([len(kelime_birimleri(p, lang)[0]) for p in paras], dtype=np.float64)
     cumle = np.array([max(len(_SENT_END.findall(p)), 1) for p in paras], dtype=np.float64)
     if len(paras) == 1 and kelime[0] > _PARA_UYARI_KELIME:
         from .._warnings import uyar_paragraf_yok
@@ -334,7 +338,9 @@ def paragraph_stats(raw_text: str) -> dict[str, float]:
         "para_len_cv": round(_cv(kelime), 4),
         "sents_per_para_mean": round(float(cumle.mean()), 4),
         "sents_per_para_cv": round(_cv(cumle), 4),
-        "para_count_norm": round(len(paras) / toplam_kelime * 1000, 4),
+        # Yalnız noktalamadan oluşan metinde kelime yok: oran ölçülemez (K4).
+        "para_count_norm": (round(len(paras) / toplam_kelime * 1000, 4) if toplam_kelime
+                            else math.nan),
     }
 
 

@@ -444,7 +444,7 @@ def test_definitions_formulde_gecen_terim_kayitli(anahtar):
 
 
 @pytest.mark.parametrize("anahtar, beklenen", [
-    ("avg_sent_len_word", {"sentence": "default", "word": "alnum_token"}),
+    ("avg_sent_len_word", {"sentence": "default", "word": "space_unit"}),
     ("arc_len_mean", {"sentence": "spacy_parser", "word": "pos_token", "dependency": "spacy_head"}),
     ("sents_per_para_mean", {"sentence": "regex_paragraph", "paragraph": "blank_line"}),
     ("cetinkaya_uzun", {"sentence": "cetinkaya", "word": "space_unit_with_symbols",
@@ -453,7 +453,7 @@ def test_definitions_formulde_gecen_terim_kayitli(anahtar):
              "character": "non_space_character"}),
     ("lix", {"sentence": "default", "word": "space_unit", "letter": "unicode_letter",
              "long_word": "7_plus_letters"}),
-    ("ttr", {"word": "pos_token", "type": "lowercase_surface"}),
+    ("ttr", {"word": "space_unit", "type": "lowercase_surface"}),
     ("n_lemma_count", {"word": "pos_token", "type": "spacy_lemma"}),
     ("pos_noun", {"token": "spacy_token", "pos_tag": "spacy_upos"}),
     ("morph_case_acc", {"token": "spacy_token", "morph_feature": "spacy_morph"}),

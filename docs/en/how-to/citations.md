@@ -28,7 +28,7 @@ print(json.dumps(tlf.describe_feature("mattr"), indent=2))
     "Covington, M. A., & McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098"
   ],
   "definitions": {
-    "word": {"name": "pos_token", "source": "tlf", "description": "A spaCy token whose POS tag is not PUNCT or SYM; numbers count."},
+    "word": {"name": "space_unit", "source": "tlf", "description": "Whitespace-separated piece of the raw text with edge punctuation stripped, containing a letter or digit; the library's default word."},
     "type": {"name": "lowercase_surface", "source": "tlf", "description": "The word string lowercased by language (Turkish I→ı, İ→i); inflected forms are separate types."}
   }
 }

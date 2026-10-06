@@ -54,8 +54,11 @@ tlf.describe_feature("mattr")["requires"]
 'at least 100 words (2 x mattr_window)'
 ```
 
-Buradaki **kelime**, noktalama ya da sembol olmayan tokendır; sayılar kelime
-sayılır. `segment_text`'in `size` değeri ise noktalamayı da sayar: 100 tokenlık
+Buradaki **kelime** kütüphanenin varsayılan kelimesidir: boşlukla ayrılan,
+kenar noktalaması atılan ve harf ya da rakam içeren birim (`e-posta`, `%50`
+ve sayılar birer kelime). Sözcük türü ya da lemma isteyen öznitelikler ise
+noktalama ve sembol olmayan spaCy tokenlarını sayar; hangisi olduğunu
+`describe_feature(key)["definitions"]["word"]` söyler. `segment_text`'in `size` değeri ise noktalamayı da sayar: 100 tokenlık
 parça ~83 kelime eder ve 100 kelime isteyen bir ölçüye yetmeyebilir.
 
 Sınırın altındaysanız `nan` gelir. Sınırların bir kısmı kaynaktan gelir
