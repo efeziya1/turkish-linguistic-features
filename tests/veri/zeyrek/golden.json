@@ -1,0 +1,1422 @@
+{
+ "ama": [
+  "ama_Conj|Conj:ama",
+  "âmâ_Adj|Adj:ama",
+  "am_Noun|Noun:am+A3sg:+Dat:a"
+ ],
+ "artık": [
+  "artık_Adj|Adj:artık",
+  "artık_Adv|Adv:artık",
+  "artık_Noun|Noun:artık+A3sg:"
+ ],
+ "az": [
+  "az_Adj|Adj:az",
+  "az_Adv|Adv:az",
+  "az_Postp_PCAbl|Postp:az",
+  "azmak_Verb|Verb:az+Imp:+A2sg:",
+  "Az_Noun_Prop|Noun:az+A3sg:"
+ ],
+ "açık": [
+  "açık_Adj|Adj:açık",
+  "açık_Adv|Adv:açık",
+  "Açık_Noun_Prop|Noun:açık+A3sg:",
+  "açık_Noun|Noun:açık+A3sg:"
+ ],
+ "aşırı": [
+  "aşırı_Adj|Adj:aşırı",
+  "aşırı_Adv|Adv:aşırı"
+ ],
+ "bazı": [
+  "bazı_Adj|Adj:bazı",
+  "bazı_Det|Det:bazı",
+  "baz_Noun|Noun:baz+A3sg:+Acc:ı",
+  "baz_Noun|Noun:baz+A3sg:+P3sg:ı",
+  "baz_Adj|Adj:baz+Zero:+Noun:+A3sg:+Acc:ı",
+  "baz_Adj|Adj:baz+Zero:+Noun:+A3sg:+P3sg:ı"
+ ],
+ "başka": [
+  "başka_Adj|Adj:başka",
+  "başka_Postp_PCAbl|Postp:başka"
+ ],
+ "beraber": [
+  "beraber_Adj|Adj:beraber",
+  "beraber_Adv|Adv:beraber",
+  "beraber_Postp_PCIns|Postp:beraber"
+ ],
+ "bembeyaz": [
+  "bembeyaz_Adj|Adj:bembeyaz",
+  "bembeyaz_Adv|Adv:bembeyaz"
+ ],
+ "yüz": [
+  "yüz_Num_Card|Num:yüz",
+  "yüzmek_Verb|Verb:yüz+Imp:+A2sg:",
+  "yüz_Noun|Noun:yüz+A3sg:"
+ ],
+ "yüzü": [
+  "yüz_Noun|Noun:yüz+A3sg:+Acc:ü",
+  "yüz_Noun|Noun:yüz+A3sg:+P3sg:ü",
+  "yüz_Num_Card|Num:yüz+Zero:+Noun:+A3sg:+Acc:ü",
+  "yüz_Num_Card|Num:yüz+Zero:+Noun:+A3sg:+P3sg:ü"
+ ],
+ "yer": [
+  "yemek_Verb|Verb:ye+Aor:r+A3sg:",
+  "yermek_Verb|Verb:yer+Imp:+A2sg:",
+  "yer_Noun|Noun:yer+A3sg:"
+ ],
+ "yerler": [
+  "yemek_Verb|Verb:ye+Aor:r+A3pl:ler",
+  "yer_Noun|Noun:yer+A3pl:ler",
+  "yer_Noun|Noun:yer+A3sg:+Zero:+Verb:+Pres:+A3pl:ler"
+ ],
+ "yemek": [
+  "yemek_Noun|Noun:yemek+A3sg:",
+  "yemek_Verb|Verb:ye+Inf1:mek+Noun:+A3sg:"
+ ],
+ "buna": [
+  "bunamak_Verb|Verb:buna+Imp:+A2sg:",
+  "bu_Pron_Demons|Pron:bu+A3sg:+Dat:na",
+  "bun_Noun|Noun:bun+A3sg:+Dat:a"
+ ],
+ "bunu": [
+  "bu_Pron_Demons|Pron:bu+A3sg:+Acc:nu",
+  "bun_Noun|Noun:bun+A3sg:+Acc:u",
+  "bun_Noun|Noun:bun+A3sg:+P3sg:u"
+ ],
+ "bunlar": [
+  "bu_Pron_Demons|Pron:bu+A3pl:nlar",
+  "bun_Noun|Noun:bun+A3pl:lar",
+  "bun_Noun|Noun:bun+A3sg:+Zero:+Verb:+Pres:+A3pl:lar"
+ ],
+ "mumlar": [
+  "mumlamak_Verb|Verb:mumla+Aor:r+A3sg:",
+  "mumlamak_Verb|Verb:mumla+AorPart:r+Adj:",
+  "mum_Noun|Noun:mum+A3pl:lar",
+  "mum_Noun|Noun:mum+A3sg:+Zero:+Verb:+Pres:+A3pl:lar"
+ ],
+ "yağlar": [
+  "yağlamak_Verb|Verb:yağla+Aor:r+A3sg:",
+  "yağlamak_Verb|Verb:yağla+AorPart:r+Adj:",
+  "yağ_Noun|Noun:yağ+A3pl:lar",
+  "yağ_Noun|Noun:yağ+A3sg:+Zero:+Verb:+Pres:+A3pl:lar"
+ ],
+ "boyalar": [
+  "boyalamak_Verb|Verb:boyala+Aor:r+A3sg:",
+  "boyalamak_Verb|Verb:boyala+AorPart:r+Adj:",
+  "boya_Noun|Noun:boya+A3pl:lar",
+  "boy_Noun|Noun:boy+A3sg:+Dat:a+Zero:+Verb:+Pres:+A3pl:lar",
+  "boya_Noun|Noun:boya+A3sg:+Zero:+Verb:+Pres:+A3pl:lar"
+ ],
+ "şampuanlar": [
+  "şampuanlamak_Verb|Verb:şampuanla+Aor:r+A3sg:",
+  "şampuanlamak_Verb|Verb:şampuanla+AorPart:r+Adj:",
+  "şampuan_Noun|Noun:şampuan+A3pl:lar",
+  "şampuan_Noun|Noun:şampuan+A3sg:+Zero:+Verb:+Pres:+A3pl:lar"
+ ],
+ "türküler": [
+  "türkülemek_Verb|Verb:türküle+Aor:r+A3sg:",
+  "türkülemek_Verb|Verb:türküle+AorPart:r+Adj:",
+  "türkü_Noun|Noun:türkü+A3pl:ler",
+  "Türk_Noun_Prop|Noun:türk+A3sg:+P3sg:ü+Zero:+Verb:+Pres:+A3pl:ler",
+  "türkü_Noun|Noun:türkü+A3sg:+Zero:+Verb:+Pres:+A3pl:ler"
+ ],
+ "sorun": [
+  "sormak_Verb|Verb:sor+Imp:+A2pl:un",
+  "soru_Noun|Noun:soru+A3sg:+P2sg:n",
+  "sorun_Noun|Noun:sorun+A3sg:",
+  "sorumak_Verb|Verb:soru+Pass:n+Verb:+Imp:+A2sg:"
+ ],
+ "sorunun": [
+  "soru_Noun|Noun:soru+A3sg:+Gen:nun",
+  "soru_Noun|Noun:soru+A3sg:+P2sg:n+Gen:un",
+  "sorun_Noun|Noun:sorun+A3sg:+Gen:un",
+  "sorun_Noun|Noun:sorun+A3sg:+P2sg:un",
+  "sorumak_Verb|Verb:soru+Pass:n+Verb:+Imp:+A2pl:un"
+ ],
+ "vardır": [
+  "varmak_Verb|Verb:var+Caus:dır+Verb:+Imp:+A2sg:",
+  "var_Adj|Adj:var+Zero:+Verb:+Pres:+A3sg:+Cop:dır",
+  "var_Noun|Noun:var+A3sg:+Zero:+Verb:+Pres:+A3sg:+Cop:dır"
+ ],
+ "varmak": [
+  "varmak_Verb|Verb:var+Inf1:mak+Noun:+A3sg:"
+ ],
+ "doğum": [
+  "Doğu_Noun_Prop|Noun:doğu+A3sg:+P1sg:m",
+  "doğu_Noun|Noun:doğu+A3sg:+P1sg:m",
+  "doğum_Noun|Noun:doğum+A3sg:",
+  "Doğu_Adj_Prop|Adj:doğu+Zero:+Noun:+A3sg:+P1sg:m",
+  "doğu_Adj|Adj:doğu+Zero:+Noun:+A3sg:+P1sg:m"
+ ],
+ "doğu": [
+  "Doğu_Adj_Prop|Adj:doğu",
+  "doğu_Adj|Adj:doğu",
+  "Doğu_Noun_Prop|Noun:doğu+A3sg:",
+  "doğu_Noun|Noun:doğu+A3sg:"
+ ],
+ "inanılmaz": [
+  "inanılmaz_Adj|Adj:inanılmaz",
+  "inanmak_Verb|Verb:inan+Pass:ıl+Verb:+Neg:ma+Aor:z+A3sg:",
+  "inanmak_Verb|Verb:inan+Pass:ıl+Verb:+Neg:ma+AorPart:z+Adj:"
+ ],
+ "örneğin": [
+  "örneğin_Conj|Conj:örneğin",
+  "örnek_Noun|Noun:örneğ+A3sg:+Gen:in",
+  "örnek_Noun|Noun:örneğ+A3sg:+P2sg:in"
+ ],
+ "öyleyse": [
+  "öyle_Adj|Adj:öyle+Zero:+Verb:+Cond:yse+A3sg:",
+  "öyle_Adv|Adv:öyle+Zero:+Verb:+Cond:yse+A3sg:",
+  "Ö_Noun_Abbrv|Noun:ö+A3sg:+Ins:yle+Zero:+Verb:+Cond:yse+A3sg:"
+ ],
+ "adına": [
+  "adına_Adv|Adv:adına",
+  "ad_Noun|Noun:ad+A3sg:+P2sg:ın+Dat:a",
+  "ad_Noun|Noun:ad+A3sg:+P3sg:ı+Dat:na"
+ ],
+ "giderler": [
+  "gitmek_Verb|Verb:gid+Aor:er+A3pl:ler",
+  "gider_Noun|Noun:gider+A3pl:ler",
+  "gider_Noun|Noun:gider+A3sg:+Zero:+Verb:+Pres:+A3pl:ler"
+ ],
+ "gider": [
+  "gitmek_Verb|Verb:gid+Aor:er+A3sg:",
+  "gitmek_Verb|Verb:gid+AorPart:er+Adj:",
+  "gidermek_Verb|Verb:gider+Imp:+A2sg:",
+  "gider_Noun|Noun:gider+A3sg:"
+ ],
+ "edemez": [
+  "etmek_Verb|Verb:ed+Unable:eme+Aor:z+A3sg:",
+  "etmek_Verb|Verb:ed+Unable:eme+AorPart:z+Adj:"
+ ],
+ "yazı": [
+  "yaz_Noun_Time|Noun:yaz+A3sg:+Acc:ı",
+  "yaz_Noun_Time|Noun:yaz+A3sg:+P3sg:ı",
+  "yazı_Noun|Noun:yazı+A3sg:"
+ ],
+ "yazar": [
+  "yazar_Adj|Adj:yazar",
+  "yazmak_Verb|Verb:yaz+Aor:ar+A3sg:",
+  "yazmak_Verb|Verb:yaz+AorPart:ar+Adj:",
+  "yazar_Noun|Noun:yazar+A3sg:"
+ ],
+ "yazarlar": [
+  "yazmak_Verb|Verb:yaz+Aor:ar+A3pl:lar",
+  "yazar_Noun|Noun:yazar+A3pl:lar",
+  "yazar_Adj|Adj:yazar+Zero:+Verb:+Pres:+A3pl:lar",
+  "yazar_Adj|Adj:yazar+Zero:+Noun:+A3pl:lar",
+  "yazar_Noun|Noun:yazar+A3sg:+Zero:+Verb:+Pres:+A3pl:lar"
+ ],
+ "okur": [
+  "okumak_Verb|Verb:oku+Aor:r+A3sg:",
+  "okumak_Verb|Verb:oku+AorPart:r+Adj:",
+  "okur_Noun|Noun:okur+A3sg:"
+ ],
+ "okurlar": [
+  "okumak_Verb|Verb:oku+Aor:r+A3pl:lar",
+  "okur_Noun|Noun:okur+A3pl:lar",
+  "okur_Noun|Noun:okur+A3sg:+Zero:+Verb:+Pres:+A3pl:lar"
+ ],
+ "gelir": [
+  "gelmek_Verb|Verb:gel+Aor:ir+A3sg:",
+  "gelmek_Verb|Verb:gel+AorPart:ir+Adj:",
+  "gelir_Noun|Noun:gelir+A3sg:"
+ ],
+ "gelirler": [
+  "gelmek_Verb|Verb:gel+Aor:ir+A3pl:ler",
+  "gelir_Noun|Noun:gelir+A3pl:ler",
+  "gelir_Noun|Noun:gelir+A3sg:+Zero:+Verb:+Pres:+A3pl:ler"
+ ],
+ "gelecek": [
+  "gelecek_Adj|Adj:gelecek",
+  "gelmek_Verb|Verb:gel+FutPart:ecek+Adj:",
+  "gelecek_Noun|Noun:gelecek+A3sg:"
+ ],
+ "gelebilir": [
+  "gelmek_Verb|Verb:gel+Able:ebil+Verb:+Aor:ir+A3sg:",
+  "gelmek_Verb|Verb:gel+Able:ebil+Verb:+AorPart:ir+Adj:"
+ ],
+ "geldi": [
+  "gelmek_Verb|Verb:gel+Past:di+A3sg:"
+ ],
+ "geldiler": [
+  "gelmek_Verb|Verb:gel+Past:di+A3pl:ler"
+ ],
+ "gidiyor": [
+  "gitmek_Verb|Verb:gid+Prog1:iyor+A3sg:"
+ ],
+ "gitti": [
+  "gitmek_Verb|Verb:git+Past:ti+A3sg:"
+ ],
+ "gitmek": [
+  "gitmek_Verb|Verb:git+Inf1:mek+Noun:+A3sg:"
+ ],
+ "gidecek": [
+  "gitmek_Verb|Verb:gid+FutPart:ecek+Adj:"
+ ],
+ "ol": [
+  "olmak_Verb|Verb:ol+Imp:+A2sg:"
+ ],
+ "olan": [
+  "olmak_Verb|Verb:ol+PresPart:an+Adj:",
+  "o_Adj|Adj:o+Acquire:lan+Verb:+Imp:+A2sg:"
+ ],
+ "olmak": [
+  "olmak_Verb|Verb:ol+Inf1:mak+Noun:+A3sg:"
+ ],
+ "olduğu": [
+  "olmak_Verb|Verb:ol+PastPart:duğ+Adj:+P3sg:u",
+  "olmak_Verb|Verb:ol+PastPart:duğ+Noun:+A3sg:+Acc:u",
+  "olmak_Verb|Verb:ol+PastPart:duğ+Noun:+A3sg:+P3sg:u"
+ ],
+ "olduğunu": [
+  "olmak_Verb|Verb:ol+PastPart:duğ+Noun:+A3sg:+P2sg:un+Acc:u",
+  "olmak_Verb|Verb:ol+PastPart:duğ+Noun:+A3sg:+P3sg:u+Acc:nu"
+ ],
+ "olarak": [
+  "olmak_Verb|Verb:ol+ByDoingSo:arak+Adv:"
+ ],
+ "oldu": [
+  "olmak_Verb|Verb:ol+Past:du+A3sg:"
+ ],
+ "olur": [
+  "olur_Adj|Adj:olur",
+  "olmak_Verb|Verb:ol+Aor:ur+A3sg:",
+  "olmak_Verb|Verb:ol+AorPart:ur+Adj:",
+  "Olur_Noun_Prop|Noun:olur+A3sg:",
+  "olur_Noun|Noun:olur+A3sg:"
+ ],
+ "olmaz": [
+  "olmaz_Adj|Adj:olmaz",
+  "olmak_Verb|Verb:ol+Neg:ma+Aor:z+A3sg:",
+  "olmak_Verb|Verb:ol+Neg:ma+AorPart:z+Adj:",
+  "olmaz_Noun|Noun:olmaz+A3sg:"
+ ],
+ "değil": [
+  "değil_Conj|Conj:değil",
+  "değil_Verb|Verb:değil+Neg:+Pres:+A3sg:",
+  "değmek_Verb|Verb:değ+Pass:il+Verb:+Imp:+A2sg:"
+ ],
+ "değilse": [
+  "değil_Verb|Verb:değil+Neg:+Cond:se+A3sg:",
+  "değmek_Verb|Verb:değ+Pass:il+Verb:+Desr:se+A3sg:"
+ ],
+ "ise": [
+  "ise_Adv|Adv:ise",
+  "imek_Verb|Verb:i+Cond:se+A3sg:",
+  "is_Noun|Noun:is+A3sg:+Dat:e"
+ ],
+ "ile": [
+  "ile_Conj|Conj:ile",
+  "ile_Postp_PCNom|Postp:ile",
+  "ilmek_Verb|Verb:il+Opt:e+A3sg:",
+  "il_Noun|Noun:il+A3sg:+Dat:e"
+ ],
+ "için": [
+  "için_Postp_PCGen|Postp:için",
+  "için_Postp_PCNom|Postp:için",
+  "içmek_Verb|Verb:iç+Imp:+A2pl:in",
+  "iç_Noun|Noun:iç+A3sg:+Gen:in",
+  "iç_Noun|Noun:iç+A3sg:+P2sg:in",
+  "iç_Adj|Adj:iç+Zero:+Noun:+A3sg:+Gen:in",
+  "iç_Adj|Adj:iç+Zero:+Noun:+A3sg:+P2sg:in"
+ ],
+ "gibi": [
+  "gibi_Postp_PCGen|Postp:gibi",
+  "gibi_Postp_PCNom|Postp:gibi"
+ ],
+ "kadar": [
+  "kadar_Postp_PCDat|Postp:kadar",
+  "kadar_Postp_PCGen|Postp:kadar",
+  "kadar_Postp_PCNom|Postp:kadar",
+  "Kadar_Noun_Prop|Noun:kadar+A3sg:",
+  "kadar_Noun|Noun:kadar+A3sg:"
+ ],
+ "sonra": [
+  "sonra_Adv|Adv:sonra",
+  "sonra_Postp_PCAbl|Postp:sonra",
+  "sonra_Noun_Time|Noun:sonra+A3sg:"
+ ],
+ "önce": [
+  "önce_Adv|Adv:önce",
+  "önce_Postp_PCAbl|Postp:önce",
+  "ön_Adj|Adj:ön+Ly:ce+Adv:",
+  "ön_Adj|Adj:ön+AsIf:ce+Adj:",
+  "ön_Noun|Noun:ön+A3sg:+Equ:ce",
+  "önce_Noun_Time|Noun:önce+A3sg:"
+ ],
+ "şimdi": [
+  "şimdi_Adv|Adv:şimdi",
+  "şimdi_Noun_Time|Noun:şimdi+A3sg:"
+ ],
+ "bugün": [
+  "bugün_Adv|Adv:bugün",
+  "bugün_Noun_Time|Noun:bugün+A3sg:"
+ ],
+ "yarın": [
+  "yarın_Adv|Adv:yarın",
+  "yarmak_Verb|Verb:yar+Imp:+A2pl:ın",
+  "yar_Noun|Noun:yar+A3sg:+Gen:ın",
+  "yar_Noun|Noun:yar+A3sg:+P2sg:ın",
+  "yarı_Noun|Noun:yarı+A3sg:+P2sg:n",
+  "yarın_Noun_Time|Noun:yarın+A3sg:",
+  "yarı_Adj|Adj:yarı+Zero:+Noun:+A3sg:+P2sg:n"
+ ],
+ "dün": [
+  "dün_Adv|Adv:dün",
+  "dü_Noun|Noun:dü+A3sg:+P2sg:n",
+  "dün_Noun_Time|Noun:dün+A3sg:"
+ ],
+ "çok": [
+  "çok_Adj|Adj:çok",
+  "çok_Adv|Adv:çok",
+  "çok_Det|Det:çok",
+  "çok_Postp_PCAbl|Postp:çok"
+ ],
+ "daha": [
+  "daha_Adv|Adv:daha",
+  "daha_Noun_Time|Noun:daha+A3sg:"
+ ],
+ "en": [
+  "en_Adv|Adv:en",
+  "en_Noun|Noun:en+A3sg:"
+ ],
+ "her": [
+  "her_Adj|Adj:her",
+  "her_Det|Det:her"
+ ],
+ "hiç": [
+  "hiç_Adv|Adv:hiç",
+  "hiç_Noun|Noun:hiç+A3sg:"
+ ],
+ "bir": [
+  "bir_Adj|Adj:bir",
+  "bir_Adv|Adv:bir",
+  "bir_Det|Det:bir",
+  "bir_Num_Card|Num:bir"
+ ],
+ "iki": [
+  "iki_Num_Card|Num:iki"
+ ],
+ "üç": [
+  "üç_Num_Card|Num:üç"
+ ],
+ "dört": [
+  "dört_Num_Card|Num:dört"
+ ],
+ "beş": [
+  "beş_Num_Card|Num:beş"
+ ],
+ "on": [
+  "on_Num_Card|Num:on",
+  "onmak_Verb|Verb:on+Imp:+A2sg:",
+  "o_Adj|Adj:o+Zero:+Noun:+A3sg:+P2sg:n"
+ ],
+ "yirmi": [
+  "yirmi_Num_Card|Num:yirmi"
+ ],
+ "yüzde": [
+  "yüz_Noun|Noun:yüz+A3sg:+Loc:de",
+  "yüzde_Noun|Noun:yüzde+A3sg:",
+  "yüz_Num_Card|Num:yüz+Zero:+Noun:+A3sg:+Loc:de"
+ ],
+ "bin": [
+  "bin_Num_Card|Num:bin",
+  "binmek_Verb|Verb:bin+Imp:+A2sg:"
+ ],
+ "milyon": [
+  "milyon_Num_Card|Num:milyon"
+ ],
+ "ilk": [
+  "ilk_Adj|Adj:ilk",
+  "ilk_Adv|Adv:ilk",
+  "ilk_Noun|Noun:ilk+A3sg:"
+ ],
+ "son": [
+  "son_Adj|Adj:son",
+  "son_Num|Num:son",
+  "son_Noun|Noun:son+A3sg:"
+ ],
+ "yeni": [
+  "yeni_Adj|Adj:yeni",
+  "yeni_Adv|Adv:yeni",
+  "yen_Noun|Noun:yen+A3sg:+Acc:i",
+  "yen_Noun|Noun:yen+A3sg:+P3sg:i"
+ ],
+ "eski": [
+  "eski_Adj|Adj:eski",
+  "eskimek_Verb|Verb:eski+Imp:+A2sg:",
+  "eski_Noun|Noun:eski+A3sg:"
+ ],
+ "büyük": [
+  "büyük_Adj|Adj:büyük",
+  "Büyük_Noun_Prop|Noun:büyük+A3sg:",
+  "büyük_Noun|Noun:büyük+A3sg:"
+ ],
+ "küçük": [
+  "küçük_Adj|Adj:küçük",
+  "Küçük_Noun_Prop|Noun:küçük+A3sg:",
+  "küçük_Noun|Noun:küçük+A3sg:"
+ ],
+ "güzel": [
+  "güzel_Adj|Adj:güzel",
+  "güzel_Adv|Adv:güzel",
+  "güzel_Noun|Noun:güzel+A3sg:"
+ ],
+ "iyi": [
+  "iyi_Adj|Adj:iyi",
+  "iyi_Adv|Adv:iyi",
+  "iyi_Noun|Noun:iyi+A3sg:"
+ ],
+ "kötü": [
+  "kötü_Adj|Adj:kötü",
+  "kötü_Adv|Adv:kötü"
+ ],
+ "uzun": [
+  "uzun_Adj|Adj:uzun",
+  "uzun_Adv|Adv:uzun",
+  "Uz_Noun_Prop|Noun:uz+A3sg:+Gen:un",
+  "Uz_Noun_Prop|Noun:uz+A3sg:+P2sg:un",
+  "uz_Adj|Adj:uz+Zero:+Noun:+A3sg:+Gen:un",
+  "uz_Adj|Adj:uz+Zero:+Noun:+A3sg:+P2sg:un"
+ ],
+ "kısa": [
+  "kısa_Adj|Adj:kısa",
+  "kısa_Adv|Adv:kısa",
+  "kısmak_Verb|Verb:kıs+Opt:a+A3sg:",
+  "kısa_Noun|Noun:kısa+A3sg:"
+ ],
+ "genç": [
+  "genç_Adj|Adj:genç",
+  "Genç_Noun_Prop|Noun:genç+A3sg:",
+  "genç_Noun|Noun:genç+A3sg:"
+ ],
+ "yaşlı": [
+  "yaş_Noun|Noun:yaş+A3sg:+With:lı+Adj:",
+  "yaş_Adj|Adj:yaş+Zero:+Noun:+A3sg:+With:lı+Adj:"
+ ],
+ "sıcak": [
+  "sıcak_Adj|Adj:sıcak",
+  "sıcak_Noun|Noun:sıcak+A3sg:"
+ ],
+ "soğuk": [
+  "soğuk_Adj|Adj:soğuk",
+  "soğuk_Adv|Adv:soğuk",
+  "soğuk_Noun|Noun:soğuk+A3sg:"
+ ],
+ "kara": [
+  "kara_Adj|Adj:kara",
+  "karmak_Verb|Verb:kar+Opt:a+A3sg:",
+  "karamak_Verb|Verb:kara+Imp:+A2sg:",
+  "kar_Noun|Noun:kar+A3sg:+Dat:a",
+  "kâr_Noun|Noun:kar+A3sg:+Dat:a",
+  "kara_Noun|Noun:kara+A3sg:"
+ ],
+ "ak": [
+  "ak_Adj|Adj:ak",
+  "akmak_Verb|Verb:ak+Imp:+A2sg:",
+  "Ak_Noun_Abbrv|Noun:ak+A3sg:",
+  "ak_Noun|Noun:ak+A3sg:"
+ ],
+ "kırmızı": [
+  "kırmızı_Adj|Adj:kırmızı",
+  "Kırmız_Noun_Prop|Noun:kırmız+A3sg:+Acc:ı",
+  "Kırmız_Noun_Prop|Noun:kırmız+A3sg:+P3sg:ı",
+  "kırmız_Noun|Noun:kırmız+A3sg:+Acc:ı",
+  "kırmız_Noun|Noun:kırmız+A3sg:+P3sg:ı",
+  "kırmızı_Noun|Noun:kırmızı+A3sg:"
+ ],
+ "mavi": [
+  "mavi_Adj|Adj:mavi",
+  "mavi_Noun|Noun:mavi+A3sg:"
+ ],
+ "yeşil": [
+  "yeşil_Adj|Adj:yeşil",
+  "yeşil_Noun|Noun:yeşil+A3sg:"
+ ],
+ "sarı": [
+  "sarı_Adj|Adj:sarı",
+  "sarı_Noun|Noun:sarı+A3sg:"
+ ],
+ "siyah": [
+  "siyah_Adj|Adj:siyah",
+  "siyah_Noun|Noun:siyah+A3sg:"
+ ],
+ "beyaz": [
+  "beyaz_Adj|Adj:beyaz",
+  "beyaz_Noun|Noun:beyaz+A3sg:"
+ ],
+ "ev": [
+  "ev_Noun|Noun:ev+A3sg:"
+ ],
+ "evde": [
+  "ev_Noun|Noun:ev+A3sg:+Loc:de"
+ ],
+ "evden": [
+  "ev_Noun|Noun:ev+A3sg:+Abl:den"
+ ],
+ "eve": [
+  "ev_Noun|Noun:ev+A3sg:+Dat:e"
+ ],
+ "evler": [
+  "ev_Noun|Noun:ev+A3pl:ler",
+  "ev_Noun|Noun:ev+A3sg:+Zero:+Verb:+Pres:+A3pl:ler"
+ ],
+ "evlerimiz": [
+  "ev_Noun|Noun:ev+A3pl:ler+P1pl:imiz"
+ ],
+ "kitap": [
+  "Kitap_Noun_Prop|Noun:kitap+A3sg:",
+  "kitap_Noun|Noun:kitap+A3sg:"
+ ],
+ "kitabı": [
+  "Kitab_Noun_Prop|Noun:kitab+A3sg:+Acc:ı",
+  "Kitab_Noun_Prop|Noun:kitab+A3sg:+P3sg:ı",
+  "kitap_Noun|Noun:kitab+A3sg:+Acc:ı",
+  "kitap_Noun|Noun:kitab+A3sg:+P3sg:ı"
+ ],
+ "kitaplar": [
+  "Kitap_Noun_Prop|Noun:kitap+A3pl:lar",
+  "kitap_Noun|Noun:kitap+A3pl:lar",
+  "Kitap_Noun_Prop|Noun:kitap+A3sg:+Zero:+Verb:+Pres:+A3pl:lar",
+  "kitap_Noun|Noun:kitap+A3sg:+Zero:+Verb:+Pres:+A3pl:lar"
+ ],
+ "kitaplarımızdan": [
+  "Kitap_Noun_Prop|Noun:kitap+A3pl:lar+P1pl:ımız+Abl:dan",
+  "kitap_Noun|Noun:kitap+A3pl:lar+P1pl:ımız+Abl:dan"
+ ],
+ "okul": [
+  "okul_Noun|Noun:okul+A3sg:"
+ ],
+ "okula": [
+  "okul_Noun|Noun:okul+A3sg:+Dat:a"
+ ],
+ "okulda": [
+  "okul_Noun|Noun:okul+A3sg:+Loc:da"
+ ],
+ "öğretmen": [
+  "öğretmen_Noun|Noun:öğretmen+A3sg:",
+  "öğretmek_Verb|Verb:öğret+Inf2:me+Noun:+A3sg:+P2sg:n"
+ ],
+ "öğretmenler": [
+  "öğretmen_Noun|Noun:öğretmen+A3pl:ler",
+  "öğretmen_Noun|Noun:öğretmen+A3sg:+Zero:+Verb:+Pres:+A3pl:ler"
+ ],
+ "öğrenci": [
+  "öğrenci_Noun|Noun:öğrenci+A3sg:"
+ ],
+ "öğrenciler": [
+  "öğrenci_Noun|Noun:öğrenci+A3pl:ler",
+  "öğrenci_Noun|Noun:öğrenci+A3sg:+Zero:+Verb:+Pres:+A3pl:ler"
+ ],
+ "çocuk": [
+  "çocuk_Adj|Adj:çocuk",
+  "Çocuk_Noun_Prop|Noun:çocuk+A3sg:",
+  "çocuk_Noun|Noun:çocuk+A3sg:"
+ ],
+ "çocuklar": [
+  "Çocuk_Noun_Prop|Noun:çocuk+A3pl:lar",
+  "çocuk_Noun|Noun:çocuk+A3pl:lar",
+  "çocuk_Adj|Adj:çocuk+Zero:+Verb:+Pres:+A3pl:lar",
+  "çocuk_Adj|Adj:çocuk+Zero:+Noun:+A3pl:lar",
+  "Çocuk_Noun_Prop|Noun:çocuk+A3sg:+Zero:+Verb:+Pres:+A3pl:lar",
+  "çocuk_Noun|Noun:çocuk+A3sg:+Zero:+Verb:+Pres:+A3pl:lar"
+ ],
+ "çocuğu": [
+  "çocuk_Noun|Noun:çocuğ+A3sg:+Acc:u",
+  "çocuk_Noun|Noun:çocuğ+A3sg:+P3sg:u"
+ ],
+ "anne": [
+  "Anne_Noun_Prop|Noun:anne+A3sg:",
+  "anne_Noun|Noun:anne+A3sg:"
+ ],
+ "annesi": [
+  "Anne_Noun_Prop|Noun:anne+A3sg:+P3sg:si",
+  "anne_Noun|Noun:anne+A3sg:+P3sg:si"
+ ],
+ "baba": [
+  "baba_Adj|Adj:baba",
+  "bap_Noun|Noun:bab+A3sg:+Dat:a",
+  "baba_Noun|Noun:baba+A3sg:"
+ ],
+ "babası": [
+  "baba_Noun|Noun:baba+A3sg:+P3sg:sı",
+  "baba_Adj|Adj:baba+Zero:+Noun:+A3sg:+P3sg:sı"
+ ],
+ "kardeş": [
+  "kardeş_Adj|Adj:kardeş",
+  "kardeş_Interj|Interj:kardeş",
+  "kardeş_Noun|Noun:kardeş+A3sg:"
+ ],
+ "arkadaş": [
+  "arkadaş_Noun|Noun:arkadaş+A3sg:"
+ ],
+ "arkadaşlar": [
+  "arkadaş_Noun|Noun:arkadaş+A3pl:lar",
+  "arkadaş_Noun|Noun:arkadaş+A3sg:+Zero:+Verb:+Pres:+A3pl:lar"
+ ],
+ "insan": [
+  "insan_Adj|Adj:insan",
+  "İnsa_Noun_Prop|Noun:insa+A3sg:+P2sg:n",
+  "insan_Noun|Noun:insan+A3sg:"
+ ],
+ "insanlar": [
+  "insan_Noun|Noun:insan+A3pl:lar",
+  "insan_Adj|Adj:insan+Zero:+Verb:+Pres:+A3pl:lar",
+  "insan_Adj|Adj:insan+Zero:+Noun:+A3pl:lar",
+  "İnsa_Noun_Prop|Noun:insa+A3sg:+P2sg:n+Zero:+Verb:+Pres:+A3pl:lar",
+  "insan_Noun|Noun:insan+A3sg:+Zero:+Verb:+Pres:+A3pl:lar"
+ ],
+ "dünya": [
+  "Dünya_Noun_Prop|Noun:dünya+A3sg:",
+  "dünya_Noun|Noun:dünya+A3sg:"
+ ],
+ "dünyada": [
+  "dünyada_Adv|Adv:dünyada",
+  "Dünya_Noun_Prop|Noun:dünya+A3sg:+Loc:da",
+  "dünya_Noun|Noun:dünya+A3sg:+Loc:da"
+ ],
+ "ülke": [
+  "Ülke_Noun_Prop|Noun:ülke+A3sg:",
+  "ülke_Noun|Noun:ülke+A3sg:"
+ ],
+ "ülkeler": [
+  "Ülke_Noun_Prop|Noun:ülke+A3pl:ler",
+  "ülke_Noun|Noun:ülke+A3pl:ler",
+  "Ülke_Noun_Prop|Noun:ülke+A3sg:+Zero:+Verb:+Pres:+A3pl:ler",
+  "ülke_Noun|Noun:ülke+A3sg:+Zero:+Verb:+Pres:+A3pl:ler"
+ ],
+ "şehir": [
+  "şehir_Noun|Noun:şehir+A3sg:"
+ ],
+ "şehre": [
+  "şehir_Noun|Noun:şehr+A3sg:+Dat:e"
+ ],
+ "şehirde": [
+  "şehir_Noun|Noun:şehir+A3sg:+Loc:de"
+ ],
+ "köy": [
+  "köy_Noun|Noun:köy+A3sg:"
+ ],
+ "köyde": [
+  "köy_Noun|Noun:köy+A3sg:+Loc:de"
+ ],
+ "deniz": [
+  "de_Noun|Noun:de+A3sg:+P2pl:niz",
+  "deniz_Noun|Noun:deniz+A3sg:",
+  "de_Noun|Noun:de+A3sg:+P2sg:n+Zero:+Verb:+Pres:+A1pl:iz"
+ ],
+ "denize": [
+  "de_Noun|Noun:de+A3sg:+P2pl:niz+Dat:e",
+  "deniz_Noun|Noun:deniz+A3sg:+Dat:e"
+ ],
+ "dağ": [
+  "dağ_Noun|Noun:dağ+A3sg:"
+ ],
+ "dağlar": [
+  "dağlamak_Verb|Verb:dağla+Aor:r+A3sg:",
+  "dağlamak_Verb|Verb:dağla+AorPart:r+Adj:",
+  "dağ_Noun|Noun:dağ+A3pl:lar",
+  "dağ_Noun|Noun:dağ+A3sg:+Zero:+Verb:+Pres:+A3pl:lar"
+ ],
+ "yol": [
+  "yolmak_Verb|Verb:yol+Imp:+A2sg:",
+  "yol_Noun|Noun:yol+A3sg:"
+ ],
+ "yollar": [
+  "yollamak_Verb|Verb:yolla+Aor:r+A3sg:",
+  "yollamak_Verb|Verb:yolla+AorPart:r+Adj:",
+  "yol_Noun|Noun:yol+A3pl:lar",
+  "yol_Noun|Noun:yol+A3sg:+Zero:+Verb:+Pres:+A3pl:lar"
+ ],
+ "su": [
+  "su_Noun|Noun:su+A3sg:"
+ ],
+ "suyu": [
+  "su_Noun|Noun:su+A3sg:+Acc:yu",
+  "su_Noun|Noun:su+A3sg:+P3sg:yu"
+ ],
+ "ekmek": [
+  "Ekmek_Noun_Prop|Noun:ekmek+A3sg:",
+  "ekmek_Noun|Noun:ekmek+A3sg:",
+  "ekmek_Verb|Verb:ek+Inf1:mek+Noun:+A3sg:"
+ ],
+ "ekmeği": [
+  "ekmek_Noun|Noun:ekmeğ+A3sg:+Acc:i",
+  "ekmek_Noun|Noun:ekmeğ+A3sg:+P3sg:i"
+ ],
+ "çay": [
+  "Çay_Noun_Prop|Noun:çay+A3sg:",
+  "çay_Noun|Noun:çay+A3sg:"
+ ],
+ "kahve": [
+  "kahve_Noun|Noun:kahve+A3sg:"
+ ],
+ "zaman": [
+  "zaman_Noun_Time|Noun:zaman+A3sg:"
+ ],
+ "zamanı": [
+  "zaman_Noun_Time|Noun:zaman+A3sg:+Acc:ı",
+  "zaman_Noun_Time|Noun:zaman+A3sg:+P3sg:ı"
+ ],
+ "gün": [
+  "gün_Noun_Time|Noun:gün+A3sg:"
+ ],
+ "günler": [
+  "günlemek_Verb|Verb:günle+Aor:r+A3sg:",
+  "günlemek_Verb|Verb:günle+AorPart:r+Adj:",
+  "gün_Noun_Time|Noun:gün+A3pl:ler",
+  "gün_Noun_Time|Noun:gün+A3sg:+Zero:+Verb:+Pres:+A3pl:ler"
+ ],
+ "günlerimizde": [
+  "gün_Noun_Time|Noun:gün+A3pl:ler+P1pl:imiz+Loc:de"
+ ],
+ "yıl": [
+  "yılmak_Verb|Verb:yıl+Imp:+A2sg:",
+  "yıl_Noun_Time|Noun:yıl+A3sg:"
+ ],
+ "yıllar": [
+  "yıllamak_Verb|Verb:yılla+Aor:r+A3sg:",
+  "yıllamak_Verb|Verb:yılla+AorPart:r+Adj:",
+  "yıl_Noun_Time|Noun:yıl+A3pl:lar",
+  "yıl_Noun_Time|Noun:yıl+A3sg:+Zero:+Verb:+Pres:+A3pl:lar"
+ ],
+ "yıldır": [
+  "Yıldır_Noun_Prop|Noun:yıldır+A3sg:",
+  "yılmak_Verb|Verb:yıl+Caus:dır+Verb:+Imp:+A2sg:",
+  "yıl_Noun_Time|Noun:yıl+A3sg:+Zero:+Verb:+Pres:+A3sg:+Cop:dır"
+ ],
+ "ay": [
+  "ay_Interj|Interj:ay",
+  "aymak_Verb|Verb:ay+Imp:+A2sg:",
+  "Ay_Noun_Prop|Noun:ay+A3sg:",
+  "ay_Noun|Noun:ay+A3sg:",
+  "ay_Noun_Time_1|Noun:ay+A3sg:"
+ ],
+ "aylar": [
+  "aylamak_Verb|Verb:ayla+Aor:r+A3sg:",
+  "aylamak_Verb|Verb:ayla+AorPart:r+Adj:",
+  "Ay_Noun_Prop|Noun:ay+A3pl:lar",
+  "ay_Noun|Noun:ay+A3pl:lar",
+  "ay_Noun_Time_1|Noun:ay+A3pl:lar",
+  "Ay_Noun_Prop|Noun:ay+A3sg:+Zero:+Verb:+Pres:+A3pl:lar",
+  "ay_Noun|Noun:ay+A3sg:+Zero:+Verb:+Pres:+A3pl:lar",
+  "ay_Noun_Time_1|Noun:ay+A3sg:+Zero:+Verb:+Pres:+A3pl:lar"
+ ],
+ "hafta": [
+  "hafta_Adv_Time|Adv:hafta",
+  "haf_Noun|Noun:haf+A3sg:+Loc:ta",
+  "hafta_Noun_Time|Noun:hafta+A3sg:"
+ ],
+ "saat": [
+  "saat_Noun|Noun:saat+A3sg:"
+ ],
+ "dakika": [
+  "dakika_Adv|Adv:dakika",
+  "dakika_Noun|Noun:dakika+A3sg:"
+ ],
+ "sabah": [
+  "sabah_Adv|Adv:sabah",
+  "Sabah_Noun_Prop|Noun:sabah+A3sg:",
+  "sabah_Noun_Time|Noun:sabah+A3sg:"
+ ],
+ "akşam": [
+  "akşam_Noun_Time|Noun:akşam+A3sg:"
+ ],
+ "gece": [
+  "gece_Adv|Adv:gece",
+  "Ge_Noun_Abbrv|Noun:ge+A3sg:+Equ:ce",
+  "ge_Noun|Noun:ge+A3sg:+Equ:ce",
+  "gece_Noun_Time|Noun:gece+A3sg:"
+ ],
+ "hayat": [
+  "hayat_Noun|Noun:hayat+A3sg:"
+ ],
+ "hayatı": [
+  "hayat_Noun|Noun:hayat+A3sg:+Acc:ı",
+  "hayat_Noun|Noun:hayat+A3sg:+P3sg:ı"
+ ],
+ "hayatımızın": [
+  "hayat_Noun|Noun:hayat+A3sg:+P1pl:ımız+Gen:ın"
+ ],
+ "iş": [
+  "iş_Noun|Noun:iş+A3sg:"
+ ],
+ "işler": [
+  "işlemek_Verb|Verb:işle+Aor:r+A3sg:",
+  "işlemek_Verb|Verb:işle+AorPart:r+Adj:",
+  "iş_Noun|Noun:iş+A3pl:ler",
+  "iş_Noun|Noun:iş+A3sg:+Zero:+Verb:+Pres:+A3pl:ler"
+ ],
+ "işçi": [
+  "işçi_Noun|Noun:işçi+A3sg:",
+  "iş_Noun|Noun:iş+A3sg:+Agt:çi+Noun:+A3sg:"
+ ],
+ "para": [
+  "par_Noun|Noun:par+A3sg:+Dat:a",
+  "para_Noun|Noun:para+A3sg:"
+ ],
+ "parası": [
+  "para_Noun|Noun:para+A3sg:+P3sg:sı"
+ ],
+ "el": [
+  "el_Noun|Noun:el+A3sg:"
+ ],
+ "eller": [
+  "ellemek_Verb|Verb:elle+Aor:r+A3sg:",
+  "ellemek_Verb|Verb:elle+AorPart:r+Adj:",
+  "el_Noun|Noun:el+A3pl:ler",
+  "el_Noun|Noun:el+A3sg:+Zero:+Verb:+Pres:+A3pl:ler"
+ ],
+ "göz": [
+  "göz_Noun|Noun:göz+A3sg:"
+ ],
+ "gözler": [
+  "gözlemek_Verb|Verb:gözle+Aor:r+A3sg:",
+  "gözlemek_Verb|Verb:gözle+AorPart:r+Adj:",
+  "göz_Noun|Noun:göz+A3pl:ler",
+  "göz_Noun|Noun:göz+A3sg:+Zero:+Verb:+Pres:+A3pl:ler"
+ ],
+ "gözlüğü": [
+  "gözlük_Noun|Noun:gözlüğ+A3sg:+Acc:ü",
+  "gözlük_Noun|Noun:gözlüğ+A3sg:+P3sg:ü",
+  "göz_Noun|Noun:göz+A3sg:+Ness:lüğ+Noun:+A3sg:+Acc:ü",
+  "göz_Noun|Noun:göz+A3sg:+Ness:lüğ+Noun:+A3sg:+P3sg:ü"
+ ],
+ "baş": [
+  "baş_Noun|Noun:baş+A3sg:"
+ ],
+ "başı": [
+  "baş_Noun|Noun:baş+A3sg:+Acc:ı",
+  "baş_Noun|Noun:baş+A3sg:+P3sg:ı"
+ ],
+ "kalp": [
+  "kalp_Adj|Adj:kalp",
+  "kalp_Noun|Noun:kalp+A3sg:",
+  "kalp_Noun_1|Noun:kalp+A3sg:"
+ ],
+ "kalbi": [
+  "kalbî_Adj|Adj:kalbi",
+  "kalp_Noun|Noun:kalb+A3sg:+Acc:i",
+  "kalp_Noun|Noun:kalb+A3sg:+P3sg:i"
+ ],
+ "söz": [
+  "söz_Noun|Noun:söz+A3sg:"
+ ],
+ "sözler": [
+  "söz_Noun|Noun:söz+A3pl:ler",
+  "söz_Noun|Noun:söz+A3sg:+Zero:+Verb:+Pres:+A3pl:ler"
+ ],
+ "dil": [
+  "dilmek_Verb|Verb:dil+Imp:+A2sg:",
+  "dil_Noun|Noun:dil+A3sg:"
+ ],
+ "diller": [
+  "dil_Noun|Noun:dil+A3pl:ler",
+  "dil_Noun|Noun:dil+A3sg:+Zero:+Verb:+Pres:+A3pl:ler"
+ ],
+ "kelime": [
+  "Kelim_Noun_Prop|Noun:kelim+A3sg:+Dat:e",
+  "kelime_Noun|Noun:kelime+A3sg:",
+  "kel_Adj|Adj:kel+Zero:+Noun:+A3sg:+P1sg:im+Dat:e"
+ ],
+ "cümle": [
+  "cümle_Adj|Adj:cümle",
+  "cümle_Noun|Noun:cümle+A3sg:"
+ ],
+ "metin": [
+  "metîn_Adj|Adj:metin",
+  "metin_Noun|Noun:metin+A3sg:",
+  "metîn_Noun|Noun:metin+A3sg:"
+ ],
+ "metni": [
+  "metin_Noun|Noun:metn+A3sg:+Acc:i",
+  "metin_Noun|Noun:metn+A3sg:+P3sg:i"
+ ],
+ "soru": [
+  "sorumak_Verb|Verb:soru+Imp:+A2sg:",
+  "soru_Noun|Noun:soru+A3sg:"
+ ],
+ "sorular": [
+  "soru_Noun|Noun:soru+A3pl:lar",
+  "soru_Noun|Noun:soru+A3sg:+Zero:+Verb:+Pres:+A3pl:lar"
+ ],
+ "cevap": [
+  "cevap_Noun|Noun:cevap+A3sg:"
+ ],
+ "yüzden": [
+  "yüz_Noun|Noun:yüz+A3sg:+Abl:den",
+  "yüzde_Noun|Noun:yüzde+A3sg:+P2sg:n",
+  "yüz_Num_Card|Num:yüz+Zero:+Noun:+A3sg:+Abl:den"
+ ],
+ "dolayı": [
+  "dolayı_Postp_PCAbl|Postp:dolayı",
+  "dolay_Noun|Noun:dolay+A3sg:+Acc:ı",
+  "dolay_Noun|Noun:dolay+A3sg:+P3sg:ı"
+ ],
+ "rağmen": [
+  "rağmen_Postp_PCDat|Postp:rağmen"
+ ],
+ "karşı": [
+  "karşı_Adj|Adj:karşı",
+  "karşı_Adv|Adv:karşı",
+  "karşı_Postp_PCDat|Postp:karşı",
+  "karşı_Noun|Noun:karşı+A3sg:",
+  "karşı_Noun|Noun:karşı+A3sg:+Dat:"
+ ],
+ "doğru": [
+  "doğru_Adj|Adj:doğru",
+  "doğru_Postp_PCDat|Postp:doğru",
+  "doğru_Noun|Noun:doğru+A3sg:"
+ ],
+ "yanlış": [
+  "yanlış_Adj|Adj:yanlış",
+  "yanlış_Adv|Adv:yanlış",
+  "yanlış_Noun|Noun:yanlış+A3sg:"
+ ],
+ "evet": [
+  "evet_Adv|Adv:evet",
+  "evet_Interj|Interj:evet"
+ ],
+ "hayır": [
+  "hayır_Adj|Adj:hayır",
+  "hayır_Adv|Adv:hayır",
+  "hayır_Interj|Interj:hayır",
+  "hayır_Noun|Noun:hayır+A3sg:"
+ ],
+ "belki": [
+  "belki_Adv|Adv:belki",
+  "belki_Conj|Conj:belki",
+  "Belki_Noun_Prop|Noun:belki+A3sg:"
+ ],
+ "bile": [
+  "bile_Adv|Adv:bile",
+  "bile_Conj|Conj:bile",
+  "bilmek_Verb|Verb:bil+Opt:e+A3sg:",
+  "bilemek_Verb|Verb:bile+Imp:+A2sg:"
+ ],
+ "da": [
+  "da_Conj|Conj:da"
+ ],
+ "de": [
+  "de_Conj|Conj:de",
+  "demek_Verb|Verb:de+Imp:+A2sg:",
+  "de_Noun|Noun:de+A3sg:"
+ ],
+ "ki": [
+  "ki_Conj|Conj:ki"
+ ],
+ "mi": [
+  "mi_Ques|Ques:mi+Pres:+A3sg:",
+  "Mi_Noun_Abbrv|Noun:mi+A3sg:",
+  "mi_Noun|Noun:mi+A3sg:"
+ ],
+ "mı": [
+  "mı_Ques|Ques:mı+Pres:+A3sg:"
+ ],
+ "mu": [
+  "mu_Ques|Ques:mu+Pres:+A3sg:",
+  "Mu_Noun_Abbrv|Noun:mu+A3sg:"
+ ],
+ "mü": [
+  "mü_Ques|Ques:mü+Pres:+A3sg:"
+ ],
+ "çünkü": [
+  "çünkü_Conj|Conj:çünkü",
+  "Çünk_Noun_Prop|Noun:çünk+A3sg:+Acc:ü",
+  "Çünk_Noun_Prop|Noun:çünk+A3sg:+P3sg:ü"
+ ],
+ "fakat": [
+  "fakat_Conj|Conj:fakat"
+ ],
+ "ancak": [
+  "ancak_Adv|Adv:ancak",
+  "ancak_Conj|Conj:ancak"
+ ],
+ "veya": [
+  "veya_Conj|Conj:veya"
+ ],
+ "ya": [
+  "ya_Conj|Conj:ya",
+  "ya_Interj|Interj:ya"
+ ],
+ "yahut": [
+  "yahut_Conj|Conj:yahut"
+ ],
+ "hem": [
+  "hem_Adv|Adv:hem",
+  "hem_Conj|Conj:hem"
+ ],
+ "ne": [
+  "ne_Adj|Adj:ne",
+  "ne_Adv|Adv:ne",
+  "ne_Conj|Conj:ne",
+  "ne_Interj|Interj:ne",
+  "Ne_Noun_Abbrv|Noun:ne+A3sg:",
+  "ne_Noun|Noun:ne+A3sg:",
+  "ne_Pron_Ques|Pron:ne+A3sg:"
+ ],
+ "nasıl": [
+  "nasıl_Adj|Adj:nasıl",
+  "nasıl_Adv|Adv:nasıl"
+ ],
+ "neden": [
+  "neden_Adv|Adv:neden",
+  "Ne_Noun_Abbrv|Noun:ne+A3sg:+Abl:den",
+  "ne_Noun|Noun:ne+A3sg:+Abl:den",
+  "ne_Pron_Ques|Pron:ne+A3sg:+Abl:den",
+  "neden_Noun|Noun:neden+A3sg:",
+  "ne_Adj|Adj:ne+Zero:+Noun:+A3sg:+Abl:den"
+ ],
+ "niçin": [
+  "niçin_Adv|Adv:niçin"
+ ],
+ "nerede": [
+  "nerede_Adv|Adv:nerede",
+  "nerede_Interj|Interj:nerede",
+  "nere_Pron_Ques|Pron:nere+A3sg:+Loc:de"
+ ],
+ "kim": [
+  "kim_Conj|Conj:kim",
+  "kim_Pron_Ques|Pron:kim+A3sg:"
+ ],
+ "kimse": [
+  "kimse_Noun|Noun:kimse+A3sg:",
+  "kimse_Pron_Quant|Pron:kimse+A3sg:",
+  "kim_Pron_Ques|Pron:kim+A3sg:+Zero:+Verb:+Cond:se+A3sg:"
+ ],
+ "hepsi": [
+  "hepsi_Pron_Quant|Pron:hepsi+A3pl:+P3pl:"
+ ],
+ "herkes": [
+  "herkes_Pron_Quant|Pron:herkes+A3pl:"
+ ],
+ "bazen": [
+  "bazen_Adv|Adv:bazen"
+ ],
+ "sık": [
+  "sık_Adj|Adj:sık",
+  "sık_Adv|Adv:sık",
+  "sıkmak_Verb|Verb:sık+Imp:+A2sg:"
+ ],
+ "sıklıkla": [],
+ "tekrar": [
+  "tekrar_Adv|Adv:tekrar",
+  "tekrar_Noun|Noun:tekrar+A3sg:"
+ ],
+ "yine": [
+  "yine_Adv|Adv:yine"
+ ],
+ "hemen": [
+  "hemen_Adj|Adj:hemen",
+  "hemen_Adv|Adv:hemen"
+ ],
+ "artan": [
+  "artmak_Verb|Verb:art+PresPart:an+Adj:",
+  "Artan_Noun_Prop|Noun:artan+A3sg:"
+ ],
+ "alan": [
+  "almak_Verb|Verb:al+PresPart:an+Adj:",
+  "ala_Noun|Noun:ala+A3sg:+P2sg:n",
+  "alan_Noun|Noun:alan+A3sg:",
+  "ala_Adj|Adj:ala+Zero:+Noun:+A3sg:+P2sg:n",
+  "âlâ_Adj|Adj:ala+Zero:+Noun:+A3sg:+P2sg:n",
+  "A_Noun_Abbrv|Noun:a+A3sg:+Acquire:lan+Verb:+Imp:+A2sg:"
+ ],
+ "almak": [
+  "almak_Verb|Verb:al+Inf1:mak+Noun:+A3sg:"
+ ],
+ "aldı": [
+  "almak_Verb|Verb:al+Past:dı+A3sg:",
+  "al_Adj|Adj:al+Zero:+Verb:+Past:dı+A3sg:",
+  "Al_Noun_Prop|Noun:al+A3sg:+Zero:+Verb:+Past:dı+A3sg:",
+  "al_Noun|Noun:al+A3sg:+Zero:+Verb:+Past:dı+A3sg:"
+ ],
+ "alır": [
+  "almak_Verb|Verb:al+Aor:ır+A3sg:",
+  "almak_Verb|Verb:al+AorPart:ır+Adj:"
+ ],
+ "verir": [
+  "vermek_Verb|Verb:ver+Aor:ir+A3sg:",
+  "vermek_Verb|Verb:ver+AorPart:ir+Adj:"
+ ],
+ "verdi": [
+  "vermek_Verb|Verb:ver+Past:di+A3sg:",
+  "Verdi_Noun_Prop|Noun:verdi+A3sg:",
+  "verdi_Noun|Noun:verdi+A3sg:"
+ ],
+ "vermek": [
+  "vermek_Verb|Verb:ver+Inf1:mek+Noun:+A3sg:"
+ ],
+ "görmek": [
+  "görmek_Verb|Verb:gör+Inf1:mek+Noun:+A3sg:"
+ ],
+ "gördü": [
+  "görmek_Verb|Verb:gör+Past:dü+A3sg:"
+ ],
+ "görür": [
+  "görmek_Verb|Verb:gör+Aor:ür+A3sg:",
+  "görmek_Verb|Verb:gör+AorPart:ür+Adj:",
+  "Görür_Noun_Prop|Noun:görür+A3sg:"
+ ],
+ "bakmak": [
+  "bakmak_Verb|Verb:bak+Inf1:mak+Noun:+A3sg:"
+ ],
+ "baktı": [
+  "bakmak_Verb|Verb:bak+Past:tı+A3sg:"
+ ],
+ "bakar": [
+  "bakmak_Verb|Verb:bak+Aor:ar+A3sg:",
+  "bakmak_Verb|Verb:bak+AorPart:ar+Adj:"
+ ],
+ "konuşmak": [
+  "konuşmak_Verb|Verb:konuş+Inf1:mak+Noun:+A3sg:"
+ ],
+ "konuştu": [
+  "konuşmak_Verb|Verb:konuş+Past:tu+A3sg:",
+  "konmak_Verb|Verb:kon+Inf3:uş+Noun:+A3sg:+Zero:+Verb:+Past:tu+A3sg:"
+ ],
+ "konuşur": [
+  "konuşmak_Verb|Verb:konuş+Aor:ur+A3sg:",
+  "konuşmak_Verb|Verb:konuş+AorPart:ur+Adj:"
+ ],
+ "düşünmek": [
+  "düşünmek_Verb|Verb:düşün+Inf1:mek+Noun:+A3sg:"
+ ],
+ "düşündü": [
+  "düşünmek_Verb|Verb:düşün+Past:dü+A3sg:",
+  "düş_Noun|Noun:düş+A3sg:+Gen:ün+Zero:+Verb:+Past:dü+A3sg:",
+  "düş_Noun|Noun:düş+A3sg:+P2sg:ün+Zero:+Verb:+Past:dü+A3sg:",
+  "düşün_Noun|Noun:düşün+A3sg:+Zero:+Verb:+Past:dü+A3sg:"
+ ],
+ "düşünür": [
+  "düşünmek_Verb|Verb:düşün+Aor:ür+A3sg:",
+  "düşünmek_Verb|Verb:düşün+AorPart:ür+Adj:",
+  "düşünür_Noun|Noun:düşünür+A3sg:"
+ ],
+ "düşündüğümüz": [
+  "düşünmek_Verb|Verb:düşün+PastPart:düğ+Adj:+P1pl:ümüz",
+  "düşünmek_Verb|Verb:düşün+PastPart:düğ+Noun:+A3sg:+P1pl:ümüz"
+ ],
+ "anlatmak": [
+  "anlatmak_Verb|Verb:anlat+Inf1:mak+Noun:+A3sg:",
+  "anlamak_Verb|Verb:anla+Caus:t+Verb:+Inf1:mak+Noun:+A3sg:"
+ ],
+ "anlattı": [
+  "anlatmak_Verb|Verb:anlat+Past:tı+A3sg:",
+  "anlamak_Verb|Verb:anla+Caus:t+Verb:+Past:tı+A3sg:"
+ ],
+ "yapmak": [
+  "yapmak_Verb|Verb:yap+Inf1:mak+Noun:+A3sg:"
+ ],
+ "yaptı": [
+  "yapmak_Verb|Verb:yap+Past:tı+A3sg:"
+ ],
+ "yapar": [
+  "yapmak_Verb|Verb:yap+Aor:ar+A3sg:",
+  "yapmak_Verb|Verb:yap+AorPart:ar+Adj:"
+ ],
+ "yapamazdık": [
+  "yapmak_Verb|Verb:yap+Unable:ama+Aor:z+Past:dı+A1pl:k"
+ ],
+ "etmek": [
+  "etmek_Verb|Verb:et+Inf1:mek+Noun:+A3sg:"
+ ],
+ "etti": [
+  "etmek_Verb|Verb:et+Past:ti+A3sg:",
+  "et_Noun|Noun:et+A3sg:+Zero:+Verb:+Past:ti+A3sg:"
+ ],
+ "eder": [
+  "etmek_Verb|Verb:ed+Aor:er+A3sg:",
+  "etmek_Verb|Verb:ed+AorPart:er+Adj:",
+  "eder_Noun|Noun:eder+A3sg:"
+ ],
+ "edilir": [
+  "etmek_Verb|Verb:ed+Pass:il+Verb:+Aor:ir+A3sg:",
+  "etmek_Verb|Verb:ed+Pass:il+Verb:+AorPart:ir+Adj:"
+ ],
+ "edilmektedir": [
+  "etmek_Verb|Verb:ed+Pass:il+Verb:+Prog2:mekte+A3sg:+Cop:dir",
+  "etmek_Verb|Verb:ed+Pass:il+Verb:+Inf1:mek+Noun:+A3sg:+Loc:te+Zero:+Verb:+Pres:+A3sg:+Cop:dir"
+ ],
+ "kullanmak": [
+  "kullanmak_Verb|Verb:kullan+Inf1:mak+Noun:+A3sg:",
+  "kul_Noun|Noun:kul+A3sg:+Acquire:lan+Verb:+Inf1:mak+Noun:+A3sg:"
+ ],
+ "kullanılır": [
+  "kullanmak_Verb|Verb:kullan+Pass:ıl+Verb:+Aor:ır+A3sg:",
+  "kullanmak_Verb|Verb:kullan+Pass:ıl+Verb:+AorPart:ır+Adj:",
+  "kul_Noun|Noun:kul+A3sg:+Acquire:lan+Verb:+Pass:ıl+Verb:+Aor:ır+A3sg:",
+  "kul_Noun|Noun:kul+A3sg:+Acquire:lan+Verb:+Pass:ıl+Verb:+AorPart:ır+Adj:"
+ ],
+ "kullanılmaktadır": [
+  "kullanmak_Verb|Verb:kullan+Pass:ıl+Verb:+Prog2:makta+A3sg:+Cop:dır",
+  "kul_Noun|Noun:kul+A3sg:+Acquire:lan+Verb:+Pass:ıl+Verb:+Prog2:makta+A3sg:+Cop:dır",
+  "kullanmak_Verb|Verb:kullan+Pass:ıl+Verb:+Inf1:mak+Noun:+A3sg:+Loc:ta+Zero:+Verb:+Pres:+A3sg:+Cop:dır",
+  "kul_Noun|Noun:kul+A3sg:+Acquire:lan+Verb:+Pass:ıl+Verb:+Inf1:mak+Noun:+A3sg:+Loc:ta+Zero:+Verb:+Pres:+A3sg:+Cop:dır"
+ ],
+ "kullanıyoruz": [
+  "kullanmak_Verb|Verb:kullan+Prog1:ıyor+A1pl:uz",
+  "kul_Noun|Noun:kul+A3sg:+Acquire:lan+Verb:+Prog1:ıyor+A1pl:uz"
+ ],
+ "sağlamak": [
+  "sağlamak_Verb|Verb:sağla+Inf1:mak+Noun:+A3sg:"
+ ],
+ "sağlar": [
+  "sağlamak_Verb|Verb:sağla+Aor:r+A3sg:",
+  "sağlamak_Verb|Verb:sağla+AorPart:r+Adj:",
+  "sağ_Noun|Noun:sağ+A3pl:lar",
+  "sağ_Adj|Adj:sağ+Zero:+Verb:+Pres:+A3pl:lar",
+  "sağ_Adj|Adj:sağ+Zero:+Noun:+A3pl:lar",
+  "sağ_Noun|Noun:sağ+A3sg:+Zero:+Verb:+Pres:+A3pl:lar"
+ ],
+ "sağlamaz": [
+  "sağlamak_Verb|Verb:sağla+Neg:ma+Aor:z+A3sg:",
+  "sağlamak_Verb|Verb:sağla+Neg:ma+AorPart:z+Adj:"
+ ],
+ "üretilir": [
+  "üretmek_Verb|Verb:üret+Pass:il+Verb:+Aor:ir+A3sg:",
+  "üretmek_Verb|Verb:üret+Pass:il+Verb:+AorPart:ir+Adj:",
+  "üremek_Verb|Verb:üre+Caus:t+Verb:+Pass:il+Verb:+Aor:ir+A3sg:",
+  "üremek_Verb|Verb:üre+Caus:t+Verb:+Pass:il+Verb:+AorPart:ir+Adj:"
+ ],
+ "yaşamak": [
+  "yaşamak_Verb|Verb:yaşa+Inf1:mak+Noun:+A3sg:"
+ ],
+ "yaşanmaz": [
+  "yaşamak_Verb|Verb:yaşa+Pass:n+Verb:+Neg:ma+Aor:z+A3sg:",
+  "yaşamak_Verb|Verb:yaşa+Pass:n+Verb:+Neg:ma+AorPart:z+Adj:"
+ ],
+ "koşmak": [
+  "koşmak_Verb|Verb:koş+Inf1:mak+Noun:+A3sg:"
+ ],
+ "koşma": [
+  "koşmak_Verb|Verb:koş+Neg:ma+Imp:+A2sg:",
+  "koşmak_Verb|Verb:koş+Inf2:ma+Noun:+A3sg:"
+ ],
+ "kovma": [
+  "kovmak_Verb|Verb:kov+Neg:ma+Imp:+A2sg:",
+  "kovmak_Verb|Verb:kov+Inf2:ma+Noun:+A3sg:"
+ ],
+ "yüzmek": [
+  "yüzmek_Verb|Verb:yüz+Inf1:mek+Noun:+A3sg:"
+ ],
+ "yüzer": [
+  "yüzer_Num_Dist|Num:yüzer",
+  "yüzmek_Verb|Verb:yüz+Aor:er+A3sg:",
+  "yüzmek_Verb|Verb:yüz+AorPart:er+Adj:"
+ ],
+ "dokuz": [
+  "dokuz_Num_Card|Num:dokuz",
+  "dok_Noun|Noun:dok+A3sg:+Zero:+Verb:+Pres:+A1pl:uz"
+ ],
+ "dokuma": [
+  "dokuma_Adj|Adj:dokuma",
+  "dok_Noun|Noun:dok+A3sg:+P1sg:um+Dat:a",
+  "doku_Noun|Noun:doku+A3sg:+P1sg:m+Dat:a",
+  "dokumak_Verb|Verb:doku+Neg:ma+Imp:+A2sg:",
+  "dokuma_Noun|Noun:dokuma+A3sg:",
+  "dokumak_Verb|Verb:doku+Inf2:ma+Noun:+A3sg:"
+ ],
+ "kırk": [
+  "kırk_Num_Card|Num:kırk",
+  "kırkmak_Verb|Verb:kırk+Imp:+A2sg:"
+ ],
+ "kırkım": [
+  "kırkı_Noun|Noun:kırkı+A3sg:+P1sg:m",
+  "kırkım_Noun|Noun:kırkım+A3sg:",
+  "kırk_Num_Card|Num:kırk+Zero:+Verb:+Pres:+A1sg:ım",
+  "kırk_Num_Card|Num:kırk+Zero:+Noun:+A3sg:+P1sg:ım",
+  "kırk_Num_Card|Num:kırk+Zero:+Noun:+A3sg:+Zero:+Verb:+Pres:+A1sg:ım"
+ ],
+ "kaz": [
+  "kaz_Adj|Adj:kaz",
+  "kazmak_Verb|Verb:kaz+Imp:+A2sg:",
+  "kaz_Noun|Noun:kaz+A3sg:"
+ ],
+ "kazma": [
+  "kazmak_Verb|Verb:kaz+Neg:ma+Imp:+A2sg:",
+  "kazmak_Verb|Verb:kaz+Inf2:ma+Noun:+A3sg:"
+ ],
+ "kazan": [
+  "kazmak_Verb|Verb:kaz+PresPart:an+Adj:",
+  "kazanmak_Verb|Verb:kazan+Imp:+A2sg:",
+  "Kaza_Noun_Prop|Noun:kaza+A3sg:+P2sg:n",
+  "kaza_Noun|Noun:kaza+A3sg:+P2sg:n",
+  "Kazan_Noun_Prop|Noun:kazan+A3sg:",
+  "kazan_Noun|Noun:kazan+A3sg:"
+ ],
+ "kazanç": [
+  "kazanç_Noun|Noun:kazanç+A3sg:"
+ ],
+ "çalış": [
+  "çalışmak_Verb|Verb:çalış+Imp:+A2sg:",
+  "çalmak_Verb|Verb:çal+Inf3:ış+Noun:+A3sg:"
+ ],
+ "çalışma": [
+  "çalışmak_Verb|Verb:çalış+Neg:ma+Imp:+A2sg:",
+  "çalışmak_Verb|Verb:çalış+Inf2:ma+Noun:+A3sg:"
+ ],
+ "çalışmalar": [
+  "çalışmak_Verb|Verb:çalış+Inf2:ma+Noun:+A3pl:lar"
+ ],
+ "oku": [
+  "okumak_Verb|Verb:oku+Imp:+A2sg:",
+  "ok_Noun|Noun:ok+A3sg:+Acc:u",
+  "ok_Noun|Noun:ok+A3sg:+P3sg:u"
+ ],
+ "okuma": [
+  "ok_Noun|Noun:ok+A3sg:+P1sg:um+Dat:a",
+  "okumak_Verb|Verb:oku+Neg:ma+Imp:+A2sg:",
+  "okumak_Verb|Verb:oku+Inf2:ma+Noun:+A3sg:"
+ ],
+ "okumak": [
+  "okumak_Verb|Verb:oku+Inf1:mak+Noun:+A3sg:"
+ ],
+ "yaz": [
+  "yazmak_Verb|Verb:yaz+Imp:+A2sg:",
+  "yaz_Noun_Time|Noun:yaz+A3sg:"
+ ],
+ "yazma": [
+  "yazma_Adj|Adj:yazma",
+  "yazmak_Verb|Verb:yaz+Neg:ma+Imp:+A2sg:",
+  "yazma_Noun|Noun:yazma+A3sg:",
+  "yazmak_Verb|Verb:yaz+Inf2:ma+Noun:+A3sg:"
+ ],
+ "yazmak": [
+  "yazmak_Verb|Verb:yaz+Inf1:mak+Noun:+A3sg:"
+ ],
+ "gül": [
+  "gülmek_Verb|Verb:gül+Imp:+A2sg:",
+  "gül_Noun|Noun:gül+A3sg:"
+ ],
+ "güller": [
+  "gül_Noun|Noun:gül+A3pl:ler",
+  "gül_Noun|Noun:gül+A3sg:+Zero:+Verb:+Pres:+A3pl:ler"
+ ],
+ "gülmek": [
+  "gülmek_Verb|Verb:gül+Inf1:mek+Noun:+A3sg:"
+ ],
+ "elma": [
+  "elma_Noun|Noun:elma+A3sg:"
+ ],
+ "elmalar": [
+  "elma_Noun|Noun:elma+A3pl:lar",
+  "elma_Noun|Noun:elma+A3sg:+Zero:+Verb:+Pres:+A3pl:lar"
+ ],
+ "at": [
+  "atmak_Verb|Verb:at+Imp:+A2sg:",
+  "At_Noun_Prop|Noun:at+A3sg:",
+  "at_Noun|Noun:at+A3sg:"
+ ],
+ "atlar": [
+  "atlamak_Verb|Verb:atla+Aor:r+A3sg:",
+  "atlamak_Verb|Verb:atla+AorPart:r+Adj:",
+  "At_Noun_Prop|Noun:at+A3pl:lar",
+  "at_Noun|Noun:at+A3pl:lar",
+  "At_Noun_Prop|Noun:at+A3sg:+Zero:+Verb:+Pres:+A3pl:lar",
+  "at_Noun|Noun:at+A3sg:+Zero:+Verb:+Pres:+A3pl:lar"
+ ],
+ "atmak": [
+  "atmak_Verb|Verb:at+Inf1:mak+Noun:+A3sg:"
+ ]
+}

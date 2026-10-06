@@ -113,6 +113,24 @@ def _yamasiz() -> Iterator[None]:
             modul.calculate_phonetic_attributes = yamali_cpa
 
 
+# ── çözümleme sırası tohuma bağlı — kökleri sabit sıraya diz ─────────
+
+def _kokleri_sirala(analyzer: zeyrek.MorphAnalyzer) -> None:
+    """Aynı yazılışlı kök adaylarını sabit bir sıraya dizer (2026-10-06, Efe).
+
+    Zeyrek çözümlemeleri genişlik öncelikli aramayla bulur: en az ek geçişiyle biten önce gelir.
+    Aynı adımda biten çözümlemelerin sırası, aynı yazılışlı köklerin ``multi_stems`` listesindeki
+    sırasından gelir; o liste sözlük yüklenirken Python kümelerinin dolaşım sırasıyla dolduğu
+    için ``PYTHONHASHSEED``'e bağlı. TOMA'nın 8.225 sözcüğünde 612'sinin ilk çözümlemesi 0–3
+    tohumları arasında değişiyordu. Listeler sözlük girdisi, yüzey, hedef durum ve fonetik
+    özniteliklere göre sıralanınca değişen sözcük 0 oldu; Zeyrek'in "en az geçiş önce" kuralı
+    ve çözümleme kümesi aynı kalır. Tohum 0'a göre 308 sözcüğün (%3,7) ilk çözümlemesi değişti.
+    """
+    for adaylar in analyzer.analyzer.stem_transitions.multi_stems.values():
+        adaylar.sort(key=lambda t: (t.dict_item.id_, t.surface, t.to_.id_,
+                                    tuple(sorted(str(a) for a in t.attrs))))
+
+
 # Geç import kasıtlı: ham `initial`ı yakalayıp hemen yamalayan blokla yan yana dursun.
 import zeyrek.morphotactics as _mt  # noqa: E402
 
@@ -132,8 +150,8 @@ class ZeyrekBackend:
     (``yüz`` → organ / sayı / fiil). Kural **ilk çözümlemeyi al**. Bağlam
     kullanılmıyor; bu bir sınırlama ve sınırlılıklar §4'te yazılı
     (``docs/tr/aciklama/sinirliliklar.md``).
-    Ölçüldü (2026-09-18): eşit adaylar arasında Zeyrek kararlı bir sıralama
-    tanımlamıyor, yani bu kelimelerde seçim keyfî.
+    Zeyrek eşit adaylar arasında kararlı bir sıralama tanımlamıyor (ölçüldü,
+    2026-09-18); ``_kokleri_sirala`` sırayı sabitliyor (2026-10-06).
     """
 
     # Önbellek tavanı ölçümle seçildi (165 Türkçe roman, 1,5M token): 50k →
@@ -153,6 +171,7 @@ class ZeyrekBackend:
             # Üçüncü parti bir logger'ın sesini kısıyoruz, kendi loglarımızı değil.
             logging.getLogger("zeyrek").setLevel(logging.ERROR)
             self._analyzer = zeyrek.MorphAnalyzer()
+            _kokleri_sirala(self._analyzer)
 
             # Sürüm duman testi: `_parse` private, sürüm kilidi tek başına yetmez.
             ornek = self._analyzer._parse("kitap")
@@ -180,9 +199,8 @@ class ZeyrekBackend:
             return (("Unk", word, False),)
 
         # Belirsizlikte ilk çözümleme alınır; bağlam kullanılmıyor. Bu bir
-        # sınırlama ve sınırlılıklar §4'te yazılı. Zeyrek eşit adaylar
-        # arasında kararlı bir sıralama da tanımlamıyor (ölçüldü, 2026-09-18),
-        # yani o kelimelerde seçim keyfî.
+        # sınırlama ve sınırlılıklar §4'te yazılı. Eşit adayların sırası
+        # `_kokleri_sirala` ile tohumdan bağımsız (2026-10-06).
         return tuple((m.id_, yuzey, bool(m.derivational))
                      for m, yuzey in cozumlemeler[0].morphemes)
 
