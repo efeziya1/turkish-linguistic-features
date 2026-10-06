@@ -137,19 +137,26 @@ order, so `label`, `source` and `segment_id` come first.
 ## `describe_feature`
 
 ```python
-describe_feature(key: str) -> dict
+describe_feature(key: str, lang: str | None = None) -> dict
 ```
 
 Returns everything known about one key:
 
 ```text
 key · group · group_label · description · formula · scale ·
-inputs · params · requires · citation · references
+inputs · params · requires · citation · references · definitions
 ```
 
 `citation` is the short pointer; `references` holds the full bibliographic
 records to copy into a bibliography. `citation is None` means the key is
 not a named measure from the literature.
+
+`definitions` explains the terms the `formula` uses (`sentence`, `word`, `syllable`,
+`letter`, `type`…): for each, `{"name": ..., "source": ..., "description": ...}` — the
+rule tlf counts it with, who defines that rule (`tlf`, `spacy`, `zeyrek`,
+`textstat`, `wordfreq`) and, in one sentence, how it is counted. A term the formula does not use is absent.
+Where the definition differs by language (`syllable`), `describe_feature(key, lang="tr")` returns
+that language's entry; without `lang` you get `{"tr": ..., "en": ...}`.
 
 Dynamic keys (`char_a`, `ng_*`) are accepted; for them `formula` and
 `requires` are stated at the group level.

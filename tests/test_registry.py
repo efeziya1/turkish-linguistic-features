@@ -142,11 +142,11 @@ def test_cumle_sonu_anahtarlari_vocab_ile_uyumlu():
 # ── describe_feature ──────────────────────────────────────────────────
 
 
-def test_describe_on_bir_alan():
+def test_describe_on_iki_alan():
     d = describe_feature("mattr")
     assert set(d) == {"key", "group", "group_label", "description",
                       "formula", "scale", "inputs", "params", "requires",
-                      "citation", "references"}
+                      "citation", "references", "definitions"}
 
 
 def test_describe_statik_anahtar():
@@ -334,3 +334,150 @@ def test_citation_yoksa_references_bos():
     d = describe_feature("ttr_moving_slope")
     assert d["citation"] is None
     assert d["references"] == ()
+
+
+# ── definitions: formüldeki terimlerin tanımları ──────────────────────
+
+import re  # noqa: E402
+
+from turkish_linguistic_features.features._registry_definition_texts import (  # noqa: E402
+    DEFINITION_INFO,
+    SOURCES,
+)
+from turkish_linguistic_features.features._registry_definitions import (  # noqa: E402
+    LANGUAGE_NAMES,
+    PER_LANGUAGE,
+    TERM_VALUES,
+    TERMS,
+)
+
+HER_ANAHTAR = TUM_STATIK + ["char_a", "ng_ve_bir"]
+
+
+def _kayitlar(d):
+    """``definitions`` değerini düz ``(terim, kayıt)`` listesine açar (dile göre bölünmüş dahil)."""
+    for terim, v in d.items():
+        if "name" in v:
+            yield terim, v
+        else:
+            yield from ((terim, k) for k in v.values())
+
+
+def _adlar(anahtar, lang="tr"):
+    return {t: v["name"] for t, v in describe_feature(anahtar, lang=lang)["definitions"].items()}
+
+
+def test_definitions_kayit_biciminde_ve_kapali_kumeden():
+    for k in HER_ANAHTAR:
+        for terim, kayit in _kayitlar(describe_feature(k)["definitions"]):
+            assert set(kayit) == {"name", "source", "description"}, (k, terim)
+            assert kayit["name"] in TERM_VALUES[terim], (k, terim, kayit["name"])
+            assert kayit["source"] in SOURCES, (k, terim)
+            assert 0 < len(kayit["description"].split()) <= 25, (k, terim)
+
+
+def test_definitions_her_ad_icin_aciklama_var_ve_tersi():
+    beklenen = {(t, a) for t, adlar in TERM_VALUES.items() for a in adlar}
+    assert beklenen == set(DEFINITION_INFO)
+
+
+def test_definitions_tablolari_kapali_kumeden_ve_anahtarlar_gecerli():
+    for terim, (grup_tablosu, ozellik_tablosu) in TERMS.items():
+        gecerli = TERM_VALUES[terim] | {PER_LANGUAGE}
+        for g, ad in grup_tablosu.items():
+            assert g in GROUP_LABELS, (terim, g)
+            assert ad in gecerli, (terim, g, ad)
+        for k, ad in ozellik_tablosu.items():
+            assert k in TUM_STATIK, (terim, k)
+            assert ad is None or ad in gecerli, (terim, k, ad)
+
+
+def test_definitions_ozel_kayit_grup_varsayilaniyla_ayni_degil():
+    for terim, (grup_tablosu, ozellik_tablosu) in TERMS.items():
+        for k, ad in ozellik_tablosu.items():
+            assert ad != grup_tablosu.get(get_group(k)), f"{terim}/{k}: grup varsayılanıyla aynı"
+
+
+def test_definitions_dile_gore_terim():
+    tr = describe_feature("syllable_mean", lang="tr")["definitions"]["syllable"]
+    en = describe_feature("syllable_mean", lang="en")["definitions"]["syllable"]
+    assert tr["name"] == LANGUAGE_NAMES["syllable"]["tr"] == "vowel_count"
+    assert en["name"] == LANGUAGE_NAMES["syllable"]["en"] == "textstat_cmudict"
+    assert en["source"] == "textstat"
+    ikisi = describe_feature("syllable_mean")["definitions"]["syllable"]
+    assert set(ikisi) == {"tr", "en"} and ikisi["tr"] == tr and ikisi["en"] == en
+
+
+def test_definitions_tek_dilli_ozellik_dili_kendisi_secer():
+    """`atesman` yalnız Türkçe: `lang` verilmese de hece kaydı tek ve Türkçe."""
+    assert describe_feature("atesman")["definitions"]["syllable"]["name"] == "vowel_count"
+    assert describe_feature("flesch_reading_ease")["definitions"]["syllable"]["name"] == "textstat_cmudict"
+    assert describe_feature("coleman_liau")["definitions"].get("syllable") is None
+
+
+def test_definitions_gecersiz_dil():
+    with pytest.raises(ValueError):
+        describe_feature("syllable_mean", lang="de")
+
+
+# Formül metni bu anahtar sözcüklerden birini içeriyorsa terim `definitions`'ta olmak zorunda.
+# Tek yönlü: formülde adı geçmeyen ama tanımı gereken terim (ör. `ttr` formülü "V / N") bu testle
+# yakalanmaz, yukarıdaki tablolarla elle kayıtlıdır.
+_FORMUL_ANAHTARLARI = {
+    "sentence": r"sentenc",
+    "syllable": r"syllable",
+    "polysyllable": r"polysyllables|3\+ syllable",
+    "paragraph": r"paragraph",
+    "mark": r"marks / |/ marks|mark types",   # "final mark" (question_per_sent) başka şey
+    "long_word": r"long word",
+    "letter": r"letter",
+    "character": r"characters|strokes|len\(",
+}
+
+
+@pytest.mark.parametrize("anahtar", HER_ANAHTAR)
+def test_definitions_formulde_gecen_terim_kayitli(anahtar):
+    d = describe_feature(anahtar)
+    for terim, kalip in _FORMUL_ANAHTARLARI.items():
+        if re.search(kalip, d["formula"]):
+            assert terim in d["definitions"], f"{anahtar}: formül '{terim}' diyor, definitions'ta yok"
+
+
+@pytest.mark.parametrize("anahtar, beklenen", [
+    ("avg_sent_len_word", {"sentence": "default", "word": "alnum_token"}),
+    ("arc_len_mean", {"sentence": "spacy_parser", "word": "pos_token", "dependency": "spacy_head"}),
+    ("sents_per_para_mean", {"sentence": "regex_paragraph", "paragraph": "blank_line"}),
+    ("cetinkaya_uzun", {"sentence": "cetinkaya", "word": "space_unit_with_symbols",
+                        "syllable": "vowel_count"}),
+    ("ari", {"sentence": "default", "word": "space_unit_with_symbols",
+             "character": "non_space_character"}),
+    ("lix", {"sentence": "default", "word": "space_unit", "letter": "unicode_letter",
+             "long_word": "7_plus_letters"}),
+    ("ttr", {"word": "pos_token", "type": "lowercase_surface"}),
+    ("n_lemma_count", {"word": "pos_token", "type": "spacy_lemma"}),
+    ("pos_noun", {"token": "spacy_token", "pos_tag": "spacy_upos"}),
+    ("morph_case_acc", {"token": "spacy_token", "morph_feature": "spacy_morph"}),
+    ("case_acc_ratio", {"word": "zeyrek_analysed_token", "zeyrek_tag": "zeyrek_tag"}),
+    ("wordfreq_mean", {"word": "pos_token", "type": "spacy_lemma",
+                       "lexical_word": "noun_propn_verb_adj_adv", "pos_tag": "spacy_upos",
+                       "zipf_score": "wordfreq_zipf"}),
+    ("vowel_ratio", {"letter": "alphabet_letter"}),
+    ("char_a", {"letter": "alphabet_letter"}),
+    ("question_per_sent", {"sentence": "default"}),
+])
+def test_definitions_ornekler(anahtar, beklenen):
+    assert _adlar(anahtar) == beklenen
+
+
+def test_definitions_hece_dile_gore_adlandirilir():
+    assert _adlar("atesman", lang="tr")["syllable"] == "vowel_count"
+    assert _adlar("flesch_reading_ease", lang="en")["syllable"] == "textstat_cmudict"
+
+
+def test_cumle_kullanan_ozellikler_kayitli():
+    """`sentence` grubunun 8'i, `question_per_sent`, `pos_kl_div` ve cümle hecesi 'default'."""
+    default = {k for k in TUM_STATIK
+               if _adlar(k).get("sentence") == "default"}
+    assert set(STATIC_GROUP_KEYS["sentence"]) <= default
+    assert {"question_per_sent", "pos_kl_div", "sentence_syllable_mean",
+            "sentence_syllable_cv"} <= default

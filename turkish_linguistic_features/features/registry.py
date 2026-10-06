@@ -22,6 +22,7 @@ sayılarla **birlikte** yapılır.
 from __future__ import annotations
 
 from ..alfabe import _ALFABE
+from ._registry_definitions import definitions_of
 from ._registry_texts import (
     BIBLIOGRAPHY,
     FEATURE_CITATIONS,
@@ -355,7 +356,7 @@ def get_group(key: str) -> str:
     raise KeyError(f"Unknown feature key: {key!r}")
 
 
-def describe_feature(key: str) -> dict:
+def describe_feature(key: str, lang: str | None = None) -> dict:
     """Bir öznitelik anahtarı hakkında bilinen her şey.
 
     Parameters
@@ -364,13 +365,24 @@ def describe_feature(key: str) -> dict:
         Öznitelik anahtarı. Dinamik grup anahtarları da kabul edilir
         (``char_a``, ``ng_ve_bir``…); bu durumda ``formula`` ve ``requires``
         grup düzeyindeki genel ifadedir.
+    lang : str, optional
+        ``"tr"`` ya da ``"en"``. Yalnız ``definitions``'ı etkiler: dile göre değişen
+        terimlerin (``syllable``) tek dilli kaydını seçer.
 
     Returns
     -------
     dict
         ``key``, ``group``, ``group_label``, ``description``, ``formula``,
         ``scale``, ``inputs``, ``params``, ``requires``, ``citation``,
-        ``references``.
+        ``references``, ``definitions``.
+        ``definitions`` = ``{terim: {"name", "source", "description"}}``: formülün
+        kullandığı terimlerin (``sentence``, ``word``, ``syllable``…) tlf'deki tanımı,
+        kuralı kimin koyduğu (``tlf``, ``spacy``, ``zeyrek``, ``textstat``,
+        ``wordfreq``) ve tek cümleyle nasıl hesaplandığı. Formülde olmayan terim sözlükte yoktur. Dile göre değişen
+        terimde (``syllable``) ``lang`` verilirse o dilin kaydı, verilmezse
+        ``{"tr": kayıt, "en": kayıt}`` döner; yalnız tek dilde üretilen öznitelikte
+        (``atesman`` yalnız Türkçe, ``flesch_reading_ease`` yalnız İngilizce) o dilin kaydı. Adların anlamı
+        ``_registry_definition_texts.py``'de.
         ``citation`` kısa işaretçidir, ``references`` ise onda adı geçen
         eserlerin tam bibliyografik kayıtları — yöntem bölümüne kopyalanacak
         olan budur.
@@ -413,4 +425,5 @@ def describe_feature(key: str) -> dict:
         "requires": FEATURE_REQUIRES.get(key) or FEATURE_REQUIRES[grup],
         "citation": _citation(key),
         "references": _references(_citation(key)),
+        "definitions": definitions_of(key, grup, lang),
     }

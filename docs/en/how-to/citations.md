@@ -26,7 +26,11 @@ print(json.dumps(tlf.describe_feature("mattr"), indent=2))
   "citation": "Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window)",
   "references": [
     "Covington, M. A., & McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098"
-  ]
+  ],
+  "definitions": {
+    "word": {"name": "pos_token", "source": "tlf", "description": "A spaCy token whose POS tag is not PUNCT or SYM; numbers count."},
+    "type": {"name": "lowercase_surface", "source": "tlf", "description": "The word string lowercased by language (Turkish I→ı, İ→i); inflected forms are separate types."}
+  }
 }
 ```
 
@@ -42,6 +46,7 @@ print(json.dumps(tlf.describe_feature("mattr"), indent=2))
 | `requires` | The minimum data needed to produce a number; below it, `nan` |
 | `citation` | **Short pointer** — the parenthetical in your methods section |
 | `references` | **Full bibliographic record** — what goes in your bibliography |
+| `definitions` | What the terms in `formula` mean and where the definition comes from: for each term `{"name", "source" (who defines the rule: tlf, spacy, zeyrek, textstat, wordfreq), "description" (one sentence: how it is counted)}`; only the terms that formula uses; `describe_feature(key, lang="tr")` picks the language for terms that differ by language (`syllable`) |
 
 ## The citation also tells you what we do not know
 
