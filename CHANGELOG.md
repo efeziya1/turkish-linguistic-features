@@ -17,7 +17,9 @@
   word names `alnum_token`, `letter_token`, `syllabifiable_token`, `space_split` and the word sense
   of `spacy_token` are gone. On TOMA 57 features change; most move under 1% (median), texts with
   Ottoman izafet (`ulüvv-i`, which spaCy split into a separate one-syllable word `i`) move most,
-  up to 36% in `syllable_1_ratio`. The verification reports do not change (46 ✅ + 2 🟡).
+  up to 36% in `syllable_1_ratio`. The verification reports do not change (46 ✅ + 2 🟡). The
+  internal token-based syllable helpers (`phonetic.toplam_hece` and its helpers) and the unused
+  `okunus.sembol_oku` were removed; `phonetic.birim_hecesi` is the one syllable counter.
 
 - The verification tolerance changed from a fixed absolute 0.05 to 1% relative
   to the published value (`math.isclose(rel_tol=0.01)`, with a 1e-9 absolute

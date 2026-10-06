@@ -8,7 +8,7 @@ Bu modül ``phonetic`` grubunun 15 anahtarını üretir:
   ``syllable_5_ratio`` · ``syllable_6plus_ratio`` · ``sentence_syllable_mean`` ·
   ``sentence_syllable_cv``
 
-T10'un ``hece_say`` / ``toplam_hece`` fonksiyonları T13'ün Türkçe okunabilirlik
+T10'un ``hece_say`` / ``birim_hecesi`` fonksiyonları T13'ün Türkçe okunabilirlik
 formüllerinin de hece sayacıdır (K11: tek sayaç).
 
 Ölçüler **yazıya** bakar, sese değil. Türkçe yazım sese çok yakın; İngilizcede
@@ -230,7 +230,7 @@ def hece_say(word: str, lang: str = "tr") -> int | None:
       Saat ve skor (``10:30`` → 3), sıra sayısı (``3.`` → üçüncü → 3) ve
       harfe bitişik sayı (``3kg`` → 4, ``100m`` → 3, ``3G`` → 2) okunuşuyla
       (2026-10-01, Efe). Tek başına ``3.`` sıra sayısı sayılır; cümle sonundaki
-      sayıyı ayırmak bağlam ister (``toplam_hece``). Okunuşu çıkarılamayan
+      sayıyı ayırmak bağlam ister (``readability.kelime_birimleri``). Okunuşu çıkarılamayan
       biçimler (``4x4``, tek başına ``m``) ve noktalama → ``None``.
     - EN — harflerden oluşan tokenler ``textstat.syllable_count`` ile, 0 verirse
       1 (``shh``). Sayılar okunuşuyla (``1918`` → nineteen eighteen → 4;
@@ -299,66 +299,6 @@ def birim_hecesi(birim: str, lang: str) -> int | None:
 def birim_heceleri(birimler: list[str], lang: str) -> list[int]:
     """Hecelenebilen kelime birimlerinin hece sayıları (hecelenemeyen atlanır)."""
     return [h for h in (birim_hecesi(b, lang) for b in birimler) if h is not None]
-
-
-_ORDINAL_TOKEN = re.compile(r"\d+\.")
-
-
-def _in_context(tokens: list[str], lang: str) -> list[str]:
-    """Turkish "3." is an ordinal only if a word or a comma follows it;
-    otherwise the dot ends the sentence and the number is a cardinal."""
-    if lang != "tr":
-        return tokens
-    out = []
-    for i, tok in enumerate(tokens):
-        if _ORDINAL_TOKEN.fullmatch(tok):
-            nxt = tokens[i + 1] if i + 1 < len(tokens) else ""
-            if not (nxt == "," or any(c.isalnum() for c in nxt)):
-                tok = tok[:-1]
-        out.append(tok)
-    return out
-
-
-def toplam_hece(tokens: list[str], lang: str = "tr") -> int:
-    """Hecelenebilen tokenlerin toplam hece sayısı. T13 bunu kullanır."""
-    return sum(_hece_sayilari(tokens, lang))
-
-
-def _symbol_targets(tokens: list[str], lang: str) -> dict[int, list[str]]:
-    """Number index → readings of the listed symbols that belong to it.
-
-    spaCy splits "%50" into "%" + "50". The symbol is not a word, but it is
-    read aloud with the number, so its reading joins that number: first the
-    number after it ("%50", "$5"), else the one before it ("25°"). Each symbol
-    joins one number only, so "5 + 3" reads "artı" once (2026-10-01, Efe).
-    """
-    semboller = SEMBOLLER[lang]
-
-    def is_number(i: int) -> bool:
-        return 0 <= i < len(tokens) and any(c.isdigit() for c in tokens[i])
-
-    targets: dict[int, list[str]] = {}
-    for i, tok in enumerate(tokens):
-        if tok not in semboller:
-            continue
-        hedef = i + 1 if is_number(i + 1) else i - 1 if is_number(i - 1) else None
-        if hedef is not None:
-            targets.setdefault(hedef, []).append(semboller[tok])
-    return targets
-
-
-def _hece_sayilari(tokens: list[str], lang: str) -> list[int]:
-    tokens = _in_context(tokens, lang)
-    targets = _symbol_targets(tokens, lang)
-    sayilar = []
-    for i, tok in enumerate(tokens):
-        h = hece_say(tok, lang)
-        if h is None:
-            continue
-        for okunus_ in targets.get(i, []):
-            h += sum(hece_say(k, lang) or 0 for k in okunus_.split())
-        sayilar.append(h)
-    return sayilar
 
 
 def _ortalama_cv(degerler: list[int]) -> tuple[float, float]:

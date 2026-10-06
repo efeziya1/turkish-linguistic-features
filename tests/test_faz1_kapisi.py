@@ -73,7 +73,6 @@ DURUMLAR: dict[str, tuple[tuple, tuple]] = {
     "phonetic.sentence_syllable_stats": (([],), ([["ev"]],)),
     "phonetic.syllable_count_stats": (([],), (["ev"],)),
     "phonetic.syllable_length_distribution": (([],), (["ev"],)),
-    "phonetic.toplam_hece": (([],), (["ev"],)),
     "phonetic.vowel_harmony_ratios": (([],), (["ev"],)),
     "phonetic.vowel_ratios": (("",), ("ev",)),
     "punctuation.all_caps_word_ratio": (([],), (["EV"],)),

@@ -8,7 +8,6 @@ from turkish_linguistic_features.features.phonetic import (
     sentence_syllable_stats,
     syllable_count_stats,
     syllable_length_distribution,
-    toplam_hece,
     vowel_harmony_ratios,
     vowel_ratios,
 )
@@ -250,10 +249,6 @@ def test_hece_say_ingilizce_textstat():
 def test_hece_say_ingilizce_unlusuz_kelime():
     """textstat 0 verirse 1 sayılır (2026-09-16, Efe)."""
     assert hece_say("shh", "en") == 1
-
-
-def test_toplam_hece_sayilamayanlari_atlar():
-    assert toplam_hece(["Ali", "4x4", "okula", ".", "gitti"], "tr") == 7
 
 
 # ── T10: kelime başına hece ───────────────────────────────────────────
