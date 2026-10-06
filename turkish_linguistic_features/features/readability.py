@@ -42,16 +42,33 @@ _KENAR = ".,;:!?…\"'“”‘’«»()[]{}–—-/*"
 _BAS_HARFLER = re.compile(r"(?:[^\W\d_]\.)+[^\W\d_]?")
 
 # Formüle göre cümle bitiren işaretler.
+#
+# Üç nokta (2026-10-06, Efe): "..." ve tek karakterli "…" aynı işarettir (noktalama modülü de öyle
+# sayıyor) ve ikisi de cümle bitirir. Eskiden "..." tokenı "." içerdiği için bitiriyordu, "…"
+# bitirmiyordu; aynı metin yazım biçimine göre farklı sayılıyordu. Bu yüzden "…" her kümede var.
+#
+# Varsayılan cümle tanımı (2026-10-06, Efe): . ? ! … her zaman, ":" KOŞULLU. Koşullu işaret yalnız
+# sonrası yeni bir cümle gibi başlıyorsa (büyük harf, tırnak, tire ya da açılış parantezi) cümle
+# bitirir; küçük harf ya da rakamla sürüyorsa (liste, açıklama, 10:30) bitirmez. Gerekçe ve veri:
+# tez klasörü acik-konular.md §1.
 _CUMLE_SONU = {
-    "varsayilan": ".?!",       # McLaughlin 1969; Kincaid ARI; Coleman & Liau; kaynağı kural vermeyenler
-    # Kincaid ve ark. 1975 Flesch talimatı ; ve : sayıyor ama iki noktadan sonra tam
-    # cümle gelmiyorsa saymıyor; bu yargı uygulanamadığı için : çıktı (2026-09-17, Efe).
-    "kincaid": ".?!;",
+    "varsayilan": ".?!…",       # McLaughlin 1969; Kincaid ARI; Coleman & Liau; kaynağı kural vermeyenler
+    # Kincaid ve ark. 1975 Flesch talimatı ; ve : sayıyor ama iki noktadan sonra tam cümle gelmiyorsa
+    # saymıyor. "Tam cümle" yargısının yaklaşığı koşullu ":" (büyük harf/tırnak/tire/parantez).
+    "kincaid": ".?!;…",
     # Çetinkaya (2010, s.93): nokta, soru, iki nokta ve "iki parantez ( ) bitirilmiş bir
     # tümce"; parantezin içi ayrı cümle. Ünlem listede yok ama "dilbilgisel olarak bağımsız
-    # her birim tümcedir" ölçütüne girer (2026-09-17, Efe).
-    "cetinkaya": ".?!:()",
+    # her birim tümcedir" ölçütüne girer (2026-09-17, Efe). Kaynak ":" için koşul koymuyor.
+    "cetinkaya": ".?!:()…",
 }
+# Koşullu cümle bitiren işaretler (kümenin kendi işaretlerine ek).
+_CUMLE_KOSULLU = {"varsayilan": ":", "kincaid": ":", "cetinkaya": ""}
+
+# Koşullu işaretten sonra yeni cümleyi gösteren açılış karakterleri (büyük harf ayrıca denetlenir).
+_YENI_CUMLE_ACILIS = "\"'“”‘’«»‹›—–-(["
+# Yalnız açılış olduğu kesin olanlar: cümle sınırından sonra sonraki cümleye geçerler.
+_ACILIS_ONLY = "“‘«‹([—–-"
+
 
 # Björnsson: "6 harften uzun" kelime (Anderson 1983 s.491: seven or more letters).
 _UZUN_KELIME_HARF = 7
@@ -151,15 +168,24 @@ def _baslik_harfli(token: str) -> bool:
     return token[:1].isupper()
 
 
-def cumle_sayisi(surface_tokens: list[str], isaretler: str, lang: str) -> int:
-    """``isaretler``den biriyle biten cümle sayısı; işaretsiz biten metin +1.
+def _yeni_cumle_basliyor(sonraki: list[str]) -> bool:
+    """İşaretten sonra gelen tokenlar yeni bir cümle gibi mi başlıyor?
 
-    Ardışık işaret tokenları (``?!``, ``."``) tek sınırdır. spaCy'nin tek token
-    tuttuğu kısaltmalar (``Dr.``, ``Jan.``) cümle bitirmez. Türkçede spaCy'nin
-    böldüğü listedeki kısaltmadan (``bkz`` + ``.``) sonraki nokta, ardından
-    büyük harfle başlayan bir kelime gelmiyorsa sınır sayılmaz.
+    İlk token büyük harfle başlıyorsa ya da bir tırnak, tire, açılış parantezi ise evet; küçük harf
+    ya da rakamla başlıyorsa hayır; metin bitiyorsa evet (son cümle zaten ayrı sayılır).
     """
-    say = 0
+    if not sonraki:
+        return True
+    ilk = sonraki[0]
+    if _isaret_mi(ilk):
+        return ilk[0] in _YENI_CUMLE_ACILIS
+    return ilk[0].isupper()
+
+
+def _sinirlar(surface_tokens: list[str], isaretler: str, lang: str,
+              kosullu: str = "") -> tuple[list[int], bool]:
+    """Cümle bitiren işaret tokenlarının indeksleri ve metnin açık cümleyle bitip bitmediği."""
+    sinirlar: list[int] = []
     acik = False
     onceki = ""
     for i, token in enumerate(surface_tokens):
@@ -168,15 +194,70 @@ def cumle_sayisi(surface_tokens: list[str], isaretler: str, lang: str) -> int:
                 acik = True
                 onceki = token
             continue
-        if not acik or not any(c in isaretler for c in token):
+        if not acik:
             continue
-        if lang == "tr" and token == "." and kisaltma_oku(onceki) is not None:
-            sonraki = next((t for t in surface_tokens[i + 1:] if not _isaret_mi(t)), None)
-            if sonraki is not None and not _baslik_harfli(sonraki):
+        if any(c in isaretler for c in token):
+            if lang == "tr" and token == "." and kisaltma_oku(onceki) is not None:
+                sonraki = next((t for t in surface_tokens[i + 1:] if not _isaret_mi(t)), None)
+                if sonraki is not None and not _baslik_harfli(sonraki):
+                    continue
+        elif kosullu and any(c in kosullu for c in token):
+            if not _yeni_cumle_basliyor(surface_tokens[i + 1:]):
                 continue
-        say += 1
+        else:
+            continue
+        sinirlar.append(i)
         acik = False
-    return say + (1 if acik else 0)
+    return sinirlar, acik
+
+
+def cumle_sayisi(surface_tokens: list[str], isaretler: str, lang: str, kosullu: str = "") -> int:
+    """``isaretler``den biriyle biten cümle sayısı; işaretsiz biten metin +1.
+
+    Ardışık işaret tokenları (``?!``, ``."``) tek sınırdır. spaCy'nin tek token
+    tuttuğu kısaltmalar (``Dr.``, ``Jan.``) cümle bitirmez. Türkçede spaCy'nin
+    böldüğü listedeki kısaltmadan (``bkz`` + ``.``) sonraki nokta, ardından
+    büyük harfle başlayan bir kelime gelmiyorsa sınır sayılmaz.
+
+    ``kosullu``: yalnız sonrası yeni bir cümle gibi başlıyorsa (büyük harf, tırnak, tire, açılış
+    parantezi) cümle bitiren işaretler (varsayılan kuralda ``":"``). ``10:30`` gibi rakamlar arası
+    iki nokta tek token olduğundan hiç sınır olmaz.
+    """
+    sinirlar, acik = _sinirlar(surface_tokens, isaretler, lang, kosullu)
+    return len(sinirlar) + (1 if acik else 0)
+
+
+def kural_cumleleri(surface_tokens: list[str], lang: str) -> list[list[str]]:
+    """Varsayılan kuralla cümle listesi; birleştirilince ``surface_tokens``'i verir.
+
+    Sınırlar ``cumle_sayisi(..., "varsayilan")`` ile aynı koddan gelir. Sınırdan sonra gelen
+    işaret tokenları (kapanış tırnağı ``."``) önceki cümlede kalır; yalnız açılış karakterleri
+    (``“ ‘ « ( [`` ve tireler) sonraki cümleyi başlatır. Düz ``"`` belirsiz olduğundan öncekinde
+    kalır. Sınır hiç yoksa tek cümledir; boş girdi için ``[]``.
+    """
+    sinirlar, _ = _sinirlar(surface_tokens, _CUMLE_SONU["varsayilan"], lang,
+                            _CUMLE_KOSULLU["varsayilan"])
+    n = len(surface_tokens)
+    cumleler: list[list[str]] = []
+    bas = 0
+    for b in sinirlar:
+        son = b + 1
+        while (son < n and _isaret_mi(surface_tokens[son])
+               and surface_tokens[son][0] not in _ACILIS_ONLY):
+            son += 1
+        cumleler.append(list(surface_tokens[bas:son]))
+        bas = son
+    if bas < n:
+        if cumleler and not any(any(c.isalnum() for c in t) for t in surface_tokens[bas:]):
+            cumleler[-1].extend(surface_tokens[bas:])
+        else:
+            cumleler.append(list(surface_tokens[bas:]))
+    return cumleler
+
+
+def _sayim(surface_tokens: list[str], kume: str, lang: str) -> int:
+    """Adlandırılmış kuralla cümle sayısı (``_CUMLE_SONU`` + ``_CUMLE_KOSULLU``)."""
+    return cumle_sayisi(surface_tokens, _CUMLE_SONU[kume], lang, _CUMLE_KOSULLU[kume])
 
 
 def _heceler(kelimeler: list[str], lang: str) -> list[int]:
@@ -207,7 +288,7 @@ def turkish_readability_formulas(raw_text: str, surface_tokens: list[str]) -> di
     sonuc = {"atesman": math.nan, "cetinkaya_uzun": math.nan, "bezirci_yilmaz": math.nan}
 
     heceler = _heceler(kelimeler, "tr")
-    cumle = cumle_sayisi(surface_tokens, _CUMLE_SONU["varsayilan"], "tr")
+    cumle = _sayim(surface_tokens, "varsayilan", "tr")
     if heceler and cumle:
         hece_kelime = sum(heceler) / len(heceler)
         kelime_cumle = len(kelimeler) / cumle
@@ -217,7 +298,7 @@ def turkish_readability_formulas(raw_text: str, surface_tokens: list[str]) -> di
 
     c_kelimeler = kelimeler + semboller
     c_heceler = _heceler(c_kelimeler, "tr")
-    c_cumle = cumle_sayisi(surface_tokens, _CUMLE_SONU["cetinkaya"], "tr")
+    c_cumle = _sayim(surface_tokens, "cetinkaya", "tr")
     if c_heceler and c_cumle:
         sonuc["cetinkaya_uzun"] = round(
             118.823 - 25.987 * sum(c_heceler) / len(c_heceler)
@@ -245,7 +326,7 @@ def english_readability_formulas(raw_text: str, surface_tokens: list[str]) -> di
 
     k_kelimeler = kelimeler + semboller
     k_heceler = _heceler(k_kelimeler, "en")
-    k_cumle = cumle_sayisi(surface_tokens, _CUMLE_SONU["kincaid"], "en")
+    k_cumle = _sayim(surface_tokens, "kincaid", "en")
     if k_heceler and k_cumle:
         kelime_cumle = len(k_kelimeler) / k_cumle
         hece_kelime = sum(k_heceler) / len(k_heceler)
@@ -256,7 +337,7 @@ def english_readability_formulas(raw_text: str, surface_tokens: list[str]) -> di
     if heceler:
         cok_heceli = sum(1 for h in heceler if h >= 3)
         sonuc["polysyllabic_word_ratio"] = round(cok_heceli / len(heceler), 5)
-        cumle = cumle_sayisi(surface_tokens, _CUMLE_SONU["varsayilan"], "en")
+        cumle = _sayim(surface_tokens, "varsayilan", "en")
         if cumle >= _SMOG_MIN_CUMLE:
             sonuc["smog"] = round(3.1291 + 1.0430 * math.sqrt(cok_heceli * 30 / cumle), 4)
     return sonuc
@@ -277,7 +358,7 @@ def general_readability_formulas(
     Dördünde de cümle ``. ? !``.
     """
     kelimeler, semboller = kelime_birimleri(raw_text, lang)
-    cumle = cumle_sayisi(surface_tokens, _CUMLE_SONU["varsayilan"], lang)
+    cumle = _sayim(surface_tokens, "varsayilan", lang)
     sonuc = {"ari": math.nan, "coleman_liau": math.nan, "lix": math.nan,
              "long_word_ratio": math.nan}
     if not kelimeler:
