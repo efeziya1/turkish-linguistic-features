@@ -91,7 +91,7 @@ Window sizes, thresholds and sample counts live here. Details:
 [Change the thresholds](../how-to/parameters.md).
 
 The sentence thresholds (`short_sent_threshold`, `long_sent_threshold`) are
-**calibrated per language** (TR 4/18, EN 9/33) and resolved field by field:
+**calibrated per language** (TR 4/17, EN 8/32) and resolved field by field:
 a field you set wins, a field you leave out stays calibrated. So
 `FeatureParams(mattr_window=100)` does not change the sentence thresholds.
 

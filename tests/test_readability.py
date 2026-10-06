@@ -419,3 +419,33 @@ def test_kural_cumleleri_acilis_tirnagi_sonraki_cumleye_gecer():
 
     cumleler = kural_cumleleri(["Geldi", ".", "“", "Gel", "!", "”"], "tr")
     assert cumleler == [["Geldi", "."], ["“", "Gel", "!", "”"]]
+
+
+# ── cümle başına kelime birimi: varsayılan kelime tanımı (2026-10-06, Efe) ──
+
+
+def test_cumle_birimleri_cumleye_gore_boler():
+    from turkish_linguistic_features.features.readability import cumle_birimleri, kural_cumleleri
+
+    metin = "E-posta geldi. %50 indirim var mı?"
+    tok = _tok(metin, "tr")
+    birimler = cumle_birimleri(metin, kural_cumleleri(tok, "tr"), "tr")
+    assert birimler == [["E-posta", "geldi"], ["%50", "indirim", "var", "mı"]]
+    assert [b for c in birimler for b in c] == kelime_birimleri(metin, "tr")[0]
+
+
+def test_cumle_birimleri_bosluksuz_sinirda_birimi_boler():
+    """Sınır boşluk biriminin içine düşerse (``geldi.Sonra``) birim iki cümleye bölünür."""
+    from turkish_linguistic_features.features.readability import cumle_birimleri
+
+    cumleler = [["O", "geldi", "."], ["Sonra", "gitti", "."]]
+    assert cumle_birimleri("O geldi.Sonra gitti.", cumleler, "tr") == [["O", "geldi"],
+                                                                        ["Sonra", "gitti"]]
+
+
+def test_cumle_birimleri_hizasiz_girdi_hata():
+    from turkish_linguistic_features.features.readability import cumle_birimleri
+
+    assert cumle_birimleri("", [], "tr") == []
+    with pytest.raises(ValueError, match="preprocessing error"):
+        cumle_birimleri("Ev.", [["Okul", "."]], "tr")

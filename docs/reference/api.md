@@ -174,7 +174,7 @@ sample counts. Nineteen fields; the full table is in
 !!! note
 
     `short_sent_threshold` and `long_sent_threshold` default to `None`,
-    which means "use the calibrated value for `lang`" (TR 4/18, EN 7/39).
+    which means "use the calibrated value for `lang`" (TR 4/17, EN 8/32).
     They are resolved field by field: a field you set wins, a field you leave
     out stays calibrated. Setting an unrelated field such as `mattr_window`
     does not touch the sentence thresholds.

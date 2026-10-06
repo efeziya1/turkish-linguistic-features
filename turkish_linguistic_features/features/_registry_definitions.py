@@ -30,8 +30,7 @@ __all__ = ["TERMS", "TERM_VALUES", "LANGUAGE_NAMES", "PER_LANGUAGE", "ONLY_LANGU
 TERM_VALUES: dict[str, frozenset[str]] = {
     "sentence": frozenset({"default", "kincaid", "cetinkaya", "spacy_parser", "regex_paragraph"}),
     "word": frozenset({
-        "pos_token", "alnum_token", "letter_token", "syllabifiable_token", "space_unit",
-        "space_unit_with_symbols", "space_split", "spacy_token", "zeyrek_analysed_token",
+        "space_unit", "space_unit_with_symbols", "pos_token", "zeyrek_analysed_token",
     }),
     "type": frozenset({"lowercase_surface", "spacy_lemma"}),
     "token": frozenset({"spacy_token"}),
@@ -129,21 +128,25 @@ FEATURE_SENTENCE: dict[str, str | None] = {
 }
 
 # ── sözcük ────────────────────────────────────────────────────────────
+# Varsayılan sözcük `space_unit` (2026-10-06, Efe). spaCy etiketine (POS, lemma) bağlı
+# öznitelikler `pos_token`ta, Zeyrek'e bağlılar `zeyrek_analysed_token`da kalır.
+
+_LEMMA_POS_LEXICAL = ("n_lemma_count", "noun_variation", "verb_variation", "adj_variation",
+                      "adv_variation", "wordfreq_mean", "wordfreq_rare_ratio")
 
 GROUP_WORD: dict[str, str | None] = {
-    "lexical": "pos_token", "frequency_structure": "pos_token", "sentence": "alnum_token",
-    "syntactic_dep": "pos_token", "readability": "space_unit", "custom_ngrams": "alnum_token",
+    "lexical": "space_unit", "frequency_structure": "pos_token", "sentence": "space_unit",
+    "syntactic_dep": "pos_token", "readability": "space_unit", "custom_ngrams": "space_unit",
 }
 FEATURE_WORD: dict[str, str | None] = {
     "avg_sent_len_char": None,
-    **_hepsi("space_split", ("para_len_mean", "para_len_cv", "para_count_norm")),
-    "lexical_density": "pos_token", "surface_per_lemma": "pos_token",
-    "harmony_fronting_ratio": "spacy_token", "harmony_rounding_ratio": "spacy_token",
-    **_hepsi("syllabifiable_token", _SYLLABLE_PHONETIC),
+    **_hepsi("space_unit", ("para_len_mean", "para_len_cv", "para_count_norm",
+                            "harmony_fronting_ratio", "harmony_rounding_ratio",
+                            "uppercase_ratio", "all_caps_word_ratio")),
+    **_hepsi("space_unit", _SYLLABLE_PHONETIC + _PUNC),
+    **_hepsi("pos_token", _LEMMA_POS_LEXICAL + ("lexical_density", "surface_per_lemma")),
     **_hepsi("space_unit_with_symbols", ("cetinkaya_uzun", "flesch_reading_ease",
                                          "flesch_kincaid_grade", "ari")),
-    **_hepsi("letter_token", ("uppercase_ratio", "all_caps_word_ratio")),
-    **_hepsi("pos_token", _PUNC),
     **_hepsi("zeyrek_analysed_token", _ZEYREK_WORD),
 }
 

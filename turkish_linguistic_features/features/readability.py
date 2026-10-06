@@ -18,7 +18,7 @@ kaynağının sayımını izler:
 - Cümle = formüle özel işaretlerden biriyle biten dizi (``_CUMLE_SONU``).
   İşaretler spaCy tokenlarından okunur, böylece ``Dr.`` cümle bitirmez.
 - Hece = T10'un ``hece_say``'i; tireli kelime parçaların toplamı, sembol ve
-  noktalı baş harf okunuşuyla (``birim_hecesi``). Türkçe sıra sayısı
+  noktalı baş harf okunuşuyla (``phonetic.birim_hecesi``). Türkçe sıra sayısı
   (``3.`` → üçüncü) noktasıyla kelime olur (``kelime_birimleri``).
 - Ortalama hece yalnız hecelenebilen kelimelerden hesaplanır; cümle uzunluğu
   bütün kelimelerden.
@@ -30,16 +30,12 @@ Katsayılar birincil kaynaklardan (K12, ``tlf-kaynaklar``). Fonksiyonlar saftır
 from __future__ import annotations
 
 import math
-import re
 
 from .okunus import SEMBOLLER, kisaltma_oku
-from .phonetic import _dil_denetle, hece_say
+from .phonetic import _dil_denetle, birim_hecesi
 
 # Kelime biriminin kenarından atılan noktalama.
 _KENAR = ".,;:!?…\"'“”‘’«»()[]{}–—-/*"
-
-# Noktalı baş harfler: F.O.B, i.e, A.Ş — harf harf okunur.
-_BAS_HARFLER = re.compile(r"(?:[^\W\d_]\.)+[^\W\d_]?")
 
 # Formüle göre cümle bitiren işaretler.
 #
@@ -122,42 +118,42 @@ def _ordinal_dot(ham: str, birim: str, sonrakiler: list[str]) -> bool:
     return sonra == "." and bool(sonrakiler) and any(c.isalnum() for c in sonrakiler[0])
 
 
-def _okunus_hecesi(okunus: str, lang: str) -> int:
-    return sum(hece_say(k, lang) or 0 for k in okunus.split())
+def cumle_birimleri(raw_text: str, cumleler: list[list[str]], lang: str) -> list[list[str]]:
+    """Cümle başına kelime birimleri: ham metin cümle sınırlarından kesilir, her parça
+    ``kelime_birimleri`` ile sayılır (varsayılan kelime tanımı, 2026-10-06, Efe).
 
-
-def birim_hecesi(birim: str, lang: str) -> int | None:
-    """Kelime biriminin hecesi; hecelenemiyorsa ``None``.
-
-    Sırayla: ``hece_say`` (kelime, sayı, listedeki kısaltma) → kenardaki
-    listedeki semboller okunur (``%50`` → yüzde elli) → tireli kelime
-    parçaların toplamı → noktalı baş harfler harf harf (İngilizcede W üç hece).
+    ``cumleler`` ``kural_cumleleri``'nin çıktısıdır; tokenları ham metinde sırayla aranır. Kesim
+    sonraki cümlenin ilk tokenından, önceki cümlenin son harfli/rakamlı tokenına kadar geriye,
+    ilk boşluğa çekilir: kural sınırdan sonraki ``%`` gibi işaretleri önceki cümlede bırakır,
+    ``%50`` bölünmesin. Arada boşluk yoksa (``geldi.Sonra``) kesim önceki kelimenin hemen
+    sonrasıdır, birim iki cümleye bölünür. Token ham metinde bulunamazsa girdiler hizalı
+    değildir, ön işleme hatasıdır → ``ValueError``.
     """
-    h = hece_say(birim, lang)
-    if h is not None:
-        return h
-    semboller = SEMBOLLER[lang]
-    bas, son = 0, len(birim)
-    while bas < son and birim[bas] in semboller:
-        bas += 1
-    while son > bas and birim[son - 1] in semboller:
-        son -= 1
-    if bas or son < len(birim):
-        ek = sum(_okunus_hecesi(semboller[c], lang) for c in birim[:bas] + birim[son:])
-        if bas == son:
-            return ek
-        govde = birim_hecesi(birim[bas:son], lang)
-        return None if govde is None else ek + govde
-    if "-" in birim:
-        parcalar = birim.split("-")
-        heceler = [birim_hecesi(p, lang) for p in parcalar if p]
-        if len(heceler) == len(parcalar) and all(x is not None for x in heceler):
-            return sum(x for x in heceler if x is not None)
-        return None
-    if _BAS_HARFLER.fullmatch(birim):
-        harfler = [c for c in birim if c.isalpha()]
-        return sum(3 if lang == "en" and c.lower() == "w" else 1 for c in harfler)
-    return None
+    baslar: list[int] = []
+    kelime_sonlari: list[int] = []
+    imlec = 0
+    for cumle in cumleler:
+        son = imlec
+        for j, token in enumerate(cumle):
+            i = raw_text.find(token, imlec)
+            if i < 0:
+                raise ValueError(f"token {token!r} not found in raw_text after offset {imlec}"
+                                 " — preprocessing error")
+            if j == 0:
+                baslar.append(i)
+            imlec = i + len(token)
+            if any(c.isalnum() for c in token):
+                son = imlec
+        kelime_sonlari.append(son)
+    if not baslar:
+        return []
+    kesimler = [0]
+    for bas, onceki_son in zip(baslar[1:], kelime_sonlari, strict=False):
+        while bas > onceki_son and not raw_text[bas - 1].isspace():
+            bas -= 1
+        kesimler.append(bas)
+    kesimler.append(len(raw_text))
+    return [kelime_birimleri(raw_text[a:b], lang)[0] for a, b in zip(kesimler, kesimler[1:], strict=False)]
 
 
 def _isaret_mi(token: str) -> bool:

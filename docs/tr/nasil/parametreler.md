@@ -20,12 +20,12 @@ değeridir — [aşağıda](#cumle-esikleri-dile-gore-cozumlenir).
 Çıktı (`short_sent_ratio`, `long_sent_ratio`):
 
 ```text
-varsayılan (TR 4/18): short=0.0      long=0.0
+varsayılan (TR 4/17): short=0.0      long=0.0
 elle (3/12)         : short=0.0      long=0.333333
 ```
 
 Aynı metin, farklı eşik, farklı sayı. Üç cümlenin biri 12 kelimeyi geçiyor;
-18'i geçen yok.
+17'yi geçen yok.
 
 ## Bütün alanlar
 
@@ -47,8 +47,8 @@ Aynı metin, farklı eşik, farklı sayı. Üç cümlenin biri 12 kelimeyi geçi
 | `ttr_slope_chunk_size` | 50 | `ttr_moving_slope` |
 | `brunet_w_a` | 0.172 | `brunet_w` |
 | `verb_suffix_window` | 50 | `verb_suffix_diversity` |
-| `short_sent_threshold` | TR **4** · EN **9** | `short_sent_ratio` |
-| `long_sent_threshold` | TR **18** · EN **33** | `long_sent_ratio` |
+| `short_sent_threshold` | TR **4** · EN **8** | `short_sent_ratio` |
+| `long_sent_threshold` | TR **17** · EN **32** | `long_sent_ratio` |
 | `max_parse_depth` | 20 | `parse_depth_mean` |
 
 ## Cümle eşikleri dile göre çözümlenir
@@ -74,7 +74,7 @@ metin = ("Kapı açıldı. Sabah erkenden yola çıktık. Köyün girişindeki "
          "yaşlı çınarın altında oturan adam, uzun yıllar önce bu yollardan "
          "geçen kervanları, pazar günlerini ve kaybolan komşularını anlattı.")
 p = FeatureParams(mattr_window=100)          # eşiklere dokunulmadı
-oz = tlf.analyze(metin, lang="tr", params=p)  # eşikler hâlâ TR 4/18
+oz = tlf.analyze(metin, lang="tr", params=p)  # eşikler hâlâ TR 4/17
 ```
 
 Çıktı — cümlelerin kelime sayıları 2, 4 ve 20:

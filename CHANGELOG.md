@@ -4,6 +4,23 @@
 
 ### Changed
 
+- Default word definition (decided 2026-10-06): a whitespace-separated piece of the raw text with
+  edge punctuation stripped, counted as a word when it contains a letter or digit (`space_unit`,
+  the readability formulas' word). On the TOMA set (57 texts) it equals the expert's word count in
+  every text; spaCy-token words did not. Hyphenated forms (`e-posta`, `akvam-ı`) and symbol-number
+  forms (`%50`) are one word; numbers stay words. Features that only count words or read their
+  written form switch to it: sentence lengths (7), paragraph lengths (3), syllable features (10),
+  vowel harmony (2), punctuation per word (10), capitalisation (2), surface-form lexical richness
+  (`ttr`, `mtld`, `yule_k`, `avg_word_length` … 26) and `custom_ngrams`. Features that need a
+  spaCy or Zeyrek label per word (POS, lemma, morphology, dependency) keep the spaCy token
+  (`pos_token`). `describe_feature(key)["definitions"]["word"]` says which one a feature uses; the
+  word names `alnum_token`, `letter_token`, `syllabifiable_token`, `space_split` and the word sense
+  of `spacy_token` are gone. On TOMA 57 features change; most move under 1% (median), texts with
+  Ottoman izafet (`ulüvv-i`, which spaCy split into a separate one-syllable word `i`) move most,
+  up to 36% in `syllable_1_ratio`. The verification reports do not change (46 ✅ + 2 🟡). The
+  internal token-based syllable helpers (`phonetic.toplam_hece` and its helpers) and the unused
+  `okunus.sembol_oku` were removed; `phonetic.birim_hecesi` is the one syllable counter.
+
 - The verification tolerance changed from a fixed absolute 0.05 to 1% relative
   to the published value (`math.isclose(rel_tol=0.01)`, with a 1e-9 absolute
   floor only as float-arithmetic safety for expected values of 0). The fixed
@@ -66,12 +83,13 @@
   non-zero). `syntactic_dep` (16 features, parser) and the paragraph group (`sents_per_para_*`,
   regex `[.!?…]+`) keep their own definitions; `describe_feature` names them.
 - The default sentence-length thresholds are now calibrated on newspaper columns with the default
-  sentence rule (15th/85th percentile; TR 162 columnists / 197,990 sentences, EN 30 columnists /
-  52,745 sentences): Turkish stays 4/18, English changes from 7/39 to 9/33 (`short_sent_threshold`,
-  `long_sent_threshold`; only `short_sent_ratio` and `long_sent_ratio` move). The earlier
-  calibration (novel corpora, parser sentences) is kept in `docs/threshold-calibration.md` as
-  history. On Turkish novels the new thresholds give 26.5% short and 6.6% long sentences (columns:
-  12.1% / 13.0%); for fiction pass your own thresholds through `FeatureParams`.
+  sentence rule and the default word (15th/85th percentile; TR 162 columnists / 197,990 sentences,
+  EN 30 columnists / 52,745 sentences): Turkish changes from 4/18 to 4/17, English from 7/39 to
+  8/32 (`short_sent_threshold`, `long_sent_threshold`; only `short_sent_ratio` and
+  `long_sent_ratio` move). Measured with the earlier word (spaCy token) the same columns gave
+  4/18 and 9/33; both earlier calibrations are kept in `docs/threshold-calibration.md` as history.
+  On Turkish novels the new thresholds give 26.5% short and 7.6% long sentences (columns:
+  12.2% / 15.0%); for fiction pass your own thresholds through `FeatureParams`.
 
 ### Fixed
 

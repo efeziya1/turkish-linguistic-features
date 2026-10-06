@@ -1,16 +1,16 @@
 # Cümle uzunluğu eşiklerinin kalibrasyonu
 
 `short_sent_threshold` ve `long_sent_threshold` yayımlanmış bir kaynaktan
-alınmadı, gazete köşe yazılarında, varsayılan cümle kuralıyla ölçülerek seçildi. Bu belge ölçümü kayda geçirir.
+alınmadı, gazete köşe yazılarında, varsayılan cümle kuralı ve varsayılan kelimeyle ölçülerek seçildi. Bu belge ölçümü kayda geçirir.
 
-**Ölçüm:** 2026-10-06 (güncel). Önceki ölçüm 2026-07-28, aşağıda "Önceki kalibrasyon".
+**Ölçüm:** 2026-10-06 (güncel, varsayılan kelime tanımıyla). Önceki ölçümler aşağıda, "Önceki kalibrasyonlar".
 
 ## Sonuç
 
 | | `short_sent_threshold` | `long_sent_threshold` |
 |---|---|---|
-| **Türkçe** | 4 | 18 |
-| **İngilizce** | 9 | 33 |
+| **Türkçe** | 4 | 17 |
+| **İngilizce** | 8 | 32 |
 
 Eşikler `analyze(lang=...)` çağrısında dile göre çözümlenir. Kendi eşiğinizi
 `FeatureParams` ile verirseniz o kazanır; vermediğiniz alan yukarıdaki
@@ -23,13 +23,15 @@ değerinde kalır ([ayrıntı](tr/nasil/parametreler.md)).
 | Kaynak | KEMİK (YTÜ) köşe yazısı korpusları | KEMİK `30Columnists` |
 | Yazar | 162 | 30 |
 | Yazı | 4.321 | 1.485 |
-| Ölçülen sözcük | 2.114.978 | 1.106.919 |
+| Ölçülen sözcük | 2.108.415 | 1.078.588 |
 | **Ölçülen cümle** | **197.990** | **52.745** |
 
 Tam korpus kullanıldı, örnekleme yapılmadı. Metinler paylaşılmaz, yalnız sayılar
 yayımlanır. Cümle sınırları kütüphanenin varsayılan cümle kuralıyla bulundu
 (`. ? ! …` her zaman, `:` yalnız sonrası yeni cümle gibi başlıyorsa; kısaltma
-noktası bitirmez); uzunluk noktalamasız sözcük sayısıdır (`sentence` grubuyla aynı).
+noktası bitirmez). Uzunluk, cümledeki varsayılan kelime sayısıdır: boşlukla ayrılan, kenar
+noktalaması atılan ve harf ya da rakam içeren birim (`sentence` grubuyla aynı yol:
+`kural_cumleleri` + `cumle_birimleri`).
 Öznitelik çıkarımı çalıştırılmadı, yalnız cümle başına sözcük sayısı gerekiyordu.
 
 Eşik olarak 15. ve 85. yüzdelik seçildi. "Aykırı değer ortalaması" gibi bir
@@ -42,19 +44,21 @@ eşiği oradan türetmek döngüsel olurdu.
 |---|---|---|
 | 5. | 2,0 | 5,0 |
 | 10. | 3,0 | 7,0 |
-| **15.** | **4,0** | **9,0** |
-| 25. | 5,0 | 12,0 |
+| **15.** | **4,0** | **8,0** |
+| 25. | 5,0 | 11,0 |
 | 50. (medyan) | 9,0 | 19,0 |
-| 75. | 14,0 | 28,0 |
-| **85.** | **18,0** | **33,0** |
-| 90. | 20,0 | 37,0 |
-| 95. | 25,0 | 44,0 |
+| 75. | 14,0 | 27,0 |
+| **85.** | **17,0** | **32,0** |
+| 90. | 20,0 | 36,0 |
+| 95. | 25,0 | 43,0 |
+
+Türkçede 85. yüzdelik sınırda: 17 eşiğinde cümlelerin %15,0'ı, 18'de %12,9'u uzun sayılır.
 
 ## Neden dile özgü eşik
 
 İki dil için tek bir eşik çifti, örneğin 5 ve 30, iki dilde de yanlış yerde
 durur. Türkçede 30 sözcük 95. yüzdeliğin (25) bile üstünde: `long_sent_ratio`
-pratikte sıfıra yakın üretir. İngilizcede aynı sayı 75. (28) ile 85. (33)
+pratikte sıfıra yakın üretir. İngilizcede aynı sayı 75. (27) ile 85. (32)
 yüzdelik arasına denk gelir.
 
 Sebebi tipolojik: Türkçe sondan eklemeli, tek sözcük analitik bir dilde yan
@@ -76,13 +80,36 @@ Ateşman'ın 30'u `long` için **kullanılmadı**: o sayı en zor metnin ortalam
 tek bir cümlenin "uzun" sayılma eşiği değil. Eşik olarak kullanıldığında
 Türkçede 95. yüzdeliğin üstünde kalıyor.
 
-## Önceki kalibrasyon (2026-07-28, yerini aldı)
+## Önceki kalibrasyonlar
+
+### Varsayılan cümle kuralı, eski kelime (2026-10-06, yerini aldı)
+
+Aynı köşe yazıları ve aynı cümleler; kelime = harf ya da rakam içeren spaCy tokenı. Sonuç TR 4/18,
+EN 9/33 idi. Aynı gün varsayılan kelime boşluk birimi oldu ve eşikler yeniden ölçüldü. Kelime
+tanımı yalnız spaCy'nin bir boşluk birimini böldüğü yerde uzunluğu değiştirir (`e-posta`, `%50`,
+İngilizce `don't` → `do` + `n't`): Türkçe cümlelerin %2,8'inde, İngilizce cümlelerin %37,6'sında
+uzunluk kısaldı, hiçbirinde uzamadı.
+
+| Yüzdelik | TR (n = 197.990) | EN (n = 52.745) |
+|---|---|---|
+| 5. | 2,0 | 5,0 |
+| 10. | 3,0 | 7,0 |
+| 15. | 4,0 | 9,0 |
+| 25. | 5,0 | 12,0 |
+| 50. (medyan) | 9,0 | 19,0 |
+| 75. | 14,0 | 28,0 |
+| 85. | 18,0 | 33,0 |
+| 90. | 20,0 | 37,0 |
+| 95. | 25,0 | 44,0 |
+
+### Roman korpusları, spaCy ayrıştırıcı cümleleri (2026-07-28, yerini aldı)
 
 Eşikler önce roman ağırlıklı korpuslarda, spaCy ayrıştırıcısının cümleleriyle
 ölçülmüştü: TR 15 yazar / 1.089.841 cümle, EN 10 yazar / 341.892 cümle.
 Sonuç TR 4/18, EN 7/39 idi. 2026-10-06'da `sentence` grubu varsayılan cümle
 kuralına geçti; eşikler bu kuralla ölçülen köşe yazılarına göre yeniden belirlendi.
-Türkçe değerler (4/18) değişmedi, İngilizce 7/39'dan 9/33'e geçti.
+Türkçe değerler (4/18) değişmedi, İngilizce 7/39'dan 9/33'e geçti; aynı gün kelime
+tanımı değişince TR 4/17, EN 8/32 oldu (yukarıda).
 
 | Yüzdelik | TR (n = 1.089.841) | EN (n = 341.892) |
 |---|---|---|
@@ -108,8 +135,8 @@ karşılaştırılmıştı; 15./85. dört ölçümün hepsinde eşit ya da daha 
 **Eşikler gazete köşe yazılarıyla kalibre edildi.** Köşe yazısı tek bir tür.
 
 Romanda diyalog satırları çok kısa cümle ürettiği için aynı eşikler başka dağılım verir:
-Türkçe romanda varsayılan kuralla cümlelerin yaklaşık %26,5'i 4 sözcükten kısa,
-%6,6'sı 18 sözcükten uzun (köşe yazısında %12,1 ve %13,0). Teknik metin, transkript,
+Türkçe romanda (126 kitap, 992.259 cümle) varsayılan kural ve kelimeyle cümlelerin %26,5'i
+4 sözcükten kısa, %7,6'sı 17 sözcükten uzun (köşe yazısında %12,2 ve %15,0). Teknik metin, transkript,
 şiir, hukuk metni ya da ders kitabında da eşiklerin uygun olacağı **garanti
 değildir**. Bu türlerle çalışıyorsanız kendi korpusunuzun yüzdeliklerini hesaplayıp
 `FeatureParams` ile geçirin.

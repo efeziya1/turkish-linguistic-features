@@ -7,21 +7,23 @@ methods section.
 
 ## Limitations of the library
 
-### 1. The sentence thresholds were calibrated on fiction only
+### 1. The sentence thresholds were calibrated on newspaper columns only
 
-The `short_sent_ratio` and `long_sent_ratio` thresholds (TR 4/18, EN 7/39)
+The `short_sent_ratio` and `long_sent_ratio` thresholds (TR 4/17, EN 8/32)
 were derived from the 15th and 85th percentiles of the sentence-length
-distribution in novel corpora:
+distribution in newspaper columns, measured with the default sentence rule
+and the default word:
 
-| Language | Authors | Sentences |
+| Language | Columnists | Sentences |
 |---|---|---|
-| Turkish | 15 | 1,089,841 |
-| English | 10 | 341,892 |
+| Turkish | 162 | 197,990 |
+| English | 30 | 52,745 |
 
-Both sets are the **same genre**: novels/fiction. There is **no guarantee**
-they generalise to technical writing, transcripts, poetry or children's
-books. If you work in another genre, consider deriving the thresholds from
-your own corpus — [the method is here](../../threshold-calibration.md).
+A column is a **single genre**. Novels already give another distribution
+(dialogue lines are very short), and there is **no guarantee** the thresholds
+suit technical writing, transcripts, poetry or children's books. If you work
+in another genre, consider deriving the thresholds from your own corpus —
+[the method is here](../../threshold-calibration.md).
 
 ### 2. Eleven citations are secondary
 
@@ -41,8 +43,17 @@ present it as though you read the primary.
 
 ### 3. The spaCy model is part of the result
 
-Sentence splitting, POS tags and dependency features come from the model.
-Change the model and the numbers change.
+POS tags, lemmas, morphological tags and the dependency features (with the
+parser's own sentences) come from the model. Change the model and those
+numbers change.
+
+Word and sentence counts do not use the model's labels. The default word is a
+whitespace-separated unit with edge punctuation stripped; the default sentence
+rule reads sentence-ending marks from the model's tokenizer. Features that need
+a label per word (POS, lemma, morphology, dependency) count the model's tokens
+instead, so two word definitions coexist: `e-posta` is one word in `ttr` and two
+tokens in `lexical_density`. `describe_feature(key)["definitions"]["word"]`
+names the one each feature uses.
 
 Verified combination: spaCy 3.8.16, `en_core_web_sm` 3.8.0,
 `tr_core_news_md` 1.0.

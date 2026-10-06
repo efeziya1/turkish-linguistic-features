@@ -291,7 +291,3 @@ SEMBOLLER: dict[str, dict[str, str]] = {
     },
 }
 
-
-def sembol_oku(sembol: str, lang: str) -> str | None:
-    """Listedeki sembolün okunuşu; listede yoksa ``None``."""
-    return SEMBOLLER[lang].get(sembol)

@@ -1,17 +1,18 @@
 # Calibrating the sentence-length thresholds
 
 `short_sent_threshold` and `long_sent_threshold` were not taken from a
-published source; they were chosen by measurement on newspaper columns, with the default sentence rule.
+published source; they were chosen by measurement on newspaper columns, with the default sentence rule
+and the default word.
 This document records that measurement.
 
-**Measured:** 2026-10-06 (current). The earlier measurement of 2026-07-28 is under "Earlier calibration" below.
+**Measured:** 2026-10-06 (current, with the default word). Earlier measurements are under "Earlier calibrations" below.
 
 ## Result
 
 | | `short_sent_threshold` | `long_sent_threshold` |
 |---|---|---|
-| **Turkish** | 4 | 18 |
-| **English** | 9 | 33 |
+| **Turkish** | 4 | 17 |
+| **English** | 8 | 32 |
 
 The thresholds are resolved by language in the `analyze(lang=...)` call. If
 you pass your own threshold through `FeatureParams`, yours wins; any field you
@@ -24,14 +25,15 @@ leave out keeps the value above ([details](en/how-to/parameters.md)).
 | Source | KEMİK (YTÜ) column corpora | KEMİK `30Columnists` |
 | Columnists | 162 | 30 |
 | Articles | 4,321 | 1,485 |
-| Words measured | 2,114,978 | 1,106,919 |
+| Words measured | 2,108,415 | 1,078,588 |
 | **Sentences measured** | **197,990** | **52,745** |
 
 The full corpora were used, with no sampling. The texts are not distributed; only the numbers are published.
 Sentence boundaries were found with the library's default sentence rule (`. ? ! …`
 always, `:` only when what follows starts like a new sentence; an abbreviation dot
-does not end a sentence); length is the number of non-punctuation words, as in the
-`sentence` group. Feature extraction was not run, since only the number of words per
+does not end a sentence). Length is the number of default words in the sentence: a
+whitespace-separated unit with edge punctuation stripped that contains a letter or digit (the
+`sentence` group's own path: `kural_cumleleri` + `cumle_birimleri`). Feature extraction was not run, since only the number of words per
 sentence was needed.
 
 The 15th and 85th percentiles were chosen as thresholds. A criterion such as
@@ -44,20 +46,22 @@ requires a threshold, and deriving the threshold from it would be circular.
 |---|---|---|
 | 5th | 2.0 | 5.0 |
 | 10th | 3.0 | 7.0 |
-| **15th** | **4.0** | **9.0** |
-| 25th | 5.0 | 12.0 |
+| **15th** | **4.0** | **8.0** |
+| 25th | 5.0 | 11.0 |
 | 50th (median) | 9.0 | 19.0 |
-| 75th | 14.0 | 28.0 |
-| **85th** | **18.0** | **33.0** |
-| 90th | 20.0 | 37.0 |
-| 95th | 25.0 | 44.0 |
+| 75th | 14.0 | 27.0 |
+| **85th** | **17.0** | **32.0** |
+| 90th | 20.0 | 36.0 |
+| 95th | 25.0 | 43.0 |
+
+In Turkish the 85th percentile sits on the boundary: at 17, 15.0% of sentences count as long; at 18, 12.9%.
 
 ## Why a language-specific threshold
 
 A single pair of thresholds for both languages, such as 5 and 30, sits in the
 wrong place in both. In Turkish, 30 words is above even the 95th percentile
 (25), so `long_sent_ratio` is practically always near zero. In English the same
-number falls between the 75th (28) and 85th (33) percentiles.
+number falls between the 75th (27) and 85th (32) percentiles.
 
 The reason is typological: Turkish is agglutinative, and a single word can
 carry what a subordinate clause carries in an analytic language. The surface
@@ -79,14 +83,37 @@ Ateşman's 30 was **not used** for `long`: it is the mean of the hardest text,
 not a threshold for calling a single sentence long. Used as a threshold, it
 lies above the 95th percentile in Turkish.
 
-## Earlier calibration (2026-07-28, superseded)
+## Earlier calibrations
+
+### Default sentence rule, earlier word (2026-10-06, superseded)
+
+Same columns and same sentences; word = a spaCy token containing a letter or digit. The result
+was TR 4/18, EN 9/33. The same day the default word became the whitespace unit and the thresholds
+were measured again. The word definition changes a length only where spaCy splits a whitespace
+unit (`e-posta`, `%50`, English `don't` → `do` + `n't`): 2.8% of Turkish and 37.6% of English
+sentences got shorter, none longer.
+
+| Percentile | TR (n = 197,990) | EN (n = 52,745) |
+|---|---|---|
+| 5th | 2.0 | 5.0 |
+| 10th | 3.0 | 7.0 |
+| 15th | 4.0 | 9.0 |
+| 25th | 5.0 | 12.0 |
+| 50th (median) | 9.0 | 19.0 |
+| 75th | 14.0 | 28.0 |
+| 85th | 18.0 | 33.0 |
+| 90th | 20.0 | 37.0 |
+| 95th | 25.0 | 44.0 |
+
+### Novel corpora, spaCy parser sentences (2026-07-28, superseded)
 
 The thresholds were first measured on novel-heavy corpora with the spaCy parser's
 sentences: TR 15 authors / 1,089,841 sentences, EN 10 authors / 341,892 sentences.
 The result was TR 4/18, EN 7/39. On 2026-10-06 the `sentence` group moved to the
 default sentence rule, and the thresholds were re-derived from newspaper columns
 measured with that rule. The Turkish values (4/18) did not change; the English
-ones moved from 7/39 to 9/33.
+ones moved from 7/39 to 9/33; when the word definition changed the same day they became
+TR 4/17, EN 8/32 (above).
 
 | Percentile | TR (n = 1,089,841) | EN (n = 341,892) |
 |---|---|---|
@@ -112,8 +139,9 @@ of variance in `short_sent_ratio` and `long_sent_ratio` explained by author iden
 **The thresholds were calibrated on newspaper columns.** A column is a single genre.
 
 Novels give another distribution because dialogue lines produce very short
-sentences: in Turkish novels under the default rule about 26.5% of sentences are
-shorter than 4 words and 6.6% longer than 18 (12.1% and 13.0% in columns). There is
+sentences: in Turkish novels (126 books, 992,259 sentences) under the default rule and word,
+26.5% of sentences are shorter than 4 words and 7.6% longer than 17 (12.2% and 15.0% in
+columns). There is
 also **no guarantee** that the same thresholds suit technical writing, transcripts,
 poetry, legal text or textbooks. If you work with those genres, compute the
 percentiles of your own corpus and pass them through `FeatureParams`.

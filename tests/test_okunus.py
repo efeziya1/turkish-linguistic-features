@@ -6,13 +6,11 @@ from turkish_linguistic_features.features.okunus import (
     read_time,
     sayi_oku,
     sayi_oku_en,
-    sembol_oku,
 )
 from turkish_linguistic_features.features.phonetic import (
-    _hece_sayilari,
+    birim_hecesi,
     hece_say,
     syllable_count_stats,
-    toplam_hece,
 )
 
 # ── Türkçe sayı ───────────────────────────────────────────────────────
@@ -76,14 +74,6 @@ def test_sembol_listesi_iki_dilde_ayni_semboller():
     assert "#" not in SEMBOLLER["tr"]              # okunuşu belirsiz, listede yok
 
 
-def test_sembol_okunusu():
-    assert sembol_oku("%", "tr") == "yüzde"
-    assert sembol_oku("%", "en") == "percent"
-    assert sembol_oku("¢", "en") == "cents"         # Kincaid: "¢ (cent) 1 syllable"
-    assert sembol_oku("#", "tr") is None
-    assert sembol_oku("*", "en") is None
-
-
 # ── Turkish ordinals, times, number + unit (2026-10-01, Efe) ──────────
 
 
@@ -145,33 +135,26 @@ def test_single_letter_units_only_after_a_number():
     assert hece_say("4x4", "tr") is None
 
 
-def test_ordinal_needs_a_following_word():
-    """A number with a dot is an ordinal only when a word or a comma follows it."""
-    assert toplam_hece(["3.", "kat"], "tr") == 4           # ü-çün-cü kat
-    assert toplam_hece(["Sonuç", "3."], "tr") == 3          # so-nuç üç
-    assert toplam_hece(["3.", "!"], "tr") == 1              # üç
-    assert toplam_hece(["3.", ",", "4.", "ve"], "tr") == 7  # üçüncü, dördüncü ve
+# ── listed symbols glued to a number, syllable features (2026-10-01, Efe) ──
+# Syllable features read word units since 2026-10-06: "%50" is one unit; the
+# symbol's reading is added to the number (``birim_hecesi``). Ordinals are
+# decided by ``kelime_birimleri`` (test_readability).
 
 
-# ── listed symbols next to a number, syllable features (2026-10-01, Efe) ──
+def test_symbol_reading_joins_the_number():
+    assert birim_hecesi("%50", "tr") == 4        # yüz-de el-li
+    assert birim_hecesi("₺10", "tr") == 3        # li-ra on
+    assert birim_hecesi("25°", "tr") == 6        # yir-mi beş de-re-ce
+    assert syllable_count_stats(["%50", "indirim"], "tr")["syllable_mean"] == 3.5
 
 
-def test_symbol_reading_joins_the_adjacent_number():
-    """spaCy splits "%50"; the symbol is not a word, its reading joins the number."""
-    assert _hece_sayilari(["%", "50", "indirim"], "tr") == [4, 3]   # yüz-de el-li
-    assert _hece_sayilari(["₺", "10"], "tr") == [3]                  # li-ra on
-    assert _hece_sayilari(["25", "°"], "tr") == [6]                  # yir-mi beş de-re-ce
+def test_symbol_alone_is_not_a_word():
+    from turkish_linguistic_features.features.readability import kelime_birimleri
 
-
-def test_symbol_between_two_numbers_is_counted_once():
-    assert _hece_sayilari(["5", "+", "3"], "tr") == [1, 3]           # beş | ar-tı üç
-
-
-def test_symbol_without_a_number_is_skipped():
-    assert _hece_sayilari(["%", "oran"], "tr") == [2]
-    assert syllable_count_stats(["%", "50"], "tr")["syllable_mean"] == 4.0
+    kelimeler, semboller = kelime_birimleri("5 + 3 % oran", "tr")
+    assert kelimeler == ["5", "3", "oran"] and semboller == ["+", "%"]
 
 
 @pytest.mark.cmudict            # English syllable counts
-def test_symbol_reading_joins_the_adjacent_number_english():
-    assert toplam_hece(["$", "5"], "en") == 3                        # dol-lars five
+def test_symbol_reading_joins_the_number_english():
+    assert birim_hecesi("$5", "en") == 3         # five dol-lars

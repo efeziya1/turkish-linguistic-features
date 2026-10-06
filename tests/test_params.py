@@ -28,8 +28,8 @@ def test_params_hashlenebilir():
 
 def test_dil_varsayilanlari_farkli():
     """TR cümleleri EN'den kısa — eşikler de farklı olmalı."""
-    assert resolve_sent_thresholds(DEFAULT_PARAMS, "tr") == (4, 18)
-    assert resolve_sent_thresholds(DEFAULT_PARAMS, "en") == (9, 33)
+    assert resolve_sent_thresholds(DEFAULT_PARAMS, "tr") == (4, 17)
+    assert resolve_sent_thresholds(DEFAULT_PARAMS, "en") == (8, 32)
     tr_uzun = resolve_sent_thresholds(DEFAULT_PARAMS, "tr")[1]
     en_uzun = resolve_sent_thresholds(DEFAULT_PARAMS, "en")[1]
     assert tr_uzun < en_uzun
@@ -52,22 +52,22 @@ def test_ilgisiz_alan_kalibrasyonu_bozmaz():
     varsayılanı 5/30'a düşüyordu — kullanıcı istemediği hâlde, sessizce.
     """
     p = FeatureParams(mattr_window=100)
-    assert resolve_sent_thresholds(p, "tr") == (4, 18)
-    assert resolve_sent_thresholds(p, "en") == (9, 33)
+    assert resolve_sent_thresholds(p, "tr") == (4, 17)
+    assert resolve_sent_thresholds(p, "en") == (8, 32)
 
 
 def test_acik_verilen_esik_kalibrasyonu_yener():
     """Kullanıcı sayı verirse o sayı kazanır; vermediği alan kalibre kalır."""
     p = FeatureParams(long_sent_threshold=12)
     assert resolve_sent_thresholds(p, "tr") == (4, 12)      # kısa kalibre, uzun elle
-    assert resolve_sent_thresholds(p, "en") == (9, 12)
+    assert resolve_sent_thresholds(p, "en") == (8, 12)
     tam = FeatureParams(short_sent_threshold=3, long_sent_threshold=12)
     assert resolve_sent_thresholds(tam, "tr") == (3, 12)
 
 
 def test_kalibre_esikler_tek_kaynaktan():
-    """Eşikler tek sözlükte durur — iki yerde 4/18 tutulmaz."""
-    assert SENT_THRESHOLDS_BY_LANG == {"tr": (4, 18), "en": (9, 33)}
+    """Eşikler tek sözlükte durur — iki yerde 4/17 tutulmaz."""
+    assert SENT_THRESHOLDS_BY_LANG == {"tr": (4, 17), "en": (8, 32)}
 
 
 def test_brunet_sabiti_parametre_olarak_gorunur():

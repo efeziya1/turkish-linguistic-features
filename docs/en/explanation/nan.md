@@ -53,8 +53,11 @@ tlf.describe_feature("mattr")["requires"]
 'at least 100 words (2 x mattr_window)'
 ```
 
-A **word** here is any token that is not punctuation or a symbol; numbers
-count as words. `segment_text`'s `size`, by contrast, counts punctuation too:
+A **word** here is the library's default word: a whitespace-separated unit
+with edge punctuation stripped that contains a letter or digit (`e-posta`,
+`%50` and numbers are one word each). Features that need a POS tag or lemma
+count spaCy tokens that are not punctuation or symbols instead;
+`describe_feature(key)["definitions"]["word"]` says which. `segment_text`'s `size`, by contrast, counts punctuation too:
 a 100-token segment is about 83 words and may fall short of a 100-word minimum.
 
 Below the minimum you get `nan`. Some minimums come from the source

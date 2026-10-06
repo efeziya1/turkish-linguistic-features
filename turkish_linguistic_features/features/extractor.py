@@ -27,7 +27,6 @@ from typing import Any
 
 from ..alfabe import _kucuk_harf
 from ..params import DEFAULT_PARAMS, FeatureParams, resolve_sent_thresholds
-from ..vocab import NON_WORD_POS
 from .dependency import dependency_features
 from .frequency_structure import (
     adjusted_modulus,
@@ -91,8 +90,10 @@ from .punctuation import (
     whitespace_ratio,
 )
 from .readability import (
+    cumle_birimleri,
     english_readability_formulas,
     general_readability_formulas,
+    kelime_birimleri,
     kural_cumleleri,
     turkish_readability_formulas,
 )
@@ -199,10 +200,13 @@ def _extract_features(
     # kendi cümle-yerel `dep_data`'sını kullanır.
     cumleler = kural_cumleleri(surface_tokens, lang)
 
-    # Kelime listesi — tek kural (2026-09-16, Efe): kelime bekleyen her grup
-    # bunu okur. `surface_tokens` noktalama içerir ve `pos_data` ile hizalıdır,
-    # bu yüzden süzgeç POS etiketi üzerinden çalışır.
-    kelimeler = [tok for tok, p in pos_data if p not in NON_WORD_POS]
+    # Varsayılan kelime tanımı (2026-10-06, Efe): boşlukla ayrılan birim, kenar noktalaması
+    # atılır, harf ya da rakam içeren birim kelimedir (`kelime_birimleri`; okunabilirlik
+    # formülleriyle aynı, TOMA uzman sayımıyla 57/57 metinde birebir). Yalnız sayıya ve
+    # yazılı biçime bakan gruplar bunu okur. Sözcük türü, lemma, biçimbilim ya da bağımlılık
+    # isteyen öznitelikler spaCy tokenında kalır (`pos_data`, `lemma_tokens`): etiket o tokena bağlı.
+    kelimeler = kelime_birimleri(raw_text, lang)[0]
+    cumle_kelimeleri = cumle_birimleri(raw_text, cumleler, lang)
     # Dile göre küçük harf: `str.lower()` Türkçede "I"yı "i" yapar, "İ"ye
     # birleşik nokta (U+0307) ekler — ttr ve kelime uzunluğu kayardı.
     kucuk_kelimeler = [_kucuk_harf(tok, lang) for tok in kelimeler]
@@ -268,14 +272,14 @@ def _extract_features(
 
     # ── sentence (8) ──────────────────────────────────────────────────
     if istiyor("sentence"):
-        feats.update(sentence_stats(cumleler))
+        feats.update(sentence_stats(cumle_kelimeleri))
         feats.update(avg_sent_len_char(cumleler))
-        feats.update(sentence_distribution_stats(cumleler, kisa_esik, uzun_esik))
-        feats.update(sent_len_entropy(cumleler))
+        feats.update(sentence_distribution_stats(cumle_kelimeleri, kisa_esik, uzun_esik))
+        feats.update(sent_len_entropy(cumle_kelimeleri))
 
     # ── paragraph (5) ─────────────────────────────────────────────────
     if istiyor("paragraph"):
-        feats.update(paragraph_stats(raw_text))
+        feats.update(paragraph_stats(raw_text, lang))
 
     # ── pos (13) ──────────────────────────────────────────────────────
     if istiyor("pos"):
@@ -315,10 +319,10 @@ def _extract_features(
         # Ünlü uyumu Türkçeye özgü (Göksel & Kerslake 2005); İngilizcede
         # anlamı yok, anahtar hiç üretilmez — Zeyrek ve okunabilirlikle aynı.
         if lang == "tr":
-            feats.update(vowel_harmony_ratios(surface_tokens, lang))
-        feats.update(syllable_count_stats(surface_tokens, lang))
-        feats.update(syllable_length_distribution(surface_tokens, lang))
-        feats.update(sentence_syllable_stats(cumleler, lang))
+            feats.update(vowel_harmony_ratios(kelimeler, lang))
+        feats.update(syllable_count_stats(kelimeler, lang))
+        feats.update(syllable_length_distribution(kelimeler, lang))
+        feats.update(sentence_syllable_stats(cumle_kelimeleri, lang))
 
     # ── readability (TR 7 · EN 8) — dil ayrımı burada ─────────────────
     if istiyor("readability"):
@@ -337,8 +341,8 @@ def _extract_features(
         feats.update(consecutive_punct_ratio(raw_text))
         feats.update(whitespace_ratio(raw_text))
         feats.update(punct_variety(raw_text))
-        feats.update(uppercase_ratio(surface_tokens))
-        feats.update(all_caps_word_ratio(surface_tokens))
+        feats.update(uppercase_ratio(kelimeler))
+        feats.update(all_caps_word_ratio(kelimeler))
 
     # ── chars (dinamik: TR 29 · EN 26) ────────────────────────────────
     if istiyor("chars"):

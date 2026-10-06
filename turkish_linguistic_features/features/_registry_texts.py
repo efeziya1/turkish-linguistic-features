@@ -238,8 +238,8 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'consecutive_punct_ratio': 'share of marks directly next to another mark',
     'whitespace_ratio': 'share of whitespace characters',
     'punct_variety': 'number of punctuation types used (0–10)',
-    'uppercase_ratio': 'share of capitalised tokens',
-    'all_caps_word_ratio': 'share of all-caps tokens',
+    'uppercase_ratio': 'share of capitalised words',
+    'all_caps_word_ratio': 'share of all-caps words',
     # ── chars (dinamik grup) ───────────────────────────────────────
     'chars': 'share of that letter among alphabet letters',
     # ── custom_ngrams (dinamik grup) ───────────────────────────────
@@ -311,7 +311,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'med_sent_len': 'median words per sentence',
     'sent_len_entropy': 'Shannon entropy (bits) of the distribution of words per sentence',
     # ── paragraph ───────────────────────────────────────────────
-    'para_len_mean': 'mean whitespace-separated words per paragraph (blank line = boundary)',
+    'para_len_mean': 'mean words per paragraph (blank line = boundary)',
     'para_len_cv': 'population std / mean',
     'sents_per_para_mean': 'mean count of [.!?…]+ per paragraph (at least 1)',
     'sents_per_para_cv': 'population std / mean',
@@ -455,8 +455,8 @@ FEATURE_FORMULAS: dict[str, str] = {
     'consecutive_punct_ratio': 'adjacent marks / marks',
     'whitespace_ratio': 'whitespace / characters',
     'punct_variety': 'distinct mark types',
-    'uppercase_ratio': 'tokens whose first letter is upper case / tokens with a letter',
-    'all_caps_word_ratio': 'tokens with 2+ letters, all upper case / tokens with a letter',
+    'uppercase_ratio': 'words whose first letter is upper case / words with a letter',
+    'all_caps_word_ratio': 'words with 2+ letters, all upper case / words with a letter',
     # ── chars (dinamik grup) ───────────────────────────────────────
     'chars': 'letter count / alphabet letters',
     # ── custom_ngrams (dinamik grup) ───────────────────────────────
@@ -658,8 +658,8 @@ FEATURE_REQUIRES: dict[str, str] = {
     'consecutive_punct_ratio': 'at least 1 punctuation mark',
     'whitespace_ratio': 'non-empty text',
     'punct_variety': 'non-empty text',
-    'uppercase_ratio': 'at least 1 token with a letter',
-    'all_caps_word_ratio': 'at least 1 token with a letter',
+    'uppercase_ratio': 'at least 1 word with a letter',
+    'all_caps_word_ratio': 'at least 1 word with a letter',
     # ── chars (dinamik grup) ───────────────────────────────────────
     'chars': 'at least 1 alphabet letter',
     # ── custom_ngrams (dinamik grup) ───────────────────────────────
@@ -714,13 +714,15 @@ FEATURE_CITATIONS: dict[str, str] = {
         "punctuation types is this library's own decision",
     'short_sent_ratio':
         "This library's threshold calibration (docs/threshold-calibration.md); "
-        'TR 4, EN 9 — 15th percentile of newspaper columns under the default sentence rule. Note: the '
+        'TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word '
+        'rules. Note: the '
         'TR value coincides with Ateşman (1997) p.74, where the easiest text has a '
         'mean sentence length of 4 words; that is a text mean, not a threshold, '
         'so it is not the source. Calibrated on newspaper columns only',
     'long_sent_ratio':
         "This library's threshold calibration (docs/threshold-calibration.md); "
-        "TR 18, EN 33 — 85th percentile of newspaper columns under the default sentence rule. Ateşman's "
+        'TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word '
+        "rules. Ateşman's "
         '30 was not used: that is the mean of the hardest text, not a single-sentence '
         'threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a '
         'threshold it would almost never fire). Calibrated on newspaper columns only',
@@ -976,7 +978,7 @@ BIBLIOGRAPHY: dict[str, str] = {
         "This library's own measurement, not a published source. short_sent_threshold "
         'and long_sent_threshold were derived from the 15th and 85th percentiles of '
         'the sentence-length distribution of newspaper columns under the default sentence '
-        'rule: TR 162 columnists / 4,321 articles / 197,990 sentences, EN 30 columnists / '
+        'and word rules: TR 162 columnists / 4,321 articles / 197,990 sentences, EN 30 columnists / '
         '1,485 articles / 52,745 sentences. Method and raw percentile '
         'table: docs/threshold-calibration.md.',
     'Ateşman (1997)':
