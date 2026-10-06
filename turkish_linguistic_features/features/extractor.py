@@ -93,6 +93,7 @@ from .punctuation import (
 from .readability import (
     english_readability_formulas,
     general_readability_formulas,
+    kural_cumleleri,
     turkish_readability_formulas,
 )
 from .registry import GROUP_LABELS
@@ -192,7 +193,11 @@ def _extract_features(
         return secili is None or grup in secili
 
     feats: dict[str, float] = {}
-    cumleler = sentences_as_tokens or []
+    # Cümle listesi — varsayılan kural (2026-10-06, Efe): `sentence`, `syntactic` ve `phonetic`
+    # grupları spaCy'nin ayrıştırıcı cümlelerini değil, okunabilirlik formüllerinin varsayılan
+    # kuralını kullanır. `sentences_as_tokens` (spaCy cümleleri) bu yüzden okunmaz; `syntactic_dep`
+    # kendi cümle-yerel `dep_data`'sını kullanır.
+    cumleler = kural_cumleleri(surface_tokens, lang)
 
     # Kelime listesi — tek kural (2026-09-16, Efe): kelime bekleyen her grup
     # bunu okur. `surface_tokens` noktalama içerir ve `pos_data` ile hizalıdır,

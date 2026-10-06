@@ -39,6 +39,16 @@ def test_parca_boyu_TAM_istenen_token_sayisi():
     assert all(len(tokenizer(p)) == 100 for p in parcalar)
 
 
+def test_satir_sonu_tokenlari_sayilmaz():
+    """``analyze`` boşluk tokenlarını atıyor; parça boyu da aynı sayımla tam olmalı."""
+    import spacy
+    metin = "\n".join(["Ben eve gittim ve sonra yemek yedim bugün"] * 60)
+    parcalar = segment_text(metin, size=100, lang="tr")
+    tokenizer = spacy.blank("tr").tokenizer
+    assert parcalar
+    assert all(sum(not t.is_space for t in tokenizer(p)) == 100 for p in parcalar)
+
+
 def test_min_fill_varsayilani_yarim_parcayi_atar():
     assert len(segment_text(_metin(250), size=100, lang="tr")) == 2
 

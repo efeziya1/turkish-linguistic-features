@@ -89,6 +89,7 @@ DURUMLAR: dict[str, tuple[tuple, tuple]] = {
     "readability.english_readability_formulas": (("", []), ("Home.", ["Home", "."])),
     "readability.general_readability_formulas": (("", [], "tr"), ("Ev.", ["Ev", "."], "tr")),
     "readability.kelime_birimleri": (("", "tr"), ("ev", "tr")),
+    "readability.kural_cumleleri": (([], "tr"), (["Ev", "."], "tr")),
     "readability.turkish_readability_formulas": (("", []), ("Ev.", ["Ev", "."])),
     "syntactic.activity_ratio": (([],), (POS_EV,)),
     "syntactic.avg_sent_len_char": (([],), ([["ev"]],)),

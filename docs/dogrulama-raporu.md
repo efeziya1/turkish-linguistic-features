@@ -108,7 +108,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `arc_len_mean` | Jing & Liu (2015) p.164 | Figure 3 · 'Mr. Nixon was to…' | formül | 1.167 | 1.167 | +0.000 | ✅ |
 | `arc_len_mean` | Liu (2008) eq. (1) | 'I actually live in Beijing' · 5/4 | formül | 1.250 | 1.250 | +0.000 | ✅ |
 | `parse_depth_mean` | Jing & Liu (2015) p.164 | Figure 3 · MHD = 12/6 | formül | 2.000 | 2.000 | +0.000 | ✅ |
-| `ari` | Kincaid et al. (1975) p.8, Table 1 | Appendix A · 18 passages, mean | uçtan uca | 12.300 | 11.815 | -0.485 | 🟡 |
+| `ari` | Kincaid et al. (1975) p.8, Table 1 | Appendix A · 18 passages, mean | uçtan uca | 12.300 | 11.763 | -0.537 | 🟡 |
 | `coleman_liau` | Coleman & Liau (1975) p.284 | iki denklemin bileşimi · 13 kelime, 2 cümle | formül | 7.704 | 7.705 | +0.000 | ✅ |
 | `coleman_liau` | Coleman & Liau (1975) p.284, Table 1 | cloze 40.4% → 12. sınıf | formül | 12.000 | 11.994 | -0.006 | ✅ |
 | `atesman` | Ateşman (1997) | Kalyoncu & Memiş (2024) Table 9 · Text 2 | uçtan uca | 23.094 | 23.094 | -0.000 | ✅ |
@@ -198,8 +198,8 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `sent_len_skewness` | — | ⚪ |
 | `med_sent_len` | — | ⚪ |
 | `avg_sent_len_char` | — | ⚪ |
-| `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 7 — 15th percentile. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on novels/fiction only | 🔧 |
-| `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 18, EN 39 — 85th percentile. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish novels 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on novels/fiction only | 🔧 |
+| `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 9 — 15th percentile of newspaper columns under the default sentence rule. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only | 🔧 |
+| `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 18, EN 33 — 85th percentile of newspaper columns under the default sentence rule. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only | 🔧 |
 | `sent_len_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision | 🔧 |
 | `para_len_mean` | — | ⚪ |
 | `para_len_cv` | — | ⚪ |
@@ -389,10 +389,10 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `arc_len_mean` | Jing & Liu (2015) p.164 | Figure 3 · 'Mr. Nixon was to…' | formül | 1.167 | 1.167 | +0.000 | ✅ |
 | `arc_len_mean` | Liu (2008) eq. (1) | 'I actually live in Beijing' · 5/4 | formül | 1.250 | 1.250 | +0.000 | ✅ |
 | `parse_depth_mean` | Jing & Liu (2015) p.164 | Figure 3 · MHD = 12/6 | formül | 2.000 | 2.000 | +0.000 | ✅ |
-| `ari` | Kincaid et al. (1975) p.8, Table 1 | Appendix A · 18 passages, mean | uçtan uca | 12.300 | 11.815 | -0.485 | 🟡 |
+| `ari` | Kincaid et al. (1975) p.8, Table 1 | Appendix A · 18 passages, mean | uçtan uca | 12.300 | 11.763 | -0.537 | 🟡 |
 | `coleman_liau` | Coleman & Liau (1975) p.284 | iki denklemin bileşimi · 13 kelime, 2 cümle | formül | 7.704 | 7.705 | +0.000 | ✅ |
 | `coleman_liau` | Coleman & Liau (1975) p.284, Table 1 | cloze 40.4% → 12. sınıf | formül | 12.000 | 11.994 | -0.006 | ✅ |
-| `flesch_kincaid_grade` | Kincaid et al. (1975) p.12, Table 2 | Appendix A · 18 passages, mean | uçtan uca | 10.700 | 10.362 | -0.338 | 🟡 |
+| `flesch_kincaid_grade` | Kincaid et al. (1975) p.12, Table 2 | Appendix A · 18 passages, mean | uçtan uca | 10.700 | 10.326 | -0.374 | 🟡 |
 
 **`ttr` sapması:** Kaynağın kendi sayıları (V=121, N=202) 121/202 = 0,599 verir; basılan 0,590 bu aritmetikle tutmuyor (baskı hatası). Bizim değer aritmetiğe uyuyor; fark yayımlanan değerin %1,5'i.
 
@@ -466,8 +466,8 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `sent_len_skewness` | — | ⚪ |
 | `med_sent_len` | — | ⚪ |
 | `avg_sent_len_char` | — | ⚪ |
-| `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 7 — 15th percentile. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on novels/fiction only | 🔧 |
-| `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 18, EN 39 — 85th percentile. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish novels 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on novels/fiction only | 🔧 |
+| `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 9 — 15th percentile of newspaper columns under the default sentence rule. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only | 🔧 |
+| `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 18, EN 33 — 85th percentile of newspaper columns under the default sentence rule. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only | 🔧 |
 | `sent_len_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision | 🔧 |
 | `para_len_mean` | — | ⚪ |
 | `para_len_cv` | — | ⚪ |
@@ -618,7 +618,7 @@ Pasaj metinleri `tests/veri/kincaid/`, ölçüm `scripts/kincaid_olcum.py`.
 | 14 | 681 | 137 | 12.0 | 11.77 | -0.23 | 12.5 | 12.11 | -0.39 | 13-16 ✅ |
 | 15 | 985 | 217 | 9.7 | 8.99 | -0.71 | 8.4 | 8.16 | -0.24 | 8-9 ✅ |
 | 16 | 882 | 163 | 13.5 | 13.11 | -0.39 | 13.8 | 14.13 | +0.33 | 16+ ✅ |
-| 17 | 1240 | 240 | 10.4 | 10.90 | +0.50 | 9.3 | 9.48 | +0.18 | 10-12 ✅ |
+| 17 | 1240 | 240 | 10.4 | 9.96 | -0.44 | 9.3 | 8.83 | -0.47 | 10-12 ✅ |
 | 18 | 782 | 144 | 10.9 | 10.69 | -0.21 | 6.6 | 6.81 | +0.21 | — |
 
-ARI ortalama mutlak fark **0.54**, en büyük **3.74** (pasaj 2). FKGL ortalama mutlak fark **0.54**, en büyük **4.28** (pasaj 12). FRE bandının içinde: **14/17**.
+ARI ortalama mutlak fark **0.54**, en büyük **3.74** (pasaj 2). FKGL ortalama mutlak fark **0.55**, en büyük **4.28** (pasaj 12). FRE bandının içinde: **14/17**.

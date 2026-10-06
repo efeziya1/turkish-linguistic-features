@@ -124,6 +124,40 @@ def test_noktali_virgul_ve_iki_nokta_formule_gore():
     assert cumle_sayisi(tok, ".?!;:", "en") == 3      # fonksiyon işaret kümesini olduğu gibi uygular
 
 
+@pytest.mark.parametrize("lang", ["tr", "en"])
+@pytest.mark.parametrize("kume", ["varsayilan", "kincaid", "cetinkaya"])
+def test_uc_nokta_iki_yazimda_ayni_sayilir(lang, kume):
+    """2026-10-06 (Efe): "..." ve "…" aynı işaret; ikisi de her kuralda cümle bitirir."""
+    from turkish_linguistic_features.features.readability import _CUMLE_SONU
+
+    uc = cumle_sayisi(_tok("Geldi... Gitti. Kaldı.", lang), _CUMLE_SONU[kume], lang)
+    tek = cumle_sayisi(_tok("Geldi… Gitti. Kaldı.", lang), _CUMLE_SONU[kume], lang)
+    assert uc == tek == 3
+
+
+@pytest.mark.parametrize("lang,metin,beklenen", [
+    ("tr", 'Ali dedi ki: "Geliyorum." Sonra çıktı.', 3),     # tırnak: iki nokta bitirir
+    ("tr", "Bir şey fark ettim: Hava çok soğuk.", 2),        # büyük harf
+    ("tr", "Şunları aldım: elma, armut.", 1),                # küçük harf: liste
+    ("tr", "Saat 10:30 oldu. Gittik.", 2),                   # rakamlar arası: sınır değil
+    ("en", "They won: we lost.", 1),
+    ("en", "He said: \"Go home.\" Then left.", 3),
+    ("en", "Items: apples, oranges.", 1),
+])
+def test_varsayilan_kosullu_iki_nokta(lang, metin, beklenen):
+    """2026-10-06 (Efe): ":" yalnız sonrası yeni cümle gibi başlıyorsa cümle bitirir."""
+    from turkish_linguistic_features.features.readability import _sayim
+
+    assert _sayim(_tok(metin, lang), "varsayilan", lang) == beklenen
+
+
+def test_cetinkaya_iki_noktayi_kosulsuz_bitirir():
+    """Çetinkaya (2010, s.93) iki nokta için koşul koymuyor."""
+    from turkish_linguistic_features.features.readability import _sayim
+
+    assert _sayim(_tok("Şunları aldım: elma, armut.", "tr"), "cetinkaya", "tr") == 2
+
+
 def test_kisaltma_noktasi_cumle_bitirmez():
     assert cumle_sayisi(_tok("Dr. Smith paid on Jan. 3. Then left.", "en"), ".?!", "en") == 2
     # spaCy TR "bkz." kısaltmasını böler; ardından küçük harf geliyorsa sınır değil
@@ -340,3 +374,48 @@ def test_bos_metinde_hepsi_nan():
 def test_yalniz_noktalama_nan():
     sonuc = general_readability_formulas("...", ["..."], "tr")
     assert all(_nan(v) for v in sonuc.values())
+
+
+# ── kural_cumleleri (varsayılan kuralın cümle listesi) ────────────────
+
+_KURAL_METINLERI = [
+    "Geldi mi? Evet! Gitti. Son",
+    'Ne?! Gitti... Bitti."',
+    "Liste: elma, armut. Not: Yarın gelecek.",
+    "Saat 10:30 oldu. Dr. Ali geldi.",
+    "...",
+    "",
+]
+
+
+@pytest.mark.parametrize("metin", _KURAL_METINLERI)
+@pytest.mark.parametrize("lang", ["tr", "en"])
+def test_kural_cumleleri_tokenlari_kaybetmez_ve_sayiyla_uyusur(metin, lang):
+    """Birleştirilince girdiyi verir; uzunluğu ``cumle_sayisi`` ile aynı (alfasayısal varsa)."""
+    from turkish_linguistic_features.features.readability import _CUMLE_SONU, kural_cumleleri
+
+    tok = _tok(metin, lang)
+    cumleler = kural_cumleleri(tok, lang)
+    assert [t for c in cumleler for t in c] == tok
+    if any(any(ch.isalnum() for ch in t) for t in tok):
+        assert len(cumleler) == cumle_sayisi(tok, _CUMLE_SONU["varsayilan"], lang, ":")
+
+
+def test_kural_cumleleri_bos_girdi_bos_liste():
+    from turkish_linguistic_features.features.readability import kural_cumleleri
+
+    assert kural_cumleleri([], "tr") == []
+
+
+def test_kural_cumleleri_kapanis_tirnagi_onceki_cumlede_kalir():
+    from turkish_linguistic_features.features.readability import kural_cumleleri
+
+    cumleler = kural_cumleleri(["Dedi", "“", "Gel", ".", "”", "Gitti", "."], "tr")
+    assert cumleler == [["Dedi", "“", "Gel", ".", "”"], ["Gitti", "."]]
+
+
+def test_kural_cumleleri_acilis_tirnagi_sonraki_cumleye_gecer():
+    from turkish_linguistic_features.features.readability import kural_cumleleri
+
+    cumleler = kural_cumleleri(["Geldi", ".", "“", "Gel", "!", "”"], "tr")
+    assert cumleler == [["Geldi", "."], ["“", "Gel", "!", "”"]]

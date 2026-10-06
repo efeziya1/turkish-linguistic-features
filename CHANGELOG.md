@@ -32,6 +32,68 @@
   always did. Cited features: TR 141 → 140, EN 116 → 115; verification
   candidates: TR 92 → 91, EN 81 → 80. No values change.
 
+### Added
+
+- Default sentence rule of the readability formulas (decided 2026-10-06): `. ? ! …` always end a
+  sentence, and `:` ends it only when what follows starts like a new sentence (capital letter,
+  quote, dash or opening bracket); a colon followed by a lowercase letter or digit (lists,
+  explanations, `10:30`) does not. The Kincaid rule set uses the same conditional colon (its source
+  counts `:` only before a full sentence); the Çetinkaya rule keeps its source's unconditional `:`.
+  `cumle_sayisi` takes a new optional `kosullu` argument. Texts with a colon followed by a capital
+  letter, quote or dash get more sentences, so `atesman`, `cetinkaya_uzun` (unchanged: its own
+  rule), `bezirci_yilmaz`, `lix`, `ari`, `coleman_liau` and the English formulas change on them.
+- `describe_feature(key)["definitions"]`: for each term the feature's `formula` uses, the rule tlf
+  counts it with: `{"name", "source", "description"}`, e.g. `sentence` → `default`, source `tlf`,
+  and one sentence on how it is counted. `source` says who defines the rule (`tlf`, `spacy`,
+  `zeyrek`, `textstat`, `wordfreq`). 21 terms: `sentence`, `word`, `type`, `token`,
+  `syllable`, `polysyllable`, `letter`, `character`, `long_word`, `paragraph`, `mark`, `noun`, `verb`,
+  `lexical_word`, `content_word`, `suffix` (tlf's own rules) and `pos_tag`, `morph_feature`,
+  `dependency`, `zipf_score`, `zeyrek_tag` (a library's output used directly). A term the formula
+  does not use is absent. `describe_feature(key, lang=...)` is new: where a definition differs by
+  language (`syllable`: Turkish vowel count, English `textstat`) it picks that language's entry;
+  without `lang` both are returned. Mapping in `features/_registry_definitions.py`, texts in
+  `features/_registry_definition_texts.py`, read from the code on 2026-10-06; a test checks that
+  every term named in a formula is present.
+- `readability.kural_cumleleri(surface_tokens, lang)`: the sentence list under the default rule
+  (same boundaries as `cumle_sayisi(..., "varsayilan")`; concatenating it gives back the tokens).
+
+### Changed (sentence definition)
+
+- The twelve features that used spaCy's parser sentences now use the default sentence rule:
+  the eight `sentence` features, `question_per_sent`, `pos_kl_div`, `sentence_syllable_mean` and
+  `sentence_syllable_cv`. The values change; on the 57 TOMA texts the median change is 0% but single
+  texts move up to about ±16% (`avg_sent_len_word`) and `question_per_sent` rises (median +29% where
+  non-zero). `syntactic_dep` (16 features, parser) and the paragraph group (`sents_per_para_*`,
+  regex `[.!?…]+`) keep their own definitions; `describe_feature` names them.
+- The default sentence-length thresholds are now calibrated on newspaper columns with the default
+  sentence rule (15th/85th percentile; TR 162 columnists / 197,990 sentences, EN 30 columnists /
+  52,745 sentences): Turkish stays 4/18, English changes from 7/39 to 9/33 (`short_sent_threshold`,
+  `long_sent_threshold`; only `short_sent_ratio` and `long_sent_ratio` move). The earlier
+  calibration (novel corpora, parser sentences) is kept in `docs/threshold-calibration.md` as
+  history. On Turkish novels the new thresholds give 26.5% short and 6.6% long sentences (columns:
+  12.1% / 13.0%); for fiction pass your own thresholds through `FeatureParams`.
+
+### Fixed
+
+- The readability formulas counted `...` (three dots) as a sentence end but not
+  the single character `…`, so the same text got a different sentence count (and
+  different `atesman`, `cetinkaya_uzun`, `bezirci_yilmaz`, `lix`, `ari`,
+  `coleman_liau`) depending on how the ellipsis was typed. `…` now ends a sentence
+  in every rule set, like `...`. Texts that contain `…` change; texts without it
+  do not.
+- `segment_text(unit="word")` no longer counts whitespace and line-break
+  tokens. `analyze` discards them, so a text with hard line breaks produced
+  segments with fewer real tokens than `size` (about 11% fewer in a text
+  wrapped every 8 words: 178 instead of 200). Each segment now holds exactly
+  `size` tokens by the same count `analyze` uses. Segment boundaries, and so
+  segment counts and values, change for texts with line breaks or repeated
+  spaces; single-spaced text is unaffected.
+- Three registry description texts ran words together ("notclipped",
+  "words,vocd_num_runs", "removed,root"); they appear in `describe_feature()`
+  and in the feature reference.
+- The `describe_feature(...)["params"]` examples in the parameter guide showed
+  a list; the function returns a tuple.
+
 ### Removed
 
 - The undocumented `LINGUISTIC_FEATURES_NO_ZEYREK_WARMUP` environment variable.

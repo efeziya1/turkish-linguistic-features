@@ -65,14 +65,14 @@ published is a separate question — see the
 | `dugast_u` | Dugast's Uber index | `log10(N)^2 / (log10(N) - log10(V))` | at least 2 words, at least one repeated | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 |
 | `guiraud_r` | Guiraud's root TTR | `V / sqrt(N)` | at least 1 word | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only |
 | `ttr_moving_slope` | whether vocabulary thins out towards the end | `linear slope of TTR over disjoint ttr_slope_chunk_size-word chunks` | at least 100 words (2 x ttr_slope_chunk_size) | — |
-| `heaps_beta` | vocabulary growth rate | `least-squares slope of log V ~ log N over prefixes every heaps_step words, notclipped` | at least 300 words (heaps_min_tokens) | Heaps (1978), as cited in Manning et al. (2008) §5.1.1 |
+| `heaps_beta` | vocabulary growth rate | `least-squares slope of log V ~ log N over prefixes every heaps_step words, not clipped` | at least 300 words (heaps_min_tokens) | Heaps (1978), as cited in Manning et al. (2008) §5.1.1 |
 | `entropy` | Shannon entropy of word frequencies | `-sum(p * log2 p)` | at least 1 word | Shannon (1948), as cited in QUITA §6.1.12 |
 | `yule_k` | Yule's K; higher = more repetitive | `10000 * (sum(f^2) - N) / N^2` | at least 1 word | Yule (1944), as cited in Malvern et al. (2004) eq. 3.9 |
 | `simpson_d` | chance that two words drawn without replacement are the same type | `sum(f(f-1)) / (N(N-1))` | at least 2 words | Simpson (1949), as cited in Bestgen (2023) |
 | `brunet_w` | Brunet's W | `N^(V^-a), a = brunet_w_a` | at least 1 word | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) |
 | `hapax_ratio` | share of types occurring once | `V1 / V` | at least 1 word | — |
 | `hapax_percentage` | share of tokens that occur once | `V1 / N` | at least 1 word | QUITA §6.1.6 |
-| `vocd_d` | voc-D | `D fitted to mean TTR of random samples of vocd_sample_min–vocd_sample_max words,vocd_num_runs runs averaged` | at least 50 words (vocd_min_tokens, vocd_sample_max) | Malvern et al. (2004) pp.56–57; procedure from McCarthy & Jarvis (2010) p.383 |
+| `vocd_d` | voc-D | `D fitted to mean TTR of random samples of vocd_sample_min–vocd_sample_max words, vocd_num_runs runs averaged` | at least 50 words (vocd_min_tokens, vocd_sample_max) | Malvern et al. (2004) pp.56–57; procedure from McCarthy & Jarvis (2010) p.383 |
 | `hdd` | HD-D | `expected TTR of a hdd_sample_size-word sample (hypergeometric)` | at least 42 words (hdd_sample_size) | McCarthy & Jarvis (2007), as cited in McCarthy & Jarvis (2010) p.383 |
 | `msttr` | mean segmental TTR | `mean TTR of full msttr_segment_size-word segments` | at least 100 words (msttr_segment_size) | Johnson (1944), as cited in Malvern et al. (2004) p.25 and McCarthy & Jarvis (2010) p.385 |
 | `noun_variation` | noun variation NV | `distinct noun lemmas / lexical-word tokens` | at least 1 lexical word (NOUN, PROPN, VERB, ADJ, ADV) | Lu (2012) Table 2 |
@@ -112,8 +112,8 @@ published is a separate question — see the
 | `avg_sent_len_char` | mean sentence length in characters | `mean len(tokens joined by single spaces)` | at least 1 sentence | — |
 | `sentence_length_cv` | spread of sentence length | `population std / mean of words per sentence` | at least 2 sentences with a letter | — |
 | `sent_len_skewness` | skew of sentence length; positive = long-sentence tail | `Fisher-Pearson g1 = m3 / m2^1.5 over words per sentence` | at least 2 sentences of different length | — |
-| `short_sent_ratio` | share of short sentences | `sentences with fewer than short_sent_threshold words / sentences` | at least 1 sentence with a letter | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 7 — 15th percentile. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on novels/fiction only |
-| `long_sent_ratio` | share of long sentences | `sentences with more than long_sent_threshold words / sentences` | at least 1 sentence with a letter | This library's threshold calibration (docs/threshold-calibration.md); TR 18, EN 39 — 85th percentile. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish novels 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on novels/fiction only |
+| `short_sent_ratio` | share of short sentences | `sentences with fewer than short_sent_threshold words / sentences` | at least 1 sentence with a letter | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 9 — 15th percentile of newspaper columns under the default sentence rule. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only |
+| `long_sent_ratio` | share of long sentences | `sentences with more than long_sent_threshold words / sentences` | at least 1 sentence with a letter | This library's threshold calibration (docs/threshold-calibration.md); TR 18, EN 33 — 85th percentile of newspaper columns under the default sentence rule. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only |
 | `med_sent_len` | median sentence length | `median words per sentence` | at least 1 sentence with a letter | — |
 | `sent_len_entropy` | variety of sentence lengths | `Shannon entropy (bits) of the distribution of words per sentence` | at least 2 sentences with a letter | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision |
 
@@ -171,7 +171,7 @@ published is a separate question — see the
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
-| `arc_len_mean` | mean dependency distance (MDD2) | `mean over sentences of mean abs(word position - head position), punctuation removed,root excluded` | at least 1 sentence with 2 words | Liu (2008) eq. (1); text level from Jing & Liu (2015) p.164, eq. (3) (MDD2) |
+| `arc_len_mean` | mean dependency distance (MDD2) | `mean over sentences of mean abs(word position - head position), punctuation removed, root excluded` | at least 1 sentence with 2 words | Liu (2008) eq. (1); text level from Jing & Liu (2015) p.164, eq. (3) (MDD2) |
 | `parse_depth_mean` | mean hierarchical distance (MHD2) | `mean over sentences of mean steps to the root, capped at max_parse_depth` | at least 1 sentence with 2 words | Jing & Liu (2015) p.164, eq. (2) and (4) (MHD2) |
 | `sentfinal_noun` | share of sentences ending in a NOUN | `sentences ending in that tag / sentences` | at least 1 sentence with a word | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
 | `sentfinal_propn` | share of sentences ending in a PROPN | `sentences ending in that tag / sentences` | at least 1 sentence with a word | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
@@ -445,7 +445,7 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 :   Smith, E. A., & Senter, R. J. (1967). Automated readability index. AMRL-TR-66-220. Wright-Patterson AFB, OH: Aerospace Medical Research Laboratories. 22 s.
 
 **This library's threshold calibration**
-:   This library's own measurement, not a published source. short_sent_threshold and long_sent_threshold were derived from the 15th and 85th percentiles of the sentence-length distribution in novel corpora: TR 15 authors / 1,089,841 sentences, EN 10 authors / 341,892 sentences. Method and raw percentile table: docs/threshold-calibration.md.
+:   This library's own measurement, not a published source. short_sent_threshold and long_sent_threshold were derived from the 15th and 85th percentiles of the sentence-length distribution of newspaper columns under the default sentence rule: TR 162 columnists / 4,321 articles / 197,990 sentences, EN 30 columnists / 1,485 articles / 52,745 sentences. Method and raw percentile table: docs/threshold-calibration.md.
 
 **Tweedie & Baayen (1998)**
 :   Tweedie, F. J., & Baayen, R. H. (1998). How variable may a constant be? Measures of lexical richness in perspective. Computers and the Humanities, 32(5), 323–352. DOI 10.1023/A:1001749303137

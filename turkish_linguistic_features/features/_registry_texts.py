@@ -268,7 +268,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'guiraud_r': 'V / sqrt(N)',
     'ttr_moving_slope': 'linear slope of TTR over disjoint ttr_slope_chunk_size-word chunks',
     'heaps_beta':
-        'least-squares slope of log V ~ log N over prefixes every heaps_step words, not'
+        'least-squares slope of log V ~ log N over prefixes every heaps_step words, not '
         'clipped',
     'entropy': '-sum(p * log2 p)',
     'yule_k': '10000 * (sum(f^2) - N) / N^2',
@@ -277,7 +277,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'hapax_ratio': 'V1 / V',
     'hapax_percentage': 'V1 / N',
     'vocd_d':
-        'D fitted to mean TTR of random samples of vocd_sample_min–vocd_sample_max words,'
+        'D fitted to mean TTR of random samples of vocd_sample_min–vocd_sample_max words, '
         'vocd_num_runs runs averaged',
     'hdd': 'expected TTR of a hdd_sample_size-word sample (hypergeometric)',
     'msttr': 'mean TTR of full msttr_segment_size-word segments',
@@ -342,7 +342,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'pos_kl_div': 'mean over sentences of KL(sentence POS ‖ document POS), bits',
     # ── syntactic_dep ───────────────────────────────────────────
     'arc_len_mean':
-        'mean over sentences of mean abs(word position - head position), punctuation removed,'
+        'mean over sentences of mean abs(word position - head position), punctuation removed, '
         'root excluded',
     'parse_depth_mean': 'mean over sentences of mean steps to the root, capped at max_parse_depth',
     'sentfinal_noun': 'sentences ending in that tag / sentences',
@@ -714,16 +714,16 @@ FEATURE_CITATIONS: dict[str, str] = {
         "punctuation types is this library's own decision",
     'short_sent_ratio':
         "This library's threshold calibration (docs/threshold-calibration.md); "
-        'TR 4, EN 7 — 15th percentile. Note: the '
+        'TR 4, EN 9 — 15th percentile of newspaper columns under the default sentence rule. Note: the '
         'TR value coincides with Ateşman (1997) p.74, where the easiest text has a '
         'mean sentence length of 4 words; that is a text mean, not a threshold, '
-        'so it is not the source. Calibrated on novels/fiction only',
+        'so it is not the source. Calibrated on newspaper columns only',
     'long_sent_ratio':
         "This library's threshold calibration (docs/threshold-calibration.md); "
-        "TR 18, EN 39 — 85th percentile. Ateşman's "
+        "TR 18, EN 33 — 85th percentile of newspaper columns under the default sentence rule. Ateşman's "
         '30 was not used: that is the mean of the hardest text, not a single-sentence '
-        'threshold (in Turkish novels 30 words is above the 95th percentile, so as a '
-        'threshold it would almost never fire). Calibrated on novels/fiction only',
+        'threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a '
+        'threshold it would almost never fire). Calibrated on newspaper columns only',
     'sent_len_entropy':
         'Shannon (1948) — the entropy formula; applying it to the distribution of '
         "sentence lengths is this library's own decision",
@@ -975,8 +975,9 @@ BIBLIOGRAPHY: dict[str, str] = {
     "This library's threshold calibration":
         "This library's own measurement, not a published source. short_sent_threshold "
         'and long_sent_threshold were derived from the 15th and 85th percentiles of '
-        'the sentence-length distribution in novel corpora: TR 15 authors / 1,089,841 '
-        'sentences, EN 10 authors / 341,892 sentences. Method and raw percentile '
+        'the sentence-length distribution of newspaper columns under the default sentence '
+        'rule: TR 162 columnists / 4,321 articles / 197,990 sentences, EN 30 columnists / '
+        '1,485 articles / 52,745 sentences. Method and raw percentile '
         'table: docs/threshold-calibration.md.',
     'Ateşman (1997)':
         'Ateşman, E. (1997). Türkçede okunabilirliğin ölçülmesi. Dil Dergisi, 58, '

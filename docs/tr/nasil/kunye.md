@@ -26,7 +26,11 @@ print(json.dumps(tlf.describe_feature("mattr"), ensure_ascii=False, indent=2))
   "citation": "Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window)",
   "references": [
     "Covington, M. A., & McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098"
-  ]
+  ],
+  "definitions": {
+    "word": {"name": "pos_token", "source": "tlf", "description": "A spaCy token whose POS tag is not PUNCT or SYM; numbers count."},
+    "type": {"name": "lowercase_surface", "source": "tlf", "description": "The word string lowercased by language (Turkish I→ı, İ→i); inflected forms are separate types."}
+  }
 }
 ```
 
@@ -42,6 +46,7 @@ print(json.dumps(tlf.describe_feature("mattr"), ensure_ascii=False, indent=2))
 | `requires` | Sayı üretmesi için gereken en az veri; sağlanmazsa `nan` |
 | `citation` | **Kısa işaretçi** — yöntem bölümünde parantez içi |
 | `references` | **Tam bibliyografik kayıt** — kaynakçaya kopyalanacak olan |
+| `definitions` | `formula`daki terimlerin ne demek olduğu ve tanımın nereden geldiği: her terim için `{"name", "source" (kuralı kim koyuyor: tlf, spacy, zeyrek, textstat, wordfreq), "description" (tek cümle: nasıl sayıldığı)}`; yalnız o formülün kullandığı terimler; dile göre değişen terimde (`syllable`) `describe_feature(key, lang="tr")` dili seçer |
 
 ## Künye ne bilmediğimizi de söyler
 
