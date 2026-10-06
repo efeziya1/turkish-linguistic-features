@@ -378,8 +378,8 @@ def describe_feature(key: str, lang: str | None = None) -> dict:
         ``definitions`` = ``{terim: {"name", "source", "description"}}``: formülün
         kullandığı terimlerin (``sentence``, ``word``, ``syllable``…) tlf'deki tanımı,
         kuralı kimin koyduğu (``tlf``, ``spacy``, ``zeyrek``, ``textstat``,
-        ``wordfreq``) ve tek cümleyle nasıl hesaplandığı. Formülde olmayan terim sözlükte yoktur. Dile göre değişen
-        terimde (``syllable``) ``lang`` verilirse o dilin kaydı, verilmezse
+        ``wordfreq``) ve tek cümleyle nasıl hesaplandığı. Formülde olmayan terim sözlükte
+        yoktur. Dile göre değişen terimde (``syllable``) ``lang`` verilirse o dilin kaydı, verilmezse
         ``{"tr": kayıt, "en": kayıt}`` döner; yalnız tek dilde üretilen öznitelikte
         (``atesman`` yalnız Türkçe, ``flesch_reading_ease`` yalnız İngilizce) o dilin kaydı. Adların anlamı
         ``_registry_definition_texts.py``'de.

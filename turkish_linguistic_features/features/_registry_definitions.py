@@ -2,7 +2,8 @@
 
 ``describe_feature(key)["definitions"]`` bunu okur: formülün kullandığı her terim için
 ``{"name", "source", "description"}``. ``source`` kuralı kimin koyduğunu söyler (``tlf``,
-``spacy``, ``zeyrek``, ``textstat``, ``wordfreq``), ``description`` tek cümleyle nasıl hesaplandığını. Dile göre
+``spacy``, ``zeyrek``, ``textstat``, ``wordfreq``), ``description`` tek cümleyle nasıl
+hesaplandığını. Dile göre
 değişen terimde (``syllable``) ``describe_feature(key, lang="tr")`` o dilin kaydını, ``lang``
 verilmezse ``{"tr": ..., "en": ...}`` döndürür. Formülün kullanmadığı terim sözlükte yoktur.
 
@@ -22,7 +23,8 @@ from __future__ import annotations
 
 from ._registry_definition_texts import DEFINITION_INFO
 
-__all__ = ["TERMS", "TERM_VALUES", "LANGUAGE_NAMES", "PER_LANGUAGE", "ONLY_LANGUAGE", "SENTENCE_DEFINITIONS", "WORD_DEFINITIONS", "definitions_of",
+__all__ = ["TERMS", "TERM_VALUES", "LANGUAGE_NAMES", "PER_LANGUAGE", "ONLY_LANGUAGE",
+           "SENTENCE_DEFINITIONS", "WORD_DEFINITIONS", "definitions_of",
            "GROUP_SENTENCE", "FEATURE_SENTENCE", "GROUP_WORD", "FEATURE_WORD"]
 
 TERM_VALUES: dict[str, frozenset[str]] = {
@@ -70,7 +72,8 @@ ONLY_LANGUAGE: dict[str, str] = {
 SENTENCE_DEFINITIONS = TERM_VALUES["sentence"]
 WORD_DEFINITIONS = TERM_VALUES["word"]
 
-_PUNC = tuple(f"punc_{t}_ratio" for t in (",", ".", ";", "!", ":", "-", "ellipsis", "paren", "quote", "question"))
+_PUNC_TURLER = (",", ".", ";", "!", ":", "-", "ellipsis", "paren", "quote", "question")
+_PUNC = tuple(f"punc_{t}_ratio" for t in _PUNC_TURLER)
 _SYLLABLE_PHONETIC = (
     "syllable_mean", "syllable_cv", "syllable_1_ratio", "syllable_2_ratio", "syllable_3_ratio",
     "syllable_4_ratio", "syllable_5_ratio", "syllable_6plus_ratio",
@@ -109,7 +112,7 @@ _ZEYREK_WORD = (
 )
 
 
-def _hepsi(deger: str, anahtarlar: tuple[str, ...]) -> dict[str, str]:
+def _hepsi(deger: str, anahtarlar: tuple[str, ...]) -> dict[str, str | None]:
     return dict.fromkeys(anahtarlar, deger)
 
 
