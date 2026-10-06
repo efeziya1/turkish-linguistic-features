@@ -4,14 +4,6 @@
 
 ### Changed
 
-- Zeyrek's first analysis no longer depends on `PYTHONHASHSEED`. Ties among same-spelled stems
-  followed the order of Zeyrek's lexicon set; the library now sorts them in a fixed order
-  (dictionary item, surface, target state, attributes). Zeyrek's own rule (fewest transitions
-  first) and the set of analyses are unchanged. On the TOMA set 612 of 8,225 words changed
-  their first analysis across seeds 0–3, now none; against seed 0, 308 words (3.7%) get a
-  different first analysis, so the 24 `morphological_zeyrek` features can move slightly. A
-  golden set of 315 words (`tests/veri/zeyrek/golden.json`,
-  `scripts/generate_zeyrek_golden.py`) records the analyses in order and is tested.
 - Every logarithm in the library is now the natural logarithm (decided 2026-10-06). Changed:
   `dugast_u`, `lambda_pa` and `adjusted_modulus` (were log₁₀) and the entropy measures
   `entropy`, `entropy_std`, `punct_entropy`, `sent_len_entropy`, `suffix_bigram_entropy` and
@@ -152,7 +144,7 @@
   features (0.9% of the words in 11 TOMA texts, mostly proper names). `’` and `‘` are now
   turned into `'` before analysis. Texts typed with curly apostrophes change.
 - The limitations page now explains how Zeyrek orders its analyses and that the
-  first one depended on `PYTHONHASHSEED` (see Changed: now fixed).
+  first one can depend on `PYTHONHASHSEED` (200 of 8,215 words on the TOMA set).
 
 ### Removed
 

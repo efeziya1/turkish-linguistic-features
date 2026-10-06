@@ -70,14 +70,14 @@ Zeyrek bir **çözümleyicidir, belirsizlik gidericisi değildir**: aynı yüzey
 biçimi için birden çok çözümleme dönebilir ve bağlama bakarak doğrusunu
 seçmez. Kütüphane bağlama bakmadan **ilk** çözümlemeyi alır.
 
-Zeyrek çözümlemeleri ek geçişi sayısına göre sıralar, en azı önce gelir.
-Eşitlikte sıra, Zeyrek'in sözlüğündeki aynı yazılışlı köklerin sırasından
-geliyordu; sözlük bir Python kümesinden yüklendiği için bu sıra
-`PYTHONHASHSEED`'e bağlıydı. TOMA veri setinde (8.225 farklı sözcük) 612
-sözcüğün ilk çözümlemesi 0–3 tohumları arasında değişiyordu. Kütüphane artık bu
-kökleri sabit bir sıraya diziyor; sonuç tohuma bağlı değil ve 315 sözcüklük
-kayıtlı bir golden set'e karşı sınanıyor. Eşitler arasında hangisinin öne
-geçtiği yine keyfîdir: sıra sabittir, bağlamdan seçilmez.
+Zeyrek çözümlemeleri ek geçişi sayısına göre sıralar, en azı önce gelir;
+eşitlikte sıra, Python'un iç bir kümesinin dolaşım sırasında kalır ve bu sıra
+`PYTHONHASHSEED`'e bağlıdır. TOMA veri setinde (57 metin, 8.215 farklı
+sözcük) sözcüklerin %58,2'sinin birden çok çözümlemesi var ve **200 sözcüğün
+(%2,4)** ilk çözümlemesi 0–3 tohumları arasında değişti. Yani aynı metnin
+Zeyrek öznitelikleri Python süreçleri arasında az da olsa farklı çıkabilir.
+Tekrar üretilebilir sayılar için tohumu Python başlamadan sabitleyin, örneğin
+`PYTHONHASHSEED=0`.
 
 ### 5. Adayların yarısı hâlâ doğrulanmadı
 
