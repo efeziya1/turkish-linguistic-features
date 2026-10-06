@@ -73,14 +73,13 @@ Zeyrek is an **analyser, not a disambiguator**: it can return several
 analyses for the same surface form and does not pick the right one from
 context. The library takes the **first** analysis, with no context.
 
-Zeyrek orders the analyses by the number of suffix transitions, fewest first.
-Ties used to follow the order of same-spelled stems in Zeyrek's lexicon, which
-it loads from a Python set, so the order depended on `PYTHONHASHSEED`: on the
-TOMA set (8,225 distinct words) 612 words changed their first analysis across
-hash seeds 0–3. The library now sorts those stems in a fixed order, so the
-result no longer depends on the seed; a recorded golden set of 315 words is
-tested against it. Which analysis comes first among ties is still arbitrary —
-it is fixed, not chosen from context.
+Zeyrek orders the analyses by the number of suffix transitions, fewest first;
+ties keep the iteration order of an internal Python set, which depends on
+`PYTHONHASHSEED`. On the TOMA set (57 texts, 8,215 distinct words) 58.2% of
+the words have more than one analysis, and for **200 words (2.4%)** the first
+analysis changed across hash seeds 0–3. The Zeyrek features of the same text
+can therefore differ slightly between Python processes. For reproducible
+numbers, fix the seed before Python starts, e.g. `PYTHONHASHSEED=0`.
 
 ### 5. Half the candidates are still unverified
 
