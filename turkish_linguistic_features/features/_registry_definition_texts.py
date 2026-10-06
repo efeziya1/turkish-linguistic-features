@@ -15,7 +15,8 @@ SOURCES: frozenset[str] = frozenset({"tlf", "spacy", "zeyrek", "textstat", "word
 DEFINITION_INFO: dict[tuple[str, str], tuple[str, str]] = {
     # ── sentence ──
     ("sentence", "default"): ("tlf",
-        ". ? ! … end a sentence; ':' only before a new sentence. Read on spaCy tokens, so 'Dr.' does not split."),
+        ". ? ! … end a sentence; ':' only before a new sentence. "
+        "Read on spaCy tokens, so 'Dr.' does not split."),
     ("sentence", "kincaid"): ("tlf",
         "Like default, but ';' also ends a sentence (Kincaid et al. 1975)."),
     ("sentence", "cetinkaya"): ("tlf",
@@ -104,7 +105,8 @@ DEFINITION_INFO: dict[tuple[str, str], tuple[str, str]] = {
     ("morph_feature", "spacy_morph"): ("spacy",
         "The Universal Dependencies features (Tense, Case …) assigned by the spaCy model."),
     ("dependency", "spacy_head"): ("spacy",
-        "Head of each token in the spaCy parser's tree; arc length in word positions, depth in steps to the root."),
+        "Head of each token in the spaCy parser's tree; arc length in word positions, "
+        "depth in steps to the root."),
     ("zipf_score", "wordfreq_zipf"): ("wordfreq",
         "wordfreq's Zipf score of the lemma; a lemma not in the list scores 0."),
     ("zeyrek_tag", "zeyrek_tag"): ("zeyrek",
