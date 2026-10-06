@@ -267,7 +267,7 @@ def sentence_distribution_stats(cumleler: list[list[str]], short_threshold: int,
 
     Eşikler dile göre farklıdır ve çağıran taraf çözümler
     (``params.resolve_sent_thresholds``): ``FeatureParams``'ta verilmeyen alan
-    dilin kalibre edilmiş değerinde kalır (TR 4/18, EN 9/33), verilen alan
+    dilin kalibre edilmiş değerinde kalır (TR 4/17, EN 8/32), verilen alan
     kullanıcıdan gelir. Bu fonksiyon çözümlenmiş iki sayıyı alır.
     """
     kelimeler = _cumle_kelimeleri(cumleler)

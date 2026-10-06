@@ -6,20 +6,21 @@ gereken noktaları. Yöntem bölümü yazarken ikisine de bakın.
 
 ## Kütüphanenin sınırlılıkları
 
-### 1. Cümle eşikleri yalnız roman/kurgu için kalibre edildi
+### 1. Cümle eşikleri yalnız gazete köşe yazılarıyla kalibre edildi
 
-`short_sent_ratio` ve `long_sent_ratio` eşikleri (TR 4/18, EN 7/39) roman
-korpuslarında cümle uzunluğu dağılımının 15. ve 85. yüzdeliğinden
-türetildi:
+`short_sent_ratio` ve `long_sent_ratio` eşikleri (TR 4/17, EN 8/32) gazete
+köşe yazılarında, varsayılan cümle kuralı ve varsayılan kelimeyle ölçülen
+cümle uzunluğu dağılımının 15. ve 85. yüzdeliğinden türetildi:
 
 | Dil | Yazar | Cümle |
 |---|---|---|
-| Türkçe | 15 | 1 089 841 |
-| İngilizce | 10 | 341 892 |
+| Türkçe | 162 | 197 990 |
+| İngilizce | 30 | 52 745 |
 
-Her iki set de **aynı tür**: roman/kurgu. Teknik metin, transkript, şiir
-ya da çocuk kitabı için genelleneceği **garanti değil.** Kendi türünüzde
-çalışıyorsanız eşikleri kendi korpusunuzdan türetmeyi düşünün —
+Köşe yazısı **tek bir tür**. Roman bile başka bir dağılım verir (diyalog
+satırları çok kısa); teknik metin, transkript, şiir ya da çocuk kitabı için
+genelleneceği **garanti değil.** Kendi türünüzde çalışıyorsanız eşikleri
+kendi korpusunuzdan türetmeyi düşünün —
 [yöntem burada](../../esik-kalibrasyonu.md).
 
 ### 2. On bir künye ikincil kaynaktan

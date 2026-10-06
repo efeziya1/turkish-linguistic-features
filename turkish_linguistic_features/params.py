@@ -52,12 +52,13 @@ class FeatureParams:
 DEFAULT_PARAMS = FeatureParams()
 
 # Türkçe cümleler İngilizce'den kısa — aynı eşik iki dile uymuyor. Değerler
-# gazete köşe yazılarında, varsayılan cümle kuralıyla ölçülen cümle uzunluğu dağılımının 15. ve 85.
-# yüzdeliğinden türetildi (2026-10-06; TR: 162 yazar / 4.321 yazı / 197.990 cümle, EN: 30 yazar /
-# 1.485 yazı / 52.745 cümle). Yöntem ve ham yüzdelik tablosu: `docs/esik-kalibrasyonu.md`.
+# gazete köşe yazılarında, varsayılan cümle kuralı ve varsayılan kelime birimiyle ölçülen cümle
+# uzunluğu dağılımının 15. ve 85. yüzdeliğinden türetildi (2026-10-06; TR: 162 yazar / 4.321 yazı /
+# 197.990 cümle, EN: 30 yazar / 1.485 yazı / 52.745 cümle). Yöntem ve ham yüzdelik tablosu:
+# `docs/esik-kalibrasyonu.md`.
 SENT_THRESHOLDS_BY_LANG: dict[str, tuple[int, int]] = {
-    "tr": (4, 18),
-    "en": (9, 33),
+    "tr": (4, 17),
+    "en": (8, 32),
 }
 
 # Yalnız `SENT_THRESHOLDS_BY_LANG`'da olmayan bir dil için. `analyze()` dili

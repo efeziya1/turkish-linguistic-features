@@ -83,12 +83,13 @@
   non-zero). `syntactic_dep` (16 features, parser) and the paragraph group (`sents_per_para_*`,
   regex `[.!?…]+`) keep their own definitions; `describe_feature` names them.
 - The default sentence-length thresholds are now calibrated on newspaper columns with the default
-  sentence rule (15th/85th percentile; TR 162 columnists / 197,990 sentences, EN 30 columnists /
-  52,745 sentences): Turkish stays 4/18, English changes from 7/39 to 9/33 (`short_sent_threshold`,
-  `long_sent_threshold`; only `short_sent_ratio` and `long_sent_ratio` move). The earlier
-  calibration (novel corpora, parser sentences) is kept in `docs/threshold-calibration.md` as
-  history. On Turkish novels the new thresholds give 26.5% short and 6.6% long sentences (columns:
-  12.1% / 13.0%); for fiction pass your own thresholds through `FeatureParams`.
+  sentence rule and the default word (15th/85th percentile; TR 162 columnists / 197,990 sentences,
+  EN 30 columnists / 52,745 sentences): Turkish changes from 4/18 to 4/17, English from 7/39 to
+  8/32 (`short_sent_threshold`, `long_sent_threshold`; only `short_sent_ratio` and
+  `long_sent_ratio` move). Measured with the earlier word (spaCy token) the same columns gave
+  4/18 and 9/33; both earlier calibrations are kept in `docs/threshold-calibration.md` as history.
+  On Turkish novels the new thresholds give 26.5% short and 7.6% long sentences (columns:
+  12.2% / 15.0%); for fiction pass your own thresholds through `FeatureParams`.
 
 ### Fixed
 

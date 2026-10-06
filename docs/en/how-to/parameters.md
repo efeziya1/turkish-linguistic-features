@@ -20,12 +20,12 @@ for the language — see [below](#the-sentence-thresholds-resolve-per-language).
 Output (`short_sent_ratio`, `long_sent_ratio`):
 
 ```text
-default (TR 4/18): short=0.0      long=0.0
+default (TR 4/17): short=0.0      long=0.0
 manual (3/12)    : short=0.0      long=0.333333
 ```
 
 Same text, different thresholds, different numbers. One of the three
-sentences is over 12 words; none is over 18.
+sentences is over 12 words; none is over 17.
 
 ## Every field
 
@@ -47,8 +47,8 @@ sentences is over 12 words; none is over 18.
 | `ttr_slope_chunk_size` | 50 | `ttr_moving_slope` |
 | `brunet_w_a` | 0.172 | `brunet_w` |
 | `verb_suffix_window` | 50 | `verb_suffix_diversity` |
-| `short_sent_threshold` | TR **4** · EN **9** | `short_sent_ratio` |
-| `long_sent_threshold` | TR **18** · EN **33** | `long_sent_ratio` |
+| `short_sent_threshold` | TR **4** · EN **8** | `short_sent_ratio` |
+| `long_sent_threshold` | TR **17** · EN **32** | `long_sent_ratio` |
 | `max_parse_depth` | 20 | `parse_depth_mean` |
 
 ## The sentence thresholds resolve per language
@@ -76,7 +76,7 @@ text = ("Kapı açıldı. Sabah erkenden yola çıktık. Köyün girişindeki "
         "yaşlı çınarın altında oturan adam, uzun yıllar önce bu yollardan "
         "geçen kervanları, pazar günlerini ve kaybolan komşularını anlattı.")
 p = FeatureParams(mattr_window=100)            # thresholds untouched
-feats = tlf.analyze(text, lang="tr", params=p)  # still TR 4/18
+feats = tlf.analyze(text, lang="tr", params=p)  # still TR 4/17
 ```
 
 Output — sentences of 2, 4 and 20 words:

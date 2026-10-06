@@ -198,8 +198,8 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `sent_len_skewness` | — | ⚪ |
 | `med_sent_len` | — | ⚪ |
 | `avg_sent_len_char` | — | ⚪ |
-| `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 9 — 15th percentile of newspaper columns under the default sentence rule. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only | 🔧 |
-| `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 18, EN 33 — 85th percentile of newspaper columns under the default sentence rule. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only | 🔧 |
+| `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only | 🔧 |
+| `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only | 🔧 |
 | `sent_len_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision | 🔧 |
 | `para_len_mean` | — | ⚪ |
 | `para_len_cv` | — | ⚪ |
@@ -466,8 +466,8 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `sent_len_skewness` | — | ⚪ |
 | `med_sent_len` | — | ⚪ |
 | `avg_sent_len_char` | — | ⚪ |
-| `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 9 — 15th percentile of newspaper columns under the default sentence rule. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only | 🔧 |
-| `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 18, EN 33 — 85th percentile of newspaper columns under the default sentence rule. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only | 🔧 |
+| `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only | 🔧 |
+| `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only | 🔧 |
 | `sent_len_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision | 🔧 |
 | `para_len_mean` | — | ⚪ |
 | `para_len_cv` | — | ⚪ |
