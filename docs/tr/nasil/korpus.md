@@ -68,10 +68,10 @@ Bu kadar. Zincirin tamamı bu.
 
 ```text
 satır sayısı: 3
-sütun sayısı: 208
+sütun sayısı: 201
 ```
 
-Her dosya bir satır. 208 sütun = 205 öznitelik + üç kimlik sütunu:
+Her dosya bir satır. 201 sütun = 198 öznitelik + üç kimlik sütunu:
 
 ```text
 label=yazar_a  source=metin1     segment_id=0  ttr=1.0
@@ -88,7 +88,7 @@ label=yazar_b  source=metin3     segment_id=0  ttr=1.0
 CSV başlığı:
 
 ```text
-label,source,segment_id,n_lemma_count,avg_word_length,entropy,yule_k,simpso...
+label,source,segment_id,lemma_count,word_len_mean,entropy,yule_k,simpso...
 ```
 
 ## İlerlemeyi görün

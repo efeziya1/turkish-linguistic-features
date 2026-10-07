@@ -21,30 +21,30 @@ yanlış okunuyor.
 
 | Katman | Ne garanti eder | Kapsam |
 |---|---|---|
-| **Formül eşdeğerliği** | Kod, kaynaktaki denklemi uyguluyor. Künye sayfa ve denklem numarası verir; testler formülü ve sınır durumlarını sınar. | Künyesi olan 140 öznitelik (Türkçe; 68'i saf tanım, kaynağı yok) |
-| **Kaynak sayısı doğrulaması** | Kaynağın *yayımladığı bir sayı* bulundu ve bizim çıktımızla karşılaştırıldı. | 91 aday rapor satırının 48'i (Türkçe) |
+| **Formül eşdeğerliği** | Kod, kaynaktaki denklemi uyguluyor. Künye sayfa ve denklem numarası verir; testler formülü ve sınır durumlarını sınar. | Künyesi olan 187 öznitelik (Türkçe; 11'i saf tanım, kaynağı yok) |
+| **Kaynak sayısı doğrulaması** | Kaynağın *yayımladığı bir sayı* bulundu ve bizim çıktımızla karşılaştırıldı. | 141 aday rapor satırının 48'i (Türkçe) |
 
 İkinci katman ek bir çalışmadır, birincinin koşulu değil. Bir öznitelik "🔍
 açık" diye işaretliyse **formülü şüpheli değildir**; karşılaştırılacak
 yayımlanmış bir sayı bulunamamıştır. Yule (1944) K'yı tanımlar, bir romanda
 K'nın kaç çıktığını basmaz — basmadığı için bizim K'mız yanlış olmuyor.
 
-Her özniteliğin formülü yazılıdır. Künyesi olmayan 68 öznitelik saf tanımdır
-(bir harfin ya da noktalama işaretinin payı gibi); bir kaynağa dayanmadıkları
+Her özniteliğin formülü yazılıdır. Künyesi olmayan 11 öznitelik saf tanımdır
+(tirenin noktalama işaretleri içindeki payı ya da farklı lemma sayısı gibi); bir kaynağa dayanmadıkları
 için kaynakla eşlenecek bir denklemleri de yoktur.
 
 ## Önce: her öznitelik doğrulanamaz
 
-Bu ayrım raporun en önemli parçası. 205 özniteliğin bir kısmı, tanımı gereği
+Bu ayrım raporun en önemli parçası. 198 özniteliğin bir kısmı, tanımı gereği
 **doğrulama adayı bile değildir**:
 
 | | Neden aday değil |
 |---|---|
-| ⚪ **kaynak yok** | Saf tanım. `punc_,_ratio` "virgül / kelime" demektir; aranacak bir literatür sayısı yoktur. Harf sıklık vektörü tek başına 29 anahtar (Türkçe). |
-| ⚫ **etiket şeması** | Bir ölçü değil, dış bir şemanın kategorisini sayıyor. `pos_noun` → UD, `case_loc_ratio` → Zeyrek. **Şema kategori tanımlar, ölçüm yayımlamaz** — de Marneffe'in makalesi "morph_case_loc = 0,07" diye bir sayı basmaz, basamaz. |
-| 🔧 **türev** | Formül bir kaynaktan, **uygulaması bizden**. `entropy_std` Shannon'ın entropisidir ama parçalar arası standart sapması bizim; `long_sent_ratio`'nun eşiği kendi kalibrasyonumuzdan gelir. Bu ölçüleri kimse yayımlamadı — kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
+| ⚪ **kaynak yok** | Saf tanım. `punct_dash_ratio` "tire / bütün noktalama işaretleri" demektir; aranacak bir literatür sayısı yoktur. |
+| ⚫ **etiket şeması** | Bir ölçü değil, dış bir şemanın kategorisini sayıyor. `pos_noun_ratio` → UD, `zeyrek_case_loc_ratio` → Zeyrek. **Şema kategori tanımlar, ölçüm yayımlamaz** — de Marneffe'in makalesi "case_loc_ratio = 0,07" diye bir sayı basmaz, basamaz. |
+| 🔧 **türev** | Formül bir kaynaktan, **uygulaması bizden**. `sent_len_entropy` Shannon'ın entropisidir ama cümle uzunluklarına uygulanması bizim; `long_sent_ratio`'nun eşiği kendi kalibrasyonumuzdan gelir. Bu ölçüleri kimse yayımlamadı — kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
 
-Türkçe tarafında **142 satır** bu üçünden biri. Geriye **91 doğrulama
+Türkçe tarafında **82 satır** bu üçünden biri. Geriye **141 doğrulama
 adayı** kalıyor. Gerçek payda budur.
 
 ## Aday satırların dört durumu
@@ -56,7 +56,7 @@ adayı** kalıyor. Gerçek payda budur.
 | 🔍 **açık** | Kaynak formülü veriyor ama uygulanmış bir örnek vermiyor. Doğrulanabilir, henüz doğrulanmadı. |
 | ❌ **uyuşmazlık** | **Açıklanmamış** fark. **Yayın kapısı: bir tane bile varsa sürüm çıkmaz.** |
 
-Bugünkü durum: **91 adayın 48'i bitmiş** (46 ✅ + 2 🟡), 43'ü 🔍 açık.
+Bugünkü durum: **141 adayın 48'i bitmiş** (46 ✅ + 2 🟡), 93'ü 🔍 açık.
 
 Tolerans yayımlanan değerin **%1'i** (göreli). Kaynaklar ara değerleri
 yuvarlayarak bastığı için mutlak eşitlik beklenmez. Göreli tolerans her ölçekte
@@ -83,7 +83,7 @@ sayı tutuyorsa yalnız formül değil, ona giden bütün adımlar doğrudur.
 ve sözcük/cümle 4". Formülü ve katsayıları doğrular, boru hattını
 doğrulamaz. Kaynak bir metin yayımlamamışsa elde olan budur.
 
-## Neden 43 satır hâlâ 🔍 açık
+## Neden 93 satır hâlâ 🔍 açık
 
 Kaynak formülü yayımlamış ama o formülü bir metne uygulayıp sonucu basmamış.
 Bu, nicel dilbilim literatüründe **olağandır**. Yule (1944) K'yı tanımlar,
@@ -100,7 +100,7 @@ Hangi grupların doğrulandığı türle ilgili, tesadüf değil:
 |---|---|---|---|
 | `frequency_structure` | 22 | 0 | 2 |
 | `readability` | 13 | 1 | 2 |
-| `lexical` | 6 | 1 | 22 |
+| `lexical` | 6 | 1 | 28 |
 | `phonetic` | 0 | 0 | 11 |
 
 Okunabilirlik formülleri **pratik araçlardır** — yazarları formülü örnek
@@ -206,7 +206,7 @@ Bir sayıyı çalışmanızda kullanmadan önce raporda satırına bakın:
   yayımladığı bir sayıyla karşılaştırılmamış. Künyeyi verin; "kaynağın kendi
   sayısıyla doğrulandı" demeyin.
 - **⚪ kaynak yok** — bu kütüphanenin tanımı, çünkü aranacak bir literatür
-  sayısı yok (`punc_,_ratio` = virgül / kelime).
+  sayısı yok (`punct_dash_ratio` = tire / bütün noktalama işaretleri).
 - **⚫ etiket şeması** — sayının kendisi bizim, kategoriler şemanın.
   Şemayı kaynak gösterin (UD ya da Zeyrek), ölçüyü değil.
 - **🔧 türev** — formül kaynağın, o formülü bu veriye uygulama kararı bizim.
@@ -219,18 +219,17 @@ gerekmiyor. Kayıt defteri her öznitelik için alıntılanabilir bir tanım
 tutuyor:
 
 ```python
-tlf.describe_feature("entropy_std")["formula"]
+tlf.describe_feature("sent_len_entropy")["formula"]
 ```
 
 ```text
-'population std of entropies (nats) of disjoint mattr_window-word chunks'
+'Shannon entropy (nats) of the distribution of words per sentence'
 ```
 
-Örnek olarak altısı:
+Örnek olarak beşi:
 
 | Öznitelik | Tanım | Kaynağa ait olan |
 |---|---|---|
-| `entropy_std` | ayrık `mattr_window` kelimelik parçaların entropilerinin (nat) popülasyon standart sapması | entropi formülü — Shannon (1948) |
 | `punct_entropy` | on noktalama türünün dağılımının Shannon entropisi (nat) | entropi formülü — Shannon (1948) |
 | `sent_len_entropy` | cümle başına kelime dağılımının Shannon entropisi (nat) | entropi formülü — Shannon (1948) |
 | `short_sent_ratio` | `short_sent_threshold` kelimeden az cümle / cümle | eşik değeri — [eşik kalibrasyonu](../../esik-kalibrasyonu.md) |
@@ -240,10 +239,9 @@ tlf.describe_feature("entropy_std")["formula"]
 Tek kural künyeyi doğru kurmak: formülün kaynağını verin, ölçünün kendisini
 kaynağa mal etmeyin.
 
-- ✗ "Shannon (1948) `entropy_std` ölçüsü"
-- ✓ "Shannon (1948) entropisinin parçalar arası standart sapması
+- ✗ "Shannon (1948) `sent_len_entropy` ölçüsü"
+- ✓ "Shannon (1948) entropisinin cümle uzunluğu dağılımına uygulanması
   (turkish-linguistic-features'ın tanımı)"
 
 Birinci yazım okuyucuya, kaynakta aranınca bulunacak bir ölçü olduğunu ima
-ediyor. Shannon entropiyi tanımladı, parçalar arası standart sapmasını
-tanımlamadı.
+ediyor. Shannon entropiyi tanımladı, cümle uzunluklarına uygulamadı.

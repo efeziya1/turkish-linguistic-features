@@ -25,7 +25,7 @@ kendi korpusunuzdan türetmeyi düşünün —
 
 ### 2. On dört künye ikincil kaynaktan
 
-148 künyenin **14'ü** `as cited in` ile işaretlidir — birincil kaynağa
+162 künyenin **14'ü** `as cited in` ile işaretlidir — birincil kaynağa
 ulaşılamadı, formül aktaran kaynaktan alındı. Örnek:
 
 ```text
@@ -66,7 +66,7 @@ anlatılıyor; ikisi de zararsız.
 
 ### 4. Türkçe morfoloji Zeyrek'e bağlı
 
-`morphological_zeyrek` grubundaki 24 öznitelik ve Türkçe lemmalar Zeyrek'ten
+`morphological_zeyrek` grubundaki 23 öznitelik ve Türkçe lemmalar Zeyrek'ten
 gelir — Zemberek morfotaktiğinin Python aktarımı. Zeyrek'in çözümleyemediği bir
 kelime Zeyrek özniteliklerinden düşer; lemması kesme işaretinden önceki kısmı
 olur (`Pittsburgh'tan` → `pittsburgh`).
@@ -86,13 +86,13 @@ Tekrar üretilebilir sayılar için tohumu Python başlamadan sabitleyin, örne�
 
 ### 5. Adayların yarısı hâlâ doğrulanmadı
 
-142 satır doğrulama adayı bile değil (saf tanım, etiket şeması ya da
+82 satır doğrulama adayı bile değil (saf tanım, etiket şeması ya da
 bizim türevimiz).
-Kalan **91 adayın 48'i** bitmiş (46 ✅ + 2 🟡), **43'ü 🔍 açık**.
+Kalan **141 adayın 48'i** bitmiş (46 ✅ + 2 🟡), **93'ü 🔍 açık**.
 
 Sebebi [doğrulama sistemi](dogrulama.md) sayfasında: kaynakların çoğu
 formülü yayımlar, o formülün uygulandığı bir sayısal örnek vermez. Bu
-özellikle `lexical` grubunda belirgin — 29 adayın 7'si doğrulanmış.
+özellikle `lexical` grubunda belirgin — 35 adayın 7'si doğrulanmış.
 
 ### 6. Paket henüz PyPI'da değil
 
@@ -109,8 +109,6 @@ gereksinimi ya da künye kuralı. Yine de sonuçları etkiler.
 Bazı öznitelikler literatürde adı olan ölçüler değil, bu kütüphanenin
 tanımlarıdır. Künyeleri bunu açıkça yazar:
 
-- `entropy_std` — Shannon entropisinin **parçalar arası standart sapması**.
-  Entropi Shannon'ın, standart sapma bizim.
 - `punct_entropy`, `sent_len_entropy` — Shannon formülünün noktalama ve
   cümle uzunluğu dağılımına uygulanması. Formül Shannon'ın, uygulama kararı
   bizim.
@@ -120,12 +118,12 @@ tanımlarıdır. Künyeleri bunu açıkça yazar:
 Bunları kullanmakta sakınca yok. Tek koşul, künyeyi doğru kurmak: formülün
 kaynağını verin, ölçünün kendisini kaynağa mal etmeyin. Yöntem bölümünüzde:
 
-- ✗ "Shannon (1948) `entropy_std` ölçüsü"
-- ✓ "Shannon (1948) entropisinin parçalar arası standart sapması
+- ✗ "Shannon (1948) `sent_len_entropy` ölçüsü"
+- ✓ "Shannon (1948) entropisinin cümle uzunluğu dağılımına uygulanması
   (turkish-linguistic-features'ın tanımı)"
 
-Sebep basit: Shannon entropiyi tanımladı, parçalar arası standart sapmasını
-tanımlamadı. Birinci yazım okuyucuya, kaynakta aranınca bulunacak bir ölçü
+Sebep basit: Shannon entropiyi tanımladı, cümle uzunluklarına
+uygulamadı. Birinci yazım okuyucuya, kaynakta aranınca bulunacak bir ölçü
 olduğunu ima ediyor.
 
 ### 8. Metin uzunluğuna duyarlılık
@@ -141,7 +139,7 @@ bağımsız değildir; `mtld` ve `vocd_d` Türkçede belirgin biçimde kayar
 
 ### 9. Paragraf öznitelikleri girdinin biçimlendirmesine bağlı
 
-Beş `para_*` özniteliği paragraf sınırını **boş satırdan** bulur. Tek satır
+İki `para_*` özniteliği paragraf sınırını **boş satırdan** bulur. Tek satır
 sonu paragraf saymaz — aksi hâlde satır satır sarılmış bir metinde her satır
 paragraf olurdu.
 
@@ -150,9 +148,8 @@ Sonuç: metninizde boş satır yoksa metnin tamamı tek paragraf sayılır.
 Kütüphane bunu düzeltemez — silinmiş paragraf sınırı geri getirilemez.
 
 Bu, PDF ve EPUB'dan çıkarılmış metinlerde **yaygındır**: paragraflar arasındaki
-boş satırlar çıkarım sırasında kaybolur. Kendi metninizde hangi özniteliklerin
-bu yüzden ölçülemediğini [NaN haritası örneğiyle](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/07_nan_haritasi.py)
-görebilirsiniz.
+boş satırlar çıkarım sırasında kaybolur. Değer `nan` olmadığı için bunu
+sayılardan fark etmezsiniz; uyarı aşağıda.
 
 1000 kelimeyi geçen bir metinde hiç paragraf sınırı bulunamazsa
 `ParagraphStructureWarning` basılır. Uyarıyı görürseniz iki yol var: kaynak

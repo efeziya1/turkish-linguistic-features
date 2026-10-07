@@ -5,7 +5,7 @@ Bu modül ``phonetic`` grubunun 13 anahtarını üretir:
 - T09 (5): ``vowel_ratio`` · ``front_vowel_ratio`` · ``back_vowel_ratio`` ·
   ``harmony_fronting_ratio`` · ``harmony_rounding_ratio``
 - T10 (8): ``syllable_mean`` · ``syllable_1_ratio`` … ``syllable_5_ratio`` ·
-  ``syllable_6plus_ratio`` · ``sentence_syllable_mean``
+  ``syllable_6plus_ratio`` · ``sent_syllable_mean``
 
 T10'un ``hece_say`` / ``birim_hecesi`` fonksiyonları T13'ün Türkçe okunabilirlik
 formüllerinin de hece sayacıdır (K11: tek sayaç).
@@ -346,4 +346,4 @@ def sentence_syllable_stats(cumleler: list[list[str]], lang: str = "tr") -> dict
         sayilar = birim_heceleri(cumle, lang)
         if sayilar:
             heceler.append(sum(sayilar))
-    return {"sentence_syllable_mean": _ortalama(heceler)}
+    return {"sent_syllable_mean": _ortalama(heceler)}

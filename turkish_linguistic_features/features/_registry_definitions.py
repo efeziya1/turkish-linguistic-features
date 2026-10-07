@@ -73,43 +73,52 @@ ONLY_LANGUAGE: dict[str, str] = {
 SENTENCE_DEFINITIONS = TERM_VALUES["sentence"]
 WORD_DEFINITIONS = TERM_VALUES["word"]
 
-_PUNC_TURLER = (",", ".", ";", "!", ":", "-", "ellipsis", "paren", "quote", "question")
-_PUNC = tuple(f"punc_{t}_ratio" for t in _PUNC_TURLER) + ("punc_total_ratio",)
+_PUNC_TURLER = ("comma", "period", "semicolon", "exclamation", "colon", "dash",
+                "ellipsis", "paren", "quote", "question")
+_PUNC = tuple(f"punct_{t}_ratio" for t in _PUNC_TURLER)
 _SYLLABLE_PHONETIC = (
     "syllable_mean", "syllable_1_ratio", "syllable_2_ratio", "syllable_3_ratio",
     "syllable_4_ratio", "syllable_5_ratio", "syllable_6plus_ratio",
-    "sentence_syllable_mean",
+    "sent_syllable_mean",
 )
 _SYLLABLE_READABILITY = (
     "bezirci_yilmaz", "atesman", "cetinkaya_uzun", "flesch_reading_ease", "flesch_kincaid_grade",
     "smog", "polysyllabic_word_ratio",
 )
 _ZEYREK_VERB = (
-    "verb_suffix_diversity", "tense_past_def", "tense_past_nar", "tense_present", "tense_future",
-    "negation_ratio", "passive_ratio", "conditional_suffix_ratio", "causative_suffix_ratio",
-    "modal_possibility_ratio", "modal_necessity_ratio",
+    "zeyrek_verb_suffix_diversity", "zeyrek_tense_past_def_ratio", "zeyrek_tense_past_nar_ratio",
+    "zeyrek_tense_present_ratio", "zeyrek_tense_future_ratio",
+    "zeyrek_negation_ratio", "zeyrek_passive_ratio", "zeyrek_conditional_suffix_ratio",
+    "zeyrek_causative_suffix_ratio",
+    "zeyrek_modal_possibility_ratio", "zeyrek_modal_necessity_ratio",
 )
 _POS_TAG_KEYS = (
-    "sentfinal_noun", "sentfinal_propn", "sentfinal_verb", "sentfinal_adj", "sentfinal_adv",
-    "sentfinal_det", "sentfinal_adp", "sentfinal_intj", "sentfinal_cconj", "sentfinal_sconj",
-    "sentfinal_num", "sentfinal_aux", "sentfinal_pron", "sentfinal_other",
-    "pronoun_freq", "nominal_verbal_ratio", "verb_dist_mean", "verb_dist_cv", "activity_ratio",
-    "lexical_density", "pos_dist_std", "pos_kl_div", "noun_variation", "verb_variation",
+    "sentfinal_noun_ratio", "sentfinal_propn_ratio", "sentfinal_verb_ratio", "sentfinal_adj_ratio",
+    "sentfinal_adv_ratio",
+    "sentfinal_det_ratio", "sentfinal_adp_ratio", "sentfinal_intj_ratio", "sentfinal_cconj_ratio",
+    "sentfinal_sconj_ratio",
+    "sentfinal_num_ratio", "sentfinal_aux_ratio", "sentfinal_pron_ratio", "sentfinal_other_ratio",
+    "pronoun_ratio", "verb_dist_mean", "activity_ratio",
+    "lexical_density", "posddev", "posdiv", "noun_variation", "verb_variation",
     "adj_variation", "adv_variation", "thematic_concentration",
-    "secondary_thematic_concentration", "morph_voice_pass", "wordfreq_mean", "wordfreq_rare_ratio",
+    "secondary_thematic_concentration", "voice_pass_ratio", "wordfreq_mean", "wordfreq_rare_ratio",
 )
 _ZEYREK_TAG_KEYS = (
-    "tense_past_def", "tense_past_nar", "tense_present", "tense_future", "negation_ratio",
-    "passive_ratio", "plural_ratio", "case_acc_ratio", "case_dat_ratio", "case_loc_ratio",
-    "case_abl_ratio", "case_gen_ratio", "case_ins_ratio", "conditional_suffix_ratio",
-    "causative_suffix_ratio", "modal_possibility_ratio", "modal_necessity_ratio",
-    "question_particle_ratio", "verb_suffix_diversity", "suffix_bigram_entropy",
+    "zeyrek_tense_past_def_ratio", "zeyrek_tense_past_nar_ratio", "zeyrek_tense_present_ratio",
+    "zeyrek_tense_future_ratio", "zeyrek_negation_ratio",
+    "zeyrek_passive_ratio", "zeyrek_plural_ratio", "zeyrek_case_acc_ratio", "zeyrek_case_dat_ratio",
+    "zeyrek_case_loc_ratio",
+    "zeyrek_case_abl_ratio", "zeyrek_case_gen_ratio", "zeyrek_case_ins_ratio",
+    "zeyrek_conditional_suffix_ratio",
+    "zeyrek_causative_suffix_ratio", "zeyrek_modal_possibility_ratio", "zeyrek_modal_necessity_ratio",
+    "zeyrek_question_particle_ratio", "zeyrek_verb_suffix_diversity", "zeyrek_suffix_bigram_entropy",
 )
 _ZEYREK_WORD = (
-    "agglutination_depth", "suffix_char_length_ratio", "suffix_bigram_entropy",
-    "derivational_suffix_ratio", "plural_ratio", "case_acc_ratio", "case_dat_ratio",
-    "case_loc_ratio", "case_abl_ratio", "case_gen_ratio", "case_ins_ratio", "suffix_chain_cv",
-    "question_particle_ratio",
+    "zeyrek_agglutination_depth", "zeyrek_suffix_char_length_ratio", "zeyrek_suffix_bigram_entropy",
+    "zeyrek_derivational_suffix_ratio", "zeyrek_plural_ratio", "zeyrek_case_acc_ratio",
+    "zeyrek_case_dat_ratio",
+    "zeyrek_case_loc_ratio", "zeyrek_case_abl_ratio", "zeyrek_case_gen_ratio", "zeyrek_case_ins_ratio",
+    "zeyrek_question_particle_ratio",
 )
 
 
@@ -119,11 +128,12 @@ def _hepsi(deger: str, anahtarlar: tuple[str, ...]) -> dict[str, str | None]:
 
 # ── cümle ─────────────────────────────────────────────────────────────
 
-GROUP_SENTENCE: dict[str, str | None] = {"sentence": "default", "syntactic_dep": "spacy_parser"}
+GROUP_SENTENCE: dict[str, str | None] = {"sentence": "default", "syntactic_dep": "spacy_parser",
+                                          "custom_ngrams": "default"}
 FEATURE_SENTENCE: dict[str, str | None] = {
     "sents_per_para_mean": "regex_paragraph",
-    "question_per_sent": "default", "pos_kl_div": "default",
-    "sentence_syllable_mean": "default",
+    "question_sent_ratio": "default", "posdiv": "default",
+    "sent_syllable_mean": "default",
     "atesman": "default", "bezirci_yilmaz": "default", "cetinkaya_uzun": "cetinkaya",
     "flesch_reading_ease": "kincaid", "flesch_kincaid_grade": "kincaid", "smog": "default",
     "ari": "default", "coleman_liau": "default", "lix": "default",
@@ -134,7 +144,7 @@ FEATURE_SENTENCE: dict[str, str | None] = {
 # etiket kelimenin ilk kelime tokenından gelir. Yalnız `syntactic_dep` `pos_token`ta kalır;
 # Zeyrek öznitelikleri Zeyrek'in çözümleyebildiği kelimeleri sayar (`zeyrek_analysed_word`).
 
-_LEMMA_POS_LEXICAL = ("n_lemma_count", "noun_variation", "verb_variation", "adj_variation",
+_LEMMA_POS_LEXICAL = ("lemma_count", "noun_variation", "verb_variation", "adj_variation",
                       "adv_variation", "wordfreq_mean", "wordfreq_rare_ratio")
 
 GROUP_WORD: dict[str, str | None] = {
@@ -143,20 +153,19 @@ GROUP_WORD: dict[str, str | None] = {
     "syntactic_dep": "pos_token", "readability": "space_unit", "custom_ngrams": "space_unit",
 }
 FEATURE_WORD: dict[str, str | None] = {
-    "avg_sent_len_char": None,
-    **_hepsi("space_unit", ("para_len_mean", "para_count_norm",
-                            "harmony_fronting_ratio", "harmony_rounding_ratio",
+    "sent_len_char_mean": None,
+    **_hepsi("space_unit", ("para_len_mean", "harmony_fronting_ratio", "harmony_rounding_ratio",
                             "uppercase_ratio", "all_caps_word_ratio")),
     **_hepsi("space_unit", _SYLLABLE_PHONETIC + _PUNC),
     **_hepsi("space_unit_with_symbols", ("cetinkaya_uzun", "flesch_reading_ease",
                                          "flesch_kincaid_grade", "ari")),
     **_hepsi("zeyrek_analysed_word", _ZEYREK_WORD),
-    "question_per_sent": None,
+    "question_sent_ratio": None,
 }
 
 # ── öteki terimler: (grup tablosu, öznitelik tablosu) ─────────────────
 
-_TYPE_LEMMA = ("n_lemma_count", "noun_variation", "verb_variation", "adj_variation",
+_TYPE_LEMMA = ("lemma_count", "noun_variation", "verb_variation", "adj_variation",
                "adv_variation", "wordfreq_mean", "wordfreq_rare_ratio", "surface_per_lemma")
 
 TERMS: dict[str, tuple[dict[str, str | None], dict[str, str | None]]] = {
@@ -164,9 +173,9 @@ TERMS: dict[str, tuple[dict[str, str | None], dict[str, str | None]]] = {
     "word": (GROUP_WORD, FEATURE_WORD),
     "type": (
         {"lexical": "lowercase_surface", "frequency_structure": PER_LANGUAGE},
-        {**_hepsi(PER_LANGUAGE, _TYPE_LEMMA), "avg_word_length": None},
+        {**_hepsi(PER_LANGUAGE, _TYPE_LEMMA), "word_len_mean": None},
     ),
-    "token": ({}, {"avg_sent_len_char": "spacy_token"}),
+    "token": ({}, {"sent_len_char_mean": "spacy_token"}),
     "syllable": ({}, _hepsi(PER_LANGUAGE, _SYLLABLE_PHONETIC + _SYLLABLE_READABILITY)),
     "polysyllable": ({}, _hepsi("3_plus_syllables", ("smog", "polysyllabic_word_ratio"))),
     "letter": (
@@ -174,23 +183,22 @@ TERMS: dict[str, tuple[dict[str, str | None], dict[str, str | None]]] = {
         {**_hepsi("alphabet_letter", ("vowel_ratio", "front_vowel_ratio", "back_vowel_ratio")),
          **_hepsi("unicode_letter", ("coleman_liau", "lix", "long_word_ratio", "uppercase_ratio",
                                      "all_caps_word_ratio")),
-         "suffix_char_length_ratio": "zeyrek_surface_letter"},
+         "zeyrek_suffix_char_length_ratio": "zeyrek_surface_letter"},
     ),
     "character": ({}, {
-        "avg_word_length": "token_string_length",
+        "word_len_mean": "token_string_length",
         "ari": "non_space_character",
-        **_hepsi("raw_character", ("digit_vs_all", "punct_density", "whitespace_ratio")),
-        "avg_sent_len_char": "sentence_joined_character",
+        **_hepsi("raw_character", ("digit_ratio", "punct_char_ratio", "whitespace_ratio")),
+        "sent_len_char_mean": "sentence_joined_character",
     }),
     "long_word": ({}, _hepsi("7_plus_letters", ("lix", "long_word_ratio"))),
-    "paragraph": ({}, _hepsi("blank_line", ("para_len_mean", "sents_per_para_mean",
-                                            "para_count_norm"))),
-    "mark": ({}, _hepsi("ten_mark_types", _PUNC + ("punct_density", "punct_entropy",
+    "paragraph": ({}, _hepsi("blank_line", ("para_len_mean", "sents_per_para_mean"))),
+    "mark": ({}, _hepsi("ten_mark_types", _PUNC + ("punct_char_ratio", "punct_entropy",
                                                    "consecutive_punct_ratio", "punct_variety"))),
-    "noun": ({}, _hepsi("noun_propn", ("nominal_verbal_ratio", "noun_variation"))),
+    "noun": ({}, _hepsi("noun_propn", ("noun_variation",))),
     "verb": ({}, {
-        **_hepsi("verb_only", ("nominal_verbal_ratio", "verb_dist_mean", "verb_dist_cv",
-                               "activity_ratio", "verb_variation", "morph_voice_pass")),
+        **_hepsi("verb_only", ("verb_dist_mean", "activity_ratio", "verb_variation",
+                               "voice_pass_ratio")),
         **_hepsi("zeyrek_final_type_verb", _ZEYREK_VERB),
     }),
     "lexical_word": ({}, _hepsi("noun_propn_verb_adj_adv", (
@@ -199,10 +207,10 @@ TERMS: dict[str, tuple[dict[str, str | None], dict[str, str | None]]] = {
     "content_word": ({}, _hepsi("noun_propn_verb_adj", ("thematic_concentration",
                                                         "secondary_thematic_concentration"))),
     "suffix": ({}, _hepsi("zeyrek_visible_suffix", (
-        "agglutination_depth", "suffix_char_length_ratio", "suffix_bigram_entropy",
-        "derivational_suffix_ratio", "verb_suffix_diversity", "suffix_chain_cv"))),
+        "zeyrek_agglutination_depth", "zeyrek_suffix_char_length_ratio", "zeyrek_suffix_bigram_entropy",
+        "zeyrek_derivational_suffix_ratio", "zeyrek_verb_suffix_diversity"))),
     "pos_tag": (
-        {"pos": "spacy_upos"},
+        {"pos": "spacy_upos", "custom_ngrams": "spacy_upos"},
         _hepsi("spacy_upos", _POS_TAG_KEYS),
     ),
     "morph_feature": ({"morphological": "spacy_morph"}, {"surface_per_lemma": None}),

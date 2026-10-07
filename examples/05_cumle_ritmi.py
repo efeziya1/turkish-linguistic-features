@@ -3,7 +3,7 @@
 Ortalama cümle uzunluğu tek başına az şey söyler: iki yazar aynı ortalamayla
 biri hep orta boy, öteki kısa ve çok uzun cümleleri karıştırarak yazabilir.
 Üslup çoğu zaman **değişkenlikte** durur. Bu script korpustaki her etiket
-için ortalama, medyan, çarpıklık ve kısa/uzun cümle oranını yan yana koyar;
+için ortalama, medyan ve kısa/uzun cümle oranını yan yana koyar;
 kısa ve uzun cümlelerin toplam payı ("uçlar") ritmin ne kadar dalgalı
 olduğunu gösterir.
 
@@ -26,9 +26,8 @@ DEMO_PARCA_BOYUTU = 60     # demo metinleri ~120 token
 DIL = "tr"
 CIKTI_DIZINI = Path("examples/output")
 OLCULER = {
-    "avg_sent_len_word": "ortalama",
-    "med_sent_len": "medyan",
-    "sent_len_skewness": "çarpıklık",
+    "sent_len_mean": "ortalama",
+    "sent_len_median": "medyan",
     "short_sent_ratio": "kısa",
     "long_sent_ratio": "uzun",
 }
@@ -55,8 +54,7 @@ def main() -> None:
     for satir in satirlar:
         etiketler.setdefault(str(satir["label"]), []).append(satir)
 
-    # Etiket başına parça ortalaması. NaN'lı parça (ör. tek cümlelik parçada
-    # çarpıklık) o ölçünün ortalamasına girmez.
+    # Etiket başına parça ortalaması. NaN'lı parça o ölçünün ortalamasına girmez.
     ozet = []
     for etiket, parcalar in etiketler.items():
         kayit = {"label": etiket, "parca": len(parcalar)}

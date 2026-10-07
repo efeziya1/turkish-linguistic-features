@@ -12,14 +12,14 @@ from typing import TYPE_CHECKING
 
 from ._warnings import MissingDependencyWarning, ParagraphStructureWarning
 from .alfabe import _ALFABE
-from .features.extractor import _extract_features
+from .features.extractor import _extract_features, _ngram_cumleleri
 from .features.phonetic import _cmudict_denetle
 
 if TYPE_CHECKING:
     from .params import FeatureParams
     from .pipeline.spacy_pipeline import Preprocessor
 
-__all__ = ["analyze"]
+__all__ = ["analyze", "ngram_matches"]
 
 # 🔴 Model önbelleği. spaCy modelini yüklemek 2–5 saniye sürüyor; önbelleksiz
 # 1000 metinlik bir korpus yalnız yükleme yaparak saatler harcardı.
@@ -87,7 +87,7 @@ def analyze(text: str, lang: str = "tr", model: str | None = None,
     params
         Metrik sabitleri. ``None`` ise ``DEFAULT_PARAMS``.
     custom_ngrams
-        Kendi kelime öbekleriniz → ``ng_{...}`` sütunları. Taban şemayı
+        Kendi kelime ya da etiket öbekleriniz → ``ngram_{...}_count`` sütunları. Taban şemayı
         **genişletir**; taban bir tavan değildir.
     show_progress
         Uzun metin parçalanırken ilerleme yazdırılsın mı. Varsayılan
@@ -100,7 +100,7 @@ def analyze(text: str, lang: str = "tr", model: str | None = None,
     Returns
     -------
     dict[str, float]
-        Öznitelik anahtarı → değer. Taban şema Türkçede 208, İngilizcede 180
+        Öznitelik anahtarı → değer. Taban şema Türkçede 198, İngilizcede 171
         anahtar; ``custom_ngrams`` verilirse üstüne sütun eklenir.
 
     Raises
@@ -113,7 +113,7 @@ def analyze(text: str, lang: str = "tr", model: str | None = None,
     Examples
     --------
     >>> feats = analyze("Bu bir deneme metnidir. İkinci cümle.", lang="tr")
-    >>> feats["avg_sent_len_word"]
+    >>> feats["sent_len_mean"]
     3.0
     """
     if lang not in _ALFABE:
@@ -127,3 +127,38 @@ def analyze(text: str, lang: str = "tr", model: str | None = None,
             warnings.simplefilter("ignore", ParagraphStructureWarning)
         return _extract_features(**islenmis.to_dict(), groups=groups, params=params,
                                  custom_ngrams=custom_ngrams)
+
+
+def ngram_matches(text: str, phrase: list[str], lang: str = "tr",
+                  model: str | None = None) -> dict[str, int]:
+    """What a ``custom_ngrams`` phrase matched in a text, with frequencies.
+
+    The matching is the same as in ``analyze(..., custom_ngrams=[phrase])``: words are
+    lowercased, an UPPERCASE UD tag (``NOUN``, ``VERB`` …) matches any word with that tag,
+    and a match never crosses a sentence boundary. The values add up to that phrase's
+    ``ngram_{...}_count``.
+
+    Returns
+    -------
+    dict[str, int]
+        Matched words (lowercased, joined by a space) → count, most frequent first;
+        ties keep the order of first occurrence. Empty if nothing matched.
+
+    Raises
+    ------
+    ValueError
+        Unsupported language or an empty phrase.
+
+    Examples
+    --------
+    >>> ngram_matches("Kadın geldi. Kadın güldü.", ["kadın", "VERB"])  # doctest: +SKIP
+    {'kadın geldi': 1, 'kadın güldü': 1}
+    """
+    from .features.syntactic import word_ngram_matches
+
+    if lang not in _ALFABE:
+        raise ValueError(f"Unsupported language: {lang!r}. Expected one of: {sorted(_ALFABE)}")
+    if not phrase:
+        raise ValueError("phrase is empty")
+    islenmis = _get_preprocessor(lang, model).process(text)
+    return word_ngram_matches(_ngram_cumleleri(**islenmis.to_dict()), phrase, lang)

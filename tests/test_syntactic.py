@@ -8,19 +8,19 @@ import pytest
 from turkish_linguistic_features import ParagraphStructureWarning, vocab
 from turkish_linguistic_features.features.syntactic import (
     activity_ratio,
-    avg_sent_len_char,
     lexical_density,
-    nominal_verbal_ratio,
     paragraph_stats,
     pos_distribution_stats,
     pos_ratios,
-    pronoun_freq,
-    question_per_sent,
+    pronoun_ratio,
+    question_sent_ratio,
+    sent_len_char_mean,
     sent_len_entropy,
     sentence_distribution_stats,
     sentence_stats,
     verb_distance_stats,
-    word_ngram_ratios,
+    word_ngram_counts,
+    word_ngram_matches,
 )
 from turkish_linguistic_features.vocab import (
     LEXICAL_POS,
@@ -67,28 +67,15 @@ def test_pos_oranlari_12_anahtar():
 def test_pos_orani_elle():
     pos = [("a", "NOUN"), ("b", "NOUN"), ("c", "VERB"), ("d", "PUNCT")]
     sonuc = pos_ratios(pos)
-    assert sonuc["pos_noun"] == 0.5
-    assert sonuc["pos_verb"] == 0.25
-
-
-def test_nominal_verbal_ratio_elle():
-    """AUX paydaya girmez: 3 NOUN / 1 VERB = 3."""
-    pos = [("a", "NOUN"), ("b", "NOUN"), ("c", "NOUN"), ("d", "VERB"), ("e", "AUX")]
-    assert nominal_verbal_ratio(pos)["nominal_verbal_ratio"] == 3.0
-    assert _nan(nominal_verbal_ratio([("a", "NOUN")])["nominal_verbal_ratio"])   # fiil yok
-
-
-def test_nominal_verbal_ratio_ozel_isim_isimdir():
-    """Kaynaklarda "isim" = NOUN + PROPN (2026-09-16, Efe): 1 NOUN + 1 PROPN / 1 VERB."""
-    pos = [("ev", "NOUN"), ("Ahmet", "PROPN"), ("geldi", "VERB")]
-    assert nominal_verbal_ratio(pos)["nominal_verbal_ratio"] == 2.0
+    assert sonuc["pos_noun_ratio"] == 0.5
+    assert sonuc["pos_verb_ratio"] == 0.25
 
 
 # ── fiil mesafesi ve activity ─────────────────────────────────────────
 
 
 def test_fiil_mesafesi_elle_aux_sayilmaz():
-    """VERB 0, 2, 6'da; 3'teki AUX fiil DEĞİL → mesafeler 2, 4 → ort 3, CV 1/3.
+    """VERB 0, 2, 6'da; 3'teki AUX fiil DEĞİL → mesafeler 2, 4 → ort 3.
 
     AUX sayılsaydı konumlar 0, 2, 3, 6 → ortalama 2 çıkardı.
     """
@@ -96,18 +83,15 @@ def test_fiil_mesafesi_elle_aux_sayilmaz():
            ("e", "NOUN"), ("f", "NOUN"), ("g", "VERB")]
     sonuc = verb_distance_stats(pos)
     assert sonuc["verb_dist_mean"] == 3.0
-    assert sonuc["verb_dist_cv"] == 0.3333
 
 
 def test_fiil_mesafesi_tek_fiilde_sifir():
     assert _hepsi_nan(verb_distance_stats([("a", "VERB")]))
 
 
-def test_fiil_mesafesi_iki_fiilde_cv_nan():
-    """Tek mesafeden değişkenlik ölçülmez (2026-09-16, Efe)."""
+def test_fiil_mesafesi_iki_fiilde_tek_mesafe():
     sonuc = verb_distance_stats([("a", "VERB"), ("b", "NOUN"), ("c", "VERB")])
     assert sonuc["verb_dist_mean"] == 2.0
-    assert _nan(sonuc["verb_dist_cv"])
 
 
 def test_activity_ratio_elle_aux_sayilmaz():
@@ -153,28 +137,28 @@ def test_lexical_density_nominal_verbal_ratio_ile_bagimsiz():
 def test_pos_dist_std_elle():
     """Hepsi NOUN → 12'lik oran vektörü [1, 0×11] → std = √11 / 12."""
     pos = [("a", "NOUN")] * 4
-    assert pos_distribution_stats(pos, [["a"] * 4])["pos_dist_std"] == 0.27639
+    assert pos_distribution_stats(pos, [["a"] * 4])["posddev"] == 0.27639
 
 
 def test_pos_kl_div_elle():
     """[N N] ve [V V] cümleleri, belge N=V=0.5 → her cümle ln 2 nat (1 bit) → ortalama ln 2."""
     pos = [("a", "NOUN"), ("b", "NOUN"), ("c", "VERB"), ("d", "VERB")]
-    assert pos_distribution_stats(pos, [["a", "b"], ["c", "d"]])["pos_kl_div"] == round(math.log(2), 5)
+    assert pos_distribution_stats(pos, [["a", "b"], ["c", "d"]])["posdiv"] == round(math.log(2), 5)
 
 
 def test_pos_kl_div_ozdes_cumlelerde_sifir():
     """Tüm cümleler aynı POS dizisi → her cümle belge dağılımına eşit."""
     pos = [("a", "NOUN"), ("b", "VERB")] * 3
     cumleler = [["a", "b"], ["a", "b"], ["a", "b"]]
-    assert pos_distribution_stats(pos, cumleler)["pos_kl_div"] == 0.0
+    assert pos_distribution_stats(pos, cumleler)["posdiv"] == 0.0
 
 
 def test_pos_dist_std_tek_pos_hepsiyse_buyuk():
     tek = [("a", "NOUN")] * 4
     kari = [("a", "NOUN"), ("b", "VERB"), ("c", "ADJ"), ("d", "ADV")]
     c = [["a", "b", "c", "d"]]
-    assert (pos_distribution_stats(tek, [["a"] * 4])["pos_dist_std"]
-            > pos_distribution_stats(kari, c)["pos_dist_std"])
+    assert (pos_distribution_stats(tek, [["a"] * 4])["posddev"]
+            > pos_distribution_stats(kari, c)["posddev"])
 
 
 def test_pos_dagilim_hizalama_bozuksa_hata():
@@ -186,25 +170,10 @@ def test_pos_dagilim_hizalama_bozuksa_hata():
 # ── cümle istatistikleri ──────────────────────────────────────────────
 
 
-def test_esit_cumlelerde_carpiklik_nan():
-    """Hep aynı uzunluk → çarpıklık 0/0 → NaN."""
-    sonuc = sentence_stats([["a", "b"], ["c", "d"]])
-    assert "sentence_length_cv" not in sonuc
-    assert _nan(sonuc["sent_len_skewness"])
-
-
 def test_cumle_istatistikleri_elle():
-    """Uzunluklar 2, 4 → ort 3, medyan 3, simetrik → çarpıklık 0."""
+    """Uzunluklar 2, 4 → ort 3, medyan 3; çarpıklık ve CV kalktı (Efe)."""
     sonuc = sentence_stats([["a", "b"], ["c", "d", "e", "f"]])
-    assert sonuc["avg_sent_len_word"] == 3.0
-    assert sonuc["med_sent_len"] == 3.0
-    assert sonuc["sent_len_skewness"] == 0.0
-
-
-def test_carpiklik_elle():
-    """Uzunluklar 1, 1, 4 → m2 = 2, m3 = 2 → g1 = 2 / 2^1.5 = 0.7071."""
-    sonuc = sentence_stats([["a"], ["b"], ["c", "d", "e", "f"]])
-    assert sonuc["sent_len_skewness"] == 0.7071
+    assert sonuc == {"sent_len_mean": 3.0, "sent_len_median": 3.0}
 
 
 def test_kisa_uzun_cumle_orani_esik_kullanir():
@@ -222,7 +191,7 @@ def test_esik_sinirinda_kesin_kucukluk():
 
 def test_avg_sent_len_char_bosluklar_dahil():
     """"a bb" = 4, "abc" = 3 → 3.5"""
-    assert avg_sent_len_char([["a", "bb"], ["abc"]])["avg_sent_len_char"] == 3.5
+    assert sent_len_char_mean([["a", "bb"], ["abc"]])["sent_len_char_mean"] == 3.5
 
 
 def test_sent_len_entropy_elle():
@@ -241,7 +210,6 @@ def test_paragraf_elle():
     assert sonuc == {
         "para_len_mean": 2.5,
         "sents_per_para_mean": 1.0,
-        "para_count_norm": 400.0,
     }
 
 
@@ -259,7 +227,6 @@ def test_tek_satir_sonu_paragraf_saymaz():
     """Bilinen sınırlama — belgeleyici test."""
     tek = paragraph_stats("Birinci satır.\nİkinci satır.")
     cift = paragraph_stats("Birinci satır.\n\nİkinci satır.")
-    assert tek["para_count_norm"] > 0
     assert tek["sents_per_para_mean"] == 2.0
     assert cift["sents_per_para_mean"] == 1.0
 
@@ -330,8 +297,8 @@ def test_kisa_tek_paragraf_uyarmaz():
 def test_cumle_uzunlugu_noktalamayi_saymaz():
     """["Ali", "geldi", "."] 3 token ama 2 kelime."""
     sonuc = sentence_stats([["Ali", "geldi", "."]])
-    assert sonuc["avg_sent_len_word"] == 2.0
-    assert sonuc["med_sent_len"] == 2.0
+    assert sonuc["sent_len_mean"] == 2.0
+    assert sonuc["sent_len_median"] == 2.0
 
 
 def test_kisa_uzun_cumle_orani_noktalamayi_saymaz():
@@ -348,12 +315,12 @@ def test_sent_len_entropy_noktalamayi_saymaz():
 def test_alfabesiz_cumle_sayilmaz():
     """"..." cümle değil; geriye tek cümle kalır, tek değerden yayılım ölçülmez."""
     sonuc = sentence_stats([["Ali", "geldi", "."], ["..."]])
-    assert sonuc["avg_sent_len_word"] == 2.0
+    assert sonuc["sent_len_mean"] == 2.0
 
 
 def test_rakam_kelimedir_ama_tek_basina_cumle_degildir():
     """Sayı kelime sayılır (isalnum); ama alfabesiz cümle cümle sayılmaz (isalpha)."""
-    assert sentence_stats([["Yıl", "1999", "."]])["avg_sent_len_word"] == 2.0
+    assert sentence_stats([["Yıl", "1999", "."]])["sent_len_mean"] == 2.0
     assert _hepsi_nan(sentence_stats([["1999", "."]]))
 
 
@@ -368,18 +335,17 @@ def test_yalniz_noktalama_cumlesi_hepsi_nan():
 
 
 def test_bos_girdiler_hepsi_nan():
-    for sonuc in (pos_ratios([]), nominal_verbal_ratio([]), verb_distance_stats([]), activity_ratio([]),
+    for sonuc in (pos_ratios([]), verb_distance_stats([]), activity_ratio([]),
                   lexical_density([]), pos_distribution_stats([], []), sentence_stats([]),
-                  sentence_distribution_stats([], 5, 30), avg_sent_len_char([]),
+                  sentence_distribution_stats([], 5, 30), sent_len_char_mean([]),
                   sent_len_entropy([]), paragraph_stats(""), paragraph_stats("  \n\n ")):
         assert _hepsi_nan(sonuc)
 
 
 def test_tek_cumlede_yayilim_nan():
     sonuc = sentence_stats([["tek"]])
-    assert sonuc["avg_sent_len_word"] == 1.0
-    assert sonuc["med_sent_len"] == 1.0
-    assert _nan(sonuc["sent_len_skewness"])
+    assert sonuc["sent_len_mean"] == 1.0
+    assert sonuc["sent_len_median"] == 1.0
 
 
 # ── T12: soru cümlesi, zamir, kullanıcı n-gramları ────────────────────
@@ -387,7 +353,7 @@ def test_tek_cumlede_yayilim_nan():
 
 def test_soru_cumlesi_orani():
     cumleler = [["Ne", "?"], ["Evet", "."]]
-    assert question_per_sent(cumleler)["question_per_sent"] == 0.5
+    assert question_sent_ratio(cumleler)["question_sent_ratio"] == 0.5
 
 
 def test_soru_cumlesi_sondaki_tirnak_ve_parantez_atlanir():
@@ -398,7 +364,7 @@ def test_soru_cumlesi_sondaki_tirnak_ve_parantez_atlanir():
         ["Gel", "!?"],
         ["Bu", "mu", "?", "»"],
     ]
-    assert question_per_sent(cumleler)["question_per_sent"] == 1.0
+    assert question_sent_ratio(cumleler)["question_sent_ratio"] == 1.0
 
 
 def test_soru_cumlesi_yalniz_sona_bakar():
@@ -407,61 +373,96 @@ def test_soru_cumlesi_yalniz_sona_bakar():
         ["Geliyor", "musun"],           # "mı" var ama ? yok — sayılmaz
         ["Tamam", '"', ")"],            # yalnız kapanış işaretleri
     ]
-    assert question_per_sent(cumleler)["question_per_sent"] == 0.0
+    assert question_sent_ratio(cumleler)["question_sent_ratio"] == 0.0
 
 
 def test_zamir_orani_pron_etiketinden():
     pos = [("o", "PRON"), ("o", "DET"), ("ev", "NOUN"), (".", "PUNCT")]
-    assert pronoun_freq(pos)["pronoun_freq"] == 0.25
+    assert pronoun_ratio(pos)["pronoun_ratio"] == 0.25
+
+
+def _c(*kelimeler: str) -> list[tuple[str, str]]:
+    """Etiketsiz cümle: ``kelime/ETİKET`` yazılmamışsa etiket X."""
+    return [tuple(k.split("/")) if "/" in k else (k, "X") for k in kelimeler]
 
 
 def test_ngram_her_uzunlukta():
-    tokens = ["ne", "var", "ki", "diye", "ne", "var"]
-    sonuc = word_ngram_ratios(tokens, [["diye"], ["ne", "var", "ki"]])
-    assert set(sonuc) == {"ng_diye", "ng_ne_var_ki"}
+    sonuc = word_ngram_counts([_c("ne", "var", "ki", "diye", "ne", "var")],
+                              [["diye"], ["ne", "var", "ki"]])
+    assert sonuc == {"ngram_diye_count": 1.0, "ngram_ne_var_ki_count": 1.0}
 
 
-def test_ngram_paydasi_ayni_uzunluktaki_pencere_sayisi():
-    tokens = ["ne", "var", "ki", "kimse", "gelmedi"]
-    sonuc = word_ngram_ratios(tokens, [["ne", "var", "ki"], ["ki"]])
-    assert sonuc["ng_ne_var_ki"] == round(1 / 3, 5)   # 3 üçlü pencere
-    assert sonuc["ng_ki"] == 0.2                       # 5 tekli pencere
+def test_ngram_duz_sayim():
+    """Değer oran değil, sayım (2026-10-08, Efe)."""
+    sonuc = word_ngram_counts([_c("ne", "var", "ki", "kimse", "ki")], [["ki"]])
+    assert sonuc["ngram_ki_count"] == 2.0
 
 
 def test_ngram_ortusen_eslesmeler_sayilir():
-    sonuc = word_ngram_ratios(["ha", "ha", "ha"], [["ha", "ha"]])
-    assert sonuc["ng_ha_ha"] == 1.0                    # 2 eşleşme / 2 pencere
+    sonuc = word_ngram_counts([_c("ha", "ha", "ha")], [["ha", "ha"]])
+    assert sonuc["ngram_ha_ha_count"] == 2.0
 
 
-def test_ngram_kucuk_harf_ve_noktalama_atilir():
-    tokens = ["Ne", ",", "var", "ki", "...", "İşte", "!"]
-    sonuc = word_ngram_ratios(tokens, [["ne", "var", "ki"], ["işte"]])
-    # noktalama atılınca: ne var ki işte → 2 üçlü pencere, 4 tekli pencere
-    assert sonuc["ng_ne_var_ki"] == 0.5
-    assert sonuc["ng_işte"] == 0.25
+def test_ngram_etiket_eslesir_anahtarda_buyuk_harf():
+    """Büyük harfli UD etiketi o etiketli herhangi bir kelimeyle eşleşir."""
+    cumleler = [_c("Kadın/NOUN", "geldi/VERB"), _c("Kadın/NOUN", "güldü/VERB", "ve/CCONJ",
+                                                  "kadın/NOUN", "oturdu/VERB")]
+    sonuc = word_ngram_counts(cumleler, [["kadın", "VERB"], ["NOUN", "VERB"]])
+    assert sonuc == {"ngram_kadın_VERB_count": 3.0, "ngram_NOUN_VERB_count": 3.0}
+
+
+def test_ngram_cumle_sinirini_asmaz():
+    """``geldi. Kadın``: fiil ile sonraki cümlenin ismi yan yana sayılmaz."""
+    cumleler = [_c("o/PRON", "geldi/VERB"), _c("kadın/NOUN", "güldü/VERB")]
+    assert word_ngram_counts(cumleler, [["VERB", "NOUN"]])["ngram_VERB_NOUN_count"] == 0.0
+
+
+def test_ngram_kucuk_harfli_etiket_adi_kelimedir():
+    cumleler = [_c("noun/NOUN", "verb/VERB")]
+    sonuc = word_ngram_counts(cumleler, [["noun"]], lang="en")
+    assert sonuc == {"ngram_noun_count": 1.0}
 
 
 def test_ngram_kullanici_obegi_de_kucuk_harfe_iner():
-    sonuc = word_ngram_ratios(["ırmak", "İzmir"], [["Irmak"], ["İZMİR"]])
-    assert sonuc == {"ng_ırmak": 0.5, "ng_izmir": 0.5}
+    sonuc = word_ngram_counts([_c("ırmak", "İzmir")], [["Irmak"], ["İZMİR"]])
+    assert sonuc == {"ngram_ırmak_count": 1.0, "ngram_izmir_count": 1.0}
 
 
 def test_ngram_ingilizcede_i_noktasiz_olmaz():
-    sonuc = word_ngram_ratios(["I", "think"], [["I", "think"]], lang="en")
-    assert sonuc == {"ng_i_think": 1.0}
+    sonuc = word_ngram_counts([_c("I", "think")], [["I", "think"]], lang="en")
+    assert sonuc == {"ngram_i_think_count": 1.0}
 
 
-def test_ngram_metinden_uzun_obek_nan():
-    assert _hepsi_nan(word_ngram_ratios(["tek"], [["iki", "kelime"]]))
+def test_ngram_metinden_uzun_obek_sifir():
+    assert word_ngram_counts([_c("tek")], [["iki", "kelime"]]) == {"ngram_iki_kelime_count": 0.0}
 
 
 def test_ngram_bos_obek_hata():
     with pytest.raises(ValueError):
-        word_ngram_ratios(["tek"], [[]])
+        word_ngram_counts([_c("tek")], [[]])
+
+
+def test_ngram_eslesmeleri_sikliga_gore_sirali():
+    """Büyükten küçüğe; eşitlikte metindeki ilk geçiş (2026-10-08, Efe)."""
+    cumleler = [_c("kadın/NOUN", "güldü/VERB"), _c("Kadın/NOUN", "geldi/VERB"),
+                _c("kadın/NOUN", "oturdu/VERB"), _c("kadın/NOUN", "geldi/VERB")]
+    sonuc = word_ngram_matches(cumleler, ["kadın", "VERB"])
+    assert list(sonuc.items()) == [("kadın geldi", 2), ("kadın güldü", 1), ("kadın oturdu", 1)]
+
+
+def test_ngram_eslesmeleri_toplami_sayima_esit():
+    cumleler = [_c("ha", "ha", "ha"), _c("ha", "ha")]
+    eslesme = word_ngram_matches(cumleler, ["ha", "ha"])
+    assert eslesme == {"ha ha": 3}
+    assert sum(eslesme.values()) == word_ngram_counts(cumleler, [["ha", "ha"]])["ngram_ha_ha_count"]
+
+
+def test_ngram_eslesmesi_yoksa_bos():
+    assert word_ngram_matches([_c("tek")], ["iki", "kelime"]) == {}
 
 
 def test_bos_girdiler():
-    assert _nan(question_per_sent([])["question_per_sent"])
-    assert _nan(pronoun_freq([])["pronoun_freq"])
-    assert word_ngram_ratios([], []) == {}
-    assert _hepsi_nan(word_ngram_ratios([], [["diye"]]))
+    assert _nan(question_sent_ratio([])["question_sent_ratio"])
+    assert _nan(pronoun_ratio([])["pronoun_ratio"])
+    assert word_ngram_counts([], []) == {}
+    assert word_ngram_counts([], [["diye"]]) == {"ngram_diye_count": 0.0}

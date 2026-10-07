@@ -25,7 +25,7 @@ METIN = (
 )
 DIL = "tr"
 GRUP = "pos"                       # tabloya basılacak öznitelik grubu
-FORMULU_YAZILACAK = ("ttr", "mattr", "avg_sent_len_word", "lexical_density",
+FORMULU_YAZILACAK = ("ttr", "mattr", "sent_len_mean", "lexical_density",
                      "harmony_fronting_ratio")
 
 INGILIZCE_METIN = (
@@ -35,7 +35,7 @@ INGILIZCE_METIN = (
     "measures, it does not judge."
 )
 # İkisi yalnız Türkçe şemada, ikisi yalnız İngilizce şemada olan anahtarlar.
-DILE_OZEL = ("agglutination_depth", "atesman",
+DILE_OZEL = ("zeyrek_agglutination_depth", "atesman",
              "flesch_reading_ease", "polysyllabic_word_ratio")
 
 

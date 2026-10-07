@@ -14,7 +14,7 @@ düzeyini tanımlıyor. Kararlar (2026-09-17, Efe):
 - Noktalama ve sembol (``NON_WORD_POS``) atılır ve kelimeler yeniden
   sıralanır ("punctuation marks are rejected", Jing & Liu 2015). Kökün
   mesafesi ve derinliği sayılmaz. Kelimesi kökten ibaret cümle hesaba girmez.
-- Cümle sonu: noktalama atlanır; 13 türe girmeyen son ``sentfinal_other``'a
+- Cümle sonu: noktalama atlanır; 13 türe girmeyen son ``sentfinal_other_ratio``'a
   düşer, 14 oranın toplamı 1.
 - ``dep_*`` oranları, ``_cv``/``_max`` özetleri, bağlaç ve sıfat ayrımı,
   devriklik ve mesafe entropisi çıkarıldı; ``dep_*`` sonra yeniden bakılacak.
@@ -80,5 +80,5 @@ def dependency_features(dep_data: Sequence[Sequence[DepToken]],
     n_cumle = sum(sonlar.values())
     sonuc = {"arc_len_mean": _ortalama(mdd), "parse_depth_mean": _ortalama(mhd)}
     for ad in _SONLAR:
-        sonuc[f"sentfinal_{ad}"] = round(sonlar[ad] / n_cumle, 5) if n_cumle else math.nan
+        sonuc[f"sentfinal_{ad}_ratio"] = round(sonlar[ad] / n_cumle, 5) if n_cumle else math.nan
     return sonuc

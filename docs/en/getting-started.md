@@ -68,7 +68,7 @@ print(len(oz))
 ```
 
 ```text
-177
+171
 ```
 
 `lang` defaults to `"tr"`. Leave it out and English text is analysed with the
@@ -79,17 +79,17 @@ numbers. No nesting, no classes, no `pandas` requirement.
 
 ## 4. Read the output
 
-Looking at 177 numbers at once is pointless. Look at a few:
+Looking at 171 numbers at once is pointless. Look at a few:
 
 ```python
-for k in ("ttr", "avg_word_length", "flesch_reading_ease",
+for k in ("ttr", "word_len_mean", "flesch_reading_ease",
           "flesch_kincaid_grade", "ari", "coleman_liau"):
     print(f"{k:22s} {oz[k]}")
 ```
 
 ```text
 ttr                    0.842105
-avg_word_length        5.0
+word_len_mean          5.0
 flesch_reading_ease    74.7451
 flesch_kincaid_grade   5.1939
 ari                    8.9491
@@ -101,7 +101,7 @@ What these say:
 | Key | Value | Reading |
 |---|---|---|
 | `ttr` | 0.842 | Type-token ratio. 84% of the words appear once. Normal for a short text; impossible for a long one. |
-| `avg_word_length` | 5.0 | Five characters per word. |
+| `word_len_mean` | 5.0 | Five characters per word. |
 | `flesch_reading_ease` | 74.7 | 0–100 scale; 70–80 is "fairly easy", roughly 7th grade. |
 | `flesch_kincaid_grade` | 5.19 | US grade level. |
 | `ari` | 8.95 | Automated Readability Index, also a grade level. |
@@ -136,10 +136,10 @@ print(len(short), len(nans))
 ```
 
 ```text
-177 37
+171 33
 ```
 
-In a three-word text, **37 of 177** features return `nan`. That is honesty,
+In a three-word text, **33 of 171** features return `nan`. That is honesty,
 not failure. See **[What NaN means](explanation/nan.md)**.
 
 ## 6. See where a feature comes from

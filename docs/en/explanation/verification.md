@@ -23,31 +23,32 @@ misread.
 
 | Layer | What it guarantees | Coverage |
 |---|---|---|
-| **Formula equivalence** | The code implements the equation in the source. The citation gives page and equation number; tests exercise the formula and its edge cases. | The 140 features with a citation (Turkish; the other 68 are plain definitions with no source) |
-| **Source-number verification** | A number the source *published* was found and compared against our output. | 48 of 91 candidate report rows (Turkish) |
+| **Formula equivalence** | The code implements the equation in the source. The citation gives page and equation number; tests exercise the formula and its edge cases. | The 187 features with a citation (Turkish; the other 11 are plain definitions with no source) |
+| **Source-number verification** | A number the source *published* was found and compared against our output. | 48 of 141 candidate report rows (Turkish) |
 
 The second layer is additional work, not a precondition for the first. A
 feature marked "🔍 open" does **not** have a questionable formula; no published
 number was found to compare against. Yule (1944) defines K but never prints
 what K comes to in a novel — his not printing it does not make our K wrong.
 
-Every feature has its formula written out. The 68 features without a citation
-are plain definitions (a letter's or a punctuation mark's share, for example);
+Every feature has its formula written out. The 11 features without a citation
+are plain definitions (the dash's share of punctuation marks or the number of
+distinct lemmas, for example);
 they rest on no source, so there is no source equation to match.
 
 ## First: not every feature can be verified
 
 This distinction is the most important part of the report. By definition,
-some of the 205 features are **not even candidates** for verification:
+some of the 198 features are **not even candidates** for verification:
 
 | | Why not a candidate |
 |---|---|
-| ⚪ **no source** | A plain definition. `punc_,_ratio` means "commas / words"; there is no number in the literature to look for. The letter-frequency vector alone is 29 keys (Turkish). |
-| ⚫ **tag scheme** | Not a measure but a count of an external scheme's categories. `pos_noun` → UD, `case_loc_ratio` → Zeyrek. **A scheme defines categories; it does not publish measurements** — de Marneffe's paper does not print "morph_case_loc = 0.07", and could not. |
-| 🔧 **derivative** | The formula is from a source, **the application is ours**. `entropy_std` is Shannon's entropy, but taking its standard deviation across segments is ours; `long_sent_ratio`'s threshold comes from our own calibration. Nobody has published these measures — testing them against our own calibration would be reading our own answer sheet. |
+| ⚪ **no source** | A plain definition. `punct_dash_ratio` means "dashes / all punctuation marks"; there is no number in the literature to look for. |
+| ⚫ **tag scheme** | Not a measure but a count of an external scheme's categories. `pos_noun_ratio` → UD, `zeyrek_case_loc_ratio` → Zeyrek. **A scheme defines categories; it does not publish measurements** — de Marneffe's paper does not print "case_loc_ratio = 0.07", and could not. |
+| 🔧 **derivative** | The formula is from a source, **the application is ours**. `sent_len_entropy` is Shannon's entropy, but applying it to sentence lengths is ours; `long_sent_ratio`'s threshold comes from our own calibration. Nobody has published these measures — testing them against our own calibration would be reading our own answer sheet. |
 
-On the Turkish side **142 rows** are one of these three. That leaves
-**91 verification candidates**. That is the real denominator.
+On the Turkish side **82 rows** are one of these three. That leaves
+**141 verification candidates**. That is the real denominator.
 
 ## The four statuses a candidate can have
 
@@ -58,8 +59,8 @@ On the Turkish side **142 rows** are one of these three. That leaves
 | 🔍 **open** | The source gives the formula but never applies it to anything. Verifiable, not yet verified. |
 | ❌ **mismatch** | An **unexplained** difference. **Release gate: a single one blocks a release.** |
 
-Where things stand today: **48 of the 91 candidates are done** (46 ✅ +
-2 🟡), 43 are 🔍 open.
+Where things stand today: **48 of the 141 candidates are done** (46 ✅ +
+2 🟡), 93 are 🔍 open.
 
 The tolerance is **1% of the published value** (relative). Sources print
 rounded intermediate values, so exact equality is not expected. A relative
@@ -90,7 +91,7 @@ step leading to it is correct.
 and its coefficients, not the pipeline. It is what is available when the
 source published no text.
 
-## Why 43 rows are still 🔍 open
+## Why 93 rows are still 🔍 open
 
 The source published the formula but never applied it to a text and printed
 the result. In quantitative linguistics this is **ordinary**. Yule (1944)
@@ -107,7 +108,7 @@ Which groups are verified follows from their genre, not from chance:
 |---|---|---|---|
 | `frequency_structure` | 22 | 0 | 2 |
 | `readability` | 13 | 1 | 2 |
-| `lexical` | 6 | 1 | 22 |
+| `lexical` | 6 | 1 | 28 |
 | `phonetic` | 0 | 0 | 11 |
 
 Readability formulas are **practical instruments** — their authors publish
@@ -224,7 +225,7 @@ Before you put a number in your work, look up its row:
   not been compared against a number the source published. Give the citation;
   do not say "verified against the source's own number".
 - **⚪ no source** — the library's own definition, because there is no number in
-  the literature to look for (`punc_,_ratio` = commas / words).
+  the literature to look for (`punct_dash_ratio` = dashes / all punctuation marks).
 - **⚫ tag scheme** — the number is ours, the categories are the scheme's.
   Cite the scheme (UD or Zeyrek), not a measure.
 - **🔧 derivative** — the formula is the source's; the decision to apply that
@@ -238,18 +239,17 @@ scratch for your methods section. The registry keeps a citable definition for
 every feature:
 
 ```python
-tlf.describe_feature("entropy_std")["formula"]
+tlf.describe_feature("sent_len_entropy")["formula"]
 ```
 
 ```text
-'population std of entropies (nats) of disjoint mattr_window-word chunks'
+'Shannon entropy (nats) of the distribution of words per sentence'
 ```
 
-Six examples:
+Five examples:
 
 | Feature | Definition | What belongs to the source |
 |---|---|---|
-| `entropy_std` | population standard deviation of the entropies (nats) of disjoint `mattr_window`-word chunks | the entropy formula — Shannon (1948) |
 | `punct_entropy` | Shannon entropy (nats) of the distribution over the ten mark types | the entropy formula — Shannon (1948) |
 | `sent_len_entropy` | Shannon entropy (nats) of the distribution of words per sentence | the entropy formula — Shannon (1948) |
 | `short_sent_ratio` | sentences with fewer than `short_sent_threshold` words / sentences | the threshold value — [threshold calibration](../../threshold-calibration.md) |
@@ -259,9 +259,9 @@ Six examples:
 The one requirement is getting the attribution right: cite the source of the
 formula, but do not attribute the measure itself to that source.
 
-- ✗ "the Shannon (1948) `entropy_std` measure"
-- ✓ "the standard deviation of Shannon (1948) entropy across segments
+- ✗ "the Shannon (1948) `sent_len_entropy` measure"
+- ✓ "Shannon (1948) entropy applied to the distribution of sentence lengths
   (as defined by turkish-linguistic-features)"
 
 The first wording implies a measure the reader could look up in the source and
-find. Shannon defined the entropy, not its standard deviation across segments.
+find. Shannon defined the entropy; he did not apply it to sentence lengths.

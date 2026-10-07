@@ -27,7 +27,7 @@ in another genre, consider deriving the thresholds from your own corpus —
 
 ### 2. Fourteen citations are secondary
 
-**14 of 148** citations carry `as cited in` — the primary source could not
+**14 of 162** citations carry `as cited in` — the primary source could not
 be obtained and the formula was taken from the citing work. For example:
 
 ```text
@@ -68,7 +68,7 @@ harmless.
 
 ### 4. Turkish morphology depends on Zeyrek
 
-The 24 features in the `morphological_zeyrek` group and the Turkish lemmas
+The 23 features in the `morphological_zeyrek` group and the Turkish lemmas
 come from Zeyrek, a Python port of Zemberek's morphotactics. A word Zeyrek
 cannot analyse drops out of the Zeyrek features; its lemma is the part before
 its apostrophe (`Pittsburgh'tan` → `pittsburgh`).
@@ -87,13 +87,13 @@ numbers, fix the seed before Python starts, e.g. `PYTHONHASHSEED=0`.
 
 ### 5. Half the candidates are still unverified
 
-142 rows are not verification candidates at all (plain definitions, tag
-schemes, or our own derivations). Of the remaining **91 candidates, 48 are done** (46 ✅ + 2 🟡)
-and **43 are 🔍 open**.
+82 rows are not verification candidates at all (plain definitions, tag
+schemes, or our own derivations). Of the remaining **141 candidates, 48 are done** (46 ✅ + 2 🟡)
+and **93 are 🔍 open**.
 
 The reason is in [The verification system](verification.md): most sources
 publish a formula but never a worked numerical example. This is most
-pronounced in the `lexical` group — 7 of its 29 candidates are verified.
+pronounced in the `lexical` group — 7 of its 35 candidates are verified.
 
 ### 6. The package is not on PyPI yet
 
@@ -112,8 +112,6 @@ affect your results.
 A few features are not named measures from the literature but definitions
 this library made. Their citations say so plainly:
 
-- `entropy_std` — the **standard deviation of Shannon entropy across
-  segments**. The entropy is Shannon's; the standard deviation is ours.
 - `punct_entropy`, `sent_len_entropy` — Shannon's formula applied to the
   distribution of punctuation types and of sentence lengths. The formula is
   Shannon's; the decision to apply it there is ours.
@@ -124,12 +122,12 @@ There is nothing wrong with using them. The one requirement is getting the
 attribution right: cite the source of the formula, but do not attribute the
 measure itself to that source. In your methods section:
 
-- ✗ "the Shannon (1948) `entropy_std` measure"
-- ✓ "the standard deviation of Shannon (1948) entropy across segments
+- ✗ "the Shannon (1948) `sent_len_entropy` measure"
+- ✓ "Shannon (1948) entropy applied to the distribution of sentence lengths
   (as defined by turkish-linguistic-features)"
 
-The reason is simple: Shannon defined the entropy, not its standard deviation
-across segments. The first wording implies a measure the reader could look up
+The reason is simple: Shannon defined the entropy; he did not apply it to
+sentence lengths. The first wording implies a measure the reader could look up
 in the source and find.
 
 ### 8. Sensitivity to text length
@@ -146,7 +144,7 @@ them to the same size with `segment_size` first
 
 ### 9. Paragraph features depend on how the input is formatted
 
-The five `para_*` features find paragraph boundaries from **blank lines**. A
+The two `para_*` features find paragraph boundaries from **blank lines**. A
 single line break does not count as one — otherwise every line of a
 hard-wrapped text would be a paragraph.
 
@@ -156,8 +154,8 @@ library cannot fix this — a boundary that was deleted
 cannot be recovered.
 
 This is **common** in text extracted from PDF and EPUB: blank lines between
-paragraphs are lost during extraction. The [NaN map example](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/07_nan_haritasi.py)
-shows which features this leaves unmeasurable in your own text.
+paragraphs are lost during extraction. The value is not `nan`, so the numbers
+will not show it; the warning below does.
 
 If a text longer than 1000 words yields no paragraph boundary at all, a
 `ParagraphStructureWarning` is raised. If you see it you have two options:

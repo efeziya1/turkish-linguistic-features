@@ -2,10 +2,10 @@
 
 Bu modül iki grubun anahtarlarını üretir:
 
-- ``punctuation`` (19): ``digit_vs_all``, 10 × ``punc_*_ratio``, ``punc_total_ratio``, ``punct_density``,
+- ``punctuation`` (18): ``digit_ratio``, 10 × ``punct_*_ratio``, ``punct_char_ratio``,
   ``punct_entropy``, ``consecutive_punct_ratio``, ``whitespace_ratio``,
   ``punct_variety``, ``uppercase_ratio``, ``all_caps_word_ratio``
-- ``chars`` (dinamik): ``char_{harf}`` — TR 29, EN 26
+- ``chars`` (dinamik): ``char_{harf}_ratio`` — TR 29, EN 26
 
 Noktalama **işaret** düzeyinde sayılır, karakter düzeyinde değil (Efe'nin
 kararları, 2026-09-15):
@@ -19,7 +19,7 @@ kararları, 2026-09-15):
 
 Fonksiyonlar saftır (K3). K4 (2026-09-16, Efe): ölçülemeyen değer ``math.nan``
 döner — boş metin, harfli token yok, işaret yokken işaret dağılımı. ``0.0``
-yalnız gerçek sıfırdır (işaretsiz metinde ``punct_density``).
+yalnız gerçek sıfırdır (işaretsiz metinde ``punct_char_ratio``).
 """
 
 from __future__ import annotations
@@ -29,17 +29,18 @@ from collections import Counter
 
 from ..alfabe import _ALFABE, _kucuk_harf
 
-# Karakter → işaret türü. Tür adları punc_{tür}_ratio anahtarlarının ortasıdır.
+# Karakter → işaret türü. Tür adları punct_{tür}_ratio anahtarlarının ortasıdır.
 _TUR: dict[str, str] = {
-    ",": ",", ".": ".", ";": ";", "!": "!", ":": ":", "?": "question",
-    "-": "-", "–": "-", "—": "-",
+    ",": "comma", ".": "period", ";": "semicolon", "!": "exclamation", ":": "colon", "?": "question",
+    "-": "dash", "–": "dash", "—": "dash",
     "…": "ellipsis",
     "(": "paren", ")": "paren",
     '"': "quote", "“": "quote", "”": "quote", "«": "quote", "»": "quote",
     "'": "quote", "‘": "quote", "’": "quote",
 }
 _PUNCT_CHARS = frozenset(_TUR)
-_TURLER = (",", ".", ";", "!", ":", "-", "ellipsis", "paren", "quote", "question")
+_TURLER = ("comma", "period", "semicolon", "exclamation", "colon", "dash",
+           "ellipsis", "paren", "quote", "question")
 _KESME = frozenset("'’")
 
 
@@ -56,7 +57,7 @@ def _isaretler(metin: str) -> list[tuple[int, int, str]]:
             if j - i >= 3:
                 out.append((i, j, "ellipsis"))
             else:
-                out.extend((k, k + 1, ".") for k in range(i, j))
+                out.extend((k, k + 1, "period") for k in range(i, j))
             i = j
             continue
         if ch in _PUNCT_CHARS:
@@ -74,22 +75,24 @@ def _entropy_nats(sayimlar: Counter) -> float:
     return -sum((c / toplam) * math.log(c / toplam) for c in sayimlar.values()) + 0.0
 
 
-# ── kelime başına noktalama ───────────────────────────────────────────
+# ── işaretler içindeki pay ────────────────────────────────────────────
 
 
-def punctuation_ratios(text: str, total_words: int) -> dict[str, float]:
-    """10 noktalama türünün kelime başına sıklığı ve toplamı (``punc_total_ratio``).
+def punctuation_ratios(text: str) -> dict[str, float]:
+    """10 noktalama türünün bütün işaretler içindeki payı; toplamları 1.
 
-    ``punc_-_ratio`` üç tireyi (``- – —``), ``punc_quote_ratio`` bütün tırnak
-    biçimlerini, ``punc_paren_ratio`` iki parantezi ayrı ayrı sayar. Kelime yoksa NaN.
+    Pay olarak (2026-10-08, Efe); önceden kelime başına sıklıktı ve 1'i
+    aşabiliyordu. Noktalamanın yoğunluğu ``punct_char_ratio``'da;
+    ``punct_total_ratio`` aynı bilgiyi kelime başına verdiği için kaldırıldı.
+
+    ``punct_dash_ratio`` üç tireyi (``- – —``), ``punct_quote_ratio`` bütün tırnak
+    biçimlerini, ``punct_paren_ratio`` iki parantezi ayrı ayrı sayar. İşaret yoksa NaN.
     """
-    if total_words <= 0:
-        return {**{f"punc_{t}_ratio": math.nan for t in _TURLER}, "punc_total_ratio": math.nan}
     say = Counter(tur for _, _, tur in _isaretler(text))
-    oranlar = {f"punc_{t}_ratio": round(say.get(t, 0) / total_words, 6) for t in _TURLER}
-    # Bütün işaretler / kelime (2026-10-07, Efe): `pos_punct`'ın yerini aldı.
-    oranlar["punc_total_ratio"] = round(sum(say.values()) / total_words, 6)
-    return oranlar
+    toplam = sum(say.values())
+    if toplam == 0:
+        return {f"punct_{t}_ratio": math.nan for t in _TURLER}
+    return {f"punct_{t}_ratio": round(say.get(t, 0) / toplam, 6) for t in _TURLER}
 
 
 # ── karakter düzeyi oranlar ───────────────────────────────────────────
@@ -98,8 +101,8 @@ def punctuation_ratios(text: str, total_words: int) -> dict[str, float]:
 def digit_ratio(text: str) -> dict[str, float]:
     """Rakam karakteri / tüm karakterler. Boş metinde NaN."""
     if not text:
-        return {"digit_vs_all": math.nan}
-    return {"digit_vs_all": round(sum(ch.isdecimal() for ch in text) / len(text), 6)}
+        return {"digit_ratio": math.nan}
+    return {"digit_ratio": round(sum(ch.isdecimal() for ch in text) / len(text), 6)}
 
 
 def whitespace_ratio(text: str) -> dict[str, float]:
@@ -109,11 +112,11 @@ def whitespace_ratio(text: str) -> dict[str, float]:
     return {"whitespace_ratio": round(sum(ch.isspace() for ch in text) / len(text), 6)}
 
 
-def punct_density(text: str) -> dict[str, float]:
+def punct_char_ratio(text: str) -> dict[str, float]:
     """Noktalama işareti sayısı / tüm karakterler. ``...`` bir işarettir. Boş metinde NaN."""
     if not text:
-        return {"punct_density": math.nan}
-    return {"punct_density": round(len(_isaretler(text)) / len(text), 6)}
+        return {"punct_char_ratio": math.nan}
+    return {"punct_char_ratio": round(len(_isaretler(text)) / len(text), 6)}
 
 
 def punct_entropy(text: str) -> dict[str, float]:
@@ -196,4 +199,4 @@ def char_freq_vector(text: str, lang: str) -> dict[str, float]:
     alfabe = _ALFABE[lang]
     say = Counter(ch for ch in _kucuk_harf(text, lang) if ch in alfabe)
     toplam = sum(say.values())
-    return {f"char_{h}": round(say.get(h, 0) / toplam, 6) if toplam else math.nan for h in alfabe}
+    return {f"char_{h}_ratio": round(say.get(h, 0) / toplam, 6) if toplam else math.nan for h in alfabe}

@@ -20,7 +20,7 @@ from .pipeline.zeyrek_backend import ZeyrekBackend as _ZB
 _ZB()._ensure_loaded()
 # --------------------------------------------------------------------------
 
-from ._analyze import analyze
+from ._analyze import analyze, ngram_matches
 from ._corpus import analyze_corpus
 from ._warnings import MissingDependencyWarning, ParagraphStructureWarning
 from .exceptions import LinguisticFeaturesError, ModelNotFoundError
@@ -30,11 +30,12 @@ from .params import FeatureParams
 
 __version__ = "0.1.0"
 
-# Genel API — on adın hepsi burada.
+# Genel API — on bir adın hepsi burada.
 __all__ = [
     # Analiz
     "analyze",
     "analyze_corpus",
+    "ngram_matches",
     # Yapılandırma
     "FeatureParams",
     # Korpus

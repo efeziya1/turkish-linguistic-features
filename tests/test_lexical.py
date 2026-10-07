@@ -11,8 +11,8 @@ from turkish_linguistic_features.features.lexical import (
     dugast_u,
     guiraud_r,
     hapax_count,
-    hapax_percentage,
     hapax_ratio,
+    hapax_token_ratio,
     hdd,
     heaps_beta,
     herdan_vm,
@@ -165,14 +165,14 @@ def test_hapax_yuzdesi_paydasi_token():
     """5 token, 3 tip, 2'si bir kez geçiyor → yüzde 2/5, oran 2/3."""
     _, N, V, items = rank_word_freq_table(["ev", "ev", "ev", "yol", "kapı"])
     assert (N, V) == (5, 3)
-    assert hapax_percentage(items)["hapax_percentage"] == 0.4
+    assert hapax_token_ratio(items)["hapax_token_ratio"] == 0.4
     assert hapax_ratio(items)["hapax_ratio"] == 0.666667
 
 
 def test_hapax_yuzdesi_hepsi_bir_kez_geciyorsa_bir():
     """Her kelime bir kez → V1 = N → 1.0. Oran da 1.0, ama tesadüfen."""
     items = [("a", 1), ("b", 1), ("c", 1)]
-    assert hapax_percentage(items)["hapax_percentage"] == 1.0
+    assert hapax_token_ratio(items)["hapax_token_ratio"] == 1.0
     assert hapax_ratio(items)["hapax_ratio"] == 1.0
 
 
@@ -296,7 +296,7 @@ def test_bos_girdiler_cokmez():
     assert _nan(simpsons_d(freqs))
     assert _nan(brunet_w(0, 0)["brunet_w"])
     assert _nan(hapax_ratio([])["hapax_ratio"])
-    assert _nan(hapax_percentage([])["hapax_percentage"])
+    assert _nan(hapax_token_ratio([])["hapax_token_ratio"])
     assert hapax_count([]) == 0
     assert _nan(word_length_stats([]))
     assert _nan(type_token_ratio(0, 0)["ttr"])
@@ -312,7 +312,7 @@ def test_tek_elemanli_girdiler_cokmez():
     assert _nan(simpsons_d(freqs))        # N(N−1) = 0 → tanımsız
     assert brunet_w(1, 1)["brunet_w"] == 1.0
     assert hapax_ratio(items)["hapax_ratio"] == 1.0
-    assert hapax_percentage(items)["hapax_percentage"] == 1.0
+    assert hapax_token_ratio(items)["hapax_token_ratio"] == 1.0
     assert hapax_count(items) == 1
     assert word_length_stats(["ev"]) == 2.0
     assert type_token_ratio(1, 1)["ttr"] == 1.0
@@ -326,7 +326,7 @@ def test_tek_elemanli_girdiler_cokmez():
 def test_zenginlik_anahtarlari_bigram_entropy_yok():
     """bigram_entropy 2026-09-15'te çıkarıldı (Efe)."""
     sonuc = advanced_lexical_richness([f"k{i}" for i in range(10)])
-    assert set(sonuc) == {"mattr", "entropy_std", "herdan_c"}
+    assert set(sonuc) == {"mattr", "herdan_c"}   # entropy_std 2026-10-08'de kalktı
 
 
 def test_mattr_tamamen_tekrarli_metinde_dusuk():
@@ -368,17 +368,6 @@ def test_mattr_esik_tam_iki_katinda_hesaplaniyor():
     tokens = [f"k{i}" for i in range(6)]
     assert not _nan(advanced_lexical_richness(tokens, window=3)["mattr"])
     assert _nan(advanced_lexical_richness(tokens[:5], window=3)["mattr"])
-
-
-def test_entropy_std_ayrik_parcalar_artik_atilir():
-    """Parça 2: [a b] H=ln 2 nat, [a a] H=0 → popülasyon sapması ln 2 / 2.
-    Sondaki tek kelimelik artık parça ('c') hesaba girmez."""
-    sonuc = advanced_lexical_richness(["a", "b", "a", "a", "c"], window=2)
-    assert sonuc["entropy_std"] == pytest.approx(math.log(2) / 2, abs=1e-4)
-
-
-def test_entropy_std_tek_parcada_sifir():
-    assert _nan(advanced_lexical_richness(["a", "b", "c"], window=2)["entropy_std"])
 
 
 def test_herdan_c_tek_token_nan_tek_tip_sifir():

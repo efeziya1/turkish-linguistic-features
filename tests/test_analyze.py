@@ -13,8 +13,8 @@ from turkish_linguistic_features import analyze
 tr_model = pytest.mark.tr_model
 en_model = pytest.mark.en_model
 
-TR_TABAN = 205
-EN_TABAN = 177
+TR_TABAN = 198
+EN_TABAN = 171
 
 
 # ── önbellek — model gerektirmez ──────────────────────────────────────
@@ -100,11 +100,27 @@ def test_bilinmeyen_grup_hata():
 
 @tr_model
 def test_custom_ngrams_yalniz_ng_sutunu_ekler():
-    """Taban bir TAVAN değil — ama eklenen tek şey ``ng_*`` olmalı."""
+    """Taban bir TAVAN değil — ama eklenen tek şey ``ngram_*`` olmalı."""
     metin = "Bu bir deneme metnidir."
     taban = analyze(metin, lang="tr")
     genis = analyze(metin, lang="tr", custom_ngrams=[["bu", "bir"]])
-    assert set(genis) - set(taban) == {"ng_bu_bir"}
+    assert set(genis) - set(taban) == {"ngram_bu_bir_count"}
+
+
+@tr_model
+def test_ngram_matches_analyze_sayimiyla_tutarli():
+    metin = "Kadın geldi. Kadın güldü ve kadın oturdu. Kadın geldi."
+    eslesme = tlf.ngram_matches(metin, ["kadın", "VERB"])
+    sayim = analyze(metin, custom_ngrams=[["kadın", "VERB"]], groups=["custom_ngrams"])
+    assert list(eslesme)[0] == "kadın geldi" and eslesme["kadın geldi"] == 2
+    assert sum(eslesme.values()) == sayim["ngram_kadın_VERB_count"] == 4
+
+
+def test_ngram_matches_bos_obek_ve_dil_hatasi():
+    with pytest.raises(ValueError):
+        tlf.ngram_matches("metin", [])
+    with pytest.raises(ValueError):
+        tlf.ngram_matches("metin", ["a"], lang="de")
 
 
 @tr_model
@@ -132,7 +148,7 @@ def test_desteklenmeyen_dil():
 
 @tr_model
 def test_zeyrek_grubu_gercekten_olculuyor():
-    """24 ``morphological_zeyrek`` anahtarı üretilmeli ve hepsi NaN olmamalı.
+    """23 ``morphological_zeyrek`` anahtarı üretilmeli ve hepsi NaN olmamalı.
 
     ``zeyrek`` zorunlu bağımlılık (K1) — "kurulu değil" senaryosu yok. Grup
     üretiliyor ama her değer NaN çıkıyorsa Zeyrek sessizce boş dönüyordur.
@@ -143,7 +159,7 @@ def test_zeyrek_grubu_gercekten_olculuyor():
 
     feats = analyze("Kitaplarımızda yazıyordu. Gelmedim çünkü çağırmadılar.", lang="tr")
     zeyrek_anahtarlari = STATIC_GROUP_KEYS["morphological_zeyrek"]
-    assert len(zeyrek_anahtarlari) == 24
+    assert len(zeyrek_anahtarlari) == 23
     assert set(zeyrek_anahtarlari) <= set(feats)
     olculen = [feats[k] for k in zeyrek_anahtarlari if not math.isnan(feats[k])]
     assert olculen, "morphological_zeyrek'in tamamı NaN — Zeyrek boş dönüyor"

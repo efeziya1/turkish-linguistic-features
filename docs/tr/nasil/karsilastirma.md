@@ -13,7 +13,7 @@ once  = tlf.analyze(once_metin, lang="tr")
 sonra = tlf.analyze(sonra_metin, lang="tr")
 
 print(f"{'anahtar':22s} {'önce':>10} {'sonra':>10} {'fark':>10}")
-for k in ("avg_sent_len_word", "avg_word_length", "syllable_mean", "atesman",
+for k in ("sent_len_mean", "word_len_mean", "syllable_mean", "atesman",
           "cetinkaya_uzun", "ttr", "long_word_ratio"):
     print(f"{k:22s} {once[k]:10.4f} {sonra[k]:10.4f} {sonra[k]-once[k]:+10.4f}")
 ```
@@ -40,8 +40,8 @@ Akademik bir paragrafın ağır hâli ve sadeleştirilmiş hâli:
 
 ```text
 anahtar                      önce      sonra       fark
-avg_sent_len_word         18.0000     6.6667   -11.3333
-avg_word_length            8.0278     7.2500    -0.7778
+sent_len_mean             18.0000     6.6667   -11.3333
+word_len_mean              8.0278     7.2500    -0.7778
 syllable_mean              3.3611     3.0500    -0.3111
 atesman                   16.8124    58.8913   +42.0789
 cetinkaya_uzun            13.9998    33.0893   +19.0895

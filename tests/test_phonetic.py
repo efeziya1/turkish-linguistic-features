@@ -308,18 +308,18 @@ def test_cumle_hecesi_elle():
                 ["Öğretmen", "dersi", "anlattı", "."],
                 ["Kitaplarımızdaki", "resimler", "güzeldi", "."]]
     sonuc = sentence_syllable_stats(cumleler, "tr")
-    assert sonuc == {"sentence_syllable_mean": pytest.approx(28 / 3, abs=1e-4)}
+    assert sonuc == {"sent_syllable_mean": pytest.approx(28 / 3, abs=1e-4)}
 
 
 def test_cumle_hecesi_hecesiz_cumle_sayilmaz():
     """Yalnız rakam/noktalama içeren cümlenin hecesi ölçülemez, hesaba girmez."""
     sonuc = sentence_syllable_stats([["ev", "."], ["4x4", "."], ["okul", "."]], "tr")
-    assert sonuc["sentence_syllable_mean"] == 1.5
+    assert sonuc["sent_syllable_mean"] == 1.5
 
 
 def test_cumle_hecesi_bos_ve_tek():
     assert all(_nan(v) for v in sentence_syllable_stats([], "tr").values())
-    assert sentence_syllable_stats([["kitap", "okudu"]], "tr")["sentence_syllable_mean"] == 5.0
+    assert sentence_syllable_stats([["kitap", "okudu"]], "tr")["sent_syllable_mean"] == 5.0
 
 
 # ── küçük ünlü uyumu (T?? — 2026-09-19) ───────────────────────────────

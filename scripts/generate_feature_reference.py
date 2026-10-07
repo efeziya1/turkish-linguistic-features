@@ -50,7 +50,7 @@ published is a separate question — see the
 """
 
 # Dinamik grupların temsilci anahtarı (grup düzeyinde metin taşırlar).
-DINAMIK_ORNEK = {"chars": "char_a", "custom_ngrams": None}
+DINAMIK_ORNEK = {"chars": "char_a_ratio", "custom_ngrams": None}
 
 
 def _satir(anahtar: str) -> str:

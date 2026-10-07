@@ -20,15 +20,14 @@ len(kisa), len(nan_olan)
 ```
 
 ```text
-(205, 41)
+(198, 36)
 ```
 
-205 öznitelikten **41'i** `nan`. Örnekler:
+198 öznitelikten **36'sı** `nan`. Örnekler:
 
 ```text
-['causative_suffix_ratio', 'conditional_suffix_ratio',
- 'derivational_suffix_ratio', 'dugast_u', 'entropy_std', 'hdd',
- 'heaps_beta', 'mattr']
+['aspect_imp_ratio', 'aspect_perf_ratio', 'aspect_prog_ratio', 'dugast_u',
+ 'hdd', 'heaps_beta', 'mattr', 'msttr']
 ```
 
 Aynı metinde `ttr` yine de sayı döner:
@@ -40,7 +39,7 @@ ttr    = 1.0   (her uzunlukta hesaplanır)
 
 ## Neden `nan` dönüyor
 
-Dört sebep var.
+Üç sebep var.
 
 ### 1. Metin çok kısa
 
@@ -68,11 +67,23 @@ ortalama" olmaktan çıkar — o yüzden eşik `2 × pencere`dir.
 
 ### 2. Gereken yapı yok
 
-`derivational_suffix_ratio` metinde hiç türetme eki bulamazsa paydası sıfır
+`zeyrek_derivational_suffix_ratio` metinde hiç türetme eki bulamazsa paydası sıfır
 olur. `parse_depth_mean` cümle ayrıştırılamazsa değer üretemez.
 `hapax_ratio` tek kelimelik metinde anlamsızdır.
 
-### 3. Girdide paragraf sınırı yok
+### 3. İsteğe bağlı bir paket kurulu değil
+
+`wordfreq` kurulu değilse `wordfreq_mean` ve `wordfreq_rare_ratio` `nan`
+döner ve kütüphane bir `MissingDependencyWarning` basar.
+
+```python
+oz = tlf.analyze(metin, lang="tr", warn=False)
+```
+
+`warn=False` yalnız uyarıyı susturur; öznitelik yine `nan` kalır. Aynı bayrak
+`ParagraphStructureWarning`'i de susturur.
+
+## `nan` dönmeyen ama yanıltan durum: paragraf
 
 Paragraf sınırı boş satırla bulunur, tek satır sonu saymaz. Metninizde boş
 satır yoksa metnin tamamı tek paragraf sayılır ve `para_len_mean` bütün
@@ -99,18 +110,6 @@ Uyarı metinleri İngilizcedir — öznitelik anahtarları ve künyeler de öyle
 
 Bu genellikle metnin PDF/EPUB'dan çıkarılırken satır sonlarını kaybetmesinden
 olur; [sınırlılıklar §9](sinirliliklar.md) ölçümü veriyor.
-
-### 4. İsteğe bağlı bir paket kurulu değil
-
-`wordfreq` kurulu değilse `wordfreq_mean` ve `wordfreq_rare_ratio` `nan`
-döner ve kütüphane bir `MissingDependencyWarning` basar.
-
-```python
-oz = tlf.analyze(metin, lang="tr", warn=False)
-```
-
-`warn=False` yalnız uyarıyı susturur; öznitelik yine `nan` kalır. Aynı bayrak
-`ParagraphStructureWarning`'i de susturur.
 
 ## Tabloda ne yapmalı
 
@@ -144,7 +143,7 @@ parçalama:
 satirlar = tlf.analyze_corpus("korpus/", lang="tr", segment_size=1000)
 ```
 
-1000 tokenlık parçalar 205 özniteliğin neredeyse tamamını besler. Ayrıntı:
+1000 tokenlık parçalar 198 özniteliğin neredeyse tamamını besler. Ayrıntı:
 [Metni parçalara böl](../nasil/segmentleme.md).
 
 ## Neden `None` değil de `nan`

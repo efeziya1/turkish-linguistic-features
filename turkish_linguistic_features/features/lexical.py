@@ -1,12 +1,12 @@
 """Sözcüksel temel: frekans tablosu ve klasik kelime zenginliği ölçütleri.
 
-Bu modül 33 öznitelik anahtarı üretir (`lexical` grubunun 34'ünden; kalan
-``n_lemma_count`` T20'de sayılır):
+Bu modül 32 öznitelik anahtarı üretir (`lexical` grubunun 33'ünden; kalan
+``lemma_count`` T20'de sayılır):
 
 - T04 (10): ``ttr`` · ``entropy`` · ``yule_k`` · ``simpson_d`` · ``brunet_w`` ·
-  ``hapax_ratio`` · ``hapax_percentage`` · ``avg_word_length`` ·
+  ``hapax_ratio`` · ``hapax_token_ratio`` · ``word_len_mean`` ·
   ``sichel_s`` · ``heaps_beta``
-- T05 (10): ``mattr`` · ``entropy_std`` · ``herdan_c`` · ``mtld`` ·
+- T05 (9): ``mattr`` · ``herdan_c`` · ``mtld`` ·
   ``dugast_u`` · ``guiraud_r`` · ``noun_variation`` ·
   ``verb_variation`` · ``adj_variation`` · ``adv_variation``
 - T06 (3): ``vocd_d`` · ``hdd`` · ``msttr``
@@ -21,7 +21,7 @@ gerekmez — tokenizasyonu çağıran taraf yapmıştır.
 noktalamasız **yüzey biçimleri** sayar — klasik literatürün (McCarthy &
 Jarvis 2010, Covington & McFall 2010, Tweedie & Baayen 1998) birimi.
 Listeyi T20 hazırlar. İstisnalar: ``*_variation`` lemma sayar (Lu 2012),
-``n_lemma_count`` adı gereği lemma.
+``lemma_count`` adı gereği lemma.
 
 **K4 (2026-09-16, Efe):** ``0.0`` yalnız "ölçüldü ve sıfır çıktı" demektir.
 Ölçülemeyen değer — boş girdi, en az uzunluğun altı, boş alt küme, tanımsız
@@ -162,14 +162,14 @@ def hapax_ratio(items: list) -> dict[str, float]:
     """Bir kez geçen tip / toplam **tip** (V1 / V). Boşsa NaN.
 
     Paydası tip olduğu için "kelime dağarcığının ne kadarı tek kullanımlık"
-    sorusunu yanıtlar. QUITA'nın ölçütü bu değil — o ``hapax_percentage``.
+    sorusunu yanıtlar. QUITA'nın ölçütü bu değil — o ``hapax_token_ratio``.
     """
     if not items:
         return {"hapax_ratio": math.nan}
     return {"hapax_ratio": round(hapax_count(items) / len(items), 6)}
 
 
-def hapax_percentage(items: list) -> dict[str, float]:
+def hapax_token_ratio(items: list) -> dict[str, float]:
     """Bir kez geçen tip / toplam **token** (V1 / N) — QUITA §6.1.6. Boşsa NaN.
 
     ``hapax_ratio`` ile payı aynı, paydası farklı: orada V (tip), burada N
@@ -178,9 +178,9 @@ def hapax_percentage(items: list) -> dict[str, float]:
     yüzde, dağarcık okuması için oran.
     """
     if not items:
-        return {"hapax_percentage": math.nan}
+        return {"hapax_token_ratio": math.nan}
     n = sum(f for _, f in items)
-    return {"hapax_percentage": round(hapax_count(items) / n, 6)}
+    return {"hapax_token_ratio": round(hapax_count(items) / n, 6)}
 
 
 def word_length_stats(tokens: list[str]) -> float:
@@ -253,7 +253,7 @@ def heaps_beta(tokens: list[str], min_tokens: int = 300,
 
 # ── T05: pencereli ve eğri tabanlı zenginlik ──────────────────────────
 #
-# Pencere ve parça boyları (MATTR 50 kayan, entropy_std 50'lik ayrık parça)
+# Pencere boyu (MATTR 50 kayan)
 # 2026-09-15'te geçici kabul edildi; Efe'nin notuyla ileride yeniden gözden
 # geçirilecek. ttr_moving_slope 2026-10-07'de kaldırıldı (Efe: fazla karışık).
 
@@ -288,7 +288,7 @@ def _parcalar(tokens: list[str], boy: int) -> list[list[str]]:
 
 
 def advanced_lexical_richness(tokens: list[str], window: int = 50) -> dict[str, float]:
-    """MATTR, entropy_std, Herdan-C.
+    """MATTR ve Herdan-C.
 
     - ``mattr`` — 1'er kayan ``window``'luk pencerelerin TTR ortalaması
       (Covington & McFall 2010). **2 × window**'dan kısa metinde NaN
@@ -296,18 +296,17 @@ def advanced_lexical_richness(tokens: list[str], window: int = 50) -> dict[str, 
       boyundayken tek pencere kalıyordu: ortalama alacak bir şey olmuyor,
       MATTR matematiksel olarak düz TTR'a çöküyordu — yani düzeltmek için
       var olduğu şeye dönüşüp bunu sessizce yapıyordu.
-    - ``entropy_std`` — ``window``'luk **ayrık** parçaların entropileri (nat)
-      arasındaki popülasyon sapması (2026-09-15, Efe). 2'den az tam parça → NaN.
     - ``herdan_c`` — ``log V / log N``; taban oranda sadeleşir. ``N = 1`` → NaN.
 
     ``bigram_entropy`` 2026-09-15'te çıkarıldı (Efe): lemma çiftlerinin çoğu
-    tek seferlik olduğundan değer metin uzunluğunu izliyordu.
+    tek seferlik olduğundan değer metin uzunluğunu izliyordu. ``entropy_std``
+    2026-10-08'de kaldırıldı (Efe): sapma kısmının kaynağı yoktu.
     """
     N = len(tokens)
     if window <= 0:
         raise ValueError(f"window must be positive: {window}")
     if N == 0:
-        return {"mattr": math.nan, "entropy_std": math.nan, "herdan_c": math.nan}
+        return {"mattr": math.nan, "herdan_c": math.nan}
     V = len(set(tokens))
 
     if N < 2 * window:            # tek/az pencere = ortalama değil, bkz. docstring
@@ -324,17 +323,8 @@ def advanced_lexical_richness(tokens: list[str], window: int = 50) -> dict[str, 
             toplam += len(sayim)
         mattr = toplam / ((N - window + 1) * window)
 
-    parcalar = _parcalar(tokens, window)
-    if len(parcalar) >= 2:
-        entropiler = [shannon_entropy(np.array(list(Counter(p).values()), dtype=np.float64))
-                      for p in parcalar]
-        entropy_std = float(np.std(entropiler))
-    else:
-        entropy_std = math.nan
-
     herdan = math.log(V) / math.log(N) if N > 1 else math.nan
-    return {"mattr": round(mattr, 5), "entropy_std": round(entropy_std, 5),
-            "herdan_c": round(herdan, 5)}
+    return {"mattr": round(mattr, 5), "herdan_c": round(herdan, 5)}
 
 
 def _mtld_tek_yon(tokens: list[str], esik: float) -> float:

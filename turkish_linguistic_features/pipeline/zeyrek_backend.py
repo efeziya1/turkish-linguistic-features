@@ -174,7 +174,7 @@ class ZeyrekBackend:
         assert analyzer is not None                    # _ensure_loaded doldurdu
         cozumlemeler = analyzer._parse(word)           # analyze() DEĞİL
         if not cozumlemeler:
-            # Boş demet DEĞİL, tek elemanlı: `agglutination_depth` kelime
+            # Boş demet DEĞİL, tek elemanlı: `zeyrek_agglutination_depth` kelime
             # başına morfem sayıyor. Kök etiketi `Unk` — T16 çözümsüz kelimeyi
             # paydadan bu etiketle çıkarıyor (`_KELIME_DISI_KOK`).
             return (("Unk", word, False),), None

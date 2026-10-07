@@ -18,16 +18,17 @@ Emin değilseniz öğreticiden başlayın: kurulumdan ilk tabloya kadar götür�
 import turkish_linguistic_features as tlf
 
 oz = tlf.analyze("Dil, insanın düşüncesini taşıyan en eski araçtır.", lang="tr")
-len(oz)                   # 205
-oz["avg_word_length"]     # 5.8571
+len(oz)               # 198
+oz["word_len_mean"]   # 5.8571
 ```
 
-Kütüphanenin **on** genel adı var, hepsi bu kadar:
+Kütüphanenin **on bir** genel adı var, hepsi bu kadar:
 
 | Ad | Ne yapar |
 |---|---|
 | `analyze` | Bir metinden bütün öznitelikleri çıkarır |
 | `analyze_corpus` | Bir klasördeki her metin için `analyze` çalıştırır |
+| `ngram_matches` | Kendi verdiğiniz bir kelime öbeğinin metinde neyle eşleştiğini sıklığıyla gösterir |
 | `segment_text` | Metni sabit büyüklükte parçalara böler |
 | `save_csv` | Çıkan satırları CSV'ye yazar |
 | `describe_feature` | Bir özniteliğin tanımını ve kaynağını verir |
@@ -37,7 +38,7 @@ Kütüphanenin **on** genel adı var, hepsi bu kadar:
 | `MissingDependencyWarning` | İsteğe bağlı bir paket yoksa |
 | `ParagraphStructureWarning` | 1000 kelimeyi geçen metinde paragraf sınırı bulunamazsa |
 
-On ad, 205 öznitelik. Öznitelik eklemek için yeni fonksiyon öğrenmenize
+On bir ad, 198 öznitelik. Öznitelik eklemek için yeni fonksiyon öğrenmenize
 gerek yok — hepsi `analyze`'dan çıkar.
 
 ## Terimler

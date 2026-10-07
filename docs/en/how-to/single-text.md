@@ -17,13 +17,13 @@ number.
 tr = tlf.analyze(tr_text, lang="tr")
 en = tlf.analyze(en_text, lang="en")
 
-len(tr)   # 205
-len(en)   # 177
+len(tr)   # 198
+len(en)   # 171
 ```
 
-The 28-feature difference breaks down as:
+The 27-feature difference breaks down as:
 
-- **+24** Zeyrek suffix analysis (`morphological_zeyrek`: suffix chain,
+- **+23** Zeyrek suffix analysis (`morphological_zeyrek`: suffix chain,
   case markers, mood and tense) — Turkish only.
 - **+2** vowel harmony (`harmony_fronting_ratio`, `harmony_rounding_ratio`) —
   a property of Turkish; not produced for English.
@@ -33,36 +33,36 @@ The 28-feature difference breaks down as:
   Bezirci-Yılmaz), four features in English (Flesch, Flesch-Kincaid, SMOG and the
   polysyllabic word ratio); the shared ones exist in both.
 
-The `phonetic` group has 15 features in Turkish and 13 in English.
+The `phonetic` group has 13 features in Turkish and 11 in English.
 
 `lang` accepts only `"tr"` and `"en"`. Anything else raises `ValueError`.
 
 ## Ask for specific groups
 
-Computing all 205 features takes time. If you do not need them all:
+Computing all 198 features takes time. If you do not need them all:
 
 ```python
 oz = tlf.analyze(text, lang="tr", groups=["readability", "lexical"])
-len(oz)     # 39
+len(oz)     # 40
 ```
 
 The groups, with their Turkish feature counts:
 
 | Group | Features | Contents |
 |---|---|---|
-| `lexical` | 34 | Lexical richness, frequency |
+| `lexical` | 33 | Lexical richness, frequency |
 | `chars` | 29 | Letter frequency vector: one key per letter of the Turkish alphabet (26 in English; `q`, `w`, `x` only there) |
-| `morphological_zeyrek` | 24 | Zeyrek suffix analysis (Turkish only) |
+| `morphological_zeyrek` | 23 | Zeyrek suffix analysis (Turkish only) |
 | `morphological` | 19 | UD morphological features |
-| `punctuation` | 19 | Punctuation ratios |
+| `punctuation` | 18 | Punctuation ratios |
 | `syntactic_dep` | 16 | Dependency parse |
 | `phonetic` | 13 | Syllables, vowels, sound patterns |
 | `frequency_structure` | 13 | Zipf, h-point, thematic concentration |
 | `pos` | 12 | Part-of-speech ratios |
-| `syntactic` | 9 | Sentence structure |
-| `sentence` | 7 | Sentence-length distribution |
+| `syntactic` | 7 | Sentence structure |
+| `sentence` | 6 | Sentence-length distribution |
 | `readability` | 7 | Readability formulas |
-| `paragraph` | 3 | Paragraph structure |
+| `paragraph` | 2 | Paragraph structure |
 
 `describe_feature(key)["group"]` tells you where a given feature lives.
 
@@ -100,8 +100,8 @@ install command.
 
 !!! warning "Changing the model changes the numbers"
 
-    Sentence splitting, part-of-speech tags and the dependency parse all
-    come from the model. Do not compare a table produced with one model
+    Tokenisation, part-of-speech tags, morphological tags and the
+    dependency parse all come from the model. Do not compare a table produced with one model
     against a table produced with another. State which model you used in
     your methods section.
 

@@ -57,9 +57,9 @@ BOS_GIRDI = dict(raw_text="", surface_tokens=[], lemma_tokens=[], pos_data=[],
                  sentences_as_tokens=[], morpheme_lists=[], morph_tags=[], lang="tr")
 
 # Sözleşme §6'dan türetilmiş beklenti — koddan ölçülmedi.
-# TR taban 205; `dep_data` verilmediği için `syntactic_dep` (16) atlanır.
-TR_DEP_SIZ = 205 - 16
-EN_DEP_SIZ = 177 - 16
+# TR taban 198; `dep_data` verilmediği için `syntactic_dep` (16) atlanır.
+TR_DEP_SIZ = 198 - 16
+EN_DEP_SIZ = 171 - 16
 
 
 # ── 🔴 registry tutarlılık testi — projenin sigortası ─────────────────
@@ -188,7 +188,7 @@ def test_hizalanmasi_gereken_uc_alan_yoksa_grup_atlanir():
     feats = _extract_features(**eksik)
     for grup in ("morphological", "morphological_zeyrek", "syntactic_dep"):
         assert not (set(STATIC_GROUP_KEYS[grup]) & set(feats)), grup
-    assert len(feats) == TR_DEP_SIZ - 19 - 24
+    assert len(feats) == TR_DEP_SIZ - 19 - 23
 
 
 # ── kullanıcı n-gramları ──────────────────────────────────────────────
@@ -198,12 +198,12 @@ def test_kullanici_ngrami_sema_disina_sutun_ekler():
     """`custom_ngrams` taban şemayı GENİŞLETİR — istenen davranış."""
     taban = _extract_features(**ORNEK_GIRDI)
     genis = _extract_features(**ORNEK_GIRDI, custom_ngrams=[["çocuk", "koşarak"]])
-    assert set(genis) - set(taban) == {"ng_çocuk_koşarak"}
+    assert set(genis) - set(taban) == {"ngram_çocuk_koşarak_count"}
 
 
 def test_custom_ngrams_verilmezse_hic_ng_anahtari_yok():
     """`custom_ngrams` taban şemanın parçası değil."""
-    assert not {k for k in _extract_features(**ORNEK_GIRDI) if k.startswith("ng_")}
+    assert not {k for k in _extract_features(**ORNEK_GIRDI) if k.startswith("ngram_")}
 
 
 # ── K4: değer sözleşmesi ──────────────────────────────────────────────
@@ -249,24 +249,24 @@ def test_varsayilan_kelime_tanimi_bosluk_birimi():
     oz = _extract_features(raw_text=metin, surface_tokens=tok, lemma_tokens=["e", "posta", "gel"],
                            pos_data=pos, lang="tr",
                            groups=["sentence", "paragraph", "lexical", "punctuation"])
-    assert oz["avg_sent_len_word"] == 2.0
+    assert oz["sent_len_mean"] == 2.0
     assert oz["para_len_mean"] == 2.0
-    assert oz["ttr"] == 1.0 and oz["avg_word_length"] == 6.0      # "e-posta" 7, "geldi" 5
-    assert oz["punc_._ratio"] == 0.5
+    assert oz["ttr"] == 1.0 and oz["word_len_mean"] == 6.0      # "e-posta" 7, "geldi" 5
+    assert oz["punct_period_ratio"] == 0.5
     # Tek kelime tanımı (2026-10-07, Efe): "E-posta" bir kelime, lemması ilk kelime
     # tokenının ("e") lemması; etiket grupları da iki kelime sayar.
-    assert oz["n_lemma_count"] == 2.0
+    assert oz["lemma_count"] == 2.0
 
 
 def test_etiket_gruplari_varsayilan_kelimeyi_sayar():
     """Sözcük türü kelime başına (2026-10-07, Efe): bölünen kelime ilk parçasının etiketini
-    alır, noktalama paydaya girmez, `pos_punct` yok, `punc_total_ratio` var."""
+    alır, noktalama paydaya girmez, `pos_punct` yok; noktalama payları işaretler içinde."""
     metin = "E-posta geldi."
     tok = ["E", "-", "posta", "geldi", "."]
     pos = [("E", "NOUN"), ("-", "PUNCT"), ("posta", "NOUN"), ("geldi", "VERB"), (".", "PUNCT")]
     oz = _extract_features(raw_text=metin, surface_tokens=tok, lemma_tokens=["e", "posta", "gel"],
                            pos_data=pos, lang="tr", groups=["pos", "syntactic", "punctuation"])
-    assert oz["pos_noun"] == 0.5 and oz["pos_verb"] == 0.5
+    assert oz["pos_noun_ratio"] == 0.5 and oz["pos_verb_ratio"] == 0.5
     assert "pos_punct" not in oz
     assert oz["lexical_density"] == 1.0
-    assert oz["punc_total_ratio"] == 1.0                                # "-" ve "." / 2 kelime
+    assert oz["punct_dash_ratio"] == oz["punct_period_ratio"] == 0.5     # "-" ve "." / 2 işaret

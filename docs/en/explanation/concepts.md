@@ -3,7 +3,7 @@
 ## Feature
 
 A **feature** is a single number extracted from a text. `ttr`,
-`avg_word_length`, `atesman` — each is one feature. Names are `snake_case`.
+`word_len_mean`, `atesman` — each is one feature. Names are `snake_case`.
 Until version 1.0 a key may be renamed; renamed keys are announced in the
 release notes.
 
@@ -11,17 +11,17 @@ A feature is one of three things:
 
 1. **A named measure from the literature** — `mattr`, `yule_k`,
    `flesch_reading_ease`. These have citations.
-2. **A category of an external tag scheme** — `pos_noun` (UD),
-   `case_loc_ratio` (Zeyrek). The citation points at the scheme, not at the
+2. **A category of an external tag scheme** — `pos_noun_ratio` (UD),
+   `zeyrek_case_loc_ratio` (Zeyrek). The citation points at the scheme, not at the
    measure.
-3. **A plain definition** — `punc_,_ratio` ("commas / words"). No citation,
+3. **A plain definition** — `punct_dash_ratio` ("dashes / all punctuation marks"). No citation,
    because there is nothing to attribute.
 
-Of 205 keys, 191 have a citation and 14 do not.
+Of 198 keys, 187 have a citation and 11 do not.
 
 ## Group
 
-Features are organised into 13 groups (14 with the `ng_*` keys created when
+Features are organised into 13 groups (14 with the `ngram_*` keys created when
 you pass `custom_ngrams`). A group is both an organising device
 and a selection device:
 
@@ -38,10 +38,10 @@ Some keys are not written out one by one; they are generated from a
 pattern:
 
 - `char_*` — the letter-frequency vector, one key per letter of the alphabet
-  (Turkish 29: `char_a`, `char_ç` … `char_z`; English 26)
-- `ng_*` — n-gram counters created when you pass `custom_ngrams`
+  (Turkish 29: `char_a_ratio`, `char_ç_ratio` … `char_z_ratio`; English 26)
+- `ngram_*` — n-gram counters created when you pass `custom_ngrams`
 
-If you call `describe_feature("char_a")`, the `formula` and `requires`
+If you call `describe_feature("char_a_ratio")`, the `formula` and `requires`
 fields are the **group-level** statement, not something specific to that
 letter.
 
@@ -53,11 +53,9 @@ Every feature has a scale, and it matters when you plot:
 |---|---|---|
 | `ratio_0_1` | A ratio between 0 and 1 | `ttr`, `mattr` |
 | `score` | A formula score with no fixed range | `atesman`, `yule_k`, `mtld` |
-| `length` | A mean length in characters, words or sentences | `avg_word_length`, `avg_sent_len_word` |
-| `cv` | Coefficient of variation (standard deviation / mean) | `verb_dist_cv` |
+| `length` | A mean length in characters, words or sentences | `word_len_mean`, `sent_len_mean` |
 | `nats` | Entropy in nats (natural logarithm; every logarithm in the library is ln) | `entropy`, `punct_entropy` |
-| `signed` | A value that can be negative (skewness) | `sent_len_skewness` |
-| `count` | A count | `n_lemma_count` |
+| `count` | A count | `lemma_count` |
 
 Two `ratio_0_1` features can share an axis; putting a `score` next to them
 misleads.
@@ -69,19 +67,21 @@ When you call `analyze`, this happens in order:
 ```text
 raw text
    ↓  spaCy (tr_core_news_md / en_core_web_sm)
-surface tokens · lemmas · POS tags · dependency tree · sentence boundaries
+tokens · POS tags · morphological tags · dependency tree · English lemmas
    ↓  Zeyrek (Turkish only)
-suffix analysis
+suffix analysis · Turkish lemmas
+   ↓  the library's own rules
+word and sentence boundaries; each word takes its tags from its own token
    ↓  feature extractors
-205 numbers
+198 numbers
 ```
 
 Two consequences:
 
-1. **The spaCy model is part of the result.** Change the model and
-   sentence splitting, POS tags and dependency features change with it.
+1. **The spaCy model is part of the result.** Change the model and the
+   tokens, POS, morphological and dependency features change with it.
    State which model you used in your methods section.
-2. **Preprocessing runs once.** All 205 features draw on the same analysis,
+2. **Preprocessing runs once.** All 198 features draw on the same analysis,
    so asking for fewer `groups` does not speed up preprocessing — it only
    shortens the extraction step.
 

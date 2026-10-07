@@ -3,7 +3,7 @@
 ## Öznitelik
 
 **Öznitelik** (feature), bir metinden çıkarılan tek bir sayıdır. `ttr`,
-`avg_word_length`, `atesman` — her biri bir öznitelik. Adları
+`word_len_mean`, `atesman` — her biri bir öznitelik. Adları
 `snake_case`'dir. Sürüm 1.0'a kadar anahtar adları değişebilir; değişen
 adlar sürüm notlarında duyurulur.
 
@@ -11,17 +11,17 @@ adlar sürüm notlarında duyurulur.
 
 1. **Literatürde adı olan bir ölçü** — `mattr`, `yule_k`, `flesch_reading_ease`.
    Bunların künyesi vardır.
-2. **Bir dış etiket şemasının kategorisi** — `pos_noun` (UD),
-   `case_loc_ratio` (Zeyrek). Künyesi şemaya bağlıdır, ölçünün kendisine
+2. **Bir dış etiket şemasının kategorisi** — `pos_noun_ratio` (UD),
+   `zeyrek_case_loc_ratio` (Zeyrek). Künyesi şemaya bağlıdır, ölçünün kendisine
    değil.
-3. **Saf tanım** — `punc_,_ratio` ("virgül / kelime"). Künyesi yoktur,
+3. **Saf tanım** — `punct_dash_ratio` ("tire / bütün noktalama işaretleri"). Künyesi yoktur,
    çünkü tanımlanacak bir şey yoktur.
 
-205 anahtarın 191'inin künyesi vardır, 14'ünün yoktur.
+198 anahtarın 187'sinin künyesi vardır, 11'inin yoktur.
 
 ## Grup
 
-Öznitelikler 13 gruba ayrılır (`custom_ngrams` verirseniz oluşan `ng_*`
+Öznitelikler 13 gruba ayrılır (`custom_ngrams` verirseniz oluşan `ngram_*`
 anahtarlarıyla 14). Grup, hem düzenleme hem de seçim aracıdır:
 
 ```python
@@ -36,10 +36,10 @@ sayfasında.
 Bazı anahtarlar tek tek yazılmamıştır, kalıptan üretilir:
 
 - `char_*` — harf sıklık vektörü; alfabenin her harfi için bir anahtar
-  (Türkçe 29: `char_a`, `char_ç` … `char_z`; İngilizce 26)
-- `ng_*` — `custom_ngrams` verirseniz oluşan n-gram sayaçları
+  (Türkçe 29: `char_a_ratio`, `char_ç_ratio` … `char_z_ratio`; İngilizce 26)
+- `ngram_*` — `custom_ngrams` verirseniz oluşan n-gram sayaçları
 
-`describe_feature("char_a")` çağırırsanız `formula` ve `requires` alanları
+`describe_feature("char_a_ratio")` çağırırsanız `formula` ve `requires` alanları
 **grup düzeyinde** genel ifadedir, tek harfe özel değil.
 
 ## Ölçek (`scale`)
@@ -50,11 +50,9 @@ Her özniteliğin bir ölçeği vardır ve grafik kurarken bu önemlidir:
 |---|---|---|
 | `ratio_0_1` | 0 ile 1 arası oran | `ttr`, `mattr` |
 | `score` | Formülün ürettiği puan; sabit bir aralığı yok | `atesman`, `yule_k`, `mtld` |
-| `length` | Birimi karakter, kelime ya da cümle olan ortalama uzunluk | `avg_word_length`, `avg_sent_len_word` |
-| `cv` | Değişim katsayısı (standart sapma / ortalama) | `verb_dist_cv` |
+| `length` | Birimi karakter, kelime ya da cümle olan ortalama uzunluk | `word_len_mean`, `sent_len_mean` |
 | `nats` | Nat cinsinden entropi (doğal logaritma; kütüphanedeki bütün logaritmalar ln) | `entropy`, `punct_entropy` |
-| `signed` | Eksi de olabilen değer (çarpıklık) | `sent_len_skewness` |
-| `count` | Sayım | `n_lemma_count` |
+| `count` | Sayım | `lemma_count` |
 
 `ratio_0_1` olan iki özniteliği aynı eksende çizebilirsiniz; `score` olanı
 onların yanına koymak yanıltır.
@@ -66,19 +64,21 @@ onların yanına koymak yanıltır.
 ```text
 ham metin
    ↓  spaCy (tr_core_news_md / en_core_web_sm)
-yüzey token · lemma · sözcük türü · bağlılık ağacı · cümle sınırları
+token · sözcük türü · biçimbirim etiketi · bağlılık ağacı · İngilizce lemma
    ↓  Zeyrek (yalnız Türkçe)
-ek çözümlemesi
+ek çözümlemesi · Türkçe lemma
+   ↓  kütüphanenin kuralları
+kelime ve cümle sınırları; her kelime etiketini kendi tokenından alır
    ↓  öznitelik çıkarıcıları
-205 sayı
+198 sayı
 ```
 
 Bunun iki sonucu var:
 
-1. **spaCy modeli sonuçların parçasıdır.** Model değişirse cümle bölme,
-   sözcük türü ve bağlılık öznitelikleri değişir. Hangi modeli
+1. **spaCy modeli sonuçların parçasıdır.** Model değişirse tokenlar,
+   sözcük türü, biçimbirim ve bağlılık öznitelikleri değişir. Hangi modeli
    kullandığınızı yöntem bölümüne yazın.
-2. **Ön işleme bir kez yapılır.** 205 özniteliğin hepsi aynı çözümlemeden
+2. **Ön işleme bir kez yapılır.** 198 özniteliğin hepsi aynı çözümlemeden
    beslenir; `groups` ile az öznitelik istemek ön işlemeyi hızlandırmaz,
    yalnız çıkarım adımını kısaltır.
 

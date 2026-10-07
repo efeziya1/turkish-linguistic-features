@@ -45,7 +45,7 @@ Aynı metin, farklı eşik, farklı sayı. Üç cümlenin biri 12 kelimeyi geçi
 | `heaps_min_tokens` | 300 | `heaps_beta` |
 | `heaps_step` | 50 | `heaps_beta` |
 | `brunet_w_a` | 0.172 | `brunet_w` |
-| `verb_suffix_window` | 50 | `verb_suffix_diversity` |
+| `verb_suffix_window` | 50 | `zeyrek_verb_suffix_diversity` |
 | `short_sent_threshold` | TR **4** · EN **8** | `short_sent_ratio` |
 | `long_sent_threshold` | TR **17** · EN **32** | `long_sent_ratio` |
 | `max_parse_depth` | 20 | `parse_depth_mean` |
@@ -57,12 +57,12 @@ Tablodaki tek sayı olmayan iki alan bunlar. Sebep tipolojik: Türkçe cümleler
 
 | Dil | short | long |
 |---|---|---|
-| Türkçe | **4** | **18** |
-| İngilizce | **7** | **39** |
+| Türkçe | **4** | **17** |
+| İngilizce | **8** | **32** |
 
-Değerler roman korpuslarında cümle uzunluğu dağılımının 15. ve 85.
-yüzdeliğinden türetildi (TR: 15 yazar / 1 089 841 cümle; EN: 10 yazar /
-341 892 cümle). Yöntem: [Eşik kalibrasyonu](../../esik-kalibrasyonu.md).
+Değerler gazete köşe yazılarında, varsayılan cümle kuralı ve varsayılan
+kelimeyle ölçülen cümle uzunluğu dağılımının 15. ve 85. yüzdeliğinden
+türetildi (TR: 162 yazar / 197.990 cümle; EN: 30 yazar / 52.745 cümle). Yöntem: [Eşik kalibrasyonu](../../esik-kalibrasyonu.md).
 
 **Çözümleme alan alandır.** Verdiğiniz alan sizin sayınızı, vermediğiniz alan
 dilin kalibre edilmiş değerini kullanır. Yani ilgisiz bir alanı değiştirmek

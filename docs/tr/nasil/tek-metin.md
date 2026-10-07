@@ -16,13 +16,13 @@ Dönen şey düz bir `dict`: anahtar öznitelik adı, değer sayı.
 tr = tlf.analyze(tr_metin, lang="tr")
 en = tlf.analyze(en_metin, lang="en")
 
-len(tr)   # 205
-len(en)   # 177
+len(tr)   # 198
+len(en)   # 171
 ```
 
-Aradaki 28'in dökümü:
+Aradaki 27'nin dökümü:
 
-- **+24** Zeyrek ek çözümlemesi (`morphological_zeyrek`; ek zinciri,
+- **+23** Zeyrek ek çözümlemesi (`morphological_zeyrek`; ek zinciri,
   durum ekleri, kip ve zaman) — yalnız Türkçe.
 - **+2** ünlü uyumu (`harmony_fronting_ratio`, `harmony_rounding_ratio`) —
   Türkçenin özelliği; İngilizcede üretilmez.
@@ -32,36 +32,36 @@ Aradaki 28'in dökümü:
   Bezirci-Yılmaz), İngilizcede dört öznitelik (Flesch, Flesch-Kincaid, SMOG ve çok
   heceli kelime oranı); ortak olanlar iki dilde de var.
 
-`phonetic` grubu Türkçede 15, İngilizcede 13 öznitelik içerir.
+`phonetic` grubu Türkçede 13, İngilizcede 11 öznitelik içerir.
 
 `lang` yalnız `"tr"` ve `"en"` alır. Başka bir değer `ValueError` verir.
 
 ## Yalnız bazı grupları isteyin
 
-205 özniteliğin hepsini hesaplamak zaman alır. İhtiyacınız yoksa grup seçin:
+198 özniteliğin hepsini hesaplamak zaman alır. İhtiyacınız yoksa grup seçin:
 
 ```python
 oz = tlf.analyze(metin, lang="tr", groups=["readability", "lexical"])
-len(oz)     # 39
+len(oz)     # 40
 ```
 
 Mevcut gruplar ve Türkçede kaç öznitelik içerdikleri:
 
 | Grup | Öznitelik | İçerik |
 |---|---|---|
-| `lexical` | 34 | Sözcüksel zenginlik, sıklık |
+| `lexical` | 33 | Sözcüksel zenginlik, sıklık |
 | `chars` | 29 | Harf sıklık vektörü: Türkçe alfabenin her harfi için bir anahtar (İngilizcede 26; `q`, `w`, `x` yalnız orada) |
-| `morphological_zeyrek` | 24 | Zeyrek ek çözümlemesi (yalnız TR) |
+| `morphological_zeyrek` | 23 | Zeyrek ek çözümlemesi (yalnız TR) |
 | `morphological` | 19 | UD morfolojik özellikleri |
-| `punctuation` | 19 | Noktalama oranları |
+| `punctuation` | 18 | Noktalama oranları |
 | `syntactic_dep` | 16 | Bağlılık ayrıştırması |
 | `phonetic` | 13 | Hece, ünlü, ses örüntüsü |
 | `frequency_structure` | 13 | Zipf, h-noktası, tematik yoğunlaşma |
 | `pos` | 12 | Sözcük türü oranları |
-| `syntactic` | 9 | Cümle yapısı |
-| `sentence` | 7 | Cümle uzunluğu dağılımı |
+| `syntactic` | 7 | Cümle yapısı |
+| `sentence` | 6 | Cümle uzunluğu dağılımı |
 | `readability` | 7 | Okunabilirlik formülleri |
-| `paragraph` | 3 | Paragraf yapısı |
+| `paragraph` | 2 | Paragraf yapısı |
 
 Bir özniteliğin hangi grupta olduğunu `describe_feature(anahtar)["group"]`
 söyler.
@@ -99,8 +99,8 @@ Varsayılanlar `tr_core_news_md` ve `en_core_web_sm`. Model kurulu değilse
 
 !!! warning "Model değiştirmek sayıları değiştirir"
 
-    Cümle bölme, sözcük türü ve bağlılık ayrıştırması modelden gelir.
-    Farklı modelle çıkan tabloyu eskisiyle aynı çalışmada
+    Tokenlara ayırma, sözcük türü, biçimbirim etiketleri ve bağlılık
+    ayrıştırması modelden gelir. Farklı modelle çıkan tabloyu eskisiyle aynı çalışmada
     karşılaştırmayın. Hangi modeli kullandığınızı yöntem bölümüne yazın.
 
 ## Tam imza

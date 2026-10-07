@@ -1,16 +1,16 @@
 # turkish-linguistic-features
 
-Türkçe metinden **212**, İngilizce metinden **184 nicel dilbilimsel öznitelik**
-çıkarır. Her özniteliğin formülü yazılıdır; Türkçedeki 212 özniteliğin 144'ü,
-İngilizcedeki 184 özniteliğin 119'u literatürde bir kaynağa dayanır, geri
-kalanı saf tanımdır (örneğin bir harfin metindeki payı).
+Türkçe metinden **198**, İngilizce metinden **171 nicel dilbilimsel öznitelik**
+çıkarır. Her özniteliğin formülü yazılıdır; Türkçedeki 198 özniteliğin 187'si,
+İngilizcedeki 171 özniteliğin 160'ı literatürde bir kaynağa dayanır, geri
+kalanı saf tanımdır (örneğin tirenin noktalama işaretleri içindeki payı).
 [Doğrulama raporu](dogrulama-raporu.md), hangilerinin kaynağın yayımladığı bir
 sayıyla karşılaştırıldığını gösterir.
 
-Extracts 212 quantitative linguistic features from Turkish text and 184 from
-English. Every feature has its formula written out; 144 of the Turkish features
-and 119 of the English ones cite a source in the literature, and the rest are
-plain definitions (such as a letter's share of the text). The
+Extracts 198 quantitative linguistic features from Turkish text and 171 from
+English. Every feature has its formula written out; 187 of the Turkish features
+and 160 of the English ones cite a source in the literature, and the rest are
+plain definitions (such as the dash's share of punctuation marks). The
 [verification report](verification-report.md) shows which ones have been
 checked against a number their source published.
 
@@ -18,8 +18,8 @@ checked against a number their source published.
 import turkish_linguistic_features as tlf
 
 oz = tlf.analyze("Dil, insanın düşüncesini taşıyan en eski araçtır.", lang="tr")
-oz["avg_word_length"]     # 5.8571
-oz["atesman"]             # 77.2479  (Ateşman 1997 okunabilirlik)
+oz["word_len_mean"]   # 5.8571
+oz["atesman"]         # 77.2479  (Ateşman 1997 okunabilirlik)
 ```
 
 ---
@@ -38,7 +38,7 @@ oz["atesman"]             # 77.2479  (Ateşman 1997 okunabilirlik)
 
 - **[Başvuru · Reference →](reference/index.md)**
 
-    212 özniteliğin tam listesi ve genel API (İngilizce).
+    198 özniteliğin tam listesi ve genel API (İngilizce).
 
 - **[Doğrulama · Verification →](dogrulama-raporu.md)**
 
@@ -61,26 +61,26 @@ oz["atesman"]             # 77.2479  (Ateşman 1997 okunabilirlik)
 
 | | Türkçe (TR) | İngilizce (EN) |
 |---|---:|---:|
-| Öznitelik | 212 | 184 |
-| Künyesi olan öznitelik | 144 | 119 |
-| Künyesi olmayan, saf tanım | 68 | 65 |
-| Doğrulama adayı rapor satırı | 95 | 84 |
+| Öznitelik | 198 | 171 |
+| Künyesi olan öznitelik | 187 | 160 |
+| Künyesi olmayan, saf tanım | 11 | 11 |
+| Doğrulama adayı rapor satırı | 141 | 127 |
 | — kaynağın sayısıyla tolerans içinde tutan (✅) | 46 | 35 |
 | — tolerans dışında, nedeni açıklanmış (🟡) | 2 | 3 |
 
-Kaynakçada 50 eser var (iki dil için tek kaynakça).
+Kaynakçada 56 eser var (iki dil için tek kaynakça).
 
-**Formüller ile doğrulama iki ayrı şeydir.** 212 özniteliğin hepsinin
-formülü yazılıdır ve testlerle sınanır. Künyesi olan 144 özniteliğin formülü
-kaynağına dayanır; künye sayfa ve denklem numarası verir. Kalan 68'i saf
-tanımdır (`char_a`, `punc_,_ratio`), bir kaynağı yoktur.
+**Formüller ile doğrulama iki ayrı şeydir.** 198 özniteliğin hepsinin
+formülü yazılıdır ve testlerle sınanır. Künyesi olan 187 özniteliğin formülü
+kaynağına dayanır; künye sayfa ve denklem numarası verir. Kalan 11'i saf
+tanımdır (`uppercase_ratio`, `punct_dash_ratio`), bir kaynağı yoktur.
 
 İkinci katman, kaynağın *yayımladığı bir sayıyı* alıp bizim çıktımızla
 karşılaştırmaktır. Bu her öznitelikte mümkün değil. Doğrulama raporunda
-142 **satır** aday değildir: saf tanım (`char_a`), bir etiket şemasının
-kategorisi (`pos_noun`) ya da bu kütüphanenin kendi türevi (`entropy_std`);
-aranacak bir literatür sayısı yoktur. Kalan 91
-aday satırın 48'i kaynağın sayısıyla karşılaştırıldı; 43'ünde kaynak
+82 **satır** aday değildir: saf tanım (`uppercase_ratio`), bir etiket şemasının
+kategorisi (`pos_noun_ratio`) ya da bu kütüphanenin kendi türevi (`sent_len_entropy`);
+aranacak bir literatür sayısı yoktur. Kalan 141
+aday satırın 48'i kaynağın sayısıyla karşılaştırıldı; 93'ünde kaynak
 formülü yayımlamış ama uygulanmış bir örnek basmamış, bu yüzden açık
 duruyor.
 

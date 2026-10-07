@@ -12,7 +12,7 @@ göre bölen kaba bir bölücü kısaltmada, baş harfte ve üç noktada sahte c
 üretir ve dağılımı aşağı çeker; ortaya çıkan fark "korpusum farklı" diye
 okunur ama aslında yöntem farkıdır. Bu script cümleleri kütüphanenin
 kullandığı spaCy modeliyle böler ve bunu **kendisi denetler**: her dosyada
-kendi medyanını kütüphanenin ``med_sent_len`` değeriyle karşılaştırır.
+kendi medyanını kütüphanenin ``sent_len_median`` değeriyle karşılaştırır.
 
 Argüman verilmezse demo korpus kullanılır (cümle sayısı az; yüzdelikler
 yalnız yöntemi gösterir).
@@ -83,7 +83,7 @@ def main() -> None:
         ilk_metin = ilk_metin or metin
         tum_uzunluklar.extend(uzunluklar)
         kutuphane = tlf.analyze(metin, lang=DIL, groups=["sentence"],
-                                warn=False)["med_sent_len"]
+                                warn=False)["sent_len_median"]
         benim = statistics.median(uzunluklar)
         isaret = "" if abs(benim - kutuphane) < 1e-9 else "   <- FARKLI"
         print(f"{dosya.stem[:33]:<34}{len(uzunluklar):>7}{benim:>10.1f}"

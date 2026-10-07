@@ -45,7 +45,7 @@ sentences is over 12 words; none is over 17.
 | `heaps_min_tokens` | 300 | `heaps_beta` |
 | `heaps_step` | 50 | `heaps_beta` |
 | `brunet_w_a` | 0.172 | `brunet_w` |
-| `verb_suffix_window` | 50 | `verb_suffix_diversity` |
+| `verb_suffix_window` | 50 | `zeyrek_verb_suffix_diversity` |
 | `short_sent_threshold` | TR **4** · EN **8** | `short_sent_ratio` |
 | `long_sent_threshold` | TR **17** · EN **32** | `long_sent_ratio` |
 | `max_parse_depth` | 20 | `parse_depth_mean` |
@@ -58,12 +58,13 @@ threshold cannot serve both.
 
 | Language | short | long |
 |---|---|---|
-| Turkish | **4** | **18** |
-| English | **7** | **39** |
+| Turkish | **4** | **17** |
+| English | **8** | **32** |
 
 They were derived from the 15th and 85th percentiles of the sentence-length
-distribution in novel corpora (Turkish: 15 authors / 1,089,841 sentences;
-English: 10 authors / 341,892 sentences). Method:
+distribution in newspaper columns, measured with the default sentence rule and
+the default word (Turkish: 162 columnists / 197,990 sentences; English: 30
+columnists / 52,745 sentences). Method:
 [Threshold calibration](../../threshold-calibration.md).
 
 **Resolution is per field.** A field you set uses your number; a field you

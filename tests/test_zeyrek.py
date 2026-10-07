@@ -28,7 +28,7 @@ def test_kivrik_kesme_duz_kesme_gibi_cozumlenir():
     assert b.analyze_word("Zeynep’i")[0][0] != "Unk"
 
 def test_cozumlenemeyen_kelime_cokmez():
-    """Boş liste DEĞİL — tek elemanlı liste. ``agglutination_depth`` buna bağlı.
+    """Boş liste DEĞİL — tek elemanlı liste. ``zeyrek_agglutination_depth`` buna bağlı.
 
     Kök etiketi ``Unk``: T16 çözümsüz kelimeyi paydadan bu etiketle çıkarıyor
     (``morphological._KELIME_DISI_KOK``).
