@@ -17,7 +17,7 @@ A feature is one of three things:
 3. **A plain definition** — `punc_,_ratio` ("commas / words"). No citation,
    because there is nothing to attribute.
 
-Of 205 keys, 162 have a citation and 43 do not.
+Of 205 keys, 191 have a citation and 14 do not.
 
 ## Group
 

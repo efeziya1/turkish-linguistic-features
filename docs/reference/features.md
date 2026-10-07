@@ -313,7 +313,7 @@ Dynamic group: keys are generated with the prefix `char_`. The description, form
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
-| `char_…` | share of that letter among alphabet letters | `letter count / alphabet letters` | at least 1 alphabet letter | — |
+| `char_…` | share of that letter among alphabet letters | `letter count / alphabet letters` | at least 1 alphabet letter | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters |
 
 
 ## `custom_ngrams` — User-defined n-gram ratios  [dynamic: ng_{...}]

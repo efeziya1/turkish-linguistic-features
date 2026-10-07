@@ -320,6 +320,10 @@ def _citation(key: str) -> str | None:
     kendisine yapışıyor.
     """
     kunye = FEATURE_CITATIONS.get(key)
+    if kunye is None and not any(key in v for v in STATIC_GROUP_KEYS.values()):
+        # Dinamik anahtar (`char_a`): künye grup adıyla tutulur (2026-10-07, Efe).
+        grup = next((g for g, onek in DYNAMIC_PREFIXES.items() if key.startswith(onek)), None)
+        kunye = FEATURE_CITATIONS.get(grup) if grup else None
     if kunye and key in UNVERIFIED_CONSTANTS:
         return kunye + " [unverified constant]"
     return kunye

@@ -35,10 +35,12 @@
   (comma, full stop, semicolon, exclamation, colon, question, quote) → Zheng et al. (2006)
   Table 3; `nominal_verbal_ratio` → Wells (1960) p.214 (Noun-Verb Quotient); `pronoun_freq` →
   Deutsch, Jasbi & Shieber (2020) Table 6 (the original source could
-  not be traced, and the citation says so). Where our definition differs from the source the
-  citation says so. `pos_punct` (it cited the UPOS tag set) is gone. Cited features: TR 144 → 162,
-  EN 119 → 137; verification candidates: TR 95 → 114, EN 84 → 103; bibliography 50 → 56 works.
-  No values change.
+  not be traced, and the citation says so). The letter-frequency keys (`char_*`, TR 29, EN 26)
+  cite Zheng et al. (2006) Table 3, no. 7-32; Zheng counts the 26 letters A-Z, here each language
+  keeps its own alphabet. Where our definition differs from the source the citation says so.
+  `pos_punct` (it cited the UPOS tag set) is gone. Cited features: TR 144 → 191, EN 119 → 163;
+  uncited: TR 14, EN 14; verification candidates: TR 95 → 143, EN 84 → 129; bibliography
+  50 → 56 works. No values change.
 - One word definition for every feature except the dependency group (decided 2026-10-07). The
   POS, syntactic, morphological and Zeyrek features, the lemma-based lexical features
   (`n_lemma_count`, `*_variation`, `wordfreq_*`) and `frequency_structure` now count the default

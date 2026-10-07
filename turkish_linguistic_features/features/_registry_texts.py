@@ -964,6 +964,11 @@ FEATURE_CITATIONS: dict[str, str] = {
         'Björnsson (1968), as cited in Anderson (1983) p.490; long word = 7+ letters',
     'long_word_ratio': 'Anderson (1983); long word = 7+ letters',
     # ── 2026-10-07 citation search (Efe): primary sources read in tlf-kaynaklar ──
+    # Dynamic group: every char_* key takes this citation (registry._citation).
+    'chars':
+        'Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; '
+        "here each letter of the language's alphabet (Turkish 29, English 26) as a share of all "
+        'its letters',
     'avg_word_length':
         'Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241',
     'med_sent_len': 'Yule (1939) p.369, median sentence length alongside the mean',
