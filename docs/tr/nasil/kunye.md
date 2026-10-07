@@ -92,9 +92,9 @@ Bir dış etiket şemasının kategorisini sayan anahtarların künyesi ise `Non
 değildir, şemayı gösterir (`morph_case_loc` → UD; `case_loc_ratio` →
 Zeyrek).
 
-Türkçedeki 211 anahtarın **68'inin** künyesi yoktur: 29'u harf sıklık
-vektörü (Türkçe alfabenin her harfi için bir anahtar), 18'i noktalama ve
-büyük harf oranı, 21'i uzunluk ve dağılım gibi başka saf tanımlar.
+Türkçedeki 211 anahtarın **49'unun** künyesi yoktur: 29'u harf sıklık
+vektörü (Türkçe alfabenin her harfi için bir anahtar), 8'i noktalama ve
+büyük harf oranı, 12'si dağılım ölçüleri gibi başka saf tanımlar.
 
 ## Yöntem bölümüne yazarken
 
@@ -110,7 +110,7 @@ for r in sorted(kaynaklar):
     print(r)
 ```
 
-Bu size yalnız **kullandığınız** özniteliklerin kaynakçasını verir — 50
+Bu size yalnız **kullandığınız** özniteliklerin kaynakçasını verir — 56
 eserin tamamını değil.
 
 ## Sayı gerçekten tutuyor mu

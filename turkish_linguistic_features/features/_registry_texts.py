@@ -731,6 +731,9 @@ FEATURE_CITATIONS: dict[str, str] = {
     'punct_entropy':
         'Shannon (1948) — the entropy formula; applying it to the distribution of '
         "punctuation types is this library's own decision",
+    # Flesch (1948) p.223, element (1); earlier use: Sherman (1888), Yule (1939) — not read,
+    # so not cited (K10, 2026-10-07, Efe).
+    'avg_sent_len_word': 'Flesch (1948) p.223, element (1) "Average Sentence Length in Words"',
     'short_sent_ratio':
         "This library's threshold calibration (docs/threshold-calibration.md); "
         'TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word '
@@ -978,6 +981,53 @@ FEATURE_CITATIONS: dict[str, str] = {
     'lix':
         'Björnsson (1968), as cited in Anderson (1983) p.490; long word = 7+ letters',
     'long_word_ratio': 'Anderson (1983); long word = 7+ letters',
+    # ── 2026-10-07 citation search (Efe): primary sources read in tlf-kaynaklar ──
+    'avg_word_length':
+        'Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241',
+    'med_sent_len': 'Yule (1939) p.369, median sentence length alongside the mean',
+    # Chain traced: Deutsch et al. -> Vajjala Balakrishna (2015) software ("several other POS tag
+    # density features", no source) -> nothing further (2026-10-07, Efe).
+    'nominal_verbal_ratio':
+        'Wells (1960) p.214, Noun-Verb Quotient (NVQ), "the proportion of nouns to verbs in a given '
+        'text"; nouns = NOUN + PROPN, verbs = VERB (the copula is left out, a choice Wells leaves open)',
+    'pronoun_freq':
+        'Deutsch, Jasbi & Shieber (2020) Table 6 "pronouns per word", listed among existing '
+        'features; original source not traced',
+    'hapax_ratio':
+        'de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of '
+        'vocabulary words"',
+    'whitespace_ratio':
+        'de Vel et al. (2001) Table 2, p.60 "Total number of white-space characters/C"',
+    'punct_density': 'de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C"',
+    'digit_vs_all':
+        'de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; '
+        'here digits anywhere in the text',
+    'para_len_mean': 'Zheng et al. (2006) Table 3, p.384, no. 251 "Number of words per paragraph"',
+    'sents_per_para_mean':
+        'Zheng et al. (2006) Table 3, p.384, no. 249 "Number of sentences per paragraph"',
+    'avg_sent_len_char':
+        'Zheng et al. (2006) Table 3, p.384, no. 58 "Average sentence length in terms of character"',
+    'punc_,_ratio':
+        'Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); '
+        "per-word normalisation is this library's",
+    'punc_._ratio':
+        'Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); '
+        "per-word normalisation is this library's",
+    'punc_;_ratio':
+        'Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); '
+        "per-word normalisation is this library's",
+    'punc_!_ratio':
+        'Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); '
+        "per-word normalisation is this library's",
+    'punc_:_ratio':
+        'Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); '
+        "per-word normalisation is this library's",
+    'punc_question_ratio':
+        'Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); '
+        "per-word normalisation is this library's",
+    'punc_quote_ratio':
+        'Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); '
+        "per-word normalisation is this library's",
 }
 
 
@@ -1039,6 +1089,12 @@ BIBLIOGRAPHY: dict[str, str] = {
         'de Marneffe, M.-C., Manning, C. D., Nivre, J., & Zeman, D. (2021). '
         'Universal Dependencies. Computational Linguistics, 47(2), 255–308. DOI '
         '10.1162/COLI_a_00402',
+    'de Vel (2000)':
+        'de Vel, O. (2000). Mining e-mail authorship. In KDD-2000 Workshop on Text Mining, '
+        'Boston, August 20, 2000.',
+    'de Vel et al. (2001)':
+        'de Vel, O., Anderson, A., Corney, M., & Mohay, G. (2001). Mining e-mail content for '
+        'author identification forensics. ACM SIGMOD Record, 30(4), 55–64. DOI 10.1145/604264.604272',
     'Deutsch, Jasbi & Shieber (2020)':
         'Deutsch, T., Jasbi, M., & Shieber, S. (2020). Linguistic features for '
         'readability assessment. Proceedings of the 15th Workshop on Innovative Use '
@@ -1119,6 +1175,9 @@ BIBLIOGRAPHY: dict[str, str] = {
     'McLaughlin (1969)':
         'McLaughlin, G. H. (1969). SMOG grading — a new readability formula. '
         'Journal of Reading, 12(8), 639–646.',
+    'Mendenhall (1887)':
+        'Mendenhall, T. C. (1887). The characteristic curves of composition. Science, 9(214), '
+        '237–249. JSTOR 1764604.',
     'Piantadosi (2014)':
         "Piantadosi, S. T. (2014). Zipf's word frequency law in natural language: A "
         'critical review and future directions. Psychonomic Bulletin & Review, '
@@ -1172,12 +1231,25 @@ BIBLIOGRAPHY: dict[str, str] = {
         'SUBTLEX-UK: A new and improved word frequency database for British '
         'English. Quarterly Journal of Experimental Psychology, 67(6), 1176–1190. '
         'DOI 10.1080/17470218.2013.850521',
+    'Wells (1960)':
+        'Wells, R. (1960). Nominal and verbal style. In T. A. Sebeok (Ed.), Style in Language '
+        '(pp. 213–220). Cambridge, MA: Technology Press of MIT; New York: Wiley. Pages checked in '
+        'the 1966 printing.',
+    'Yule (1939)':
+        'Yule, G. U. (1939). On sentence-length as a statistical characteristic of style in prose: '
+        'With application to two cases of disputed authorship. Biometrika, 30(3/4), 363–390. '
+        'JSTOR 2332655.',
     'Yule (1944)':
         'Yule, G. U. (1944). The Statistical Study of Literary Vocabulary. '
         'Cambridge University Press.',
     'Zeyrek':
         'Zeyrek — a Python port of the Zemberek morphological analyser. '
         'github.com/obulat/zeyrek',
+    'Zheng et al. (2006)':
+        'Zheng, R., Li, J., Chen, H., & Huang, Z. (2006). A framework for authorship identification '
+        'of online messages: Writing-style features and classification techniques. Journal of the '
+        'American Society for Information Science and Technology, 57(3), 378–393. '
+        'DOI 10.1002/asi.20316',
     'Çetinkaya (2010)':
         'Çetinkaya, G. (2010). Türkçe metinlerin okunabilirlik düzeylerinin '
         'tanımlanması ve sınıflandırılması [Unpublished doctoral dissertation]. Ankara '

@@ -53,20 +53,20 @@ testleri kendi dosyalarında duruyor.
 
 Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
-**Doğrulama adayı — 95 satır**
+**Doğrulama adayı — 114 satır**
 
 | Durum | Satır sayısı |
 |---|---|
 | ✅ birebir | 46 |
 | 🟡 belgelenmiş sapma | 2 |
-| 🔍 açık — kaynakta sayısal örnek yok | 47 |
+| 🔍 açık — kaynakta sayısal örnek yok | 66 |
 
 
-**Doğrulama adayı olmayan — 141 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
+**Doğrulama adayı olmayan — 122 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
 
 | Durum | Satır sayısı |
 |---|---|
-| ⚪ kaynak yok — saf tanım | 68 |
+| ⚪ kaynak yok — saf tanım | 49 |
 | ⚫ etiket şeması — ölçü değil | 68 |
 | 🔧 türev — uygulaması bu kütüphaneye ait | 5 |
 
@@ -133,13 +133,15 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 ### 🔍 Açık — doğrulanabilir, henüz doğrulanmadı
 
-47 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
+66 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
+| `avg_word_length` | Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241 | 🔍 |
 | `yule_k` | Yule (1944) p.53, eq. (3.22) | 🔍 |
 | `simpson_d` | Simpson (1949), as cited in Bestgen (2023) | 🔍 |
 | `brunet_w` | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) | 🔍 |
+| `hapax_ratio` | de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of vocabulary words" | 🔍 |
 | `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
 | `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) | 🔍 |
 | `dugast_u` | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 | 🔍 |
@@ -165,6 +167,13 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `msttr` | Johnson (1944), as cited in Malvern et al. (2004) p.25 and McCarthy & Jarvis (2010) p.385 | 🔍 |
 | `thematic_concentration` | QUITA §6.2.5 | 🔍 |
 | `secondary_thematic_concentration` | QUITA §6.2.6 | 🔍 |
+| `avg_sent_len_word` | Flesch (1948) p.223, element (1) "Average Sentence Length in Words" | 🔍 |
+| `med_sent_len` | Yule (1939) p.369, median sentence length alongside the mean | 🔍 |
+| `avg_sent_len_char` | Zheng et al. (2006) Table 3, p.384, no. 58 "Average sentence length in terms of character" | 🔍 |
+| `para_len_mean` | Zheng et al. (2006) Table 3, p.384, no. 251 "Number of words per paragraph" | 🔍 |
+| `sents_per_para_mean` | Zheng et al. (2006) Table 3, p.384, no. 249 "Number of sentences per paragraph" | 🔍 |
+| `pronoun_freq` | Deutsch, Jasbi & Shieber (2020) Table 6 "pronouns per word", listed among existing features; original source not traced | 🔍 |
+| `nominal_verbal_ratio` | Wells (1960) p.214, Noun-Verb Quotient (NVQ), "the proportion of nouns to verbs in a given text"; nouns = NOUN + PROPN, verbs = VERB (the copula is left out, a choice Wells leaves open) | 🔍 |
 | `verb_dist_mean` | QUITA §6.2.1 | 🔍 |
 | `verb_dist_cv` | QUITA §6.2.1 | 🔍 |
 | `lexical_density` | Lu (2012); definition in the broad Hallidayan sense — all open-class words | 🔍 |
@@ -184,29 +193,32 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `syllable_6plus_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `lix` | Björnsson (1968), as cited in Anderson (1983) p.490; long word = 7+ letters | 🔍 |
 | `long_word_ratio` | Anderson (1983); long word = 7+ letters | 🔍 |
+| `digit_vs_all` | de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; here digits anywhere in the text | 🔍 |
+| `punc_,_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); per-word normalisation is this library's | 🔍 |
+| `punc_._ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); per-word normalisation is this library's | 🔍 |
+| `punc_;_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); per-word normalisation is this library's | 🔍 |
+| `punc_!_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); per-word normalisation is this library's | 🔍 |
+| `punc_:_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); per-word normalisation is this library's | 🔍 |
+| `punc_quote_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); per-word normalisation is this library's | 🔍 |
+| `punc_question_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); per-word normalisation is this library's | 🔍 |
+| `punct_density` | de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C" | 🔍 |
+| `whitespace_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of white-space characters/C" | 🔍 |
 
 ### Doğrulama adayı olmayanlar
 
-141 anahtar. ⚪ olanlar saf tanım (`punc_,_ratio`, `char_a`) — adlandırılmış bir literatür ölçüsü değil. ⚫ olanlar bir ölçü değil, dış bir etiket şemasının kategorisini sayıyor; şema kategori tanımlar, ölçüm yayımlamaz. 🔧 olanların formülü bir kaynaktan gelir ama uygulaması bu kütüphaneye aittir. Üçünde de aranacak bir sayı yok.
+122 anahtar. ⚪ olanlar saf tanım (`punc_,_ratio`, `char_a`) — adlandırılmış bir literatür ölçüsü değil. ⚫ olanlar bir ölçü değil, dış bir etiket şemasının kategorisini sayıyor; şema kategori tanımlar, ölçüm yayımlamaz. 🔧 olanların formülü bir kaynaktan gelir ama uygulaması bu kütüphaneye aittir. Üçünde de aranacak bir sayı yok.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
 | `n_lemma_count` | — | ⚪ |
-| `avg_word_length` | — | ⚪ |
 | `word_length_cv` | — | ⚪ |
-| `hapax_ratio` | — | ⚪ |
 | `entropy_std` | Shannon (1948) — the entropy formula; the standard deviation across segments is this library's own derivation | 🔧 |
-| `avg_sent_len_word` | — | ⚪ |
 | `sentence_length_cv` | — | ⚪ |
 | `sent_len_skewness` | — | ⚪ |
-| `med_sent_len` | — | ⚪ |
-| `avg_sent_len_char` | — | ⚪ |
 | `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only | 🔧 |
 | `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only | 🔧 |
 | `sent_len_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision | 🔧 |
-| `para_len_mean` | — | ⚪ |
 | `para_len_cv` | — | ⚪ |
-| `sents_per_para_mean` | — | ⚪ |
 | `sents_per_para_cv` | — | ⚪ |
 | `para_count_norm` | — | ⚪ |
 | `pos_noun` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
@@ -222,8 +234,6 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `pos_num` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_aux` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `question_per_sent` | — | ⚪ |
-| `pronoun_freq` | — | ⚪ |
-| `nominal_verbal_ratio` | — | ⚪ |
 | `sentfinal_noun` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `sentfinal_propn` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `sentfinal_verb` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
@@ -284,22 +294,12 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `syllable_cv` | — | ⚪ |
 | `sentence_syllable_mean` | — | ⚪ |
 | `sentence_syllable_cv` | — | ⚪ |
-| `digit_vs_all` | — | ⚪ |
-| `punc_,_ratio` | — | ⚪ |
-| `punc_._ratio` | — | ⚪ |
-| `punc_;_ratio` | — | ⚪ |
-| `punc_!_ratio` | — | ⚪ |
-| `punc_:_ratio` | — | ⚪ |
 | `punc_-_ratio` | — | ⚪ |
 | `punc_ellipsis_ratio` | — | ⚪ |
 | `punc_paren_ratio` | — | ⚪ |
-| `punc_quote_ratio` | — | ⚪ |
-| `punc_question_ratio` | — | ⚪ |
 | `punc_total_ratio` | — | ⚪ |
-| `punct_density` | — | ⚪ |
 | `punct_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of punctuation types is this library's own decision | 🔧 |
 | `consecutive_punct_ratio` | — | ⚪ |
-| `whitespace_ratio` | — | ⚪ |
 | `punct_variety` | — | ⚪ |
 | `uppercase_ratio` | — | ⚪ |
 | `all_caps_word_ratio` | — | ⚪ |
@@ -337,20 +337,20 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
-**Doğrulama adayı — 84 satır**
+**Doğrulama adayı — 103 satır**
 
 | Durum | Satır sayısı |
 |---|---|
 | ✅ birebir | 35 |
 | 🟡 belgelenmiş sapma | 3 |
-| 🔍 açık — kaynakta sayısal örnek yok | 46 |
+| 🔍 açık — kaynakta sayısal örnek yok | 65 |
 
 
-**Doğrulama adayı olmayan — 116 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
+**Doğrulama adayı olmayan — 97 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
 
 | Durum | Satır sayısı |
 |---|---|
-| ⚪ kaynak yok — saf tanım | 65 |
+| ⚪ kaynak yok — saf tanım | 46 |
 | ⚫ etiket şeması — ölçü değil | 45 |
 | 🔧 türev — uygulaması bu kütüphaneye ait | 6 |
 
@@ -405,13 +405,15 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 ### 🔍 Açık — doğrulanabilir, henüz doğrulanmadı
 
-46 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
+65 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
+| `avg_word_length` | Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241 | 🔍 |
 | `yule_k` | Yule (1944) p.53, eq. (3.22) | 🔍 |
 | `simpson_d` | Simpson (1949), as cited in Bestgen (2023) | 🔍 |
 | `brunet_w` | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) | 🔍 |
+| `hapax_ratio` | de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of vocabulary words" | 🔍 |
 | `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
 | `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) | 🔍 |
 | `dugast_u` | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 | 🔍 |
@@ -437,6 +439,13 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `msttr` | Johnson (1944), as cited in Malvern et al. (2004) p.25 and McCarthy & Jarvis (2010) p.385 | 🔍 |
 | `thematic_concentration` | QUITA §6.2.5 | 🔍 |
 | `secondary_thematic_concentration` | QUITA §6.2.6 | 🔍 |
+| `avg_sent_len_word` | Flesch (1948) p.223, element (1) "Average Sentence Length in Words" | 🔍 |
+| `med_sent_len` | Yule (1939) p.369, median sentence length alongside the mean | 🔍 |
+| `avg_sent_len_char` | Zheng et al. (2006) Table 3, p.384, no. 58 "Average sentence length in terms of character" | 🔍 |
+| `para_len_mean` | Zheng et al. (2006) Table 3, p.384, no. 251 "Number of words per paragraph" | 🔍 |
+| `sents_per_para_mean` | Zheng et al. (2006) Table 3, p.384, no. 249 "Number of sentences per paragraph" | 🔍 |
+| `pronoun_freq` | Deutsch, Jasbi & Shieber (2020) Table 6 "pronouns per word", listed among existing features; original source not traced | 🔍 |
+| `nominal_verbal_ratio` | Wells (1960) p.214, Noun-Verb Quotient (NVQ), "the proportion of nouns to verbs in a given text"; nouns = NOUN + PROPN, verbs = VERB (the copula is left out, a choice Wells leaves open) | 🔍 |
 | `verb_dist_mean` | QUITA §6.2.1 | 🔍 |
 | `verb_dist_cv` | QUITA §6.2.1 | 🔍 |
 | `lexical_density` | Lu (2012); definition in the broad Hallidayan sense — all open-class words | 🔍 |
@@ -455,29 +464,32 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `long_word_ratio` | Anderson (1983); long word = 7+ letters | 🔍 |
 | `flesch_reading_ease` | Flesch (1948) Formula A; coefficient .846, unit = syllables per 100 words | 🔍 |
 | `smog` | McLaughlin (1969) p.643, Table 1, eq. (d); p = polysyllabic words in a 30-sentence sample | 🔍 |
+| `digit_vs_all` | de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; here digits anywhere in the text | 🔍 |
+| `punc_,_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); per-word normalisation is this library's | 🔍 |
+| `punc_._ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); per-word normalisation is this library's | 🔍 |
+| `punc_;_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); per-word normalisation is this library's | 🔍 |
+| `punc_!_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); per-word normalisation is this library's | 🔍 |
+| `punc_:_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); per-word normalisation is this library's | 🔍 |
+| `punc_quote_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); per-word normalisation is this library's | 🔍 |
+| `punc_question_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); per-word normalisation is this library's | 🔍 |
+| `punct_density` | de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C" | 🔍 |
+| `whitespace_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of white-space characters/C" | 🔍 |
 
 ### Doğrulama adayı olmayanlar
 
-116 anahtar. ⚪ olanlar saf tanım (`punc_,_ratio`, `char_a`) — adlandırılmış bir literatür ölçüsü değil. ⚫ olanlar bir ölçü değil, dış bir etiket şemasının kategorisini sayıyor; şema kategori tanımlar, ölçüm yayımlamaz. 🔧 olanların formülü bir kaynaktan gelir ama uygulaması bu kütüphaneye aittir. Üçünde de aranacak bir sayı yok.
+97 anahtar. ⚪ olanlar saf tanım (`punc_,_ratio`, `char_a`) — adlandırılmış bir literatür ölçüsü değil. ⚫ olanlar bir ölçü değil, dış bir etiket şemasının kategorisini sayıyor; şema kategori tanımlar, ölçüm yayımlamaz. 🔧 olanların formülü bir kaynaktan gelir ama uygulaması bu kütüphaneye aittir. Üçünde de aranacak bir sayı yok.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
 | `n_lemma_count` | — | ⚪ |
-| `avg_word_length` | — | ⚪ |
 | `word_length_cv` | — | ⚪ |
-| `hapax_ratio` | — | ⚪ |
 | `entropy_std` | Shannon (1948) — the entropy formula; the standard deviation across segments is this library's own derivation | 🔧 |
-| `avg_sent_len_word` | — | ⚪ |
 | `sentence_length_cv` | — | ⚪ |
 | `sent_len_skewness` | — | ⚪ |
-| `med_sent_len` | — | ⚪ |
-| `avg_sent_len_char` | — | ⚪ |
 | `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only | 🔧 |
 | `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only | 🔧 |
 | `sent_len_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision | 🔧 |
-| `para_len_mean` | — | ⚪ |
 | `para_len_cv` | — | ⚪ |
-| `sents_per_para_mean` | — | ⚪ |
 | `sents_per_para_cv` | — | ⚪ |
 | `para_count_norm` | — | ⚪ |
 | `pos_noun` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
@@ -493,8 +505,6 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `pos_num` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_aux` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `question_per_sent` | — | ⚪ |
-| `pronoun_freq` | — | ⚪ |
-| `nominal_verbal_ratio` | — | ⚪ |
 | `sentfinal_noun` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `sentfinal_propn` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `sentfinal_verb` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
@@ -533,22 +543,12 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `sentence_syllable_mean` | — | ⚪ |
 | `sentence_syllable_cv` | — | ⚪ |
 | `polysyllabic_word_ratio` | McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form of SMOG's input, not the source's own measure | 🔧 |
-| `digit_vs_all` | — | ⚪ |
-| `punc_,_ratio` | — | ⚪ |
-| `punc_._ratio` | — | ⚪ |
-| `punc_;_ratio` | — | ⚪ |
-| `punc_!_ratio` | — | ⚪ |
-| `punc_:_ratio` | — | ⚪ |
 | `punc_-_ratio` | — | ⚪ |
 | `punc_ellipsis_ratio` | — | ⚪ |
 | `punc_paren_ratio` | — | ⚪ |
-| `punc_quote_ratio` | — | ⚪ |
-| `punc_question_ratio` | — | ⚪ |
 | `punc_total_ratio` | — | ⚪ |
-| `punct_density` | — | ⚪ |
 | `punct_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of punctuation types is this library's own decision | 🔧 |
 | `consecutive_punct_ratio` | — | ⚪ |
-| `whitespace_ratio` | — | ⚪ |
 | `punct_variety` | — | ⚪ |
 | `uppercase_ratio` | — | ⚪ |
 | `all_caps_word_ratio` | — | ⚪ |

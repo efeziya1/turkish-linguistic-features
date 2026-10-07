@@ -50,7 +50,7 @@ published is a separate question — see the
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
 | `n_lemma_count` | number of distinct lemmas | `V over lemmas` | at least 1 word | — |
-| `avg_word_length` | mean word length in characters | `sum(len(w)) / N` | at least 1 word | — |
+| `avg_word_length` | mean word length in characters | `sum(len(w)) / N` | at least 1 word | Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241 |
 | `word_length_cv` | spread of word length | `std(len(w)) / mean(len(w)), population std` | at least 2 words | — |
 | `ttr` | type-token ratio; falls as the text grows | `V / N` | at least 1 word | Malvern et al. (2004); QUITA §6.1.1 |
 | `mattr` | moving-average TTR | `mean TTR of every sliding window of mattr_window words` | at least 100 words (2 x mattr_window) | Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) |
@@ -73,7 +73,7 @@ published is a separate question — see the
 | `yule_k` | Yule's K; higher = more repetitive | `10000 * (sum(f^2) - N) / N^2` | at least 1 word | Yule (1944) p.53, eq. (3.22) |
 | `simpson_d` | chance that two words drawn without replacement are the same type | `sum(f(f-1)) / (N(N-1))` | at least 2 words | Simpson (1949), as cited in Bestgen (2023) |
 | `brunet_w` | Brunet's W | `N^(V^-a), a = brunet_w_a` | at least 1 word | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) |
-| `hapax_ratio` | share of types occurring once | `V1 / V` | at least 1 word | — |
+| `hapax_ratio` | share of types occurring once | `V1 / V` | at least 1 word | de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of vocabulary words" |
 | `hapax_percentage` | share of tokens that occur once | `V1 / N` | at least 1 word | QUITA §6.1.6 |
 | `vocd_d` | voc-D | `D fitted to mean TTR of random samples of vocd_sample_min–vocd_sample_max words, vocd_num_runs runs averaged` | at least 50 words (vocd_min_tokens, vocd_sample_max) | Malvern et al. (2004) pp.56–57; procedure from McCarthy & Jarvis (2010) p.383 |
 | `hdd` | HD-D | `expected TTR of a hdd_sample_size-word sample (hypergeometric)` | at least 42 words (hdd_sample_size) | McCarthy & Jarvis (2007), as cited in McCarthy & Jarvis (2010) p.383 |
@@ -111,13 +111,13 @@ published is a separate question — see the
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
-| `avg_sent_len_word` | mean sentence length in words | `mean words per sentence` | at least 1 sentence with a letter | — |
-| `avg_sent_len_char` | mean sentence length in characters | `mean len(tokens joined by single spaces)` | at least 1 sentence | — |
+| `avg_sent_len_word` | mean sentence length in words | `mean words per sentence` | at least 1 sentence with a letter | Flesch (1948) p.223, element (1) "Average Sentence Length in Words" |
+| `avg_sent_len_char` | mean sentence length in characters | `mean len(tokens joined by single spaces)` | at least 1 sentence | Zheng et al. (2006) Table 3, p.384, no. 58 "Average sentence length in terms of character" |
 | `sentence_length_cv` | spread of sentence length | `population std / mean of words per sentence` | at least 2 sentences with a letter | — |
 | `sent_len_skewness` | skew of sentence length; positive = long-sentence tail | `Fisher-Pearson g1 = m3 / m2^1.5 over words per sentence` | at least 2 sentences of different length | — |
 | `short_sent_ratio` | share of short sentences | `sentences with fewer than short_sent_threshold words / sentences` | at least 1 sentence with a letter | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only |
 | `long_sent_ratio` | share of long sentences | `sentences with more than long_sent_threshold words / sentences` | at least 1 sentence with a letter | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only |
-| `med_sent_len` | median sentence length | `median words per sentence` | at least 1 sentence with a letter | — |
+| `med_sent_len` | median sentence length | `median words per sentence` | at least 1 sentence with a letter | Yule (1939) p.369, median sentence length alongside the mean |
 | `sent_len_entropy` | variety of sentence lengths | `Shannon entropy (nats) of the distribution of words per sentence` | at least 2 sentences with a letter | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision |
 
 ## `paragraph` — Paragraph structure
@@ -126,9 +126,9 @@ published is a separate question — see the
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
-| `para_len_mean` | mean paragraph length | `mean words per paragraph (blank line = boundary)` | at least 1 paragraph | — |
+| `para_len_mean` | mean paragraph length | `mean words per paragraph (blank line = boundary)` | at least 1 paragraph | Zheng et al. (2006) Table 3, p.384, no. 251 "Number of words per paragraph" |
 | `para_len_cv` | spread of paragraph length | `population std / mean` | at least 2 paragraphs | — |
-| `sents_per_para_mean` | mean sentences per paragraph | `mean count of [.!?…]+ per paragraph (at least 1)` | at least 1 paragraph | — |
+| `sents_per_para_mean` | mean sentences per paragraph | `mean count of [.!?…]+ per paragraph (at least 1)` | at least 1 paragraph | Zheng et al. (2006) Table 3, p.384, no. 249 "Number of sentences per paragraph" |
 | `sents_per_para_cv` | spread of sentences per paragraph | `population std / mean` | at least 2 paragraphs | — |
 | `para_count_norm` | paragraphs per 1000 words | `paragraphs / words * 1000` | at least 1 paragraph | — |
 
@@ -158,8 +158,8 @@ published is a separate question — see the
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
 | `question_per_sent` | share of sentences ending in "?" | `sentences whose final mark contains "?" / sentences` | at least 1 sentence | — |
-| `pronoun_freq` | share of pronoun words | `PRON / words` | at least 1 word | — |
-| `nominal_verbal_ratio` | noun-to-verb balance | `(NOUN + PROPN) / VERB` | at least 1 verb | — |
+| `pronoun_freq` | share of pronoun words | `PRON / words` | at least 1 word | Deutsch, Jasbi & Shieber (2020) Table 6 "pronouns per word", listed among existing features; original source not traced |
+| `nominal_verbal_ratio` | noun-to-verb balance | `(NOUN + PROPN) / VERB` | at least 1 verb | Wells (1960) p.214, Noun-Verb Quotient (NVQ), "the proportion of nouns to verbs in a given text"; nouns = NOUN + PROPN, verbs = VERB (the copula is left out, a choice Wells leaves open) |
 | `verb_dist_mean` | mean word gap between consecutive verbs | `mean difference of VERB positions` | at least 2 verbs | QUITA §6.2.1 |
 | `verb_dist_cv` | spread of verb gaps | `population std / mean of those gaps` | at least 3 verbs | QUITA §6.2.1 |
 | `activity_ratio` | activity Q | `VERB / (VERB + ADJ)` | at least 1 verb or adjective | QUITA §6.2.2 |
@@ -293,22 +293,22 @@ published is a separate question — see the
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
-| `digit_vs_all` | share of digit characters | `digits / characters` | non-empty text | — |
-| `punc_,_ratio` | comma marks per word | `marks / words` | at least 1 word | — |
-| `punc_._ratio` | full stop marks per word | `marks / words` | at least 1 word | — |
-| `punc_;_ratio` | semicolon marks per word | `marks / words` | at least 1 word | — |
-| `punc_!_ratio` | exclamation mark marks per word | `marks / words` | at least 1 word | — |
-| `punc_:_ratio` | colon marks per word | `marks / words` | at least 1 word | — |
+| `digit_vs_all` | share of digit characters | `digits / characters` | non-empty text | de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; here digits anywhere in the text |
+| `punc_,_ratio` | comma marks per word | `marks / words` | at least 1 word | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); per-word normalisation is this library's |
+| `punc_._ratio` | full stop marks per word | `marks / words` | at least 1 word | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); per-word normalisation is this library's |
+| `punc_;_ratio` | semicolon marks per word | `marks / words` | at least 1 word | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); per-word normalisation is this library's |
+| `punc_!_ratio` | exclamation mark marks per word | `marks / words` | at least 1 word | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); per-word normalisation is this library's |
+| `punc_:_ratio` | colon marks per word | `marks / words` | at least 1 word | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); per-word normalisation is this library's |
 | `punc_-_ratio` | hyphen or dash marks per word | `marks / words` | at least 1 word | — |
 | `punc_ellipsis_ratio` | ellipsis marks per word | `marks / words` | at least 1 word | — |
 | `punc_paren_ratio` | parenthesis marks per word | `marks / words` | at least 1 word | — |
-| `punc_quote_ratio` | quotation mark marks per word | `marks / words` | at least 1 word | — |
-| `punc_question_ratio` | question mark marks per word | `marks / words` | at least 1 word | — |
+| `punc_quote_ratio` | quotation mark marks per word | `marks / words` | at least 1 word | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); per-word normalisation is this library's |
+| `punc_question_ratio` | question mark marks per word | `marks / words` | at least 1 word | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); per-word normalisation is this library's |
 | `punc_total_ratio` | punctuation marks of all ten types per word | `marks / words` | at least 1 word | — |
-| `punct_density` | punctuation marks per character | `marks / characters` | non-empty text | — |
+| `punct_density` | punctuation marks per character | `marks / characters` | non-empty text | de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C" |
 | `punct_entropy` | variety of punctuation types | `Shannon entropy (nats) of the 10 mark types` | at least 1 punctuation mark | Shannon (1948) — the entropy formula; applying it to the distribution of punctuation types is this library's own decision |
 | `consecutive_punct_ratio` | share of marks directly next to another mark | `adjacent marks / marks` | at least 1 punctuation mark | — |
-| `whitespace_ratio` | share of whitespace characters | `whitespace / characters` | non-empty text | — |
+| `whitespace_ratio` | share of whitespace characters | `whitespace / characters` | non-empty text | de Vel et al. (2001) Table 2, p.60 "Total number of white-space characters/C" |
 | `punct_variety` | number of punctuation types used (0–10) | `distinct mark types` | non-empty text | — |
 | `uppercase_ratio` | share of capitalised words | `words whose first letter is upper case / words with a letter` | at least 1 word with a letter | — |
 | `all_caps_word_ratio` | share of all-caps words | `words with 2+ letters, all upper case / words with a letter` | at least 1 word with a letter | — |
@@ -331,7 +331,7 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 
 ## Bibliography
 
-50 works. Every citation above names at least one of these verbatim, and every entry here is named by at least one citation — both directions are tested.
+56 works. Every citation above names at least one of these verbatim, and every entry here is named by at least one citation — both directions are tested.
 
 **Akın & Akın (2007)**
 :   Akın, A. A., & Akın, M. D. (2007). Zemberek, an open source NLP framework for Turkic Languages. 8 pp. Source code: github.com/ahmetaa/zemberek-nlp. (The document does not state a place of publication.)
@@ -426,6 +426,9 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 **McLaughlin (1969)**
 :   McLaughlin, G. H. (1969). SMOG grading — a new readability formula. Journal of Reading, 12(8), 639–646.
 
+**Mendenhall (1887)**
+:   Mendenhall, T. C. (1887). The characteristic curves of composition. Science, 9(214), 237–249. JSTOR 1764604.
+
 **Piantadosi (2014)**
 :   Piantadosi, S. T. (2014). Zipf's word frequency law in natural language: A critical review and future directions. Psychonomic Bulletin & Review, 21(5), 1112–1130. DOI 10.3758/s13423-014-0585-6
 
@@ -468,14 +471,29 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 **Tweedie & Baayen (1998)**
 :   Tweedie, F. J., & Baayen, R. H. (1998). How variable may a constant be? Measures of lexical richness in perspective. Computers and the Humanities, 32(5), 323–352. DOI 10.1023/A:1001749303137
 
+**Wells (1960)**
+:   Wells, R. (1960). Nominal and verbal style. In T. A. Sebeok (Ed.), Style in Language (pp. 213–220). Cambridge, MA: Technology Press of MIT; New York: Wiley. Pages checked in the 1966 printing.
+
+**Yule (1939)**
+:   Yule, G. U. (1939). On sentence-length as a statistical characteristic of style in prose: With application to two cases of disputed authorship. Biometrika, 30(3/4), 363–390. JSTOR 2332655.
+
 **Yule (1944)**
 :   Yule, G. U. (1944). The Statistical Study of Literary Vocabulary. Cambridge University Press.
 
 **Zeyrek**
 :   Zeyrek — a Python port of the Zemberek morphological analyser. github.com/obulat/zeyrek
 
+**Zheng et al. (2006)**
+:   Zheng, R., Li, J., Chen, H., & Huang, Z. (2006). A framework for authorship identification of online messages: Writing-style features and classification techniques. Journal of the American Society for Information Science and Technology, 57(3), 378–393. DOI 10.1002/asi.20316
+
 **de Marneffe et al. (2021)**
 :   de Marneffe, M.-C., Manning, C. D., Nivre, J., & Zeman, D. (2021). Universal Dependencies. Computational Linguistics, 47(2), 255–308. DOI 10.1162/COLI_a_00402
+
+**de Vel (2000)**
+:   de Vel, O. (2000). Mining e-mail authorship. In KDD-2000 Workshop on Text Mining, Boston, August 20, 2000.
+
+**de Vel et al. (2001)**
+:   de Vel, O., Anderson, A., Corney, M., & Mohay, G. (2001). Mining e-mail content for author identification forensics. ACM SIGMOD Record, 30(4), 55–64. DOI 10.1145/604264.604272
 
 **van Heuven et al. (2014)**
 :   van Heuven, W. J. B., Mandera, P., Keuleers, E., & Brysbaert, M. (2014). SUBTLEX-UK: A new and improved word frequency database for British English. Quarterly Journal of Experimental Psychology, 67(6), 1176–1190. DOI 10.1080/17470218.2013.850521

@@ -409,7 +409,7 @@ def describe_feature(key: str, lang: str | None = None) -> dict:
     'mean TTR of every sliding window of mattr_window words'
     >>> describe_feature("mattr")["requires"]
     'at least 100 words (2 x mattr_window)'
-    >>> describe_feature("hapax_ratio")["citation"] is None
+    >>> describe_feature("word_length_cv")["citation"] is None
     True
     """
     grup = get_group(key)                      # KeyError'ı o fırlatır

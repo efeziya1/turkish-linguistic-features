@@ -172,7 +172,7 @@ def test_describe_literatur_olcusu_degilse_citation_none():
     ``None`` ölçünün bize ait olduğunu **söylemez**; yalnız adlandırılmış bir
     literatür ölçüsü olmadığını söyler (2026-09-19, Efe).
     """
-    assert describe_feature("hapax_ratio")["citation"] is None
+    assert describe_feature("word_length_cv")["citation"] is None
 
 
 def test_describe_ayarlanamayan_ozellik_bos_params():
@@ -331,7 +331,7 @@ def test_describe_feature_tam_kaydi_dondurur():
 
 
 def test_citation_yoksa_references_bos():
-    d = describe_feature("hapax_ratio")
+    d = describe_feature("word_length_cv")
     assert d["citation"] is None
     assert d["references"] == ()
 

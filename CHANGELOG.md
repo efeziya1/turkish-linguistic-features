@@ -27,6 +27,18 @@
   up to 36% in `syllable_1_ratio`. The verification reports do not change (46 ✅ + 2 🟡). The
   internal token-based syllable helpers (`phonetic.toplam_hece` and its helpers) and the unused
   `okunus.sembol_oku` were removed; `phonetic.birim_hecesi` is the one syllable counter.
+- Nineteen features that had no citation now cite a source read in full (decided
+  2026-10-07): `avg_sent_len_word` → Flesch (1948) p.223; `avg_word_length` → Mendenhall (1887)
+  p.237; `med_sent_len` → Yule (1939) p.369; `hapax_ratio` → de Vel (2000) Table 2;
+  `whitespace_ratio`, `punct_density`, `digit_vs_all` → de Vel et al. (2001) Table 2;
+  `para_len_mean`, `sents_per_para_mean`, `avg_sent_len_char` and seven `punc_*_ratio` keys
+  (comma, full stop, semicolon, exclamation, colon, question, quote) → Zheng et al. (2006)
+  Table 3; `nominal_verbal_ratio` → Wells (1960) p.214 (Noun-Verb Quotient); `pronoun_freq` →
+  Deutsch, Jasbi & Shieber (2020) Table 6 (the original source could
+  not be traced, and the citation says so). Where our definition differs from the source the
+  citation says so. `pos_punct` (it cited the UPOS tag set) is gone. Cited features: TR 144 → 162,
+  EN 119 → 137; verification candidates: TR 95 → 114, EN 84 → 103; bibliography 50 → 56 works.
+  No values change.
 - One word definition for every feature except the dependency group (decided 2026-10-07). The
   POS, syntactic, morphological and Zeyrek features, the lemma-based lexical features
   (`n_lemma_count`, `*_variation`, `wordfreq_*`) and `frequency_structure` now count the default
