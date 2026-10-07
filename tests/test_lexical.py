@@ -26,7 +26,6 @@ from turkish_linguistic_features.features.lexical import (
     shannon_entropy,
     simpsons_d,
     summer_s,
-    ttr_moving_slope,
     type_token_ratio,
     vocd_d,
     word_length_stats,
@@ -279,7 +278,7 @@ def test_heaps_beta_tek_gecis_eskisiyle_birebir():
     (-1, 50, "min_tokens must be non-negative"),
 ])
 def test_heaps_beta_gecersiz_parametre_hata(min_tokens, step, mesaj):
-    """Diğer pencere/parça parametreleri gibi (mattr, msttr, ttr_moving_slope)."""
+    """Diğer pencere/parça parametreleri gibi (mattr, msttr)."""
     with pytest.raises(ValueError, match=mesaj):
         heaps_beta(["a"] * 400, min_tokens, step)
 
@@ -447,16 +446,6 @@ def test_guiraud_r_uzunlukla_ttr_kadar_hizli_dusmez():
     assert g_dususu < ttr_dususu
 
 
-def test_ttr_egimi_sabit_parcalar_bilinen_deger():
-    """Parça 2: [a b]=1, [c c]=0.5, [d d]=0.5 → eğim −0.25. Artık 'e' atılır."""
-    tokens = ["a", "b", "c", "c", "d", "d", "e"]
-    sonuc = ttr_moving_slope(tokens, chunk_size=2)
-    assert sonuc["ttr_moving_slope"] == pytest.approx(-0.25, abs=1e-4)
-
-
-def test_ttr_egimi_iki_parcadan_azsa_sifir():
-    assert _nan(ttr_moving_slope(["a", "b", "c"], chunk_size=2)["ttr_moving_slope"])
-
 
 def test_pos_variation_bilinen_deger():
     """Lu (2012) Tablo 2: NV = T_noun / N_lex, VV1 = T_verb / N_verb.
@@ -546,7 +535,7 @@ def test_pos_variation_pos_noun_ile_bagimsiz():
 
 
 def test_t05_bos_girdiler():
-    for sonuc in (mtld([]), dugast_u([]), ttr_moving_slope([]), guiraud_r([]),
+    for sonuc in (mtld([]), dugast_u([]), guiraud_r([]),
                   advanced_lexical_richness([]), pos_lexical_variation([], [])):
         assert _hepsi_nan(sonuc)
 

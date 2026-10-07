@@ -7,13 +7,14 @@ koymak dairesel import yaratırdı.
 
 POS_TAGS: tuple[str, ...] = (
     "NOUN", "PROPN", "VERB", "ADJ", "ADV", "DET", "ADP",
-    "INTJ", "CCONJ", "SCONJ", "NUM", "AUX", "PUNCT",
-)   # 13 tane. PRON kasten yok — pronoun_freq ayrı feature.
+    "INTJ", "CCONJ", "SCONJ", "NUM", "AUX",
+)   # 12 tane. PRON kasten yok — pronoun_freq ayrı feature. PUNCT 2026-10-07'de çıktı (Efe):
+    # öznitelikler kelime sayıyor, noktalama noktalama grubunda (`punc_total_ratio`).
     # `pos_bigrams` (13 × 13 sabit ızgara) 2026-09-18'de kaldırıldı — Karar Günlüğü.
 
 # `dep_*` oranları ve DEP_RELATIONS 2026-09-17'de çıktı (Efe) — sonra yeniden bakılacak.
 
-SENT_FINAL_POS: tuple[str, ...] = tuple(p for p in POS_TAGS if p != "PUNCT") + ("PRON",)  # 13
+SENT_FINAL_POS: tuple[str, ...] = POS_TAGS + ("PRON",)  # 13
 
 # Kelime sayılmayan etiketler (2026-09-16, Efe). Kelime bekleyen her ölçü
 # bunları atar; lemma_tokens'a da girmezler (T21). SYM: %, $, + gibi.

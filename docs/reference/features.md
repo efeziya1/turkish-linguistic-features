@@ -27,25 +27,25 @@ published is a separate question — see the
 
 | Group | Keys | What it covers |
 |---|---|---|
-| `lexical` | 36 | Lexical richness & frequency |
+| `lexical` | 35 | Lexical richness & frequency |
 | `frequency_structure` | 13 | Frequency structure (h-point family, Popescu & Altmann) |
 | `sentence` | 8 | Sentence statistics |
 | `paragraph` | 5 | Paragraph structure |
-| `pos` | 13 | Part-of-speech ratios |
+| `pos` | 12 | Part-of-speech ratios |
 | `syntactic` | 9 | Discourse & syntax |
 | `syntactic_dep` | 16 | Dependency tree (distance, depth, sentence-final POS) |
 | `morphological` | 19 | Morphological style (spaCy) |
 | `morphological_zeyrek` | 24 | Morphological style (Zeyrek, TR only) |
 | `phonetic` | 15 | Phonetic patterns |
 | `readability` | 11 | Readability scores |
-| `punctuation` | 18 | Punctuation & digits |
+| `punctuation` | 19 | Punctuation & digits |
 | `chars` | dynamic | Character frequency vector  [dynamic: one key per letter — TR 29, EN 26] |
 | `custom_ngrams` | dynamic | User-defined n-gram ratios  [dynamic: ng_{...}] |
 
 
 ## `lexical` — Lexical richness & frequency
 
-36 keys.
+35 keys.
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
@@ -68,7 +68,6 @@ published is a separate question — see the
 | `summer_s` | Summer's S, log-log type-token ratio | `ln(ln V) / ln(ln N)` | at least 3 words and 2 distinct words | Somers (1966), as cited in Torruella & Capsada (2013) p.448, where it is named "Summer"; the source gives no logarithm base, the natural logarithm is this library's choice |
 | `maas_a2` | Maas' a²; higher = more repetitive | `(ln N - ln V) / (ln N)^2` | at least 2 words | Maas (1972), as cited in Tweedie & Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella & Capsada (2013) Table 1; all logarithms in this library are natural |
 | `herdan_vm` | Herdan's Vm; higher = more repetitive | `sqrt(sum(f^2) / N^2 - 1 / V)` | at least 1 word | Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18) |
-| `ttr_moving_slope` | whether vocabulary thins out towards the end | `linear slope of TTR over disjoint ttr_slope_chunk_size-word chunks` | at least 100 words (2 x ttr_slope_chunk_size) | — |
 | `heaps_beta` | vocabulary growth rate | `least-squares slope of log V ~ log N over prefixes every heaps_step words, not clipped` | at least 300 words (heaps_min_tokens) | Heaps (1978), as cited in Manning et al. (2008) §5.1.1 |
 | `entropy` | Shannon entropy of word frequencies | `-sum(p * ln p)` | at least 1 word | Shannon (1948), as cited in QUITA §6.1.12 |
 | `yule_k` | Yule's K; higher = more repetitive | `10000 * (sum(f^2) - N) / N^2` | at least 1 word | Yule (1944) p.53, eq. (3.22) |
@@ -79,10 +78,10 @@ published is a separate question — see the
 | `vocd_d` | voc-D | `D fitted to mean TTR of random samples of vocd_sample_min–vocd_sample_max words, vocd_num_runs runs averaged` | at least 50 words (vocd_min_tokens, vocd_sample_max) | Malvern et al. (2004) pp.56–57; procedure from McCarthy & Jarvis (2010) p.383 |
 | `hdd` | HD-D | `expected TTR of a hdd_sample_size-word sample (hypergeometric)` | at least 42 words (hdd_sample_size) | McCarthy & Jarvis (2007), as cited in McCarthy & Jarvis (2010) p.383 |
 | `msttr` | mean segmental TTR | `mean TTR of full msttr_segment_size-word segments` | at least 100 words (msttr_segment_size) | Johnson (1944), as cited in Malvern et al. (2004) p.25 and McCarthy & Jarvis (2010) p.385 |
-| `noun_variation` | noun variation NV | `distinct noun lemmas / lexical-word tokens` | at least 1 lexical word (NOUN, PROPN, VERB, ADJ, ADV) | Lu (2012) Table 2 |
-| `verb_variation` | verb variation VV1 | `distinct verb lemmas / verb tokens` | at least 1 verb | Lu (2012) Table 2 |
-| `adj_variation` | adjective variation AdjV | `distinct adjective lemmas / lexical-word tokens` | at least 1 lexical word | Lu (2012) Table 2 |
-| `adv_variation` | adverb variation AdvV | `distinct adverb lemmas / lexical-word tokens` | at least 1 lexical word | Lu (2012) Table 2 |
+| `noun_variation` | noun variation NV | `distinct noun lemmas / lexical words` | at least 1 lexical word (NOUN, PROPN, VERB, ADJ, ADV) | Lu (2012) Table 2 |
+| `verb_variation` | verb variation VV1 | `distinct verb lemmas / verbs` | at least 1 verb | Lu (2012) Table 2 |
+| `adj_variation` | adjective variation AdjV | `distinct adjective lemmas / lexical words` | at least 1 lexical word | Lu (2012) Table 2 |
+| `adv_variation` | adverb variation AdvV | `distinct adverb lemmas / lexical words` | at least 1 lexical word | Lu (2012) Table 2 |
 | `wordfreq_mean` | how common the lexical words are in general language | `mean wordfreq Zipf score of lexical-word lemmas (unlisted = 0)` | at least 1 lexical word; wordfreq installed | van Heuven et al. (2014) (Zipf scale) |
 | `wordfreq_rare_ratio` | share of rare lexical words | `lexical-word lemmas with Zipf score <= 3 / lexical words` | at least 1 lexical word; wordfreq installed | van Heuven et al. (2014) Table 1 (Zipf ≤ 3 = low frequency) |
 
@@ -135,23 +134,22 @@ published is a separate question — see the
 
 ## `pos` — Part-of-speech ratios
 
-13 keys.
+12 keys.
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
-| `pos_noun` | share of NOUN tokens | `tag count / all tokens (punctuation included)` | at least 1 token | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
-| `pos_propn` | share of PROPN tokens | `tag count / all tokens (punctuation included)` | at least 1 token | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
-| `pos_verb` | share of VERB tokens | `tag count / all tokens (punctuation included)` | at least 1 token | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
-| `pos_adj` | share of ADJ tokens | `tag count / all tokens (punctuation included)` | at least 1 token | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
-| `pos_adv` | share of ADV tokens | `tag count / all tokens (punctuation included)` | at least 1 token | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
-| `pos_det` | share of DET tokens | `tag count / all tokens (punctuation included)` | at least 1 token | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
-| `pos_adp` | share of ADP tokens | `tag count / all tokens (punctuation included)` | at least 1 token | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
-| `pos_aux` | share of AUX tokens | `tag count / all tokens (punctuation included)` | at least 1 token | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
-| `pos_cconj` | share of CCONJ tokens | `tag count / all tokens (punctuation included)` | at least 1 token | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
-| `pos_sconj` | share of SCONJ tokens | `tag count / all tokens (punctuation included)` | at least 1 token | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
-| `pos_num` | share of NUM tokens | `tag count / all tokens (punctuation included)` | at least 1 token | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
-| `pos_intj` | share of INTJ tokens | `tag count / all tokens (punctuation included)` | at least 1 token | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
-| `pos_punct` | share of PUNCT tokens | `tag count / all tokens (punctuation included)` | at least 1 token | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
+| `pos_noun` | share of NOUN words | `tag count / words` | at least 1 word | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
+| `pos_propn` | share of PROPN words | `tag count / words` | at least 1 word | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
+| `pos_verb` | share of VERB words | `tag count / words` | at least 1 word | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
+| `pos_adj` | share of ADJ words | `tag count / words` | at least 1 word | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
+| `pos_adv` | share of ADV words | `tag count / words` | at least 1 word | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
+| `pos_det` | share of DET words | `tag count / words` | at least 1 word | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
+| `pos_adp` | share of ADP words | `tag count / words` | at least 1 word | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
+| `pos_aux` | share of AUX words | `tag count / words` | at least 1 word | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
+| `pos_cconj` | share of CCONJ words | `tag count / words` | at least 1 word | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
+| `pos_sconj` | share of SCONJ words | `tag count / words` | at least 1 word | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
+| `pos_num` | share of NUM words | `tag count / words` | at least 1 word | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
+| `pos_intj` | share of INTJ words | `tag count / words` | at least 1 word | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
 
 ## `syntactic` — Discourse & syntax
 
@@ -160,14 +158,14 @@ published is a separate question — see the
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
 | `question_per_sent` | share of sentences ending in "?" | `sentences whose final mark contains "?" / sentences` | at least 1 sentence | — |
-| `pronoun_freq` | share of pronoun tokens | `PRON / all tokens` | at least 1 token | — |
+| `pronoun_freq` | share of pronoun words | `PRON / words` | at least 1 word | — |
 | `nominal_verbal_ratio` | noun-to-verb balance | `(NOUN + PROPN) / VERB` | at least 1 verb | — |
-| `verb_dist_mean` | mean token gap between consecutive verbs | `mean difference of VERB positions` | at least 2 verbs | QUITA §6.2.1 |
+| `verb_dist_mean` | mean word gap between consecutive verbs | `mean difference of VERB positions` | at least 2 verbs | QUITA §6.2.1 |
 | `verb_dist_cv` | spread of verb gaps | `population std / mean of those gaps` | at least 3 verbs | QUITA §6.2.1 |
 | `activity_ratio` | activity Q | `VERB / (VERB + ADJ)` | at least 1 verb or adjective | QUITA §6.2.2 |
 | `lexical_density` | share of lexical words | `(NOUN + PROPN + VERB + ADJ + ADV) / all words, PUNCT and SYM excluded` | at least 1 word | Lu (2012); definition in the broad Hallidayan sense — all open-class words |
-| `pos_dist_std` | how uneven the POS distribution is | `population std of the 13 pos_* shares` | at least 1 token | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 13 UD tags |
-| `pos_kl_div` | how much sentences differ from the document in POS make-up | `mean over sentences of KL(sentence POS ‖ document POS), nats` | at least 1 token | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits |
+| `pos_dist_std` | how uneven the POS distribution is | `population std of the 12 pos_* shares` | at least 1 word | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 12 UD tags |
+| `pos_kl_div` | how much sentences differ from the document in POS make-up | `mean over sentences of KL(sentence POS ‖ document POS), nats` | at least 1 word | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits |
 
 ## `syntactic_dep` — Dependency tree (distance, depth, sentence-final POS)
 
@@ -199,23 +197,23 @@ published is a separate question — see the
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
 | `surface_per_lemma` | distinct forms per lemma | `distinct (lemma, form) pairs / distinct lemmas, lowercased` | at least 1 word | de Marneffe et al. (2021) Table 2 (universal morphological features) |
-| `morph_tense_past` | share of tokens tagged Tense=Past | `tokens with Tense=X / tokens with any Tense` | at least 1 token with a Tense tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
-| `morph_tense_pres` | share of tokens tagged Tense=Pres | `tokens with Tense=X / tokens with any Tense` | at least 1 token with a Tense tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
-| `morph_tense_fut` | share of tokens tagged Tense=Fut | `tokens with Tense=X / tokens with any Tense` | at least 1 token with a Tense tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
-| `morph_aspect_perf` | share of tokens tagged Aspect=Perf | `same with Aspect` | at least 1 token with an Aspect tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
-| `morph_aspect_imp` | share of tokens tagged Aspect=Imp | `same with Aspect` | at least 1 token with an Aspect tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
-| `morph_aspect_prog` | share of tokens tagged Aspect=Prog | `same with Aspect` | at least 1 token with an Aspect tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
-| `morph_case_nom` | share of tokens tagged Case=Nom | `same with Case` | at least 1 token with a Case tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
-| `morph_case_acc` | share of tokens tagged Case=Acc | `same with Case` | at least 1 token with a Case tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
-| `morph_case_dat` | share of tokens tagged Case=Dat | `same with Case` | at least 1 token with a Case tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
-| `morph_case_loc` | share of tokens tagged Case=Loc | `same with Case` | at least 1 token with a Case tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
-| `morph_case_abl` | share of tokens tagged Case=Abl | `same with Case` | at least 1 token with a Case tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
-| `morph_case_gen` | share of tokens tagged Case=Gen | `same with Case` | at least 1 token with a Case tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
-| `morph_person_1` | share of tokens tagged Person=1 | `same with Person` | at least 1 token with a Person tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
-| `morph_person_2` | share of tokens tagged Person=2 | `same with Person` | at least 1 token with a Person tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
-| `morph_person_3` | share of tokens tagged Person=3 | `same with Person` | at least 1 token with a Person tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
-| `morph_number_sing` | share of tokens tagged Number=Sing | `same with Number` | at least 1 token with a Number tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
-| `morph_number_plur` | share of tokens tagged Number=Plur | `same with Number` | at least 1 token with a Number tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
+| `morph_tense_past` | share of words tagged Tense=Past | `words with Tense=X / words with any Tense` | at least 1 word with a Tense tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
+| `morph_tense_pres` | share of words tagged Tense=Pres | `words with Tense=X / words with any Tense` | at least 1 word with a Tense tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
+| `morph_tense_fut` | share of words tagged Tense=Fut | `words with Tense=X / words with any Tense` | at least 1 word with a Tense tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
+| `morph_aspect_perf` | share of words tagged Aspect=Perf | `same with Aspect` | at least 1 word with an Aspect tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
+| `morph_aspect_imp` | share of words tagged Aspect=Imp | `same with Aspect` | at least 1 word with an Aspect tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
+| `morph_aspect_prog` | share of words tagged Aspect=Prog | `same with Aspect` | at least 1 word with an Aspect tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
+| `morph_case_nom` | share of words tagged Case=Nom | `same with Case` | at least 1 word with a Case tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
+| `morph_case_acc` | share of words tagged Case=Acc | `same with Case` | at least 1 word with a Case tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
+| `morph_case_dat` | share of words tagged Case=Dat | `same with Case` | at least 1 word with a Case tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
+| `morph_case_loc` | share of words tagged Case=Loc | `same with Case` | at least 1 word with a Case tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
+| `morph_case_abl` | share of words tagged Case=Abl | `same with Case` | at least 1 word with a Case tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
+| `morph_case_gen` | share of words tagged Case=Gen | `same with Case` | at least 1 word with a Case tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
+| `morph_person_1` | share of words tagged Person=1 | `same with Person` | at least 1 word with a Person tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
+| `morph_person_2` | share of words tagged Person=2 | `same with Person` | at least 1 word with a Person tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
+| `morph_person_3` | share of words tagged Person=3 | `same with Person` | at least 1 word with a Person tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
+| `morph_number_sing` | share of words tagged Number=Sing | `same with Number` | at least 1 word with a Number tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
+| `morph_number_plur` | share of words tagged Number=Plur | `same with Number` | at least 1 word with a Number tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
 | `morph_voice_pass` | share of passive verbs | `VERB with Voice=Pass / VERB` | at least 1 verb | de Marneffe et al. (2021) Table 2 (universal morphological features) |
 
 ## `morphological_zeyrek` — Morphological style (Zeyrek, TR only)
@@ -291,7 +289,7 @@ published is a separate question — see the
 
 ## `punctuation` — Punctuation & digits
 
-18 keys.
+19 keys.
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
@@ -306,6 +304,7 @@ published is a separate question — see the
 | `punc_paren_ratio` | parenthesis marks per word | `marks / words` | at least 1 word | — |
 | `punc_quote_ratio` | quotation mark marks per word | `marks / words` | at least 1 word | — |
 | `punc_question_ratio` | question mark marks per word | `marks / words` | at least 1 word | — |
+| `punc_total_ratio` | punctuation marks of all ten types per word | `marks / words` | at least 1 word | — |
 | `punct_density` | punctuation marks per character | `marks / characters` | non-empty text | — |
 | `punct_entropy` | variety of punctuation types | `Shannon entropy (nats) of the 10 mark types` | at least 1 punctuation mark | Shannon (1948) — the entropy formula; applying it to the distribution of punctuation types is this library's own decision |
 | `consecutive_punct_ratio` | share of marks directly next to another mark | `adjacent marks / marks` | at least 1 punctuation mark | — |

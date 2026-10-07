@@ -1,13 +1,13 @@
 """Sözcüksel temel: frekans tablosu ve klasik kelime zenginliği ölçütleri.
 
-Bu modül 35 öznitelik anahtarı üretir (`lexical` grubunun 36'sından; kalan
+Bu modül 34 öznitelik anahtarı üretir (`lexical` grubunun 35'inden; kalan
 ``n_lemma_count`` T20'de sayılır):
 
 - T04 (11): ``ttr`` · ``entropy`` · ``yule_k`` · ``simpson_d`` · ``brunet_w`` ·
   ``hapax_ratio`` · ``hapax_percentage`` · ``avg_word_length`` ·
   ``word_length_cv`` · ``sichel_s`` · ``heaps_beta``
-- T05 (11): ``mattr`` · ``entropy_std`` · ``herdan_c`` · ``mtld`` ·
-  ``dugast_u`` · ``guiraud_r`` · ``ttr_moving_slope`` · ``noun_variation`` ·
+- T05 (10): ``mattr`` · ``entropy_std`` · ``herdan_c`` · ``mtld`` ·
+  ``dugast_u`` · ``guiraud_r`` · ``noun_variation`` ·
   ``verb_variation`` · ``adj_variation`` · ``adv_variation``
 - T06 (3): ``vocd_d`` · ``hdd`` · ``msttr``
 - T07 (6): ``zipf_exponent`` · ``zipf_r2`` · ``zipf_mandelbrot_q`` ·
@@ -268,9 +268,9 @@ def heaps_beta(tokens: list[str], min_tokens: int = 300,
 
 # ── T05: pencereli ve eğri tabanlı zenginlik ──────────────────────────
 #
-# Pencere ve parça boyları (MATTR 50 kayan, entropy_std ve ttr_moving_slope
-# 50'lik ayrık parça) 2026-09-15'te geçici kabul edildi; Efe'nin notuyla
-# ileride yeniden gözden geçirilecek.
+# Pencere ve parça boyları (MATTR 50 kayan, entropy_std 50'lik ayrık parça)
+# 2026-09-15'te geçici kabul edildi; Efe'nin notuyla ileride yeniden gözden
+# geçirilecek. ttr_moving_slope 2026-10-07'de kaldırıldı (Efe: fazla karışık).
 
 
 def _hizala(lemma_tokens: list[str], pos_data: list[tuple[str, str]]) -> list[str]:
@@ -465,23 +465,6 @@ def herdan_vm(freqs: np.ndarray) -> dict[str, float]:
     ic = float(np.sum(f ** 2)) / N ** 2 - 1 / len(f)
     return {"herdan_vm": round(math.sqrt(max(ic, 0.0)), 6)}
 
-
-def ttr_moving_slope(tokens: list[str], chunk_size: int = 50) -> dict[str, float]:
-    """Ayrık ``chunk_size``'lık parçaların TTR'lerine doğrusal eğim.
-
-    Negatif = metnin sonuna doğru kelime tekrarı artıyor. Parça boyu sabit
-    (2026-09-15, Efe): plandaki "4 eşit parça" hem 4 noktadan oynak eğim
-    veriyordu hem de uzun metinde parçaları uzatıp eğimi uzunluğa bağlıyordu.
-    Sondaki eksik parça atılır; 2'den az tam parça → NaN.
-    """
-    if chunk_size <= 0:
-        raise ValueError(f"chunk_size must be positive: {chunk_size}")
-    parcalar = _parcalar(tokens, chunk_size)
-    if len(parcalar) < 2:
-        return {"ttr_moving_slope": math.nan}
-    ttrler = [len(set(p)) / len(p) for p in parcalar]
-    egim = float(np.polyfit(np.arange(len(ttrler), dtype=np.float64), ttrler, 1)[0])
-    return {"ttr_moving_slope": round(egim, 5)}
 
 
 def pos_lexical_variation(lemma_tokens: list[str],

@@ -57,9 +57,9 @@ BOS_GIRDI = dict(raw_text="", surface_tokens=[], lemma_tokens=[], pos_data=[],
                  sentences_as_tokens=[], morpheme_lists=[], morph_tags=[], lang="tr")
 
 # Sözleşme §6'dan türetilmiş beklenti — koddan ölçülmedi.
-# TR taban 212; `dep_data` verilmediği için `syntactic_dep` (16) atlanır.
-TR_DEP_SIZ = 212 - 16
-EN_DEP_SIZ = 184 - 16
+# TR taban 211; `dep_data` verilmediği için `syntactic_dep` (16) atlanır.
+TR_DEP_SIZ = 211 - 16
+EN_DEP_SIZ = 183 - 16
 
 
 # ── 🔴 registry tutarlılık testi — projenin sigortası ─────────────────
@@ -253,4 +253,20 @@ def test_varsayilan_kelime_tanimi_bosluk_birimi():
     assert oz["para_len_mean"] == 2.0
     assert oz["ttr"] == 1.0 and oz["avg_word_length"] == 6.0      # "e-posta" 7, "geldi" 5
     assert oz["punc_._ratio"] == 0.5
-    assert oz["n_lemma_count"] == 3.0                              # lemma spaCy tokenında kalır
+    # Tek kelime tanımı (2026-10-07, Efe): "E-posta" bir kelime, lemması ilk kelime
+    # tokenının ("e") lemması; etiket grupları da iki kelime sayar.
+    assert oz["n_lemma_count"] == 2.0
+
+
+def test_etiket_gruplari_varsayilan_kelimeyi_sayar():
+    """Sözcük türü kelime başına (2026-10-07, Efe): bölünen kelime ilk parçasının etiketini
+    alır, noktalama paydaya girmez, `pos_punct` yok, `punc_total_ratio` var."""
+    metin = "E-posta geldi."
+    tok = ["E", "-", "posta", "geldi", "."]
+    pos = [("E", "NOUN"), ("-", "PUNCT"), ("posta", "NOUN"), ("geldi", "VERB"), (".", "PUNCT")]
+    oz = _extract_features(raw_text=metin, surface_tokens=tok, lemma_tokens=["e", "posta", "gel"],
+                           pos_data=pos, lang="tr", groups=["pos", "syntactic", "punctuation"])
+    assert oz["pos_noun"] == 0.5 and oz["pos_verb"] == 0.5
+    assert "pos_punct" not in oz
+    assert oz["lexical_density"] == 1.0
+    assert oz["punc_total_ratio"] == 1.0                                # "-" ve "." / 2 kelime

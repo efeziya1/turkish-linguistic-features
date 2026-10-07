@@ -44,7 +44,6 @@ Aynı metin, farklı eşik, farklı sayı. Üç cümlenin biri 12 kelimeyi geçi
 | `vocd_random_seed` | 42 | `vocd_d` |
 | `heaps_min_tokens` | 300 | `heaps_beta` |
 | `heaps_step` | 50 | `heaps_beta` |
-| `ttr_slope_chunk_size` | 50 | `ttr_moving_slope` |
 | `brunet_w_a` | 0.172 | `brunet_w` |
 | `verb_suffix_window` | 50 | `verb_suffix_diversity` |
 | `short_sent_threshold` | TR **4** · EN **8** | `short_sent_ratio` |

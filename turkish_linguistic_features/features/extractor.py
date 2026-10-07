@@ -65,7 +65,6 @@ from .lexical import (
     shannon_entropy,
     simpsons_d,
     summer_s,
-    ttr_moving_slope,
     type_token_ratio,
     vocd_d,
     word_length_stats,
@@ -118,6 +117,7 @@ from .syntactic import (
     verb_distance_stats,
     word_ngram_ratios,
 )
+from .word_alignment import word_view
 
 __all__ = ["_extract_features"]
 
@@ -168,7 +168,7 @@ def _extract_features(
     Returns
     -------
     dict[str, float]
-        Anahtar → değer. Türkçe taban 208, İngilizce 180; ``dep_data``
+        Anahtar → değer. Türkçe taban 211, İngilizce 183; ``dep_data``
         verilmezse her ikisinden de 16 eksik.
 
     Raises
@@ -206,23 +206,26 @@ def _extract_features(
 
     # Varsayılan kelime tanımı (2026-10-06, Efe): boşlukla ayrılan birim, kenar noktalaması
     # atılır, harf ya da rakam içeren birim kelimedir (`kelime_birimleri`; okunabilirlik
-    # formülleriyle aynı, TOMA uzman sayımıyla 57/57 metinde birebir). Yalnız sayıya ve
-    # yazılı biçime bakan gruplar bunu okur. Sözcük türü, lemma, biçimbilim ya da bağımlılık
-    # isteyen öznitelikler spaCy tokenında kalır (`pos_data`, `lemma_tokens`): etiket o tokena bağlı.
+    # formülleriyle aynı, TOMA uzman sayımıyla 57/57 metinde birebir).
     kelimeler = kelime_birimleri(raw_text, lang)[0]
     cumle_kelimeleri = cumle_birimleri(raw_text, cumleler, lang)
+    # Tek kelime tanımı (2026-10-07, Efe): etiket isteyen öznitelikler de varsayılan kelimeyi
+    # sayar; etiket kelimenin içindeki ilk kelime tokenından gelir (`word_alignment`).
+    # Yalnız `syntactic_dep` spaCy tokenında ve ayrıştırıcı cümlesinde kalır.
+    wv = word_view(raw_text, kelimeler, surface_tokens, pos_data, lemma_tokens,
+                   morph_tags, morpheme_lists, cumleler, lang)
     # Dile göre küçük harf: `str.lower()` Türkçede "I"yı "i" yapar, "İ"ye
     # birleşik nokta (U+0307) ekler — ttr ve kelime uzunluğu kayardı.
     kucuk_kelimeler = [_kucuk_harf(tok, lang) for tok in kelimeler]
 
-    # ── lexical (36) — yüzey biçim sayar ──────────────────────────────
+    # ── lexical (35) — yüzey biçim sayar ──────────────────────────────
     if istiyor("lexical"):
         freqs, N, V, items = rank_word_freq_table(kucuk_kelimeler, lang)
         ort_uzunluk, uzunluk_cv = word_length_stats(kucuk_kelimeler)
         feats.update({
             # `lemma_tokens` zaten noktalamasız (T21). Lemma yoksa
             # "ölçüldü ve sıfır çıktı" değil, ölçülemedi (K4).
-            "n_lemma_count": float(len(set(lemma_tokens))) if lemma_tokens else math.nan,
+            "n_lemma_count": float(len(set(wv.lemmas))) if wv.lemmas else math.nan,
             "avg_word_length": ort_uzunluk,
             "word_length_cv": uzunluk_cv,
             "entropy": shannon_entropy(freqs),
@@ -241,13 +244,12 @@ def _extract_features(
         feats.update(summer_s(kucuk_kelimeler))
         feats.update(maas_a2(kucuk_kelimeler))
         feats.update(herdan_vm(freqs))
-        feats.update(ttr_moving_slope(kucuk_kelimeler, params.ttr_slope_chunk_size))
         feats.update(heaps_beta(kucuk_kelimeler, params.heaps_min_tokens, params.heaps_step))
         feats.update(rare_word_metrics(kucuk_kelimeler))
-        feats.update(pos_lexical_variation(lemma_tokens, pos_data))
+        feats.update(pos_lexical_variation(wv.lemmas, wv.pos))
         feats.update(zipf(freqs))
         feats.update(zipf_mandelbrot(freqs))
-        feats.update(reference_frequency_sophistication(lemma_tokens, pos_data, lang))
+        feats.update(reference_frequency_sophistication(wv.lemmas, wv.pos, lang))
         feats.update(vocd_d(kucuk_kelimeler, params.vocd_sample_min, params.vocd_sample_max,
                             params.vocd_num_samples, params.vocd_num_runs,
                             params.vocd_min_tokens, params.vocd_random_seed))
@@ -257,7 +259,7 @@ def _extract_features(
     # ── frequency_structure (13) — lemma sıklıkları ───────────────────
     # Birim grup içinde tek olmak zorunda: TC h-point'i kullanıyor.
     if istiyor("frequency_structure"):
-        lemma_pos = _lemma_pos(lemma_tokens, pos_data)
+        lemma_pos = _lemma_pos(wv.lemmas, wv.pos)
         lemmalar = [lem for lem, _ in lemma_pos]
         l_freqs, l_N, l_V, l_items = rank_word_freq_table(lemmalar, lang)
         h = h_point(l_freqs)
@@ -289,19 +291,19 @@ def _extract_features(
     if istiyor("paragraph"):
         feats.update(paragraph_stats(raw_text, lang))
 
-    # ── pos (13) ──────────────────────────────────────────────────────
+    # ── pos (12) ──────────────────────────────────────────────────────
     if istiyor("pos"):
-        feats.update(pos_ratios(pos_data))
+        feats.update(pos_ratios(wv.pos))
 
     # ── syntactic (9) ─────────────────────────────────────────────────
     if istiyor("syntactic"):
         feats.update(question_per_sent(cumleler))
-        feats.update(pronoun_freq(pos_data))
-        feats.update(nominal_verbal_ratio(pos_data))
-        feats.update(verb_distance_stats(pos_data))
-        feats.update(activity_ratio(pos_data))
-        feats.update(lexical_density(pos_data))
-        feats.update(pos_distribution_stats(pos_data, cumleler))
+        feats.update(pronoun_freq(wv.pos))
+        feats.update(nominal_verbal_ratio(wv.pos))
+        feats.update(verb_distance_stats(wv.pos))
+        feats.update(activity_ratio(wv.pos))
+        feats.update(lexical_density(wv.pos))
+        feats.update(pos_distribution_stats(wv.pos, wv.sentences))
 
     # ── syntactic_dep (16) — girdi yoksa atlanır ──────────────────────
     if istiyor("syntactic_dep") and dep_data is not None:
@@ -311,15 +313,15 @@ def _extract_features(
     # `morph_tags` `pos_data` ile hizalı olmak zorunda; verilmemişse grup
     # `syntactic_dep` gibi sessizce atlanır. `analyze()` yolunda `Preprocessor`
     # alanı her zaman doldurur (T21), yani taban şema bundan etkilenmez.
-    if istiyor("morphological") and morph_tags is not None:
-        feats.update(surface_per_lemma(surface_tokens, pos_data, lemma_tokens, lang))
-        feats.update(spacy_morph_ratios(morph_tags, pos_data))
+    if istiyor("morphological") and wv.morph is not None:
+        feats.update(surface_per_lemma(wv.words, wv.pos, wv.lemmas, lang))
+        feats.update(spacy_morph_ratios(wv.morph, wv.pos))
 
     # ── morphological_zeyrek (24) — yalnız Türkçe ─────────────────────
     # K11: dil şemayı belirler. İngilizcede grup hiç üretilmez; Zeyrek
     # İngilizce çözümlemiyor, kurmak bir şeyi değiştirmez.
-    if istiyor("morphological_zeyrek") and lang == "tr" and morpheme_lists is not None:
-        feats.update(zeyrek_morfoloji(morpheme_lists, pos_data, params))
+    if istiyor("morphological_zeyrek") and lang == "tr" and wv.morphemes is not None:
+        feats.update(zeyrek_morfoloji(wv.morphemes, wv.pos, params))
 
     # ── phonetic (TR 15 · EN 13) ──────────────────────────────────────
     if istiyor("phonetic"):
@@ -340,7 +342,7 @@ def _extract_features(
         else:
             feats.update(english_readability_formulas(raw_text, surface_tokens))
 
-    # ── punctuation (18) ──────────────────────────────────────────────
+    # ── punctuation (19) ──────────────────────────────────────────────
     if istiyor("punctuation"):
         feats.update(digit_ratio(raw_text))
         feats.update(punctuation_ratios(raw_text, len(kelimeler)))

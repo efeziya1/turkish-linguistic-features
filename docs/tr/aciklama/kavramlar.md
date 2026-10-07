@@ -17,7 +17,7 @@ adlar sürüm notlarında duyurulur.
 3. **Saf tanım** — `punc_,_ratio` ("virgül / kelime"). Künyesi yoktur,
    çünkü tanımlanacak bir şey yoktur.
 
-212 anahtarın 144'ünün künyesi vardır, 68'inin yoktur.
+211 anahtarın 143'ünün künyesi vardır, 68'inin yoktur.
 
 ## Grup
 
@@ -53,7 +53,7 @@ Her özniteliğin bir ölçeği vardır ve grafik kurarken bu önemlidir:
 | `length` | Birimi karakter, kelime ya da cümle olan ortalama uzunluk | `avg_word_length`, `avg_sent_len_word` |
 | `cv` | Değişim katsayısı (standart sapma / ortalama) | `sentence_length_cv` |
 | `nats` | Nat cinsinden entropi (doğal logaritma; kütüphanedeki bütün logaritmalar ln) | `entropy`, `punct_entropy` |
-| `signed` | Eksi de olabilen değer (eğim, çarpıklık) | `ttr_moving_slope`, `sent_len_skewness` |
+| `signed` | Eksi de olabilen değer (çarpıklık) | `sent_len_skewness` |
 | `count` | Sayım | `n_lemma_count` |
 
 `ratio_0_1` olan iki özniteliği aynı eksende çizebilirsiniz; `score` olanı
@@ -70,7 +70,7 @@ yüzey token · lemma · sözcük türü · bağlılık ağacı · cümle sını
    ↓  Zeyrek (yalnız Türkçe)
 ek çözümlemesi
    ↓  öznitelik çıkarıcıları
-212 sayı
+211 sayı
 ```
 
 Bunun iki sonucu var:
@@ -78,7 +78,7 @@ Bunun iki sonucu var:
 1. **spaCy modeli sonuçların parçasıdır.** Model değişirse cümle bölme,
    sözcük türü ve bağlılık öznitelikleri değişir. Hangi modeli
    kullandığınızı yöntem bölümüne yazın.
-2. **Ön işleme bir kez yapılır.** 212 özniteliğin hepsi aynı çözümlemeden
+2. **Ön işleme bir kez yapılır.** 211 özniteliğin hepsi aynı çözümlemeden
    beslenir; `groups` ile az öznitelik istemek ön işlemeyi hızlandırmaz,
    yalnız çıkarım adımını kısaltır.
 

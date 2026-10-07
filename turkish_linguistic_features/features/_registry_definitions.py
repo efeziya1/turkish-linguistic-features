@@ -30,9 +30,9 @@ __all__ = ["TERMS", "TERM_VALUES", "LANGUAGE_NAMES", "PER_LANGUAGE", "ONLY_LANGU
 TERM_VALUES: dict[str, frozenset[str]] = {
     "sentence": frozenset({"default", "kincaid", "cetinkaya", "spacy_parser", "regex_paragraph"}),
     "word": frozenset({
-        "space_unit", "space_unit_with_symbols", "pos_token", "zeyrek_analysed_token",
+        "space_unit", "space_unit_with_symbols", "pos_token", "zeyrek_analysed_word",
     }),
-    "type": frozenset({"lowercase_surface", "spacy_lemma"}),
+    "type": frozenset({"lowercase_surface", "spacy_lemma", "zeyrek_lemma"}),
     "token": frozenset({"spacy_token"}),
     "syllable": frozenset({"vowel_count", "textstat_cmudict"}),
     "polysyllable": frozenset({"3_plus_syllables"}),
@@ -58,6 +58,8 @@ TERM_VALUES: dict[str, frozenset[str]] = {
 # Dile göre değişen terimler: öznitelik tablosunda "per_language" yazar, ad buradan çözülür.
 LANGUAGE_NAMES: dict[str, dict[str, str]] = {
     "syllable": {"tr": "vowel_count", "en": "textstat_cmudict"},
+    # Türkçe lemma Zeyrek'ten, İngilizce spaCy'den (2026-10-07, Efe).
+    "type": {"tr": "zeyrek_lemma", "en": "spacy_lemma"},
 }
 PER_LANGUAGE = "per_language"
 
@@ -72,7 +74,7 @@ SENTENCE_DEFINITIONS = TERM_VALUES["sentence"]
 WORD_DEFINITIONS = TERM_VALUES["word"]
 
 _PUNC_TURLER = (",", ".", ";", "!", ":", "-", "ellipsis", "paren", "quote", "question")
-_PUNC = tuple(f"punc_{t}_ratio" for t in _PUNC_TURLER)
+_PUNC = tuple(f"punc_{t}_ratio" for t in _PUNC_TURLER) + ("punc_total_ratio",)
 _SYLLABLE_PHONETIC = (
     "syllable_mean", "syllable_cv", "syllable_1_ratio", "syllable_2_ratio", "syllable_3_ratio",
     "syllable_4_ratio", "syllable_5_ratio", "syllable_6plus_ratio",
@@ -128,14 +130,16 @@ FEATURE_SENTENCE: dict[str, str | None] = {
 }
 
 # ── sözcük ────────────────────────────────────────────────────────────
-# Varsayılan sözcük `space_unit` (2026-10-06, Efe). spaCy etiketine (POS, lemma) bağlı
-# öznitelikler `pos_token`ta, Zeyrek'e bağlılar `zeyrek_analysed_token`da kalır.
+# Tek sözcük tanımı `space_unit` (2026-10-07, Efe): etiket isteyen öznitelikler de onu sayar,
+# etiket kelimenin ilk kelime tokenından gelir. Yalnız `syntactic_dep` `pos_token`ta kalır;
+# Zeyrek öznitelikleri Zeyrek'in çözümleyebildiği kelimeleri sayar (`zeyrek_analysed_word`).
 
 _LEMMA_POS_LEXICAL = ("n_lemma_count", "noun_variation", "verb_variation", "adj_variation",
                       "adv_variation", "wordfreq_mean", "wordfreq_rare_ratio")
 
 GROUP_WORD: dict[str, str | None] = {
-    "lexical": "space_unit", "frequency_structure": "pos_token", "sentence": "space_unit",
+    "lexical": "space_unit", "frequency_structure": "space_unit", "sentence": "space_unit",
+    "pos": "space_unit", "syntactic": "space_unit", "morphological": "space_unit",
     "syntactic_dep": "pos_token", "readability": "space_unit", "custom_ngrams": "space_unit",
 }
 FEATURE_WORD: dict[str, str | None] = {
@@ -144,10 +148,10 @@ FEATURE_WORD: dict[str, str | None] = {
                             "harmony_fronting_ratio", "harmony_rounding_ratio",
                             "uppercase_ratio", "all_caps_word_ratio")),
     **_hepsi("space_unit", _SYLLABLE_PHONETIC + _PUNC),
-    **_hepsi("pos_token", _LEMMA_POS_LEXICAL + ("lexical_density", "surface_per_lemma")),
     **_hepsi("space_unit_with_symbols", ("cetinkaya_uzun", "flesch_reading_ease",
                                          "flesch_kincaid_grade", "ari")),
-    **_hepsi("zeyrek_analysed_token", _ZEYREK_WORD),
+    **_hepsi("zeyrek_analysed_word", _ZEYREK_WORD),
+    "question_per_sent": None,
 }
 
 # ── öteki terimler: (grup tablosu, öznitelik tablosu) ─────────────────
@@ -159,15 +163,10 @@ TERMS: dict[str, tuple[dict[str, str | None], dict[str, str | None]]] = {
     "sentence": (GROUP_SENTENCE, FEATURE_SENTENCE),
     "word": (GROUP_WORD, FEATURE_WORD),
     "type": (
-        {"lexical": "lowercase_surface", "frequency_structure": "spacy_lemma"},
-        {**_hepsi("spacy_lemma", _TYPE_LEMMA), "avg_word_length": None, "word_length_cv": None},
+        {"lexical": "lowercase_surface", "frequency_structure": PER_LANGUAGE},
+        {**_hepsi(PER_LANGUAGE, _TYPE_LEMMA), "avg_word_length": None, "word_length_cv": None},
     ),
-    "token": (
-        {"pos": "spacy_token", "morphological": "spacy_token"},
-        {**_hepsi("spacy_token", ("pronoun_freq", "verb_dist_mean", "verb_dist_cv", "pos_dist_std",
-                                  "pos_kl_div", "avg_sent_len_char")),
-         "surface_per_lemma": None},
-    ),
+    "token": ({}, {"avg_sent_len_char": "spacy_token"}),
     "syllable": ({}, _hepsi(PER_LANGUAGE, _SYLLABLE_PHONETIC + _SYLLABLE_READABILITY)),
     "polysyllable": ({}, _hepsi("3_plus_syllables", ("smog", "polysyllabic_word_ratio"))),
     "letter": (

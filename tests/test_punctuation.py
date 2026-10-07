@@ -60,7 +60,14 @@ def test_noktalama_orani_elle_hesap():
 
 
 def test_on_anahtar():
-    assert len(punctuation_ratios("", total_words=0)) == 10
+    """On tür + toplam (`punc_total_ratio`, 2026-10-07, Efe)."""
+    assert len(punctuation_ratios("", total_words=0)) == 11
+
+
+def test_toplam_on_turun_toplami():
+    sonuc = punctuation_ratios("Geldi, gitti... Sonra? (Hayır!)", total_words=4)
+    turler = sum(v for k, v in sonuc.items() if k != "punc_total_ratio")
+    assert sonuc["punc_total_ratio"] == round(turler, 6) == 1.5        # , … ? ( ! ) / 4
 
 
 def test_uc_nokta_tek_isaret_ve_nokta_sayilmaz():

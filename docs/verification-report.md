@@ -54,7 +54,7 @@ table as `tests/test_kaynak_esligi.py`, so the two cannot drift apart. The
 other known-value tests live in their own files.
 
 
-## Turkish — 212 keys, 237 rows
+## Turkish — 211 keys, 236 rows
 
 A key may have more than one worked example in its source; each one is its own row.
 
@@ -67,12 +67,12 @@ A key may have more than one worked example in its source; each one is its own r
 | 🔍 open — no worked example in source | 47 |
 
 
-**Not verification candidates — 142 rows.** There is no published number to look for in these.
+**Not verification candidates — 141 rows.** There is no published number to look for in these.
 
 | Status | Rows |
 |---|---|
 | ⚪ no source — plain definition | 68 |
-| ⚫ tag scheme — not a measure | 69 |
+| ⚫ tag scheme — not a measure | 68 |
 | 🔧 derivative — the application is this library's | 5 |
 
 ### Keys with a numeric comparison
@@ -173,7 +173,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `verb_dist_mean` | QUITA §6.2.1 | 🔍 |
 | `verb_dist_cv` | QUITA §6.2.1 | 🔍 |
 | `lexical_density` | Lu (2012); definition in the broad Hallidayan sense — all open-class words | 🔍 |
-| `pos_dist_std` | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 13 UD tags | 🔍 |
+| `pos_dist_std` | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 12 UD tags | 🔍 |
 | `pos_kl_div` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits | 🔍 |
 | `suffix_bigram_entropy` | Shannon (1948) — the entropy formula; Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | 🔍 |
 | `front_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
@@ -192,7 +192,7 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### Not verification candidates
 
-142 keys. The ⚪ ones are plain definitions (`punc_,_ratio`, `char_a`) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.
+141 keys. The ⚪ ones are plain definitions (`punc_,_ratio`, `char_a`) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.
 
 | Key | Source | Status |
 |---|---|---|
@@ -201,7 +201,6 @@ A key may have more than one worked example in its source; each one is its own r
 | `word_length_cv` | — | ⚪ |
 | `hapax_ratio` | — | ⚪ |
 | `entropy_std` | Shannon (1948) — the entropy formula; the standard deviation across segments is this library's own derivation | 🔧 |
-| `ttr_moving_slope` | — | ⚪ |
 | `avg_sent_len_word` | — | ⚪ |
 | `sentence_length_cv` | — | ⚪ |
 | `sent_len_skewness` | — | ⚪ |
@@ -227,7 +226,6 @@ A key may have more than one worked example in its source; each one is its own r
 | `pos_sconj` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_num` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_aux` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_punct` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `question_per_sent` | — | ⚪ |
 | `pronoun_freq` | — | ⚪ |
 | `nominal_verbal_ratio` | — | ⚪ |
@@ -302,6 +300,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `punc_paren_ratio` | — | ⚪ |
 | `punc_quote_ratio` | — | ⚪ |
 | `punc_question_ratio` | — | ⚪ |
+| `punc_total_ratio` | — | ⚪ |
 | `punct_density` | — | ⚪ |
 | `punct_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of punctuation types is this library's own decision | 🔧 |
 | `consecutive_punct_ratio` | — | ⚪ |
@@ -339,7 +338,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `char_y` | — | ⚪ |
 | `char_z` | — | ⚪ |
 
-## English — 184 keys, 201 rows
+## English — 183 keys, 200 rows
 
 A key may have more than one worked example in its source; each one is its own row.
 
@@ -352,12 +351,12 @@ A key may have more than one worked example in its source; each one is its own r
 | 🔍 open — no worked example in source | 46 |
 
 
-**Not verification candidates — 117 rows.** There is no published number to look for in these.
+**Not verification candidates — 116 rows.** There is no published number to look for in these.
 
 | Status | Rows |
 |---|---|
 | ⚪ no source — plain definition | 65 |
-| ⚫ tag scheme — not a measure | 46 |
+| ⚫ tag scheme — not a measure | 45 |
 | 🔧 derivative — the application is this library's | 6 |
 
 ### Keys with a numeric comparison
@@ -446,7 +445,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `verb_dist_mean` | QUITA §6.2.1 | 🔍 |
 | `verb_dist_cv` | QUITA §6.2.1 | 🔍 |
 | `lexical_density` | Lu (2012); definition in the broad Hallidayan sense — all open-class words | 🔍 |
-| `pos_dist_std` | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 13 UD tags | 🔍 |
+| `pos_dist_std` | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 12 UD tags | 🔍 |
 | `pos_kl_div` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits | 🔍 |
 | `front_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `back_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
@@ -464,7 +463,7 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### Not verification candidates
 
-117 keys. The ⚪ ones are plain definitions (`punc_,_ratio`, `char_a`) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.
+116 keys. The ⚪ ones are plain definitions (`punc_,_ratio`, `char_a`) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.
 
 | Key | Source | Status |
 |---|---|---|
@@ -473,7 +472,6 @@ A key may have more than one worked example in its source; each one is its own r
 | `word_length_cv` | — | ⚪ |
 | `hapax_ratio` | — | ⚪ |
 | `entropy_std` | Shannon (1948) — the entropy formula; the standard deviation across segments is this library's own derivation | 🔧 |
-| `ttr_moving_slope` | — | ⚪ |
 | `avg_sent_len_word` | — | ⚪ |
 | `sentence_length_cv` | — | ⚪ |
 | `sent_len_skewness` | — | ⚪ |
@@ -499,7 +497,6 @@ A key may have more than one worked example in its source; each one is its own r
 | `pos_sconj` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_num` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_aux` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_punct` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `question_per_sent` | — | ⚪ |
 | `pronoun_freq` | — | ⚪ |
 | `nominal_verbal_ratio` | — | ⚪ |
@@ -552,6 +549,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `punc_paren_ratio` | — | ⚪ |
 | `punc_quote_ratio` | — | ⚪ |
 | `punc_question_ratio` | — | ⚪ |
+| `punc_total_ratio` | — | ⚪ |
 | `punct_density` | — | ⚪ |
 | `punct_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of punctuation types is this library's own decision | 🔧 |
 | `consecutive_punct_ratio` | — | ⚪ |

@@ -6,7 +6,7 @@ döndürür: ne ölçtüğü, nasıl hesaplandığı, hangi ölçekte olduğu, h
 kadar metin gerektirdiği ve künyesi. Kullanıcı üç ayrı sözlüğe bakmak zorunda
 kalmasın diye tek giriş noktası budur.
 
-Taban şema **TR 212 · EN 184**: 187 statik anahtardan dile özgü olanlar + dile
+Taban şema **TR 211 · EN 183**: 186 statik anahtardan dile özgü olanlar + dile
 göre 26–29 ``char_*``.
 ``custom_ngrams`` istenmedikçe anahtar üretmez, bu yüzden toplama girmez.
 14 grup = 12 statik + 2 dinamik.
@@ -68,7 +68,7 @@ STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
         'n_lemma_count', 'avg_word_length', 'word_length_cv', 'ttr', 'mattr', 'entropy_std',
         'herdan_c', 'sichel_s', 'zipf_exponent', 'zipf_r2', 'zipf_mandelbrot_q',
         'zipf_mandelbrot_s', 'mtld', 'dugast_u', 'guiraud_r', 'cttr', 'summer_s', 'maas_a2',
-        'herdan_vm', 'ttr_moving_slope', 'heaps_beta',
+        'herdan_vm', 'heaps_beta',
         'entropy', 'yule_k', 'simpson_d', 'brunet_w', 'hapax_ratio', 'hapax_percentage',
         'vocd_d', 'hdd', 'msttr', 'noun_variation', 'verb_variation', 'adj_variation',
         'adv_variation', 'wordfreq_mean', 'wordfreq_rare_ratio',
@@ -88,7 +88,7 @@ STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
     ),
     "pos": (
         'pos_noun', 'pos_propn', 'pos_verb', 'pos_adj', 'pos_adv', 'pos_det', 'pos_adp',
-        'pos_aux', 'pos_cconj', 'pos_sconj', 'pos_num', 'pos_intj', 'pos_punct',
+        'pos_aux', 'pos_cconj', 'pos_sconj', 'pos_num', 'pos_intj',
     ),
     "syntactic": (
         'question_per_sent', 'pronoun_freq', 'nominal_verbal_ratio', 'verb_dist_mean',
@@ -131,7 +131,8 @@ STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
     "punctuation": (
         'digit_vs_all', 'punc_,_ratio', 'punc_._ratio', 'punc_;_ratio', 'punc_!_ratio',
         'punc_:_ratio', 'punc_-_ratio', 'punc_ellipsis_ratio', 'punc_paren_ratio',
-        'punc_quote_ratio', 'punc_question_ratio', 'punct_density', 'punct_entropy',
+        'punc_quote_ratio', 'punc_question_ratio', 'punc_total_ratio', 'punct_density',
+        'punct_entropy',
         'consecutive_punct_ratio', 'whitespace_ratio', 'punct_variety', 'uppercase_ratio',
         'all_caps_word_ratio',
     ),
@@ -199,7 +200,6 @@ FEATURE_SCALES: dict[str, str] = {
     "word_length_cv": "cv",
     "entropy": "nats",
     "entropy_std": "nats",
-    "ttr_moving_slope": "signed",
     "yule_k": "score",
     "brunet_w": "score",
     "mtld": "score",
@@ -280,7 +280,6 @@ FEATURE_PARAMS: dict[str, tuple[str, ...]] = {
                "vocd_num_runs", "vocd_min_tokens", "vocd_random_seed"),
     "brunet_w": ("brunet_w_a",),
     "heaps_beta": ("heaps_min_tokens", "heaps_step"),
-    "ttr_moving_slope": ("ttr_slope_chunk_size",),
     "verb_suffix_diversity": ("verb_suffix_window",),
     "short_sent_ratio": ("short_sent_threshold",),
     "long_sent_ratio": ("long_sent_threshold",),
@@ -410,7 +409,7 @@ def describe_feature(key: str, lang: str | None = None) -> dict:
     'mean TTR of every sliding window of mattr_window words'
     >>> describe_feature("mattr")["requires"]
     'at least 100 words (2 x mattr_window)'
-    >>> describe_feature("ttr_moving_slope")["citation"] is None
+    >>> describe_feature("hapax_ratio")["citation"] is None
     True
     """
     grup = get_group(key)                      # KeyError'ı o fırlatır

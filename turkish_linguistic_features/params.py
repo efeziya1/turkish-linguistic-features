@@ -28,7 +28,6 @@ class FeatureParams:
     vocd_random_seed: int = 42
     heaps_min_tokens: int = 300
     heaps_step: int = 50
-    ttr_slope_chunk_size: int = 50   # ayrık parça boyu (2026-09-15, Efe)
     # Brunet's W üs sabiti. Kademe C — Tweedie & Baayen (1998),
     # Computers and the Humanities 32(5):323-352, denklem (10).
     # Bazı ikincil kaynaklar 0.165 veriyor; tartışmalı olduğu için

@@ -92,9 +92,9 @@ Bir dış etiket şemasının kategorisini sayan anahtarların künyesi ise `Non
 değildir, şemayı gösterir (`morph_case_loc` → UD; `case_loc_ratio` →
 Zeyrek).
 
-Türkçedeki 212 anahtarın **68'inin** künyesi yoktur: 29'u harf sıklık
-vektörü (Türkçe alfabenin her harfi için bir anahtar), 17'si noktalama
-oranı, 22'si uzunluk ve dağılım gibi başka saf tanımlar.
+Türkçedeki 211 anahtarın **68'inin** künyesi yoktur: 29'u harf sıklık
+vektörü (Türkçe alfabenin her harfi için bir anahtar), 18'i noktalama ve
+büyük harf oranı, 21'i uzunluk ve dağılım gibi başka saf tanımlar.
 
 ## Yöntem bölümüne yazarken
 

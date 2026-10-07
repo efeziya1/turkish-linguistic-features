@@ -48,7 +48,7 @@ def test_vocab_hicbir_sey_import_etmez():
 
 
 def test_vocab_sozlesme_sabitleri():
-    assert len(POS_TAGS) == 13 and "PRON" not in POS_TAGS
+    assert len(POS_TAGS) == 12 and "PRON" not in POS_TAGS and "PUNCT" not in POS_TAGS
     assert NOUN_POS == ("NOUN", "PROPN")
     assert LEXICAL_POS == ("NOUN", "PROPN", "VERB", "ADJ", "ADV")   # Ure 1971, Lu 2012
     assert THEMATIC_POS == ("NOUN", "PROPN", "VERB", "ADJ")         # QUITA, zarf yok
@@ -60,8 +60,8 @@ def test_vocab_sozlesme_sabitleri():
 # ── POS oranları ve ızgara ────────────────────────────────────────────
 
 
-def test_pos_oranlari_13_anahtar():
-    assert len(pos_ratios([("a", "NOUN")])) == 13
+def test_pos_oranlari_12_anahtar():
+    assert len(pos_ratios([("a", "NOUN")])) == 12
 
 
 def test_pos_orani_elle():
@@ -151,9 +151,9 @@ def test_lexical_density_nominal_verbal_ratio_ile_bagimsiz():
 
 
 def test_pos_dist_std_elle():
-    """Hepsi NOUN → 13'lük oran vektörü [1, 0×12] → std = √12 / 13."""
+    """Hepsi NOUN → 12'lik oran vektörü [1, 0×11] → std = √11 / 12."""
     pos = [("a", "NOUN")] * 4
-    assert pos_distribution_stats(pos, [["a"] * 4])["pos_dist_std"] == 0.26647
+    assert pos_distribution_stats(pos, [["a"] * 4])["pos_dist_std"] == 0.27639
 
 
 def test_pos_kl_div_elle():

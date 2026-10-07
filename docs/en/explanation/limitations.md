@@ -43,17 +43,20 @@ present it as though you read the primary.
 
 ### 3. The spaCy model is part of the result
 
-POS tags, lemmas, morphological tags and the dependency features (with the
-parser's own sentences) come from the model. Change the model and those
-numbers change.
+POS tags, morphological tags, English lemmas and the dependency features
+(with the parser's own sentences) come from the model. Change the model and
+those numbers change. Turkish lemmas come from Zeyrek (§4).
 
 Word and sentence counts do not use the model's labels. The default word is a
 whitespace-separated unit with edge punctuation stripped; the default sentence
-rule reads sentence-ending marks from the model's tokenizer. Features that need
-a label per word (POS, lemma, morphology, dependency) count the model's tokens
-instead, so two word definitions coexist: `e-posta` is one word in `ttr` and two
-tokens in `lexical_density`. `describe_feature(key)["definitions"]["word"]`
-names the one each feature uses.
+rule reads sentence-ending marks from the model's tokenizer. Every feature
+except the dependency features counts this word. Features that need a label
+per word (POS, lemma, morphology) take it from the first word token inside the
+word: the model splits `Türk-Amerikan` or English `it's` into several tokens,
+and the word carries the first part's label (`Türk`, `it`). This happens to
+0.3% of the words in Turkish newspaper columns and 2.7% in English ones. The
+dependency features count the model's tokens.
+`describe_feature(key)["definitions"]["word"]` names the word each feature uses.
 
 Verified combination: spaCy 3.8.16, `en_core_web_sm` 3.8.0,
 `tr_core_news_md` 1.0.
@@ -65,9 +68,10 @@ harmless.
 
 ### 4. Turkish morphology depends on Zeyrek
 
-The 24 features in the `morphological_zeyrek` group come from Zeyrek, a
-Python port of Zemberek's morphotactics. A word Zeyrek cannot analyse drops
-out of those features.
+The 24 features in the `morphological_zeyrek` group and the Turkish lemmas
+come from Zeyrek, a Python port of Zemberek's morphotactics. A word Zeyrek
+cannot analyse drops out of the Zeyrek features; its lemma is the part before
+its apostrophe (`Pittsburgh'tan` → `pittsburgh`).
 
 Zeyrek is an **analyser, not a disambiguator**: it can return several
 analyses for the same surface form and does not pick the right one from

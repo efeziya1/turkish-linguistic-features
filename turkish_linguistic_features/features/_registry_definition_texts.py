@@ -33,13 +33,16 @@ DEFINITION_INFO: dict[tuple[str, str], tuple[str, str]] = {
         "space_unit plus pieces made only of listed symbols (% $ + …)."),
     ("word", "pos_token"): ("tlf",
         "A spaCy token whose POS tag is not PUNCT or SYM; numbers count."),
-    ("word", "zeyrek_analysed_token"): ("zeyrek",
-        "A pos_token that Zeyrek can analyse; the first analysis is used."),
+    ("word", "zeyrek_analysed_word"): ("zeyrek",
+        "A space_unit that Zeyrek can analyse; the first analysis is used."),
     # ── type ──
     ("type", "lowercase_surface"): ("tlf",
         "The word string lowercased by language (Turkish I→ı, İ→i); inflected forms are separate types."),
     ("type", "spacy_lemma"): ("spacy",
-        "The lemma given by the spaCy model, lowercased."),
+        "The lemma the spaCy model gives the word's first non-punctuation token, lowercased."),
+    ("type", "zeyrek_lemma"): ("zeyrek",
+        "Dictionary entry of Zeyrek's first analysis, lowercased, verbs without -mak/-mek; "
+        "unanalysed words keep the part before the apostrophe."),
     # ── token ──
     ("token", "spacy_token"): ("spacy",
         "Every spaCy token except whitespace; punctuation and numbers count."),
@@ -78,23 +81,24 @@ DEFINITION_INFO: dict[tuple[str, str], tuple[str, str]] = {
         "One of ten mark types (, . ; ! : dash … parentheses quotes ?); three dots are one ellipsis."),
     # ── POS-derived sets ──
     ("noun", "noun_propn"): ("tlf",
-        "A token tagged NOUN or PROPN by spaCy."),
+        "A word tagged NOUN or PROPN by spaCy."),
     ("verb", "verb_only"): ("tlf",
-        "A token tagged VERB by spaCy; AUX is not counted."),
+        "A word tagged VERB by spaCy; AUX is not counted."),
     ("verb", "zeyrek_final_type_verb"): ("zeyrek",
         "A word whose last type in Zeyrek's analysis is Verb."),
     ("lexical_word", "noun_propn_verb_adj_adv"): ("tlf",
-        "A token tagged NOUN, PROPN, VERB, ADJ or ADV by spaCy."),
+        "A word tagged NOUN, PROPN, VERB, ADJ or ADV by spaCy."),
     ("content_word", "noun_propn_verb_adj"): ("tlf",
-        "A token tagged NOUN, PROPN, VERB or ADJ by spaCy."),
+        "A word tagged NOUN, PROPN, VERB or ADJ by spaCy."),
     # ── suffix ──
     ("suffix", "zeyrek_visible_suffix"): ("zeyrek",
         "A suffix in Zeyrek's analysis with a non-empty surface string."),
     # ── model outputs used directly ──
     ("pos_tag", "spacy_upos"): ("spacy",
-        "The universal POS tag assigned by the spaCy model."),
+        "The universal POS tag the spaCy model gives the word's first non-punctuation token."),
     ("morph_feature", "spacy_morph"): ("spacy",
-        "The Universal Dependencies features (Tense, Case …) assigned by the spaCy model."),
+        "Universal Dependencies features (Tense, Case …) of the word's first non-punctuation token, "
+        "from the spaCy model."),
     ("dependency", "spacy_head"): ("spacy",
         "Head of each token in the spaCy parser's tree; arc length in word positions, "
         "depth in steps to the root."),

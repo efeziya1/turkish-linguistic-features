@@ -2,7 +2,7 @@
 
 Bu modül iki grubun anahtarlarını üretir:
 
-- ``punctuation`` (18): ``digit_vs_all``, 10 × ``punc_*_ratio``, ``punct_density``,
+- ``punctuation`` (19): ``digit_vs_all``, 10 × ``punc_*_ratio``, ``punc_total_ratio``, ``punct_density``,
   ``punct_entropy``, ``consecutive_punct_ratio``, ``whitespace_ratio``,
   ``punct_variety``, ``uppercase_ratio``, ``all_caps_word_ratio``
 - ``chars`` (dinamik): ``char_{harf}`` — TR 29, EN 26
@@ -78,15 +78,18 @@ def _entropy_nats(sayimlar: Counter) -> float:
 
 
 def punctuation_ratios(text: str, total_words: int) -> dict[str, float]:
-    """10 noktalama türünün kelime başına sıklığı: ``işaret sayısı / total_words``.
+    """10 noktalama türünün kelime başına sıklığı ve toplamı (``punc_total_ratio``).
 
     ``punc_-_ratio`` üç tireyi (``- – —``), ``punc_quote_ratio`` bütün tırnak
     biçimlerini, ``punc_paren_ratio`` iki parantezi ayrı ayrı sayar. Kelime yoksa NaN.
     """
     if total_words <= 0:
-        return {f"punc_{t}_ratio": math.nan for t in _TURLER}
+        return {**{f"punc_{t}_ratio": math.nan for t in _TURLER}, "punc_total_ratio": math.nan}
     say = Counter(tur for _, _, tur in _isaretler(text))
-    return {f"punc_{t}_ratio": round(say.get(t, 0) / total_words, 6) for t in _TURLER}
+    oranlar = {f"punc_{t}_ratio": round(say.get(t, 0) / total_words, 6) for t in _TURLER}
+    # Bütün işaretler / kelime (2026-10-07, Efe): `pos_punct`'ın yerini aldı.
+    oranlar["punc_total_ratio"] = round(sum(say.values()) / total_words, 6)
+    return oranlar
 
 
 # ── karakter düzeyi oranlar ───────────────────────────────────────────

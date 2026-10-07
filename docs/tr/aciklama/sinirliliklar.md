@@ -41,17 +41,21 @@ göstermeyin.
 
 ### 3. spaCy modeli sonuçların parçası
 
-Sözcük türü, lemma, biçimbilim etiketleri ve bağlılık öznitelikleri
-(ayrıştırıcının kendi cümleleriyle) modelden gelir. Model değişirse bu
-sayılar değişir.
+Sözcük türü, biçimbilim etiketleri, İngilizce lemmalar ve bağlılık
+öznitelikleri (ayrıştırıcının kendi cümleleriyle) modelden gelir. Model
+değişirse bu sayılar değişir. Türkçe lemmalar Zeyrek'ten gelir (§4).
 
 Kelime ve cümle sayımı modelin etiketlerini kullanmaz. Varsayılan kelime,
 boşlukla ayrılan ve kenar noktalaması atılan birimdir; varsayılan cümle
-kuralı cümle bitiren işaretleri modelin tokenizer'ından okur. Kelime başına
-etiket isteyen öznitelikler (sözcük türü, lemma, biçimbilim, bağlılık) ise
-modelin tokenlarını sayar; yani iki kelime tanımı yan yana durur: `e-posta`
-`ttr`'de tek kelime, `lexical_density`'de iki tokendir. Hangi özniteliğin
-hangisini kullandığını `describe_feature(key)["definitions"]["word"]` söyler.
+kuralı cümle bitiren işaretleri modelin tokenizer'ından okur. Bağlılık
+öznitelikleri dışında her öznitelik bu kelimeyi sayar. Kelime başına etiket
+isteyen öznitelikler (sözcük türü, lemma, biçimbilim) etiketi kelimenin
+içindeki ilk kelime tokenından alır: model `Türk-Amerikan`'ı ya da İngilizce
+`it's`'i birden çok tokena böler, kelime ilk parçanın etiketini taşır
+(`Türk`, `it`). Bu, Türkçe köşe yazılarında kelimelerin %0,3'ünde,
+İngilizcelerde %2,7'sinde olur. Bağlılık öznitelikleri modelin tokenlarını
+sayar. Hangi özniteliğin hangi kelimeyi kullandığını
+`describe_feature(key)["definitions"]["word"]` söyler.
 
 Doğrulanmış kombinasyon: spaCy 3.8.16, `en_core_web_sm` 3.8.0,
 `tr_core_news_md` 1.0.
@@ -62,9 +66,10 @@ anlatılıyor; ikisi de zararsız.
 
 ### 4. Türkçe morfoloji Zeyrek'e bağlı
 
-`morphological_zeyrek` grubundaki 24 öznitelik Zeyrek'ten gelir — Zemberek
-morfotaktiğinin Python aktarımı. Zeyrek'in çözümleyemediği bir kelime
-öznitelikten düşer.
+`morphological_zeyrek` grubundaki 24 öznitelik ve Türkçe lemmalar Zeyrek'ten
+gelir — Zemberek morfotaktiğinin Python aktarımı. Zeyrek'in çözümleyemediği bir
+kelime Zeyrek özniteliklerinden düşer; lemması kesme işaretinden önceki kısmı
+olur (`Pittsburgh'tan` → `pittsburgh`).
 
 Zeyrek bir **çözümleyicidir, belirsizlik gidericisi değildir**: aynı yüzey
 biçimi için birden çok çözümleme dönebilir ve bağlama bakarak doğrusunu

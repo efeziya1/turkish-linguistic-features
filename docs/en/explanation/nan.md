@@ -20,10 +20,10 @@ len(short), len(nans)
 ```
 
 ```text
-(184, 42)
+(183, 41)
 ```
 
-**42 of 184** features are `nan`. Examples:
+**41 of 183** features are `nan`. Examples:
 
 ```text
 ['dugast_u', 'entropy_std', 'hdd', 'heaps_beta', 'mattr',
@@ -55,9 +55,9 @@ tlf.describe_feature("mattr")["requires"]
 
 A **word** here is the library's default word: a whitespace-separated unit
 with edge punctuation stripped that contains a letter or digit (`e-posta`,
-`%50` and numbers are one word each). Features that need a POS tag or lemma
-count spaCy tokens that are not punctuation or symbols instead;
-`describe_feature(key)["definitions"]["word"]` says which. `segment_text`'s `size`, by contrast, counts punctuation too:
+`%50` and numbers are one word each). Every feature except the dependency
+features counts this word; `describe_feature(key)["definitions"]["word"]` says
+which. `segment_text`'s `size`, by contrast, counts punctuation too:
 a 100-token segment is about 83 words and may fall short of a 100-word minimum.
 
 Below the minimum you get `nan`. Some minimums come from the source
@@ -145,7 +145,7 @@ segmenting:
 rows = tlf.analyze_corpus("corpus/", lang="en", segment_size=1000)
 ```
 
-1000-token segments feed nearly all 212 features. See
+1000-token segments feed nearly all 211 features. See
 [Split a text into segments](../how-to/segmenting.md).
 
 ## Why `nan` and not `None`

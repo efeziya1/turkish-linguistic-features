@@ -19,14 +19,23 @@
   written form switch to it: sentence lengths (7), paragraph lengths (3), syllable features (10),
   vowel harmony (2), punctuation per word (10), capitalisation (2), surface-form lexical richness
   (`ttr`, `mtld`, `yule_k`, `avg_word_length` … 26) and `custom_ngrams`. Features that need a
-  spaCy or Zeyrek label per word (POS, lemma, morphology, dependency) keep the spaCy token
-  (`pos_token`). `describe_feature(key)["definitions"]["word"]` says which one a feature uses; the
+  label per word followed on 2026-10-07 (next item). `describe_feature(key)["definitions"]["word"]`
+  says which word a feature uses; the
   word names `alnum_token`, `letter_token`, `syllabifiable_token`, `space_split` and the word sense
   of `spacy_token` are gone. On TOMA 57 features change; most move under 1% (median), texts with
   Ottoman izafet (`ulüvv-i`, which spaCy split into a separate one-syllable word `i`) move most,
   up to 36% in `syllable_1_ratio`. The verification reports do not change (46 ✅ + 2 🟡). The
   internal token-based syllable helpers (`phonetic.toplam_hece` and its helpers) and the unused
   `okunus.sembol_oku` were removed; `phonetic.birim_hecesi` is the one syllable counter.
+- One word definition for every feature except the dependency group (decided 2026-10-07). The
+  POS, syntactic, morphological and Zeyrek features, the lemma-based lexical features
+  (`n_lemma_count`, `*_variation`, `wordfreq_*`) and `frequency_structure` now count the default
+  word (`space_unit`) instead of the spaCy token. A word takes its POS tag, morphological tags,
+  lemma and Zeyrek analysis from the first token inside it that is not punctuation; the model
+  splits 0.3% of Turkish and 2.7% of English words (Turkish `Türk-Amerikan`, `4-5`; English
+  `it's`, `don't`), and these take their first part's labels. Punctuation no longer enters the
+  denominators of the `pos_*` shares and `pronoun_freq`, and `verb_dist_*` measure distances in
+  words. `syntactic_dep` keeps the spaCy token and the parser's sentences.
 - Turkish lemmas now come from Zeyrek instead of spaCy (decided 2026-10-07): the dictionary entry
   of Zeyrek's first analysis, lowercased, without the infinitive `-mak/-mek`; circumflexes stay
   as in Zeyrek's dictionary (`millî`). A word Zeyrek cannot analyse keeps the part before its
@@ -66,6 +75,8 @@
 
 ### Added
 
+- `punc_total_ratio` in the `punctuation` group (decided 2026-10-07): punctuation marks of
+  all ten types per word, the sum of the ten `punc_*_ratio` keys. Replaces `pos_punct`.
 - Four lexical richness measures in the `lexical` group (TR 208 → 212 keys, EN 180 → 184):
   `cttr` (Carroll's corrected TTR, V/√(2N)), `summer_s` (Summer's S, ln(ln V)/ln(ln N)),
   `maas_a2` (Maas' a², (ln N − ln V)/(ln N)²) and `herdan_vm` (Herdan's Vm,
@@ -156,6 +167,14 @@
 
 ### Removed
 
+- `pos_punct` (decided 2026-10-07): with POS shares counted per word there is no punctuation
+  token left to count. The punctuation group now has `punc_total_ratio` (see Added) in its place;
+  the `pos` group has 12 keys, `punctuation` 19. The verification reports' verified rows do not
+  change.
+- `ttr_moving_slope` and its parameter `FeatureParams.ttr_slope_chunk_size` (decided 2026-10-07):
+  the slope of TTR over disjoint chunks was hard to read and had no source. Keys: TR 212 → 211,
+  EN 184 → 183; `lexical` 36 → 35. Passing `ttr_slope_chunk_size` to `FeatureParams` now
+  raises `TypeError`.
 - The undocumented `LINGUISTIC_FEATURES_NO_ZEYREK_WARMUP` environment variable.
   The Zeyrek warm-up now always runs on import: skipping it and then analysing
   Turkish in the same process could crash on Windows.

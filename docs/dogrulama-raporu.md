@@ -49,7 +49,7 @@ karşılaştırma tablosunu okur, yani ikisi ayrışamaz. Diğer bilinen-değer
 testleri kendi dosyalarında duruyor.
 
 
-## Türkçe — 212 anahtar, 237 satır
+## Türkçe — 211 anahtar, 236 satır
 
 Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
@@ -62,12 +62,12 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | 🔍 açık — kaynakta sayısal örnek yok | 47 |
 
 
-**Doğrulama adayı olmayan — 142 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
+**Doğrulama adayı olmayan — 141 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
 
 | Durum | Satır sayısı |
 |---|---|
 | ⚪ kaynak yok — saf tanım | 68 |
-| ⚫ etiket şeması — ölçü değil | 69 |
+| ⚫ etiket şeması — ölçü değil | 68 |
 | 🔧 türev — uygulaması bu kütüphaneye ait | 5 |
 
 ### Sayısal karşılaştırması olanlar
@@ -168,7 +168,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `verb_dist_mean` | QUITA §6.2.1 | 🔍 |
 | `verb_dist_cv` | QUITA §6.2.1 | 🔍 |
 | `lexical_density` | Lu (2012); definition in the broad Hallidayan sense — all open-class words | 🔍 |
-| `pos_dist_std` | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 13 UD tags | 🔍 |
+| `pos_dist_std` | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 12 UD tags | 🔍 |
 | `pos_kl_div` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits | 🔍 |
 | `suffix_bigram_entropy` | Shannon (1948) — the entropy formula; Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | 🔍 |
 | `front_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
@@ -187,7 +187,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 ### Doğrulama adayı olmayanlar
 
-142 anahtar. ⚪ olanlar saf tanım (`punc_,_ratio`, `char_a`) — adlandırılmış bir literatür ölçüsü değil. ⚫ olanlar bir ölçü değil, dış bir etiket şemasının kategorisini sayıyor; şema kategori tanımlar, ölçüm yayımlamaz. 🔧 olanların formülü bir kaynaktan gelir ama uygulaması bu kütüphaneye aittir. Üçünde de aranacak bir sayı yok.
+141 anahtar. ⚪ olanlar saf tanım (`punc_,_ratio`, `char_a`) — adlandırılmış bir literatür ölçüsü değil. ⚫ olanlar bir ölçü değil, dış bir etiket şemasının kategorisini sayıyor; şema kategori tanımlar, ölçüm yayımlamaz. 🔧 olanların formülü bir kaynaktan gelir ama uygulaması bu kütüphaneye aittir. Üçünde de aranacak bir sayı yok.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
@@ -196,7 +196,6 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `word_length_cv` | — | ⚪ |
 | `hapax_ratio` | — | ⚪ |
 | `entropy_std` | Shannon (1948) — the entropy formula; the standard deviation across segments is this library's own derivation | 🔧 |
-| `ttr_moving_slope` | — | ⚪ |
 | `avg_sent_len_word` | — | ⚪ |
 | `sentence_length_cv` | — | ⚪ |
 | `sent_len_skewness` | — | ⚪ |
@@ -222,7 +221,6 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `pos_sconj` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_num` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_aux` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_punct` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `question_per_sent` | — | ⚪ |
 | `pronoun_freq` | — | ⚪ |
 | `nominal_verbal_ratio` | — | ⚪ |
@@ -297,6 +295,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `punc_paren_ratio` | — | ⚪ |
 | `punc_quote_ratio` | — | ⚪ |
 | `punc_question_ratio` | — | ⚪ |
+| `punc_total_ratio` | — | ⚪ |
 | `punct_density` | — | ⚪ |
 | `punct_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of punctuation types is this library's own decision | 🔧 |
 | `consecutive_punct_ratio` | — | ⚪ |
@@ -334,7 +333,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `char_y` | — | ⚪ |
 | `char_z` | — | ⚪ |
 
-## İngilizce — 184 anahtar, 201 satır
+## İngilizce — 183 anahtar, 200 satır
 
 Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
@@ -347,12 +346,12 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | 🔍 açık — kaynakta sayısal örnek yok | 46 |
 
 
-**Doğrulama adayı olmayan — 117 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
+**Doğrulama adayı olmayan — 116 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
 
 | Durum | Satır sayısı |
 |---|---|
 | ⚪ kaynak yok — saf tanım | 65 |
-| ⚫ etiket şeması — ölçü değil | 46 |
+| ⚫ etiket şeması — ölçü değil | 45 |
 | 🔧 türev — uygulaması bu kütüphaneye ait | 6 |
 
 ### Sayısal karşılaştırması olanlar
@@ -441,7 +440,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `verb_dist_mean` | QUITA §6.2.1 | 🔍 |
 | `verb_dist_cv` | QUITA §6.2.1 | 🔍 |
 | `lexical_density` | Lu (2012); definition in the broad Hallidayan sense — all open-class words | 🔍 |
-| `pos_dist_std` | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 13 UD tags | 🔍 |
+| `pos_dist_std` | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 12 UD tags | 🔍 |
 | `pos_kl_div` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits | 🔍 |
 | `front_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `back_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
@@ -459,7 +458,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 ### Doğrulama adayı olmayanlar
 
-117 anahtar. ⚪ olanlar saf tanım (`punc_,_ratio`, `char_a`) — adlandırılmış bir literatür ölçüsü değil. ⚫ olanlar bir ölçü değil, dış bir etiket şemasının kategorisini sayıyor; şema kategori tanımlar, ölçüm yayımlamaz. 🔧 olanların formülü bir kaynaktan gelir ama uygulaması bu kütüphaneye aittir. Üçünde de aranacak bir sayı yok.
+116 anahtar. ⚪ olanlar saf tanım (`punc_,_ratio`, `char_a`) — adlandırılmış bir literatür ölçüsü değil. ⚫ olanlar bir ölçü değil, dış bir etiket şemasının kategorisini sayıyor; şema kategori tanımlar, ölçüm yayımlamaz. 🔧 olanların formülü bir kaynaktan gelir ama uygulaması bu kütüphaneye aittir. Üçünde de aranacak bir sayı yok.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
@@ -468,7 +467,6 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `word_length_cv` | — | ⚪ |
 | `hapax_ratio` | — | ⚪ |
 | `entropy_std` | Shannon (1948) — the entropy formula; the standard deviation across segments is this library's own derivation | 🔧 |
-| `ttr_moving_slope` | — | ⚪ |
 | `avg_sent_len_word` | — | ⚪ |
 | `sentence_length_cv` | — | ⚪ |
 | `sent_len_skewness` | — | ⚪ |
@@ -494,7 +492,6 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `pos_sconj` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_num` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_aux` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_punct` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `question_per_sent` | — | ⚪ |
 | `pronoun_freq` | — | ⚪ |
 | `nominal_verbal_ratio` | — | ⚪ |
@@ -547,6 +544,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `punc_paren_ratio` | — | ⚪ |
 | `punc_quote_ratio` | — | ⚪ |
 | `punc_question_ratio` | — | ⚪ |
+| `punc_total_ratio` | — | ⚪ |
 | `punct_density` | — | ⚪ |
 | `punct_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of punctuation types is this library's own decision | 🔧 |
 | `consecutive_punct_ratio` | — | ⚪ |

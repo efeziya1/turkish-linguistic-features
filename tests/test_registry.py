@@ -46,8 +46,8 @@ def test_grup_sayilari():
 
 
 def test_statik_anahtar_sayisi():
-    """Sözleşme §4 toplamı: 183 statik anahtar (TR 208, EN 180 dinamikle)."""
-    assert len(TUM_STATIK) == 187
+    """Statik anahtar sayısı (TR 211, EN 183 dinamikle)."""
+    assert len(TUM_STATIK) == 186
 
 
 def test_anahtarlar_gruplar_arasi_tekrarlanmaz():
@@ -172,7 +172,7 @@ def test_describe_literatur_olcusu_degilse_citation_none():
     ``None`` ölçünün bize ait olduğunu **söylemez**; yalnız adlandırılmış bir
     literatür ölçüsü olmadığını söyler (2026-09-19, Efe).
     """
-    assert describe_feature("ttr_moving_slope")["citation"] is None
+    assert describe_feature("hapax_ratio")["citation"] is None
 
 
 def test_describe_ayarlanamayan_ozellik_bos_params():
@@ -331,7 +331,7 @@ def test_describe_feature_tam_kaydi_dondurur():
 
 
 def test_citation_yoksa_references_bos():
-    d = describe_feature("ttr_moving_slope")
+    d = describe_feature("hapax_ratio")
     assert d["citation"] is None
     assert d["references"] == ()
 
@@ -454,11 +454,12 @@ def test_definitions_formulde_gecen_terim_kayitli(anahtar):
     ("lix", {"sentence": "default", "word": "space_unit", "letter": "unicode_letter",
              "long_word": "7_plus_letters"}),
     ("ttr", {"word": "space_unit", "type": "lowercase_surface"}),
-    ("n_lemma_count", {"word": "pos_token", "type": "spacy_lemma"}),
-    ("pos_noun", {"token": "spacy_token", "pos_tag": "spacy_upos"}),
-    ("morph_case_acc", {"token": "spacy_token", "morph_feature": "spacy_morph"}),
-    ("case_acc_ratio", {"word": "zeyrek_analysed_token", "zeyrek_tag": "zeyrek_tag"}),
-    ("wordfreq_mean", {"word": "pos_token", "type": "spacy_lemma",
+    # Tek kelime tanımı ve Türkçe Zeyrek lemması (2026-10-07, Efe); `type` dile göre.
+    ("n_lemma_count", {"word": "space_unit", "type": "zeyrek_lemma"}),
+    ("pos_noun", {"word": "space_unit", "pos_tag": "spacy_upos"}),
+    ("morph_case_acc", {"word": "space_unit", "morph_feature": "spacy_morph"}),
+    ("case_acc_ratio", {"word": "zeyrek_analysed_word", "zeyrek_tag": "zeyrek_tag"}),
+    ("wordfreq_mean", {"word": "space_unit", "type": "zeyrek_lemma",
                        "lexical_word": "noun_propn_verb_adj_adv", "pos_tag": "spacy_upos",
                        "zipf_score": "wordfreq_zipf"}),
     ("vowel_ratio", {"letter": "alphabet_letter"}),
@@ -467,6 +468,12 @@ def test_definitions_formulde_gecen_terim_kayitli(anahtar):
 ])
 def test_definitions_ornekler(anahtar, beklenen):
     assert _adlar(anahtar) == beklenen
+
+
+def test_lemma_turu_dile_gore():
+    """Türkçe lemma Zeyrek'ten, İngilizce spaCy'den (2026-10-07, Efe)."""
+    assert _adlar("n_lemma_count", lang="en")["type"] == "spacy_lemma"
+    assert _adlar("ttr", lang="en")["type"] == "lowercase_surface"
 
 
 def test_definitions_hece_dile_gore_adlandirilir():

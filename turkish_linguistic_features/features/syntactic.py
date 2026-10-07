@@ -2,7 +2,7 @@
 
 Bu modül T11'in anahtarlarını üretir:
 
-- ``pos`` (13): ``pos_noun`` … ``pos_punct``
+- ``pos`` (12): ``pos_noun`` … ``pos_intj``
 - ``sentence`` (8) ve ``paragraph`` (5)
 - ``syntactic`` grubunun 7'si: ``nominal_verbal_ratio``, ``verb_dist_mean``,
   ``verb_dist_cv``, ``activity_ratio``, ``lexical_density``, ``pos_dist_std``,
@@ -92,11 +92,12 @@ def _cumle_kelimeleri(cumleler: list[list[str]]) -> list[list[str]]:
 
 
 def pos_ratios(pos_data: list[tuple[str, str]]) -> dict[str, float]:
-    """13 POS etiketinin token oranı: ``etiket sayısı / toplam token``.
+    """12 POS etiketinin kelime oranı: ``etiket sayısı / kelime sayısı``.
 
-    Payda **tüm** tokenlerdir — ``POS_TAGS`` dışındaki etiketler (PRON, X, SYM)
-    paydaya girer ama sütunu yoktur, bu yüzden 13 oranın toplamı 1'den küçük
-    olabilir.
+    ``analyze()`` yolunda girdi kelime düzeyindedir (2026-10-07, Efe): her varsayılan
+    kelime kendi ilk kelime tokenının etiketini taşır, noktalama yoktur. ``POS_TAGS``
+    dışındaki etiketler (PRON, X) paydaya girer ama sütunu yoktur, bu yüzden 12 oranın
+    toplamı 1'den küçük olabilir.
     """
     if not pos_data:
         return {f"pos_{t.lower()}": math.nan for t in POS_TAGS}
@@ -375,9 +376,9 @@ def question_per_sent(sentences_as_tokens: list[list[str]]) -> dict[str, float]:
 
 
 def pronoun_freq(pos_data: list[tuple[str, str]]) -> dict[str, float]:
-    """spaCy ``PRON`` etiketli token / toplam token → ``pronoun_freq``.
+    """spaCy ``PRON`` etiketli kelime / kelime sayısı → ``pronoun_freq``.
 
-    Payda ``pos_ratios`` ile aynı: noktalama dahil tüm tokenler. Boşsa NaN.
+    Payda ``pos_ratios`` ile aynı. Boşsa NaN.
     """
     if not pos_data:
         return {"pronoun_freq": math.nan}

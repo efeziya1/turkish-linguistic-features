@@ -35,7 +35,7 @@ için kaynakla eşlenecek bir denklemleri de yoktur.
 
 ## Önce: her öznitelik doğrulanamaz
 
-Bu ayrım raporun en önemli parçası. 212 özniteliğin bir kısmı, tanımı gereği
+Bu ayrım raporun en önemli parçası. 211 özniteliğin bir kısmı, tanımı gereği
 **doğrulama adayı bile değildir**:
 
 | | Neden aday değil |
