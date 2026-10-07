@@ -2351,14 +2351,14 @@ morfotaktiğinin Python aktarımı. Zeyrek'in çözümleyemediği bir kelime
 <p>Zeyrek bir <strong>çözümleyicidir, belirsizlik gidericisi değildir</strong>: aynı yüzey
 biçimi için birden çok çözümleme dönebilir ve bağlama bakarak doğrusunu
 seçmez. Kütüphane bağlama bakmadan <strong>ilk</strong> çözümlemeyi alır.</p>
-<p>Zeyrek çözümlemeleri ek geçişi sayısına göre sıralar, en azı önce gelir.
-Eşitlikte sıra, Zeyrek'in sözlüğündeki aynı yazılışlı köklerin sırasından
-geliyordu; sözlük bir Python kümesinden yüklendiği için bu sıra
-<code>PYTHONHASHSEED</code>'e bağlıydı. TOMA veri setinde (8.225 farklı sözcük) 612
-sözcüğün ilk çözümlemesi 0–3 tohumları arasında değişiyordu. Kütüphane artık bu
-kökleri sabit bir sıraya diziyor; sonuç tohuma bağlı değil ve 315 sözcüklük
-kayıtlı bir golden set'e karşı sınanıyor. Eşitler arasında hangisinin öne
-geçtiği yine keyfîdir: sıra sabittir, bağlamdan seçilmez.</p>
+<p>Zeyrek çözümlemeleri ek geçişi sayısına göre sıralar, en azı önce gelir;
+eşitlikte sıra, Python'un iç bir kümesinin dolaşım sırasında kalır ve bu sıra
+<code>PYTHONHASHSEED</code>'e bağlıdır. TOMA veri setinde (57 metin, 8.215 farklı
+sözcük) sözcüklerin %58,2'sinin birden çok çözümlemesi var ve <strong>200 sözcüğün
+(%2,4)</strong> ilk çözümlemesi 0–3 tohumları arasında değişti. Yani aynı metnin
+Zeyrek öznitelikleri Python süreçleri arasında az da olsa farklı çıkabilir.
+Tekrar üretilebilir sayılar için tohumu Python başlamadan sabitleyin, örneğin
+<code>PYTHONHASHSEED=0</code>.</p>
 <h3 id="5-adaylarn-yars-hala-dogrulanmad">5. Adayların yarısı hâlâ doğrulanmadı<a class="headerlink" href="#5-adaylarn-yars-hala-dogrulanmad" title="Permanent link">&para;</a></h3>
 <p>142 satır doğrulama adayı bile değil (saf tanım, etiket şeması ya da
 bizim türevimiz).
