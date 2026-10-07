@@ -27,16 +27,16 @@ published is a separate question — see the
 
 | Group | Keys | What it covers |
 |---|---|---|
-| `lexical` | 35 | Lexical richness & frequency |
+| `lexical` | 34 | Lexical richness & frequency |
 | `frequency_structure` | 13 | Frequency structure (h-point family, Popescu & Altmann) |
-| `sentence` | 8 | Sentence statistics |
-| `paragraph` | 5 | Paragraph structure |
+| `sentence` | 7 | Sentence statistics |
+| `paragraph` | 3 | Paragraph structure |
 | `pos` | 12 | Part-of-speech ratios |
 | `syntactic` | 9 | Discourse & syntax |
 | `syntactic_dep` | 16 | Dependency tree (distance, depth, sentence-final POS) |
 | `morphological` | 19 | Morphological style (spaCy) |
 | `morphological_zeyrek` | 24 | Morphological style (Zeyrek, TR only) |
-| `phonetic` | 15 | Phonetic patterns |
+| `phonetic` | 13 | Phonetic patterns |
 | `readability` | 11 | Readability scores |
 | `punctuation` | 19 | Punctuation & digits |
 | `chars` | dynamic | Character frequency vector  [dynamic: one key per letter — TR 29, EN 26] |
@@ -45,13 +45,12 @@ published is a separate question — see the
 
 ## `lexical` — Lexical richness & frequency
 
-35 keys.
+34 keys.
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
 | `n_lemma_count` | number of distinct lemmas | `V over lemmas` | at least 1 word | — |
 | `avg_word_length` | mean word length in characters | `sum(len(w)) / N` | at least 1 word | Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241 |
-| `word_length_cv` | spread of word length | `std(len(w)) / mean(len(w)), population std` | at least 2 words | — |
 | `ttr` | type-token ratio; falls as the text grows | `V / N` | at least 1 word | Malvern et al. (2004); QUITA §6.1.1 |
 | `mattr` | moving-average TTR | `mean TTR of every sliding window of mattr_window words` | at least 100 words (2 x mattr_window) | Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) |
 | `entropy_std` | how much word entropy varies across the text | `population std of entropies (nats) of disjoint mattr_window-word chunks` | at least 100 words (2 x mattr_window) | Shannon (1948) — the entropy formula; the standard deviation across segments is this library's own derivation |
@@ -107,13 +106,12 @@ published is a separate question — see the
 
 ## `sentence` — Sentence statistics
 
-8 keys.
+7 keys.
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
 | `avg_sent_len_word` | mean sentence length in words | `mean words per sentence` | at least 1 sentence with a letter | Flesch (1948) p.223, element (1) "Average Sentence Length in Words" |
 | `avg_sent_len_char` | mean sentence length in characters | `mean len(tokens joined by single spaces)` | at least 1 sentence | Zheng et al. (2006) Table 3, p.384, no. 58 "Average sentence length in terms of character" |
-| `sentence_length_cv` | spread of sentence length | `population std / mean of words per sentence` | at least 2 sentences with a letter | — |
 | `sent_len_skewness` | skew of sentence length; positive = long-sentence tail | `Fisher-Pearson g1 = m3 / m2^1.5 over words per sentence` | at least 2 sentences of different length | — |
 | `short_sent_ratio` | share of short sentences | `sentences with fewer than short_sent_threshold words / sentences` | at least 1 sentence with a letter | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only |
 | `long_sent_ratio` | share of long sentences | `sentences with more than long_sent_threshold words / sentences` | at least 1 sentence with a letter | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only |
@@ -122,14 +120,12 @@ published is a separate question — see the
 
 ## `paragraph` — Paragraph structure
 
-5 keys.
+3 keys.
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
 | `para_len_mean` | mean paragraph length | `mean words per paragraph (blank line = boundary)` | at least 1 paragraph | Zheng et al. (2006) Table 3, p.384, no. 251 "Number of words per paragraph" |
-| `para_len_cv` | spread of paragraph length | `population std / mean` | at least 2 paragraphs | — |
 | `sents_per_para_mean` | mean sentences per paragraph | `mean count of [.!?…]+ per paragraph (at least 1)` | at least 1 paragraph | Zheng et al. (2006) Table 3, p.384, no. 249 "Number of sentences per paragraph" |
-| `sents_per_para_cv` | spread of sentences per paragraph | `population std / mean` | at least 2 paragraphs | — |
 | `para_count_norm` | paragraphs per 1000 words | `paragraphs / words * 1000` | at least 1 paragraph | — |
 
 ## `pos` — Part-of-speech ratios
@@ -249,7 +245,7 @@ published is a separate question — see the
 
 ## `phonetic` — Phonetic patterns
 
-15 keys.
+13 keys.
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
@@ -259,7 +255,6 @@ published is a separate question — see the
 | `harmony_fronting_ratio` | share of words obeying front/back vowel harmony (TR only) | `words whose vowels are all front or all back / words with 2+ vowels` | at least 1 word with 2 vowels | Göksel & Kerslake (2005) §3.1 (fronting harmony); exceptions §3.4 — the measure counts them as disharmonic |
 | `harmony_rounding_ratio` | share of words obeying rounding vowel harmony (TR only) | `words where every vowel after an unrounded one is unrounded and every vowel after a rounded one is close-rounded or open-unrounded / words with 2+ vowels` | at least 1 word with 2 vowels | Göksel & Kerslake (2005) §3.1 (rounding harmony); strictly a suffix phenomenon, measured here as a whole-word pattern |
 | `syllable_mean` | mean syllables per word | `mean syllables per syllabifiable word` | at least 1 syllabifiable word | Flesch (1948) Formula A, wl; unit there = syllables per 100 words, here per word |
-| `syllable_cv` | spread of syllables per word | `population std / mean of syllables per syllabifiable word` | at least 2 syllabifiable words | — |
 | `syllable_1_ratio` | share of words with 1 syllable | `words with 1 syllable / syllabifiable words` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
 | `syllable_2_ratio` | share of words with 2 syllables | `words with 2 syllables / syllabifiable words` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
 | `syllable_3_ratio` | share of words with 3 syllables | `words with 3 syllables / syllabifiable words` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
@@ -267,7 +262,6 @@ published is a separate question — see the
 | `syllable_5_ratio` | share of words with 5 syllables | `words with 5 syllables / syllabifiable words` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
 | `syllable_6plus_ratio` | share of words with 6 or more syllables | `words with 6 or more syllables / syllabifiable words` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
 | `sentence_syllable_mean` | syllables per sentence | `mean syllables per sentence` | at least 1 sentence with a syllabifiable word | — |
-| `sentence_syllable_cv` | spread of syllables per sentence | `population std / mean` | at least 2 such sentences | — |
 
 ## `readability` — Readability scores
 

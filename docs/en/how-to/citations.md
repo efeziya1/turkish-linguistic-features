@@ -94,9 +94,10 @@ sentence"). Keys that count the categories of an external tag scheme do
 have a citation, pointing at the scheme (`morph_case_loc` → UD;
 `case_loc_ratio` → Zeyrek).
 
-**49 of the 211** Turkish keys have no citation: 29 are the letter-frequency
+**43 of the 205** Turkish keys have no citation: 29 are the letter-frequency
 vector (one key per letter of the Turkish alphabet), 8 are punctuation and
-capitalisation ratios, and 12 are other plain definitions such as spreads.
+capitalisation ratios, and 6 are other plain definitions such as the lemma
+count or sentence-length skewness.
 
 ## Building a bibliography for your methods section
 

@@ -49,7 +49,7 @@ karşılaştırma tablosunu okur, yani ikisi ayrışamaz. Diğer bilinen-değer
 testleri kendi dosyalarında duruyor.
 
 
-## Türkçe — 211 anahtar, 236 satır
+## Türkçe — 205 anahtar, 230 satır
 
 Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
@@ -62,11 +62,11 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | 🔍 açık — kaynakta sayısal örnek yok | 66 |
 
 
-**Doğrulama adayı olmayan — 122 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
+**Doğrulama adayı olmayan — 116 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
 
 | Durum | Satır sayısı |
 |---|---|
-| ⚪ kaynak yok — saf tanım | 49 |
+| ⚪ kaynak yok — saf tanım | 43 |
 | ⚫ etiket şeması — ölçü değil | 68 |
 | 🔧 türev — uygulaması bu kütüphaneye ait | 5 |
 
@@ -206,20 +206,16 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 ### Doğrulama adayı olmayanlar
 
-122 anahtar. ⚪ olanlar saf tanım (`punc_,_ratio`, `char_a`) — adlandırılmış bir literatür ölçüsü değil. ⚫ olanlar bir ölçü değil, dış bir etiket şemasının kategorisini sayıyor; şema kategori tanımlar, ölçüm yayımlamaz. 🔧 olanların formülü bir kaynaktan gelir ama uygulaması bu kütüphaneye aittir. Üçünde de aranacak bir sayı yok.
+116 anahtar. ⚪ olanlar saf tanım (`punc_,_ratio`, `char_a`) — adlandırılmış bir literatür ölçüsü değil. ⚫ olanlar bir ölçü değil, dış bir etiket şemasının kategorisini sayıyor; şema kategori tanımlar, ölçüm yayımlamaz. 🔧 olanların formülü bir kaynaktan gelir ama uygulaması bu kütüphaneye aittir. Üçünde de aranacak bir sayı yok.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
 | `n_lemma_count` | — | ⚪ |
-| `word_length_cv` | — | ⚪ |
 | `entropy_std` | Shannon (1948) — the entropy formula; the standard deviation across segments is this library's own derivation | 🔧 |
-| `sentence_length_cv` | — | ⚪ |
 | `sent_len_skewness` | — | ⚪ |
 | `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only | 🔧 |
 | `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only | 🔧 |
 | `sent_len_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision | 🔧 |
-| `para_len_cv` | — | ⚪ |
-| `sents_per_para_cv` | — | ⚪ |
 | `para_count_norm` | — | ⚪ |
 | `pos_noun` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_propn` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
@@ -291,9 +287,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `question_particle_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
 | `verb_suffix_diversity` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
 | `vowel_ratio` | — | ⚪ |
-| `syllable_cv` | — | ⚪ |
 | `sentence_syllable_mean` | — | ⚪ |
-| `sentence_syllable_cv` | — | ⚪ |
 | `punc_-_ratio` | — | ⚪ |
 | `punc_ellipsis_ratio` | — | ⚪ |
 | `punc_paren_ratio` | — | ⚪ |
@@ -333,7 +327,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `char_y` | — | ⚪ |
 | `char_z` | — | ⚪ |
 
-## İngilizce — 183 anahtar, 200 satır
+## İngilizce — 177 anahtar, 194 satır
 
 Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
@@ -346,11 +340,11 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | 🔍 açık — kaynakta sayısal örnek yok | 65 |
 
 
-**Doğrulama adayı olmayan — 97 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
+**Doğrulama adayı olmayan — 91 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
 
 | Durum | Satır sayısı |
 |---|---|
-| ⚪ kaynak yok — saf tanım | 46 |
+| ⚪ kaynak yok — saf tanım | 40 |
 | ⚫ etiket şeması — ölçü değil | 45 |
 | 🔧 türev — uygulaması bu kütüphaneye ait | 6 |
 
@@ -477,20 +471,16 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 ### Doğrulama adayı olmayanlar
 
-97 anahtar. ⚪ olanlar saf tanım (`punc_,_ratio`, `char_a`) — adlandırılmış bir literatür ölçüsü değil. ⚫ olanlar bir ölçü değil, dış bir etiket şemasının kategorisini sayıyor; şema kategori tanımlar, ölçüm yayımlamaz. 🔧 olanların formülü bir kaynaktan gelir ama uygulaması bu kütüphaneye aittir. Üçünde de aranacak bir sayı yok.
+91 anahtar. ⚪ olanlar saf tanım (`punc_,_ratio`, `char_a`) — adlandırılmış bir literatür ölçüsü değil. ⚫ olanlar bir ölçü değil, dış bir etiket şemasının kategorisini sayıyor; şema kategori tanımlar, ölçüm yayımlamaz. 🔧 olanların formülü bir kaynaktan gelir ama uygulaması bu kütüphaneye aittir. Üçünde de aranacak bir sayı yok.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
 | `n_lemma_count` | — | ⚪ |
-| `word_length_cv` | — | ⚪ |
 | `entropy_std` | Shannon (1948) — the entropy formula; the standard deviation across segments is this library's own derivation | 🔧 |
-| `sentence_length_cv` | — | ⚪ |
 | `sent_len_skewness` | — | ⚪ |
 | `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only | 🔧 |
 | `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only | 🔧 |
 | `sent_len_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision | 🔧 |
-| `para_len_cv` | — | ⚪ |
-| `sents_per_para_cv` | — | ⚪ |
 | `para_count_norm` | — | ⚪ |
 | `pos_noun` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_propn` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
@@ -539,9 +529,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `morph_number_plur` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
 | `morph_voice_pass` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
 | `vowel_ratio` | — | ⚪ |
-| `syllable_cv` | — | ⚪ |
 | `sentence_syllable_mean` | — | ⚪ |
-| `sentence_syllable_cv` | — | ⚪ |
 | `polysyllabic_word_ratio` | McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form of SMOG's input, not the source's own measure | 🔧 |
 | `punc_-_ratio` | — | ⚪ |
 | `punc_ellipsis_ratio` | — | ⚪ |

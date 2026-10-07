@@ -17,8 +17,8 @@ number.
 tr = tlf.analyze(tr_text, lang="tr")
 en = tlf.analyze(en_text, lang="en")
 
-len(tr)   # 211
-len(en)   # 183
+len(tr)   # 205
+len(en)   # 177
 ```
 
 The 28-feature difference breaks down as:
@@ -39,7 +39,7 @@ The `phonetic` group has 15 features in Turkish and 13 in English.
 
 ## Ask for specific groups
 
-Computing all 211 features takes time. If you do not need them all:
+Computing all 205 features takes time. If you do not need them all:
 
 ```python
 oz = tlf.analyze(text, lang="tr", groups=["readability", "lexical"])
@@ -50,19 +50,19 @@ The groups, with their Turkish feature counts:
 
 | Group | Features | Contents |
 |---|---|---|
-| `lexical` | 35 | Lexical richness, frequency |
+| `lexical` | 34 | Lexical richness, frequency |
 | `chars` | 29 | Letter frequency vector: one key per letter of the Turkish alphabet (26 in English; `q`, `w`, `x` only there) |
 | `morphological_zeyrek` | 24 | Zeyrek suffix analysis (Turkish only) |
 | `morphological` | 19 | UD morphological features |
 | `punctuation` | 19 | Punctuation ratios |
 | `syntactic_dep` | 16 | Dependency parse |
-| `phonetic` | 15 | Syllables, vowels, sound patterns |
+| `phonetic` | 13 | Syllables, vowels, sound patterns |
 | `frequency_structure` | 13 | Zipf, h-point, thematic concentration |
 | `pos` | 12 | Part-of-speech ratios |
 | `syntactic` | 9 | Sentence structure |
-| `sentence` | 8 | Sentence-length distribution |
+| `sentence` | 7 | Sentence-length distribution |
 | `readability` | 7 | Readability formulas |
-| `paragraph` | 5 | Paragraph structure |
+| `paragraph` | 3 | Paragraph structure |
 
 `describe_feature(key)["group"]` tells you where a given feature lives.
 

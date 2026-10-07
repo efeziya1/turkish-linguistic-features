@@ -18,7 +18,7 @@ Emin değilseniz öğreticiden başlayın: kurulumdan ilk tabloya kadar götür�
 import turkish_linguistic_features as tlf
 
 oz = tlf.analyze("Dil, insanın düşüncesini taşıyan en eski araçtır.", lang="tr")
-len(oz)                   # 211
+len(oz)                   # 205
 oz["avg_word_length"]     # 5.8571
 ```
 
@@ -37,7 +37,7 @@ Kütüphanenin **on** genel adı var, hepsi bu kadar:
 | `MissingDependencyWarning` | İsteğe bağlı bir paket yoksa |
 | `ParagraphStructureWarning` | 1000 kelimeyi geçen metinde paragraf sınırı bulunamazsa |
 
-On ad, 211 öznitelik. Öznitelik eklemek için yeni fonksiyon öğrenmenize
+On ad, 205 öznitelik. Öznitelik eklemek için yeni fonksiyon öğrenmenize
 gerek yok — hepsi `analyze`'dan çıkar.
 
 ## Terimler

@@ -168,7 +168,7 @@ def _extract_features(
     Returns
     -------
     dict[str, float]
-        Anahtar → değer. Türkçe taban 211, İngilizce 183; ``dep_data``
+        Anahtar → değer. Türkçe taban 205, İngilizce 177; ``dep_data``
         verilmezse her ikisinden de 16 eksik.
 
     Raises
@@ -218,16 +218,14 @@ def _extract_features(
     # birleşik nokta (U+0307) ekler — ttr ve kelime uzunluğu kayardı.
     kucuk_kelimeler = [_kucuk_harf(tok, lang) for tok in kelimeler]
 
-    # ── lexical (35) — yüzey biçim sayar ──────────────────────────────
+    # ── lexical (34) — yüzey biçim sayar ──────────────────────────────
     if istiyor("lexical"):
         freqs, N, V, items = rank_word_freq_table(kucuk_kelimeler, lang)
-        ort_uzunluk, uzunluk_cv = word_length_stats(kucuk_kelimeler)
         feats.update({
             # `lemma_tokens` zaten noktalamasız (T21). Lemma yoksa
             # "ölçüldü ve sıfır çıktı" değil, ölçülemedi (K4).
             "n_lemma_count": float(len(set(wv.lemmas))) if wv.lemmas else math.nan,
-            "avg_word_length": ort_uzunluk,
-            "word_length_cv": uzunluk_cv,
+            "avg_word_length": word_length_stats(kucuk_kelimeler),
             "entropy": shannon_entropy(freqs),
             "yule_k": yules_k(freqs) if N else math.nan,
             "simpson_d": simpsons_d(freqs),
@@ -280,14 +278,14 @@ def _extract_features(
         feats.update(thematic_concentration(l_items, lemma_pos, h, lang))
         feats.update(secondary_thematic_concentration(l_items, lemma_pos, h, lang))
 
-    # ── sentence (8) ──────────────────────────────────────────────────
+    # ── sentence (7) ──────────────────────────────────────────────────
     if istiyor("sentence"):
         feats.update(sentence_stats(cumle_kelimeleri))
         feats.update(avg_sent_len_char(cumleler))
         feats.update(sentence_distribution_stats(cumle_kelimeleri, kisa_esik, uzun_esik))
         feats.update(sent_len_entropy(cumle_kelimeleri))
 
-    # ── paragraph (5) ─────────────────────────────────────────────────
+    # ── paragraph (3) ─────────────────────────────────────────────────
     if istiyor("paragraph"):
         feats.update(paragraph_stats(raw_text, lang))
 
@@ -323,7 +321,7 @@ def _extract_features(
     if istiyor("morphological_zeyrek") and lang == "tr" and wv.morphemes is not None:
         feats.update(zeyrek_morfoloji(wv.morphemes, wv.pos, params))
 
-    # ── phonetic (TR 15 · EN 13) ──────────────────────────────────────
+    # ── phonetic (TR 13 · EN 11) ──────────────────────────────────────
     if istiyor("phonetic"):
         feats.update(vowel_ratios(raw_text, lang))
         # Ünlü uyumu Türkçeye özgü (Göksel & Kerslake 2005); İngilizcede

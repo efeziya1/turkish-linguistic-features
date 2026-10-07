@@ -69,10 +69,10 @@ That is the whole chain.
 
 ```text
 row count:    3
-column count: 211
+column count: 208
 ```
 
-One row per file. 214 columns = 211 features plus three identity columns:
+One row per file. 208 columns = 205 features plus three identity columns:
 
 ```text
 label=author_a  source=text1     segment_id=0  ttr=1.0
@@ -89,7 +89,7 @@ label=author_b  source=text3     segment_id=0  ttr=1.0
 The CSV header:
 
 ```text
-label,source,segment_id,n_lemma_count,avg_word_length,word_length_cv,entropy,yule_k,simpso...
+label,source,segment_id,n_lemma_count,avg_word_length,entropy,yule_k,simpso...
 ```
 
 ## Watch progress

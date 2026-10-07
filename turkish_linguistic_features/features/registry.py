@@ -6,7 +6,7 @@ döndürür: ne ölçtüğü, nasıl hesaplandığı, hangi ölçekte olduğu, h
 kadar metin gerektirdiği ve künyesi. Kullanıcı üç ayrı sözlüğe bakmak zorunda
 kalmasın diye tek giriş noktası budur.
 
-Taban şema **TR 211 · EN 183**: 186 statik anahtardan dile özgü olanlar + dile
+Taban şema **TR 205 · EN 177**: 180 statik anahtardan dile özgü olanlar + dile
 göre 26–29 ``char_*``.
 ``custom_ngrams`` istenmedikçe anahtar üretmez, bu yüzden toplama girmez.
 14 grup = 12 statik + 2 dinamik.
@@ -65,7 +65,7 @@ _CHAR_HARFLERI: frozenset[str] = frozenset("".join(_ALFABE.values()))
 
 STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
     "lexical": (
-        'n_lemma_count', 'avg_word_length', 'word_length_cv', 'ttr', 'mattr', 'entropy_std',
+        'n_lemma_count', 'avg_word_length', 'ttr', 'mattr', 'entropy_std',
         'herdan_c', 'sichel_s', 'zipf_exponent', 'zipf_r2', 'zipf_mandelbrot_q',
         'zipf_mandelbrot_s', 'mtld', 'dugast_u', 'guiraud_r', 'cttr', 'summer_s', 'maas_a2',
         'herdan_vm', 'heaps_beta',
@@ -79,11 +79,11 @@ STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
         'writers_view_alpha', 'thematic_concentration', 'secondary_thematic_concentration',
     ),
     "sentence": (
-        'avg_sent_len_word', 'avg_sent_len_char', 'sentence_length_cv', 'sent_len_skewness',
+        'avg_sent_len_word', 'avg_sent_len_char', 'sent_len_skewness',
         'short_sent_ratio', 'long_sent_ratio', 'med_sent_len', 'sent_len_entropy',
     ),
     "paragraph": (
-        'para_len_mean', 'para_len_cv', 'sents_per_para_mean', 'sents_per_para_cv',
+        'para_len_mean', 'sents_per_para_mean',
         'para_count_norm',
     ),
     "pos": (
@@ -119,9 +119,9 @@ STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
     "phonetic": (
         'vowel_ratio', 'front_vowel_ratio', 'back_vowel_ratio',
         'harmony_fronting_ratio', 'harmony_rounding_ratio',
-        'syllable_mean', 'syllable_cv', 'syllable_1_ratio', 'syllable_2_ratio',
+        'syllable_mean', 'syllable_1_ratio', 'syllable_2_ratio',
         'syllable_3_ratio', 'syllable_4_ratio', 'syllable_5_ratio', 'syllable_6plus_ratio',
-        'sentence_syllable_mean', 'sentence_syllable_cv',
+        'sentence_syllable_mean',
     ),
     "readability": (
         'bezirci_yilmaz', 'atesman', 'cetinkaya_uzun', 'flesch_reading_ease',
@@ -197,7 +197,6 @@ FEATURE_SCALES: dict[str, str] = {
     # lexical
     "n_lemma_count": "count",
     "avg_word_length": "length",
-    "word_length_cv": "cv",
     "entropy": "nats",
     "entropy_std": "nats",
     "yule_k": "score",
@@ -225,14 +224,11 @@ FEATURE_SCALES: dict[str, str] = {
     "secondary_thematic_concentration": "score",  # kelimelere ortalama sıra verilmesi
                                                   # ve kesirli h-point yüzünden
     # sentence
-    "sentence_length_cv": "cv",
     "sent_len_skewness": "signed",
     "short_sent_ratio": "ratio_0_1",
     "long_sent_ratio": "ratio_0_1",
     "sent_len_entropy": "nats",
     # paragraph
-    "para_len_cv": "cv",
-    "sents_per_para_cv": "cv",
     "para_count_norm": "score",       # 1000 kelimedeki paragraf; 1'i aşar
     # syntactic
     "nominal_verbal_ratio": "score",
@@ -251,9 +247,7 @@ FEATURE_SCALES: dict[str, str] = {
     "verb_suffix_diversity": "count",
     # phonetic
     "syllable_mean": "length",
-    "syllable_cv": "cv",
     "sentence_syllable_mean": "length",
-    "sentence_syllable_cv": "cv",
     # readability (grup varsayılanı score)
     "polysyllabic_word_ratio": "ratio_0_1",
     "long_word_ratio": "ratio_0_1",
@@ -393,7 +387,7 @@ def describe_feature(key: str, lang: str | None = None) -> dict:
         olan budur.
 
         ``citation`` ``None`` ise o anahtar adlandırılmış bir literatür
-        ölçüsü değildir, saf tanımdır (``punc_,_ratio``, ``char_a``). Dış
+        ölçüsü değildir, saf tanımdır (``punct_variety``, ``n_lemma_count``). Dış
         bir etiket şemasının kategorisini sayan anahtarların künyesi
         ``None`` değildir, şemayı gösterir (``morph_case_loc`` → UD;
         ``case_loc_ratio`` → Zeyrek).
@@ -409,7 +403,7 @@ def describe_feature(key: str, lang: str | None = None) -> dict:
     'mean TTR of every sliding window of mattr_window words'
     >>> describe_feature("mattr")["requires"]
     'at least 100 words (2 x mattr_window)'
-    >>> describe_feature("word_length_cv")["citation"] is None
+    >>> describe_feature("n_lemma_count")["citation"] is None
     True
     """
     grup = get_group(key)                      # KeyError'ı o fırlatır

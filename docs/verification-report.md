@@ -54,7 +54,7 @@ table as `tests/test_kaynak_esligi.py`, so the two cannot drift apart. The
 other known-value tests live in their own files.
 
 
-## Turkish — 211 keys, 236 rows
+## Turkish — 205 keys, 230 rows
 
 A key may have more than one worked example in its source; each one is its own row.
 
@@ -67,11 +67,11 @@ A key may have more than one worked example in its source; each one is its own r
 | 🔍 open — no worked example in source | 66 |
 
 
-**Not verification candidates — 122 rows.** There is no published number to look for in these.
+**Not verification candidates — 116 rows.** There is no published number to look for in these.
 
 | Status | Rows |
 |---|---|
-| ⚪ no source — plain definition | 49 |
+| ⚪ no source — plain definition | 43 |
 | ⚫ tag scheme — not a measure | 68 |
 | 🔧 derivative — the application is this library's | 5 |
 
@@ -211,20 +211,16 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### Not verification candidates
 
-122 keys. The ⚪ ones are plain definitions (`punc_,_ratio`, `char_a`) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.
+116 keys. The ⚪ ones are plain definitions (`punc_,_ratio`, `char_a`) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.
 
 | Key | Source | Status |
 |---|---|---|
 | `n_lemma_count` | — | ⚪ |
-| `word_length_cv` | — | ⚪ |
 | `entropy_std` | Shannon (1948) — the entropy formula; the standard deviation across segments is this library's own derivation | 🔧 |
-| `sentence_length_cv` | — | ⚪ |
 | `sent_len_skewness` | — | ⚪ |
 | `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only | 🔧 |
 | `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only | 🔧 |
 | `sent_len_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision | 🔧 |
-| `para_len_cv` | — | ⚪ |
-| `sents_per_para_cv` | — | ⚪ |
 | `para_count_norm` | — | ⚪ |
 | `pos_noun` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_propn` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
@@ -296,9 +292,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `question_particle_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
 | `verb_suffix_diversity` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
 | `vowel_ratio` | — | ⚪ |
-| `syllable_cv` | — | ⚪ |
 | `sentence_syllable_mean` | — | ⚪ |
-| `sentence_syllable_cv` | — | ⚪ |
 | `punc_-_ratio` | — | ⚪ |
 | `punc_ellipsis_ratio` | — | ⚪ |
 | `punc_paren_ratio` | — | ⚪ |
@@ -338,7 +332,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `char_y` | — | ⚪ |
 | `char_z` | — | ⚪ |
 
-## English — 183 keys, 200 rows
+## English — 177 keys, 194 rows
 
 A key may have more than one worked example in its source; each one is its own row.
 
@@ -351,11 +345,11 @@ A key may have more than one worked example in its source; each one is its own r
 | 🔍 open — no worked example in source | 65 |
 
 
-**Not verification candidates — 97 rows.** There is no published number to look for in these.
+**Not verification candidates — 91 rows.** There is no published number to look for in these.
 
 | Status | Rows |
 |---|---|
-| ⚪ no source — plain definition | 46 |
+| ⚪ no source — plain definition | 40 |
 | ⚫ tag scheme — not a measure | 45 |
 | 🔧 derivative — the application is this library's | 6 |
 
@@ -482,20 +476,16 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### Not verification candidates
 
-97 keys. The ⚪ ones are plain definitions (`punc_,_ratio`, `char_a`) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.
+91 keys. The ⚪ ones are plain definitions (`punc_,_ratio`, `char_a`) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.
 
 | Key | Source | Status |
 |---|---|---|
 | `n_lemma_count` | — | ⚪ |
-| `word_length_cv` | — | ⚪ |
 | `entropy_std` | Shannon (1948) — the entropy formula; the standard deviation across segments is this library's own derivation | 🔧 |
-| `sentence_length_cv` | — | ⚪ |
 | `sent_len_skewness` | — | ⚪ |
 | `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only | 🔧 |
 | `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only | 🔧 |
 | `sent_len_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision | 🔧 |
-| `para_len_cv` | — | ⚪ |
-| `sents_per_para_cv` | — | ⚪ |
 | `para_count_norm` | — | ⚪ |
 | `pos_noun` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_propn` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
@@ -544,9 +534,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `morph_number_plur` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
 | `morph_voice_pass` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
 | `vowel_ratio` | — | ⚪ |
-| `syllable_cv` | — | ⚪ |
 | `sentence_syllable_mean` | — | ⚪ |
-| `sentence_syllable_cv` | — | ⚪ |
 | `polysyllabic_word_ratio` | McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form of SMOG's input, not the source's own measure | 🔧 |
 | `punc_-_ratio` | — | ⚪ |
 | `punc_ellipsis_ratio` | — | ⚪ |

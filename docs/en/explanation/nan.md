@@ -20,10 +20,10 @@ len(short), len(nans)
 ```
 
 ```text
-(183, 41)
+(177, 37)
 ```
 
-**41 of 183** features are `nan`. Examples:
+**37 of 177** features are `nan`. Examples:
 
 ```text
 ['dugast_u', 'entropy_std', 'hdd', 'heaps_beta', 'mattr',
@@ -73,11 +73,10 @@ sentence parses. `hapax_ratio` is meaningless in a one-word text.
 
 ### 3. The input has no paragraph boundaries
 
-`para_len_cv` and `sents_per_para_cv` need at least **two** paragraphs —
-variation cannot be measured from a single value. Paragraph boundaries are
-found from blank lines; a single line break does not count. If your text has
-no blank lines, the whole text counts as one paragraph, these two features
-return `nan`, and `para_len_mean` becomes the word count of the entire text.
+Paragraph boundaries are found from blank lines; a single line break does
+not count. If your text has no blank lines, the whole text counts as one
+paragraph and `para_len_mean` becomes the word count of the entire text: the
+value is not `nan`, but it says nothing about paragraphs.
 
 If a text longer than 1000 words yields no boundary at all, a
 `ParagraphStructureWarning` is raised:
@@ -145,7 +144,7 @@ segmenting:
 rows = tlf.analyze_corpus("corpus/", lang="en", segment_size=1000)
 ```
 
-1000-token segments feed nearly all 211 features. See
+1000-token segments feed nearly all 205 features. See
 [Split a text into segments](../how-to/segmenting.md).
 
 ## Why `nan` and not `None`

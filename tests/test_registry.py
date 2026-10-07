@@ -46,8 +46,8 @@ def test_grup_sayilari():
 
 
 def test_statik_anahtar_sayisi():
-    """Statik anahtar sayısı (TR 211, EN 183 dinamikle)."""
-    assert len(TUM_STATIK) == 186
+    """Statik anahtar sayısı (TR 205, EN 177 dinamikle)."""
+    assert len(TUM_STATIK) == 180
 
 
 def test_anahtarlar_gruplar_arasi_tekrarlanmaz():
@@ -172,7 +172,7 @@ def test_describe_literatur_olcusu_degilse_citation_none():
     ``None`` ölçünün bize ait olduğunu **söylemez**; yalnız adlandırılmış bir
     literatür ölçüsü olmadığını söyler (2026-09-19, Efe).
     """
-    assert describe_feature("word_length_cv")["citation"] is None
+    assert describe_feature("n_lemma_count")["citation"] is None
 
 
 def test_describe_ayarlanamayan_ozellik_bos_params():
@@ -229,7 +229,7 @@ def test_scale_istisnalari_gruptan_farkli():
     assert describe_feature("entropy")["scale"] == "nats"
     assert describe_feature("n_lemma_count")["scale"] == "count"
     assert describe_feature("sent_len_skewness")["scale"] == "signed"
-    assert describe_feature("word_length_cv")["scale"] == "cv"
+    assert describe_feature("verb_dist_cv")["scale"] == "cv"
     assert describe_feature("h_point")["scale"] == "score"
     assert describe_feature("verb_dist_mean")["scale"] == "length"
 
@@ -331,7 +331,7 @@ def test_describe_feature_tam_kaydi_dondurur():
 
 
 def test_citation_yoksa_references_bos():
-    d = describe_feature("word_length_cv")
+    d = describe_feature("n_lemma_count")
     assert d["citation"] is None
     assert d["references"] == ()
 
@@ -482,9 +482,8 @@ def test_definitions_hece_dile_gore_adlandirilir():
 
 
 def test_cumle_kullanan_ozellikler_kayitli():
-    """`sentence` grubunun 8'i, `question_per_sent`, `pos_kl_div` ve cümle hecesi 'default'."""
+    """`sentence` grubunun 7'si, `question_per_sent`, `pos_kl_div` ve cümle hecesi 'default'."""
     default = {k for k in TUM_STATIK
                if _adlar(k).get("sentence") == "default"}
     assert set(STATIC_GROUP_KEYS["sentence"]) <= default
-    assert {"question_per_sent", "pos_kl_div", "sentence_syllable_mean",
-            "sentence_syllable_cv"} <= default
+    assert {"question_per_sent", "pos_kl_div", "sentence_syllable_mean"} <= default

@@ -48,7 +48,6 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     # ── lexical ─────────────────────────────────────────────────
     'n_lemma_count': 'number of distinct lemmas',
     'avg_word_length': 'mean word length in characters',
-    'word_length_cv': 'spread of word length',
     'ttr': 'type-token ratio; falls as the text grows',
     'mattr': 'moving-average TTR',
     'entropy_std': 'how much word entropy varies across the text',
@@ -98,7 +97,6 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     # ── sentence ────────────────────────────────────────────────
     'avg_sent_len_word': 'mean sentence length in words',
     'avg_sent_len_char': 'mean sentence length in characters',
-    'sentence_length_cv': 'spread of sentence length',
     'sent_len_skewness': 'skew of sentence length; positive = long-sentence tail',
     'short_sent_ratio': 'share of short sentences',
     'long_sent_ratio': 'share of long sentences',
@@ -106,9 +104,7 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'sent_len_entropy': 'variety of sentence lengths',
     # ── paragraph ───────────────────────────────────────────────
     'para_len_mean': 'mean paragraph length',
-    'para_len_cv': 'spread of paragraph length',
     'sents_per_para_mean': 'mean sentences per paragraph',
-    'sents_per_para_cv': 'spread of sentences per paragraph',
     'para_count_norm': 'paragraphs per 1000 words',
     # ── pos ─────────────────────────────────────────────────────
     'pos_noun': 'share of NOUN words',
@@ -202,7 +198,6 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'harmony_fronting_ratio': 'share of words obeying front/back vowel harmony (TR only)',
     'harmony_rounding_ratio': 'share of words obeying rounding vowel harmony (TR only)',
     'syllable_mean': 'mean syllables per word',
-    'syllable_cv': 'spread of syllables per word',
     'syllable_1_ratio': 'share of words with 1 syllable',
     'syllable_2_ratio': 'share of words with 2 syllables',
     'syllable_3_ratio': 'share of words with 3 syllables',
@@ -210,7 +205,6 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'syllable_5_ratio': 'share of words with 5 syllables',
     'syllable_6plus_ratio': 'share of words with 6 or more syllables',
     'sentence_syllable_mean': 'syllables per sentence',
-    'sentence_syllable_cv': 'spread of syllables per sentence',
     # ── readability ─────────────────────────────────────────────
     'bezirci_yilmaz': 'Bezirci-Yılmaz; higher = harder',
     'atesman': 'Ateşman; higher = easier',
@@ -256,7 +250,6 @@ FEATURE_FORMULAS: dict[str, str] = {
     # ── lexical ─────────────────────────────────────────────────
     'n_lemma_count': 'V over lemmas',
     'avg_word_length': 'sum(len(w)) / N',
-    'word_length_cv': 'std(len(w)) / mean(len(w)), population std',
     'ttr': 'V / N',
     'mattr': 'mean TTR of every sliding window of mattr_window words',
     'entropy_std': 'population std of entropies (nats) of disjoint mattr_window-word chunks',
@@ -310,7 +303,6 @@ FEATURE_FORMULAS: dict[str, str] = {
     # ── sentence ────────────────────────────────────────────────
     'avg_sent_len_word': 'mean words per sentence',
     'avg_sent_len_char': 'mean len(tokens joined by single spaces)',
-    'sentence_length_cv': 'population std / mean of words per sentence',
     'sent_len_skewness': 'Fisher-Pearson g1 = m3 / m2^1.5 over words per sentence',
     'short_sent_ratio': 'sentences with fewer than short_sent_threshold words / sentences',
     'long_sent_ratio': 'sentences with more than long_sent_threshold words / sentences',
@@ -318,9 +310,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'sent_len_entropy': 'Shannon entropy (nats) of the distribution of words per sentence',
     # ── paragraph ───────────────────────────────────────────────
     'para_len_mean': 'mean words per paragraph (blank line = boundary)',
-    'para_len_cv': 'population std / mean',
     'sents_per_para_mean': 'mean count of [.!?…]+ per paragraph (at least 1)',
-    'sents_per_para_cv': 'population std / mean',
     'para_count_norm': 'paragraphs / words * 1000',
     # ── pos ─────────────────────────────────────────────────────
     'pos_noun': 'tag count / words',
@@ -420,7 +410,6 @@ FEATURE_FORMULAS: dict[str, str] = {
         'vowel after a rounded one is close-rounded or open-unrounded / words '
         'with 2+ vowels',
     'syllable_mean': 'mean syllables per syllabifiable word',
-    'syllable_cv': 'population std / mean of syllables per syllabifiable word',
     'syllable_1_ratio': 'words with 1 syllable / syllabifiable words',
     'syllable_2_ratio': 'words with 2 syllables / syllabifiable words',
     'syllable_3_ratio': 'words with 3 syllables / syllabifiable words',
@@ -428,7 +417,6 @@ FEATURE_FORMULAS: dict[str, str] = {
     'syllable_5_ratio': 'words with 5 syllables / syllabifiable words',
     'syllable_6plus_ratio': 'words with 6 or more syllables / syllabifiable words',
     'sentence_syllable_mean': 'mean syllables per sentence',
-    'sentence_syllable_cv': 'population std / mean',
     # ── readability ─────────────────────────────────────────────
     'bezirci_yilmaz':
         'sqrt(words/sentence * (0.84 H3 + 1.5 H4 + 3.5 H5 + 26.25 H6)), Hk per sentence',
@@ -474,7 +462,6 @@ FEATURE_REQUIRES: dict[str, str] = {
     # ── lexical ─────────────────────────────────────────────────
     'n_lemma_count': 'at least 1 word',
     'avg_word_length': 'at least 1 word',
-    'word_length_cv': 'at least 2 words',
     'ttr': 'at least 1 word',
     'mattr': 'at least 100 words (2 x mattr_window)',
     'entropy_std': 'at least 100 words (2 x mattr_window)',
@@ -524,7 +511,6 @@ FEATURE_REQUIRES: dict[str, str] = {
     # ── sentence ────────────────────────────────────────────────
     'avg_sent_len_word': 'at least 1 sentence with a letter',
     'avg_sent_len_char': 'at least 1 sentence',
-    'sentence_length_cv': 'at least 2 sentences with a letter',
     'sent_len_skewness': 'at least 2 sentences of different length',
     'short_sent_ratio': 'at least 1 sentence with a letter',
     'long_sent_ratio': 'at least 1 sentence with a letter',
@@ -532,9 +518,7 @@ FEATURE_REQUIRES: dict[str, str] = {
     'sent_len_entropy': 'at least 2 sentences with a letter',
     # ── paragraph ───────────────────────────────────────────────
     'para_len_mean': 'at least 1 paragraph',
-    'para_len_cv': 'at least 2 paragraphs',
     'sents_per_para_mean': 'at least 1 paragraph',
-    'sents_per_para_cv': 'at least 2 paragraphs',
     'para_count_norm': 'at least 1 paragraph',
     # ── pos ─────────────────────────────────────────────────────
     'pos_noun': 'at least 1 word',
@@ -628,7 +612,6 @@ FEATURE_REQUIRES: dict[str, str] = {
     'harmony_fronting_ratio': 'at least 1 word with 2 vowels',
     'harmony_rounding_ratio': 'at least 1 word with 2 vowels',
     'syllable_mean': 'at least 1 syllabifiable word',
-    'syllable_cv': 'at least 2 syllabifiable words',
     'syllable_1_ratio': 'at least 1 syllabifiable word',
     'syllable_2_ratio': 'at least 1 syllabifiable word',
     'syllable_3_ratio': 'at least 1 syllabifiable word',
@@ -636,7 +619,6 @@ FEATURE_REQUIRES: dict[str, str] = {
     'syllable_5_ratio': 'at least 1 syllabifiable word',
     'syllable_6plus_ratio': 'at least 1 syllabifiable word',
     'sentence_syllable_mean': 'at least 1 sentence with a syllabifiable word',
-    'sentence_syllable_cv': 'at least 2 such sentences',
     # ── readability ─────────────────────────────────────────────
     'bezirci_yilmaz': 'at least 1 syllabifiable word',
     'atesman': 'at least 1 syllabifiable word',
@@ -950,7 +932,7 @@ FEATURE_CITATIONS: dict[str, str] = {
     # Flesch (1948) p.223 defines "average word length in syllables" as an
     # element of its own; Ateşman (1997) p.73 adapts Flesch's formula. The
     # measure is not language-specific. The CV of syllables is not a named
-    # measure, so syllable_cv has no citation (K10, 2026-10-01, Efe).
+    # measure (K10, 2026-10-01, Efe); syllable_cv was removed on 2026-10-07.
     'syllable_mean':
         'Flesch (1948) Formula A, wl; unit there = syllables per 100 words, here per word',
     'syllable_1_ratio': 'Bezirci & Yılmaz (2010) Table 1-c',

@@ -67,7 +67,7 @@ print(len(oz))
 ```
 
 ```text
-211
+205
 ```
 
 `lang` verilmezse varsayılan `"tr"`'dir; İngilizce metin için `lang="en"`
@@ -78,7 +78,7 @@ sayılar. İç içe yapı yok, sınıf yok, `pandas` zorunluluğu yok.
 
 ## 4. Çıktıyı okuyun
 
-211 sayıya birden bakmanın anlamı yok. Birkaçına bakalım:
+205 sayıya birden bakmanın anlamı yok. Birkaçına bakalım:
 
 ```python
 for k in ("ttr", "avg_word_length", "avg_sent_len_word",
@@ -137,10 +137,10 @@ print(len(kisa), len(nan_olan))
 ```
 
 ```text
-211 45
+205 41
 ```
 
-Üç kelimelik bir metinde 211 öznitelikten **45'i** `nan` döner. Bu bir hata
+Üç kelimelik bir metinde 205 öznitelikten **41'i** `nan` döner. Bu bir hata
 değil, dürüstlüktür. Ayrıntı: **[NaN ne demek](aciklama/nan.md)**.
 
 ## 6. Bir özniteliğin kaynağını görün
@@ -196,10 +196,10 @@ print("sütun sayısı:", len(satirlar[0]))
 
 ```text
 satır sayısı: 3
-sütun sayısı: 211
+sütun sayısı: 208
 ```
 
-Her dosya bir satır olur. 214 sütun = 211 öznitelik + üç kimlik sütunu:
+Her dosya bir satır olur. 208 sütun = 205 öznitelik + üç kimlik sütunu:
 
 ```text
 label=yazar_a  source=metin1     segment_id=0
@@ -211,7 +211,7 @@ label=yazar_b  source=metin3     segment_id=0
 adıdır. CSV'nin ilk satırı:
 
 ```text
-label,source,segment_id,n_lemma_count,avg_word_length,word_length_cv,entropy,yule_k,simpso...
+label,source,segment_id,n_lemma_count,avg_word_length,entropy,yule_k,simpso...
 ```
 
 Bu dosyayı `pandas`, R ya da SPSS ile doğrudan açabilirsiniz.

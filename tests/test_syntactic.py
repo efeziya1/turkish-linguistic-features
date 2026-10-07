@@ -186,18 +186,17 @@ def test_pos_dagilim_hizalama_bozuksa_hata():
 # ── cümle istatistikleri ──────────────────────────────────────────────
 
 
-def test_esit_cumlelerde_cv_sifir_carpiklik_nan():
-    """Hep aynı uzunluk → CV gerçekten 0; çarpıklık 0/0 → NaN."""
+def test_esit_cumlelerde_carpiklik_nan():
+    """Hep aynı uzunluk → çarpıklık 0/0 → NaN."""
     sonuc = sentence_stats([["a", "b"], ["c", "d"]])
-    assert sonuc["sentence_length_cv"] == 0.0
+    assert "sentence_length_cv" not in sonuc
     assert _nan(sonuc["sent_len_skewness"])
 
 
 def test_cumle_istatistikleri_elle():
-    """Uzunluklar 2, 4 → ort 3, std 1, CV 1/3, medyan 3, simetrik → çarpıklık 0."""
+    """Uzunluklar 2, 4 → ort 3, medyan 3, simetrik → çarpıklık 0."""
     sonuc = sentence_stats([["a", "b"], ["c", "d", "e", "f"]])
     assert sonuc["avg_sent_len_word"] == 3.0
-    assert sonuc["sentence_length_cv"] == 0.3333
     assert sonuc["med_sent_len"] == 3.0
     assert sonuc["sent_len_skewness"] == 0.0
 
@@ -241,17 +240,14 @@ def test_paragraf_elle():
     sonuc = paragraph_stats("Bir iki üç.\n\nDört beş.")
     assert sonuc == {
         "para_len_mean": 2.5,
-        "para_len_cv": 0.2,
         "sents_per_para_mean": 1.0,
-        "sents_per_para_cv": 0.0,
         "para_count_norm": 400.0,
     }
 
 
-def test_tek_paragrafta_cv_nan():
+def test_tek_paragraf():
     sonuc = paragraph_stats("Bir iki üç. Dört.")
-    assert sonuc["para_len_mean"] == 4.0
-    assert _nan(sonuc["para_len_cv"]) and _nan(sonuc["sents_per_para_cv"])
+    assert sonuc["para_len_mean"] == 4.0 and sonuc["sents_per_para_mean"] == 2.0
 
 
 def test_paragraf_bos_satirla_bolunur():
@@ -296,7 +292,6 @@ def test_uzun_metin_paragraf_sinirsizsa_uyarir():
         sonuc = paragraph_stats(metin)
     # Karar (2026-09-24, Efe): sayılar değişmez, yalnız görünür kılınır.
     assert sonuc["para_len_mean"] == 1200.0
-    assert _nan(sonuc["para_len_cv"])
 
 
 def test_uyari_mesaji_kullanicinin_sayisini_verir():
@@ -313,7 +308,7 @@ def test_paragrafli_uzun_metin_uyarmaz():
     metin = "\n\n".join(" ".join(f"Cümle {i}." for i in range(50)) for _ in range(12))
     with warnings.catch_warnings():
         warnings.simplefilter("error", ParagraphStructureWarning)
-        assert paragraph_stats(metin)["para_len_cv"] == 0.0
+        assert paragraph_stats(metin)["para_len_mean"] == 100.0
 
 
 def test_kisa_tek_paragraf_uyarmaz():
@@ -354,7 +349,6 @@ def test_alfabesiz_cumle_sayilmaz():
     """"..." cümle değil; geriye tek cümle kalır, tek değerden yayılım ölçülmez."""
     sonuc = sentence_stats([["Ali", "geldi", "."], ["..."]])
     assert sonuc["avg_sent_len_word"] == 2.0
-    assert _nan(sonuc["sentence_length_cv"])
 
 
 def test_rakam_kelimedir_ama_tek_basina_cumle_degildir():
@@ -385,7 +379,6 @@ def test_tek_cumlede_yayilim_nan():
     sonuc = sentence_stats([["tek"]])
     assert sonuc["avg_sent_len_word"] == 1.0
     assert sonuc["med_sent_len"] == 1.0
-    assert _nan(sonuc["sentence_length_cv"])
     assert _nan(sonuc["sent_len_skewness"])
 
 

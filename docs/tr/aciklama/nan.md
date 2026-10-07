@@ -20,10 +20,10 @@ len(kisa), len(nan_olan)
 ```
 
 ```text
-(211, 45)
+(205, 41)
 ```
 
-211 öznitelikten **45'i** `nan`. Örnekler:
+205 öznitelikten **41'i** `nan`. Örnekler:
 
 ```text
 ['causative_suffix_ratio', 'conditional_suffix_ratio',
@@ -74,11 +74,10 @@ olur. `parse_depth_mean` cümle ayrıştırılamazsa değer üretemez.
 
 ### 3. Girdide paragraf sınırı yok
 
-`para_len_cv` ve `sents_per_para_cv` en az **iki** paragraf ister —
-değişkenlik tek değerden ölçülmez. Paragraf sınırı boş satırla bulunur, tek
-satır sonu saymaz. Metninizde boş satır yoksa metnin tamamı tek paragraf
-sayılır, bu iki öznitelik `nan` döner ve `para_len_mean` bütün metnin kelime
-sayısına eşitlenir.
+Paragraf sınırı boş satırla bulunur, tek satır sonu saymaz. Metninizde boş
+satır yoksa metnin tamamı tek paragraf sayılır ve `para_len_mean` bütün
+metnin kelime sayısına eşitlenir: değer `nan` olmaz ama paragraf hakkında
+bir şey söylemez.
 
 1000 kelimeyi geçen metinde hiç sınır bulunamazsa `ParagraphStructureWarning`
 basılır:
@@ -145,7 +144,7 @@ parçalama:
 satirlar = tlf.analyze_corpus("korpus/", lang="tr", segment_size=1000)
 ```
 
-1000 tokenlık parçalar 211 özniteliğin neredeyse tamamını besler. Ayrıntı:
+1000 tokenlık parçalar 205 özniteliğin neredeyse tamamını besler. Ayrıntı:
 [Metni parçalara böl](../nasil/segmentleme.md).
 
 ## Neden `None` değil de `nan`

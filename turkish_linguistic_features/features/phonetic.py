@@ -1,12 +1,11 @@
 """Ses ve yazı örüntüleri: ünlü oranları ile büyük ve küçük ünlü uyumu.
 
-Bu modül ``phonetic`` grubunun 15 anahtarını üretir:
+Bu modül ``phonetic`` grubunun 13 anahtarını üretir:
 
 - T09 (5): ``vowel_ratio`` · ``front_vowel_ratio`` · ``back_vowel_ratio`` ·
   ``harmony_fronting_ratio`` · ``harmony_rounding_ratio``
-- T10 (10): ``syllable_mean`` · ``syllable_cv`` · ``syllable_1_ratio`` …
-  ``syllable_5_ratio`` · ``syllable_6plus_ratio`` · ``sentence_syllable_mean`` ·
-  ``sentence_syllable_cv``
+- T10 (8): ``syllable_mean`` · ``syllable_1_ratio`` … ``syllable_5_ratio`` ·
+  ``syllable_6plus_ratio`` · ``sentence_syllable_mean``
 
 T10'un ``hece_say`` / ``birim_hecesi`` fonksiyonları T13'ün Türkçe okunabilirlik
 formüllerinin de hece sayacıdır (K11: tek sayaç).
@@ -301,25 +300,20 @@ def birim_heceleri(birimler: list[str], lang: str) -> list[int]:
     return [h for h in (birim_hecesi(b, lang) for b in birimler) if h is not None]
 
 
-def _ortalama_cv(degerler: list[int]) -> tuple[float, float]:
-    """Ortalama ve popülasyon CV'si; boşsa ikisi NaN, tek değerde CV NaN (K4)."""
+def _ortalama(degerler: list[int]) -> float:
+    """Ortalama; boşsa NaN (K4). CV'ler 2026-10-07'de kaldırıldı (Efe)."""
     if not degerler:
-        return math.nan, math.nan
-    d = np.array(degerler, dtype=np.float64)
-    ortalama = float(d.mean())
-    cv = float(d.std()) / ortalama if len(d) > 1 and ortalama > 0 else math.nan
-    return round(ortalama, 4), round(cv, 4)
+        return math.nan
+    return round(float(np.mean(degerler)), 4)
 
 
 def syllable_count_stats(birimler: list[str], lang: str = "tr") -> dict[str, float]:
-    """Kelime başına hece: ortalama ve CV (``syllable_stdev`` → CV, 2026-09-16, Efe).
+    """Kelime başına ortalama hece.
 
     Kelime = varsayılan kelime birimi (``readability.kelime_birimleri``, 2026-10-06, Efe);
-    yalnız hecelenebilen birimler sayılır (``birim_hecesi``). CV popülasyon
-    standart sapması / ortalama — ``word_length_cv`` ile aynı kalıp.
+    yalnız hecelenebilen birimler sayılır (``birim_hecesi``).
     """
-    ortalama, cv = _ortalama_cv(birim_heceleri(birimler, lang))
-    return {"syllable_mean": ortalama, "syllable_cv": cv}
+    return {"syllable_mean": _ortalama(birim_heceleri(birimler, lang))}
 
 
 _HECE_KOVALARI = ("syllable_1_ratio", "syllable_2_ratio", "syllable_3_ratio",
@@ -341,17 +335,15 @@ def syllable_length_distribution(birimler: list[str], lang: str = "tr") -> dict[
 
 
 def sentence_syllable_stats(cumleler: list[list[str]], lang: str = "tr") -> dict[str, float]:
-    """Cümle başına hece: ortalama ve CV.
+    """Cümle başına ortalama hece.
 
     ``cumleler`` cümle başına kelime birimleridir (``readability.cumle_birimleri``).
     Cümlenin hecesi, hecelenebilen birimlerinin toplamıdır. Hiç hecelenebilen
-    birimi olmayan cümle ölçülemez, hesaba girmez. Cümle yoksa ikisi NaN; tek
-    cümlede CV NaN.
+    birimi olmayan cümle ölçülemez, hesaba girmez. Cümle yoksa NaN.
     """
     heceler = []
     for cumle in cumleler:
         sayilar = birim_heceleri(cumle, lang)
         if sayilar:
             heceler.append(sum(sayilar))
-    ortalama, cv = _ortalama_cv(heceler)
-    return {"sentence_syllable_mean": ortalama, "sentence_syllable_cv": cv}
+    return {"sentence_syllable_mean": _ortalama(heceler)}

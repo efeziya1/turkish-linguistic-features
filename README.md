@@ -3,7 +3,7 @@
 [![CI](https://github.com/efeziya1/turkish-linguistic-features/actions/workflows/ci.yml/badge.svg)](https://github.com/efeziya1/turkish-linguistic-features/actions/workflows/ci.yml)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23009540.svg)](https://doi.org/10.5281/zenodo.23009540)
 
-Extracts 211 quantitative linguistic features from Turkish text and 183 from
+Extracts 205 quantitative linguistic features from Turkish text and 177 from
 English. Every feature has its formula written out; 162 of the Turkish features
 and 137 of the English ones cite a source in the literature, and the rest are
 plain definitions (such as a letter's share of the text). The
@@ -72,7 +72,7 @@ loading it prints a `W094` warning; both are harmless
 Ten public names:
 
 ```python
-tlf.analyze(text, lang="tr")                     # 211 features (TR) / 183 (EN)
+tlf.analyze(text, lang="tr")                     # 205 features (TR) / 177 (EN)
 tlf.analyze(text, groups=["readability"])        # one group only
 tlf.analyze_corpus("corpus/")                    # one row per file
 tlf.analyze_corpus("corpus/", segment_size=1000) # or split into chunks

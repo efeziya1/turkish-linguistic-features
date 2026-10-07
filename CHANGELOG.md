@@ -187,6 +187,13 @@
   the slope of TTR over disjoint chunks was hard to read and had no source. Keys: TR 212 → 211,
   EN 184 → 183; `lexical` 36 → 35. Passing `ttr_slope_chunk_size` to `FeatureParams` now
   raises `TypeError`.
+- Six coefficient-of-variation features (decided 2026-10-07): `word_length_cv`,
+  `sentence_length_cv`, `para_len_cv`, `sents_per_para_cv`, `syllable_cv` and
+  `sentence_syllable_cv`. None had a source and what they showed was unclear; two repeated
+  another in syllables, two depended on blank-line paragraph boundaries. Keys: TR 211 → 205,
+  EN 183 → 177; `lexical` 35 → 34, `sentence` 8 → 7, `paragraph` 5 → 3, `phonetic` TR 15 → 13,
+  EN 13 → 11. `examples/05_cumle_ritmi.py` now ranks labels by the share of short plus long
+  sentences instead of the CV.
 - The undocumented `LINGUISTIC_FEATURES_NO_ZEYREK_WARMUP` environment variable.
   The Zeyrek warm-up now always runs on import: skipping it and then analysing
   Turkish in the same process could crash on Windows.

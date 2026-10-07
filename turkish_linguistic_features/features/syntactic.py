@@ -3,7 +3,7 @@
 Bu modül T11'in anahtarlarını üretir:
 
 - ``pos`` (12): ``pos_noun`` … ``pos_intj``
-- ``sentence`` (8) ve ``paragraph`` (5)
+- ``sentence`` (7) ve ``paragraph`` (3)
 - ``syntactic`` grubunun 7'si: ``nominal_verbal_ratio``, ``verb_dist_mean``,
   ``verb_dist_cv``, ``activity_ratio``, ``lexical_density``, ``pos_dist_std``,
   ``pos_kl_div`` (kalan 2'si T12: ``question_per_sent``, ``pronoun_freq``)
@@ -239,21 +239,20 @@ def sentence_stats(cumleler: list[list[str]]) -> dict[str, float]:
     Çarpıklık Fisher-Pearson ``g1 = m3 / m2^1.5`` (popülasyon momentleri);
     simetrik dağılımda 0, uzun cümleler kuyruk yapıyorsa pozitif.
 
-    NaN: cümle yoksa hepsi; tek cümlede CV ve çarpıklık (tek değerden yayılım
-    ölçülmez); bütün cümleler eşit uzunluktaysa çarpıklık (0/0). Eşit
-    uzunlukta CV gerçekten 0'dır.
+    NaN: cümle yoksa hepsi; tek cümlede çarpıklık (tek değerden yayılım
+    ölçülmez); bütün cümleler eşit uzunluktaysa çarpıklık (0/0).
+    ``sentence_length_cv`` 2026-10-07'de kaldırıldı (Efe).
     """
     kelimeler = _cumle_kelimeleri(cumleler)
     if not kelimeler:
-        return {"avg_sent_len_word": math.nan, "sentence_length_cv": math.nan,
-                "sent_len_skewness": math.nan, "med_sent_len": math.nan}
+        return {"avg_sent_len_word": math.nan, "sent_len_skewness": math.nan,
+                "med_sent_len": math.nan}
     u = np.array([len(c) for c in kelimeler], dtype=np.float64)
     sapma = u - u.mean()
     m2 = float(np.mean(sapma ** 2))
     carpiklik = float(np.mean(sapma ** 3)) / m2 ** 1.5 if m2 > 0 else math.nan
     return {
         "avg_sent_len_word": round(float(u.mean()), 4),
-        "sentence_length_cv": round(_cv(u), 4),
         "sent_len_skewness": round(carpiklik, 4),
         "med_sent_len": round(float(np.median(u)), 4),
     }
@@ -316,7 +315,7 @@ def paragraph_stats(raw_text: str, lang: str = "tr") -> dict[str, float]:
 
     ``para_len_mean`` ile ``avg_sent_len_word`` aynı kelime tanımını kullanır.
 
-    Paragraf yoksa hepsi NaN; tek paragrafta iki CV NaN.
+    Paragraf yoksa hepsi NaN. CV'ler 2026-10-07'de kaldırıldı (Efe).
 
     Çok cümleli bir metin tek paragraf çıkıyorsa ``ParagraphStructureWarning``
     basılır — sayılar değişmez (2026-09-24, Efe). Girdide paragraf sınırı
@@ -325,8 +324,8 @@ def paragraph_stats(raw_text: str, lang: str = "tr") -> dict[str, float]:
     """
     paras = [p for p in _PARA_SPLIT.split(raw_text.replace("\r\n", "\n")) if p.strip()]
     if not paras:
-        return {"para_len_mean": math.nan, "para_len_cv": math.nan, "sents_per_para_mean": math.nan,
-                "sents_per_para_cv": math.nan, "para_count_norm": math.nan}
+        return {"para_len_mean": math.nan, "sents_per_para_mean": math.nan,
+                "para_count_norm": math.nan}
     # K11 istisnası: yerel sayım — paragrafı token akışına hizalamak ikinci geçiş ister
     kelime = np.array([len(kelime_birimleri(p, lang)[0]) for p in paras], dtype=np.float64)
     cumle = np.array([max(len(_SENT_END.findall(p)), 1) for p in paras], dtype=np.float64)
@@ -336,9 +335,7 @@ def paragraph_stats(raw_text: str, lang: str = "tr") -> dict[str, float]:
     toplam_kelime = float(kelime.sum())
     return {
         "para_len_mean": round(float(kelime.mean()), 4),
-        "para_len_cv": round(_cv(kelime), 4),
         "sents_per_para_mean": round(float(cumle.mean()), 4),
-        "sents_per_para_cv": round(_cv(cumle), 4),
         # Yalnız noktalamadan oluşan metinde kelime yok: oran ölçülemez (K4).
         "para_count_norm": (round(len(paras) / toplam_kelime * 1000, 4) if toplam_kelime
                             else math.nan),

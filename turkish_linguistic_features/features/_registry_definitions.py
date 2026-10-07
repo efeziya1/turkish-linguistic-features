@@ -76,9 +76,9 @@ WORD_DEFINITIONS = TERM_VALUES["word"]
 _PUNC_TURLER = (",", ".", ";", "!", ":", "-", "ellipsis", "paren", "quote", "question")
 _PUNC = tuple(f"punc_{t}_ratio" for t in _PUNC_TURLER) + ("punc_total_ratio",)
 _SYLLABLE_PHONETIC = (
-    "syllable_mean", "syllable_cv", "syllable_1_ratio", "syllable_2_ratio", "syllable_3_ratio",
+    "syllable_mean", "syllable_1_ratio", "syllable_2_ratio", "syllable_3_ratio",
     "syllable_4_ratio", "syllable_5_ratio", "syllable_6plus_ratio",
-    "sentence_syllable_mean", "sentence_syllable_cv",
+    "sentence_syllable_mean",
 )
 _SYLLABLE_READABILITY = (
     "bezirci_yilmaz", "atesman", "cetinkaya_uzun", "flesch_reading_ease", "flesch_kincaid_grade",
@@ -121,9 +121,9 @@ def _hepsi(deger: str, anahtarlar: tuple[str, ...]) -> dict[str, str | None]:
 
 GROUP_SENTENCE: dict[str, str | None] = {"sentence": "default", "syntactic_dep": "spacy_parser"}
 FEATURE_SENTENCE: dict[str, str | None] = {
-    "sents_per_para_mean": "regex_paragraph", "sents_per_para_cv": "regex_paragraph",
+    "sents_per_para_mean": "regex_paragraph",
     "question_per_sent": "default", "pos_kl_div": "default",
-    "sentence_syllable_mean": "default", "sentence_syllable_cv": "default",
+    "sentence_syllable_mean": "default",
     "atesman": "default", "bezirci_yilmaz": "default", "cetinkaya_uzun": "cetinkaya",
     "flesch_reading_ease": "kincaid", "flesch_kincaid_grade": "kincaid", "smog": "default",
     "ari": "default", "coleman_liau": "default", "lix": "default",
@@ -144,7 +144,7 @@ GROUP_WORD: dict[str, str | None] = {
 }
 FEATURE_WORD: dict[str, str | None] = {
     "avg_sent_len_char": None,
-    **_hepsi("space_unit", ("para_len_mean", "para_len_cv", "para_count_norm",
+    **_hepsi("space_unit", ("para_len_mean", "para_count_norm",
                             "harmony_fronting_ratio", "harmony_rounding_ratio",
                             "uppercase_ratio", "all_caps_word_ratio")),
     **_hepsi("space_unit", _SYLLABLE_PHONETIC + _PUNC),
@@ -164,7 +164,7 @@ TERMS: dict[str, tuple[dict[str, str | None], dict[str, str | None]]] = {
     "word": (GROUP_WORD, FEATURE_WORD),
     "type": (
         {"lexical": "lowercase_surface", "frequency_structure": PER_LANGUAGE},
-        {**_hepsi(PER_LANGUAGE, _TYPE_LEMMA), "avg_word_length": None, "word_length_cv": None},
+        {**_hepsi(PER_LANGUAGE, _TYPE_LEMMA), "avg_word_length": None},
     ),
     "token": ({}, {"avg_sent_len_char": "spacy_token"}),
     "syllable": ({}, _hepsi(PER_LANGUAGE, _SYLLABLE_PHONETIC + _SYLLABLE_READABILITY)),
@@ -177,14 +177,14 @@ TERMS: dict[str, tuple[dict[str, str | None], dict[str, str | None]]] = {
          "suffix_char_length_ratio": "zeyrek_surface_letter"},
     ),
     "character": ({}, {
-        **_hepsi("token_string_length", ("avg_word_length", "word_length_cv")),
+        "avg_word_length": "token_string_length",
         "ari": "non_space_character",
         **_hepsi("raw_character", ("digit_vs_all", "punct_density", "whitespace_ratio")),
         "avg_sent_len_char": "sentence_joined_character",
     }),
     "long_word": ({}, _hepsi("7_plus_letters", ("lix", "long_word_ratio"))),
-    "paragraph": ({}, _hepsi("blank_line", ("para_len_mean", "para_len_cv", "sents_per_para_mean",
-                                            "sents_per_para_cv", "para_count_norm"))),
+    "paragraph": ({}, _hepsi("blank_line", ("para_len_mean", "sents_per_para_mean",
+                                            "para_count_norm"))),
     "mark": ({}, _hepsi("ten_mark_types", _PUNC + ("punct_density", "punct_entropy",
                                                    "consecutive_punct_ratio", "punct_variety"))),
     "noun": ({}, _hepsi("noun_propn", ("nominal_verbal_ratio", "noun_variation"))),

@@ -1,11 +1,11 @@
 """Sözcüksel temel: frekans tablosu ve klasik kelime zenginliği ölçütleri.
 
-Bu modül 34 öznitelik anahtarı üretir (`lexical` grubunun 35'inden; kalan
+Bu modül 33 öznitelik anahtarı üretir (`lexical` grubunun 34'ünden; kalan
 ``n_lemma_count`` T20'de sayılır):
 
-- T04 (11): ``ttr`` · ``entropy`` · ``yule_k`` · ``simpson_d`` · ``brunet_w`` ·
+- T04 (10): ``ttr`` · ``entropy`` · ``yule_k`` · ``simpson_d`` · ``brunet_w`` ·
   ``hapax_ratio`` · ``hapax_percentage`` · ``avg_word_length`` ·
-  ``word_length_cv`` · ``sichel_s`` · ``heaps_beta``
+  ``sichel_s`` · ``heaps_beta``
 - T05 (10): ``mattr`` · ``entropy_std`` · ``herdan_c`` · ``mtld`` ·
   ``dugast_u`` · ``guiraud_r`` · ``noun_variation`` ·
   ``verb_variation`` · ``adj_variation`` · ``adv_variation``
@@ -183,29 +183,14 @@ def hapax_percentage(items: list) -> dict[str, float]:
     return {"hapax_percentage": round(hapax_count(items) / n, 6)}
 
 
-def word_length_stats(tokens: list[str]) -> tuple[float, float]:
-    """Kelime uzunluğunun ortalaması ve değişim katsayısı.
+def word_length_stats(tokens: list[str]) -> float:
+    """Kelime uzunluğunun ortalaması (karakter). Boşsa NaN.
 
-    Returns
-    -------
-    (ortalama, cv) : tuple[float, float]
-        ``cv = std / ortalama``. Standart sapma **popülasyon** sapmasıdır
-        (``ddof=0``) — elimizdeki token listesi örneklem değil, metnin
-        kendisi.
-
-    Not: bu **kelime** uzunluğunun değişkenliğidir, cümle uzunluğunun
-    değil. Cümle versiyonu ayrı bir anahtar: ``sentence_length_cv``.
-
-    Boşsa ikisi de NaN; tek kelimede CV NaN (tek değerden değişkenlik ölçülmez).
+    ``word_length_cv`` 2026-10-07'de kaldırıldı (Efe): kaynaksız, anlamı belirsiz.
     """
     if not tokens:
-        return (math.nan, math.nan)
-    uzunluklar = np.array([len(t) for t in tokens], dtype=np.float64)
-    ortalama = float(uzunluklar.mean())
-    if len(tokens) < 2 or ortalama == 0.0:
-        return (round(ortalama, 4), math.nan)
-    cv = float(uzunluklar.std()) / ortalama
-    return (round(ortalama, 4), round(cv, 4))
+        return math.nan
+    return round(float(np.mean([len(t) for t in tokens])), 4)
 
 
 def rare_word_metrics(tokens: list[str]) -> dict[str, float]:

@@ -146,7 +146,7 @@ sonu paragraf saymaz — aksi hâlde satır satır sarılmış bir metinde her s
 paragraf olurdu.
 
 Sonuç: metninizde boş satır yoksa metnin tamamı tek paragraf sayılır.
-`para_len_mean` bütün metnin kelime sayısına eşitlenir, iki CV NaN döner.
+`para_len_mean` bütün metnin kelime sayısına eşitlenir.
 Kütüphane bunu düzeltemez — silinmiş paragraf sınırı geri getirilemez.
 
 Bu, PDF ve EPUB'dan çıkarılmış metinlerde **yaygındır**: paragraflar arasındaki

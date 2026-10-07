@@ -199,10 +199,8 @@ def test_ttr_uzunluga_bagimli_regresyon():
 
 
 def test_kelime_uzunlugu_elle_hesap():
-    """Uzunluklar [2, 4] → ortalama 3.0, popülasyon std 1.0, CV = 1/3."""
-    ort, cv = word_length_stats(["ab", "abcd"])
-    assert ort == 3.0
-    assert cv == 0.3333
+    """Uzunluklar [2, 4] → ortalama 3.0."""
+    assert word_length_stats(["ab", "abcd"]) == 3.0
 
 
 # ── Sichel-S ──────────────────────────────────────────────────────────
@@ -300,7 +298,7 @@ def test_bos_girdiler_cokmez():
     assert _nan(hapax_ratio([])["hapax_ratio"])
     assert _nan(hapax_percentage([])["hapax_percentage"])
     assert hapax_count([]) == 0
-    assert all(_nan(v) for v in word_length_stats([]))
+    assert _nan(word_length_stats([]))
     assert _nan(type_token_ratio(0, 0)["ttr"])
     assert _nan(rare_word_metrics([])["sichel_s"])
     assert _nan(heaps_beta([])["heaps_beta"])
@@ -316,8 +314,7 @@ def test_tek_elemanli_girdiler_cokmez():
     assert hapax_ratio(items)["hapax_ratio"] == 1.0
     assert hapax_percentage(items)["hapax_percentage"] == 1.0
     assert hapax_count(items) == 1
-    ort, cv = word_length_stats(["ev"])
-    assert ort == 2.0 and _nan(cv)        # tek değerden değişkenlik ölçülmez
+    assert word_length_stats(["ev"]) == 2.0
     assert type_token_ratio(1, 1)["ttr"] == 1.0
     assert rare_word_metrics(["ev"])["sichel_s"] == 0.0
     assert _nan(heaps_beta(["ev"])["heaps_beta"])

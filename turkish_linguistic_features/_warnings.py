@@ -93,9 +93,9 @@ def uyar_paragraf_yok(cumle_sayisi: int, kelime_sayisi: int) -> None:
     warnings.warn(
         f"No paragraph boundary found: the text contains no blank line, so all "
         f"{kelime_sayisi} words and {cumle_sayisi} sentences were counted as a "
-        f"single paragraph. `para_len_mean` and `para_count_norm` are therefore "
-        f"text-level rather than paragraph-level numbers, and `para_len_cv` and "
-        f"`sents_per_para_cv` return NaN. Paragraph boundaries are marked by "
+        f"single paragraph. `para_len_mean`, `sents_per_para_mean` and "
+        f"`para_count_norm` are therefore text-level rather than paragraph-level "
+        f"numbers. Paragraph boundaries are marked by "
         f"blank lines; text extracted from PDF or EPUB may have lost its line "
         f"breaks.",
         ParagraphStructureWarning,
