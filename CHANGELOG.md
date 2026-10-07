@@ -27,6 +27,14 @@
   up to 36% in `syllable_1_ratio`. The verification reports do not change (46 ✅ + 2 🟡). The
   internal token-based syllable helpers (`phonetic.toplam_hece` and its helpers) and the unused
   `okunus.sembol_oku` were removed; `phonetic.birim_hecesi` is the one syllable counter.
+- Turkish lemmas now come from Zeyrek instead of spaCy (decided 2026-10-07): the dictionary entry
+  of Zeyrek's first analysis, lowercased, without the infinitive `-mak/-mek`; circumflexes stay
+  as in Zeyrek's dictionary (`millî`). A word Zeyrek cannot analyse keeps the part before its
+  apostrophe (`Pittsburgh'tan` → `pittsburgh`). spaCy's Turkish lemma left inflected forms as
+  lemmas in 15% of words (TOMA, 11 texts). Changed: `n_lemma_count`, `noun_variation`,
+  `verb_variation`, `adj_variation`, `adv_variation`, `wordfreq_mean`, `wordfreq_rare_ratio`,
+  `surface_per_lemma` and the 13 `frequency_structure` features. English lemmas still come from
+  spaCy; `describe_feature(key, lang=...)["definitions"]["type"]` names the source per language.
 
 - The verification tolerance changed from a fixed absolute 0.05 to 1% relative
   to the published value (`math.isclose(rel_tol=0.01)`, with a 1e-9 absolute

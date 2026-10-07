@@ -3,10 +3,10 @@
 Zeyrek **tokenizasyon yapmaz**; hazır bir kelimeyi alıp eklerine ayırır.
 Kelime sınırlarını her zaman spaCy belirler (K11).
 
-Tek işi ``morpheme_lists``: ``morphological_zeyrek`` grubunun 24 anahtarı.
-``ProcessedText``in geri kalan alanlarını (POS, lemma, morfoloji, bağımlılık)
-``Preprocessor`` spaCy modelinden dolduruyor — spaCy Türkçe morfolojik **ek
-bölütlemesi** üretmediği için yalnız bu alan Zeyrek'ten geliyor (K11, T21).
+İki işi var: ``morpheme_lists`` (``morphological_zeyrek`` grubunun 24 anahtarı)
+ve Türkçe ``lemma_tokens`` (2026-10-07, Efe: spaCy'nin Türkçe lemması bırakıldı).
+``ProcessedText``in geri kalan alanlarını (POS, morfoloji, bağımlılık)
+``Preprocessor`` spaCy modelinden dolduruyor (K11, T21).
 """
 
 # 🔴 Import sırası bu dosyada KASITLI — gerekçe aşağıda, `_mt` import'unun yanında.
@@ -168,7 +168,7 @@ class ZeyrekBackend:
             # native uzantıların doğru sırada yüklendiğini garanti etmek.
             self._nlp = spacy.blank("tr")
 
-    def _cozumle_ham(self, word: str) -> tuple[Morpheme, ...]:
+    def _cozumle_ham(self, word: str) -> tuple[tuple[Morpheme, ...], str | None]:
         self._ensure_loaded()
         analyzer = self._analyzer
         assert analyzer is not None                    # _ensure_loaded doldurdu
@@ -177,14 +177,15 @@ class ZeyrekBackend:
             # Boş demet DEĞİL, tek elemanlı: `agglutination_depth` kelime
             # başına morfem sayıyor. Kök etiketi `Unk` — T16 çözümsüz kelimeyi
             # paydadan bu etiketle çıkarıyor (`_KELIME_DISI_KOK`).
-            return (("Unk", word, False),)
+            return (("Unk", word, False),), None
 
         # Belirsizlikte ilk çözümleme alınır; bağlam kullanılmıyor. Bu bir
         # sınırlama ve sınırlılıklar §4'te yazılı. Zeyrek eşit adaylar
         # arasında kararlı bir sıralama da tanımlamıyor (ölçüldü, 2026-09-18),
         # yani o kelimelerde seçim keyfî.
-        return tuple((m.id_, yuzey, bool(m.derivational))
-                     for m, yuzey in cozumlemeler[0].morphemes)
+        ilk = cozumlemeler[0]
+        morfemler = tuple((m.id_, yuzey, bool(m.derivational)) for m, yuzey in ilk.morphemes)
+        return morfemler, _dictionary_lemma(ilk.dict_item.lemma, ilk.dict_item.primary_pos.value)
 
     def analyze_word(self, word: str) -> tuple[Morpheme, ...]:
         """Kelimenin morfem üçlüleri: ``(etiket, yüzey_ek, türetimsel_mi)``.
@@ -196,11 +197,31 @@ class ZeyrekBackend:
         Çözümlenemeyen kelimede ``(("Unk", kelime, False),)`` döner — **boş
         demet değil**.
 
-        Yalnız morfem döndürüyor: lemma, POS ve morfoloji etiketleri
-        ``Preprocessor``da spaCy modelinden geliyor (T21), Zeyrek'ten değil.
+        Yalnız morfem döndürüyor; Türkçe lemma ``lemma()``'dan gelir, POS ve
+        morfoloji etiketleri ``Preprocessor``da spaCy modelinden (T21).
 
         Kıvrık kesme işaretleri (``’`` ``‘``) düz ``'``'ye çevrilir (2026-10-06, Efe): Zeyrek
         yalnız düz kesmeyi tanıyor, ``Zeynep’i`` ve ``Türkiye’de`` çözümsüz kalıp Zeyrek
         özniteliklerinden düşüyordu (TOMA'nın 11 metninde sözcüklerin %0,9'u).
         """
-        return self._cozumle(word.translate(_KESME_DUZ))
+        return self._cozumle(word.translate(_KESME_DUZ))[0]
+
+    def lemma(self, word: str) -> str:
+        """Turkish lemma of a word: the dictionary entry of Zeyrek's first analysis.
+
+        Case is kept; the caller lowercases. Verbs drop the infinitive ``-mak/-mek``.
+        Circumflexes stay (``millî``): removing them would merge 301 of Zeyrek's 1,380
+        circumflexed entries with other words (``hâlâ`` → ``hala``) (2026-10-07, Efe).
+        An unanalysed word falls back to the part before its apostrophe
+        (``Pittsburgh'tan`` → ``Pittsburgh``). Shares the analysis cache with ``analyze_word``.
+        """
+        duz = word.translate(_KESME_DUZ)
+        lem = self._cozumle(duz)[1]
+        return lem if lem is not None else duz.split("'", 1)[0] or duz
+
+
+def _dictionary_lemma(lemma: str, primary_pos: str) -> str:
+    """Zeyrek dictionary entry → lemma: a verb's infinitive suffix removed."""
+    if primary_pos == "Verb" and lemma.endswith(("mak", "mek")):
+        return lemma[:-3]
+    return lemma

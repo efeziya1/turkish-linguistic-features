@@ -1,12 +1,12 @@
 """spaCy boru hattı — ham metin → ``ProcessedText`` (T21).
 
 ``analyze()``'ın kullandığı tek ön işleme yolu, iki dil için de.
-``surface_tokens``, ``sentences_as_tokens``, ``pos_data``, ``lemma_tokens``,
-``morph_tags`` ve ``dep_data`` eğitilmiş spaCy modelinden gelir.
+``surface_tokens``, ``sentences_as_tokens``, ``pos_data``, ``morph_tags`` ve
+``dep_data`` eğitilmiş spaCy modelinden gelir; ``lemma_tokens`` İngilizcede de.
 
-Tek istisna ``morpheme_lists``: spaCy Türkçe POS ve ``tok.morph`` üretiyor ama
-morfolojik **ek bölütlemesi** üretmiyor — onlar farklı şeyler (K11). O alanı
-Türkçede ``ZeyrekBackend`` dolduruyor, İngilizcede boş kalıyor.
+İki istisna Türkçede ``ZeyrekBackend``'den gelir: ``morpheme_lists`` (spaCy
+morfolojik **ek bölütlemesi** üretmiyor, K11) ve ``lemma_tokens`` (2026-10-07,
+Efe: Zeyrek'in sözlük maddesi). İngilizcede ``morpheme_lists`` boş kalır.
 
 Katman **sessiz**: varsayılan çağrıda hiçbir şey yazdırmaz, uyarı vermez
 (2026-08-25).
@@ -169,13 +169,25 @@ class Preprocessor:
         """
         if self.lang != "tr":
             return ()
+        zeyrek = self._zeyrek()
+        return tuple(zeyrek.analyze_word(tok) for tok in surface_tokens)
 
+    def _zeyrek(self) -> ZeyrekBackend:
         if self._zeyrek_backend is None:
             from .zeyrek_backend import ZeyrekBackend
             self._zeyrek_backend = ZeyrekBackend()
             self._zeyrek_backend._ensure_loaded()
+        return self._zeyrek_backend
 
-        return tuple(self._zeyrek_backend.analyze_word(tok) for tok in surface_tokens)
+    def _turkish_lemmas(self, surface: list[str], pos: list[tuple[str, str]]) -> list[str]:
+        """Turkish ``lemma_tokens`` from Zeyrek, aligned like spaCy's (word tokens only).
+
+        spaCy's Turkish lemma left inflected forms as lemmas (15 % of words in TOMA);
+        Zeyrek's dictionary entry replaces it (2026-10-07, Efe). English keeps spaCy.
+        """
+        zeyrek = self._zeyrek()
+        return [_kucuk_harf(zeyrek.lemma(tok), "tr")
+                for tok, (_, p) in zip(surface, pos, strict=True) if p not in NON_WORD_POS]
 
     def _birlestir(self, raw_text: str, dokumanlar: list) -> ProcessedText:
         """Parça ``Doc``'larını tek ``ProcessedText``te toplar."""
@@ -194,6 +206,9 @@ class Preprocessor:
             cumleler += c
             lemma += lm
             dep += d
+
+        if self.lang == "tr":
+            lemma = self._turkish_lemmas(surface, pos)
 
         return ProcessedText(
             raw_text=raw_text,
