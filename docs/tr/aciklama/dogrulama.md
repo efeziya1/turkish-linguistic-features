@@ -42,7 +42,7 @@ Bu ayrım raporun en önemli parçası. 208 özniteliğin bir kısmı, tanımı 
 |---|---|
 | ⚪ **kaynak yok** | Saf tanım. `punct_dash_ratio` "tire / bütün noktalama işaretleri" demektir; aranacak bir literatür sayısı yoktur. |
 | ⚫ **etiket şeması** | Bir ölçü değil, dış bir şemanın kategorisini sayıyor. `pos_noun_ratio` → UD, `zeyrek_case_loc_ratio` → Zeyrek. **Şema kategori tanımlar, ölçüm yayımlamaz** — de Marneffe'in makalesi "case_loc_ratio = 0,07" diye bir sayı basmaz, basamaz. |
-| 🔧 **türev** | Formül bir kaynaktan, **uygulaması bizden**. `sent_len_entropy` Shannon'ın entropisidir ama cümle uzunluklarına uygulanması bizim; `long_sent_ratio`'nun eşiği kendi kalibrasyonumuzdan gelir. Bu ölçüleri kimse yayımlamadı — kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
+| 🔧 **türev** | Formül bir kaynaktan, **uygulaması bizden**. `sent_len_entropy` Shannon'ın entropisidir ama tümce uzunluklarına uygulanması bizim; `long_sent_ratio`'nun eşiği kendi kalibrasyonumuzdan gelir. Bu ölçüleri kimse yayımlamadı — kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
 
 Türkçe tarafında **82 satır** bu üçünden biri. Geriye **151 doğrulama
 adayı** kalıyor. Gerçek payda budur.
@@ -76,14 +76,14 @@ Aşağıdaki Kincaid örneği bunun nasıl göründüğünü anlatıyor.
 Bu ayrım önemli ve raporda ayrı sütunda durur.
 
 **Uçtan uca**, kaynağın **kendi metnini** boru hattından geçirir. Yani
-tokenizasyon, heceleme ve cümle bölme de sınanır. En güçlü kanıttır: bir
+tokenizasyon, heceleme ve tümce bölme de sınanır. En güçlü kanıttır: bir
 sayı tutuyorsa yalnız formül değil, ona giden bütün adımlar doğrudur.
 
 **Formül**, fonksiyona girdileri doğrudan verir — örneğin "hece/sözcük 2,2
-ve sözcük/cümle 4". Formülü ve katsayıları doğrular, boru hattını
+ve sözcük/tümce 4". Formülü ve katsayıları doğrular, boru hattını
 doğrulamaz. Kaynak bir metin yayımlamamışsa elde olan budur.
 
-## Neden 97 satır hâlâ 🔍 açık
+## Neden 103 satır hâlâ 🔍 açık
 
 Kaynak formülü yayımlamış ama o formülü bir metne uygulayıp sonucu basmamış.
 Bu, nicel dilbilim literatüründe **olağandır**. Yule (1944) K'yı tanımlar,
@@ -122,7 +122,10 @@ göstergelerin tek girdisi olduğu için karşılaştırma doğrudan yapılabili
 | `repeat_rate` Text 2 | 0,02147 | 0,02147 |
 | `gini_coef` Text 1 | 0,3045 | 0,30449 |
 | `curve_length` Text 2 | 134,2787 | 134,27870 |
-| `entropy` Text 1 | 6,438043 | 6,438043 |
+| `entropy` Text 1 | 6,438043 bit = 4,462511 nat | 4,462512 |
+
+QUITA entropiyi bit cinsinden basıyor. Bu kütüphanedeki bütün logaritmalar doğal logaritma
+olduğu için yayımlanan değer karşılaştırmadan önce nata çevriliyor (× ln 2).
 
 Yirmi sekiz karşılaştırmanın yirmi yedisi tolerans içinde (en büyük göreli
 fark %0,1'in altında; çoğunda sapma sıfır). Kalan bir tanesinde sapma 0,009,
@@ -167,7 +170,7 @@ bastığı ortalama (12,3) ile bizim 18 pasajlık ortalamamız arasındaki fark.
 Yayımlanan değere oranı yaklaşık %3,9 (0,485 ÷ 12,3); %1 toleransın çok üstünde, yani ✅ olamıyor.
 
 **Neden ❌ değil?** Çünkü sapmanın nereden geldiğini tahmin etmedik, ölçtük.
-Her iki formülün girdisi "kelime başına vuruş" (harf ve rakam sayısı), ve
+Her iki formülün girdisi "sözcük başına vuruş" (boşluk dışı her karakter: harf, rakam ve noktalama), ve
 1975'te bu sayım elle yapılıyordu: daktiloya takılı mekanik bir sayaçla. Farkın
 oradan gelip gelmediğini şöyle sınadık: kaynağın bastığı sayıyı verecek vuruş
 miktarı bizimkinin kaç katı olmalıydı? 18 parçanın 17'sinde cevap
@@ -178,9 +181,9 @@ büyüklük bu.
 0,54'ten 4,24'e çıkarıyor (yani bizim boşluksuz sayımımız doğru), metin
 başlıklarını saymak ise 18 parçanın hepsinde sonucu kötüleştiriyor (yani kaynak
 başlıkları saymamış). Bir parça da kendi içinde tutarsız: 2 numaralı parçada
-kaynağın ARI'sının ima ettiği cümle uzunluğu, kendi FKGL'sini tutturmuyor.
+kaynağın ARI'sının ima ettiği tümce uzunluğu, kendi FKGL'sini tutturmuyor.
 
-Parça bazında bütün sayılar — vuruş ve kelime sayıları dâhil — raporun sonundaki
+Parça bazında bütün sayılar — vuruş ve sözcük sayıları dâhil — raporun sonundaki
 ek tabloda duruyor, farkın hangi girdiden geldiği görülebilsin diye.
 
 İşte 🟡'nin anlamı bu: *fark var, ölçtük, nereden geldiğini biliyoruz.*
@@ -231,17 +234,17 @@ tlf.describe_feature("sent_len_entropy")["formula"]
 | Öznitelik | Tanım | Kaynağa ait olan |
 |---|---|---|
 | `punct_entropy` | on noktalama türünün dağılımının Shannon entropisi (nat) | entropi formülü — Shannon (1948) |
-| `sent_len_entropy` | cümle başına kelime dağılımının Shannon entropisi (nat) | entropi formülü — Shannon (1948) |
-| `short_sent_ratio` | `short_sent_threshold` kelimeden az cümle / cümle | eşik değeri — [eşik kalibrasyonu](../../esik-kalibrasyonu.md) |
-| `long_sent_ratio` | `long_sent_threshold` kelimeden çok cümle / cümle | eşik değeri — [eşik kalibrasyonu](../../esik-kalibrasyonu.md) |
-| `polysyllabic_word_ratio` | 3+ heceli kelime / hecelenebilir kelime | çok heceli tanımı — McLaughlin (1969) s.641 |
+| `sent_len_entropy` | tümce başına sözcük dağılımının Shannon entropisi (nat) | entropi formülü — Shannon (1948) |
+| `short_sent_ratio` | `short_sent_threshold` sözcükten az tümce / tümce | eşik değeri — [eşik kalibrasyonu](../../esik-kalibrasyonu.md) |
+| `long_sent_ratio` | `long_sent_threshold` sözcükten çok tümce / tümce | eşik değeri — [eşik kalibrasyonu](../../esik-kalibrasyonu.md) |
+| `polysyllabic_word_ratio` | 3+ heceli sözcük / hecelenebilir sözcük | çok heceli tanımı — McLaughlin (1969) s.641 |
 
 Tek kural künyeyi doğru kurmak: formülün kaynağını verin, ölçünün kendisini
 kaynağa mal etmeyin.
 
 - ✗ "Shannon (1948) `sent_len_entropy` ölçüsü"
-- ✓ "Shannon (1948) entropisinin cümle uzunluğu dağılımına uygulanması
+- ✓ "Shannon (1948) entropisinin tümce uzunluğu dağılımına uygulanması
   (turkish-linguistic-features'ın tanımı)"
 
 Birinci yazım okuyucuya, kaynakta aranınca bulunacak bir ölçü olduğunu ima
-ediyor. Shannon entropiyi tanımladı, cümle uzunluklarına uygulamadı.
+ediyor. Shannon entropiyi tanımladı, tümce uzunluklarına uygulamadı.

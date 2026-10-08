@@ -24,7 +24,7 @@ Aşağıdaki üç durum **doğrulama adayı değildir** — aranacak bir sayı y
 |---|---|
 | ⚪ **kaynak yok** | Adlandırılmış bir literatür ölçüsü değil; saf tanım (`punct_dash_ratio`, `uppercase_ratio`). |
 | ⚫ **etiket şeması** | Bir ölçü değil, dış bir şemanın kategorisini sayıyor (`pos_noun_ratio` → UD; `zeyrek_case_loc_ratio` → Zeyrek). Şema kategori tanımlar, ölçüm yayımlamaz. |
-| 🔧 **türev** | Formül bir kaynaktan, **uygulaması bu kütüphaneden**. `sent_len_entropy` Shannon'ın entropisidir ama cümle uzunluklarına uygulanması bizim; `long_sent_ratio`'nun eşiği kendi kalibrasyonumuzdan gelir. Kimse bu ölçüyü yayımlamadı, dolayısıyla karşılaştırılacak sayı da yok. Kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
+| 🔧 **türev** | Formül bir kaynaktan, **uygulaması bu kütüphaneden**. `sent_len_entropy` Shannon'ın entropisidir ama tümce uzunluklarına uygulanması bizim; `long_sent_ratio`'nun eşiği kendi kalibrasyonumuzdan gelir. Kimse bu ölçüyü yayımlamadı, dolayısıyla karşılaştırılacak sayı da yok. Kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
 
 Tolerans yayımlanan değerin **%1'i** (göreli). Kaynaklar ara değerleri
 yuvarlayarak bastığı için mutlak eşitlik beklenmiyor; göreli tolerans her
@@ -38,10 +38,10 @@ nereden geldiğinin kanıtıdır — ilgili satırın altında okuyabilirsiniz.
 ## Kanıtın iki türü
 
 **Uçtan uca** satırlar kaynağın **metnini** boru hattından geçirir — yani
-tokenizasyon, heceleme ve cümle bölme de sınanır. Bunlar en güçlü kanıt.
+tokenizasyon, heceleme ve tümce bölme de sınanır. Bunlar en güçlü kanıt.
 
 **Formül** satırları fonksiyona girdileri doğrudan verir (örneğin "hece/sözcük
-2,2 ve sözcük/cümle 4"). Formülü ve katsayıları doğrular, boru hattını
+2,2 ve sözcük/tümce 4"). Formülü ve katsayıları doğrular, boru hattını
 doğrulamaz. Kaynak bir metin yayımlamamışsa elde olan budur.
 
 Bu rapor **testlerden üretilir** — `tests/test_kaynak_esligi.py` ile aynı
@@ -109,7 +109,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `arc_len_mean` | Liu (2008) eq. (1) | 'I actually live in Beijing' · 5/4 | formül | 1.250 | 1.250 | +0.000 | ✅ |
 | `parse_depth_mean` | Jing & Liu (2015) p.164 | Figure 3 · MHD = 12/6 | formül | 2.000 | 2.000 | +0.000 | ✅ |
 | `ari` | Kincaid et al. (1975) p.8, Table 1 | Appendix A · 18 passages, mean | uçtan uca | 12.300 | 11.763 | -0.537 | 🟡 |
-| `coleman_liau` | Coleman & Liau (1975) p.284 | iki denklemin bileşimi · 13 kelime, 2 cümle | formül | 7.704 | 7.705 | +0.000 | ✅ |
+| `coleman_liau` | Coleman & Liau (1975) p.284 | iki denklemin bileşimi · 13 sözcük, 2 tümce | formül | 7.704 | 7.705 | +0.000 | ✅ |
 | `coleman_liau` | Coleman & Liau (1975) p.284, Table 1 | cloze 40.4% → 12. sınıf | formül | 12.000 | 11.994 | -0.006 | ✅ |
 | `atesman` | Ateşman (1997) | Kalyoncu & Memiş (2024) Table 9 · Text 2 | uçtan uca | 23.094 | 23.094 | -0.000 | ✅ |
 | `atesman` | Ateşman (1997) p.74 | kalibrasyon: en kolay metin | formül | 100.000 | 100.000 | -0.000 | ✅ |
@@ -125,7 +125,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 **`ttr` sapması:** Kaynağın kendi sayıları (V=121, N=202) 121/202 = 0,599 verir; basılan 0,590 bu aritmetikle tutmuyor (baskı hatası). Bizim değer aritmetiğe uyuyor; fark yayımlanan değerin %1,5'i.
 
-**`ari` sapması:** Kaynağın sayıları 1975'te daktiloya takılı mekanik bir sayaçla **elle** üretildi (Ek B, ARI talimatı). 18 pasajın 17'sinde, kaynağın ARI'sını verecek vuruş sayısı bizim saydığımızın 0,996-1,041 katı — yani birkaç karakterlik fark. Pasaj 2 aykırı (oran 1,145) ve kaynağın kendi iki sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/kelime 6,269 gerektiriyor, metnin gerçek değeri 5,475; üstelik o ARI'nın ima ettiği kelime/cümle FKGL'yi 18,69 yapıyor, oysa Tablo 2 16,7 basmış. Bizim vuruş tanımımız ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten 4,24'e çıkarıyor, yani boşluksuz sayım doğru.
+**`ari` sapması:** Kaynağın sayıları 1975'te daktiloya takılı mekanik bir sayaçla **elle** üretildi (Ek B, ARI talimatı). 18 pasajın 17'sinde, kaynağın ARI'sını verecek vuruş sayısı bizim saydığımızın 0,996-1,041 katı — yani birkaç karakterlik fark. Pasaj 2 aykırı (oran 1,145) ve kaynağın kendi iki sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/sözcük 6,269 gerektiriyor, metnin gerçek değeri 5,475; üstelik o ARI'nın ima ettiği sözcük/tümce FKGL'yi 18,69 yapıyor, oysa Tablo 2 16,7 basmış. Bizim vuruş tanımımız ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten 4,24'e çıkarıyor, yani boşluksuz sayım doğru.
 
 **`bezirci_yilmaz` sapması:** Makale H6 ara değerini yuvarlamış; fark 0,031 ve iki değer de aynı okunabilirlik sınıfına düşüyor (akademik, 16+).
 
@@ -390,13 +390,13 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `arc_len_mean` | Liu (2008) eq. (1) | 'I actually live in Beijing' · 5/4 | formül | 1.250 | 1.250 | +0.000 | ✅ |
 | `parse_depth_mean` | Jing & Liu (2015) p.164 | Figure 3 · MHD = 12/6 | formül | 2.000 | 2.000 | +0.000 | ✅ |
 | `ari` | Kincaid et al. (1975) p.8, Table 1 | Appendix A · 18 passages, mean | uçtan uca | 12.300 | 11.763 | -0.537 | 🟡 |
-| `coleman_liau` | Coleman & Liau (1975) p.284 | iki denklemin bileşimi · 13 kelime, 2 cümle | formül | 7.704 | 7.705 | +0.000 | ✅ |
+| `coleman_liau` | Coleman & Liau (1975) p.284 | iki denklemin bileşimi · 13 sözcük, 2 tümce | formül | 7.704 | 7.705 | +0.000 | ✅ |
 | `coleman_liau` | Coleman & Liau (1975) p.284, Table 1 | cloze 40.4% → 12. sınıf | formül | 12.000 | 11.994 | -0.006 | ✅ |
 | `flesch_kincaid_grade` | Kincaid et al. (1975) p.12, Table 2 | Appendix A · 18 passages, mean | uçtan uca | 10.700 | 10.326 | -0.374 | 🟡 |
 
 **`ttr` sapması:** Kaynağın kendi sayıları (V=121, N=202) 121/202 = 0,599 verir; basılan 0,590 bu aritmetikle tutmuyor (baskı hatası). Bizim değer aritmetiğe uyuyor; fark yayımlanan değerin %1,5'i.
 
-**`ari` sapması:** Kaynağın sayıları 1975'te daktiloya takılı mekanik bir sayaçla **elle** üretildi (Ek B, ARI talimatı). 18 pasajın 17'sinde, kaynağın ARI'sını verecek vuruş sayısı bizim saydığımızın 0,996-1,041 katı — yani birkaç karakterlik fark. Pasaj 2 aykırı (oran 1,145) ve kaynağın kendi iki sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/kelime 6,269 gerektiriyor, metnin gerçek değeri 5,475; üstelik o ARI'nın ima ettiği kelime/cümle FKGL'yi 18,69 yapıyor, oysa Tablo 2 16,7 basmış. Bizim vuruş tanımımız ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten 4,24'e çıkarıyor, yani boşluksuz sayım doğru.
+**`ari` sapması:** Kaynağın sayıları 1975'te daktiloya takılı mekanik bir sayaçla **elle** üretildi (Ek B, ARI talimatı). 18 pasajın 17'sinde, kaynağın ARI'sını verecek vuruş sayısı bizim saydığımızın 0,996-1,041 katı — yani birkaç karakterlik fark. Pasaj 2 aykırı (oran 1,145) ve kaynağın kendi iki sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/sözcük 6,269 gerektiriyor, metnin gerçek değeri 5,475; üstelik o ARI'nın ima ettiği sözcük/tümce FKGL'yi 18,69 yapıyor, oysa Tablo 2 16,7 basmış. Bizim vuruş tanımımız ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten 4,24'e çıkarıyor, yani boşluksuz sayım doğru.
 
 **`flesch_kincaid_grade` sapması:** Aynı elle sayım kaynağı. Pasaj başına sapma 18'in 15'inde 0,6'nın altında; pasaj 12 aykırı (-4,28) ve o pasaj FRE bandını da tutturmuyor, yani sapma tek bir pasajda yoğunlaşıyor. Ortalamalar arasındaki fark 0,34 sınıf düzeyi — okunabilirlik sınıflandırmasını değiştirmeyecek kadar küçük.
 
@@ -576,11 +576,11 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 ## Heceleme — 10/10
 
-Heceleme sekiz `syllable_*` anahtarını ve üç Türkçe okunabilirlik formülünü birden besliyor. Aşağıdaki karşılaştırma **sayıyı değil bölütlemeyi** sınıyor: yanlış yerden bölünmüş bir kelime doğru sayıda hece verebilir, sayı karşılaştırması onu yakalamaz.
+Heceleme sekiz `syllable_*` anahtarını ve üç Türkçe okunabilirlik formülünü birden besliyor. Aşağıdaki karşılaştırma **sayıyı değil bölütlemeyi** sınıyor: yanlış yerden bölünmüş bir sözcük doğru sayıda hece verebilir, sayı karşılaştırması onu yakalamaz.
 
 Kaynak: TDK, "Hece Yapısı ve Satır Sonunda Kelimelerin Bölünmesi" (tdk.gov.tr, 2019).
 
-| Kelime | TDK | Bizim | Durum |
+| Sözcük | TDK | Bizim | Durum |
 |---|---|---|---|
 | aldı | `al-dı` | `al-dı` | ✅ |
 | altlık | `alt-lık` | `alt-lık` | ✅ |
@@ -595,13 +595,13 @@ Kaynak: TDK, "Hece Yapısı ve Satır Sonunda Kelimelerin Bölünmesi" (tdk.gov.
 
 ## Ek — Kincaid Ek A, pasaj bazında
 
-Ana tablodaki iki 🟡 satırın (`ari`, `flesch_kincaid_grade`) dayandığı 18 karşılaştırma. Ara değerler (vuruş, kelime) burada duruyor ki fark çıktığında hangi girdiden geldiği görülebilsin.
+Ana tablodaki iki 🟡 satırın (`ari`, `flesch_kincaid_grade`) dayandığı 18 karşılaştırma. Ara değerler (vuruş, sözcük) burada duruyor ki fark çıktığında hangi girdiden geldiği görülebilsin.
 
 **FRE bandı** sütunu ayrı bir kontrol: Tablo 1'in Flesch sütunu 0-100 puanı değil, Flesch'in kendi sınıf bandını basıyor (`8-9` = FRE 60-70 gibi). Bizim FRE'miz bandın içine düşüyor mu, ona bakıyor.
 
 Pasaj metinleri `tests/veri/kincaid/`, ölçüm `scripts/kincaid_olcum.py`.
 
-| # | Vuruş | Kelime | ARI kaynak | ARI bizim | Fark | FKGL kaynak | FKGL bizim | Fark | FRE bandı |
+| # | Vuruş | Sözcük | ARI kaynak | ARI bizim | Fark | FKGL kaynak | FKGL bizim | Fark | FRE bandı |
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | 663 | 148 | 10.6 | 10.24 | -0.36 | 9.7 | 9.64 | -0.06 | 8-9 ✅ |
 | 2 | 668 | 122 | 20.3 | 16.56 | -3.74 | 16.7 | 15.79 | -0.91 | 16+ ✅ |

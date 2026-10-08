@@ -1,12 +1,12 @@
-"""Kelime örüntüleri — kendi öbeklerinizi sayın, neyle eşleştiklerini görün.
+"""Sözcük örüntüleri — kendi öbeklerinizi sayın, neyle eşleştiklerini görün.
 
 ``custom_ngrams`` kütüphanenin hazır öznitelikleri dışında **sizin**
-aradığınız kalıbı sayar. Öbekte kelime de yazabilirsiniz, büyük harfle bir UD
+aradığınız kalıbı sayar. Öbekte sözcük de yazabilirsiniz, büyük harfle bir UD
 sözcük türü etiketi de: ``["bir", "NOUN"]`` "bir" ve hemen ardından herhangi bir
-isim demektir, ``["ADJ", "NOUN"]`` sıfat + isim. Eşleşme cümle sınırını aşmaz.
+isim demektir, ``["ADJ", "NOUN"]`` sıfat + isim. Eşleşme tümce sınırını aşmaz.
 
 ``analyze`` her öbek için bir sayı döndürür (``ngram_bir_NOUN_count``).
-``ngram_matches`` aynı öbeğin metinde **hangi kelimelerle** eşleştiğini,
+``ngram_matches`` aynı öbeğin metinde **hangi sözcüklerle** eşleştiğini,
 en sık olandan başlayarak verir; sayıların toplamı ``analyze``'dakiyle aynıdır.
 
     python examples/10_kelime_oruntuleri.py metin.txt
@@ -43,13 +43,13 @@ def main() -> None:
     oz = tlf.analyze(metin, lang=DIL, custom_ngrams=OBEKLER,
                      groups=["custom_ngrams", "lexical"])
     kelime = oz["word_count"]
-    print(f"-- Sayımlar ({kelime:.0f} kelime) " + "-" * 26)
-    print(f"{'anahtar':<28}{'sayı':>6}{'1000 kelimede':>16}")
+    print(f"-- Sayımlar ({kelime:.0f} sözcük) " + "-" * 26)
+    print(f"{'anahtar':<28}{'sayı':>6}{'1000 sözcükte':>16}")
     for anahtar, sayi in oz.items():
         if anahtar.startswith("ngram_"):
             print(f"{anahtar:<28}{sayi:>6.0f}{sayi / kelime * 1000:>16.1f}")
 
-    # Sayı tek başına "kaç kez" der; "hangi kelimelerle" sorusunun cevabı burada.
+    # Sayı tek başına "kaç kez" der; "hangi sözcüklerle" sorusunun cevabı burada.
     for obek in OBEKLER:
         eslesmeler = tlf.ngram_matches(metin, obek, lang=DIL)
         print(f"\n-- {' '.join(obek)}: {sum(eslesmeler.values())} eşleşme, "

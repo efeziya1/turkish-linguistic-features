@@ -5,7 +5,7 @@ published source; they were chosen by measurement on newspaper columns, with the
 and the default word.
 This document records that measurement.
 
-**Measured:** 2026-10-06 (current, with the default word). Earlier measurements are under "Earlier calibrations" below.
+**Measured:** 2026-10-06.
 
 ## Result
 
@@ -29,38 +29,15 @@ leave out keeps the value above ([details](en/how-to/parameters.md)).
 | **Sentences measured** | **197,990** | **52,745** |
 
 The full corpora were used, with no sampling. The texts are not distributed; only the numbers are published.
-Sentence boundaries were found with the library's default sentence rule (`. ? ! …`
-always, `:` only when what follows starts like a new sentence; an abbreviation dot
-does not end a sentence). Length is the number of default words in the sentence: a
-whitespace-separated unit with edge punctuation stripped that contains a letter or digit (the
-`sentence` group's own path: `kural_cumleleri` + `cumle_birimleri`). Feature extraction was not run, since only the number of words per
-sentence was needed.
+Sentences and words were counted exactly as the `sentence` group counts them, with the
+library's default sentence rule and default word; both are defined, with examples, in
+[Concepts](en/explanation/concepts.md#word-and-sentence). A sentence's length is the number
+of words in it, and a sentence with no letter in it is not counted. Only these lengths were
+needed, so no other feature was computed.
 
 The 15th and 85th percentiles were chosen as thresholds. A criterion such as
 "mean of the outliers" was not used, because defining an outlier already
 requires a threshold, and deriving the threshold from it would be circular.
-
-### Why the 15th/85th (2026-10-08)
-
-The candidate percentile pairs were compared on the same columns: for every article
-`short_sent_ratio` and `long_sent_ratio` were computed, and the share of the
-between-article differences explained by author (η², one-way analysis of variance)
-was measured.
-
-| Pair | TR thresholds | TR η² short | TR η² long | EN thresholds | EN η² short | EN η² long |
-|---|---|---|---|---|---|---|
-| 5/95 | 2 / 25 | 0.305 | 0.501 | 5 / 43 | 0.275 | 0.518 |
-| 10/90 | 3 / 20 | 0.425 | 0.549 | 7 / 36 | 0.371 | 0.549 |
-| **15/85** | **4 / 17** | **0.484** | **0.571** | **8 / 32** | **0.394** | **0.545** |
-| 20/80 | 5 / 16 | 0.517 | 0.573 | 10 / 29 | 0.449 | 0.532 |
-| 25/75 | 5 / 14 | 0.517 | 0.576 | 11 / 27 | 0.469 | 0.522 |
-
-η² alone does not pick a pair: for the short-sentence share it keeps rising as the
-threshold moves toward the median, because the share then rests on more sentences.
-At that point "short" is no longer an extreme (at 25/75, 19% of Turkish sentences
-count as short). Among the pairs that still measure the extremes, 15/85 is more
-discriminating than 10/90 on three of four measures; on English long sentences
-10/90 is marginally ahead (0.549 against 0.545).
 
 ### Raw percentile table
 
@@ -104,57 +81,6 @@ with the corpus median (9.0).
 Ateşman's 30 was **not used** for `long`: it is the mean of the hardest text,
 not a threshold for calling a single sentence long. Used as a threshold, it
 lies above the 95th percentile in Turkish.
-
-## Earlier calibrations
-
-### Default sentence rule, earlier word (2026-10-06, superseded)
-
-Same columns and same sentences; word = a spaCy token containing a letter or digit. The result
-was TR 4/18, EN 9/33. The same day the default word became the whitespace unit and the thresholds
-were measured again. The word definition changes a length only where spaCy splits a whitespace
-unit (`e-posta`, `%50`, English `don't` → `do` + `n't`): 2.8% of Turkish and 37.6% of English
-sentences got shorter, none longer.
-
-| Percentile | TR (n = 197,990) | EN (n = 52,745) |
-|---|---|---|
-| 5th | 2.0 | 5.0 |
-| 10th | 3.0 | 7.0 |
-| 15th | 4.0 | 9.0 |
-| 25th | 5.0 | 12.0 |
-| 50th (median) | 9.0 | 19.0 |
-| 75th | 14.0 | 28.0 |
-| 85th | 18.0 | 33.0 |
-| 90th | 20.0 | 37.0 |
-| 95th | 25.0 | 44.0 |
-
-### Novel corpora, spaCy parser sentences (2026-07-28, superseded)
-
-The thresholds were first measured on novel-heavy corpora with the spaCy parser's
-sentences: TR 15 authors / 1,089,841 sentences, EN 10 authors / 341,892 sentences.
-The result was TR 4/18, EN 7/39. On 2026-10-06 the `sentence` group moved to the
-default sentence rule, and the thresholds were re-derived from newspaper columns
-measured with that rule. The Turkish values (4/18) did not change; the English
-ones moved from 7/39 to 9/33; when the word definition changed the same day they became
-TR 4/17, EN 8/32 (above).
-
-| Percentile | TR (n = 1,089,841) | EN (n = 341,892) |
-|---|---|---|
-| 5th | 3.0 | 4.0 |
-| 10th | 4.0 | 6.0 |
-| 15th | 4.0 | 7.0 |
-| 25th | 6.0 | 10.0 |
-| 50th (median) | 9.0 | 18.0 |
-| 75th | 14.0 | 30.0 |
-| 85th | 18.0 | 39.0 |
-| 90th | 22.0 | 46.0 |
-| 95th | 28.0 | 58.0 |
-
-At that time the 15th/85th and 10th/90th candidates were compared by the proportion
-of variance in `short_sent_ratio` and `long_sent_ratio` explained by author identity
-(η²); 15th/85th was equally or more discriminating on all four measures (TR short
-0.2745 / 0.2745; TR long 0.4021 / 0.4194; EN short 0.0893 / 0.1279; EN long 0.2701 /
-0.2801). The comparison was repeated on the columns on 2026-10-08 (above, "Why the
-15th/85th").
 
 ## Scope
 

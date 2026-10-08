@@ -22,18 +22,18 @@ sayfada iki ad vermemek.
 
 | Türkçe | İngilizce | Ne |
 |---|---|---|
-| **kelime** | word | Boşlukla ayrılan, kenar noktalaması atılan, harf ya da rakam içeren birim; kütüphanenin saydığı kelime |
-| **cümle** | sentence | `. ? ! …` ile biten birim; `:` yalnız ardından yeni cümle geliyorsa |
+| **sözcük** | word | Boşlukla ayrılan, kenar noktalaması atılan, harf ya da rakam içeren birim; kütüphanenin saydığı sözcük |
+| **tümce** | sentence | `. ? ! …` ile biten birim; `:` yalnız ardından yeni tümce geliyorsa |
 | **spaCy tokenı** | spaCy token | Modelin metni böldüğü birim; noktalama ayrı tokendır. Bağlılık öznitelikleri bunu sayar |
-| **lemma** | lemma | Kelimenin sözlük biçimi; Türkçede Zeyrek'ten, İngilizcede spaCy'den |
+| **lemma** | lemma | Sözcüğün sözlük biçimi; Türkçede Zeyrek'ten, İngilizcede spaCy'den |
 | **sözcük türü etiketi** | POS tag | UD'nin 17 etiketinden biri (`NOUN`, `VERB`, `ADJ`…) |
-| **n-gram** | n-gram | Ardışık kelimelerden oluşan öbek; `custom_ngrams` ile sayılır |
-| **tip** | type | Metindeki farklı kelimelerden biri |
-| **token** | token | Tip/token oranında: metindeki kelime örneklerinden biri |
+| **n-gram** | n-gram | Ardışık sözcüklerden oluşan öbek; `custom_ngrams` ile sayılır |
+| **tip** | type | Metindeki farklı sözcüklerden biri |
+| **token** | token | Tip/token oranında: metindeki sözcük örneklerinden biri |
 | **tip/token oranı** | type-token ratio (TTR) | Tip sayısı / token sayısı |
-| **hapax** | hapax legomenon | Metinde bir kez geçen kelime |
+| **hapax** | hapax legomenon | Metinde bir kez geçen sözcük |
 | **vuruş** | stroke / character | Boşluk dışı her karakter (ARI'nin girdisi) |
-| **pencere** | window | Kayan hesapta bir seferde bakılan kelime sayısı |
+| **pencere** | window | Kayan hesapta bir seferde bakılan sözcük sayısı |
 | **eşik** | threshold | Bir sınıflamayı başlatan sınır değer |
 | **yüzdelik** | percentile | Dağılımda altında verinin %n'inin kaldığı değer |
 | **kalibrasyon** | calibration | Bir eşiği veriden türetme işlemi |
@@ -56,6 +56,12 @@ sayfada iki ad vermemek.
 olması"). Burada kastedilen şey **ölçülmüş bir değişkendir** ve
 istatistiksel modele girer. Türkçe nicel dilbilim ve makine öğrenmesi
 yazınında bunun yerleşik karşılığı "öznitelik"tir.
+
+## Neden "sözcük" ve "tümce"
+
+Gündelik dilde "kelime" ve "cümle" de kullanılır; Türkçe dilbilim yazınında yerleşik
+terimler "sözcük" ve "tümce"dir. Doküman boyunca bu ikisi kullanılır; bu seçim "sözcük
+türü" (POS) gibi yerleşik terimlerle de uyumludur.
 
 ## Neden "künye" ve "kaynakça kaydı" ayrı
 

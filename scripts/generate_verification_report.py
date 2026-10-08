@@ -465,9 +465,9 @@ _KINCAID_GEREKCE_ARI = _iki(
     "üretildi (Ek B, ARI talimatı). 18 pasajın 17'sinde, kaynağın ARI'sını "
     "verecek vuruş sayısı bizim saydığımızın 0,996-1,041 katı — yani birkaç "
     "karakterlik fark. Pasaj 2 aykırı (oran 1,145) ve kaynağın kendi iki "
-    "sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/kelime 6,269 "
+    "sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/sözcük 6,269 "
     "gerektiriyor, metnin gerçek değeri 5,475; üstelik o ARI'nın ima ettiği "
-    "kelime/cümle FKGL'yi 18,69 yapıyor, oysa Tablo 2 16,7 basmış. Bizim "
+    "sözcük/tümce FKGL'yi 18,69 yapıyor, oysa Tablo 2 16,7 basmış. Bizim "
     "vuruş tanımımız ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten "
     "4,24'e çıkarıyor, yani boşluksuz sayım doğru.",
     "The source's numbers were produced **by hand** in 1975 with a mechanical "
@@ -577,7 +577,7 @@ KARSILASTIRMALAR: dict[str, list[Karsilastirma]] = {
     "coleman_liau": [
         # Makalenin iki denklemi vs bizim birleşik formülümüz, aynı metin.
         Karsilastirma("Coleman & Liau (1975) p.284",
-                      _iki("iki denklemin bileşimi · 13 kelime, 2 cümle",
+                      _iki("iki denklemin bileşimi · 13 sözcük, 2 tümce",
                            "composition of the two equations · 13 words, 2 sentences"),
                       _cl_iki_denklem(), _cl_bizim, tur=FORMUL),
         # Tablo 1'in kendi bastığı çift: sınıf 12 ↔ cloze %40,4.
@@ -779,7 +779,7 @@ Aşağıdaki üç durum **doğrulama adayı değildir** — aranacak bir sayı y
 |---|---|
 | ⚪ **kaynak yok** | Adlandırılmış bir literatür ölçüsü değil; saf tanım (`punct_dash_ratio`, `uppercase_ratio`). |
 | ⚫ **etiket şeması** | Bir ölçü değil, dış bir şemanın kategorisini sayıyor (`pos_noun_ratio` → UD; `zeyrek_case_loc_ratio` → Zeyrek). Şema kategori tanımlar, ölçüm yayımlamaz. |
-| 🔧 **türev** | Formül bir kaynaktan, **uygulaması bu kütüphaneden**. `sent_len_entropy` Shannon'ın entropisidir ama cümle uzunluklarına uygulanması bizim; `long_sent_ratio`'nun eşiği kendi kalibrasyonumuzdan gelir. Kimse bu ölçüyü yayımlamadı, dolayısıyla karşılaştırılacak sayı da yok. Kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
+| 🔧 **türev** | Formül bir kaynaktan, **uygulaması bu kütüphaneden**. `sent_len_entropy` Shannon'ın entropisidir ama tümce uzunluklarına uygulanması bizim; `long_sent_ratio`'nun eşiği kendi kalibrasyonumuzdan gelir. Kimse bu ölçüyü yayımlamadı, dolayısıyla karşılaştırılacak sayı da yok. Kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
 
 Tolerans yayımlanan değerin **%1'i** (göreli). Kaynaklar ara değerleri
 yuvarlayarak bastığı için mutlak eşitlik beklenmiyor; göreli tolerans her
@@ -793,10 +793,10 @@ nereden geldiğinin kanıtıdır — ilgili satırın altında okuyabilirsiniz.
 ## Kanıtın iki türü
 
 **Uçtan uca** satırlar kaynağın **metnini** boru hattından geçirir — yani
-tokenizasyon, heceleme ve cümle bölme de sınanır. Bunlar en güçlü kanıt.
+tokenizasyon, heceleme ve tümce bölme de sınanır. Bunlar en güçlü kanıt.
 
 **Formül** satırları fonksiyona girdileri doğrudan verir (örneğin "hece/sözcük
-2,2 ve sözcük/cümle 4"). Formülü ve katsayıları doğrular, boru hattını
+2,2 ve sözcük/tümce 4"). Formülü ve katsayıları doğrular, boru hattını
 doğrulamaz. Kaynak bir metin yayımlamamışsa elde olan budur.
 
 Bu rapor **testlerden üretilir** — `tests/test_kaynak_esligi.py` ile aynı
@@ -922,14 +922,14 @@ _METIN = {
                 "Heceleme sekiz `syllable_*` anahtarını ve üç Türkçe "
                 "okunabilirlik formülünü birden besliyor. Aşağıdaki "
                 "karşılaştırma **sayıyı değil bölütlemeyi** sınıyor: yanlış "
-                "yerden bölünmüş bir kelime doğru sayıda hece verebilir, sayı "
+                "yerden bölünmüş bir sözcük doğru sayıda hece verebilir, sayı "
                 "karşılaştırması onu yakalamaz.\n\n"
                 "Kaynak: TDK, \"Hece Yapısı ve Satır Sonunda Kelimelerin "
                 "Bölünmesi\" (tdk.gov.tr, 2019).\n\n"
-                "| Kelime | TDK | Bizim | Durum |\n|---|---|---|---|\n",
+                "| Sözcük | TDK | Bizim | Durum |\n|---|---|---|---|\n",
         "kincaid": "\n## Ek — Kincaid Ek A, pasaj bazında\n\n"
                    "Ana tablodaki iki 🟡 satırın (`ari`, `flesch_kincaid_grade`) "
-                   "dayandığı 18 karşılaştırma. Ara değerler (vuruş, kelime) "
+                   "dayandığı 18 karşılaştırma. Ara değerler (vuruş, sözcük) "
                    "burada duruyor ki fark çıktığında hangi girdiden geldiği "
                    "görülebilsin.\n\n"
                    "**FRE bandı** sütunu ayrı bir kontrol: Tablo 1'in Flesch "
@@ -938,7 +938,7 @@ _METIN = {
                    "içine düşüyor mu, ona bakıyor.\n\n"
                    "Pasaj metinleri `tests/veri/kincaid/`, ölçüm "
                    "`scripts/kincaid_olcum.py`.\n\n"
-                   "| # | Vuruş | Kelime | ARI kaynak | ARI bizim | Fark "
+                   "| # | Vuruş | Sözcük | ARI kaynak | ARI bizim | Fark "
                    "| FKGL kaynak | FKGL bizim | Fark | FRE bandı |\n"
                    "|---|---|---|---|---|---|---|---|---|---|\n",
         "kincaid_ozet": "\nARI ortalama mutlak fark **{ari_ort:.2f}**, en büyük "

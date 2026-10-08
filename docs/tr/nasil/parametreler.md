@@ -7,14 +7,14 @@ Pencere boyları, eşikler ve örneklem sayıları `FeatureParams` içinde durur
 ```python
 import turkish_linguistic_features as tlf
 
-# metin: öğreticideki üç cümlelik örnek (7, 7 ve 16 kelime)
+# metin: öğreticideki üç tümcelik örnek (5, 13 ve 7 sözcük)
 p = tlf.FeatureParams(short_sent_threshold=3, long_sent_threshold=12)
 oz = tlf.analyze(metin, lang="tr", params=p)
 ```
 
 `FeatureParams` bir dataclass'tır; vermediğiniz alanlar varsayılanda kalır.
-Cümle eşiklerinin varsayılanı sabit bir sayı değil, dilin kalibre edilmiş
-değeridir — [aşağıda](#cumle-esikleri-dile-gore-cozumlenir).
+Tümce eşiklerinin varsayılanı sabit bir sayı değil, dilin kalibre edilmiş
+değeridir — [aşağıda](#tumce-esikleri-dile-gore-cozumlenir).
 
 Çıktı (`short_sent_ratio`, `long_sent_ratio`):
 
@@ -23,7 +23,7 @@ varsayılan (TR 4/17): short=0.0      long=0.0
 elle (3/12)         : short=0.0      long=0.333333
 ```
 
-Aynı metin, farklı eşik, farklı sayı. Üç cümlenin biri 12 kelimeyi geçiyor;
+Aynı metin, farklı eşik, farklı sayı. Üç tümcenin biri 12 sözcüğü geçiyor;
 17'yi geçen yok.
 
 ## Bütün alanlar
@@ -49,23 +49,23 @@ Aynı metin, farklı eşik, farklı sayı. Üç cümlenin biri 12 kelimeyi geçi
 | `long_sent_threshold` | TR **17** · EN **32** | `long_sent_ratio` |
 | `max_parse_depth` | 20 | `parse_depth_mean` |
 
-## Cümle eşikleri dile göre çözümlenir
+## Tümce eşikleri dile göre çözümlenir
 
-Tablodaki tek sayı olmayan iki alan bunlar. Sebep tipolojik: Türkçe cümleler
-İngilizce cümlelerden kısa, aynı eşik iki dile uymuyor.
+Tablodaki tek sayı olmayan iki alan bunlar. Sebep tipolojik: Türkçe tümceler
+İngilizce tümcelerden kısa, aynı eşik iki dile uymuyor.
 
 | Dil | short | long |
 |---|---|---|
 | Türkçe | **4** | **17** |
 | İngilizce | **8** | **32** |
 
-Değerler gazete köşe yazılarında, varsayılan cümle kuralı ve varsayılan
-kelimeyle ölçülen cümle uzunluğu dağılımının 15. ve 85. yüzdeliğinden
-türetildi (TR: 162 yazar / 197.990 cümle; EN: 30 yazar / 52.745 cümle). Yöntem: [Eşik kalibrasyonu](../../esik-kalibrasyonu.md).
+Değerler gazete köşe yazılarında, varsayılan tümce kuralı ve varsayılan
+sözcükle ölçülen tümce uzunluğu dağılımının 15. ve 85. yüzdeliğinden
+türetildi (TR: 162 yazar / 197.990 tümce; EN: 30 yazar / 52.745 tümce). Yöntem: [Eşik kalibrasyonu](../../esik-kalibrasyonu.md).
 
 **Çözümleme alan alandır.** Verdiğiniz alan sizin sayınızı, vermediğiniz alan
 dilin kalibre edilmiş değerini kullanır. Yani ilgisiz bir alanı değiştirmek
-cümle eşiklerini bozmaz:
+tümce eşiklerini bozmaz:
 
 ```python
 metin = ("Kapı açıldı. Sabah erkenden yola çıktık. Köyün girişindeki "
@@ -75,14 +75,14 @@ p = tlf.FeatureParams(mattr_window=100)       # eşiklere dokunulmadı
 oz = tlf.analyze(metin, lang="tr", params=p)  # eşikler hâlâ TR 4/17
 ```
 
-Çıktı — cümlelerin kelime sayıları 2, 4 ve 20:
+Çıktı — tümcelerin sözcük sayıları 2, 4 ve 20:
 
 ```text
 params=None                       short=0.333333   long=0.333333
 FeatureParams(mattr_window=100)   short=0.333333   long=0.333333
 ```
 
-İki satır aynı, çünkü `mattr_window` cümle eşikleriyle ilgisiz.
+İki satır aynı, çünkü `mattr_window` tümce eşikleriyle ilgisiz.
 
 ## Hangi öznitelik hangi parametreden etkilenir
 
@@ -102,7 +102,7 @@ Covington & McFall (2010) üslup analizi için **500** öneriyor. Kütüphanenin
 varsayılanı 50 — onda biri. Neden:
 
 - Pencere boyu aynı zamanda **alt sınırdır**: `mattr` en az `2 × window`
-  kelime ister. 500 olsaydı 1000 kelimeden kısa hiçbir metin sayı
+  sözcük ister. 500 olsaydı 1000 sözcükten kısa hiçbir metin sayı
   üretemezdi.
 
 Künye bu ayrımı açıkça yazar. 500 istiyorsanız:
@@ -111,5 +111,5 @@ Künye bu ayrımı açıkça yazar. 500 istiyorsanız:
 p = tlf.FeatureParams(mattr_window=500)
 ```
 
-ve metinlerinizin en az 1000 kelime olduğundan emin olun. Cümle eşiklerini
+ve metinlerinizin en az 1000 sözcük olduğundan emin olun. Tümce eşiklerini
 elle taşımanız gerekmiyor; kalibre edilmiş değerlerinde kalırlar.

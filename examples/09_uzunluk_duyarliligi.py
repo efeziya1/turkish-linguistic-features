@@ -1,6 +1,6 @@
 """Uzunluk duyarlılığı — hangi zenginlik ölçüsü metin boyundan bağımsız?
 
-``ttr`` (farklı kelime / toplam kelime) metin uzadıkça düşer: yeni kelime
+``ttr`` (farklı sözcük / toplam sözcük) metin uzadıkça düşer: yeni sözcük
 çıkma olasılığı azalır. Uzunlukları farklı metinleri ``ttr`` ile
 karşılaştırırsanız ölçtüğünüz şey üslup değil metin boyu olur. ``mattr``,
 ``hdd``, ``msttr`` gibi ölçüler bu etkiye karşı tasarlanmıştır. Bu script
@@ -9,7 +9,7 @@ gösterir.
 
     python examples/09_uzunluk_duyarliligi.py metin.txt
 
-Argüman verilmezse demo metni kullanılır (~300 kelime; kısa boylarla).
+Argüman verilmezse demo metni kullanılır (~300 sözcük; kısa boylarla).
 """
 
 import math
@@ -41,17 +41,17 @@ def main() -> None:
     for boy in boylar:
         parcalar = tlf.segment_text(metin, segment_size=boy, lang=DIL)
         if not parcalar:
-            print(f"  {boy:>5} kelime: metin bu boydan kısa, atlandı")
+            print(f"  {boy:>5} sözcük: metin bu boydan kısa, atlandı")
             continue
         oz = tlf.analyze(parcalar[0], lang=DIL, groups=["lexical"], warn=False)
-        satirlar.append({"kelime": boy, **{o: oz[o] for o in OLCULER}})
+        satirlar.append({"sözcük": boy, **{o: oz[o] for o in OLCULER}})
 
     if len(satirlar) < 2:
         sys.exit("Karşılaştırma için en az iki boy gerekiyor; daha uzun bir metin verin.")
 
-    print(f"{'kelime':>7}" + "".join(f"{o:>10}" for o in OLCULER))
+    print(f"{'sözcük':>7}" + "".join(f"{o:>10}" for o in OLCULER))
     for s in satirlar:
-        print(f"{s['kelime']:>7}" + "".join(f"{s[o]:>10.4f}" for o in OLCULER))
+        print(f"{s['sözcük']:>7}" + "".join(f"{s[o]:>10.4f}" for o in OLCULER))
 
     # Yayılım: en büyük ve en küçük değer arasındaki fark, ortalamanın yüzdesi.
     print(f"\n{'ölçü':<10}{'yayılım':>10}")

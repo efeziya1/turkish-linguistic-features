@@ -18,9 +18,9 @@ Emin değilseniz öğreticiden başlayın: kurulumdan ilk tabloya kadar götür�
 ```python
 import turkish_linguistic_features as tlf
 
-oz = tlf.analyze("Dil, insanın düşüncesini taşıyan en eski araçtır.", lang="tr")
+oz = tlf.analyze("Renksiz yeşil fikirler öfkeyle uyur.", lang="tr")
 len(oz)               # 208
-oz["word_len_mean"]   # 5.8571
+oz["word_len_mean"]   # 6.2
 ```
 
 Kütüphanenin **on bir** genel adı var, hepsi bu kadar:
@@ -29,15 +29,15 @@ Kütüphanenin **on bir** genel adı var, hepsi bu kadar:
 |---|---|
 | `analyze` | Bir metinden bütün öznitelikleri çıkarır |
 | `analyze_corpus` | Bir klasördeki her metin için `analyze` çalıştırır |
-| `ngram_matches` | Kendi verdiğiniz bir kelime öbeğinin metinde neyle eşleştiğini sıklığıyla gösterir |
+| `ngram_matches` | Verdiğiniz bir sözcük ya da POS etiketi dizisinin (`["ADJ", "NOUN"]` gibi) metinde neyle eşleştiğini, sıklıklarıyla gösterir |
 | `segment_text` | Metni sabit büyüklükte parçalara böler |
 | `save_csv` | Çıkan satırları CSV'ye yazar |
-| `describe_feature` | Bir özniteliğin tanımını ve kaynağını verir |
+| `describe_feature` | Bir özniteliğin tanımını, formülünü, ölçeğini, hesaplanması için gereken en az veriyi ve künyesini verir |
 | `FeatureParams` | Eşikleri ve pencere boylarını taşıyan ayar nesnesi |
-| `LinguisticFeaturesError` | Kütüphanenin bütün hatalarının atası |
+| `LinguisticFeaturesError` | Kütüphanenin kendi hatalarının atası |
 | `ModelNotFoundError` | Gereken dil verisi kurulu değilse: spaCy modeli ya da İngilizce hece sayımı için NLTK `cmudict` |
 | `MissingDependencyWarning` | İsteğe bağlı bir paket yoksa |
-| `ParagraphStructureWarning` | 1000 kelimeyi geçen metinde paragraf sınırı bulunamazsa |
+| `ParagraphStructureWarning` | 1000 sözcüğü geçen metinde paragraf sınırı bulunamazsa |
 
 On bir ad, 208 öznitelik. Öznitelik eklemek için yeni fonksiyon öğrenmenize
 gerek yok — hepsi `analyze`'dan çıkar.

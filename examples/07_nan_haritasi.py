@@ -1,19 +1,19 @@
 """NaN haritası — metnim ne kadar kısa olabilir?
 
 Metin kısaldıkça bazı öznitelikler ölçülemez hâle gelir ve ``nan`` döner:
-tek cümlede cümle uzunluklarının entropisi ölçülmez, 50 kelimede 100'lük
+tek tümcede tümce uzunluklarının entropisi ölçülmez, 50 sözcükte 100'lük
 pencereyle MATTR hesaplanmaz. Bu script aynı metinden artan uzunlukta
 parçalar alıp her uzunlukta kaç özniteliğin ölçülebildiğini ve hangilerinin
 hangi uzunlukta "kurtulduğunu" gösterir. Sonuç örneklem tasarımına girer:
-bütün öznitelikleri istiyorsanız parçalarınız en az kaç kelime olmalı?
+bütün öznitelikleri istiyorsanız parçalarınız en az kaç sözcük olmalı?
 
     python examples/07_nan_haritasi.py metin.txt
 
-Parça boyu ``segment_text`` gibi **kelime** sayar, künyedeki "at least N words"
-koşuluyla aynı kelimeyi: 300 kelimelik parça "300 kelime" isteyen bir ölçüye
+Parça boyu ``segment_text`` gibi **sözcük** sayar, künyedeki "at least N words"
+koşuluyla aynı sözcüğü: 300 sözcüklük parça "300 sözcük" isteyen bir ölçüye
 yeter.
 
-Argüman verilmezse demo metni kullanılır (~300 kelime; uzun boylar atlanır).
+Argüman verilmezse demo metni kullanılır (~300 sözcük; uzun boylar atlanır).
 Ayrıntı: [NaN ne demek](../docs/tr/aciklama/nan.md).
 """
 
@@ -47,14 +47,14 @@ def main() -> None:
     for boy in BOYLAR:
         parcalar = tlf.segment_text(metin, segment_size=boy, lang=DIL)
         if not parcalar:
-            print(f"  {boy:>5} kelime -> metin bu boydan kısa, atlandı")
+            print(f"  {boy:>5} sözcük -> metin bu boydan kısa, atlandı")
             continue
         oz = tlf.analyze(parcalar[0], lang=DIL, warn=False)
         nanlar[boy] = nan_anahtarlari(oz)
         olculen = len(oz) - len(nanlar[boy])
-        satirlar.append({"kelime": boy, "oznitelik": len(oz), "nan": len(nanlar[boy]),
+        satirlar.append({"sözcük": boy, "oznitelik": len(oz), "nan": len(nanlar[boy]),
                          "olculebilen": olculen})
-        print(f"  {boy:>5} kelime -> {olculen:>3}/{len(oz)} ölçülebildi "
+        print(f"  {boy:>5} sözcük -> {olculen:>3}/{len(oz)} ölçülebildi "
               f"({len(nanlar[boy])} nan)")
 
     if not satirlar:
@@ -65,13 +65,13 @@ def main() -> None:
     for onceki, simdiki in zip(boylar, boylar[1:], strict=False):
         kurtulan = nanlar[onceki] - nanlar[simdiki]
         if kurtulan:
-            print(f"  {simdiki:>5} kelime: {', '.join(sorted(kurtulan))}")
+            print(f"  {simdiki:>5} sözcük: {', '.join(sorted(kurtulan))}")
 
     # Neden hâlâ nan? Her özniteliğin koşulu künyesinde yazılı: kimi daha
     # uzun metin ister, kimi metinde hiç olmayan bir yapı (paragraf sınırı,
     # belirli bir ek) ister — o durumda uzunluk artırmak işe yaramaz.
     kalan = nanlar[boylar[-1]]
-    print(f"\nEn uzun parçada ({boylar[-1]} kelime) hâlâ nan olan {len(kalan)} öznitelik:")
+    print(f"\nEn uzun parçada ({boylar[-1]} sözcük) hâlâ nan olan {len(kalan)} öznitelik:")
     if not kalan:
         print("  yok")
     for anahtar in sorted(kalan):

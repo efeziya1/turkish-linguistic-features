@@ -60,7 +60,7 @@ On the Turkish side **82 rows** are one of these three. That leaves
 | ❌ **mismatch** | An **unexplained** difference. **Release gate: a single one blocks a release.** |
 
 Where things stand today: **48 of the 151 candidates are done** (46 ✅ +
-2 🟡), 97 are 🔍 open.
+2 🟡), 103 are 🔍 open.
 
 The tolerance is **1% of the published value** (relative). Sources print
 rounded intermediate values, so exact equality is not expected. A relative
@@ -91,7 +91,7 @@ step leading to it is correct.
 and its coefficients, not the pipeline. It is what is available when the
 source published no text.
 
-## Why 97 rows are still 🔍 open
+## Why 103 rows are still 🔍 open
 
 The source published the formula but never applied it to a text and printed
 the result. In quantitative linguistics this is **ordinary**. Yule (1944)
@@ -132,7 +132,10 @@ comparison can be made directly:
 | `repeat_rate` Text 2 | 0.02147 | 0.02147 |
 | `gini_coef` Text 1 | 0.3045 | 0.30449 |
 | `curve_length` Text 2 | 134.2787 | 134.27870 |
-| `entropy` Text 1 | 6.438043 | 6.438043 |
+| `entropy` Text 1 | 6.438043 bits = 4.462511 nats | 4.462512 |
+
+QUITA prints entropy in bits. Every logarithm in this library is natural, so the published
+value is converted to nats (× ln 2) before the comparison.
 
 Twenty-seven of the twenty-eight comparisons fall within tolerance (the
 largest relative difference is under 0.1%, and most deviate by zero). The
@@ -182,7 +185,7 @@ different number: the gap between the mean the source printed in Table 1
 value that is about 3.9% (0.485 ÷ 12.3), far above the 1% tolerance, so ✅ is out.
 
 **Why is it not ❌?** Because we did not guess where the deviation comes from, we
-measured it. Both formulas take "strokes per word" (letters and digits) as an
+measured it. Both formulas take "strokes per word" (every non-space character: letters, digits and punctuation) as an
 input, and in 1975 that count was made by hand, with a mechanical counter
 attached to a typewriter. We tested whether the difference sits there: how many
 times our stroke count would the source's own number require? In 17 of the 18

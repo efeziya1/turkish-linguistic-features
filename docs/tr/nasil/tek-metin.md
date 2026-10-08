@@ -31,7 +31,7 @@ Aradaki 27'nin dökümü:
   Türkçede, `q w x` yalnız İngilizcede).
 - **−1** okunabilirlik: Türkçeye özgü 3 öznitelik (Ateşman, Çetinkaya-Uzun ve
   Bezirci-Yılmaz formülleri), İngilizceye özgü 4 öznitelik (Flesch, Flesch-Kincaid
-  ve SMOG formülleri ile çok heceli kelime oranı); ortak olanlar iki dilde de var.
+  ve SMOG formülleri ile çok heceli sözcük oranı); ortak olanlar iki dilde de var.
 
 `phonetic` grubu Türkçede 14, İngilizcede 12 öznitelik içerir.
 
@@ -49,7 +49,7 @@ len(oz)     # 45
 
 Grup seçmek az hız kazandırır. Sürenin çoğu spaCy ve Zeyrek ön işlemesinde
 geçer ve o her durumda bir kez yapılır; grup seçimi yalnız sonraki hesabı
-kısaltır. 1000 kelimelik bir metinde bütün gruplar yaklaşık 1,2 saniye, yalnız
+kısaltır. 1000 sözcüklük bir metinde bütün gruplar yaklaşık 1,2 saniye, yalnız
 `readability` yaklaşık 0,85 saniye sürer.
 
 Mevcut gruplar ve Türkçede kaç öznitelik içerdikleri:
@@ -65,8 +65,8 @@ Mevcut gruplar ve Türkçede kaç öznitelik içerdikleri:
 | `phonetic` | 14 | Hece, ünlü, ses örüntüsü |
 | `frequency_structure` | 13 | Zipf, h-noktası, tematik yoğunlaşma |
 | `pos` | 12 | Sözcük türü payları |
-| `syntactic` | 7 | Cümle yapısı |
-| `sentence` | 7 | Cümle uzunluğu dağılımı |
+| `syntactic` | 7 | Tümce yapısı |
+| `sentence` | 7 | Tümce uzunluğu dağılımı |
 | `readability` | 7 | Okunabilirlik formülleri |
 | `paragraph` | 3 | Paragraf yapısı |
 
@@ -88,13 +88,13 @@ oz["ngram_ADJ_NOUN_count"]    # 3.0
 
 Her öbek bir anahtar olur; değeri metindeki eşleşme sayısıdır.
 
-- Kelimeler küçük harfe indirilerek karşılaştırılır. Yazılı biçim aranır,
+- Sözcükler küçük harfe indirilerek karşılaştırılır. Yazılı biçim aranır,
   lemma değil: `eski ev` ile `eski evi` ayrı eşleşmelerdir.
 - Büyük harfle yazılmış bir UD sözcük türü etiketi (`NOUN`, `VERB`, `ADJ`…)
-  o etiketi taşıyan herhangi bir kelimeyle eşleşir. `["ADJ", "NOUN"]` bir sıfat
+  o etiketi taşıyan herhangi bir sözcükle eşleşir. `["ADJ", "NOUN"]` bir sıfat
   ve hemen ardından bir isim demektir; `yeni bir bina` eşleşmez, çünkü arada
   `bir` var.
-- Eşleşme cümle sınırını aşmaz: `kaldı. Ne` yan yana sayılmaz.
+- Eşleşme tümce sınırını aşmaz: `kaldı. Ne` yan yana sayılmaz.
 - Değer düz sayımdır. Uzunlukları farklı metinleri karşılaştıracaksanız
   `word_count`'a bölün (`oz["ngram_ADJ_NOUN_count"] / oz["word_count"]`) ya
   da metinleri aynı boya getirin (`segment_size`).
@@ -110,7 +110,7 @@ tlf.ngram_matches(metin, ["ADJ", "NOUN"], lang="tr")
 ```
 
 En sık eşleşme önce gelir; sayıların toplamı `ngram_ADJ_NOUN_count` ile
-aynıdır. Cümle ve konum bilgisi verilmez. Birden çok metin için sonuçları
+aynıdır. Tümce ve konum bilgisi verilmez. Birden çok metin için sonuçları
 `collections.Counter` ile toplayın. Çalışan örnek:
 [`examples/10_kelime_oruntuleri.py`](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/10_kelime_oruntuleri.py).
 

@@ -7,7 +7,7 @@ Window sizes, thresholds and sample counts live in `FeatureParams`.
 ```python
 import turkish_linguistic_features as tlf
 
-# text: the three-sentence text from the Turkish tutorial (7, 7 and 16 words)
+# text: the three-sentence text from the Turkish tutorial (5, 13 and 7 words)
 p = tlf.FeatureParams(short_sent_threshold=3, long_sent_threshold=12)
 oz = tlf.analyze(text, lang="tr", params=p)
 ```

@@ -27,7 +27,7 @@ import turkish_linguistic_features as tlf
 from _demo import demo_korpus_yaz
 
 # Ayarlar en üstte, tek yerde.
-PARCA_BOYUTU = 1000        # gerçek korpus için tipik değer (kelime)
+PARCA_BOYUTU = 1000        # gerçek korpus için tipik değer (sözcük)
 DEMO_PARCA_BOYUTU = 60     # demo metinleri kısa; 1000 ile hiç parça çıkmazdı
 DIL = "tr"
 CIKTI_DIZINI = Path("examples/output")
@@ -53,7 +53,7 @@ def main() -> None:
                                   segment_size=parca_boyutu,
                                   show_progress=True)
     if not satirlar:
-        print(f"Hiç parça çıkmadı. Metinler {parca_boyutu} kelimeden kısa olabilir;")
+        print(f"Hiç parça çıkmadı. Metinler {parca_boyutu} sözcükten kısa olabilir;")
         print("PARCA_BOYUTU'nu küçültün ya da min_fill'i düşürün.")
         sys.exit(1)
     print(f"{len(satirlar)} parça analiz edildi "

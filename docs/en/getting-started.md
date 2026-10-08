@@ -57,10 +57,9 @@ python -c "import spacy; spacy.load('en_core_web_sm'); print('ok')"
 import turkish_linguistic_features as tlf
 
 text = (
-    "Language is the oldest instrument that carries human thought. Writing "
-    "takes that thought outside of time. Measuring a text resembles weighing "
-    "what it carries; set the scale correctly and the text will describe its "
-    "own shape to you."
+    "Colorless green ideas sleep furiously. Chomsky built this sentence to "
+    "show that a grammatical sentence can still be meaningless. This library, "
+    "too, measures form, not meaning."
 )
 
 oz = tlf.analyze(text, lang="en")
@@ -70,6 +69,8 @@ print(len(oz))
 ```text
 181
 ```
+
+The first sentence is from Chomsky's *Syntactic Structures* (1957).
 
 `lang` defaults to `"tr"`. Leave it out and English text is analysed with the
 Turkish model and the Turkish feature set, so always pass `lang="en"`.
@@ -88,28 +89,28 @@ for k in ("ttr", "word_len_mean", "flesch_reading_ease",
 ```
 
 ```text
-ttr                    0.842105
-word_len_mean          5.0
-flesch_reading_ease    74.7451
-flesch_kincaid_grade   5.1939
-ari                    8.9491
-coleman_liau           11.2632
+ttr                    0.923077
+word_len_mean          5.5385
+flesch_reading_ease    51.6153
+flesch_kincaid_grade   8.2131
+ari                    10.0764
+coleman_liau           13.3508
 ```
 
 What these say:
 
 | Key | Value | Reading |
 |---|---|---|
-| `ttr` | 0.842 | Type-token ratio. 84% of the words appear once. Normal for a short text; impossible for a long one. |
-| `word_len_mean` | 5.0 | Five characters per word. |
-| `flesch_reading_ease` | 74.7 | Ordinary prose falls between 0 and 100, but that is not a hard limit; 70–80 is "fairly easy", roughly 7th grade. |
-| `flesch_kincaid_grade` | 5.19 | US grade level. |
-| `ari` | 8.95 | Automated Readability Index, also a grade level. |
-| `coleman_liau` | 11.26 | Another grade level, from letters and sentences per 100 words. |
+| `ttr` | 0.923 | Type-token ratio. 24 of the 26 words are distinct; only `this` and `sentence` occur twice. A short text stays close to 1; the ratio falls as a text grows. |
+| `word_len_mean` | 5.54 | 5.54 characters per word. |
+| `flesch_reading_ease` | 51.6 | Ordinary prose falls between 0 and 100, but that is not a hard limit; 50–60 is "fairly difficult", roughly high-school level. |
+| `flesch_kincaid_grade` | 8.21 | US grade level. |
+| `ari` | 10.08 | Automated Readability Index, also a grade level. |
+| `coleman_liau` | 13.35 | Another grade level, from letters and sentences per 100 words. |
 
 !!! note "Three grade levels, three different numbers"
 
-    5.19, 8.95 and 11.26 all claim to be a grade level for the same text.
+    8.21, 10.08 and 13.35 all claim to be a grade level for the same text.
     That is not a bug — readability formulas disagree by design, because
     they were fitted on different corpora with different criteria. Report
     which formula you used, and do not average them.
@@ -124,7 +125,7 @@ print(oz["mattr"])
 nan
 ```
 
-The text has 38 words; `mattr` requires at least 100. The library does not
+The text has 26 words; `mattr` requires at least 100. The library does not
 invent a number from insufficient data — it returns `nan`.
 
 How much of the output is affected in a very short text:

@@ -111,7 +111,7 @@ satirlar = tlf.analyze_corpus("korpus/", lang="tr", show_progress=True)
 satirlar = tlf.analyze_corpus("korpus/", lang="tr", segment_size=1000)
 ```
 
-Örneğin 648 kelimelik tek bir dosya içeren `tek_dosya/` klasöründe:
+Örneğin 648 sözcüklük tek bir dosya içeren `tek_dosya/` klasöründe:
 
 ```python
 butun   = tlf.analyze_corpus("tek_dosya/", lang="tr")
@@ -125,11 +125,11 @@ print(len(butun), len(parcali), [s["segment_id"] for s in parcali])
 1 3 [0, 1, 2]
 ```
 
-648 ÷ 200 = 3 tam parça; kalan 48 kelime varsayılan `min_fill=1.0` ile atılır.
+648 ÷ 200 = 3 tam parça; kalan 48 sözcük varsayılan `min_fill=1.0` ile atılır.
 
 Etiketleri (yazar, tür, dönem) karşılaştırırken parçaları aynı boyda tutun
 ve etiket başına parça sayısına bakın: tek parçalık bir etiketin ortalaması
-yazarın değil o metnin ortalamasıdır. Cümle uzunluğu dağılımını etiketlere
+yazarın değil o metnin ortalamasıdır. Tümce uzunluğu dağılımını etiketlere
 göre karşılaştıran çalışan örnek:
 [`examples/05_cumle_ritmi.py`](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/05_cumle_ritmi.py).
 

@@ -22,7 +22,7 @@ for k in ("sent_len_mean", "word_len_mean", "syllable_mean", "atesman",
 
 Akademik bir paragrafın ağır hâli ve sadeleştirilmiş hâli:
 
-=== "Önce (36 kelime)"
+=== "Önce (36 sözcük)"
 
     > Çalışmanın amacı, Türkçe metinlerin okunabilirlik düzeylerinin
     > belirlenmesinde kullanılan formüllerin karşılaştırmalı olarak
@@ -30,7 +30,7 @@ Akademik bir paragrafın ağır hâli ve sadeleştirilmiş hâli:
     > derecelerinin ortaya konulmasıdır. Bu bağlamda, alanyazında yer alan ve
     > yaygın biçimde kullanılmakta olan üç farklı formül ele alınmıştır.
 
-=== "Sonra (20 kelime)"
+=== "Sonra (20 sözcük)"
 
     > Bu çalışma Türkçe okunabilirlik formüllerini karşılaştırır. Amaç,
     > formüllerin birbiriyle ne kadar uyuştuğunu göstermektir. Alanyazında
@@ -51,11 +51,11 @@ long_word_ratio            0.5278     0.4500    -0.0778
 
 Okunuşu:
 
-- **Ortalama cümle uzunluğu 18 → 6,7 kelime.** Asıl değişiklik bu; bir uzun cümle
-  üçe bölündü.
+- **Ortalama tümce uzunluğu 18 → 6,7 sözcük.** Asıl değişiklik bu; iki uzun tümce
+  üç kısa tümceye bölündü.
 - **Ateşman 16,8 → 58,9.** Ateşman'ın bantlarına göre 16,8 "çok zor", 58,9 "orta".
-  42 puanlık sıçramanın çoğu cümle uzunluğundan geliyor, çünkü formülde
-  sözcük/cümle terimi var.
+  42 puanlık sıçramanın çoğu tümce uzunluğundan geliyor, çünkü formülde
+  sözcük/tümce terimi var.
 - **Hece ortalaması 3,36 → 3,05.** "değerlendirilmesi" gibi uzun türetmeler
   gitti.
 - **`ttr` 0,89 → 1,00 ama bu anlamlı değil.** İkinci metin kısaldığı için
@@ -69,7 +69,7 @@ Okunuşu:
     Düzenleme metni kısalttıysa `ttr`, `hapax_ratio`, `yule_k` gibi sözcüksel
     zenginlik ölçüleri uzunluk yüzünden de değişir; bunları karşılaştırmak için
     iki metni aynı boya getirin ([Metni parçalara böl](segmentleme.md)). Kısa
-    metinde cümle ve okunabilirlik ölçüleri de oynaktır; SMOG en az 30 cümle
+    metinde tümce ve okunabilirlik ölçüleri de oynaktır; SMOG en az 30 tümce
     ister.
 
 ## Birden çok çifti karşılaştırmak

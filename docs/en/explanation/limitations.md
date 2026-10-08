@@ -85,7 +85,7 @@ numbers, fix the seed before Python starts, e.g. `PYTHONHASHSEED=0`.
 
 82 rows are not verification candidates at all (plain definitions, tag
 schemes, or our own derivations). Of the remaining **151 candidates, 48 are done** (46 ✅ + 2 🟡)
-and **97 are 🔍 open**.
+and **103 are 🔍 open**.
 
 The reason is in [The verification system](verification.md): most sources
 publish a formula but never a worked numerical example. This is most

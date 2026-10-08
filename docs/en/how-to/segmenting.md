@@ -19,17 +19,17 @@ segments = tlf.segment_text(text, segment_size=1000, lang="en")
 
 `segment_size` counts the word `analyze` counts: a whitespace-separated piece with
 edge punctuation stripped, containing a letter or digit. Punctuation is not a
-word. With the 30-word Turkish `metin` from the
+word ([full definition](../explanation/concepts.md#word)). With the 25-word Turkish `metin` from the
 [Turkish tutorial](../../tr/baslangic.md):
 
 ```python
-long_text = " ".join([metin] * 12)             # 360 words
+long_text = " ".join([metin] * 15)             # 375 words
 segments = tlf.segment_text(long_text, segment_size=100, lang="tr")
 len(segments)                                  # 3
 [len(s.split()) for s in segments]             # [100, 100, 100]
 ```
 
-360 words ÷ 100 = 3 full segments, and the remaining 60 words are dropped.
+375 words ÷ 100 = 3 full segments, and the remaining 75 words are dropped.
 Each segment is exactly 100 words in `analyze`, enough for a measure such as
 `mattr` that needs at least 100 words.
 
@@ -43,7 +43,7 @@ tlf.segment_text(long_text, segment_size=100, lang="tr")                # 3
 tlf.segment_text(long_text, segment_size=100, min_fill=0.5, lang="tr")  # 4
 ```
 
-The remainder is 60 words, 60% of a segment: below the `1.0` threshold,
+The remainder is 75 words, 75% of a segment: below the `1.0` threshold,
 above `0.5`.
 
 | `min_fill` | Meaning |

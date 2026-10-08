@@ -8,7 +8,7 @@ Süre: yaklaşık 15 dakika, çoğu model indirmekle geçer.
 
 ## 1. Kütüphaneyi kurun
 
-Paket henüz PyPI'da değil. Depoyu klonlayıp düzenlenebilir kurulum yapın:
+Paket henüz PyPI'da değil. Depoyu klonlayın ve paketi depodan kurun:
 
 ```bash
 git clone https://github.com/efeziya1/turkish-linguistic-features.git
@@ -16,8 +16,8 @@ cd turkish-linguistic-features
 pip install -e .
 ```
 
-`-e` (editable) kurulum, depoyu güncellediğinizde paketin de güncel kalmasını
-sağlar. Bir kez kurarsınız, `git pull` yeter.
+`-e` seçeneği paketi kopyalamaz, depodaki dosyalara bağlar. Bu yüzden bir kez
+kurmanız yeter: depoyu `git pull` ile güncellediğinizde kurulu paket de güncellenir.
 
 ## 2. Dil verisini kurun
 
@@ -57,9 +57,9 @@ python -c "import spacy; spacy.load('tr_core_news_md'); print('tamam')"
 import turkish_linguistic_features as tlf
 
 metin = (
-    "Dil, insanın düşüncesini taşıyan en eski araçtır. Yazı ise o düşünceyi "
-    "zamanın dışına çıkarır. Bir metni ölçmek, onun taşıdığı yükü tartmaya "
-    "benzer; tartıyı doğru kurarsanız metin size kendi biçimini anlatır."
+    "Renksiz yeşil fikirler öfkeyle uyur. Chomsky bu tümceyi, dilbilgisine "
+    "uygun bir tümcenin anlamsız da olabileceğini göstermek için kurdu. Bu "
+    "kütüphane de anlamı değil, biçimi ölçer."
 )
 
 oz = tlf.analyze(metin, lang="tr")
@@ -69,6 +69,8 @@ print(len(oz))
 ```text
 208
 ```
+
+Metnin ilk tümcesi Chomsky'nin *Syntactic Structures* (1957) kitabından.
 
 `lang` verilmezse varsayılan `"tr"`'dir; İngilizce metin için `lang="en"`
 yazmanız gerekir.
@@ -87,24 +89,24 @@ for k in ("ttr", "word_len_mean", "sent_len_mean",
 ```
 
 ```text
-ttr                  1.0
-word_len_mean        5.7667
-sent_len_mean        10.0
-syllable_mean        2.5333
-atesman              70.9483
-entropy              3.401197
+ttr                  0.96
+word_len_mean        6.04
+sent_len_mean        8.3333
+syllable_mean        2.48
+atesman              77.441
+entropy              3.163424
 ```
 
 Bunlar ne anlatıyor:
 
 | Anahtar | Değer | Okunuşu |
 |---|---|---|
-| `ttr` | 1.0 | Tip/token oranı. **1.0 = her kelime bir kez geçmiş.** 30 kelimelik bir metinde bu normaldir; uzun metinde imkânsızdır. |
-| `word_len_mean` | 5.7667 | Kelime başına 5,77 karakter. |
-| `sent_len_mean` | 10.0 | Cümle başına 10 kelime. |
-| `syllable_mean` | 2.5333 | Kelime başına 2,53 hece. |
-| `atesman` | 70.9483 | Ateşman (1997) okunabilirlik puanı. Olağan düzyazı 0–100 arasına düşer, ama bu bir sınır değildir. 70 "kolay"a yakın. |
-| `entropy` | 3.401197 | Kelime dağılımının Shannon entropisi, nat (doğal logaritma). |
+| `ttr` | 0.96 | Tip/token oranı. 25 sözcüğün 24'ü farklı; yalnız `bu` iki kez geçiyor. Kısa metinde TTR 1'e yakındır, metin uzadıkça düşer. |
+| `word_len_mean` | 6.04 | Sözcük başına 6,04 karakter. |
+| `sent_len_mean` | 8.3333 | Tümce başına 8,33 sözcük. |
+| `syllable_mean` | 2.48 | Sözcük başına 2,48 hece. |
+| `atesman` | 77.441 | Ateşman (1997) okunabilirlik puanı. Olağan düzyazı 0–100 arasına düşer, ama bu bir sınır değildir. 70–89 "kolay" bandı. |
+| `entropy` | 3.163424 | Sözcük dağılımının Shannon entropisi, nat (doğal logaritma). |
 
 ## 5. Neden bazı değerler `nan`?
 
@@ -116,7 +118,7 @@ print(oz["mattr"])
 nan
 ```
 
-Metin 30 kelime; `mattr` en az 100 kelime ister. Kütüphane eksik veriyle
+Metin 25 sözcük; `mattr` en az 100 sözcük ister. Kütüphane eksik veriyle
 sayı **uydurmaz**, `nan` döndürür.
 
 Ne kadarı `nan` olur, bakalım:
@@ -131,7 +133,7 @@ print(len(kisa), len(nan_olan))
 208 37
 ```
 
-Üç kelimelik bir metinde 208 öznitelikten **37'si** `nan` döner. Bu bir hata
+Üç sözcüklük bir metinde 208 öznitelikten **37'si** `nan` döner. Bu bir hata
 değil, dürüstlüktür. Ayrıntı: **[NaN ne demek](aciklama/nan.md)**.
 
 ## 6. Bir özniteliğin kaynağını görün
