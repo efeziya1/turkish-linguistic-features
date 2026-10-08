@@ -1,4 +1,4 @@
-"""Registry metin tabloları — 174 statik anahtarın açıklaması, formülü,
+"""Registry metin tabloları — 176 statik anahtarın açıklaması, formülü,
 ölçüm şartı ve künyesi.
 
 Bu dosya **veridir**, mantık içermez. ``registry.py``'den ayrı durmasının
@@ -96,6 +96,7 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'secondary_thematic_concentration': 'weight of content words up to rank 2h',
     # ── sentence ────────────────────────────────────────────────
     'sent_len_mean': 'mean sentence length in words',
+    'sent_count': 'number of sentences',
     'sent_len_char_mean': 'mean sentence length in characters',
     'short_sent_ratio': 'share of short sentences',
     'long_sent_ratio': 'share of long sentences',
@@ -227,6 +228,7 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'punct_char_ratio': 'share of punctuation marks among characters',
     'punct_entropy': 'variety of punctuation types',
     'consecutive_punct_ratio': 'share of marks directly next to another mark',
+    'char_count': 'number of characters',
     'whitespace_ratio': 'share of whitespace characters',
     'punct_variety': 'number of punctuation types used (0–10)',
     'uppercase_ratio': 'share of capitalised words',
@@ -239,7 +241,7 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
 
 # Anahtar → NASIL hesaplandığı. Anahtarın kendi satırı yoksa describe_feature
 # grup adındaki satıra düşer; bu yalnız dinamik gruplarda (chars, custom_ngrams)
-# var, 174 statik anahtarın hepsinin kendi satırı var.
+# var, 176 statik anahtarın hepsinin kendi satırı var.
 FEATURE_FORMULAS: dict[str, str] = {
     # ── lexical ─────────────────────────────────────────────────
     'lemma_count': 'V over lemmas',
@@ -296,6 +298,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'secondary_thematic_concentration': "sum((2h - r') f(r')) / (h(2h-1) f1), r' <= 2h",
     # ── sentence ────────────────────────────────────────────────
     'sent_len_mean': 'mean words per sentence',
+    'sent_count': 'sentences',
     'sent_len_char_mean': 'mean len(tokens joined by single spaces)',
     'short_sent_ratio': 'sentences with fewer than short_sent_threshold words / sentences',
     'long_sent_ratio': 'sentences with more than long_sent_threshold words / sentences',
@@ -435,6 +438,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'punct_char_ratio': 'marks / characters',
     'punct_entropy': 'Shannon entropy (nats) of the 10 mark types',
     'consecutive_punct_ratio': 'adjacent marks / marks',
+    'char_count': 'characters, whitespace and line breaks included',
     'whitespace_ratio': 'whitespace / characters',
     'punct_variety': 'distinct mark types',
     'uppercase_ratio': 'words whose first letter is upper case / words with a letter',
@@ -500,6 +504,7 @@ FEATURE_REQUIRES: dict[str, str] = {
     'secondary_thematic_concentration': 'at least 1 word',
     # ── sentence ────────────────────────────────────────────────
     'sent_len_mean': 'at least 1 sentence with a letter',
+    'sent_count': 'at least 1 sentence with a letter',
     'sent_len_char_mean': 'at least 1 sentence',
     'short_sent_ratio': 'at least 1 sentence with a letter',
     'long_sent_ratio': 'at least 1 sentence with a letter',
@@ -631,6 +636,7 @@ FEATURE_REQUIRES: dict[str, str] = {
     'punct_char_ratio': 'non-empty text',
     'punct_entropy': 'at least 1 punctuation mark',
     'consecutive_punct_ratio': 'at least 1 punctuation mark',
+    'char_count': 'non-empty text',
     'whitespace_ratio': 'non-empty text',
     'punct_variety': 'non-empty text',
     'uppercase_ratio': 'at least 1 word with a letter',
@@ -960,6 +966,12 @@ FEATURE_CITATIONS: dict[str, str] = {
     'word_count':
         'de Vel (2000) Table 2, attribute 1 "Total number of words"; Zheng et al. (2006) '
         'Table 3, p.385, no. 54 "Total number of words (M)"',
+    'sent_count':
+        'de Vel (2000) Table 2, attribute 3 "Number of sentences"; Zheng et al. (2006) Table 3, '
+        'p.385, no. 247 "Total number of sentences"',
+    'char_count':
+        'de Vel (2000) Table 2, attribute 8 "Number of characters"; Zheng et al. (2006) Table 3, '
+        'p.385, no. 1 "Total number of characters (C)"',
     'whitespace_ratio':
         'de Vel et al. (2001) Table 2, p.60 "Total number of white-space characters/C"',
     'punct_char_ratio': 'de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C"',

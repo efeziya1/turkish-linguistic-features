@@ -20,7 +20,7 @@ import turkish_linguistic_features as tlf
 
 oz = tlf.analyze("Language is the oldest instrument that carries thought.",
                  lang="en")
-len(oz)               # 172
+len(oz)               # 174
 oz["word_len_mean"]   # 5.875
 ```
 
@@ -40,7 +40,7 @@ The library has **eleven** public names. That is all of them:
 | `MissingDependencyWarning` | Warned when an optional package is missing |
 | `ParagraphStructureWarning` | Warned when a text over 1000 words has no paragraph boundary |
 
-Eleven names, 172 features for English (199 for Turkish). You never need to learn a new function to get
+Eleven names, 174 features for English (201 for Turkish). You never need to learn a new function to get
 more features — they all come out of `analyze`.
 
 ## Terms

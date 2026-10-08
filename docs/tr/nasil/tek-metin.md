@@ -16,8 +16,8 @@ Dönen şey düz bir `dict`: anahtar öznitelik adı, değer sayı.
 tr = tlf.analyze(tr_metin, lang="tr")
 en = tlf.analyze(en_metin, lang="en")
 
-len(tr)   # 199
-len(en)   # 172
+len(tr)   # 201
+len(en)   # 174
 ```
 
 Aradaki 27'nin dökümü:
@@ -38,7 +38,7 @@ Aradaki 27'nin dökümü:
 
 ## Yalnız bazı grupları isteyin
 
-199 özniteliğin hepsini hesaplamak zaman alır. İhtiyacınız yoksa grup seçin:
+201 özniteliğin hepsini hesaplamak zaman alır. İhtiyacınız yoksa grup seçin:
 
 ```python
 oz = tlf.analyze(metin, lang="tr", groups=["readability", "lexical"])
@@ -53,13 +53,13 @@ Mevcut gruplar ve Türkçede kaç öznitelik içerdikleri:
 | `chars` | 29 | Harf sıklık vektörü: Türkçe alfabenin her harfi için bir anahtar (İngilizcede 26; `q`, `w`, `x` yalnız orada) |
 | `morphological_zeyrek` | 23 | Zeyrek ek çözümlemesi (yalnız TR) |
 | `morphological` | 19 | UD morfolojik özellikleri |
-| `punctuation` | 18 | Noktalama türlerinin payı, noktalama yoğunluğu, büyük harf |
+| `punctuation` | 19 | Noktalama türlerinin payı, noktalama yoğunluğu, büyük harf |
 | `syntactic_dep` | 16 | Bağlılık ayrıştırması |
 | `phonetic` | 13 | Hece, ünlü, ses örüntüsü |
 | `frequency_structure` | 13 | Zipf, h-noktası, tematik yoğunlaşma |
 | `pos` | 12 | Sözcük türü oranları |
 | `syntactic` | 7 | Cümle yapısı |
-| `sentence` | 6 | Cümle uzunluğu dağılımı |
+| `sentence` | 7 | Cümle uzunluğu dağılımı |
 | `readability` | 7 | Okunabilirlik formülleri |
 | `paragraph` | 2 | Paragraf yapısı |
 

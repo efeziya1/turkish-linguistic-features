@@ -154,6 +154,7 @@ GROUP_WORD: dict[str, str | None] = {
 }
 FEATURE_WORD: dict[str, str | None] = {
     "sent_len_char_mean": None,
+    "sent_count": None,
     **_hepsi("space_unit", ("para_len_mean", "harmony_fronting_ratio", "harmony_rounding_ratio",
                             "uppercase_ratio", "all_caps_word_ratio")),
     **_hepsi("space_unit", _SYLLABLE_PHONETIC + _PUNC),
@@ -188,7 +189,8 @@ TERMS: dict[str, tuple[dict[str, str | None], dict[str, str | None]]] = {
     "character": ({}, {
         "word_len_mean": "token_string_length",
         "ari": "non_space_character",
-        **_hepsi("raw_character", ("digit_ratio", "punct_char_ratio", "whitespace_ratio")),
+        **_hepsi("raw_character", ("char_count", "digit_ratio", "punct_char_ratio",
+                                     "whitespace_ratio")),
         "sent_len_char_mean": "sentence_joined_character",
     }),
     "long_word": ({}, _hepsi("7_plus_letters", ("lix", "long_word_ratio"))),

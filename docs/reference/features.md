@@ -29,7 +29,7 @@ published is a separate question — see the
 |---|---|---|
 | `lexical` | 34 | Lexical richness & frequency |
 | `frequency_structure` | 13 | Frequency structure (h-point family, Popescu & Altmann) |
-| `sentence` | 6 | Sentence statistics |
+| `sentence` | 7 | Sentence statistics |
 | `paragraph` | 2 | Paragraph structure |
 | `pos` | 12 | Part-of-speech ratios |
 | `syntactic` | 7 | Discourse & syntax |
@@ -38,7 +38,7 @@ published is a separate question — see the
 | `morphological_zeyrek` | 23 | Morphological style (Zeyrek, TR only) |
 | `phonetic` | 13 | Phonetic patterns |
 | `readability` | 11 | Readability scores |
-| `punctuation` | 18 | Punctuation & digits |
+| `punctuation` | 19 | Punctuation & digits |
 | `chars` | dynamic | Character frequency vector  [dynamic: one key per letter — TR 29, EN 26] |
 | `custom_ngrams` | dynamic | User-defined n-gram counts  [dynamic: ngram_{...}_count] |
 
@@ -106,11 +106,12 @@ published is a separate question — see the
 
 ## `sentence` — Sentence statistics
 
-6 keys.
+7 keys.
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
 | `sent_len_mean` | mean sentence length in words | `mean words per sentence` | at least 1 sentence with a letter | Flesch (1948) p.223, element (1) "Average Sentence Length in Words" |
+| `sent_count` | number of sentences | `sentences` | at least 1 sentence with a letter | de Vel (2000) Table 2, attribute 3 "Number of sentences"; Zheng et al. (2006) Table 3, p.385, no. 247 "Total number of sentences" |
 | `sent_len_char_mean` | mean sentence length in characters | `mean len(tokens joined by single spaces)` | at least 1 sentence | Zheng et al. (2006) Table 3, p.385, no. 58 "Average sentence length in terms of character" |
 | `short_sent_ratio` | share of short sentences | `sentences with fewer than short_sent_threshold words / sentences` | at least 1 sentence with a letter | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only |
 | `long_sent_ratio` | share of long sentences | `sentences with more than long_sent_threshold words / sentences` | at least 1 sentence with a letter | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only |
@@ -278,10 +279,11 @@ published is a separate question — see the
 
 ## `punctuation` — Punctuation & digits
 
-18 keys.
+19 keys.
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
+| `char_count` | number of characters | `characters, whitespace and line breaks included` | non-empty text | de Vel (2000) Table 2, attribute 8 "Number of characters"; Zheng et al. (2006) Table 3, p.385, no. 1 "Total number of characters (C)" |
 | `digit_ratio` | share of digit characters | `digits / characters` | non-empty text | de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; here digits anywhere in the text |
 | `punct_comma_ratio` | share of comma marks among all marks | `marks of this type / all marks` | at least 1 punctuation mark | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks |
 | `punct_period_ratio` | share of full stop marks among all marks | `marks of this type / all marks` | at least 1 punctuation mark | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks |

@@ -17,7 +17,7 @@ A feature is one of three things:
 3. **A plain definition** — `punct_dash_ratio` ("dashes / all punctuation marks"). No citation,
    because there is nothing to attribute.
 
-Of 199 keys, 188 have a citation and 11 do not.
+Of 201 keys, 190 have a citation and 11 do not.
 
 ## Key names
 
@@ -27,7 +27,7 @@ A name is built so that it says what the feature measures:
 |---|---|---|
 | `…_ratio` | A share between 0 and 1 | `hapax_ratio`, `pos_noun_ratio` |
 | `…_mean`, `…_median` | Mean, median | `sent_len_mean`, `sent_len_median` |
-| `…_count` | A count | `word_count`, `lemma_count` |
+| `…_count` | A count | `word_count`, `sent_count`, `lemma_count` |
 | The name in the literature | An established measure; no `_ratio` | `ttr`, `mattr`, `yule_k`, `posddev` |
 
 The morphological features come from two analysers. Those from spaCy's UD
@@ -109,7 +109,7 @@ suffix analysis · Turkish lemmas
    ↓  the library's own rules
 word and sentence boundaries; each word takes its tags from its own token
    ↓  feature extractors
-199 numbers
+201 numbers
 ```
 
 Two consequences:
@@ -117,7 +117,7 @@ Two consequences:
 1. **The spaCy model is part of the result.** Change the model and the
    tokens, POS, morphological and dependency features change with it.
    State which model you used in your methods section.
-2. **Preprocessing runs once.** All 199 features draw on the same analysis,
+2. **Preprocessing runs once.** All 201 features draw on the same analysis,
    so asking for fewer `groups` does not speed up preprocessing — it only
    shortens the extraction step.
 

@@ -4,7 +4,7 @@ type: software
 title: "turkish-linguistic-features"
 abstract: >-
   A toolkit for extracting quantitative linguistic features from Turkish and
-  English text: 199 features for Turkish, 172 for English. 188 of the Turkish
+  English text: 201 features for Turkish, 174 for English. 190 of the Turkish
   features cite a source in the literature; the rest are plain definitions.
 authors:
   - given-names: "Efe Ziya"

@@ -64,4 +64,4 @@ def test_hece_gerektirmeyen_ingilizce_grup_veri_istemez(cmudict_yok):
 @pytest.mark.tr_model
 def test_turkce_etkilenmez(cmudict_yok):
     oz = tlf.analyze("Kedi paspasın üstüne oturdu. Hava ılıktı.", lang="tr")
-    assert len(oz) == 199
+    assert len(oz) == 201

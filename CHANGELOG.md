@@ -3,13 +3,16 @@
 ## [Unreleased]
 
 This release renames and removes feature keys; tables built with 0.1.0 will not line up
-column for column. Keys: Turkish 208 → 199, English 180 → 172. Cited features: Turkish
-141 → 188, English 116 → 161; 11 keys in each language are plain definitions without a source.
+column for column. Keys: Turkish 208 → 201, English 180 → 174. Cited features: Turkish
+141 → 190, English 116 → 163; 11 keys in each language are plain definitions without a source.
 
 ### Added
 
-- `word_count` (`lexical`): the number of words in the text, by the library's word (see
-  Changed). Cites de Vel (2000) Table 2, attribute 1, and Zheng et al. (2006) Table 3, no. 54.
+- Three counts: `word_count` (`lexical`), `sent_count` (`sentence`) and `char_count`
+  (`punctuation`): words by the library's word, sentences by its sentence rule, characters
+  with whitespace. Divide other counts by them to compare texts of different length. Cite de
+  Vel (2000) Table 2, attributes 1, 3 and 8, and Zheng et al. (2006) Table 3, nos. 54, 247
+  and 1.
 - `ngram_matches(text, phrase, lang="tr")`: what one `custom_ngrams` phrase matched, with
   counts, most frequent first: `{"kadın geldi": 2, "kadın güldü": 1}`. The matching is the
   one `analyze` uses, so the counts add up to the phrase's `ngram_{...}_count`. The public API

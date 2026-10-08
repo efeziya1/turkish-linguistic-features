@@ -81,6 +81,7 @@ DURUMLAR: dict[str, tuple[tuple, tuple]] = {
     "punctuation.all_caps_word_ratio": (([],), (["EV"],)),
     "punctuation.char_freq_vector": (("", "tr"), ("e", "tr")),
     "punctuation.consecutive_punct_ratio": (("",), (".",)),
+    "punctuation.char_count": (("",), ("a",)),
     "punctuation.digit_ratio": (("",), ("1",)),
     "punctuation.punct_char_ratio": (("",), (".",)),
     "punctuation.punct_entropy": (("",), (".",)),

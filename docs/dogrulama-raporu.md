@@ -49,17 +49,17 @@ karşılaştırma tablosunu okur, yani ikisi ayrışamaz. Diğer bilinen-değer
 testleri kendi dosyalarında duruyor.
 
 
-## Türkçe — 199 anahtar, 224 satır
+## Türkçe — 201 anahtar, 226 satır
 
 Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
-**Doğrulama adayı — 142 satır**
+**Doğrulama adayı — 144 satır**
 
 | Durum | Satır sayısı |
 |---|---|
 | ✅ birebir | 46 |
 | 🟡 belgelenmiş sapma | 2 |
-| 🔍 açık — kaynakta sayısal örnek yok | 94 |
+| 🔍 açık — kaynakta sayısal örnek yok | 96 |
 
 
 **Doğrulama adayı olmayan — 82 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
@@ -133,7 +133,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 ### 🔍 Açık — doğrulanabilir, henüz doğrulanmadı
 
-94 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
+96 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
@@ -170,6 +170,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `secondary_thematic_concentration` | QUITA §6.2.6 | 🔍 |
 | `sent_len_mean` | Flesch (1948) p.223, element (1) "Average Sentence Length in Words" | 🔍 |
 | `sent_len_median` | Yule (1939) p.369, median sentence length alongside the mean | 🔍 |
+| `sent_count` | de Vel (2000) Table 2, attribute 3 "Number of sentences"; Zheng et al. (2006) Table 3, p.385, no. 247 "Total number of sentences" | 🔍 |
 | `sent_len_char_mean` | Zheng et al. (2006) Table 3, p.385, no. 58 "Average sentence length in terms of character" | 🔍 |
 | `para_len_mean` | Zheng et al. (2006) Table 3, p.385, no. 251 "Number of words per paragraph" | 🔍 |
 | `sents_per_para_mean` | Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph" | 🔍 |
@@ -192,6 +193,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `syllable_6plus_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `lix` | Björnsson (1968), as cited in Anderson (1983) p.490; long word = 7+ letters | 🔍 |
 | `long_word_ratio` | Anderson (1983); long word = 7+ letters | 🔍 |
+| `char_count` | de Vel (2000) Table 2, attribute 8 "Number of characters"; Zheng et al. (2006) Table 3, p.385, no. 1 "Total number of characters (C)" | 🔍 |
 | `digit_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; here digits anywhere in the text | 🔍 |
 | `punct_comma_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
 | `punct_period_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
@@ -321,17 +323,17 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `uppercase_ratio` | — | ⚪ |
 | `all_caps_word_ratio` | — | ⚪ |
 
-## İngilizce — 172 anahtar, 189 satır
+## İngilizce — 174 anahtar, 191 satır
 
 Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
-**Doğrulama adayı — 128 satır**
+**Doğrulama adayı — 130 satır**
 
 | Durum | Satır sayısı |
 |---|---|
 | ✅ birebir | 35 |
 | 🟡 belgelenmiş sapma | 3 |
-| 🔍 açık — kaynakta sayısal örnek yok | 90 |
+| 🔍 açık — kaynakta sayısal örnek yok | 92 |
 
 
 **Doğrulama adayı olmayan — 61 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
@@ -393,7 +395,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 ### 🔍 Açık — doğrulanabilir, henüz doğrulanmadı
 
-90 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
+92 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
@@ -430,6 +432,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `secondary_thematic_concentration` | QUITA §6.2.6 | 🔍 |
 | `sent_len_mean` | Flesch (1948) p.223, element (1) "Average Sentence Length in Words" | 🔍 |
 | `sent_len_median` | Yule (1939) p.369, median sentence length alongside the mean | 🔍 |
+| `sent_count` | de Vel (2000) Table 2, attribute 3 "Number of sentences"; Zheng et al. (2006) Table 3, p.385, no. 247 "Total number of sentences" | 🔍 |
 | `sent_len_char_mean` | Zheng et al. (2006) Table 3, p.385, no. 58 "Average sentence length in terms of character" | 🔍 |
 | `para_len_mean` | Zheng et al. (2006) Table 3, p.385, no. 251 "Number of words per paragraph" | 🔍 |
 | `sents_per_para_mean` | Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph" | 🔍 |
@@ -451,6 +454,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `long_word_ratio` | Anderson (1983); long word = 7+ letters | 🔍 |
 | `flesch_reading_ease` | Flesch (1948) Formula A; coefficient .846, unit = syllables per 100 words | 🔍 |
 | `smog` | McLaughlin (1969) p.643, Table 1, eq. (d); p = polysyllabic words in a 30-sentence sample | 🔍 |
+| `char_count` | de Vel (2000) Table 2, attribute 8 "Number of characters"; Zheng et al. (2006) Table 3, p.385, no. 1 "Total number of characters (C)" | 🔍 |
 | `digit_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; here digits anywhere in the text | 🔍 |
 | `punct_comma_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
 | `punct_period_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |

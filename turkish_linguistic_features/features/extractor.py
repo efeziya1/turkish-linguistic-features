@@ -82,6 +82,7 @@ from .phonetic import (
 )
 from .punctuation import (
     all_caps_word_ratio,
+    char_count,
     char_freq_vector,
     consecutive_punct_ratio,
     digit_ratio,
@@ -187,7 +188,7 @@ def _extract_features(
     Returns
     -------
     dict[str, float]
-        Anahtar → değer. Türkçe taban 199, İngilizce 172; ``dep_data``
+        Anahtar → değer. Türkçe taban 201, İngilizce 174; ``dep_data``
         verilmezse her ikisinden de 16 eksik.
 
     Raises
@@ -301,7 +302,7 @@ def _extract_features(
         feats.update(thematic_concentration(l_items, lemma_pos, h, lang))
         feats.update(secondary_thematic_concentration(l_items, lemma_pos, h, lang))
 
-    # ── sentence (6) ──────────────────────────────────────────────────
+    # ── sentence (7) ──────────────────────────────────────────────────
     if istiyor("sentence"):
         feats.update(sentence_stats(cumle_kelimeleri))
         feats.update(sent_len_char_mean(cumleler))
@@ -364,6 +365,7 @@ def _extract_features(
 
     # ── punctuation (19) ──────────────────────────────────────────────
     if istiyor("punctuation"):
+        feats.update(char_count(raw_text))
         feats.update(digit_ratio(raw_text))
         feats.update(punctuation_ratios(raw_text))
         feats.update(punct_char_ratio(raw_text))

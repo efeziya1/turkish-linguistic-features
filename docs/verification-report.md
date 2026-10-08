@@ -54,17 +54,17 @@ table as `tests/test_kaynak_esligi.py`, so the two cannot drift apart. The
 other known-value tests live in their own files.
 
 
-## Turkish — 199 keys, 224 rows
+## Turkish — 201 keys, 226 rows
 
 A key may have more than one worked example in its source; each one is its own row.
 
-**Verification candidates — 142 rows**
+**Verification candidates — 144 rows**
 
 | Status | Rows |
 |---|---|
 | ✅ exact | 46 |
 | 🟡 documented deviation | 2 |
-| 🔍 open — no worked example in source | 94 |
+| 🔍 open — no worked example in source | 96 |
 
 
 **Not verification candidates — 82 rows.** There is no published number to look for in these.
@@ -138,7 +138,7 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### 🔍 Open — verifiable, not yet verified
 
-94 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
+96 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
 
 | Key | Source | Status |
 |---|---|---|
@@ -175,6 +175,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `secondary_thematic_concentration` | QUITA §6.2.6 | 🔍 |
 | `sent_len_mean` | Flesch (1948) p.223, element (1) "Average Sentence Length in Words" | 🔍 |
 | `sent_len_median` | Yule (1939) p.369, median sentence length alongside the mean | 🔍 |
+| `sent_count` | de Vel (2000) Table 2, attribute 3 "Number of sentences"; Zheng et al. (2006) Table 3, p.385, no. 247 "Total number of sentences" | 🔍 |
 | `sent_len_char_mean` | Zheng et al. (2006) Table 3, p.385, no. 58 "Average sentence length in terms of character" | 🔍 |
 | `para_len_mean` | Zheng et al. (2006) Table 3, p.385, no. 251 "Number of words per paragraph" | 🔍 |
 | `sents_per_para_mean` | Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph" | 🔍 |
@@ -197,6 +198,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `syllable_6plus_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `lix` | Björnsson (1968), as cited in Anderson (1983) p.490; long word = 7+ letters | 🔍 |
 | `long_word_ratio` | Anderson (1983); long word = 7+ letters | 🔍 |
+| `char_count` | de Vel (2000) Table 2, attribute 8 "Number of characters"; Zheng et al. (2006) Table 3, p.385, no. 1 "Total number of characters (C)" | 🔍 |
 | `digit_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; here digits anywhere in the text | 🔍 |
 | `punct_comma_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
 | `punct_period_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
@@ -326,17 +328,17 @@ A key may have more than one worked example in its source; each one is its own r
 | `uppercase_ratio` | — | ⚪ |
 | `all_caps_word_ratio` | — | ⚪ |
 
-## English — 172 keys, 189 rows
+## English — 174 keys, 191 rows
 
 A key may have more than one worked example in its source; each one is its own row.
 
-**Verification candidates — 128 rows**
+**Verification candidates — 130 rows**
 
 | Status | Rows |
 |---|---|
 | ✅ exact | 35 |
 | 🟡 documented deviation | 3 |
-| 🔍 open — no worked example in source | 90 |
+| 🔍 open — no worked example in source | 92 |
 
 
 **Not verification candidates — 61 rows.** There is no published number to look for in these.
@@ -398,7 +400,7 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### 🔍 Open — verifiable, not yet verified
 
-90 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
+92 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
 
 | Key | Source | Status |
 |---|---|---|
@@ -435,6 +437,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `secondary_thematic_concentration` | QUITA §6.2.6 | 🔍 |
 | `sent_len_mean` | Flesch (1948) p.223, element (1) "Average Sentence Length in Words" | 🔍 |
 | `sent_len_median` | Yule (1939) p.369, median sentence length alongside the mean | 🔍 |
+| `sent_count` | de Vel (2000) Table 2, attribute 3 "Number of sentences"; Zheng et al. (2006) Table 3, p.385, no. 247 "Total number of sentences" | 🔍 |
 | `sent_len_char_mean` | Zheng et al. (2006) Table 3, p.385, no. 58 "Average sentence length in terms of character" | 🔍 |
 | `para_len_mean` | Zheng et al. (2006) Table 3, p.385, no. 251 "Number of words per paragraph" | 🔍 |
 | `sents_per_para_mean` | Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph" | 🔍 |
@@ -456,6 +459,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `long_word_ratio` | Anderson (1983); long word = 7+ letters | 🔍 |
 | `flesch_reading_ease` | Flesch (1948) Formula A; coefficient .846, unit = syllables per 100 words | 🔍 |
 | `smog` | McLaughlin (1969) p.643, Table 1, eq. (d); p = polysyllabic words in a 30-sentence sample | 🔍 |
+| `char_count` | de Vel (2000) Table 2, attribute 8 "Number of characters"; Zheng et al. (2006) Table 3, p.385, no. 1 "Total number of characters (C)" | 🔍 |
 | `digit_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; here digits anywhere in the text | 🔍 |
 | `punct_comma_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
 | `punct_period_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |

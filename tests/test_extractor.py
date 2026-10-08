@@ -57,9 +57,9 @@ BOS_GIRDI = dict(raw_text="", surface_tokens=[], lemma_tokens=[], pos_data=[],
                  sentences_as_tokens=[], morpheme_lists=[], morph_tags=[], lang="tr")
 
 # Sözleşme §6'dan türetilmiş beklenti — koddan ölçülmedi.
-# TR taban 199; `dep_data` verilmediği için `syntactic_dep` (16) atlanır.
-TR_DEP_SIZ = 199 - 16
-EN_DEP_SIZ = 172 - 16
+# TR taban 201; `dep_data` verilmediği için `syntactic_dep` (16) atlanır.
+TR_DEP_SIZ = 201 - 16
+EN_DEP_SIZ = 174 - 16
 
 
 # ── 🔴 registry tutarlılık testi — projenin sigortası ─────────────────

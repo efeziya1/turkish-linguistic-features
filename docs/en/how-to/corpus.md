@@ -69,10 +69,10 @@ That is the whole chain.
 
 ```text
 row count:    3
-column count: 202
+column count: 204
 ```
 
-One row per file. 202 columns = 199 features plus three identity columns:
+One row per file. 204 columns = 201 features plus three identity columns:
 
 ```text
 label=author_a  source=text1     segment_id=0  ttr=1.0
