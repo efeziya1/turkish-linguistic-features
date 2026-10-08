@@ -38,6 +38,26 @@ Eşik olarak 15. ve 85. yüzdelik seçildi. "Aykırı değer ortalaması" gibi b
 ölçüt kullanılmadı, çünkü "aykırı değer" tanımı zaten bir eşik gerektirir ve
 eşiği oradan türetmek döngüsel olurdu.
 
+### Neden 15./85. (2026-10-08)
+
+Aday yüzdelik çiftleri aynı köşe yazılarında karşılaştırıldı: her yazı için
+`short_sent_ratio` ve `long_sent_ratio` hesaplandı ve yazılar arasındaki farkın ne
+kadarının yazardan geldiği (η², tek yönlü varyans analizi) ölçüldü.
+
+| Çift | TR eşik | TR η² kısa | TR η² uzun | EN eşik | EN η² kısa | EN η² uzun |
+|---|---|---|---|---|---|---|
+| 5/95 | 2 / 25 | 0,305 | 0,501 | 5 / 43 | 0,275 | 0,518 |
+| 10/90 | 3 / 20 | 0,425 | 0,549 | 7 / 36 | 0,371 | 0,549 |
+| **15/85** | **4 / 17** | **0,484** | **0,571** | **8 / 32** | **0,394** | **0,545** |
+| 20/80 | 5 / 16 | 0,517 | 0,573 | 10 / 29 | 0,449 | 0,532 |
+| 25/75 | 5 / 14 | 0,517 | 0,576 | 11 / 27 | 0,469 | 0,522 |
+
+η² tek başına bir çift seçmez: kısa cümle payında eşik medyana yaklaştıkça sürekli
+artar, çünkü pay daha çok cümleye dayanır. Ama o noktada "kısa" uç olmaktan çıkar
+(25/75'te Türkçe cümlelerin %19'u kısa sayılır). 15/85, uçları ölçmeyi koruyan
+çiftler içinde 10/90'dan dört ölçümün üçünde daha ayırt edici; İngilizce uzun
+cümlede 10/90 çok az önde (0,549'a 0,545).
+
 ### Ham yüzdelik tablosu
 
 | Yüzdelik | TR (n = 197.990) | EN (n = 52.745) |
@@ -127,8 +147,8 @@ O dönemde 15./85. ile 10./90. adayı, `short_sent_ratio` ve `long_sent_ratio`
 değerlerinin yazar kimliği tarafından açıklanan varyans oranı (η²) ile
 karşılaştırılmıştı; 15./85. dört ölçümün hepsinde eşit ya da daha ayırt ediciydi
 (TR short 0,2745 / 0,2745; TR long 0,4021 / 0,4194; EN short 0,0893 / 0,1279; EN long
-0,2701 / 0,2801). Bu karşılaştırma yeni korpusta **tekrarlanmadı**; 15./85. seçimi
-önceki sonuca dayanır.
+0,2701 / 0,2801). Karşılaştırma 2026-10-08'de köşe yazılarında yeniden yapıldı
+(yukarıda, "Neden 15./85.").
 
 ## Kapsam sınırı
 

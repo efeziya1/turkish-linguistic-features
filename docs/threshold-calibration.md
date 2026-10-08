@@ -40,6 +40,28 @@ The 15th and 85th percentiles were chosen as thresholds. A criterion such as
 "mean of the outliers" was not used, because defining an outlier already
 requires a threshold, and deriving the threshold from it would be circular.
 
+### Why the 15th/85th (2026-10-08)
+
+The candidate percentile pairs were compared on the same columns: for every article
+`short_sent_ratio` and `long_sent_ratio` were computed, and the share of the
+between-article differences explained by author (η², one-way analysis of variance)
+was measured.
+
+| Pair | TR thresholds | TR η² short | TR η² long | EN thresholds | EN η² short | EN η² long |
+|---|---|---|---|---|---|---|
+| 5/95 | 2 / 25 | 0.305 | 0.501 | 5 / 43 | 0.275 | 0.518 |
+| 10/90 | 3 / 20 | 0.425 | 0.549 | 7 / 36 | 0.371 | 0.549 |
+| **15/85** | **4 / 17** | **0.484** | **0.571** | **8 / 32** | **0.394** | **0.545** |
+| 20/80 | 5 / 16 | 0.517 | 0.573 | 10 / 29 | 0.449 | 0.532 |
+| 25/75 | 5 / 14 | 0.517 | 0.576 | 11 / 27 | 0.469 | 0.522 |
+
+η² alone does not pick a pair: for the short-sentence share it keeps rising as the
+threshold moves toward the median, because the share then rests on more sentences.
+At that point "short" is no longer an extreme (at 25/75, 19% of Turkish sentences
+count as short). Among the pairs that still measure the extremes, 15/85 is more
+discriminating than 10/90 on three of four measures; on English long sentences
+10/90 is marginally ahead (0.549 against 0.545).
+
 ### Raw percentile table
 
 | Percentile | TR (n = 197,990) | EN (n = 52,745) |
@@ -131,8 +153,8 @@ At that time the 15th/85th and 10th/90th candidates were compared by the proport
 of variance in `short_sent_ratio` and `long_sent_ratio` explained by author identity
 (η²); 15th/85th was equally or more discriminating on all four measures (TR short
 0.2745 / 0.2745; TR long 0.4021 / 0.4194; EN short 0.0893 / 0.1279; EN long 0.2701 /
-0.2801). That comparison was **not repeated** on the new corpora; the choice of
-15th/85th rests on the earlier result.
+0.2801). The comparison was repeated on the columns on 2026-10-08 (above, "Why the
+15th/85th").
 
 ## Scope
 

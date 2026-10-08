@@ -193,6 +193,9 @@
 
 ### Fixed
 
+- The choice of the 15th/85th percentiles for the sentence thresholds rested on a comparison
+  made on novels. It was repeated on the newspaper columns (η² by author, 5/95 to 25/75): 15/85
+  stays, the thresholds do not change, and the threshold calibration page shows the table.
 - The Zheng et al. (2006) citations gave Table 3 as p.384; the table is on p.385 (p.384 only
   refers to it). Checked against the article PDF.
 - `describe_feature(key)["inputs"]` still listed the inputs from before the one-word definition;
