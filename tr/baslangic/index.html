@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 199, İngilizce metinden 172 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 199 quantitative linguistic features from Turkish text and 172 from English text">
+        <meta name="description" content="Türkçe metinden 202, İngilizce metinden 175 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 202 quantitative linguistic features from Turkish text and 175 from English text">
       
       
       
@@ -2218,14 +2218,14 @@ düzeltilecek bir şey yoktur.</p>
 <a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">oz</span><span class="p">))</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>199
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>202
 </code></pre></div>
 <p><code>lang</code> verilmezse varsayılan <code>"tr"</code>'dir; İngilizce metin için <code>lang="en"</code>
 yazmanız gerekir.</p>
 <p><code>analyze</code> <strong>düz bir sözlük</strong> döndürür: anahtarlar öznitelik adları, değerler
 sayılar. İç içe yapı yok, sınıf yok, <code>pandas</code> zorunluluğu yok.</p>
 <h2 id="4-ckty-okuyun">4. Çıktıyı okuyun<a class="headerlink" href="#4-ckty-okuyun" title="Permanent link">&para;</a></h2>
-<p>199 sayıya birden bakmanın anlamı yok. Birkaçına bakalım:</p>
+<p>202 sayıya birden bakmanın anlamı yok. Birkaçına bakalım:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"ttr"</span><span class="p">,</span> <span class="s2">"word_len_mean"</span><span class="p">,</span> <span class="s2">"sent_len_mean"</span><span class="p">,</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>          <span class="s2">"syllable_mean"</span><span class="p">,</span> <span class="s2">"atesman"</span><span class="p">,</span> <span class="s2">"entropy"</span><span class="p">):</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">20s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">oz</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
@@ -2300,9 +2300,9 @@ sayı <strong>uydurmaz</strong>, <code>nan</code> döndürür.</p>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">nan_olan</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kisa</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v</span> <span class="o">!=</span> <span class="n">v</span><span class="p">]</span>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">kisa</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">nan_olan</span><span class="p">))</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>199 36
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>202 37
 </code></pre></div>
-<p>Üç kelimelik bir metinde 199 öznitelikten <strong>36'sı</strong> <code>nan</code> döner. Bu bir hata
+<p>Üç kelimelik bir metinde 202 öznitelikten <strong>37'si</strong> <code>nan</code> döner. Bu bir hata
 değil, dürüstlüktür. Ayrıntı: <strong><a href="../aciklama/nan/">NaN ne demek</a></strong>.</p>
 <h2 id="6-bir-ozniteligin-kaynagn-gorun">6. Bir özniteliğin kaynağını görün<a class="headerlink" href="#6-bir-ozniteligin-kaynagn-gorun" title="Permanent link">&para;</a></h2>
 <p>Bir sayıyı çalışmanızda kullanacaksanız nereden geldiğini bilmelisiniz:</p>
@@ -2343,9 +2343,9 @@ varsayılan pencere boyunun kaynaktan gelmediğini açıkça yazıyor.</p>
 <a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"sütun sayısı:"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">satirlar</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>satır sayısı: 3
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>sütun sayısı: 202
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>sütun sayısı: 205
 </code></pre></div>
-<p>Her dosya bir satır olur. 202 sütun = 199 öznitelik + üç kimlik sütunu:</p>
+<p>Her dosya bir satır olur. 205 sütun = 202 öznitelik + üç kimlik sütunu:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>label=yazar_a  source=metin1     segment_id=0
 <a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>label=yazar_a  source=metin2     segment_id=0
 <a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>label=yazar_b  source=metin3     segment_id=0

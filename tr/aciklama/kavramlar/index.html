@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 199, İngilizce metinden 172 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 199 quantitative linguistic features from Turkish text and 172 from English text">
+        <meta name="description" content="Türkçe metinden 202, İngilizce metinden 175 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 202 quantitative linguistic features from Turkish text and 175 from English text">
       
       
       
@@ -2209,7 +2209,7 @@ adlar sürüm notlarında duyurulur.</p>
 <li><strong>Saf tanım</strong> — <code>punct_dash_ratio</code> ("tire / bütün noktalama işaretleri"). Künyesi yoktur,
    çünkü tanımlanacak bir şey yoktur.</li>
 </ol>
-<p>199 anahtarın 188'inin künyesi vardır, 11'inin yoktur.</p>
+<p>202 anahtarın 191'ınin künyesi vardır, 11'inin yoktur.</p>
 <h2 id="anahtar-adlar">Anahtar adları<a class="headerlink" href="#anahtar-adlar" title="Permanent link">&para;</a></h2>
 <p>Ad, özniteliğin ne ölçtüğünü okunur kılacak biçimde kurulur:</p>
 <table>
@@ -2234,7 +2234,7 @@ adlar sürüm notlarında duyurulur.</p>
 <tr>
 <td><code>…_count</code></td>
 <td>Sayım</td>
-<td><code>word_count</code>, <code>lemma_count</code></td>
+<td><code>word_count</code>, <code>sent_count</code>, <code>lemma_count</code></td>
 </tr>
 <tr>
 <td>Literatürdeki adı</td>
@@ -2332,14 +2332,14 @@ tokenıyla değil:</p>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>   ↓  kütüphanenin kuralları
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>kelime ve cümle sınırları; her kelime etiketini kendi tokenından alır
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>   ↓  öznitelik çıkarıcıları
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>199 sayı
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>202 sayı
 </code></pre></div>
 <p>Bunun iki sonucu var:</p>
 <ol>
 <li><strong>spaCy modeli sonuçların parçasıdır.</strong> Model değişirse tokenlar,
    sözcük türü, biçimbirim ve bağlılık öznitelikleri değişir. Hangi modeli
    kullandığınızı yöntem bölümüne yazın.</li>
-<li><strong>Ön işleme bir kez yapılır.</strong> 199 özniteliğin hepsi aynı çözümlemeden
+<li><strong>Ön işleme bir kez yapılır.</strong> 202 özniteliğin hepsi aynı çözümlemeden
    beslenir; <code>groups</code> ile az öznitelik istemek ön işlemeyi hızlandırmaz,
    yalnız çıkarım adımını kısaltır.</li>
 </ol>

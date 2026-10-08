@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 199, İngilizce metinden 172 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 199 quantitative linguistic features from Turkish text and 172 from English text">
+        <meta name="description" content="Türkçe metinden 202, İngilizce metinden 175 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 202 quantitative linguistic features from Turkish text and 175 from English text">
       
       
       
@@ -2394,7 +2394,7 @@ published is a separate question — see the
 <tbody>
 <tr>
 <td><code>lexical</code></td>
-<td>34</td>
+<td>35</td>
 <td>Lexical richness &amp; frequency</td>
 </tr>
 <tr>
@@ -2404,7 +2404,7 @@ published is a separate question — see the
 </tr>
 <tr>
 <td><code>sentence</code></td>
-<td>6</td>
+<td>7</td>
 <td>Sentence statistics</td>
 </tr>
 <tr>
@@ -2449,7 +2449,7 @@ published is a separate question — see the
 </tr>
 <tr>
 <td><code>punctuation</code></td>
-<td>18</td>
+<td>19</td>
 <td>Punctuation &amp; digits</td>
 </tr>
 <tr>
@@ -2465,7 +2465,7 @@ published is a separate question — see the
 </tbody>
 </table>
 <h2 id="lexical-lexical-richness-frequency"><code>lexical</code> — Lexical richness &amp; frequency<a class="headerlink" href="#lexical-lexical-richness-frequency" title="Permanent link">&para;</a></h2>
-<p>34 keys.</p>
+<p>35 keys.</p>
 <table>
 <thead>
 <tr>
@@ -2602,6 +2602,13 @@ published is a separate question — see the
 <td><code>sqrt(sum(f^2) / N^2 - 1 / V)</code></td>
 <td>at least 1 word</td>
 <td>Herdan (1955), as cited in Tweedie &amp; Baayen (1998) p.330, eq. (18)</td>
+</tr>
+<tr>
+<td><code>honore_r</code></td>
+<td>Honoré's R; higher = more words used once, richer vocabulary</td>
+<td><code>100 * ln N / (1 - V1 / V)</code></td>
+<td>at least 1 word occurring more than once</td>
+<td>Honoré (1979), as cited in Tweedie &amp; Baayen (1998) p.329, eq. (11)</td>
 </tr>
 <tr>
 <td><code>heaps_beta</code></td>
@@ -2824,7 +2831,7 @@ published is a separate question — see the
 </tbody>
 </table>
 <h2 id="sentence-sentence-statistics"><code>sentence</code> — Sentence statistics<a class="headerlink" href="#sentence-sentence-statistics" title="Permanent link">&para;</a></h2>
-<p>6 keys.</p>
+<p>7 keys.</p>
 <table>
 <thead>
 <tr>
@@ -2842,6 +2849,13 @@ published is a separate question — see the
 <td><code>mean words per sentence</code></td>
 <td>at least 1 sentence with a letter</td>
 <td>Flesch (1948) p.223, element (1) "Average Sentence Length in Words"</td>
+</tr>
+<tr>
+<td><code>sent_count</code></td>
+<td>number of sentences</td>
+<td><code>sentences</code></td>
+<td>at least 1 sentence with a letter</td>
+<td>de Vel (2000) Table 2, attribute 3 "Number of sentences"; Zheng et al. (2006) Table 3, p.385, no. 247 "Total number of sentences"</td>
 </tr>
 <tr>
 <td><code>sent_len_char_mean</code></td>
@@ -3722,7 +3736,7 @@ published is a separate question — see the
 </tbody>
 </table>
 <h2 id="punctuation-punctuation-digits"><code>punctuation</code> — Punctuation &amp; digits<a class="headerlink" href="#punctuation-punctuation-digits" title="Permanent link">&para;</a></h2>
-<p>18 keys.</p>
+<p>19 keys.</p>
 <table>
 <thead>
 <tr>
@@ -3734,6 +3748,13 @@ published is a separate question — see the
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>char_count</code></td>
+<td>number of characters</td>
+<td><code>characters, whitespace and line breaks included</code></td>
+<td>non-empty text</td>
+<td>de Vel (2000) Table 2, attribute 8 "Number of characters"; Zheng et al. (2006) Table 3, p.385, no. 1 "Total number of characters (C)"</td>
+</tr>
 <tr>
 <td><code>digit_ratio</code></td>
 <td>share of digit characters</td>
@@ -3888,7 +3909,7 @@ published is a separate question — see the
 <p>Dynamic group: keys are generated with the prefix <code>ngram_</code>. The description, formula and requirement below are stated at the group level, not per key.</p>
 <p>Created only when you pass <code>custom_ngrams</code> to <code>analyze()</code>.</p>
 <h2 id="bibliography">Bibliography<a class="headerlink" href="#bibliography" title="Permanent link">&para;</a></h2>
-<p>55 works. Every citation above names at least one of these verbatim, and every entry here is named by at least one citation — both directions are tested.</p>
+<p>56 works. Every citation above names at least one of these verbatim, and every entry here is named by at least one citation — both directions are tested.</p>
 <dl>
 <dt><strong>Akın &amp; Akın (2007)</strong></dt>
 <dd>Akın, A. A., &amp; Akın, M. D. (2007). Zemberek, an open source NLP framework for Turkic Languages. 8 pp. Source code: github.com/ahmetaa/zemberek-nlp. (The document does not state a place of publication.)</dd>
@@ -3928,6 +3949,8 @@ published is a separate question — see the
 <dd>Herdan, G. (1955). A new derivation and interpretation of Yule's characteristic K. Zeitschrift für Angewandte Mathematik und Physik, 6. The record was verified from the reference list of Tweedie &amp; Baayen (1998). The primary source could not be obtained.</dd>
 <dt><strong>Herdan (1960/1964)</strong></dt>
 <dd>Herdan, G. (1960). Type-Token Mathematics. The Hague: Mouton. / Herdan, G. (1964). Quantitative Linguistics. London: Butterworths.</dd>
+<dt><strong>Honoré (1979)</strong></dt>
+<dd>Honoré, A. (1979). Some simple measures of richness of vocabulary. Association for Literary and Linguistic Computing Bulletin, 7(2), 172–177. The record was verified from the reference list of Tweedie &amp; Baayen (1998). The primary source could not be obtained.</dd>
 <dt><strong>Jing &amp; Liu (2015)</strong></dt>
 <dd>Jing, Y., &amp; Liu, H. (2015). Mean hierarchical distance: Augmenting mean dependency distance. Proceedings of Depling 2015, Uppsala, 161–170.</dd>
 <dt><strong>Johnson (1944)</strong></dt>
