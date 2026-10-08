@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
+        <meta name="description" content="Türkçe metinden 199, İngilizce metinden 172 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 199 quantitative linguistic features from Turkish text and 172 from English text">
       
       
       
@@ -922,6 +922,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#anahtar-adlar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anahtar adları
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#grup" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -948,6 +959,17 @@
     <span class="md-ellipsis">
       
         Ölçek (scale)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kelime-ve-cumle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kelime ve cümle
       
     </span>
   </a>
@@ -2064,6 +2086,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#anahtar-adlar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anahtar adları
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#grup" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2090,6 +2123,17 @@
     <span class="md-ellipsis">
       
         Ölçek (scale)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kelime-ve-cumle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kelime ve cümle
       
     </span>
   </a>
@@ -2152,22 +2196,62 @@
 <h1 id="kavramlar">Kavramlar<a class="headerlink" href="#kavramlar" title="Permanent link">&para;</a></h1>
 <h2 id="oznitelik">Öznitelik<a class="headerlink" href="#oznitelik" title="Permanent link">&para;</a></h2>
 <p><strong>Öznitelik</strong> (feature), bir metinden çıkarılan tek bir sayıdır. <code>ttr</code>,
-<code>avg_word_length</code>, <code>atesman</code> — her biri bir öznitelik. Adları
+<code>word_len_mean</code>, <code>atesman</code> — her biri bir öznitelik. Adları
 <code>snake_case</code>'dir. Sürüm 1.0'a kadar anahtar adları değişebilir; değişen
 adlar sürüm notlarında duyurulur.</p>
 <p>Öznitelik üç şeyden biridir:</p>
 <ol>
 <li><strong>Literatürde adı olan bir ölçü</strong> — <code>mattr</code>, <code>yule_k</code>, <code>flesch_reading_ease</code>.
    Bunların künyesi vardır.</li>
-<li><strong>Bir dış etiket şemasının kategorisi</strong> — <code>pos_noun</code> (UD),
-   <code>case_loc_ratio</code> (Zeyrek). Künyesi şemaya bağlıdır, ölçünün kendisine
+<li><strong>Bir dış etiket şemasının kategorisi</strong> — <code>pos_noun_ratio</code> (UD),
+   <code>zeyrek_case_loc_ratio</code> (Zeyrek). Künyesi şemaya bağlıdır, ölçünün kendisine
    değil.</li>
-<li><strong>Saf tanım</strong> — <code>punc_,_ratio</code> ("virgül / kelime"). Künyesi yoktur,
+<li><strong>Saf tanım</strong> — <code>punct_dash_ratio</code> ("tire / bütün noktalama işaretleri"). Künyesi yoktur,
    çünkü tanımlanacak bir şey yoktur.</li>
 </ol>
-<p>212 anahtarın 144'ünün künyesi vardır, 68'inin yoktur.</p>
+<p>199 anahtarın 188'inin künyesi vardır, 11'inin yoktur.</p>
+<h2 id="anahtar-adlar">Anahtar adları<a class="headerlink" href="#anahtar-adlar" title="Permanent link">&para;</a></h2>
+<p>Ad, özniteliğin ne ölçtüğünü okunur kılacak biçimde kurulur:</p>
+<table>
+<thead>
+<tr>
+<th>Ad</th>
+<th>Anlamı</th>
+<th>Örnek</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>…_ratio</code></td>
+<td>0 ile 1 arası pay</td>
+<td><code>hapax_ratio</code>, <code>pos_noun_ratio</code></td>
+</tr>
+<tr>
+<td><code>…_mean</code>, <code>…_median</code></td>
+<td>Ortalama, medyan</td>
+<td><code>sent_len_mean</code>, <code>sent_len_median</code></td>
+</tr>
+<tr>
+<td><code>…_count</code></td>
+<td>Sayım</td>
+<td><code>word_count</code>, <code>lemma_count</code></td>
+</tr>
+<tr>
+<td>Literatürdeki adı</td>
+<td>Adı yerleşik ölçü; <code>_ratio</code> almaz</td>
+<td><code>ttr</code>, <code>mattr</code>, <code>yule_k</code>, <code>posddev</code></td>
+</tr>
+</tbody>
+</table>
+<p>Biçimbirim öznitelikleri iki çözümleyiciden gelir. spaCy'nin UD
+etiketlerinden gelenler öneksizdir (<code>case_loc_ratio</code>), Zeyrek'ten gelenler
+<code>zeyrek_</code> ile başlar (<code>zeyrek_case_loc_ratio</code>). İkisi aynı sayıyı vermez:
+<code>case_loc_ratio</code> durum etiketi taşıyan kelimeler içinde bulunma durumunun
+payıdır, <code>zeyrek_case_loc_ratio</code> çözümlenen bütün kelimeler içinde. Zeyrek
+ayrıca -DI ve -mIş geçmişini ayırır (<code>zeyrek_tense_past_def_ratio</code>,
+<code>zeyrek_tense_past_nar_ratio</code>); spaCy'de ikisi tek <code>tense_past_ratio</code>'dur.</p>
 <h2 id="grup">Grup<a class="headerlink" href="#grup" title="Permanent link">&para;</a></h2>
-<p>Öznitelikler 13 gruba ayrılır (<code>custom_ngrams</code> verirseniz oluşan <code>ng_*</code>
+<p>Öznitelikler 13 gruba ayrılır (<code>custom_ngrams</code> verirseniz oluşan <code>ngram_*</code>
 anahtarlarıyla 14). Grup, hem düzenleme hem de seçim aracıdır:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="s2">"readability"</span><span class="p">,</span> <span class="s2">"lexical"</span><span class="p">])</span>
 </code></pre></div>
@@ -2177,10 +2261,11 @@ sayfasında.</p>
 <p>Bazı anahtarlar tek tek yazılmamıştır, kalıptan üretilir:</p>
 <ul>
 <li><code>char_*</code> — harf sıklık vektörü; alfabenin her harfi için bir anahtar
-  (Türkçe 29: <code>char_a</code>, <code>char_ç</code> … <code>char_z</code>; İngilizce 26)</li>
-<li><code>ng_*</code> — <code>custom_ngrams</code> verirseniz oluşan n-gram sayaçları</li>
+  (Türkçe 29: <code>char_a_ratio</code>, <code>char_ç_ratio</code> … <code>char_z_ratio</code>; İngilizce 26)</li>
+<li><code>ngram_*</code> — <code>custom_ngrams</code> verirseniz oluşan n-gram sayaçları
+  (<a href="../../nasil/tek-metin/#kendi-obeklerinizi-sayn">nasıl</a>)</li>
 </ul>
-<p><code>describe_feature("char_a")</code> çağırırsanız <code>formula</code> ve <code>requires</code> alanları
+<p><code>describe_feature("char_a_ratio")</code> çağırırsanız <code>formula</code> ve <code>requires</code> alanları
 <strong>grup düzeyinde</strong> genel ifadedir, tek harfe özel değil.</p>
 <h2 id="olcek-scale">Ölçek (<code>scale</code>)<a class="headerlink" href="#olcek-scale" title="Permanent link">&para;</a></h2>
 <p>Her özniteliğin bir ölçeği vardır ve grafik kurarken bu önemlidir:</p>
@@ -2206,12 +2291,7 @@ sayfasında.</p>
 <tr>
 <td><code>length</code></td>
 <td>Birimi karakter, kelime ya da cümle olan ortalama uzunluk</td>
-<td><code>avg_word_length</code>, <code>avg_sent_len_word</code></td>
-</tr>
-<tr>
-<td><code>cv</code></td>
-<td>Değişim katsayısı (standart sapma / ortalama)</td>
-<td><code>sentence_length_cv</code></td>
+<td><code>word_len_mean</code>, <code>sent_len_mean</code></td>
 </tr>
 <tr>
 <td><code>nats</code></td>
@@ -2219,35 +2299,47 @@ sayfasında.</p>
 <td><code>entropy</code>, <code>punct_entropy</code></td>
 </tr>
 <tr>
-<td><code>signed</code></td>
-<td>Eksi de olabilen değer (eğim, çarpıklık)</td>
-<td><code>ttr_moving_slope</code>, <code>sent_len_skewness</code></td>
-</tr>
-<tr>
 <td><code>count</code></td>
 <td>Sayım</td>
-<td><code>n_lemma_count</code></td>
+<td><code>lemma_count</code></td>
 </tr>
 </tbody>
 </table>
 <p><code>ratio_0_1</code> olan iki özniteliği aynı eksende çizebilirsiniz; <code>score</code> olanı
 onların yanına koymak yanıltır.</p>
+<h2 id="kelime-ve-cumle">Kelime ve cümle<a class="headerlink" href="#kelime-ve-cumle" title="Permanent link">&para;</a></h2>
+<p>Öznitelikler kelimeyi ve cümleyi kütüphanenin kendi kuralıyla sayar, modelin
+tokenıyla değil:</p>
+<ul>
+<li><strong>Kelime</strong> — boşlukla ayrılan, kenar noktalaması atılan, harf ya da rakam
+  içeren birim. <code>e-posta</code>, <code>%50</code> ve sayılar birer kelimedir. Bağlılık
+  öznitelikleri dışında her öznitelik bu kelimeyi sayar.</li>
+<li><strong>Cümle</strong> — <code>. ? ! …</code> cümleyi bitirir; <code>:</code> yalnız ardından yeni bir cümle
+  başlıyorsa. <code>Dr.</code> gibi kısaltmalar cümle bitirmez.</li>
+<li><strong>Kelimenin etiketi</strong> — sözcük türü, biçimbirim etiketi ve lemma, kelimenin
+  içindeki ilk tokendan gelir. Türkçe lemma Zeyrek'in sözlük maddesidir,
+  İngilizce lemma spaCy'nin.</li>
+</ul>
+<p>Bir özniteliğin hangi kuralı kullandığını
+<code>describe_feature(anahtar)["definitions"]</code> söyler.</p>
 <h2 id="boru-hatt">Boru hattı<a class="headerlink" href="#boru-hatt" title="Permanent link">&para;</a></h2>
 <p><code>analyze</code> çağırdığınızda sırayla şunlar olur:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ham metin
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>   ↓  spaCy (tr_core_news_md / en_core_web_sm)
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>yüzey token · lemma · sözcük türü · bağlılık ağacı · cümle sınırları
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>token · sözcük türü · biçimbirim etiketi · bağlılık ağacı · İngilizce lemma
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>   ↓  Zeyrek (yalnız Türkçe)
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>ek çözümlemesi
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>   ↓  öznitelik çıkarıcıları
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>212 sayı
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>ek çözümlemesi · Türkçe lemma
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>   ↓  kütüphanenin kuralları
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>kelime ve cümle sınırları; her kelime etiketini kendi tokenından alır
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>   ↓  öznitelik çıkarıcıları
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>199 sayı
 </code></pre></div>
 <p>Bunun iki sonucu var:</p>
 <ol>
-<li><strong>spaCy modeli sonuçların parçasıdır.</strong> Model değişirse cümle bölme,
-   sözcük türü ve bağlılık öznitelikleri değişir. Hangi modeli
+<li><strong>spaCy modeli sonuçların parçasıdır.</strong> Model değişirse tokenlar,
+   sözcük türü, biçimbirim ve bağlılık öznitelikleri değişir. Hangi modeli
    kullandığınızı yöntem bölümüne yazın.</li>
-<li><strong>Ön işleme bir kez yapılır.</strong> 212 özniteliğin hepsi aynı çözümlemeden
+<li><strong>Ön işleme bir kez yapılır.</strong> 199 özniteliğin hepsi aynı çözümlemeden
    beslenir; <code>groups</code> ile az öznitelik istemek ön işlemeyi hızlandırmaz,
    yalnız çıkarım adımını kısaltır.</li>
 </ol>

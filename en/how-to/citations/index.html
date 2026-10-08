@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
+        <meta name="description" content="Türkçe metinden 199, İngilizce metinden 172 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 199 quantitative linguistic features from Turkish text and 172 from English text">
       
       
       
@@ -2217,35 +2217,35 @@ not, is worse than giving no source at all.</p>
 <ul>
 <li><code>"Herdan (1960/1964), as cited in Tweedie &amp; Baayen (1998) p.327, eq. (5)"</code>
   — <strong>the primary source could not be obtained</strong>; the formula was taken
-  from the citing work. <strong>14 of 148</strong> citations are like this, and all of
+  from the citing work. <strong>14 of 163</strong> citations are like this, and all of
   them carry <code>as cited in</code>.</li>
 <li><code>"McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form
   of SMOG's input, not the source's own measure"</code> — derived from the
   source, but not a measure the source itself defines.</li>
 </ul>
 <h2 id="features-without-a-source">Features without a source<a class="headerlink" href="#features-without-a-source" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"punc_,_ratio"</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"punct_dash_ratio"</span><span class="p">)</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"punc_,_ratio"</span><span class="p">,</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"punct_dash_ratio"</span><span class="p">,</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">"group"</span><span class="p">:</span><span class="w"> </span><span class="s2">"punctuation"</span><span class="p">,</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"comma marks per word"</span><span class="p">,</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="nt">"formula"</span><span class="p">:</span><span class="w"> </span><span class="s2">"marks / words"</span><span class="p">,</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"share of hyphen or dash marks among all marks"</span><span class="p">,</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="nt">"formula"</span><span class="p">:</span><span class="w"> </span><span class="s2">"marks of this type / all marks"</span><span class="p">,</span>
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="nt">"citation"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="nt">"references"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
 <a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="p">}</span>
 </code></pre></div>
 <p>A <code>citation</code> of <code>None</code> means the key is <strong>not a named measure from the
-literature</strong>; it is a plain definition: <code>punc_,_ratio</code> ("commas / words"),
-<code>char_a</code> ("share of the letter a"), <code>avg_sent_len_word</code> ("words per
-sentence"). Keys that count the categories of an external tag scheme do
-have a citation, pointing at the scheme (<code>morph_case_loc</code> → UD;
-<code>case_loc_ratio</code> → Zeyrek).</p>
-<p><strong>68 of the 212</strong> Turkish keys have no citation: 29 are the letter-frequency
-vector (one key per letter of the Turkish alphabet), 17 are punctuation
-ratios, and 22 are other plain definitions such as lengths and spreads.</p>
+literature</strong>; it is a plain definition: <code>punct_dash_ratio</code> ("dashes / all punctuation marks"),
+<code>uppercase_ratio</code> ("share of words that start with a capital"),
+<code>lemma_count</code> ("number of distinct lemmas"). Keys that count the categories of an external tag scheme do
+have a citation, pointing at the scheme (<code>case_loc_ratio</code> → UD;
+<code>zeyrek_case_loc_ratio</code> → Zeyrek).</p>
+<p><strong>11 of the 199</strong> Turkish keys have no citation: 7 are punctuation and
+capitalisation ratios, and 4 are other plain definitions such as the lemma
+count or the share of vowels.</p>
 <h2 id="building-a-bibliography-for-your-methods-section">Building a bibliography for your methods section<a class="headerlink" href="#building-a-bibliography-for-your-methods-section" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">used</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"mattr"</span><span class="p">,</span> <span class="s2">"flesch_reading_ease"</span><span class="p">,</span> <span class="s2">"avg_sent_len_word"</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">used</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"mattr"</span><span class="p">,</span> <span class="s2">"flesch_reading_ease"</span><span class="p">,</span> <span class="s2">"sent_len_mean"</span><span class="p">]</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">refs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">used</span><span class="p">:</span>
@@ -2255,7 +2255,7 @@ ratios, and 22 are other plain definitions such as lengths and spreads.</p>
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
 </code></pre></div>
 <p>This gives you the bibliography for the features <strong>you actually used</strong>, not
-all 50 works.</p>
+all 55 works.</p>
 <h2 id="does-the-number-actually-match">Does the number actually match?<a class="headerlink" href="#does-the-number-actually-match" title="Permanent link">&para;</a></h2>
 <p>The citation tells you the source; it does not tell you the number
 <strong>agrees</strong>. There is a separate document for that:</p>

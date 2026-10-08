@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
+        <meta name="description" content="Türkçe metinden 199, İngilizce metinden 172 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 199 quantitative linguistic features from Turkish text and 172 from English text">
       
       
       
@@ -1312,10 +1312,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#size-counts-spacy-tokens-not-whitespace-words" class="md-nav__link">
+  <a href="#size-counts-words" class="md-nav__link">
     <span class="md-ellipsis">
       
-        size counts spaCy tokens, not whitespace words
+        size counts words
       
     </span>
   </a>
@@ -2053,10 +2053,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#size-counts-spacy-tokens-not-whitespace-words" class="md-nav__link">
+  <a href="#size-counts-words" class="md-nav__link">
     <span class="md-ellipsis">
       
-        size counts spaCy tokens, not whitespace words
+        size counts words
       
     </span>
   </a>
@@ -2138,34 +2138,27 @@ sensitive than TTR but not independent of length
 <p>The fix is to bring everything to the same size.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">segments</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)</span>
 </code></pre></div>
-<h2 id="size-counts-spacy-tokens-not-whitespace-words"><code>size</code> counts spaCy tokens, not whitespace words<a class="headerlink" href="#size-counts-spacy-tokens-not-whitespace-words" title="Permanent link">&para;</a></h2>
-<p>This is the part that surprises people. With the 30-word Turkish <code>metin</code> from
-the <a href="../../../tr/baslangic/">Turkish tutorial</a>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">spacy</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">blank</span><span class="p">(</span><span class="s2">"tr"</span><span class="p">)</span><span class="o">.</span><span class="n">tokenizer</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">long_text</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">metin</span><span class="p">]</span> <span class="o">*</span> <span class="mi">12</span><span class="p">)</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nb">len</span><span class="p">(</span><span class="n">long_text</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>         <span class="c1"># 360  ← whitespace "words"</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nb">len</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">(</span><span class="n">long_text</span><span class="p">))</span>      <span class="c1"># 432  ← spaCy tokens</span>
+<h2 id="size-counts-words"><code>size</code> counts words<a class="headerlink" href="#size-counts-words" title="Permanent link">&para;</a></h2>
+<p><code>size</code> counts the word <code>analyze</code> counts: a whitespace-separated piece with
+edge punctuation stripped, containing a letter or digit. Punctuation is not a
+word. With the 30-word Turkish <code>metin</code> from the
+<a href="../../../tr/baslangic/">Turkish tutorial</a>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">long_text</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">metin</span><span class="p">]</span> <span class="o">*</span> <span class="mi">12</span><span class="p">)</span>             <span class="c1"># 360 words</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">segments</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">long_text</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nb">len</span><span class="p">(</span><span class="n">segments</span><span class="p">)</span>                                  <span class="c1"># 3</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">segments</span><span class="p">]</span>             <span class="c1"># [100, 100, 100]</span>
 </code></pre></div>
-<p>The ratio is 1.20; the difference is punctuation, which spaCy counts as
-separate tokens. So:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">segments</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">long_text</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">len</span><span class="p">(</span><span class="n">segments</span><span class="p">)</span>                             <span class="c1"># 4</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">segments</span><span class="p">]</span>        <span class="c1"># [83, 84, 84, 83]</span>
-</code></pre></div>
-<p>432 tokens ÷ 100 = 4 full segments, and the remaining 32 tokens are
-dropped. Each segment holds 100 <strong>tokens</strong> but 83–84 <strong>words</strong>.</p>
-<p><code>size</code> counts spaCy tokens because splitting on whitespace changed segment
-lengths by up to 50%.</p>
+<p>360 words ÷ 100 = 3 full segments, and the remaining 60 words are dropped.
+Each segment is exactly 100 words in <code>analyze</code>, enough for a measure such as
+<code>mattr</code> that needs at least 100 words.</p>
 <h2 id="the-last-segment-min_fill">The last segment: <code>min_fill</code><a class="headerlink" href="#the-last-segment-min_fill" title="Permanent link">&para;</a></h2>
 <p>The default <code>min_fill=1.0</code> keeps only <strong>full</strong> segments. A short remainder
 is discarded.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">long_text</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>                  <span class="c1"># 4</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">long_text</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">min_fill</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>    <span class="c1"># 4</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">long_text</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>                  <span class="c1"># 3</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">long_text</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">min_fill</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>    <span class="c1"># 4</span>
 </code></pre></div>
-<p>Both give 4 here because the remainder is 32 tokens = 32%, below the <code>0.5</code>
-threshold as well.</p>
+<p>The remainder is 60 words, 60% of a segment: below the <code>1.0</code> threshold,
+above <code>0.5</code>.</p>
 <table>
 <thead>
 <tr>
@@ -2191,42 +2184,41 @@ threshold as well.</p>
 <div class="admonition warning">
 <p class="admonition-title">Discarded data is discarded silently</p>
 <p>The library does not tell you how many segments it dropped. With
-<code>min_fill=1.0</code> and <code>size=1000</code>, a 1400-token file yields <strong>one</strong>
-segment and the remaining 400 tokens (punctuation included, ~330
-words) are gone. Short files in your
+<code>min_fill=1.0</code> and <code>size=1000</code>, a 1400-word file yields <strong>one</strong>
+segment and the remaining 400 words are gone. Short files in your
 corpus may produce no segments at all.</p>
 <p>Use it knowingly. If in doubt, count first:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">),</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>                             <span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">))</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">),</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>                             <span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">))</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
 </code></pre></div>
 </div>
 <h2 id="splitting-by-characters">Splitting by characters<a class="headerlink" href="#splitting-by-characters" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">"char"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">"char"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)</span>
 </code></pre></div>
-<p><code>unit="char"</code> counts raw characters; the tokenizer is not involved, so
+<p><code>unit="char"</code> counts raw characters; the word rule is not involved, so
 <code>lang</code> becomes meaningless. It does not respect word boundaries — a
 segment can end mid-word. Use it when a rough split is enough.</p>
 <h2 id="use-it-directly-on-a-corpus">Use it directly on a corpus<a class="headerlink" href="#use-it-directly-on-a-corpus" title="Permanent link">&para;</a></h2>
 <p>You do not have to split and call <code>analyze</code> yourself:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">rows</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"corpus/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">rows</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"corpus/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 </code></pre></div>
 <p><code>segment_size</code>, <code>min_fill</code> and <code>unit</code> mean the same thing and are applied
 <strong>to each file separately</strong>.</p>
 <h2 id="full-signature">Full signature<a class="headerlink" href="#full-signature" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">segment_text</span><span class="p">(</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="n">min_fill</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"word"</span><span class="p">,</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"tr"</span><span class="p">,</span>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">segment_text</span><span class="p">(</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="n">min_fill</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"word"</span><span class="p">,</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"tr"</span><span class="p">,</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 </code></pre></div>
-<p><code>lang</code> must match the text. It defaults to <code>"tr"</code>; apostrophes and
-abbreviations tokenize differently in the two languages, so splitting an
-English text without <code>lang="en"</code> shifts the segment boundaries.</p>
-<p>A segment's content is a <strong>slice of the raw text</strong>, not a re-joined token
+<p><code>lang</code> must match the text. It defaults to <code>"tr"</code>. The word rule is nearly the
+same in both languages; the difference is ordinals (in Turkish the <code>3.</code> of
+<code>3. kat</code> is one word), so an English text rarely shifts its boundaries.</p>
+<p>A segment's content is a <strong>slice of the raw text</strong>, not a re-joined word
 list. Punctuation, whitespace and line breaks survive unchanged.</p>
 
 

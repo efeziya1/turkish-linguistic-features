@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
+        <meta name="description" content="Türkçe metinden 199, İngilizce metinden 172 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 199 quantitative linguistic features from Turkish text and 172 from English text">
       
       
       
@@ -995,21 +995,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-girdide-paragraf-snr-yok" class="md-nav__link">
+  <a href="#3-istege-bagl-bir-paket-kurulu-degil" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Girdide paragraf sınırı yok
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-istege-bagl-bir-paket-kurulu-degil" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. İsteğe bağlı bir paket kurulu değil
+        3. İsteğe bağlı bir paket kurulu değil
       
     </span>
   </a>
@@ -1018,6 +1007,17 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nan-donmeyen-ama-yanltan-durum-paragraf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nan dönmeyen ama yanıltan durum: paragraf
+      
+    </span>
+  </a>
   
 </li>
       
@@ -2148,21 +2148,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-girdide-paragraf-snr-yok" class="md-nav__link">
+  <a href="#3-istege-bagl-bir-paket-kurulu-degil" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Girdide paragraf sınırı yok
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-istege-bagl-bir-paket-kurulu-degil" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. İsteğe bağlı bir paket kurulu değil
+        3. İsteğe bağlı bir paket kurulu değil
       
     </span>
   </a>
@@ -2171,6 +2160,17 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nan-donmeyen-ama-yanltan-durum-paragraf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nan dönmeyen ama yanıltan durum: paragraf
+      
+    </span>
+  </a>
   
 </li>
       
@@ -2240,19 +2240,18 @@ olmazdı.</p>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">nan_olan</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kisa</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v</span> <span class="o">!=</span> <span class="n">v</span><span class="p">]</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">len</span><span class="p">(</span><span class="n">kisa</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">nan_olan</span><span class="p">)</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>(212, 46)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>(199, 36)
 </code></pre></div>
-<p>212 öznitelikten <strong>46'sı</strong> <code>nan</code>. Örnekler:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>['causative_suffix_ratio', 'conditional_suffix_ratio',
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a> 'derivational_suffix_ratio', 'dugast_u', 'entropy_std', 'hdd',
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a> 'heaps_beta', 'mattr']
+<p>199 öznitelikten <strong>36'sı</strong> <code>nan</code>. Örnekler:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>['aspect_imp_ratio', 'aspect_perf_ratio', 'aspect_prog_ratio', 'dugast_u',
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a> 'hdd', 'heaps_beta', 'mattr', 'msttr']
 </code></pre></div>
 <p>Aynı metinde <code>ttr</code> yine de sayı döner:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>mattr  = nan   (en az 100 kelime ister)
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>ttr    = 1.0   (her uzunlukta hesaplanır)
 </code></pre></div>
 <h2 id="neden-nan-donuyor">Neden <code>nan</code> dönüyor<a class="headerlink" href="#neden-nan-donuyor" title="Permanent link">&para;</a></h2>
-<p>Dört sebep var.</p>
+<p>Üç sebep var.</p>
 <h3 id="1-metin-cok-ksa">1. Metin çok kısa<a class="headerlink" href="#1-metin-cok-ksa" title="Permanent link">&para;</a></h3>
 <p>Her özniteliğin bir alt sınırı var ve künyede yazılı:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"mattr"</span><span class="p">)[</span><span class="s2">"requires"</span><span class="p">]</span>
@@ -2261,45 +2260,44 @@ olmazdı.</p>
 </code></pre></div>
 <p>Buradaki <strong>kelime</strong> kütüphanenin varsayılan kelimesidir: boşlukla ayrılan,
 kenar noktalaması atılan ve harf ya da rakam içeren birim (<code>e-posta</code>, <code>%50</code>
-ve sayılar birer kelime). Sözcük türü ya da lemma isteyen öznitelikler ise
-noktalama ve sembol olmayan spaCy tokenlarını sayar; hangisi olduğunu
-<code>describe_feature(key)["definitions"]["word"]</code> söyler. <code>segment_text</code>'in <code>size</code> değeri ise noktalamayı da sayar: 100 tokenlık
-parça ~83 kelime eder ve 100 kelime isteyen bir ölçüye yetmeyebilir.</p>
+ve sayılar birer kelime). Bağlılık öznitelikleri dışında her öznitelik bu
+kelimeyi sayar; hangisi olduğunu <code>describe_feature(key)["definitions"]["word"]</code>
+söyler. <code>segment_text</code>'in <code>size</code> değeri de aynı kelimeyi sayar: 100 kelimelik
+parça 100 kelime isteyen bir ölçüye yeter.</p>
 <p>Sınırın altındaysanız <code>nan</code> gelir. Sınırların bir kısmı kaynaktan gelir
 (<code>mtld</code> için "texts as short as 100 tokens can be used"), bir kısmı
 matematikten: <code>mattr</code> tek pencerede düz TTR'a çöker, yani "hareketli
 ortalama" olmaktan çıkar — o yüzden eşik <code>2 × pencere</code>dir.</p>
 <h3 id="2-gereken-yap-yok">2. Gereken yapı yok<a class="headerlink" href="#2-gereken-yap-yok" title="Permanent link">&para;</a></h3>
-<p><code>derivational_suffix_ratio</code> metinde hiç türetme eki bulamazsa paydası sıfır
+<p><code>zeyrek_derivational_suffix_ratio</code> metinde hiç türetme eki bulamazsa paydası sıfır
 olur. <code>parse_depth_mean</code> cümle ayrıştırılamazsa değer üretemez.
 <code>hapax_ratio</code> tek kelimelik metinde anlamsızdır.</p>
-<h3 id="3-girdide-paragraf-snr-yok">3. Girdide paragraf sınırı yok<a class="headerlink" href="#3-girdide-paragraf-snr-yok" title="Permanent link">&para;</a></h3>
-<p><code>para_len_cv</code> ve <code>sents_per_para_cv</code> en az <strong>iki</strong> paragraf ister —
-değişkenlik tek değerden ölçülmez. Paragraf sınırı boş satırla bulunur, tek
-satır sonu saymaz. Metninizde boş satır yoksa metnin tamamı tek paragraf
-sayılır, bu iki öznitelik <code>nan</code> döner ve <code>para_len_mean</code> bütün metnin kelime
-sayısına eşitlenir.</p>
+<h3 id="3-istege-bagl-bir-paket-kurulu-degil">3. İsteğe bağlı bir paket kurulu değil<a class="headerlink" href="#3-istege-bagl-bir-paket-kurulu-degil" title="Permanent link">&para;</a></h3>
+<p><code>wordfreq</code> kurulu değilse <code>wordfreq_mean</code> ve <code>wordfreq_rare_ratio</code> <code>nan</code>
+döner ve kütüphane bir <code>MissingDependencyWarning</code> basar.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<p><code>warn=False</code> yalnız uyarıyı susturur; öznitelik yine <code>nan</code> kalır. Aynı bayrak
+<code>ParagraphStructureWarning</code>'i de susturur.</p>
+<h2 id="nan-donmeyen-ama-yanltan-durum-paragraf"><code>nan</code> dönmeyen ama yanıltan durum: paragraf<a class="headerlink" href="#nan-donmeyen-ama-yanltan-durum-paragraf" title="Permanent link">&para;</a></h2>
+<p>Paragraf sınırı boş satırla bulunur, tek satır sonu saymaz. Metninizde boş
+satır yoksa metnin tamamı tek paragraf sayılır ve <code>para_len_mean</code> bütün
+metnin kelime sayısına eşitlenir: değer <code>nan</code> olmaz ama paragraf hakkında
+bir şey söylemez.</p>
 <p>1000 kelimeyi geçen metinde hiç sınır bulunamazsa <code>ParagraphStructureWarning</code>
 basılır:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">kayit</span><span class="p">:</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">"always"</span><span class="p">)</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">kitap_metni</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">kayit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">kayit</span><span class="p">:</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">"always"</span><span class="p">)</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">kitap_metni</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">kayit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>No paragraph boundary found: the text contains no blank line, so all 52521
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>words and 7347 sentences were counted as a single paragraph. ...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>No paragraph boundary found: the text contains no blank line, so all 52521
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>words and 7347 sentences were counted as a single paragraph. ...
 </code></pre></div>
 <p>Uyarı metinleri İngilizcedir — öznitelik anahtarları ve künyeler de öyle.</p>
 <p>Bu genellikle metnin PDF/EPUB'dan çıkarılırken satır sonlarını kaybetmesinden
 olur; <a href="../sinirliliklar/">sınırlılıklar §9</a> ölçümü veriyor.</p>
-<h3 id="4-istege-bagl-bir-paket-kurulu-degil">4. İsteğe bağlı bir paket kurulu değil<a class="headerlink" href="#4-istege-bagl-bir-paket-kurulu-degil" title="Permanent link">&para;</a></h3>
-<p><code>wordfreq</code> kurulu değilse <code>wordfreq_mean</code> ve <code>wordfreq_rare_ratio</code> <code>nan</code>
-döner ve kütüphane bir <code>MissingDependencyWarning</code> basar.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</code></pre></div>
-<p><code>warn=False</code> yalnız uyarıyı susturur; öznitelik yine <code>nan</code> kalır. Aynı bayrak
-<code>ParagraphStructureWarning</code>'i de susturur.</p>
 <h2 id="tabloda-ne-yapmal">Tabloda ne yapmalı<a class="headerlink" href="#tabloda-ne-yapmal" title="Permanent link">&para;</a></h2>
 <p><strong><code>nan</code>'ı sıfırla doldurmayın.</strong> Sıfır bir ölçümdür, <code>nan</code> ölçüm
 yokluğudur. <code>ttr = 0</code> "hiç çeşitlilik yok" demektir; <code>ttr = nan</code> "ölçemedim"
@@ -2322,7 +2320,7 @@ atacaksınız, o sütunu mu?</p>
 parçalama:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">satirlar</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"korpus/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 </code></pre></div>
-<p>1000 tokenlık parçalar 212 özniteliğin neredeyse tamamını besler. Ayrıntı:
+<p>1000 kelimelik parçalar 199 özniteliğin neredeyse tamamını besler. Ayrıntı:
 <a href="../../nasil/segmentleme/">Metni parçalara böl</a>.</p>
 <h2 id="neden-none-degil-de-nan">Neden <code>None</code> değil de <code>nan</code><a class="headerlink" href="#neden-none-degil-de-nan" title="Permanent link">&para;</a></h2>
 <p><code>nan</code> bir <code>float</code>'tır. Yani dönen sözlüğün bütün değerleri aynı tiptedir ve

@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
+        <meta name="description" content="Türkçe metinden 199, İngilizce metinden 172 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 199 quantitative linguistic features from Turkish text and 172 from English text">
       
       
       
@@ -2315,13 +2315,12 @@ and the default word:</p>
 </tr>
 </tbody>
 </table>
-<p>A column is a <strong>single genre</strong>. Novels already give another distribution
-(dialogue lines are very short), and there is <strong>no guarantee</strong> the thresholds
-suit technical writing, transcripts, poetry or children's books. If you work
+<p>A column is a <strong>single genre</strong>. There is <strong>no guarantee</strong> the thresholds suit
+novels, technical writing, transcripts, poetry or children's books. If you work
 in another genre, consider deriving the thresholds from your own corpus —
 <a href="../../../threshold-calibration/">the method is here</a>.</p>
 <h3 id="2-fourteen-citations-are-secondary">2. Fourteen citations are secondary<a class="headerlink" href="#2-fourteen-citations-are-secondary" title="Permanent link">&para;</a></h3>
-<p><strong>14 of 148</strong> citations carry <code>as cited in</code> — the primary source could not
+<p><strong>14 of 163</strong> citations carry <code>as cited in</code> — the primary source could not
 be obtained and the formula was taken from the citing work. For example:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Herdan (1960/1964), as cited in Tweedie &amp; Baayen (1998) p.327, eq. (5)
 </code></pre></div>
@@ -2331,16 +2330,19 @@ against the <strong>primary source's own wording</strong>.</p>
 <p>Carry the "as cited in" through into your own methods section. Do not
 present it as though you read the primary.</p>
 <h3 id="3-the-spacy-model-is-part-of-the-result">3. The spaCy model is part of the result<a class="headerlink" href="#3-the-spacy-model-is-part-of-the-result" title="Permanent link">&para;</a></h3>
-<p>POS tags, lemmas, morphological tags and the dependency features (with the
-parser's own sentences) come from the model. Change the model and those
-numbers change.</p>
+<p>POS tags, morphological tags, English lemmas and the dependency features
+(with the parser's own sentences) come from the model. Change the model and
+those numbers change. Turkish lemmas come from Zeyrek (§4).</p>
 <p>Word and sentence counts do not use the model's labels. The default word is a
 whitespace-separated unit with edge punctuation stripped; the default sentence
-rule reads sentence-ending marks from the model's tokenizer. Features that need
-a label per word (POS, lemma, morphology, dependency) count the model's tokens
-instead, so two word definitions coexist: <code>e-posta</code> is one word in <code>ttr</code> and two
-tokens in <code>lexical_density</code>. <code>describe_feature(key)["definitions"]["word"]</code>
-names the one each feature uses.</p>
+rule reads sentence-ending marks from the model's tokenizer. Every feature
+except the dependency features counts this word. Features that need a label
+per word (POS, lemma, morphology) take it from the first word token inside the
+word: the model splits <code>Türk-Amerikan</code> or English <code>it's</code> into several tokens,
+and the word carries the first part's label (<code>Türk</code>, <code>it</code>). This happens to
+0.3% of the words in Turkish newspaper columns and 2.7% in English ones. The
+dependency features count the model's tokens.
+<code>describe_feature(key)["definitions"]["word"]</code> names the word each feature uses.</p>
 <p>Verified combination: spaCy 3.8.16, <code>en_core_web_sm</code> 3.8.0,
 <code>tr_core_news_md</code> 1.0.</p>
 <p>The Turkish model has two oddities that look like bugs (a version-number
@@ -2348,9 +2350,10 @@ mismatch and a <code>W094</code> warning); both are explained in the
 <a href="../../getting-started/#2-install-the-language-data">tutorial</a> and both are
 harmless.</p>
 <h3 id="4-turkish-morphology-depends-on-zeyrek">4. Turkish morphology depends on Zeyrek<a class="headerlink" href="#4-turkish-morphology-depends-on-zeyrek" title="Permanent link">&para;</a></h3>
-<p>The 24 features in the <code>morphological_zeyrek</code> group come from Zeyrek, a
-Python port of Zemberek's morphotactics. A word Zeyrek cannot analyse drops
-out of those features.</p>
+<p>The 23 features in the <code>morphological_zeyrek</code> group and the Turkish lemmas
+come from Zeyrek, a Python port of Zemberek's morphotactics. A word Zeyrek
+cannot analyse drops out of the Zeyrek features; its lemma is the part before
+its apostrophe (<code>Pittsburgh'tan</code> → <code>pittsburgh</code>).</p>
 <p>Zeyrek is an <strong>analyser, not a disambiguator</strong>: it can return several
 analyses for the same surface form and does not pick the right one from
 context. The library takes the <strong>first</strong> analysis, with no context.</p>
@@ -2362,12 +2365,12 @@ analysis changed across hash seeds 0–3. The Zeyrek features of the same text
 can therefore differ slightly between Python processes. For reproducible
 numbers, fix the seed before Python starts, e.g. <code>PYTHONHASHSEED=0</code>.</p>
 <h3 id="5-half-the-candidates-are-still-unverified">5. Half the candidates are still unverified<a class="headerlink" href="#5-half-the-candidates-are-still-unverified" title="Permanent link">&para;</a></h3>
-<p>142 rows are not verification candidates at all (plain definitions, tag
-schemes, or our own derivations). Of the remaining <strong>91 candidates, 48 are done</strong> (46 ✅ + 2 🟡)
-and <strong>43 are 🔍 open</strong>.</p>
+<p>82 rows are not verification candidates at all (plain definitions, tag
+schemes, or our own derivations). Of the remaining <strong>142 candidates, 48 are done</strong> (46 ✅ + 2 🟡)
+and <strong>94 are 🔍 open</strong>.</p>
 <p>The reason is in <a href="../verification/">The verification system</a>: most sources
 publish a formula but never a worked numerical example. This is most
-pronounced in the <code>lexical</code> group — 7 of its 29 candidates are verified.</p>
+pronounced in the <code>lexical</code> group — 7 of its 36 candidates are verified.</p>
 <h3 id="6-the-package-is-not-on-pypi-yet">6. The package is not on PyPI yet<a class="headerlink" href="#6-the-package-is-not-on-pypi-yet" title="Permanent link">&para;</a></h3>
 <p>Early development (0.x). You install from a clone. Until 1.0, key
 names and the public API may change; changes are announced in the release
@@ -2380,8 +2383,6 @@ affect your results.</p>
 <p>A few features are not named measures from the literature but definitions
 this library made. Their citations say so plainly:</p>
 <ul>
-<li><code>entropy_std</code> — the <strong>standard deviation of Shannon entropy across
-  segments</strong>. The entropy is Shannon's; the standard deviation is ours.</li>
 <li><code>punct_entropy</code>, <code>sent_len_entropy</code> — Shannon's formula applied to the
   distribution of punctuation types and of sentence lengths. The formula is
   Shannon's; the decision to apply it there is ours.</li>
@@ -2392,12 +2393,12 @@ this library made. Their citations say so plainly:</p>
 attribution right: cite the source of the formula, but do not attribute the
 measure itself to that source. In your methods section:</p>
 <ul>
-<li>✗ "the Shannon (1948) <code>entropy_std</code> measure"</li>
-<li>✓ "the standard deviation of Shannon (1948) entropy across segments
+<li>✗ "the Shannon (1948) <code>sent_len_entropy</code> measure"</li>
+<li>✓ "Shannon (1948) entropy applied to the distribution of sentence lengths
   (as defined by turkish-linguistic-features)"</li>
 </ul>
-<p>The reason is simple: Shannon defined the entropy, not its standard deviation
-across segments. The first wording implies a measure the reader could look up
+<p>The reason is simple: Shannon defined the entropy; he did not apply it to
+sentence lengths. The first wording implies a measure the reader could look up
 in the source and find.</p>
 <h3 id="8-sensitivity-to-text-length">8. Sensitivity to text length<a class="headerlink" href="#8-sensitivity-to-text-length" title="Permanent link">&para;</a></h3>
 <p>Most lexical richness measures change with length. <code>ttr</code> is the extreme
@@ -2409,16 +2410,16 @@ need at least 100 words. If you compare texts of different lengths, bring
 them to the same size with <code>segment_size</code> first
 (<a href="../../how-to/segmenting/">how</a>).</p>
 <h3 id="9-paragraph-features-depend-on-how-the-input-is-formatted">9. Paragraph features depend on how the input is formatted<a class="headerlink" href="#9-paragraph-features-depend-on-how-the-input-is-formatted" title="Permanent link">&para;</a></h3>
-<p>The five <code>para_*</code> features find paragraph boundaries from <strong>blank lines</strong>. A
+<p>The two <code>para_*</code> features find paragraph boundaries from <strong>blank lines</strong>. A
 single line break does not count as one — otherwise every line of a
 hard-wrapped text would be a paragraph.</p>
 <p>The consequence: if your text has no blank lines, the whole text counts as one
-paragraph. <code>para_len_mean</code> becomes the word count of the entire text and both
-CVs return NaN. The library cannot fix this — a boundary that was deleted
+paragraph. <code>para_len_mean</code> becomes the word count of the entire text. The
+library cannot fix this — a boundary that was deleted
 cannot be recovered.</p>
 <p>This is <strong>common</strong> in text extracted from PDF and EPUB: blank lines between
-paragraphs are lost during extraction. The <a href="https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/07_nan_haritasi.py">NaN map example</a>
-shows which features this leaves unmeasurable in your own text.</p>
+paragraphs are lost during extraction. The value is not <code>nan</code>, so the numbers
+will not show it; the warning below does.</p>
 <p>If a text longer than 1000 words yields no paragraph boundary at all, a
 <code>ParagraphStructureWarning</code> is raised. If you see it you have two options:
 re-extract the source text with paragraphs separated by blank lines, or leave

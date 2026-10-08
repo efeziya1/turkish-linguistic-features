@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
+        <meta name="description" content="Türkçe metinden 199, İngilizce metinden 172 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 199 quantitative linguistic features from Turkish text and 172 from English text">
       
       
       
@@ -1756,6 +1756,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ngram_matches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ngram_matches
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#analyze_corpus" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2056,6 +2067,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ngram_matches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ngram_matches
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#analyze_corpus" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2142,7 +2164,7 @@
 
 
 <h1 id="public-api">Public API<a class="headerlink" href="#public-api" title="Permanent link">&para;</a></h1>
-<p>Ten names. Everything else in the package is private and may change
+<p>Eleven names. Everything else in the package is private and may change
 without notice.</p>
 <p>Every function that takes <code>lang</code> defaults to <code>"tr"</code>. For English text,
 pass <code>lang="en"</code> explicitly.</p>
@@ -2150,8 +2172,8 @@ pass <code>lang="en"</code> explicitly.</p>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">tlf</span><span class="o">.</span><span class="n">__all__</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>['analyze', 'analyze_corpus', 'FeatureParams', 'segment_text', 'save_csv',
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a> 'describe_feature', 'LinguisticFeaturesError', 'ModelNotFoundError',
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>['analyze', 'analyze_corpus', 'ngram_matches', 'FeatureParams', 'segment_text',
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a> 'save_csv', 'describe_feature', 'LinguisticFeaturesError', 'ModelNotFoundError',
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a> 'MissingDependencyWarning', 'ParagraphStructureWarning']
 </code></pre></div>
 <hr />
@@ -2183,7 +2205,7 @@ pass <code>lang="en"</code> explicitly.</p>
 </tr>
 <tr>
 <td><code>lang</code></td>
-<td><code>"tr"</code> (default) or <code>"en"</code>. Anything else raises <code>ValueError</code>. Changes the feature set (212 vs 184)</td>
+<td><code>"tr"</code> (default) or <code>"en"</code>. Anything else raises <code>ValueError</code>. Changes the feature set (199 vs 172)</td>
 </tr>
 <tr>
 <td><code>model</code></td>
@@ -2199,7 +2221,7 @@ pass <code>lang="en"</code> explicitly.</p>
 </tr>
 <tr>
 <td><code>custom_ngrams</code></td>
-<td>Token sequences to count; each becomes an <code>ng_*</code> key</td>
+<td>Word sequences to count, one key <code>ngram_{...}_count</code> each. An UPPERCASE UD tag (<code>NOUN</code>, <code>VERB</code> …) in a phrase matches any word with that tag; matches stay inside a sentence. See <code>ngram_matches</code> for what matched</td>
 </tr>
 <tr>
 <td><code>show_progress</code></td>
@@ -2216,21 +2238,40 @@ English, when <code>phonetic</code> or <code>readability</code> is requested —
 corpus is not. The check runs before any model is loaded.</p>
 <p>See: <a href="../../tr/nasil/tek-metin/">TR</a> · <a href="../../en/how-to/single-text/">EN</a></p>
 <hr />
+<h2 id="ngram_matches"><code>ngram_matches</code><a class="headerlink" href="#ngram_matches" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">ngram_matches</span><span class="p">(</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="n">phrase</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"tr"</span><span class="p">,</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+</code></pre></div>
+<p>What one <code>custom_ngrams</code> phrase matched in a text, most frequent first. The
+matching is the same as in <code>analyze</code>, so the values add up to the phrase's
+<code>ngram_{...}_count</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">ngram_matches</span><span class="p">(</span><span class="s2">"Kadın geldi. Kadın güldü ve kadın oturdu."</span><span class="p">,</span> <span class="p">[</span><span class="s2">"kadın"</span><span class="p">,</span> <span class="s2">"VERB"</span><span class="p">])</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>{'kadın geldi': 1, 'kadın güldü': 1, 'kadın oturdu': 1}
+</code></pre></div>
+<p>Sentence and position are not returned. For several texts, add the results up
+(<code>collections.Counter</code>). The text goes through the spaCy pipeline, as in
+<code>analyze</code>.</p>
+<hr />
 <h2 id="analyze_corpus"><code>analyze_corpus</code><a class="headerlink" href="#analyze_corpus" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">analyze_corpus</span><span class="p">(</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"tr"</span><span class="p">,</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="n">segment_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="o">*</span><span class="p">,</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="n">min_fill</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"word"</span><span class="p">,</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="n">groups</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    <span class="n">params</span><span class="p">:</span> <span class="n">FeatureParams</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>    <span class="n">custom_ngrams</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    <span class="n">show_progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>    <span class="n">warn</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">analyze_corpus</span><span class="p">(</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"tr"</span><span class="p">,</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="n">segment_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    <span class="o">*</span><span class="p">,</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="n">min_fill</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>    <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"word"</span><span class="p">,</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    <span class="n">groups</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>    <span class="n">params</span><span class="p">:</span> <span class="n">FeatureParams</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>    <span class="n">custom_ngrams</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>    <span class="n">show_progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>    <span class="n">warn</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]]</span>
 </code></pre></div>
 <p>Runs <code>analyze</code> over every text in a corpus. Three layouts are recognised:
 subfolders (<code>corpus/label/file.txt</code>), <code>Label_Title.txt</code> files at the root
@@ -2246,38 +2287,37 @@ that could not be decoded.</p>
 <p>See: <a href="../../tr/nasil/korpus/">TR</a> · <a href="../../en/how-to/corpus/">EN</a></p>
 <hr />
 <h2 id="segment_text"><code>segment_text</code><a class="headerlink" href="#segment_text" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">segment_text</span><span class="p">(</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="n">min_fill</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"word"</span><span class="p">,</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"tr"</span><span class="p">,</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">segment_text</span><span class="p">(</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="n">min_fill</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"word"</span><span class="p">,</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"tr"</span><span class="p">,</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 </code></pre></div>
-<p>Splits a text into fixed-size pieces. <code>size</code> counts <strong>spaCy tokens</strong>
-(<code>unit="word"</code>) or raw characters (<code>unit="char"</code>). A trailing piece shorter
+<p>Splits a text into fixed-size pieces. <code>size</code> counts <strong>words</strong> — the word
+<code>analyze</code> counts (<code>unit="word"</code>) — or raw characters (<code>unit="char"</code>). A trailing piece shorter
 than <code>min_fill × size</code> is discarded.</p>
-<p>Returned pieces are slices of the raw text, not re-joined tokens.</p>
-<p>Pass the text's language: tokenization rules differ (apostrophes,
-abbreviations), so the same English text gives different piece boundaries
-with the default <code>lang="tr"</code>.</p>
+<p>Returned pieces are slices of the raw text, not re-joined words.</p>
+<p>Pass the text's language; the word rule differs slightly (Turkish ordinals
+such as <code>3.</code> are one word).</p>
 <p>See: <a href="../../tr/nasil/segmentleme/">TR</a> · <a href="../../en/how-to/segmenting/">EN</a></p>
 <hr />
 <h2 id="save_csv"><code>save_csv</code><a class="headerlink" href="#save_csv" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">save_csv</span><span class="p">(</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="n">records</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]],</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">save_csv</span><span class="p">(</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    <span class="n">records</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]],</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 <p>Writes rows to CSV, UTF-8. The column order follows the first record's key
 order, so <code>label</code>, <code>source</code> and <code>segment_id</code> come first.</p>
 <hr />
 <h2 id="describe_feature"><code>describe_feature</code><a class="headerlink" href="#describe_feature" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">describe_feature</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">describe_feature</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span>
 </code></pre></div>
 <p>Returns everything known about one key:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>key · group · group_label · description · formula · scale ·
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>inputs · params · requires · citation · references · definitions
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>key · group · group_label · description · formula · scale ·
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>inputs · params · requires · citation · references · definitions
 </code></pre></div>
 <p><code>citation</code> is the short pointer; <code>references</code> holds the full bibliographic
 records to copy into a bibliography. <code>citation is None</code> means the key is
@@ -2288,13 +2328,13 @@ rule tlf counts it with, who defines that rule (<code>tlf</code>, <code>spacy</c
 <code>textstat</code>, <code>wordfreq</code>) and, in one sentence, how it is counted. A term the formula does not use is absent.
 Where the definition differs by language (<code>syllable</code>), <code>describe_feature(key, lang="tr")</code> returns
 that language's entry; without <code>lang</code> you get <code>{"tr": ..., "en": ...}</code>.</p>
-<p>Dynamic keys (<code>char_a</code>, <code>ng_*</code>) are accepted; for them <code>formula</code> and
+<p>Dynamic keys (<code>char_a_ratio</code>, <code>ngram_*_count</code>) are accepted; for them <code>formula</code> and
 <code>requires</code> are stated at the group level.</p>
 <p>See: <a href="../../tr/nasil/kunye/">TR</a> · <a href="../../en/how-to/citations/">EN</a></p>
 <hr />
 <h2 id="featureparams"><code>FeatureParams</code><a class="headerlink" href="#featureparams" title="Permanent link">&para;</a></h2>
 <p>A frozen dataclass (<code>frozen=True</code>) holding thresholds, window sizes and
-sample counts. Nineteen fields; the full table is in
+sample counts. Eighteen fields; the full table is in
 <a href="../../tr/nasil/parametreler/">TR</a> · <a href="../../en/how-to/parameters/">EN</a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -2328,7 +2368,7 @@ does not touch the sentence thresholds.</p>
 </tr>
 <tr>
 <td><code>ParagraphStructureWarning</code></td>
-<td>A text over 1000 words has no blank-line paragraph boundary; <code>para_*</code> features describe the whole text as one paragraph</td>
+<td>A text over 1000 words has no blank-line paragraph boundary; the two <code>para_*</code> features describe the whole text as one paragraph</td>
 </tr>
 </tbody>
 </table>

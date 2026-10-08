@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
+        <meta name="description" content="Türkçe metinden 199, İngilizce metinden 172 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 199 quantitative linguistic features from Turkish text and 172 from English text">
       
       
       
@@ -1583,21 +1583,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-the-input-has-no-paragraph-boundaries" class="md-nav__link">
+  <a href="#3-an-optional-package-is-missing" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. The input has no paragraph boundaries
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-an-optional-package-is-missing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. An optional package is missing
+        3. An optional package is missing
       
     </span>
   </a>
@@ -1606,6 +1595,17 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#not-nan-but-misleading-paragraphs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Not nan, but misleading: paragraphs
+      
+    </span>
+  </a>
   
 </li>
       
@@ -2148,21 +2148,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-the-input-has-no-paragraph-boundaries" class="md-nav__link">
+  <a href="#3-an-optional-package-is-missing" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. The input has no paragraph boundaries
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-an-optional-package-is-missing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. An optional package is missing
+        3. An optional package is missing
       
     </span>
   </a>
@@ -2171,6 +2160,17 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#not-nan-but-misleading-paragraphs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Not nan, but misleading: paragraphs
+      
+    </span>
+  </a>
   
 </li>
       
@@ -2240,18 +2240,19 @@ to tell.</p>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">nans</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">short</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v</span> <span class="o">!=</span> <span class="n">v</span><span class="p">]</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">len</span><span class="p">(</span><span class="n">short</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">nans</span><span class="p">)</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>(184, 42)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>(172, 33)
 </code></pre></div>
-<p><strong>42 of 184</strong> features are <code>nan</code>. Examples:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>['dugast_u', 'entropy_std', 'hdd', 'heaps_beta', 'mattr',
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a> 'morph_aspect_imp', 'morph_aspect_perf', 'morph_aspect_prog']
+<p><strong>33 of 172</strong> features are <code>nan</code>. Examples:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>['aspect_imp_ratio', 'aspect_perf_ratio', 'aspect_prog_ratio',
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a> 'case_abl_ratio', 'case_acc_ratio', 'case_dat_ratio', 'case_gen_ratio',
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a> 'case_loc_ratio']
 </code></pre></div>
 <p>In the same text, <code>ttr</code> still returns a number:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>mattr  = nan   (needs at least 100 words)
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>ttr    = 1.0   (computable at any length)
 </code></pre></div>
 <h2 id="why-it-happens">Why it happens<a class="headerlink" href="#why-it-happens" title="Permanent link">&para;</a></h2>
-<p>Four reasons.</p>
+<p>Three reasons.</p>
 <h3 id="1-the-text-is-too-short">1. The text is too short<a class="headerlink" href="#1-the-text-is-too-short" title="Permanent link">&para;</a></h3>
 <p>Every feature has a minimum, and it is stated in the registry:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"mattr"</span><span class="p">)[</span><span class="s2">"requires"</span><span class="p">]</span>
@@ -2260,46 +2261,45 @@ to tell.</p>
 </code></pre></div>
 <p>A <strong>word</strong> here is the library's default word: a whitespace-separated unit
 with edge punctuation stripped that contains a letter or digit (<code>e-posta</code>,
-<code>%50</code> and numbers are one word each). Features that need a POS tag or lemma
-count spaCy tokens that are not punctuation or symbols instead;
-<code>describe_feature(key)["definitions"]["word"]</code> says which. <code>segment_text</code>'s <code>size</code>, by contrast, counts punctuation too:
-a 100-token segment is about 83 words and may fall short of a 100-word minimum.</p>
+<code>%50</code> and numbers are one word each). Every feature except the dependency
+features counts this word; <code>describe_feature(key)["definitions"]["word"]</code> says
+which. <code>segment_text</code>'s <code>size</code> counts the same word, so a 100-word segment
+meets a 100-word minimum.</p>
 <p>Below the minimum you get <code>nan</code>. Some minimums come from the source
 (<code>mtld</code>: "texts as short as 100 tokens can be used"), others from the
 mathematics: with a single window, <code>mattr</code> collapses to plain TTR and stops
 being a moving average — hence the <code>2 × window</code> threshold.</p>
 <h3 id="2-the-required-structure-is-absent">2. The required structure is absent<a class="headerlink" href="#2-the-required-structure-is-absent" title="Permanent link">&para;</a></h3>
-<p><code>derivational_suffix_ratio</code> has a zero denominator if the text contains no
+<p><code>zeyrek_derivational_suffix_ratio</code> has a zero denominator if the text contains no
 derivational suffixes. <code>parse_depth_mean</code> cannot produce a value if no
 sentence parses. <code>hapax_ratio</code> is meaningless in a one-word text.</p>
-<h3 id="3-the-input-has-no-paragraph-boundaries">3. The input has no paragraph boundaries<a class="headerlink" href="#3-the-input-has-no-paragraph-boundaries" title="Permanent link">&para;</a></h3>
-<p><code>para_len_cv</code> and <code>sents_per_para_cv</code> need at least <strong>two</strong> paragraphs —
-variation cannot be measured from a single value. Paragraph boundaries are
-found from blank lines; a single line break does not count. If your text has
-no blank lines, the whole text counts as one paragraph, these two features
-return <code>nan</code>, and <code>para_len_mean</code> becomes the word count of the entire text.</p>
+<h3 id="3-an-optional-package-is-missing">3. An optional package is missing<a class="headerlink" href="#3-an-optional-package-is-missing" title="Permanent link">&para;</a></h3>
+<p>Without <code>wordfreq</code>, <code>wordfreq_mean</code> and <code>wordfreq_rare_ratio</code> return <code>nan</code>
+and the library raises a <code>MissingDependencyWarning</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<p><code>warn=False</code> silences the warning only; the feature is still <code>nan</code>. The same
+flag also silences <code>ParagraphStructureWarning</code>.</p>
+<h2 id="not-nan-but-misleading-paragraphs">Not <code>nan</code>, but misleading: paragraphs<a class="headerlink" href="#not-nan-but-misleading-paragraphs" title="Permanent link">&para;</a></h2>
+<p>Paragraph boundaries are found from blank lines; a single line break does
+not count. If your text has no blank lines, the whole text counts as one
+paragraph and <code>para_len_mean</code> becomes the word count of the entire text: the
+value is not <code>nan</code>, but it says nothing about paragraphs.</p>
 <p>If a text longer than 1000 words yields no boundary at all, a
 <code>ParagraphStructureWarning</code> is raised:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">caught</span><span class="p">:</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">"always"</span><span class="p">)</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="n">feats</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">book_text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">caught</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">caught</span><span class="p">:</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">"always"</span><span class="p">)</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="n">feats</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">book_text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">caught</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>No paragraph boundary found: the text contains no blank line, so all 52521
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>words and 7347 sentences were counted as a single paragraph. ...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>No paragraph boundary found: the text contains no blank line, so all 52521
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>words and 7347 sentences were counted as a single paragraph. ...
 </code></pre></div>
 <p>The message carries your own word and sentence counts, so you can tell at a
 glance whether the text really is one paragraph.</p>
 <p>This usually happens when the text lost its line breaks during extraction from
 PDF or EPUB; <a href="../limitations/">limitations §9</a> has the measurement.</p>
-<h3 id="4-an-optional-package-is-missing">4. An optional package is missing<a class="headerlink" href="#4-an-optional-package-is-missing" title="Permanent link">&para;</a></h3>
-<p>Without <code>wordfreq</code>, <code>wordfreq_mean</code> and <code>wordfreq_rare_ratio</code> return <code>nan</code>
-and the library raises a <code>MissingDependencyWarning</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</code></pre></div>
-<p><code>warn=False</code> silences the warning only; the feature is still <code>nan</code>. The same
-flag also silences <code>ParagraphStructureWarning</code>.</p>
 <h2 id="what-to-do-in-your-table">What to do in your table<a class="headerlink" href="#what-to-do-in-your-table" title="Permanent link">&para;</a></h2>
 <p><strong>Do not fill <code>nan</code> with zero.</strong> Zero is a measurement; <code>nan</code> is the
 absence of one. <code>ttr = 0</code> says "no diversity at all"; <code>ttr = nan</code> says
@@ -2322,7 +2322,7 @@ column.</p>
 segmenting:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">rows</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"corpus/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 </code></pre></div>
-<p>1000-token segments feed nearly all 212 features. See
+<p>1000-word segments feed nearly all 199 features. See
 <a href="../../how-to/segmenting/">Split a text into segments</a>.</p>
 <h2 id="why-nan-and-not-none">Why <code>nan</code> and not <code>None</code><a class="headerlink" href="#why-nan-and-not-none" title="Permanent link">&para;</a></h2>
 <p><code>nan</code> is a <code>float</code>. That means every value in the returned dictionary has

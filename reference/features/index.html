@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
+        <meta name="description" content="Türkçe metinden 199, İngilizce metinden 172 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 199 quantitative linguistic features from Turkish text and 172 from English text">
       
       
       
@@ -1871,10 +1871,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#custom_ngrams-user-defined-n-gram-ratios-dynamic-ng_" class="md-nav__link">
+  <a href="#custom_ngrams-user-defined-n-gram-counts-dynamic-ngram__count" class="md-nav__link">
     <span class="md-ellipsis">
       
-        custom_ngrams — User-defined n-gram ratios [dynamic: ng_{...}]
+        custom_ngrams — User-defined n-gram counts [dynamic: ngram_{...}_count]
       
     </span>
   </a>
@@ -2298,10 +2298,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#custom_ngrams-user-defined-n-gram-ratios-dynamic-ng_" class="md-nav__link">
+  <a href="#custom_ngrams-user-defined-n-gram-counts-dynamic-ngram__count" class="md-nav__link">
     <span class="md-ellipsis">
       
-        custom_ngrams — User-defined n-gram ratios [dynamic: ng_{...}]
+        custom_ngrams — User-defined n-gram counts [dynamic: ngram_{...}_count]
       
     </span>
   </a>
@@ -2394,7 +2394,7 @@ published is a separate question — see the
 <tbody>
 <tr>
 <td><code>lexical</code></td>
-<td>36</td>
+<td>34</td>
 <td>Lexical richness &amp; frequency</td>
 </tr>
 <tr>
@@ -2404,22 +2404,22 @@ published is a separate question — see the
 </tr>
 <tr>
 <td><code>sentence</code></td>
-<td>8</td>
+<td>6</td>
 <td>Sentence statistics</td>
 </tr>
 <tr>
 <td><code>paragraph</code></td>
-<td>5</td>
+<td>2</td>
 <td>Paragraph structure</td>
 </tr>
 <tr>
 <td><code>pos</code></td>
-<td>13</td>
+<td>12</td>
 <td>Part-of-speech ratios</td>
 </tr>
 <tr>
 <td><code>syntactic</code></td>
-<td>9</td>
+<td>7</td>
 <td>Discourse &amp; syntax</td>
 </tr>
 <tr>
@@ -2434,12 +2434,12 @@ published is a separate question — see the
 </tr>
 <tr>
 <td><code>morphological_zeyrek</code></td>
-<td>24</td>
+<td>23</td>
 <td>Morphological style (Zeyrek, TR only)</td>
 </tr>
 <tr>
 <td><code>phonetic</code></td>
-<td>15</td>
+<td>13</td>
 <td>Phonetic patterns</td>
 </tr>
 <tr>
@@ -2460,12 +2460,12 @@ published is a separate question — see the
 <tr>
 <td><code>custom_ngrams</code></td>
 <td>dynamic</td>
-<td>User-defined n-gram ratios  [dynamic: ng_{...}]</td>
+<td>User-defined n-gram counts  [dynamic: ngram_{...}_count]</td>
 </tr>
 </tbody>
 </table>
 <h2 id="lexical-lexical-richness-frequency"><code>lexical</code> — Lexical richness &amp; frequency<a class="headerlink" href="#lexical-lexical-richness-frequency" title="Permanent link">&para;</a></h2>
-<p>36 keys.</p>
+<p>34 keys.</p>
 <table>
 <thead>
 <tr>
@@ -2478,25 +2478,25 @@ published is a separate question — see the
 </thead>
 <tbody>
 <tr>
-<td><code>n_lemma_count</code></td>
+<td><code>lemma_count</code></td>
 <td>number of distinct lemmas</td>
 <td><code>V over lemmas</code></td>
 <td>at least 1 word</td>
 <td>—</td>
 </tr>
 <tr>
-<td><code>avg_word_length</code></td>
+<td><code>word_count</code></td>
+<td>number of words</td>
+<td><code>words</code></td>
+<td>non-empty text (0 when it has no words)</td>
+<td>de Vel (2000) Table 2, attribute 1 "Total number of words"; Zheng et al. (2006) Table 3, p.385, no. 54 "Total number of words (M)"</td>
+</tr>
+<tr>
+<td><code>word_len_mean</code></td>
 <td>mean word length in characters</td>
 <td><code>sum(len(w)) / N</code></td>
 <td>at least 1 word</td>
-<td>—</td>
-</tr>
-<tr>
-<td><code>word_length_cv</code></td>
-<td>spread of word length</td>
-<td><code>std(len(w)) / mean(len(w)), population std</code></td>
-<td>at least 2 words</td>
-<td>—</td>
+<td>Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241</td>
 </tr>
 <tr>
 <td><code>ttr</code></td>
@@ -2511,13 +2511,6 @@ published is a separate question — see the
 <td><code>mean TTR of every sliding window of mattr_window words</code></td>
 <td>at least 100 words (2 x mattr_window)</td>
 <td>Covington &amp; McFall (2010); default window 50 — C&amp;M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window)</td>
-</tr>
-<tr>
-<td><code>entropy_std</code></td>
-<td>how much word entropy varies across the text</td>
-<td><code>population std of entropies (nats) of disjoint mattr_window-word chunks</code></td>
-<td>at least 100 words (2 x mattr_window)</td>
-<td>Shannon (1948) — the entropy formula; the standard deviation across segments is this library's own derivation</td>
 </tr>
 <tr>
 <td><code>herdan_c</code></td>
@@ -2611,13 +2604,6 @@ published is a separate question — see the
 <td>Herdan (1955), as cited in Tweedie &amp; Baayen (1998) p.330, eq. (18)</td>
 </tr>
 <tr>
-<td><code>ttr_moving_slope</code></td>
-<td>whether vocabulary thins out towards the end</td>
-<td><code>linear slope of TTR over disjoint ttr_slope_chunk_size-word chunks</code></td>
-<td>at least 100 words (2 x ttr_slope_chunk_size)</td>
-<td>—</td>
-</tr>
-<tr>
 <td><code>heaps_beta</code></td>
 <td>vocabulary growth rate</td>
 <td><code>least-squares slope of log V ~ log N over prefixes every heaps_step words, not clipped</code></td>
@@ -2657,10 +2643,10 @@ published is a separate question — see the
 <td>share of types occurring once</td>
 <td><code>V1 / V</code></td>
 <td>at least 1 word</td>
-<td>—</td>
+<td>de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of vocabulary words"</td>
 </tr>
 <tr>
-<td><code>hapax_percentage</code></td>
+<td><code>hapax_token_ratio</code></td>
 <td>share of tokens that occur once</td>
 <td><code>V1 / N</code></td>
 <td>at least 1 word</td>
@@ -2690,28 +2676,28 @@ published is a separate question — see the
 <tr>
 <td><code>noun_variation</code></td>
 <td>noun variation NV</td>
-<td><code>distinct noun lemmas / lexical-word tokens</code></td>
+<td><code>distinct noun lemmas / lexical words</code></td>
 <td>at least 1 lexical word (NOUN, PROPN, VERB, ADJ, ADV)</td>
 <td>Lu (2012) Table 2</td>
 </tr>
 <tr>
 <td><code>verb_variation</code></td>
 <td>verb variation VV1</td>
-<td><code>distinct verb lemmas / verb tokens</code></td>
+<td><code>distinct verb lemmas / verbs</code></td>
 <td>at least 1 verb</td>
 <td>Lu (2012) Table 2</td>
 </tr>
 <tr>
 <td><code>adj_variation</code></td>
 <td>adjective variation AdjV</td>
-<td><code>distinct adjective lemmas / lexical-word tokens</code></td>
+<td><code>distinct adjective lemmas / lexical words</code></td>
 <td>at least 1 lexical word</td>
 <td>Lu (2012) Table 2</td>
 </tr>
 <tr>
 <td><code>adv_variation</code></td>
 <td>adverb variation AdvV</td>
-<td><code>distinct adverb lemmas / lexical-word tokens</code></td>
+<td><code>distinct adverb lemmas / lexical words</code></td>
 <td>at least 1 lexical word</td>
 <td>Lu (2012) Table 2</td>
 </tr>
@@ -2830,7 +2816,7 @@ published is a separate question — see the
 </tr>
 <tr>
 <td><code>secondary_thematic_concentration</code></td>
-<td>same, up to rank 2h</td>
+<td>weight of content words up to rank 2h</td>
 <td><code>sum((2h - r') f(r')) / (h(2h-1) f1), r' &lt;= 2h</code></td>
 <td>at least 1 word</td>
 <td>QUITA §6.2.6</td>
@@ -2838,7 +2824,7 @@ published is a separate question — see the
 </tbody>
 </table>
 <h2 id="sentence-sentence-statistics"><code>sentence</code> — Sentence statistics<a class="headerlink" href="#sentence-sentence-statistics" title="Permanent link">&para;</a></h2>
-<p>8 keys.</p>
+<p>6 keys.</p>
 <table>
 <thead>
 <tr>
@@ -2851,32 +2837,18 @@ published is a separate question — see the
 </thead>
 <tbody>
 <tr>
-<td><code>avg_sent_len_word</code></td>
+<td><code>sent_len_mean</code></td>
 <td>mean sentence length in words</td>
 <td><code>mean words per sentence</code></td>
 <td>at least 1 sentence with a letter</td>
-<td>—</td>
+<td>Flesch (1948) p.223, element (1) "Average Sentence Length in Words"</td>
 </tr>
 <tr>
-<td><code>avg_sent_len_char</code></td>
+<td><code>sent_len_char_mean</code></td>
 <td>mean sentence length in characters</td>
 <td><code>mean len(tokens joined by single spaces)</code></td>
 <td>at least 1 sentence</td>
-<td>—</td>
-</tr>
-<tr>
-<td><code>sentence_length_cv</code></td>
-<td>spread of sentence length</td>
-<td><code>population std / mean of words per sentence</code></td>
-<td>at least 2 sentences with a letter</td>
-<td>—</td>
-</tr>
-<tr>
-<td><code>sent_len_skewness</code></td>
-<td>skew of sentence length; positive = long-sentence tail</td>
-<td><code>Fisher-Pearson g1 = m3 / m2^1.5 over words per sentence</code></td>
-<td>at least 2 sentences of different length</td>
-<td>—</td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 58 "Average sentence length in terms of character"</td>
 </tr>
 <tr>
 <td><code>short_sent_ratio</code></td>
@@ -2893,11 +2865,11 @@ published is a separate question — see the
 <td>This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only</td>
 </tr>
 <tr>
-<td><code>med_sent_len</code></td>
+<td><code>sent_len_median</code></td>
 <td>median sentence length</td>
 <td><code>median words per sentence</code></td>
 <td>at least 1 sentence with a letter</td>
-<td>—</td>
+<td>Yule (1939) p.369, median sentence length alongside the mean</td>
 </tr>
 <tr>
 <td><code>sent_len_entropy</code></td>
@@ -2909,7 +2881,7 @@ published is a separate question — see the
 </tbody>
 </table>
 <h2 id="paragraph-paragraph-structure"><code>paragraph</code> — Paragraph structure<a class="headerlink" href="#paragraph-paragraph-structure" title="Permanent link">&para;</a></h2>
-<p>5 keys.</p>
+<p>2 keys.</p>
 <table>
 <thead>
 <tr>
@@ -2926,40 +2898,19 @@ published is a separate question — see the
 <td>mean paragraph length</td>
 <td><code>mean words per paragraph (blank line = boundary)</code></td>
 <td>at least 1 paragraph</td>
-<td>—</td>
-</tr>
-<tr>
-<td><code>para_len_cv</code></td>
-<td>spread of paragraph length</td>
-<td><code>population std / mean</code></td>
-<td>at least 2 paragraphs</td>
-<td>—</td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 251 "Number of words per paragraph"</td>
 </tr>
 <tr>
 <td><code>sents_per_para_mean</code></td>
 <td>mean sentences per paragraph</td>
 <td><code>mean count of [.!?…]+ per paragraph (at least 1)</code></td>
 <td>at least 1 paragraph</td>
-<td>—</td>
-</tr>
-<tr>
-<td><code>sents_per_para_cv</code></td>
-<td>spread of sentences per paragraph</td>
-<td><code>population std / mean</code></td>
-<td>at least 2 paragraphs</td>
-<td>—</td>
-</tr>
-<tr>
-<td><code>para_count_norm</code></td>
-<td>paragraphs per 1000 words</td>
-<td><code>paragraphs / words * 1000</code></td>
-<td>at least 1 paragraph</td>
-<td>—</td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph"</td>
 </tr>
 </tbody>
 </table>
 <h2 id="pos-part-of-speech-ratios"><code>pos</code> — Part-of-speech ratios<a class="headerlink" href="#pos-part-of-speech-ratios" title="Permanent link">&para;</a></h2>
-<p>13 keys.</p>
+<p>12 keys.</p>
 <table>
 <thead>
 <tr>
@@ -2972,100 +2923,93 @@ published is a separate question — see the
 </thead>
 <tbody>
 <tr>
-<td><code>pos_noun</code></td>
-<td>share of NOUN tokens</td>
-<td><code>tag count / all tokens (punctuation included)</code></td>
-<td>at least 1 token</td>
+<td><code>pos_noun_ratio</code></td>
+<td>share of NOUN words</td>
+<td><code>tag count / words</code></td>
+<td>at least 1 word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>pos_propn</code></td>
-<td>share of PROPN tokens</td>
-<td><code>tag count / all tokens (punctuation included)</code></td>
-<td>at least 1 token</td>
+<td><code>pos_propn_ratio</code></td>
+<td>share of PROPN words</td>
+<td><code>tag count / words</code></td>
+<td>at least 1 word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>pos_verb</code></td>
-<td>share of VERB tokens</td>
-<td><code>tag count / all tokens (punctuation included)</code></td>
-<td>at least 1 token</td>
+<td><code>pos_verb_ratio</code></td>
+<td>share of VERB words</td>
+<td><code>tag count / words</code></td>
+<td>at least 1 word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>pos_adj</code></td>
-<td>share of ADJ tokens</td>
-<td><code>tag count / all tokens (punctuation included)</code></td>
-<td>at least 1 token</td>
+<td><code>pos_adj_ratio</code></td>
+<td>share of ADJ words</td>
+<td><code>tag count / words</code></td>
+<td>at least 1 word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>pos_adv</code></td>
-<td>share of ADV tokens</td>
-<td><code>tag count / all tokens (punctuation included)</code></td>
-<td>at least 1 token</td>
+<td><code>pos_adv_ratio</code></td>
+<td>share of ADV words</td>
+<td><code>tag count / words</code></td>
+<td>at least 1 word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>pos_det</code></td>
-<td>share of DET tokens</td>
-<td><code>tag count / all tokens (punctuation included)</code></td>
-<td>at least 1 token</td>
+<td><code>pos_det_ratio</code></td>
+<td>share of DET words</td>
+<td><code>tag count / words</code></td>
+<td>at least 1 word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>pos_adp</code></td>
-<td>share of ADP tokens</td>
-<td><code>tag count / all tokens (punctuation included)</code></td>
-<td>at least 1 token</td>
+<td><code>pos_adp_ratio</code></td>
+<td>share of ADP words</td>
+<td><code>tag count / words</code></td>
+<td>at least 1 word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>pos_aux</code></td>
-<td>share of AUX tokens</td>
-<td><code>tag count / all tokens (punctuation included)</code></td>
-<td>at least 1 token</td>
+<td><code>pos_aux_ratio</code></td>
+<td>share of AUX words</td>
+<td><code>tag count / words</code></td>
+<td>at least 1 word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>pos_cconj</code></td>
-<td>share of CCONJ tokens</td>
-<td><code>tag count / all tokens (punctuation included)</code></td>
-<td>at least 1 token</td>
+<td><code>pos_cconj_ratio</code></td>
+<td>share of CCONJ words</td>
+<td><code>tag count / words</code></td>
+<td>at least 1 word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>pos_sconj</code></td>
-<td>share of SCONJ tokens</td>
-<td><code>tag count / all tokens (punctuation included)</code></td>
-<td>at least 1 token</td>
+<td><code>pos_sconj_ratio</code></td>
+<td>share of SCONJ words</td>
+<td><code>tag count / words</code></td>
+<td>at least 1 word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>pos_num</code></td>
-<td>share of NUM tokens</td>
-<td><code>tag count / all tokens (punctuation included)</code></td>
-<td>at least 1 token</td>
+<td><code>pos_num_ratio</code></td>
+<td>share of NUM words</td>
+<td><code>tag count / words</code></td>
+<td>at least 1 word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>pos_intj</code></td>
-<td>share of INTJ tokens</td>
-<td><code>tag count / all tokens (punctuation included)</code></td>
-<td>at least 1 token</td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-</tr>
-<tr>
-<td><code>pos_punct</code></td>
-<td>share of PUNCT tokens</td>
-<td><code>tag count / all tokens (punctuation included)</code></td>
-<td>at least 1 token</td>
+<td><code>pos_intj_ratio</code></td>
+<td>share of INTJ words</td>
+<td><code>tag count / words</code></td>
+<td>at least 1 word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 </tbody>
 </table>
 <h2 id="syntactic-discourse-syntax"><code>syntactic</code> — Discourse &amp; syntax<a class="headerlink" href="#syntactic-discourse-syntax" title="Permanent link">&para;</a></h2>
-<p>9 keys.</p>
+<p>7 keys.</p>
 <table>
 <thead>
 <tr>
@@ -3078,38 +3022,24 @@ published is a separate question — see the
 </thead>
 <tbody>
 <tr>
-<td><code>question_per_sent</code></td>
+<td><code>question_sent_ratio</code></td>
 <td>share of sentences ending in "?"</td>
 <td><code>sentences whose final mark contains "?" / sentences</code></td>
 <td>at least 1 sentence</td>
 <td>—</td>
 </tr>
 <tr>
-<td><code>pronoun_freq</code></td>
-<td>share of pronoun tokens</td>
-<td><code>PRON / all tokens</code></td>
-<td>at least 1 token</td>
-<td>—</td>
-</tr>
-<tr>
-<td><code>nominal_verbal_ratio</code></td>
-<td>noun-to-verb balance</td>
-<td><code>(NOUN + PROPN) / VERB</code></td>
-<td>at least 1 verb</td>
-<td>—</td>
+<td><code>pronoun_ratio</code></td>
+<td>share of pronoun words</td>
+<td><code>PRON / words</code></td>
+<td>at least 1 word</td>
+<td>Deutsch, Jasbi &amp; Shieber (2020) Table 6 "pronouns per word", listed among existing features; original source not traced</td>
 </tr>
 <tr>
 <td><code>verb_dist_mean</code></td>
-<td>mean token gap between consecutive verbs</td>
+<td>mean word gap between consecutive verbs</td>
 <td><code>mean difference of VERB positions</code></td>
 <td>at least 2 verbs</td>
-<td>QUITA §6.2.1</td>
-</tr>
-<tr>
-<td><code>verb_dist_cv</code></td>
-<td>spread of verb gaps</td>
-<td><code>population std / mean of those gaps</code></td>
-<td>at least 3 verbs</td>
 <td>QUITA §6.2.1</td>
 </tr>
 <tr>
@@ -3127,17 +3057,17 @@ published is a separate question — see the
 <td>Lu (2012); definition in the broad Hallidayan sense — all open-class words</td>
 </tr>
 <tr>
-<td><code>pos_dist_std</code></td>
+<td><code>posddev</code></td>
 <td>how uneven the POS distribution is</td>
-<td><code>population std of the 13 pos_* shares</code></td>
-<td>at least 1 token</td>
-<td>Deutsch, Jasbi &amp; Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 13 UD tags</td>
+<td><code>population std of the 12 pos_*_ratio shares</code></td>
+<td>at least 1 word</td>
+<td>Deutsch, Jasbi &amp; Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 12 UD tags</td>
 </tr>
 <tr>
-<td><code>pos_kl_div</code></td>
+<td><code>posdiv</code></td>
 <td>how much sentences differ from the document in POS make-up</td>
 <td><code>mean over sentences of KL(sentence POS ‖ document POS), nats</code></td>
-<td>at least 1 token</td>
+<td>at least 1 word</td>
 <td>Deutsch, Jasbi &amp; Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits</td>
 </tr>
 </tbody>
@@ -3170,100 +3100,100 @@ published is a separate question — see the
 <td>Jing &amp; Liu (2015) p.164, eq. (2) and (4) (MHD2)</td>
 </tr>
 <tr>
-<td><code>sentfinal_noun</code></td>
+<td><code>sentfinal_noun_ratio</code></td>
 <td>share of sentences ending in a NOUN</td>
 <td><code>sentences ending in that tag / sentences</code></td>
 <td>at least 1 sentence with a word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>sentfinal_propn</code></td>
+<td><code>sentfinal_propn_ratio</code></td>
 <td>share of sentences ending in a PROPN</td>
 <td><code>sentences ending in that tag / sentences</code></td>
 <td>at least 1 sentence with a word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>sentfinal_verb</code></td>
+<td><code>sentfinal_verb_ratio</code></td>
 <td>share of sentences ending in a VERB</td>
 <td><code>sentences ending in that tag / sentences</code></td>
 <td>at least 1 sentence with a word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>sentfinal_adj</code></td>
+<td><code>sentfinal_adj_ratio</code></td>
 <td>share of sentences ending in a ADJ</td>
 <td><code>sentences ending in that tag / sentences</code></td>
 <td>at least 1 sentence with a word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>sentfinal_adv</code></td>
+<td><code>sentfinal_adv_ratio</code></td>
 <td>share of sentences ending in a ADV</td>
 <td><code>sentences ending in that tag / sentences</code></td>
 <td>at least 1 sentence with a word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>sentfinal_det</code></td>
+<td><code>sentfinal_det_ratio</code></td>
 <td>share of sentences ending in a DET</td>
 <td><code>sentences ending in that tag / sentences</code></td>
 <td>at least 1 sentence with a word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>sentfinal_adp</code></td>
+<td><code>sentfinal_adp_ratio</code></td>
 <td>share of sentences ending in a ADP</td>
 <td><code>sentences ending in that tag / sentences</code></td>
 <td>at least 1 sentence with a word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>sentfinal_intj</code></td>
+<td><code>sentfinal_intj_ratio</code></td>
 <td>share of sentences ending in a INTJ</td>
 <td><code>sentences ending in that tag / sentences</code></td>
 <td>at least 1 sentence with a word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>sentfinal_cconj</code></td>
+<td><code>sentfinal_cconj_ratio</code></td>
 <td>share of sentences ending in a CCONJ</td>
 <td><code>sentences ending in that tag / sentences</code></td>
 <td>at least 1 sentence with a word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>sentfinal_sconj</code></td>
+<td><code>sentfinal_sconj_ratio</code></td>
 <td>share of sentences ending in a SCONJ</td>
 <td><code>sentences ending in that tag / sentences</code></td>
 <td>at least 1 sentence with a word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>sentfinal_num</code></td>
+<td><code>sentfinal_num_ratio</code></td>
 <td>share of sentences ending in a NUM</td>
 <td><code>sentences ending in that tag / sentences</code></td>
 <td>at least 1 sentence with a word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>sentfinal_aux</code></td>
+<td><code>sentfinal_aux_ratio</code></td>
 <td>share of sentences ending in a AUX</td>
 <td><code>sentences ending in that tag / sentences</code></td>
 <td>at least 1 sentence with a word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>sentfinal_pron</code></td>
+<td><code>sentfinal_pron_ratio</code></td>
 <td>share of sentences ending in a PRON</td>
 <td><code>sentences ending in that tag / sentences</code></td>
 <td>at least 1 sentence with a word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
 <tr>
-<td><code>sentfinal_other</code></td>
+<td><code>sentfinal_other_ratio</code></td>
 <td>share of sentences ending in any other tag</td>
-<td><code>same, tags outside the 13</code></td>
+<td><code>sentences ending in a tag outside the 13 / sentences</code></td>
 <td>at least 1 sentence with a word</td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 </tr>
@@ -3290,126 +3220,126 @@ published is a separate question — see the
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 </tr>
 <tr>
-<td><code>morph_tense_past</code></td>
-<td>share of tokens tagged Tense=Past</td>
-<td><code>tokens with Tense=X / tokens with any Tense</code></td>
-<td>at least 1 token with a Tense tag</td>
+<td><code>tense_past_ratio</code></td>
+<td>share of words tagged Tense=Past</td>
+<td><code>words with Tense=X / words with any Tense</code></td>
+<td>at least 1 word with a Tense tag</td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 </tr>
 <tr>
-<td><code>morph_tense_pres</code></td>
-<td>share of tokens tagged Tense=Pres</td>
-<td><code>tokens with Tense=X / tokens with any Tense</code></td>
-<td>at least 1 token with a Tense tag</td>
+<td><code>tense_pres_ratio</code></td>
+<td>share of words tagged Tense=Pres</td>
+<td><code>words with Tense=X / words with any Tense</code></td>
+<td>at least 1 word with a Tense tag</td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 </tr>
 <tr>
-<td><code>morph_tense_fut</code></td>
-<td>share of tokens tagged Tense=Fut</td>
-<td><code>tokens with Tense=X / tokens with any Tense</code></td>
-<td>at least 1 token with a Tense tag</td>
+<td><code>tense_fut_ratio</code></td>
+<td>share of words tagged Tense=Fut</td>
+<td><code>words with Tense=X / words with any Tense</code></td>
+<td>at least 1 word with a Tense tag</td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 </tr>
 <tr>
-<td><code>morph_aspect_perf</code></td>
-<td>share of tokens tagged Aspect=Perf</td>
-<td><code>same with Aspect</code></td>
-<td>at least 1 token with an Aspect tag</td>
+<td><code>aspect_perf_ratio</code></td>
+<td>share of words tagged Aspect=Perf</td>
+<td><code>words with Aspect=X / words with any Aspect</code></td>
+<td>at least 1 word with an Aspect tag</td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 </tr>
 <tr>
-<td><code>morph_aspect_imp</code></td>
-<td>share of tokens tagged Aspect=Imp</td>
-<td><code>same with Aspect</code></td>
-<td>at least 1 token with an Aspect tag</td>
+<td><code>aspect_imp_ratio</code></td>
+<td>share of words tagged Aspect=Imp</td>
+<td><code>words with Aspect=X / words with any Aspect</code></td>
+<td>at least 1 word with an Aspect tag</td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 </tr>
 <tr>
-<td><code>morph_aspect_prog</code></td>
-<td>share of tokens tagged Aspect=Prog</td>
-<td><code>same with Aspect</code></td>
-<td>at least 1 token with an Aspect tag</td>
+<td><code>aspect_prog_ratio</code></td>
+<td>share of words tagged Aspect=Prog</td>
+<td><code>words with Aspect=X / words with any Aspect</code></td>
+<td>at least 1 word with an Aspect tag</td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 </tr>
 <tr>
-<td><code>morph_case_nom</code></td>
-<td>share of tokens tagged Case=Nom</td>
-<td><code>same with Case</code></td>
-<td>at least 1 token with a Case tag</td>
+<td><code>case_nom_ratio</code></td>
+<td>share of words tagged Case=Nom</td>
+<td><code>words with Case=X / words with any Case</code></td>
+<td>at least 1 word with a Case tag</td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 </tr>
 <tr>
-<td><code>morph_case_acc</code></td>
-<td>share of tokens tagged Case=Acc</td>
-<td><code>same with Case</code></td>
-<td>at least 1 token with a Case tag</td>
+<td><code>case_acc_ratio</code></td>
+<td>share of words tagged Case=Acc</td>
+<td><code>words with Case=X / words with any Case</code></td>
+<td>at least 1 word with a Case tag</td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 </tr>
 <tr>
-<td><code>morph_case_dat</code></td>
-<td>share of tokens tagged Case=Dat</td>
-<td><code>same with Case</code></td>
-<td>at least 1 token with a Case tag</td>
+<td><code>case_dat_ratio</code></td>
+<td>share of words tagged Case=Dat</td>
+<td><code>words with Case=X / words with any Case</code></td>
+<td>at least 1 word with a Case tag</td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 </tr>
 <tr>
-<td><code>morph_case_loc</code></td>
-<td>share of tokens tagged Case=Loc</td>
-<td><code>same with Case</code></td>
-<td>at least 1 token with a Case tag</td>
+<td><code>case_loc_ratio</code></td>
+<td>share of words tagged Case=Loc</td>
+<td><code>words with Case=X / words with any Case</code></td>
+<td>at least 1 word with a Case tag</td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 </tr>
 <tr>
-<td><code>morph_case_abl</code></td>
-<td>share of tokens tagged Case=Abl</td>
-<td><code>same with Case</code></td>
-<td>at least 1 token with a Case tag</td>
+<td><code>case_abl_ratio</code></td>
+<td>share of words tagged Case=Abl</td>
+<td><code>words with Case=X / words with any Case</code></td>
+<td>at least 1 word with a Case tag</td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 </tr>
 <tr>
-<td><code>morph_case_gen</code></td>
-<td>share of tokens tagged Case=Gen</td>
-<td><code>same with Case</code></td>
-<td>at least 1 token with a Case tag</td>
+<td><code>case_gen_ratio</code></td>
+<td>share of words tagged Case=Gen</td>
+<td><code>words with Case=X / words with any Case</code></td>
+<td>at least 1 word with a Case tag</td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 </tr>
 <tr>
-<td><code>morph_person_1</code></td>
-<td>share of tokens tagged Person=1</td>
-<td><code>same with Person</code></td>
-<td>at least 1 token with a Person tag</td>
+<td><code>person_1_ratio</code></td>
+<td>share of words tagged Person=1</td>
+<td><code>words with Person=X / words with any Person</code></td>
+<td>at least 1 word with a Person tag</td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 </tr>
 <tr>
-<td><code>morph_person_2</code></td>
-<td>share of tokens tagged Person=2</td>
-<td><code>same with Person</code></td>
-<td>at least 1 token with a Person tag</td>
+<td><code>person_2_ratio</code></td>
+<td>share of words tagged Person=2</td>
+<td><code>words with Person=X / words with any Person</code></td>
+<td>at least 1 word with a Person tag</td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 </tr>
 <tr>
-<td><code>morph_person_3</code></td>
-<td>share of tokens tagged Person=3</td>
-<td><code>same with Person</code></td>
-<td>at least 1 token with a Person tag</td>
+<td><code>person_3_ratio</code></td>
+<td>share of words tagged Person=3</td>
+<td><code>words with Person=X / words with any Person</code></td>
+<td>at least 1 word with a Person tag</td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 </tr>
 <tr>
-<td><code>morph_number_sing</code></td>
-<td>share of tokens tagged Number=Sing</td>
-<td><code>same with Number</code></td>
-<td>at least 1 token with a Number tag</td>
+<td><code>number_sing_ratio</code></td>
+<td>share of words tagged Number=Sing</td>
+<td><code>words with Number=X / words with any Number</code></td>
+<td>at least 1 word with a Number tag</td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 </tr>
 <tr>
-<td><code>morph_number_plur</code></td>
-<td>share of tokens tagged Number=Plur</td>
-<td><code>same with Number</code></td>
-<td>at least 1 token with a Number tag</td>
+<td><code>number_plur_ratio</code></td>
+<td>share of words tagged Number=Plur</td>
+<td><code>words with Number=X / words with any Number</code></td>
+<td>at least 1 word with a Number tag</td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 </tr>
 <tr>
-<td><code>morph_voice_pass</code></td>
+<td><code>voice_pass_ratio</code></td>
 <td>share of passive verbs</td>
 <td><code>VERB with Voice=Pass / VERB</code></td>
 <td>at least 1 verb</td>
@@ -3418,7 +3348,7 @@ published is a separate question — see the
 </tbody>
 </table>
 <h2 id="morphological_zeyrek-morphological-style-zeyrek-tr-only"><code>morphological_zeyrek</code> — Morphological style (Zeyrek, TR only)<a class="headerlink" href="#morphological_zeyrek-morphological-style-zeyrek-tr-only" title="Permanent link">&para;</a></h2>
-<p>24 keys.</p>
+<p>23 keys.</p>
 <table>
 <thead>
 <tr>
@@ -3431,168 +3361,161 @@ published is a separate question — see the
 </thead>
 <tbody>
 <tr>
-<td><code>agglutination_depth</code></td>
+<td><code>zeyrek_agglutination_depth</code></td>
 <td>visible suffixes per word</td>
 <td><code>visible suffixes / analysed words</code></td>
 <td>at least 1 analysed word</td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>suffix_char_length_ratio</code></td>
+<td><code>zeyrek_suffix_char_length_ratio</code></td>
 <td>share of word letters in suffixes</td>
 <td><code>suffix letters / word letters</code></td>
 <td>at least 1 analysed word</td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>suffix_bigram_entropy</code></td>
+<td><code>zeyrek_suffix_bigram_entropy</code></td>
 <td>variety of suffix sequences</td>
 <td><code>Shannon entropy (nats) of within-word visible suffix pairs</code></td>
 <td>at least 1 word with 2 visible suffixes</td>
 <td>Shannon (1948) — the entropy formula; Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>derivational_suffix_ratio</code></td>
+<td><code>zeyrek_derivational_suffix_ratio</code></td>
 <td>share of derivational suffixes</td>
 <td><code>derivational / visible suffixes</code></td>
 <td>at least 1 visible suffix</td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>verb_suffix_diversity</code></td>
+<td><code>zeyrek_verb_suffix_diversity</code></td>
 <td>suffix variety on verbs</td>
 <td><code>mean distinct visible suffix tags per verb_suffix_window-verb chunk</code></td>
 <td>at least 50 verbs (verb_suffix_window)</td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>tense_past_def</code></td>
+<td><code>zeyrek_tense_past_def_ratio</code></td>
 <td>share of verbs in the definite past (-DI)</td>
 <td><code>verbs whose last tense tag is X / verbs</code></td>
 <td>at least 1 verb</td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>tense_past_nar</code></td>
+<td><code>zeyrek_tense_past_nar_ratio</code></td>
 <td>share of verbs in the reported past (-mIş)</td>
 <td><code>verbs whose last tense tag is X / verbs</code></td>
 <td>at least 1 verb</td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>tense_present</code></td>
+<td><code>zeyrek_tense_present_ratio</code></td>
 <td>share of verbs in the present</td>
 <td><code>verbs whose last tense tag is X / verbs</code></td>
 <td>at least 1 verb</td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>tense_future</code></td>
+<td><code>zeyrek_tense_future_ratio</code></td>
 <td>share of verbs in the future (-AcAk)</td>
 <td><code>verbs whose last tense tag is X / verbs</code></td>
 <td>at least 1 verb</td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>negation_ratio</code></td>
+<td><code>zeyrek_negation_ratio</code></td>
 <td>share of negative verbs</td>
 <td><code>verbs with Neg or Unable / verbs</code></td>
 <td>at least 1 verb</td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>passive_ratio</code></td>
+<td><code>zeyrek_passive_ratio</code></td>
 <td>share of passive verbs</td>
 <td><code>verbs with Pass / verbs</code></td>
 <td>at least 1 verb</td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>plural_ratio</code></td>
+<td><code>zeyrek_plural_ratio</code></td>
 <td>share of plural nominals</td>
 <td><code>words with A3pl on a non-verb part / analysed words</code></td>
 <td>at least 1 analysed word</td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>case_acc_ratio</code></td>
+<td><code>zeyrek_case_acc_ratio</code></td>
 <td>share of words in the accusative case</td>
 <td><code>words with Acc … Ins / analysed words</code></td>
 <td>at least 1 analysed word</td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>case_dat_ratio</code></td>
+<td><code>zeyrek_case_dat_ratio</code></td>
 <td>share of words in the dative case</td>
 <td><code>words with Acc … Ins / analysed words</code></td>
 <td>at least 1 analysed word</td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>case_loc_ratio</code></td>
+<td><code>zeyrek_case_loc_ratio</code></td>
 <td>share of words in the locative case</td>
 <td><code>words with Acc … Ins / analysed words</code></td>
 <td>at least 1 analysed word</td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>case_abl_ratio</code></td>
+<td><code>zeyrek_case_abl_ratio</code></td>
 <td>share of words in the ablative case</td>
 <td><code>words with Acc … Ins / analysed words</code></td>
 <td>at least 1 analysed word</td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>case_gen_ratio</code></td>
+<td><code>zeyrek_case_gen_ratio</code></td>
 <td>share of words in the genitive case</td>
 <td><code>words with Acc … Ins / analysed words</code></td>
 <td>at least 1 analysed word</td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>case_ins_ratio</code></td>
+<td><code>zeyrek_case_ins_ratio</code></td>
 <td>share of words in the instrumental case</td>
 <td><code>words with Acc … Ins / analysed words</code></td>
 <td>at least 1 analysed word</td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>conditional_suffix_ratio</code></td>
+<td><code>zeyrek_conditional_suffix_ratio</code></td>
 <td>share of conditional verbs</td>
 <td><code>verbs with Cond / verbs</code></td>
 <td>at least 1 verb</td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>causative_suffix_ratio</code></td>
+<td><code>zeyrek_causative_suffix_ratio</code></td>
 <td>share of causative verbs</td>
 <td><code>verbs with Caus / verbs</code></td>
 <td>at least 1 verb</td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>suffix_chain_cv</code></td>
-<td>spread of suffix-chain length</td>
-<td><code>population std / mean of visible suffixes per word</code></td>
-<td>at least 2 analysed words, at least 1 suffix</td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
-</tr>
-<tr>
-<td><code>modal_possibility_ratio</code></td>
+<td><code>zeyrek_modal_possibility_ratio</code></td>
 <td>share of ability verbs</td>
 <td><code>verbs with Able or Unable / verbs</code></td>
 <td>at least 1 verb</td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>modal_necessity_ratio</code></td>
+<td><code>zeyrek_modal_necessity_ratio</code></td>
 <td>share of necessity verbs</td>
 <td><code>verbs with Neces / verbs</code></td>
 <td>at least 1 verb</td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>question_particle_ratio</code></td>
+<td><code>zeyrek_question_particle_ratio</code></td>
 <td>share of question particles</td>
 <td><code>words with root Ques / analysed words</code></td>
 <td>at least 1 analysed word</td>
@@ -3601,7 +3524,7 @@ published is a separate question — see the
 </tbody>
 </table>
 <h2 id="phonetic-phonetic-patterns"><code>phonetic</code> — Phonetic patterns<a class="headerlink" href="#phonetic-phonetic-patterns" title="Permanent link">&para;</a></h2>
-<p>15 keys.</p>
+<p>13 keys.</p>
 <table>
 <thead>
 <tr>
@@ -3656,13 +3579,6 @@ published is a separate question — see the
 <td>Flesch (1948) Formula A, wl; unit there = syllables per 100 words, here per word</td>
 </tr>
 <tr>
-<td><code>syllable_cv</code></td>
-<td>spread of syllables per word</td>
-<td><code>population std / mean of syllables per syllabifiable word</code></td>
-<td>at least 2 syllabifiable words</td>
-<td>—</td>
-</tr>
-<tr>
 <td><code>syllable_1_ratio</code></td>
 <td>share of words with 1 syllable</td>
 <td><code>words with 1 syllable / syllabifiable words</code></td>
@@ -3705,17 +3621,10 @@ published is a separate question — see the
 <td>Bezirci &amp; Yılmaz (2010) Table 1-c</td>
 </tr>
 <tr>
-<td><code>sentence_syllable_mean</code></td>
+<td><code>sent_syllable_mean</code></td>
 <td>syllables per sentence</td>
 <td><code>mean syllables per sentence</code></td>
 <td>at least 1 sentence with a syllabifiable word</td>
-<td>—</td>
-</tr>
-<tr>
-<td><code>sentence_syllable_cv</code></td>
-<td>spread of syllables per sentence</td>
-<td><code>population std / mean</code></td>
-<td>at least 2 such sentences</td>
 <td>—</td>
 </tr>
 </tbody>
@@ -3826,88 +3735,88 @@ published is a separate question — see the
 </thead>
 <tbody>
 <tr>
-<td><code>digit_vs_all</code></td>
+<td><code>digit_ratio</code></td>
 <td>share of digit characters</td>
 <td><code>digits / characters</code></td>
 <td>non-empty text</td>
+<td>de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; here digits anywhere in the text</td>
+</tr>
+<tr>
+<td><code>punct_comma_ratio</code></td>
+<td>share of comma marks among all marks</td>
+<td><code>marks of this type / all marks</code></td>
+<td>at least 1 punctuation mark</td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks</td>
+</tr>
+<tr>
+<td><code>punct_period_ratio</code></td>
+<td>share of full stop marks among all marks</td>
+<td><code>marks of this type / all marks</code></td>
+<td>at least 1 punctuation mark</td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks</td>
+</tr>
+<tr>
+<td><code>punct_semicolon_ratio</code></td>
+<td>share of semicolon marks among all marks</td>
+<td><code>marks of this type / all marks</code></td>
+<td>at least 1 punctuation mark</td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks</td>
+</tr>
+<tr>
+<td><code>punct_exclamation_ratio</code></td>
+<td>share of exclamation marks among all marks</td>
+<td><code>marks of this type / all marks</code></td>
+<td>at least 1 punctuation mark</td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks</td>
+</tr>
+<tr>
+<td><code>punct_colon_ratio</code></td>
+<td>share of colon marks among all marks</td>
+<td><code>marks of this type / all marks</code></td>
+<td>at least 1 punctuation mark</td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks</td>
+</tr>
+<tr>
+<td><code>punct_dash_ratio</code></td>
+<td>share of hyphen or dash marks among all marks</td>
+<td><code>marks of this type / all marks</code></td>
+<td>at least 1 punctuation mark</td>
 <td>—</td>
 </tr>
 <tr>
-<td><code>punc_,_ratio</code></td>
-<td>comma marks per word</td>
-<td><code>marks / words</code></td>
-<td>at least 1 word</td>
+<td><code>punct_ellipsis_ratio</code></td>
+<td>share of ellipsis marks among all marks</td>
+<td><code>marks of this type / all marks</code></td>
+<td>at least 1 punctuation mark</td>
 <td>—</td>
 </tr>
 <tr>
-<td><code>punc_._ratio</code></td>
-<td>full stop marks per word</td>
-<td><code>marks / words</code></td>
-<td>at least 1 word</td>
+<td><code>punct_paren_ratio</code></td>
+<td>share of parenthesis marks among all marks</td>
+<td><code>marks of this type / all marks</code></td>
+<td>at least 1 punctuation mark</td>
 <td>—</td>
 </tr>
 <tr>
-<td><code>punc_;_ratio</code></td>
-<td>semicolon marks per word</td>
-<td><code>marks / words</code></td>
-<td>at least 1 word</td>
-<td>—</td>
+<td><code>punct_quote_ratio</code></td>
+<td>share of quotation marks among all marks</td>
+<td><code>marks of this type / all marks</code></td>
+<td>at least 1 punctuation mark</td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks</td>
 </tr>
 <tr>
-<td><code>punc_!_ratio</code></td>
-<td>exclamation mark marks per word</td>
-<td><code>marks / words</code></td>
-<td>at least 1 word</td>
-<td>—</td>
+<td><code>punct_question_ratio</code></td>
+<td>share of question marks among all marks</td>
+<td><code>marks of this type / all marks</code></td>
+<td>at least 1 punctuation mark</td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks</td>
 </tr>
 <tr>
-<td><code>punc_:_ratio</code></td>
-<td>colon marks per word</td>
-<td><code>marks / words</code></td>
-<td>at least 1 word</td>
-<td>—</td>
-</tr>
-<tr>
-<td><code>punc_-_ratio</code></td>
-<td>hyphen or dash marks per word</td>
-<td><code>marks / words</code></td>
-<td>at least 1 word</td>
-<td>—</td>
-</tr>
-<tr>
-<td><code>punc_ellipsis_ratio</code></td>
-<td>ellipsis marks per word</td>
-<td><code>marks / words</code></td>
-<td>at least 1 word</td>
-<td>—</td>
-</tr>
-<tr>
-<td><code>punc_paren_ratio</code></td>
-<td>parenthesis marks per word</td>
-<td><code>marks / words</code></td>
-<td>at least 1 word</td>
-<td>—</td>
-</tr>
-<tr>
-<td><code>punc_quote_ratio</code></td>
-<td>quotation mark marks per word</td>
-<td><code>marks / words</code></td>
-<td>at least 1 word</td>
-<td>—</td>
-</tr>
-<tr>
-<td><code>punc_question_ratio</code></td>
-<td>question mark marks per word</td>
-<td><code>marks / words</code></td>
-<td>at least 1 word</td>
-<td>—</td>
-</tr>
-<tr>
-<td><code>punct_density</code></td>
-<td>punctuation marks per character</td>
+<td><code>punct_char_ratio</code></td>
+<td>share of punctuation marks among characters</td>
 <td><code>marks / characters</code></td>
 <td>non-empty text</td>
-<td>—</td>
+<td>de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C"</td>
 </tr>
 <tr>
 <td><code>punct_entropy</code></td>
@@ -3928,7 +3837,7 @@ published is a separate question — see the
 <td>share of whitespace characters</td>
 <td><code>whitespace / characters</code></td>
 <td>non-empty text</td>
-<td>—</td>
+<td>de Vel et al. (2001) Table 2, p.60 "Total number of white-space characters/C"</td>
 </tr>
 <tr>
 <td><code>punct_variety</code></td>
@@ -3971,15 +3880,15 @@ published is a separate question — see the
 <td>share of that letter among alphabet letters</td>
 <td><code>letter count / alphabet letters</code></td>
 <td>at least 1 alphabet letter</td>
-<td>—</td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
 </tr>
 </tbody>
 </table>
-<h2 id="custom_ngrams-user-defined-n-gram-ratios-dynamic-ng_"><code>custom_ngrams</code> — User-defined n-gram ratios  [dynamic: ng_{...}]<a class="headerlink" href="#custom_ngrams-user-defined-n-gram-ratios-dynamic-ng_" title="Permanent link">&para;</a></h2>
-<p>Dynamic group: keys are generated with the prefix <code>ng_</code>. The description, formula and requirement below are stated at the group level, not per key.</p>
+<h2 id="custom_ngrams-user-defined-n-gram-counts-dynamic-ngram__count"><code>custom_ngrams</code> — User-defined n-gram counts  [dynamic: ngram_{...}_count]<a class="headerlink" href="#custom_ngrams-user-defined-n-gram-counts-dynamic-ngram__count" title="Permanent link">&para;</a></h2>
+<p>Dynamic group: keys are generated with the prefix <code>ngram_</code>. The description, formula and requirement below are stated at the group level, not per key.</p>
 <p>Created only when you pass <code>custom_ngrams</code> to <code>analyze()</code>.</p>
 <h2 id="bibliography">Bibliography<a class="headerlink" href="#bibliography" title="Permanent link">&para;</a></h2>
-<p>50 works. Every citation above names at least one of these verbatim, and every entry here is named by at least one citation — both directions are tested.</p>
+<p>55 works. Every citation above names at least one of these verbatim, and every entry here is named by at least one citation — both directions are tested.</p>
 <dl>
 <dt><strong>Akın &amp; Akın (2007)</strong></dt>
 <dd>Akın, A. A., &amp; Akın, M. D. (2007). Zemberek, an open source NLP framework for Turkic Languages. 8 pp. Source code: github.com/ahmetaa/zemberek-nlp. (The document does not state a place of publication.)</dd>
@@ -4043,6 +3952,8 @@ published is a separate question — see the
 <dd>McCarthy, P. M. (2005). An Assessment of the Range and Usefulness of Lexical Diversity Measures and the Potential of the Measure of Textual, Lexical Diversity (MTLD). Doctoral dissertation, The University of Memphis, August 2005. Advisor: Charles E. Hall. (Only a preview is available: 24 pages of front matter + abstract, no body.)</dd>
 <dt><strong>McLaughlin (1969)</strong></dt>
 <dd>McLaughlin, G. H. (1969). SMOG grading — a new readability formula. Journal of Reading, 12(8), 639–646.</dd>
+<dt><strong>Mendenhall (1887)</strong></dt>
+<dd>Mendenhall, T. C. (1887). The characteristic curves of composition. Science, 9(214), 237–249. JSTOR 1764604.</dd>
 <dt><strong>Piantadosi (2014)</strong></dt>
 <dd>Piantadosi, S. T. (2014). Zipf's word frequency law in natural language: A critical review and future directions. Psychonomic Bulletin &amp; Review, 21(5), 1112–1130. DOI 10.3758/s13423-014-0585-6</dd>
 <dt><strong>Popescu &amp; Altmann (2006)</strong></dt>
@@ -4071,12 +3982,20 @@ published is a separate question — see the
 <dd>Torruella, J., &amp; Capsada, R. (2013). Lexical statistics and tipological structures: A measure of lexical richness. Procedia - Social and Behavioral Sciences, 95, 447–454. DOI 10.1016/j.sbspro.2013.10.668</dd>
 <dt><strong>Tweedie &amp; Baayen (1998)</strong></dt>
 <dd>Tweedie, F. J., &amp; Baayen, R. H. (1998). How variable may a constant be? Measures of lexical richness in perspective. Computers and the Humanities, 32(5), 323–352. DOI 10.1023/A:1001749303137</dd>
+<dt><strong>Yule (1939)</strong></dt>
+<dd>Yule, G. U. (1939). On sentence-length as a statistical characteristic of style in prose: With application to two cases of disputed authorship. Biometrika, 30(3/4), 363–390. JSTOR 2332655.</dd>
 <dt><strong>Yule (1944)</strong></dt>
 <dd>Yule, G. U. (1944). The Statistical Study of Literary Vocabulary. Cambridge University Press.</dd>
 <dt><strong>Zeyrek</strong></dt>
 <dd>Zeyrek — a Python port of the Zemberek morphological analyser. github.com/obulat/zeyrek</dd>
+<dt><strong>Zheng et al. (2006)</strong></dt>
+<dd>Zheng, R., Li, J., Chen, H., &amp; Huang, Z. (2006). A framework for authorship identification of online messages: Writing-style features and classification techniques. Journal of the American Society for Information Science and Technology, 57(3), 378–393. DOI 10.1002/asi.20316</dd>
 <dt><strong>de Marneffe et al. (2021)</strong></dt>
 <dd>de Marneffe, M.-C., Manning, C. D., Nivre, J., &amp; Zeman, D. (2021). Universal Dependencies. Computational Linguistics, 47(2), 255–308. DOI 10.1162/COLI_a_00402</dd>
+<dt><strong>de Vel (2000)</strong></dt>
+<dd>de Vel, O. (2000). Mining e-mail authorship. In KDD-2000 Workshop on Text Mining, Boston, August 20, 2000.</dd>
+<dt><strong>de Vel et al. (2001)</strong></dt>
+<dd>de Vel, O., Anderson, A., Corney, M., &amp; Mohay, G. (2001). Mining e-mail content for author identification forensics. ACM SIGMOD Record, 30(4), 55–64. DOI 10.1145/604264.604272</dd>
 <dt><strong>van Heuven et al. (2014)</strong></dt>
 <dd>van Heuven, W. J. B., Mandera, P., Keuleers, E., &amp; Brysbaert, M. (2014). SUBTLEX-UK: A new and improved word frequency database for British English. Quarterly Journal of Experimental Psychology, 67(6), 1176–1190. DOI 10.1080/17470218.2013.850521</dd>
 <dt><strong>Çetinkaya (2010)</strong></dt>

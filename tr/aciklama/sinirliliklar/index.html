@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
+        <meta name="description" content="Türkçe metinden 199, İngilizce metinden 172 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 199 quantitative linguistic features from Turkish text and 172 from English text">
       
       
       
@@ -2313,13 +2313,12 @@ cümle uzunluğu dağılımının 15. ve 85. yüzdeliğinden türetildi:</p>
 </tr>
 </tbody>
 </table>
-<p>Köşe yazısı <strong>tek bir tür</strong>. Roman bile başka bir dağılım verir (diyalog
-satırları çok kısa); teknik metin, transkript, şiir ya da çocuk kitabı için
-genelleneceği <strong>garanti değil.</strong> Kendi türünüzde çalışıyorsanız eşikleri
+<p>Köşe yazısı <strong>tek bir tür</strong>. Roman, teknik metin, transkript, şiir ya da
+çocuk kitabı için genelleneceği <strong>garanti değil.</strong> Kendi türünüzde çalışıyorsanız eşikleri
 kendi korpusunuzdan türetmeyi düşünün —
 <a href="../../../esik-kalibrasyonu/">yöntem burada</a>.</p>
 <h3 id="2-on-dort-kunye-ikincil-kaynaktan">2. On dört künye ikincil kaynaktan<a class="headerlink" href="#2-on-dort-kunye-ikincil-kaynaktan" title="Permanent link">&para;</a></h3>
-<p>148 künyenin <strong>14'ü</strong> <code>as cited in</code> ile işaretlidir — birincil kaynağa
+<p>163 künyenin <strong>14'ü</strong> <code>as cited in</code> ile işaretlidir — birincil kaynağa
 ulaşılamadı, formül aktaran kaynaktan alındı. Örnek:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Herdan (1960/1964), as cited in Tweedie &amp; Baayen (1998) p.327, eq. (5)
 </code></pre></div>
@@ -2329,25 +2328,30 @@ kaynağın kendi ifadesiyle</strong> karşılaştırılmadı.</p>
 <p>Yöntem bölümünüzde aktarımı aynen taşıyın; birincil kaynağı okumuş gibi
 göstermeyin.</p>
 <h3 id="3-spacy-modeli-sonuclarn-parcas">3. spaCy modeli sonuçların parçası<a class="headerlink" href="#3-spacy-modeli-sonuclarn-parcas" title="Permanent link">&para;</a></h3>
-<p>Sözcük türü, lemma, biçimbilim etiketleri ve bağlılık öznitelikleri
-(ayrıştırıcının kendi cümleleriyle) modelden gelir. Model değişirse bu
-sayılar değişir.</p>
+<p>Sözcük türü, biçimbilim etiketleri, İngilizce lemmalar ve bağlılık
+öznitelikleri (ayrıştırıcının kendi cümleleriyle) modelden gelir. Model
+değişirse bu sayılar değişir. Türkçe lemmalar Zeyrek'ten gelir (§4).</p>
 <p>Kelime ve cümle sayımı modelin etiketlerini kullanmaz. Varsayılan kelime,
 boşlukla ayrılan ve kenar noktalaması atılan birimdir; varsayılan cümle
-kuralı cümle bitiren işaretleri modelin tokenizer'ından okur. Kelime başına
-etiket isteyen öznitelikler (sözcük türü, lemma, biçimbilim, bağlılık) ise
-modelin tokenlarını sayar; yani iki kelime tanımı yan yana durur: <code>e-posta</code>
-<code>ttr</code>'de tek kelime, <code>lexical_density</code>'de iki tokendir. Hangi özniteliğin
-hangisini kullandığını <code>describe_feature(key)["definitions"]["word"]</code> söyler.</p>
+kuralı cümle bitiren işaretleri modelin tokenizer'ından okur. Bağlılık
+öznitelikleri dışında her öznitelik bu kelimeyi sayar. Kelime başına etiket
+isteyen öznitelikler (sözcük türü, lemma, biçimbilim) etiketi kelimenin
+içindeki ilk kelime tokenından alır: model <code>Türk-Amerikan</code>'ı ya da İngilizce
+<code>it's</code>'i birden çok tokena böler, kelime ilk parçanın etiketini taşır
+(<code>Türk</code>, <code>it</code>). Bu, Türkçe köşe yazılarında kelimelerin %0,3'ünde,
+İngilizcelerde %2,7'sinde olur. Bağlılık öznitelikleri modelin tokenlarını
+sayar. Hangi özniteliğin hangi kelimeyi kullandığını
+<code>describe_feature(key)["definitions"]["word"]</code> söyler.</p>
 <p>Doğrulanmış kombinasyon: spaCy 3.8.16, <code>en_core_web_sm</code> 3.8.0,
 <code>tr_core_news_md</code> 1.0.</p>
 <p>Türkçe modelin hata sanılabilecek iki tuhaflığı (sürüm numarası çelişkisi ve
 <code>W094</code> uyarısı) <a href="../../baslangic/#2-dil-verisini-kurun">öğreticide</a>
 anlatılıyor; ikisi de zararsız.</p>
 <h3 id="4-turkce-morfoloji-zeyreke-bagl">4. Türkçe morfoloji Zeyrek'e bağlı<a class="headerlink" href="#4-turkce-morfoloji-zeyreke-bagl" title="Permanent link">&para;</a></h3>
-<p><code>morphological_zeyrek</code> grubundaki 24 öznitelik Zeyrek'ten gelir — Zemberek
-morfotaktiğinin Python aktarımı. Zeyrek'in çözümleyemediği bir kelime
-öznitelikten düşer.</p>
+<p><code>morphological_zeyrek</code> grubundaki 23 öznitelik ve Türkçe lemmalar Zeyrek'ten
+gelir — Zemberek morfotaktiğinin Python aktarımı. Zeyrek'in çözümleyemediği bir
+kelime Zeyrek özniteliklerinden düşer; lemması kesme işaretinden önceki kısmı
+olur (<code>Pittsburgh'tan</code> → <code>pittsburgh</code>).</p>
 <p>Zeyrek bir <strong>çözümleyicidir, belirsizlik gidericisi değildir</strong>: aynı yüzey
 biçimi için birden çok çözümleme dönebilir ve bağlama bakarak doğrusunu
 seçmez. Kütüphane bağlama bakmadan <strong>ilk</strong> çözümlemeyi alır.</p>
@@ -2360,12 +2364,12 @@ Zeyrek öznitelikleri Python süreçleri arasında az da olsa farklı çıkabili
 Tekrar üretilebilir sayılar için tohumu Python başlamadan sabitleyin, örneğin
 <code>PYTHONHASHSEED=0</code>.</p>
 <h3 id="5-adaylarn-yars-hala-dogrulanmad">5. Adayların yarısı hâlâ doğrulanmadı<a class="headerlink" href="#5-adaylarn-yars-hala-dogrulanmad" title="Permanent link">&para;</a></h3>
-<p>142 satır doğrulama adayı bile değil (saf tanım, etiket şeması ya da
+<p>82 satır doğrulama adayı bile değil (saf tanım, etiket şeması ya da
 bizim türevimiz).
-Kalan <strong>91 adayın 48'i</strong> bitmiş (46 ✅ + 2 🟡), <strong>43'ü 🔍 açık</strong>.</p>
+Kalan <strong>142 adayın 48'i</strong> bitmiş (46 ✅ + 2 🟡), <strong>94'ü 🔍 açık</strong>.</p>
 <p>Sebebi <a href="../dogrulama/">doğrulama sistemi</a> sayfasında: kaynakların çoğu
 formülü yayımlar, o formülün uygulandığı bir sayısal örnek vermez. Bu
-özellikle <code>lexical</code> grubunda belirgin — 29 adayın 7'si doğrulanmış.</p>
+özellikle <code>lexical</code> grubunda belirgin — 36 adayın 7'si doğrulanmış.</p>
 <h3 id="6-paket-henuz-pypida-degil">6. Paket henüz PyPI'da değil<a class="headerlink" href="#6-paket-henuz-pypida-degil" title="Permanent link">&para;</a></h3>
 <p>Erken geliştirme aşamasında (0.x). Kurulum klondan yapılır. 1.0'a kadar anahtar
 adları ve genel API değişebilir; değişiklikler sürüm notlarında duyurulur.</p>
@@ -2376,8 +2380,6 @@ gereksinimi ya da künye kuralı. Yine de sonuçları etkiler.</p>
 <p>Bazı öznitelikler literatürde adı olan ölçüler değil, bu kütüphanenin
 tanımlarıdır. Künyeleri bunu açıkça yazar:</p>
 <ul>
-<li><code>entropy_std</code> — Shannon entropisinin <strong>parçalar arası standart sapması</strong>.
-  Entropi Shannon'ın, standart sapma bizim.</li>
 <li><code>punct_entropy</code>, <code>sent_len_entropy</code> — Shannon formülünün noktalama ve
   cümle uzunluğu dağılımına uygulanması. Formül Shannon'ın, uygulama kararı
   bizim.</li>
@@ -2387,12 +2389,12 @@ tanımlarıdır. Künyeleri bunu açıkça yazar:</p>
 <p>Bunları kullanmakta sakınca yok. Tek koşul, künyeyi doğru kurmak: formülün
 kaynağını verin, ölçünün kendisini kaynağa mal etmeyin. Yöntem bölümünüzde:</p>
 <ul>
-<li>✗ "Shannon (1948) <code>entropy_std</code> ölçüsü"</li>
-<li>✓ "Shannon (1948) entropisinin parçalar arası standart sapması
+<li>✗ "Shannon (1948) <code>sent_len_entropy</code> ölçüsü"</li>
+<li>✓ "Shannon (1948) entropisinin cümle uzunluğu dağılımına uygulanması
   (turkish-linguistic-features'ın tanımı)"</li>
 </ul>
-<p>Sebep basit: Shannon entropiyi tanımladı, parçalar arası standart sapmasını
-tanımlamadı. Birinci yazım okuyucuya, kaynakta aranınca bulunacak bir ölçü
+<p>Sebep basit: Shannon entropiyi tanımladı, cümle uzunluklarına
+uygulamadı. Birinci yazım okuyucuya, kaynakta aranınca bulunacak bir ölçü
 olduğunu ima ediyor.</p>
 <h3 id="8-metin-uzunluguna-duyarllk">8. Metin uzunluğuna duyarlılık<a class="headerlink" href="#8-metin-uzunluguna-duyarllk" title="Permanent link">&para;</a></h3>
 <p>Sözcüksel zenginlik ölçülerinin çoğu uzunlukla değişir. <code>ttr</code> en uçtaki
@@ -2403,16 +2405,15 @@ bağımsız değildir; <code>mtld</code> ve <code>vocd_d</code> Türkçede belir
 100 kelime ister. Farklı uzunluktaki metinleri karşılaştırıyorsanız önce
 <code>segment_size</code> ile aynı boya getirin (<a href="../../nasil/segmentleme/">nasıl</a>).</p>
 <h3 id="9-paragraf-oznitelikleri-girdinin-bicimlendirmesine-bagl">9. Paragraf öznitelikleri girdinin biçimlendirmesine bağlı<a class="headerlink" href="#9-paragraf-oznitelikleri-girdinin-bicimlendirmesine-bagl" title="Permanent link">&para;</a></h3>
-<p>Beş <code>para_*</code> özniteliği paragraf sınırını <strong>boş satırdan</strong> bulur. Tek satır
+<p>İki <code>para_*</code> özniteliği paragraf sınırını <strong>boş satırdan</strong> bulur. Tek satır
 sonu paragraf saymaz — aksi hâlde satır satır sarılmış bir metinde her satır
 paragraf olurdu.</p>
 <p>Sonuç: metninizde boş satır yoksa metnin tamamı tek paragraf sayılır.
-<code>para_len_mean</code> bütün metnin kelime sayısına eşitlenir, iki CV NaN döner.
+<code>para_len_mean</code> bütün metnin kelime sayısına eşitlenir.
 Kütüphane bunu düzeltemez — silinmiş paragraf sınırı geri getirilemez.</p>
 <p>Bu, PDF ve EPUB'dan çıkarılmış metinlerde <strong>yaygındır</strong>: paragraflar arasındaki
-boş satırlar çıkarım sırasında kaybolur. Kendi metninizde hangi özniteliklerin
-bu yüzden ölçülemediğini <a href="https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/07_nan_haritasi.py">NaN haritası örneğiyle</a>
-görebilirsiniz.</p>
+boş satırlar çıkarım sırasında kaybolur. Değer <code>nan</code> olmadığı için bunu
+sayılardan fark etmezsiniz; uyarı aşağıda.</p>
 <p>1000 kelimeyi geçen bir metinde hiç paragraf sınırı bulunamazsa
 <code>ParagraphStructureWarning</code> basılır. Uyarıyı görürseniz iki yol var: kaynak
 metni paragrafları boş satırla ayrılmış hâlde yeniden çıkarın, ya da

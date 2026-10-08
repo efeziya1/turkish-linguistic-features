@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
+        <meta name="description" content="Türkçe metinden 199, İngilizce metinden 172 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 199 quantitative linguistic features from Turkish text and 172 from English text">
       
       
       
@@ -1892,15 +1892,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#turkish-212-keys-237-rows" class="md-nav__link">
+  <a href="#turkish-199-keys-224-rows" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Turkish — 212 keys, 237 rows
+        Turkish — 199 keys, 224 rows
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Turkish — 212 keys, 237 rows">
+    <nav class="md-nav" aria-label="Turkish — 199 keys, 224 rows">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1942,15 +1942,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#english-184-keys-201-rows" class="md-nav__link">
+  <a href="#english-172-keys-189-rows" class="md-nav__link">
     <span class="md-ellipsis">
       
-        English — 184 keys, 201 rows
+        English — 172 keys, 189 rows
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="English — 184 keys, 201 rows">
+    <nav class="md-nav" aria-label="English — 172 keys, 189 rows">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2134,15 +2134,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#turkish-212-keys-237-rows" class="md-nav__link">
+  <a href="#turkish-199-keys-224-rows" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Turkish — 212 keys, 237 rows
+        Turkish — 199 keys, 224 rows
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Turkish — 212 keys, 237 rows">
+    <nav class="md-nav" aria-label="Turkish — 199 keys, 224 rows">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2184,15 +2184,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#english-184-keys-201-rows" class="md-nav__link">
+  <a href="#english-172-keys-189-rows" class="md-nav__link">
     <span class="md-ellipsis">
       
-        English — 184 keys, 201 rows
+        English — 172 keys, 189 rows
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="English — 184 keys, 201 rows">
+    <nav class="md-nav" aria-label="English — 172 keys, 189 rows">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2324,15 +2324,15 @@ number to look for:</p>
 <tbody>
 <tr>
 <td>⚪ <strong>no source</strong></td>
-<td>Not a named measure from the literature; a plain definition (<code>punc_,_ratio</code>, <code>char_a</code>).</td>
+<td>Not a named measure from the literature; a plain definition (<code>punct_dash_ratio</code>, <code>uppercase_ratio</code>).</td>
 </tr>
 <tr>
 <td>⚫ <strong>tag scheme</strong></td>
-<td>Not a measure but a count of an external scheme's categories (<code>pos_noun</code> → UD; <code>case_loc_ratio</code> → Zeyrek). A scheme defines categories; it does not publish measurements.</td>
+<td>Not a measure but a count of an external scheme's categories (<code>pos_noun_ratio</code> → UD; <code>zeyrek_case_loc_ratio</code> → Zeyrek). A scheme defines categories; it does not publish measurements.</td>
 </tr>
 <tr>
 <td>🔧 <strong>derivative</strong></td>
-<td>The formula comes from a source, <strong>the application is this library's</strong>. <code>entropy_std</code> is Shannon's entropy, but taking its standard deviation across segments is ours; <code>long_sent_ratio</code>'s threshold comes from our own calibration. Nobody has published this measure, so there is no number to compare against. Testing it against our own calibration would be reading our own answer sheet.</td>
+<td>The formula comes from a source, <strong>the application is this library's</strong>. <code>sent_len_entropy</code> is Shannon's entropy, but applying it to sentence lengths is ours; <code>long_sent_ratio</code>'s threshold comes from our own calibration. Nobody has published this measure, so there is no number to compare against. Testing it against our own calibration would be reading our own answer sheet.</td>
 </tr>
 </tbody>
 </table>
@@ -2355,9 +2355,9 @@ source published no text.</p>
 <p>This report is <strong>generated from the tests</strong> — it reads the same comparison
 table as <code>tests/test_kaynak_esligi.py</code>, so the two cannot drift apart. The
 other known-value tests live in their own files.</p>
-<h2 id="turkish-212-keys-237-rows">Turkish — 212 keys, 237 rows<a class="headerlink" href="#turkish-212-keys-237-rows" title="Permanent link">&para;</a></h2>
+<h2 id="turkish-199-keys-224-rows">Turkish — 199 keys, 224 rows<a class="headerlink" href="#turkish-199-keys-224-rows" title="Permanent link">&para;</a></h2>
 <p>A key may have more than one worked example in its source; each one is its own row.</p>
-<p><strong>Verification candidates — 95 rows</strong></p>
+<p><strong>Verification candidates — 142 rows</strong></p>
 <table>
 <thead>
 <tr>
@@ -2376,11 +2376,11 @@ other known-value tests live in their own files.</p>
 </tr>
 <tr>
 <td>🔍 open — no worked example in source</td>
-<td>47</td>
+<td>94</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Not verification candidates — 142 rows.</strong> There is no published number to look for in these.</p>
+<p><strong>Not verification candidates — 82 rows.</strong> There is no published number to look for in these.</p>
 <table>
 <thead>
 <tr>
@@ -2391,15 +2391,15 @@ other known-value tests live in their own files.</p>
 <tbody>
 <tr>
 <td>⚪ no source — plain definition</td>
-<td>68</td>
+<td>11</td>
 </tr>
 <tr>
 <td>⚫ tag scheme — not a measure</td>
-<td>69</td>
+<td>67</td>
 </tr>
 <tr>
 <td>🔧 derivative — the application is this library's</td>
-<td>5</td>
+<td>4</td>
 </tr>
 </tbody>
 </table>
@@ -2459,7 +2459,7 @@ other known-value tests live in their own files.</p>
 <td>🟡</td>
 </tr>
 <tr>
-<td><code>hapax_percentage</code></td>
+<td><code>hapax_token_ratio</code></td>
 <td>QUITA §6.1.6</td>
 <td>Text 1 · 98/179</td>
 <td>formula</td>
@@ -2469,7 +2469,7 @@ other known-value tests live in their own files.</p>
 <td>✅</td>
 </tr>
 <tr>
-<td><code>hapax_percentage</code></td>
+<td><code>hapax_token_ratio</code></td>
 <td>QUITA §6.1.6</td>
 <td>Text 2 · 92/202</td>
 <td>formula</td>
@@ -2905,7 +2905,7 @@ other known-value tests live in their own files.</p>
 <p><strong><code>bezirci_yilmaz</code> deviation:</strong> The paper rounded its H6 intermediate value; the difference is 0.031 and both values fall in the same readability class (academic, 16+).</p>
 <p><strong><code>bezirci_yilmaz</code> deviation:</strong> The paper prints the H6 mean as 0.07, but the value that yields 8.30 is ~0.0684. The coefficient 26.25 inflates that rounding to 0.041; the coefficients themselves are correct.</p>
 <h3 id="open-verifiable-not-yet-verified">🔍 Open — verifiable, not yet verified<a class="headerlink" href="#open-verifiable-not-yet-verified" title="Permanent link">&para;</a></h3>
-<p>47 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are <strong>not untested</strong> — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison <em>against the source's number</em>.</p>
+<p>94 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are <strong>not untested</strong> — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison <em>against the source's number</em>.</p>
 <table>
 <thead>
 <tr>
@@ -2915,6 +2915,16 @@ other known-value tests live in their own files.</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>word_count</code></td>
+<td>de Vel (2000) Table 2, attribute 1 "Total number of words"; Zheng et al. (2006) Table 3, p.385, no. 54 "Total number of words (M)"</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>word_len_mean</code></td>
+<td>Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241</td>
+<td>🔍</td>
+</tr>
 <tr>
 <td><code>yule_k</code></td>
 <td>Yule (1944) p.53, eq. (3.22)</td>
@@ -2928,6 +2938,11 @@ other known-value tests live in their own files.</p>
 <tr>
 <td><code>brunet_w</code></td>
 <td>Brunet (1978), as cited in Tweedie &amp; Baayen (1998) p.328, eq. (10)</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>hapax_ratio</code></td>
+<td>de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of vocabulary words"</td>
 <td>🔍</td>
 </tr>
 <tr>
@@ -3056,12 +3071,37 @@ other known-value tests live in their own files.</p>
 <td>🔍</td>
 </tr>
 <tr>
-<td><code>verb_dist_mean</code></td>
-<td>QUITA §6.2.1</td>
+<td><code>sent_len_mean</code></td>
+<td>Flesch (1948) p.223, element (1) "Average Sentence Length in Words"</td>
 <td>🔍</td>
 </tr>
 <tr>
-<td><code>verb_dist_cv</code></td>
+<td><code>sent_len_median</code></td>
+<td>Yule (1939) p.369, median sentence length alongside the mean</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>sent_len_char_mean</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 58 "Average sentence length in terms of character"</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>para_len_mean</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 251 "Number of words per paragraph"</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>sents_per_para_mean</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph"</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>pronoun_ratio</code></td>
+<td>Deutsch, Jasbi &amp; Shieber (2020) Table 6 "pronouns per word", listed among existing features; original source not traced</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>verb_dist_mean</code></td>
 <td>QUITA §6.2.1</td>
 <td>🔍</td>
 </tr>
@@ -3071,17 +3111,17 @@ other known-value tests live in their own files.</p>
 <td>🔍</td>
 </tr>
 <tr>
-<td><code>pos_dist_std</code></td>
-<td>Deutsch, Jasbi &amp; Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 13 UD tags</td>
+<td><code>posddev</code></td>
+<td>Deutsch, Jasbi &amp; Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 12 UD tags</td>
 <td>🔍</td>
 </tr>
 <tr>
-<td><code>pos_kl_div</code></td>
+<td><code>posdiv</code></td>
 <td>Deutsch, Jasbi &amp; Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits</td>
 <td>🔍</td>
 </tr>
 <tr>
-<td><code>suffix_bigram_entropy</code></td>
+<td><code>zeyrek_suffix_bigram_entropy</code></td>
 <td>Shannon (1948) — the entropy formula; Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 <td>🔍</td>
 </tr>
@@ -3150,10 +3190,205 @@ other known-value tests live in their own files.</p>
 <td>Anderson (1983); long word = 7+ letters</td>
 <td>🔍</td>
 </tr>
+<tr>
+<td><code>digit_ratio</code></td>
+<td>de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; here digits anywhere in the text</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>punct_comma_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>punct_period_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>punct_semicolon_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>punct_exclamation_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>punct_colon_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>punct_quote_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>punct_question_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>punct_char_ratio</code></td>
+<td>de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C"</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>whitespace_ratio</code></td>
+<td>de Vel et al. (2001) Table 2, p.60 "Total number of white-space characters/C"</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_a_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_b_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_c_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_ç_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_d_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_e_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_f_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_g_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_ğ_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_h_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_ı_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_i_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_j_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_k_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_l_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_m_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_n_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_o_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_ö_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_p_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_r_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_s_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_ş_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_t_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_u_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_ü_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_v_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_y_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_z_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
 </tbody>
 </table>
 <h3 id="not-verification-candidates">Not verification candidates<a class="headerlink" href="#not-verification-candidates" title="Permanent link">&para;</a></h3>
-<p>142 keys. The ⚪ ones are plain definitions (<code>punc_,_ratio</code>, <code>char_a</code>) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.</p>
+<p>82 keys. The ⚪ ones are plain definitions (<code>punct_dash_ratio</code>, <code>uppercase_ratio</code>) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.</p>
 <table>
 <thead>
 <tr>
@@ -3164,57 +3399,7 @@ other known-value tests live in their own files.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>n_lemma_count</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>avg_word_length</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>word_length_cv</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>hapax_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>entropy_std</code></td>
-<td>Shannon (1948) — the entropy formula; the standard deviation across segments is this library's own derivation</td>
-<td>🔧</td>
-</tr>
-<tr>
-<td><code>ttr_moving_slope</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>avg_sent_len_word</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>sentence_length_cv</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>sent_len_skewness</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>med_sent_len</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>avg_sent_len_char</code></td>
+<td><code>lemma_count</code></td>
 <td>—</td>
 <td>⚪</td>
 </tr>
@@ -3234,177 +3419,137 @@ other known-value tests live in their own files.</p>
 <td>🔧</td>
 </tr>
 <tr>
-<td><code>para_len_mean</code></td>
+<td><code>pos_noun_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>pos_propn_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>pos_verb_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>pos_adj_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>pos_adv_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>pos_det_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>pos_adp_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>pos_intj_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>pos_cconj_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>pos_sconj_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>pos_num_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>pos_aux_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>question_sent_ratio</code></td>
 <td>—</td>
 <td>⚪</td>
 </tr>
 <tr>
-<td><code>para_len_cv</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>sents_per_para_mean</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>sents_per_para_cv</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>para_count_norm</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>pos_noun</code></td>
+<td><code>sentfinal_noun_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_propn</code></td>
+<td><code>sentfinal_propn_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_verb</code></td>
+<td><code>sentfinal_verb_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_adj</code></td>
+<td><code>sentfinal_adj_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_adv</code></td>
+<td><code>sentfinal_adv_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_det</code></td>
+<td><code>sentfinal_det_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_adp</code></td>
+<td><code>sentfinal_adp_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_intj</code></td>
+<td><code>sentfinal_intj_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_cconj</code></td>
+<td><code>sentfinal_cconj_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_sconj</code></td>
+<td><code>sentfinal_sconj_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_num</code></td>
+<td><code>sentfinal_num_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_aux</code></td>
+<td><code>sentfinal_aux_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_punct</code></td>
+<td><code>sentfinal_pron_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>question_per_sent</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>pronoun_freq</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>nominal_verbal_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>sentfinal_noun</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_propn</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_verb</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_adj</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_adv</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_det</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_adp</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_intj</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_cconj</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_sconj</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_num</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_aux</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_pron</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_other</code></td>
+<td><code>sentfinal_other_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
@@ -3414,207 +3559,202 @@ other known-value tests live in their own files.</p>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_tense_past</code></td>
+<td><code>tense_past_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_tense_pres</code></td>
+<td><code>tense_pres_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_tense_fut</code></td>
+<td><code>tense_fut_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_aspect_perf</code></td>
+<td><code>aspect_perf_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_aspect_imp</code></td>
+<td><code>aspect_imp_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_aspect_prog</code></td>
+<td><code>aspect_prog_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_case_nom</code></td>
+<td><code>case_nom_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>morph_case_acc</code></td>
-<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>morph_case_dat</code></td>
-<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>morph_case_loc</code></td>
-<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>morph_case_abl</code></td>
-<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>morph_case_gen</code></td>
-<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>morph_person_1</code></td>
-<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>morph_person_2</code></td>
-<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>morph_person_3</code></td>
-<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>morph_number_sing</code></td>
-<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>morph_number_plur</code></td>
-<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>morph_voice_pass</code></td>
-<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>agglutination_depth</code></td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>suffix_char_length_ratio</code></td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>suffix_chain_cv</code></td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>derivational_suffix_ratio</code></td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>tense_past_def</code></td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>tense_past_nar</code></td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>tense_present</code></td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>tense_future</code></td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>modal_possibility_ratio</code></td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>modal_necessity_ratio</code></td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>negation_ratio</code></td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>passive_ratio</code></td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>plural_ratio</code></td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 <td>⚫</td>
 </tr>
 <tr>
 <td><code>case_acc_ratio</code></td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
 <td><code>case_dat_ratio</code></td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
 <td><code>case_loc_ratio</code></td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
 <td><code>case_abl_ratio</code></td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
 <td><code>case_gen_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>person_1_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>person_2_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>person_3_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>number_sing_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>number_plur_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>voice_pass_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>zeyrek_agglutination_depth</code></td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>case_ins_ratio</code></td>
+<td><code>zeyrek_suffix_char_length_ratio</code></td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>conditional_suffix_ratio</code></td>
+<td><code>zeyrek_derivational_suffix_ratio</code></td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>causative_suffix_ratio</code></td>
+<td><code>zeyrek_tense_past_def_ratio</code></td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>question_particle_ratio</code></td>
+<td><code>zeyrek_tense_past_nar_ratio</code></td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>verb_suffix_diversity</code></td>
+<td><code>zeyrek_tense_present_ratio</code></td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>zeyrek_tense_future_ratio</code></td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>zeyrek_modal_possibility_ratio</code></td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>zeyrek_modal_necessity_ratio</code></td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>zeyrek_negation_ratio</code></td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>zeyrek_passive_ratio</code></td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>zeyrek_plural_ratio</code></td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>zeyrek_case_acc_ratio</code></td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>zeyrek_case_dat_ratio</code></td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>zeyrek_case_loc_ratio</code></td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>zeyrek_case_abl_ratio</code></td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>zeyrek_case_gen_ratio</code></td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>zeyrek_case_ins_ratio</code></td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>zeyrek_conditional_suffix_ratio</code></td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>zeyrek_causative_suffix_ratio</code></td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>zeyrek_question_particle_ratio</code></td>
+<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>zeyrek_verb_suffix_diversity</code></td>
 <td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 <td>⚫</td>
 </tr>
@@ -3624,77 +3764,22 @@ other known-value tests live in their own files.</p>
 <td>⚪</td>
 </tr>
 <tr>
-<td><code>syllable_cv</code></td>
+<td><code>sent_syllable_mean</code></td>
 <td>—</td>
 <td>⚪</td>
 </tr>
 <tr>
-<td><code>sentence_syllable_mean</code></td>
+<td><code>punct_dash_ratio</code></td>
 <td>—</td>
 <td>⚪</td>
 </tr>
 <tr>
-<td><code>sentence_syllable_cv</code></td>
+<td><code>punct_ellipsis_ratio</code></td>
 <td>—</td>
 <td>⚪</td>
 </tr>
 <tr>
-<td><code>digit_vs_all</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>punc_,_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>punc_._ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>punc_;_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>punc_!_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>punc_:_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>punc_-_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>punc_ellipsis_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>punc_paren_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>punc_quote_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>punc_question_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>punct_density</code></td>
+<td><code>punct_paren_ratio</code></td>
 <td>—</td>
 <td>⚪</td>
 </tr>
@@ -3705,11 +3790,6 @@ other known-value tests live in their own files.</p>
 </tr>
 <tr>
 <td><code>consecutive_punct_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>whitespace_ratio</code></td>
 <td>—</td>
 <td>⚪</td>
 </tr>
@@ -3728,156 +3808,11 @@ other known-value tests live in their own files.</p>
 <td>—</td>
 <td>⚪</td>
 </tr>
-<tr>
-<td><code>char_a</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_b</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_c</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_ç</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_d</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_e</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_f</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_g</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_ğ</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_h</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_ı</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_i</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_j</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_k</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_l</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_m</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_n</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_o</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_ö</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_p</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_r</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_s</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_ş</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_t</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_u</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_ü</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_v</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_y</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_z</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
 </tbody>
 </table>
-<h2 id="english-184-keys-201-rows">English — 184 keys, 201 rows<a class="headerlink" href="#english-184-keys-201-rows" title="Permanent link">&para;</a></h2>
+<h2 id="english-172-keys-189-rows">English — 172 keys, 189 rows<a class="headerlink" href="#english-172-keys-189-rows" title="Permanent link">&para;</a></h2>
 <p>A key may have more than one worked example in its source; each one is its own row.</p>
-<p><strong>Verification candidates — 84 rows</strong></p>
+<p><strong>Verification candidates — 128 rows</strong></p>
 <table>
 <thead>
 <tr>
@@ -3896,11 +3831,11 @@ other known-value tests live in their own files.</p>
 </tr>
 <tr>
 <td>🔍 open — no worked example in source</td>
-<td>46</td>
+<td>90</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Not verification candidates — 117 rows.</strong> There is no published number to look for in these.</p>
+<p><strong>Not verification candidates — 61 rows.</strong> There is no published number to look for in these.</p>
 <table>
 <thead>
 <tr>
@@ -3911,15 +3846,15 @@ other known-value tests live in their own files.</p>
 <tbody>
 <tr>
 <td>⚪ no source — plain definition</td>
-<td>65</td>
+<td>11</td>
 </tr>
 <tr>
 <td>⚫ tag scheme — not a measure</td>
-<td>46</td>
+<td>45</td>
 </tr>
 <tr>
 <td>🔧 derivative — the application is this library's</td>
-<td>6</td>
+<td>5</td>
 </tr>
 </tbody>
 </table>
@@ -3979,7 +3914,7 @@ other known-value tests live in their own files.</p>
 <td>🟡</td>
 </tr>
 <tr>
-<td><code>hapax_percentage</code></td>
+<td><code>hapax_token_ratio</code></td>
 <td>QUITA §6.1.6</td>
 <td>Text 1 · 98/179</td>
 <td>formula</td>
@@ -3989,7 +3924,7 @@ other known-value tests live in their own files.</p>
 <td>✅</td>
 </tr>
 <tr>
-<td><code>hapax_percentage</code></td>
+<td><code>hapax_token_ratio</code></td>
 <td>QUITA §6.1.6</td>
 <td>Text 2 · 92/202</td>
 <td>formula</td>
@@ -4324,7 +4259,7 @@ other known-value tests live in their own files.</p>
 <p><strong><code>ari</code> deviation:</strong> The source's numbers were produced <strong>by hand</strong> in 1975 with a mechanical counter attached to a typewriter (Appendix B, ARI instructions). In 17 of the 18 passages, the stroke count that would yield the source's ARI is 0.996-1.041 times ours — a difference of a few characters. Passage 2 is an outlier (ratio 1.145), and there the source's own two numbers contradict each other: Table 1's ARI of 20.3 requires 6.269 strokes per word, while the text's actual value is 5.475; moreover, the words per sentence implied by that ARI give an FKGL of 18.69, whereas Table 2 printed 16.7. Our stroke definition was tested separately: counting spaces raises the difference from 0.54 to 4.24, so counting without spaces is correct.</p>
 <p><strong><code>flesch_kincaid_grade</code> deviation:</strong> Same hand-counting source. The per-passage deviation is below 0.6 in 15 of the 18 passages; passage 12 is an outlier (-4.28) and also misses its FRE band, so the deviation is concentrated in a single passage. The difference between the means is 0.34 grade levels — too small to change the readability classification.</p>
 <h3 id="open-verifiable-not-yet-verified_1">🔍 Open — verifiable, not yet verified<a class="headerlink" href="#open-verifiable-not-yet-verified_1" title="Permanent link">&para;</a></h3>
-<p>46 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are <strong>not untested</strong> — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison <em>against the source's number</em>.</p>
+<p>90 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are <strong>not untested</strong> — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison <em>against the source's number</em>.</p>
 <table>
 <thead>
 <tr>
@@ -4334,6 +4269,16 @@ other known-value tests live in their own files.</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>word_count</code></td>
+<td>de Vel (2000) Table 2, attribute 1 "Total number of words"; Zheng et al. (2006) Table 3, p.385, no. 54 "Total number of words (M)"</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>word_len_mean</code></td>
+<td>Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241</td>
+<td>🔍</td>
+</tr>
 <tr>
 <td><code>yule_k</code></td>
 <td>Yule (1944) p.53, eq. (3.22)</td>
@@ -4347,6 +4292,11 @@ other known-value tests live in their own files.</p>
 <tr>
 <td><code>brunet_w</code></td>
 <td>Brunet (1978), as cited in Tweedie &amp; Baayen (1998) p.328, eq. (10)</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>hapax_ratio</code></td>
+<td>de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of vocabulary words"</td>
 <td>🔍</td>
 </tr>
 <tr>
@@ -4475,12 +4425,37 @@ other known-value tests live in their own files.</p>
 <td>🔍</td>
 </tr>
 <tr>
-<td><code>verb_dist_mean</code></td>
-<td>QUITA §6.2.1</td>
+<td><code>sent_len_mean</code></td>
+<td>Flesch (1948) p.223, element (1) "Average Sentence Length in Words"</td>
 <td>🔍</td>
 </tr>
 <tr>
-<td><code>verb_dist_cv</code></td>
+<td><code>sent_len_median</code></td>
+<td>Yule (1939) p.369, median sentence length alongside the mean</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>sent_len_char_mean</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 58 "Average sentence length in terms of character"</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>para_len_mean</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 251 "Number of words per paragraph"</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>sents_per_para_mean</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph"</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>pronoun_ratio</code></td>
+<td>Deutsch, Jasbi &amp; Shieber (2020) Table 6 "pronouns per word", listed among existing features; original source not traced</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>verb_dist_mean</code></td>
 <td>QUITA §6.2.1</td>
 <td>🔍</td>
 </tr>
@@ -4490,12 +4465,12 @@ other known-value tests live in their own files.</p>
 <td>🔍</td>
 </tr>
 <tr>
-<td><code>pos_dist_std</code></td>
-<td>Deutsch, Jasbi &amp; Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 13 UD tags</td>
+<td><code>posddev</code></td>
+<td>Deutsch, Jasbi &amp; Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 12 UD tags</td>
 <td>🔍</td>
 </tr>
 <tr>
-<td><code>pos_kl_div</code></td>
+<td><code>posdiv</code></td>
 <td>Deutsch, Jasbi &amp; Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits</td>
 <td>🔍</td>
 </tr>
@@ -4564,10 +4539,190 @@ other known-value tests live in their own files.</p>
 <td>McLaughlin (1969) p.643, Table 1, eq. (d); p = polysyllabic words in a 30-sentence sample</td>
 <td>🔍</td>
 </tr>
+<tr>
+<td><code>digit_ratio</code></td>
+<td>de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; here digits anywhere in the text</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>punct_comma_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>punct_period_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>punct_semicolon_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>punct_exclamation_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>punct_colon_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>punct_quote_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>punct_question_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>punct_char_ratio</code></td>
+<td>de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C"</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>whitespace_ratio</code></td>
+<td>de Vel et al. (2001) Table 2, p.60 "Total number of white-space characters/C"</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_a_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_b_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_c_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_d_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_e_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_f_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_g_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_h_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_i_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_j_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_k_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_l_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_m_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_n_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_o_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_p_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_q_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_r_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_s_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_t_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_u_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_v_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_w_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_x_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_y_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><code>char_z_ratio</code></td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>🔍</td>
+</tr>
 </tbody>
 </table>
 <h3 id="not-verification-candidates_1">Not verification candidates<a class="headerlink" href="#not-verification-candidates_1" title="Permanent link">&para;</a></h3>
-<p>117 keys. The ⚪ ones are plain definitions (<code>punc_,_ratio</code>, <code>char_a</code>) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.</p>
+<p>61 keys. The ⚪ ones are plain definitions (<code>punct_dash_ratio</code>, <code>uppercase_ratio</code>) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.</p>
 <table>
 <thead>
 <tr>
@@ -4578,57 +4733,7 @@ other known-value tests live in their own files.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>n_lemma_count</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>avg_word_length</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>word_length_cv</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>hapax_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>entropy_std</code></td>
-<td>Shannon (1948) — the entropy formula; the standard deviation across segments is this library's own derivation</td>
-<td>🔧</td>
-</tr>
-<tr>
-<td><code>ttr_moving_slope</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>avg_sent_len_word</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>sentence_length_cv</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>sent_len_skewness</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>med_sent_len</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>avg_sent_len_char</code></td>
+<td><code>lemma_count</code></td>
 <td>—</td>
 <td>⚪</td>
 </tr>
@@ -4648,177 +4753,137 @@ other known-value tests live in their own files.</p>
 <td>🔧</td>
 </tr>
 <tr>
-<td><code>para_len_mean</code></td>
+<td><code>pos_noun_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>pos_propn_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>pos_verb_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>pos_adj_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>pos_adv_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>pos_det_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>pos_adp_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>pos_intj_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>pos_cconj_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>pos_sconj_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>pos_num_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>pos_aux_ratio</code></td>
+<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
+<td>⚫</td>
+</tr>
+<tr>
+<td><code>question_sent_ratio</code></td>
 <td>—</td>
 <td>⚪</td>
 </tr>
 <tr>
-<td><code>para_len_cv</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>sents_per_para_mean</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>sents_per_para_cv</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>para_count_norm</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>pos_noun</code></td>
+<td><code>sentfinal_noun_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_propn</code></td>
+<td><code>sentfinal_propn_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_verb</code></td>
+<td><code>sentfinal_verb_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_adj</code></td>
+<td><code>sentfinal_adj_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_adv</code></td>
+<td><code>sentfinal_adv_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_det</code></td>
+<td><code>sentfinal_det_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_adp</code></td>
+<td><code>sentfinal_adp_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_intj</code></td>
+<td><code>sentfinal_intj_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_cconj</code></td>
+<td><code>sentfinal_cconj_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_sconj</code></td>
+<td><code>sentfinal_sconj_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_num</code></td>
+<td><code>sentfinal_num_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_aux</code></td>
+<td><code>sentfinal_aux_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>pos_punct</code></td>
+<td><code>sentfinal_pron_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>question_per_sent</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>pronoun_freq</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>nominal_verbal_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>sentfinal_noun</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_propn</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_verb</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_adj</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_adv</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_det</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_adp</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_intj</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_cconj</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_sconj</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_num</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_aux</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_pron</code></td>
-<td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
-<td>⚫</td>
-</tr>
-<tr>
-<td><code>sentfinal_other</code></td>
+<td><code>sentfinal_other_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 1 (UPOS tag set)</td>
 <td>⚫</td>
 </tr>
@@ -4828,92 +4893,92 @@ other known-value tests live in their own files.</p>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_tense_past</code></td>
+<td><code>tense_past_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_tense_pres</code></td>
+<td><code>tense_pres_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_tense_fut</code></td>
+<td><code>tense_fut_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_aspect_perf</code></td>
+<td><code>aspect_perf_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_aspect_imp</code></td>
+<td><code>aspect_imp_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_aspect_prog</code></td>
+<td><code>aspect_prog_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_case_nom</code></td>
+<td><code>case_nom_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_case_acc</code></td>
+<td><code>case_acc_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_case_dat</code></td>
+<td><code>case_dat_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_case_loc</code></td>
+<td><code>case_loc_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_case_abl</code></td>
+<td><code>case_abl_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_case_gen</code></td>
+<td><code>case_gen_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_person_1</code></td>
+<td><code>person_1_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_person_2</code></td>
+<td><code>person_2_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_person_3</code></td>
+<td><code>person_3_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_number_sing</code></td>
+<td><code>number_sing_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_number_plur</code></td>
+<td><code>number_plur_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
 <tr>
-<td><code>morph_voice_pass</code></td>
+<td><code>voice_pass_ratio</code></td>
 <td>de Marneffe et al. (2021) Table 2 (universal morphological features)</td>
 <td>⚫</td>
 </tr>
@@ -4923,17 +4988,7 @@ other known-value tests live in their own files.</p>
 <td>⚪</td>
 </tr>
 <tr>
-<td><code>syllable_cv</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>sentence_syllable_mean</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>sentence_syllable_cv</code></td>
+<td><code>sent_syllable_mean</code></td>
 <td>—</td>
 <td>⚪</td>
 </tr>
@@ -4943,62 +4998,17 @@ other known-value tests live in their own files.</p>
 <td>🔧</td>
 </tr>
 <tr>
-<td><code>digit_vs_all</code></td>
+<td><code>punct_dash_ratio</code></td>
 <td>—</td>
 <td>⚪</td>
 </tr>
 <tr>
-<td><code>punc_,_ratio</code></td>
+<td><code>punct_ellipsis_ratio</code></td>
 <td>—</td>
 <td>⚪</td>
 </tr>
 <tr>
-<td><code>punc_._ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>punc_;_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>punc_!_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>punc_:_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>punc_-_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>punc_ellipsis_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>punc_paren_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>punc_quote_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>punc_question_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>punct_density</code></td>
+<td><code>punct_paren_ratio</code></td>
 <td>—</td>
 <td>⚪</td>
 </tr>
@@ -5009,11 +5019,6 @@ other known-value tests live in their own files.</p>
 </tr>
 <tr>
 <td><code>consecutive_punct_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>whitespace_ratio</code></td>
 <td>—</td>
 <td>⚪</td>
 </tr>
@@ -5029,136 +5034,6 @@ other known-value tests live in their own files.</p>
 </tr>
 <tr>
 <td><code>all_caps_word_ratio</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_a</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_b</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_c</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_d</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_e</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_f</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_g</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_h</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_i</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_j</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_k</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_l</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_m</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_n</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_o</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_p</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_q</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_r</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_s</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_t</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_u</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_v</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_w</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_x</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_y</code></td>
-<td>—</td>
-<td>⚪</td>
-</tr>
-<tr>
-<td><code>char_z</code></td>
 <td>—</td>
 <td>⚪</td>
 </tr>

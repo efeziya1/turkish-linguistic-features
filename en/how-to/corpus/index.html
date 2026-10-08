@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
+        <meta name="description" content="Türkçe metinden 199, İngilizce metinden 172 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 199 quantitative linguistic features from Turkish text and 172 from English text">
       
       
       
@@ -2216,9 +2216,9 @@ analysis starts, listing every unreadable file by name.</p>
 <p>That is the whole chain.</p>
 <h2 id="what-comes-out">What comes out<a class="headerlink" href="#what-comes-out" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>row count:    3
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>column count: 211
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>column count: 202
 </code></pre></div>
-<p>One row per file. 215 columns = 212 features plus three identity columns:</p>
+<p>One row per file. 202 columns = 199 features plus three identity columns:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>label=author_a  source=text1     segment_id=0  ttr=1.0
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>label=author_a  source=text2     segment_id=0  ttr=1.0
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>label=author_b  source=text3     segment_id=0  ttr=1.0
@@ -2246,7 +2246,7 @@ analysis starts, listing every unreadable file by name.</p>
 </tbody>
 </table>
 <p>The CSV header:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>label,source,segment_id,n_lemma_count,avg_word_length,word_length_cv,entropy,yule_k,simpso...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>label,source,segment_id,lemma_count,word_count,word_len_mean,entropy,yu...
 </code></pre></div>
 <h2 id="watch-progress">Watch progress<a class="headerlink" href="#watch-progress" title="Permanent link">&para;</a></h2>
 <p>For a large corpus:</p>
@@ -2259,7 +2259,7 @@ analysis starts, listing every unreadable file by name.</p>
 <h2 id="split-files-into-segments">Split files into segments<a class="headerlink" href="#split-files-into-segments" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">rows</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"corpus/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 </code></pre></div>
-<p>For example, in a folder <code>one_file/</code> holding a single 648-token file:</p>
+<p>For example, in a folder <code>one_file/</code> holding a single 648-word file:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">whole</span>    <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"one_file/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">segments</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"one_file/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">whole</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">segments</span><span class="p">),</span> <span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="s2">"segment_id"</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">segments</span><span class="p">])</span>
@@ -2267,12 +2267,12 @@ analysis starts, listing every unreadable file by name.</p>
 <p>Output:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>1 3 [0, 1, 2]
 </code></pre></div>
-<p>648 ÷ 200 = 3 full segments; the remaining 48 tokens are dropped under the
+<p>648 ÷ 200 = 3 full segments; the remaining 48 words are dropped under the
 default <code>min_fill=1.0</code>.</p>
 <div class="admonition danger">
 <p class="admonition-title">Segmenting is per file, not across the corpus</p>
-<p><code>segment_size=1000</code> splits <strong>each file separately</strong> into 1000-token
-chunks. It does not concatenate the corpus and cut every 1000 tokens.
+<p><code>segment_size=1000</code> splits <strong>each file separately</strong> into 1000-word
+chunks. It does not concatenate the corpus and cut every 1000 words.
 So every file leaves a remainder shorter than <code>size</code>, and with the
 default <code>min_fill=1.0</code> that remainder is <strong>discarded</strong>.</p>
 <p>Why and when to segment →
@@ -2294,8 +2294,8 @@ default <code>min_fill=1.0</code> that remainder is <strong>discarded</strong>.<
 <a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>    <span class="n">warn</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]]</span>
 </code></pre></div>
-<p><code>groups</code>, <code>params</code>, <code>model</code> and <code>warn</code> mean the same as in <code>analyze</code> and
-apply to every segment.</p>
+<p><code>groups</code>, <code>params</code>, <code>model</code>, <code>custom_ngrams</code> and <code>warn</code> mean the same as in
+<code>analyze</code> and apply to every segment. <code>custom_ngrams</code> counts are per segment.</p>
 <h2 id="a-dataframe-instead-of-a-csv">A DataFrame instead of a CSV<a class="headerlink" href="#a-dataframe-instead-of-a-csv" title="Permanent link">&para;</a></h2>
 <p><code>save_csv</code> writes to disk. To stay in memory, the returned list is already
 <code>pandas</code>-ready:</p>

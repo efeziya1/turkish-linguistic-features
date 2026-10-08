@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
+        <meta name="description" content="Türkçe metinden 199, İngilizce metinden 172 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 199 quantitative linguistic features from Turkish text and 172 from English text">
       
       
       
@@ -1510,6 +1510,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#key-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key names
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#group" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1536,6 +1547,17 @@
     <span class="md-ellipsis">
       
         Scale
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#word-and-sentence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Word and sentence
       
     </span>
   </a>
@@ -2064,6 +2086,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#key-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key names
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#group" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2090,6 +2123,17 @@
     <span class="md-ellipsis">
       
         Scale
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#word-and-sentence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Word and sentence
       
     </span>
   </a>
@@ -2152,22 +2196,62 @@
 <h1 id="concepts">Concepts<a class="headerlink" href="#concepts" title="Permanent link">&para;</a></h1>
 <h2 id="feature">Feature<a class="headerlink" href="#feature" title="Permanent link">&para;</a></h2>
 <p>A <strong>feature</strong> is a single number extracted from a text. <code>ttr</code>,
-<code>avg_word_length</code>, <code>atesman</code> — each is one feature. Names are <code>snake_case</code>.
+<code>word_len_mean</code>, <code>atesman</code> — each is one feature. Names are <code>snake_case</code>.
 Until version 1.0 a key may be renamed; renamed keys are announced in the
 release notes.</p>
 <p>A feature is one of three things:</p>
 <ol>
 <li><strong>A named measure from the literature</strong> — <code>mattr</code>, <code>yule_k</code>,
    <code>flesch_reading_ease</code>. These have citations.</li>
-<li><strong>A category of an external tag scheme</strong> — <code>pos_noun</code> (UD),
-   <code>case_loc_ratio</code> (Zeyrek). The citation points at the scheme, not at the
+<li><strong>A category of an external tag scheme</strong> — <code>pos_noun_ratio</code> (UD),
+   <code>zeyrek_case_loc_ratio</code> (Zeyrek). The citation points at the scheme, not at the
    measure.</li>
-<li><strong>A plain definition</strong> — <code>punc_,_ratio</code> ("commas / words"). No citation,
+<li><strong>A plain definition</strong> — <code>punct_dash_ratio</code> ("dashes / all punctuation marks"). No citation,
    because there is nothing to attribute.</li>
 </ol>
-<p>Of 212 keys, 144 have a citation and 68 do not.</p>
+<p>Of 199 keys, 188 have a citation and 11 do not.</p>
+<h2 id="key-names">Key names<a class="headerlink" href="#key-names" title="Permanent link">&para;</a></h2>
+<p>A name is built so that it says what the feature measures:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>…_ratio</code></td>
+<td>A share between 0 and 1</td>
+<td><code>hapax_ratio</code>, <code>pos_noun_ratio</code></td>
+</tr>
+<tr>
+<td><code>…_mean</code>, <code>…_median</code></td>
+<td>Mean, median</td>
+<td><code>sent_len_mean</code>, <code>sent_len_median</code></td>
+</tr>
+<tr>
+<td><code>…_count</code></td>
+<td>A count</td>
+<td><code>word_count</code>, <code>lemma_count</code></td>
+</tr>
+<tr>
+<td>The name in the literature</td>
+<td>An established measure; no <code>_ratio</code></td>
+<td><code>ttr</code>, <code>mattr</code>, <code>yule_k</code>, <code>posddev</code></td>
+</tr>
+</tbody>
+</table>
+<p>The morphological features come from two analysers. Those from spaCy's UD
+tags have no prefix (<code>case_loc_ratio</code>); those from Zeyrek start with <code>zeyrek_</code>
+(<code>zeyrek_case_loc_ratio</code>). The two do not give the same number:
+<code>case_loc_ratio</code> is the locative's share among words that carry a case tag,
+<code>zeyrek_case_loc_ratio</code> its share among all analysed words. Zeyrek also tells
+the -DI past from the -mIş past (<code>zeyrek_tense_past_def_ratio</code>,
+<code>zeyrek_tense_past_nar_ratio</code>); in spaCy both are <code>tense_past_ratio</code>.</p>
 <h2 id="group">Group<a class="headerlink" href="#group" title="Permanent link">&para;</a></h2>
-<p>Features are organised into 13 groups (14 with the <code>ng_*</code> keys created when
+<p>Features are organised into 13 groups (14 with the <code>ngram_*</code> keys created when
 you pass <code>custom_ngrams</code>). A group is both an organising device
 and a selection device:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="s2">"readability"</span><span class="p">,</span> <span class="s2">"lexical"</span><span class="p">])</span>
@@ -2179,10 +2263,11 @@ and a selection device:</p>
 pattern:</p>
 <ul>
 <li><code>char_*</code> — the letter-frequency vector, one key per letter of the alphabet
-  (Turkish 29: <code>char_a</code>, <code>char_ç</code> … <code>char_z</code>; English 26)</li>
-<li><code>ng_*</code> — n-gram counters created when you pass <code>custom_ngrams</code></li>
+  (Turkish 29: <code>char_a_ratio</code>, <code>char_ç_ratio</code> … <code>char_z_ratio</code>; English 26)</li>
+<li><code>ngram_*</code> — n-gram counters created when you pass <code>custom_ngrams</code>
+  (<a href="../../how-to/single-text/#count-your-own-phrases">how</a>)</li>
 </ul>
-<p>If you call <code>describe_feature("char_a")</code>, the <code>formula</code> and <code>requires</code>
+<p>If you call <code>describe_feature("char_a_ratio")</code>, the <code>formula</code> and <code>requires</code>
 fields are the <strong>group-level</strong> statement, not something specific to that
 letter.</p>
 <h2 id="scale">Scale<a class="headerlink" href="#scale" title="Permanent link">&para;</a></h2>
@@ -2209,12 +2294,7 @@ letter.</p>
 <tr>
 <td><code>length</code></td>
 <td>A mean length in characters, words or sentences</td>
-<td><code>avg_word_length</code>, <code>avg_sent_len_word</code></td>
-</tr>
-<tr>
-<td><code>cv</code></td>
-<td>Coefficient of variation (standard deviation / mean)</td>
-<td><code>sentence_length_cv</code></td>
+<td><code>word_len_mean</code>, <code>sent_len_mean</code></td>
 </tr>
 <tr>
 <td><code>nats</code></td>
@@ -2222,35 +2302,46 @@ letter.</p>
 <td><code>entropy</code>, <code>punct_entropy</code></td>
 </tr>
 <tr>
-<td><code>signed</code></td>
-<td>A value that can be negative (slope, skewness)</td>
-<td><code>ttr_moving_slope</code>, <code>sent_len_skewness</code></td>
-</tr>
-<tr>
 <td><code>count</code></td>
 <td>A count</td>
-<td><code>n_lemma_count</code></td>
+<td><code>lemma_count</code></td>
 </tr>
 </tbody>
 </table>
 <p>Two <code>ratio_0_1</code> features can share an axis; putting a <code>score</code> next to them
 misleads.</p>
+<h2 id="word-and-sentence">Word and sentence<a class="headerlink" href="#word-and-sentence" title="Permanent link">&para;</a></h2>
+<p>Features count words and sentences with the library's own rules, not with
+the model's tokens:</p>
+<ul>
+<li><strong>Word</strong> — a whitespace-separated piece with edge punctuation stripped,
+  containing a letter or digit. <code>e-posta</code>, <code>%50</code> and numbers are one word
+  each. Every feature except the dependency group counts this word.</li>
+<li><strong>Sentence</strong> — <code>. ? ! …</code> end a sentence; <code>:</code> only when a new sentence
+  follows. Abbreviations such as <code>Dr.</code> do not.</li>
+<li><strong>A word's tags</strong> — the part of speech, morphological tags and lemma come
+  from the first token inside the word. Turkish lemmas are Zeyrek's dictionary
+  entry, English lemmas spaCy's.</li>
+</ul>
+<p><code>describe_feature(key)["definitions"]</code> names the rule a feature uses.</p>
 <h2 id="the-pipeline">The pipeline<a class="headerlink" href="#the-pipeline" title="Permanent link">&para;</a></h2>
 <p>When you call <code>analyze</code>, this happens in order:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>raw text
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>   ↓  spaCy (tr_core_news_md / en_core_web_sm)
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>surface tokens · lemmas · POS tags · dependency tree · sentence boundaries
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>tokens · POS tags · morphological tags · dependency tree · English lemmas
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>   ↓  Zeyrek (Turkish only)
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>suffix analysis
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>   ↓  feature extractors
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>212 numbers
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>suffix analysis · Turkish lemmas
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>   ↓  the library's own rules
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>word and sentence boundaries; each word takes its tags from its own token
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>   ↓  feature extractors
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>199 numbers
 </code></pre></div>
 <p>Two consequences:</p>
 <ol>
-<li><strong>The spaCy model is part of the result.</strong> Change the model and
-   sentence splitting, POS tags and dependency features change with it.
+<li><strong>The spaCy model is part of the result.</strong> Change the model and the
+   tokens, POS, morphological and dependency features change with it.
    State which model you used in your methods section.</li>
-<li><strong>Preprocessing runs once.</strong> All 212 features draw on the same analysis,
+<li><strong>Preprocessing runs once.</strong> All 199 features draw on the same analysis,
    so asking for fewer <code>groups</code> does not speed up preprocessing — it only
    shortens the extraction step.</li>
 </ol>

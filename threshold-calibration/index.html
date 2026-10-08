@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
+        <meta name="description" content="Türkçe metinden 199, İngilizce metinden 172 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 199 quantitative linguistic features from Turkish text and 172 from English text">
       
       
       
@@ -1947,6 +1947,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#why-the-15th85th-2026-10-08" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why the 15th/85th (2026-10-08)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#raw-percentile-table" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2098,6 +2109,17 @@
   
     <nav class="md-nav" aria-label="Method">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-the-15th85th-2026-10-08" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why the 15th/85th (2026-10-08)
+      
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#raw-percentile-table" class="md-nav__link">
@@ -2285,6 +2307,77 @@ sentence was needed.</p>
 <p>The 15th and 85th percentiles were chosen as thresholds. A criterion such as
 "mean of the outliers" was not used, because defining an outlier already
 requires a threshold, and deriving the threshold from it would be circular.</p>
+<h3 id="why-the-15th85th-2026-10-08">Why the 15th/85th (2026-10-08)<a class="headerlink" href="#why-the-15th85th-2026-10-08" title="Permanent link">&para;</a></h3>
+<p>The candidate percentile pairs were compared on the same columns: for every article
+<code>short_sent_ratio</code> and <code>long_sent_ratio</code> were computed, and the share of the
+between-article differences explained by author (η², one-way analysis of variance)
+was measured.</p>
+<table>
+<thead>
+<tr>
+<th>Pair</th>
+<th>TR thresholds</th>
+<th>TR η² short</th>
+<th>TR η² long</th>
+<th>EN thresholds</th>
+<th>EN η² short</th>
+<th>EN η² long</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5/95</td>
+<td>2 / 25</td>
+<td>0.305</td>
+<td>0.501</td>
+<td>5 / 43</td>
+<td>0.275</td>
+<td>0.518</td>
+</tr>
+<tr>
+<td>10/90</td>
+<td>3 / 20</td>
+<td>0.425</td>
+<td>0.549</td>
+<td>7 / 36</td>
+<td>0.371</td>
+<td>0.549</td>
+</tr>
+<tr>
+<td><strong>15/85</strong></td>
+<td><strong>4 / 17</strong></td>
+<td><strong>0.484</strong></td>
+<td><strong>0.571</strong></td>
+<td><strong>8 / 32</strong></td>
+<td><strong>0.394</strong></td>
+<td><strong>0.545</strong></td>
+</tr>
+<tr>
+<td>20/80</td>
+<td>5 / 16</td>
+<td>0.517</td>
+<td>0.573</td>
+<td>10 / 29</td>
+<td>0.449</td>
+<td>0.532</td>
+</tr>
+<tr>
+<td>25/75</td>
+<td>5 / 14</td>
+<td>0.517</td>
+<td>0.576</td>
+<td>11 / 27</td>
+<td>0.469</td>
+<td>0.522</td>
+</tr>
+</tbody>
+</table>
+<p>η² alone does not pick a pair: for the short-sentence share it keeps rising as the
+threshold moves toward the median, because the share then rests on more sentences.
+At that point "short" is no longer an extreme (at 25/75, 19% of Turkish sentences
+count as short). Among the pairs that still measure the extremes, 15/85 is more
+discriminating than 10/90 on three of four measures; on English long sentences
+10/90 is marginally ahead (0.549 against 0.545).</p>
 <h3 id="raw-percentile-table">Raw percentile table<a class="headerlink" href="#raw-percentile-table" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -2494,16 +2587,12 @@ TR 4/17, EN 8/32 (above).</p>
 of variance in <code>short_sent_ratio</code> and <code>long_sent_ratio</code> explained by author identity
 (η²); 15th/85th was equally or more discriminating on all four measures (TR short
 0.2745 / 0.2745; TR long 0.4021 / 0.4194; EN short 0.0893 / 0.1279; EN long 0.2701 /
-0.2801). That comparison was <strong>not repeated</strong> on the new corpora; the choice of
-15th/85th rests on the earlier result.</p>
+0.2801). The comparison was repeated on the columns on 2026-10-08 (above, "Why the
+15th/85th").</p>
 <h2 id="scope">Scope<a class="headerlink" href="#scope" title="Permanent link">&para;</a></h2>
 <p><strong>The thresholds were calibrated on newspaper columns.</strong> A column is a single genre.</p>
-<p>Novels give another distribution because dialogue lines produce very short
-sentences: in Turkish novels (126 books, 992,259 sentences) under the default rule and word,
-26.5% of sentences are shorter than 4 words and 7.6% longer than 17 (12.2% and 15.0% in
-columns). There is
-also <strong>no guarantee</strong> that the same thresholds suit technical writing, transcripts,
-poetry, legal text or textbooks. If you work with those genres, compute the
+<p>There is <strong>no guarantee</strong> that the same thresholds suit novels, technical
+writing, transcripts, poetry, legal text or textbooks. If you work with those genres, compute the
 percentiles of your own corpus and pass them through <code>FeatureParams</code>.</p>
 <p>Also, <code>short_sent_ratio</code> and <code>long_sent_ratio</code> are <strong>not comparable across the two
 languages</strong>: the same-named column is measured with a different threshold in each.

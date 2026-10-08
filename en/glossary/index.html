@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
+        <meta name="description" content="Türkçe metinden 199, İngilizce metinden 172 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 199 quantitative linguistic features from Turkish text and 172 from English text">
       
       
       
@@ -2146,12 +2146,36 @@ pages.</p>
 </thead>
 <tbody>
 <tr>
+<td><strong>word</strong></td>
+<td>A whitespace-separated piece with edge punctuation stripped, containing a letter or digit; the word the library counts</td>
+</tr>
+<tr>
+<td><strong>sentence</strong></td>
+<td>A unit ending in <code>. ? ! …</code>; <code>:</code> only when a new sentence follows</td>
+</tr>
+<tr>
+<td><strong>spaCy token</strong></td>
+<td>The unit the model splits text into; punctuation is a token of its own. The dependency features count these</td>
+</tr>
+<tr>
+<td><strong>lemma</strong></td>
+<td>A word's dictionary form; from Zeyrek for Turkish, from spaCy for English</td>
+</tr>
+<tr>
+<td><strong>POS tag</strong></td>
+<td>One of the 17 UD part-of-speech tags (<code>NOUN</code>, <code>VERB</code>, <code>ADJ</code>…)</td>
+</tr>
+<tr>
+<td><strong>n-gram</strong></td>
+<td>A sequence of consecutive words; counted with <code>custom_ngrams</code></td>
+</tr>
+<tr>
 <td><strong>type</strong></td>
 <td>One of the distinct words in a text</td>
 </tr>
 <tr>
 <td><strong>token</strong></td>
-<td>One of the word instances in a text</td>
+<td>In the type-token ratio: one of the word instances in a text</td>
 </tr>
 <tr>
 <td><strong>type-token ratio (TTR)</strong></td>
@@ -2167,7 +2191,7 @@ pages.</p>
 </tr>
 <tr>
 <td><strong>window</strong></td>
-<td>The number of tokens examined at a time in a rolling computation</td>
+<td>The number of words examined at a time in a rolling computation</td>
 </tr>
 <tr>
 <td><strong>threshold</strong></td>

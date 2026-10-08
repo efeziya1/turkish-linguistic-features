@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
+        <meta name="description" content="Türkçe metinden 199, İngilizce metinden 172 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 199 quantitative linguistic features from Turkish text and 172 from English text">
       
       
       
@@ -1921,6 +1921,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#neden-1585-2026-10-08" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Neden 15./85. (2026-10-08)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ham-yuzdelik-tablosu" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2100,6 +2111,17 @@
   
     <nav class="md-nav" aria-label="Yöntem">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#neden-1585-2026-10-08" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Neden 15./85. (2026-10-08)
+      
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#ham-yuzdelik-tablosu" class="md-nav__link">
@@ -2285,6 +2307,75 @@ noktalaması atılan ve harf ya da rakam içeren birim (<code>sentence</code> gr
 <p>Eşik olarak 15. ve 85. yüzdelik seçildi. "Aykırı değer ortalaması" gibi bir
 ölçüt kullanılmadı, çünkü "aykırı değer" tanımı zaten bir eşik gerektirir ve
 eşiği oradan türetmek döngüsel olurdu.</p>
+<h3 id="neden-1585-2026-10-08">Neden 15./85. (2026-10-08)<a class="headerlink" href="#neden-1585-2026-10-08" title="Permanent link">&para;</a></h3>
+<p>Aday yüzdelik çiftleri aynı köşe yazılarında karşılaştırıldı: her yazı için
+<code>short_sent_ratio</code> ve <code>long_sent_ratio</code> hesaplandı ve yazılar arasındaki farkın ne
+kadarının yazardan geldiği (η², tek yönlü varyans analizi) ölçüldü.</p>
+<table>
+<thead>
+<tr>
+<th>Çift</th>
+<th>TR eşik</th>
+<th>TR η² kısa</th>
+<th>TR η² uzun</th>
+<th>EN eşik</th>
+<th>EN η² kısa</th>
+<th>EN η² uzun</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5/95</td>
+<td>2 / 25</td>
+<td>0,305</td>
+<td>0,501</td>
+<td>5 / 43</td>
+<td>0,275</td>
+<td>0,518</td>
+</tr>
+<tr>
+<td>10/90</td>
+<td>3 / 20</td>
+<td>0,425</td>
+<td>0,549</td>
+<td>7 / 36</td>
+<td>0,371</td>
+<td>0,549</td>
+</tr>
+<tr>
+<td><strong>15/85</strong></td>
+<td><strong>4 / 17</strong></td>
+<td><strong>0,484</strong></td>
+<td><strong>0,571</strong></td>
+<td><strong>8 / 32</strong></td>
+<td><strong>0,394</strong></td>
+<td><strong>0,545</strong></td>
+</tr>
+<tr>
+<td>20/80</td>
+<td>5 / 16</td>
+<td>0,517</td>
+<td>0,573</td>
+<td>10 / 29</td>
+<td>0,449</td>
+<td>0,532</td>
+</tr>
+<tr>
+<td>25/75</td>
+<td>5 / 14</td>
+<td>0,517</td>
+<td>0,576</td>
+<td>11 / 27</td>
+<td>0,469</td>
+<td>0,522</td>
+</tr>
+</tbody>
+</table>
+<p>η² tek başına bir çift seçmez: kısa cümle payında eşik medyana yaklaştıkça sürekli
+artar, çünkü pay daha çok cümleye dayanır. Ama o noktada "kısa" uç olmaktan çıkar
+(25/75'te Türkçe cümlelerin %19'u kısa sayılır). 15/85, uçları ölçmeyi koruyan
+çiftler içinde 10/90'dan dört ölçümün üçünde daha ayırt edici; İngilizce uzun
+cümlede 10/90 çok az önde (0,549'a 0,545).</p>
 <h3 id="ham-yuzdelik-tablosu">Ham yüzdelik tablosu<a class="headerlink" href="#ham-yuzdelik-tablosu" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -2492,15 +2583,12 @@ tanımı değişince TR 4/17, EN 8/32 oldu (yukarıda).</p>
 değerlerinin yazar kimliği tarafından açıklanan varyans oranı (η²) ile
 karşılaştırılmıştı; 15./85. dört ölçümün hepsinde eşit ya da daha ayırt ediciydi
 (TR short 0,2745 / 0,2745; TR long 0,4021 / 0,4194; EN short 0,0893 / 0,1279; EN long
-0,2701 / 0,2801). Bu karşılaştırma yeni korpusta <strong>tekrarlanmadı</strong>; 15./85. seçimi
-önceki sonuca dayanır.</p>
+0,2701 / 0,2801). Karşılaştırma 2026-10-08'de köşe yazılarında yeniden yapıldı
+(yukarıda, "Neden 15./85.").</p>
 <h2 id="kapsam-snr">Kapsam sınırı<a class="headerlink" href="#kapsam-snr" title="Permanent link">&para;</a></h2>
 <p><strong>Eşikler gazete köşe yazılarıyla kalibre edildi.</strong> Köşe yazısı tek bir tür.</p>
-<p>Romanda diyalog satırları çok kısa cümle ürettiği için aynı eşikler başka dağılım verir:
-Türkçe romanda (126 kitap, 992.259 cümle) varsayılan kural ve kelimeyle cümlelerin %26,5'i
-4 sözcükten kısa, %7,6'sı 17 sözcükten uzun (köşe yazısında %12,2 ve %15,0). Teknik metin, transkript,
-şiir, hukuk metni ya da ders kitabında da eşiklerin uygun olacağı <strong>garanti
-değildir</strong>. Bu türlerle çalışıyorsanız kendi korpusunuzun yüzdeliklerini hesaplayıp
+<p>Roman, teknik metin, transkript, şiir, hukuk metni ya da ders kitabında eşiklerin
+uygun olacağı <strong>garanti değildir</strong>. Bu türlerle çalışıyorsanız kendi korpusunuzun yüzdeliklerini hesaplayıp
 <code>FeatureParams</code> ile geçirin.</p>
 <p>Ayrıca <code>short_sent_ratio</code> ve <code>long_sent_ratio</code> <strong>iki dilde kıyaslanamaz</strong>: aynı
 isimli sütun iki dilde farklı eşikle ölçülür. "Türkçe metinler daha kısa

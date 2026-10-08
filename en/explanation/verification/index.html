@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
+        <meta name="description" content="Türkçe metinden 199, İngilizce metinden 172 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 199 quantitative linguistic features from Turkish text and 172 from English text">
       
       
       
@@ -1610,10 +1610,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#why-43-rows-are-still-open" class="md-nav__link">
+  <a href="#why-94-rows-are-still-open" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why 43 rows are still 🔍 open
+        Why 94 rows are still 🔍 open
       
     </span>
   </a>
@@ -2158,10 +2158,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#why-43-rows-are-still-open" class="md-nav__link">
+  <a href="#why-94-rows-are-still-open" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why 43 rows are still 🔍 open
+        Why 94 rows are still 🔍 open
       
     </span>
   </a>
@@ -2277,12 +2277,12 @@ misread.</p>
 <tr>
 <td><strong>Formula equivalence</strong></td>
 <td>The code implements the equation in the source. The citation gives page and equation number; tests exercise the formula and its edge cases.</td>
-<td>The 140 features with a citation (Turkish; the other 68 are plain definitions with no source)</td>
+<td>The 188 features with a citation (Turkish; the other 11 are plain definitions with no source)</td>
 </tr>
 <tr>
 <td><strong>Source-number verification</strong></td>
 <td>A number the source <em>published</em> was found and compared against our output.</td>
-<td>48 of 91 candidate report rows (Turkish)</td>
+<td>48 of 142 candidate report rows (Turkish)</td>
 </tr>
 </tbody>
 </table>
@@ -2290,12 +2290,13 @@ misread.</p>
 feature marked "🔍 open" does <strong>not</strong> have a questionable formula; no published
 number was found to compare against. Yule (1944) defines K but never prints
 what K comes to in a novel — his not printing it does not make our K wrong.</p>
-<p>Every feature has its formula written out. The 68 features without a citation
-are plain definitions (a letter's or a punctuation mark's share, for example);
+<p>Every feature has its formula written out. The 11 features without a citation
+are plain definitions (the dash's share of punctuation marks or the number of
+distinct lemmas, for example);
 they rest on no source, so there is no source equation to match.</p>
 <h2 id="first-not-every-feature-can-be-verified">First: not every feature can be verified<a class="headerlink" href="#first-not-every-feature-can-be-verified" title="Permanent link">&para;</a></h2>
 <p>This distinction is the most important part of the report. By definition,
-some of the 212 features are <strong>not even candidates</strong> for verification:</p>
+some of the 199 features are <strong>not even candidates</strong> for verification:</p>
 <table>
 <thead>
 <tr>
@@ -2306,20 +2307,20 @@ some of the 212 features are <strong>not even candidates</strong> for verificati
 <tbody>
 <tr>
 <td>⚪ <strong>no source</strong></td>
-<td>A plain definition. <code>punc_,_ratio</code> means "commas / words"; there is no number in the literature to look for. The letter-frequency vector alone is 29 keys (Turkish).</td>
+<td>A plain definition. <code>punct_dash_ratio</code> means "dashes / all punctuation marks"; there is no number in the literature to look for.</td>
 </tr>
 <tr>
 <td>⚫ <strong>tag scheme</strong></td>
-<td>Not a measure but a count of an external scheme's categories. <code>pos_noun</code> → UD, <code>case_loc_ratio</code> → Zeyrek. <strong>A scheme defines categories; it does not publish measurements</strong> — de Marneffe's paper does not print "morph_case_loc = 0.07", and could not.</td>
+<td>Not a measure but a count of an external scheme's categories. <code>pos_noun_ratio</code> → UD, <code>zeyrek_case_loc_ratio</code> → Zeyrek. <strong>A scheme defines categories; it does not publish measurements</strong> — de Marneffe's paper does not print "case_loc_ratio = 0.07", and could not.</td>
 </tr>
 <tr>
 <td>🔧 <strong>derivative</strong></td>
-<td>The formula is from a source, <strong>the application is ours</strong>. <code>entropy_std</code> is Shannon's entropy, but taking its standard deviation across segments is ours; <code>long_sent_ratio</code>'s threshold comes from our own calibration. Nobody has published these measures — testing them against our own calibration would be reading our own answer sheet.</td>
+<td>The formula is from a source, <strong>the application is ours</strong>. <code>sent_len_entropy</code> is Shannon's entropy, but applying it to sentence lengths is ours; <code>long_sent_ratio</code>'s threshold comes from our own calibration. Nobody has published these measures — testing them against our own calibration would be reading our own answer sheet.</td>
 </tr>
 </tbody>
 </table>
-<p>On the Turkish side <strong>142 rows</strong> are one of these three. That leaves
-<strong>91 verification candidates</strong>. That is the real denominator.</p>
+<p>On the Turkish side <strong>82 rows</strong> are one of these three. That leaves
+<strong>142 verification candidates</strong>. That is the real denominator.</p>
 <h2 id="the-four-statuses-a-candidate-can-have">The four statuses a candidate can have<a class="headerlink" href="#the-four-statuses-a-candidate-can-have" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -2347,8 +2348,8 @@ some of the 212 features are <strong>not even candidates</strong> for verificati
 </tr>
 </tbody>
 </table>
-<p>Where things stand today: <strong>48 of the 91 candidates are done</strong> (46 ✅ +
-2 🟡), 43 are 🔍 open.</p>
+<p>Where things stand today: <strong>48 of the 142 candidates are done</strong> (46 ✅ +
+2 🟡), 94 are 🔍 open.</p>
 <p>The tolerance is <strong>1% of the published value</strong> (relative). Sources print
 rounded intermediate values, so exact equality is not expected. A relative
 tolerance means the same at every scale: the old fixed 0.05 was far too loose
@@ -2371,7 +2372,7 @@ step leading to it is correct.</p>
 "syllables per word 2.2 and words per sentence 4". It verifies the formula
 and its coefficients, not the pipeline. It is what is available when the
 source published no text.</p>
-<h2 id="why-43-rows-are-still-open">Why 43 rows are still 🔍 open<a class="headerlink" href="#why-43-rows-are-still-open" title="Permanent link">&para;</a></h2>
+<h2 id="why-94-rows-are-still-open">Why 94 rows are still 🔍 open<a class="headerlink" href="#why-94-rows-are-still-open" title="Permanent link">&para;</a></h2>
 <p>The source published the formula but never applied it to a text and printed
 the result. In quantitative linguistics this is <strong>ordinary</strong>. Yule (1944)
 defines K; he does not print what K comes to for a particular novel. With no
@@ -2406,7 +2407,7 @@ comparison <em>against the source's number</em>.</p>
 <td><code>lexical</code></td>
 <td>6</td>
 <td>1</td>
-<td>22</td>
+<td>29</td>
 </tr>
 <tr>
 <td><code>phonetic</code></td>
@@ -2534,7 +2535,7 @@ and quietly left out of the report.</p>
   not been compared against a number the source published. Give the citation;
   do not say "verified against the source's own number".</li>
 <li><strong>⚪ no source</strong> — the library's own definition, because there is no number in
-  the literature to look for (<code>punc_,_ratio</code> = commas / words).</li>
+  the literature to look for (<code>punct_dash_ratio</code> = dashes / all punctuation marks).</li>
 <li><strong>⚫ tag scheme</strong> — the number is ours, the categories are the scheme's.
   Cite the scheme (UD or Zeyrek), not a measure.</li>
 <li><strong>🔧 derivative</strong> — the formula is the source's; the decision to apply that
@@ -2545,11 +2546,11 @@ and quietly left out of the report.</p>
 <p>In these two cases you do not have to write the measure's definition from
 scratch for your methods section. The registry keeps a citable definition for
 every feature:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"entropy_std"</span><span class="p">)[</span><span class="s2">"formula"</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"sent_len_entropy"</span><span class="p">)[</span><span class="s2">"formula"</span><span class="p">]</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>'population std of entropies (nats) of disjoint mattr_window-word chunks'
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>'Shannon entropy (nats) of the distribution of words per sentence'
 </code></pre></div>
-<p>Six examples:</p>
+<p>Five examples:</p>
 <table>
 <thead>
 <tr>
@@ -2559,11 +2560,6 @@ every feature:</p>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><code>entropy_std</code></td>
-<td>population standard deviation of the entropies (nats) of disjoint <code>mattr_window</code>-word chunks</td>
-<td>the entropy formula — Shannon (1948)</td>
-</tr>
 <tr>
 <td><code>punct_entropy</code></td>
 <td>Shannon entropy (nats) of the distribution over the ten mark types</td>
@@ -2594,12 +2590,12 @@ every feature:</p>
 <p>The one requirement is getting the attribution right: cite the source of the
 formula, but do not attribute the measure itself to that source.</p>
 <ul>
-<li>✗ "the Shannon (1948) <code>entropy_std</code> measure"</li>
-<li>✓ "the standard deviation of Shannon (1948) entropy across segments
+<li>✗ "the Shannon (1948) <code>sent_len_entropy</code> measure"</li>
+<li>✓ "Shannon (1948) entropy applied to the distribution of sentence lengths
   (as defined by turkish-linguistic-features)"</li>
 </ul>
 <p>The first wording implies a measure the reader could look up in the source and
-find. Shannon defined the entropy, not its standard deviation across segments.</p>
+find. Shannon defined the entropy; he did not apply it to sentence lengths.</p>
 
 
 

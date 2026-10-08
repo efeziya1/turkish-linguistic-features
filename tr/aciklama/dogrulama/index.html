@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
+        <meta name="description" content="Türkçe metinden 199, İngilizce metinden 172 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 199 quantitative linguistic features from Turkish text and 172 from English text">
       
       
       
@@ -1022,10 +1022,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#neden-43-satr-hala-ack" class="md-nav__link">
+  <a href="#neden-94-satr-hala-ack" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Neden 43 satır hâlâ 🔍 açık
+        Neden 94 satır hâlâ 🔍 açık
       
     </span>
   </a>
@@ -2158,10 +2158,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#neden-43-satr-hala-ack" class="md-nav__link">
+  <a href="#neden-94-satr-hala-ack" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Neden 43 satır hâlâ 🔍 açık
+        Neden 94 satır hâlâ 🔍 açık
       
     </span>
   </a>
@@ -2275,12 +2275,12 @@ yanlış okunuyor.</p>
 <tr>
 <td><strong>Formül eşdeğerliği</strong></td>
 <td>Kod, kaynaktaki denklemi uyguluyor. Künye sayfa ve denklem numarası verir; testler formülü ve sınır durumlarını sınar.</td>
-<td>Künyesi olan 140 öznitelik (Türkçe; 68'i saf tanım, kaynağı yok)</td>
+<td>Künyesi olan 188 öznitelik (Türkçe; 11'i saf tanım, kaynağı yok)</td>
 </tr>
 <tr>
 <td><strong>Kaynak sayısı doğrulaması</strong></td>
 <td>Kaynağın <em>yayımladığı bir sayı</em> bulundu ve bizim çıktımızla karşılaştırıldı.</td>
-<td>91 aday rapor satırının 48'i (Türkçe)</td>
+<td>142 aday rapor satırının 48'i (Türkçe)</td>
 </tr>
 </tbody>
 </table>
@@ -2288,11 +2288,11 @@ yanlış okunuyor.</p>
 açık" diye işaretliyse <strong>formülü şüpheli değildir</strong>; karşılaştırılacak
 yayımlanmış bir sayı bulunamamıştır. Yule (1944) K'yı tanımlar, bir romanda
 K'nın kaç çıktığını basmaz — basmadığı için bizim K'mız yanlış olmuyor.</p>
-<p>Her özniteliğin formülü yazılıdır. Künyesi olmayan 68 öznitelik saf tanımdır
-(bir harfin ya da noktalama işaretinin payı gibi); bir kaynağa dayanmadıkları
+<p>Her özniteliğin formülü yazılıdır. Künyesi olmayan 11 öznitelik saf tanımdır
+(tirenin noktalama işaretleri içindeki payı ya da farklı lemma sayısı gibi); bir kaynağa dayanmadıkları
 için kaynakla eşlenecek bir denklemleri de yoktur.</p>
 <h2 id="once-her-oznitelik-dogrulanamaz">Önce: her öznitelik doğrulanamaz<a class="headerlink" href="#once-her-oznitelik-dogrulanamaz" title="Permanent link">&para;</a></h2>
-<p>Bu ayrım raporun en önemli parçası. 212 özniteliğin bir kısmı, tanımı gereği
+<p>Bu ayrım raporun en önemli parçası. 199 özniteliğin bir kısmı, tanımı gereği
 <strong>doğrulama adayı bile değildir</strong>:</p>
 <table>
 <thead>
@@ -2304,19 +2304,19 @@ için kaynakla eşlenecek bir denklemleri de yoktur.</p>
 <tbody>
 <tr>
 <td>⚪ <strong>kaynak yok</strong></td>
-<td>Saf tanım. <code>punc_,_ratio</code> "virgül / kelime" demektir; aranacak bir literatür sayısı yoktur. Harf sıklık vektörü tek başına 29 anahtar (Türkçe).</td>
+<td>Saf tanım. <code>punct_dash_ratio</code> "tire / bütün noktalama işaretleri" demektir; aranacak bir literatür sayısı yoktur.</td>
 </tr>
 <tr>
 <td>⚫ <strong>etiket şeması</strong></td>
-<td>Bir ölçü değil, dış bir şemanın kategorisini sayıyor. <code>pos_noun</code> → UD, <code>case_loc_ratio</code> → Zeyrek. <strong>Şema kategori tanımlar, ölçüm yayımlamaz</strong> — de Marneffe'in makalesi "morph_case_loc = 0,07" diye bir sayı basmaz, basamaz.</td>
+<td>Bir ölçü değil, dış bir şemanın kategorisini sayıyor. <code>pos_noun_ratio</code> → UD, <code>zeyrek_case_loc_ratio</code> → Zeyrek. <strong>Şema kategori tanımlar, ölçüm yayımlamaz</strong> — de Marneffe'in makalesi "case_loc_ratio = 0,07" diye bir sayı basmaz, basamaz.</td>
 </tr>
 <tr>
 <td>🔧 <strong>türev</strong></td>
-<td>Formül bir kaynaktan, <strong>uygulaması bizden</strong>. <code>entropy_std</code> Shannon'ın entropisidir ama parçalar arası standart sapması bizim; <code>long_sent_ratio</code>'nun eşiği kendi kalibrasyonumuzdan gelir. Bu ölçüleri kimse yayımlamadı — kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu.</td>
+<td>Formül bir kaynaktan, <strong>uygulaması bizden</strong>. <code>sent_len_entropy</code> Shannon'ın entropisidir ama cümle uzunluklarına uygulanması bizim; <code>long_sent_ratio</code>'nun eşiği kendi kalibrasyonumuzdan gelir. Bu ölçüleri kimse yayımlamadı — kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu.</td>
 </tr>
 </tbody>
 </table>
-<p>Türkçe tarafında <strong>142 satır</strong> bu üçünden biri. Geriye <strong>91 doğrulama
+<p>Türkçe tarafında <strong>82 satır</strong> bu üçünden biri. Geriye <strong>142 doğrulama
 adayı</strong> kalıyor. Gerçek payda budur.</p>
 <h2 id="aday-satrlarn-dort-durumu">Aday satırların dört durumu<a class="headerlink" href="#aday-satrlarn-dort-durumu" title="Permanent link">&para;</a></h2>
 <table>
@@ -2345,7 +2345,7 @@ adayı</strong> kalıyor. Gerçek payda budur.</p>
 </tr>
 </tbody>
 </table>
-<p>Bugünkü durum: <strong>91 adayın 48'i bitmiş</strong> (46 ✅ + 2 🟡), 43'ü 🔍 açık.</p>
+<p>Bugünkü durum: <strong>142 adayın 48'i bitmiş</strong> (46 ✅ + 2 🟡), 94'ü 🔍 açık.</p>
 <p>Tolerans yayımlanan değerin <strong>%1'i</strong> (göreli). Kaynaklar ara değerleri
 yuvarlayarak bastığı için mutlak eşitlik beklenmez. Göreli tolerans her ölçekte
 aynı şeyi söyler: eskiden sabit 0,05 fark, 0–1 arası oranlarda (<code>ttr</code>) çok
@@ -2364,7 +2364,7 @@ sayı tutuyorsa yalnız formül değil, ona giden bütün adımlar doğrudur.</p
 <p><strong>Formül</strong>, fonksiyona girdileri doğrudan verir — örneğin "hece/sözcük 2,2
 ve sözcük/cümle 4". Formülü ve katsayıları doğrular, boru hattını
 doğrulamaz. Kaynak bir metin yayımlamamışsa elde olan budur.</p>
-<h2 id="neden-43-satr-hala-ack">Neden 43 satır hâlâ 🔍 açık<a class="headerlink" href="#neden-43-satr-hala-ack" title="Permanent link">&para;</a></h2>
+<h2 id="neden-94-satr-hala-ack">Neden 94 satır hâlâ 🔍 açık<a class="headerlink" href="#neden-94-satr-hala-ack" title="Permanent link">&para;</a></h2>
 <p>Kaynak formülü yayımlamış ama o formülü bir metne uygulayıp sonucu basmamış.
 Bu, nicel dilbilim literatüründe <strong>olağandır</strong>. Yule (1944) K'yı tanımlar,
 bir romanda K'nın kaç çıktığını basmaz. Böyle bir sayı olmayınca
@@ -2399,7 +2399,7 @@ karşılaştırmayı takip eder.</p>
 <td><code>lexical</code></td>
 <td>6</td>
 <td>1</td>
-<td>22</td>
+<td>29</td>
 </tr>
 <tr>
 <td><code>phonetic</code></td>
@@ -2516,7 +2516,7 @@ girmemesi mümkün değil.</p>
   yayımladığı bir sayıyla karşılaştırılmamış. Künyeyi verin; "kaynağın kendi
   sayısıyla doğrulandı" demeyin.</li>
 <li><strong>⚪ kaynak yok</strong> — bu kütüphanenin tanımı, çünkü aranacak bir literatür
-  sayısı yok (<code>punc_,_ratio</code> = virgül / kelime).</li>
+  sayısı yok (<code>punct_dash_ratio</code> = tire / bütün noktalama işaretleri).</li>
 <li><strong>⚫ etiket şeması</strong> — sayının kendisi bizim, kategoriler şemanın.
   Şemayı kaynak gösterin (UD ya da Zeyrek), ölçüyü değil.</li>
 <li><strong>🔧 türev</strong> — formül kaynağın, o formülü bu veriye uygulama kararı bizim.</li>
@@ -2526,11 +2526,11 @@ girmemesi mümkün değil.</p>
 <p>Bu iki durumda ölçünün tanımını yöntem bölümünüz için sıfırdan yazmanız
 gerekmiyor. Kayıt defteri her öznitelik için alıntılanabilir bir tanım
 tutuyor:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"entropy_std"</span><span class="p">)[</span><span class="s2">"formula"</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"sent_len_entropy"</span><span class="p">)[</span><span class="s2">"formula"</span><span class="p">]</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>'population std of entropies (nats) of disjoint mattr_window-word chunks'
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>'Shannon entropy (nats) of the distribution of words per sentence'
 </code></pre></div>
-<p>Örnek olarak altısı:</p>
+<p>Örnek olarak beşi:</p>
 <table>
 <thead>
 <tr>
@@ -2540,11 +2540,6 @@ tutuyor:</p>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><code>entropy_std</code></td>
-<td>ayrık <code>mattr_window</code> kelimelik parçaların entropilerinin (nat) popülasyon standart sapması</td>
-<td>entropi formülü — Shannon (1948)</td>
-</tr>
 <tr>
 <td><code>punct_entropy</code></td>
 <td>on noktalama türünün dağılımının Shannon entropisi (nat)</td>
@@ -2575,13 +2570,12 @@ tutuyor:</p>
 <p>Tek kural künyeyi doğru kurmak: formülün kaynağını verin, ölçünün kendisini
 kaynağa mal etmeyin.</p>
 <ul>
-<li>✗ "Shannon (1948) <code>entropy_std</code> ölçüsü"</li>
-<li>✓ "Shannon (1948) entropisinin parçalar arası standart sapması
+<li>✗ "Shannon (1948) <code>sent_len_entropy</code> ölçüsü"</li>
+<li>✓ "Shannon (1948) entropisinin cümle uzunluğu dağılımına uygulanması
   (turkish-linguistic-features'ın tanımı)"</li>
 </ul>
 <p>Birinci yazım okuyucuya, kaynakta aranınca bulunacak bir ölçü olduğunu ima
-ediyor. Shannon entropiyi tanımladı, parçalar arası standart sapmasını
-tanımlamadı.</p>
+ediyor. Shannon entropiyi tanımladı, cümle uzunluklarına uygulamadı.</p>
 
 
 

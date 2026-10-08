@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 180 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 212 quantitative linguistic features from Turkish text and 184 from English text">
+        <meta name="description" content="Türkçe metinden 199, İngilizce metinden 172 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 199 quantitative linguistic features from Turkish text and 172 from English text">
       
       
       
@@ -2179,6 +2179,36 @@ sayfada iki ad vermemek.</p>
 </thead>
 <tbody>
 <tr>
+<td><strong>kelime</strong></td>
+<td>word</td>
+<td>Boşlukla ayrılan, kenar noktalaması atılan, harf ya da rakam içeren birim; kütüphanenin saydığı kelime</td>
+</tr>
+<tr>
+<td><strong>cümle</strong></td>
+<td>sentence</td>
+<td><code>. ? ! …</code> ile biten birim; <code>:</code> yalnız ardından yeni cümle geliyorsa</td>
+</tr>
+<tr>
+<td><strong>spaCy tokenı</strong></td>
+<td>spaCy token</td>
+<td>Modelin metni böldüğü birim; noktalama ayrı tokendır. Bağlılık öznitelikleri bunu sayar</td>
+</tr>
+<tr>
+<td><strong>lemma</strong></td>
+<td>lemma</td>
+<td>Kelimenin sözlük biçimi; Türkçede Zeyrek'ten, İngilizcede spaCy'den</td>
+</tr>
+<tr>
+<td><strong>sözcük türü etiketi</strong></td>
+<td>POS tag</td>
+<td>UD'nin 17 etiketinden biri (<code>NOUN</code>, <code>VERB</code>, <code>ADJ</code>…)</td>
+</tr>
+<tr>
+<td><strong>n-gram</strong></td>
+<td>n-gram</td>
+<td>Ardışık kelimelerden oluşan öbek; <code>custom_ngrams</code> ile sayılır</td>
+</tr>
+<tr>
 <td><strong>tip</strong></td>
 <td>type</td>
 <td>Metindeki farklı kelimelerden biri</td>
@@ -2186,7 +2216,7 @@ sayfada iki ad vermemek.</p>
 <tr>
 <td><strong>token</strong></td>
 <td>token</td>
-<td>Metindeki kelime örneklerinden biri</td>
+<td>Tip/token oranında: metindeki kelime örneklerinden biri</td>
 </tr>
 <tr>
 <td><strong>tip/token oranı</strong></td>
@@ -2206,7 +2236,7 @@ sayfada iki ad vermemek.</p>
 <tr>
 <td><strong>pencere</strong></td>
 <td>window</td>
-<td>Kayan hesapta bir seferde bakılan token sayısı</td>
+<td>Kayan hesapta bir seferde bakılan kelime sayısı</td>
 </tr>
 <tr>
 <td><strong>eşik</strong></td>
