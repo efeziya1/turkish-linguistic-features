@@ -66,6 +66,7 @@ from .lexical import (
     shannon_entropy,
     simpsons_d,
     summer_s,
+    type_counts,
     type_token_ratio,
     vocd_d,
     word_length_stats,
@@ -76,6 +77,7 @@ from .lexical import (
 from .morphological import spacy_morph_ratios, surface_per_lemma, zeyrek_morfoloji
 from .phonetic import (
     sentence_syllable_stats,
+    syllable_count,
     syllable_count_stats,
     syllable_length_distribution,
     vowel_harmony_ratios,
@@ -88,6 +90,7 @@ from .punctuation import (
     consecutive_punct_ratio,
     digit_ratio,
     punct_char_ratio,
+    punct_count,
     punct_entropy,
     punct_variety,
     punctuation_ratios,
@@ -189,7 +192,7 @@ def _extract_features(
     Returns
     -------
     dict[str, float]
-        Anahtar → değer. Türkçe taban 202, İngilizce 175; ``dep_data``
+        Anahtar → değer. Türkçe taban 208, İngilizce 181; ``dep_data``
         verilmezse her ikisinden de 16 eksik.
 
     Raises
@@ -239,7 +242,7 @@ def _extract_features(
     # birleşik nokta (U+0307) ekler — ttr ve kelime uzunluğu kayardı.
     kucuk_kelimeler = [_kucuk_harf(tok, lang) for tok in kelimeler]
 
-    # ── lexical (35) — yüzey biçim sayar ──────────────────────────────
+    # ── lexical (38) — yüzey biçim sayar ──────────────────────────────
     if istiyor("lexical"):
         freqs, N, V, items = rank_word_freq_table(kucuk_kelimeler, lang)
         feats.update({
@@ -256,6 +259,9 @@ def _extract_features(
             "simpson_d": simpsons_d(freqs),
         })
         feats.update(type_token_ratio(N, V))
+        # V, V1, V2 sayımları: boş metin ölçülemez (K4), `word_count` gibi.
+        feats.update({k: (v if raw_text.strip() else math.nan)
+                      for k, v in type_counts(items).items()})
         feats.update(brunet_w(N, V, params.brunet_w_a))
         feats.update(hapax_ratio(items))
         feats.update(hapax_token_ratio(items))
@@ -311,7 +317,7 @@ def _extract_features(
         feats.update(sentence_distribution_stats(cumle_kelimeleri, kisa_esik, uzun_esik))
         feats.update(sent_len_entropy(cumle_kelimeleri))
 
-    # ── paragraph (2) ─────────────────────────────────────────────────
+    # ── paragraph (3) ─────────────────────────────────────────────────
     if istiyor("paragraph"):
         feats.update(paragraph_stats(raw_text, lang))
 
@@ -346,13 +352,15 @@ def _extract_features(
     if istiyor("morphological_zeyrek") and lang == "tr" and wv.morphemes is not None:
         feats.update(zeyrek_morfoloji(wv.morphemes, wv.pos, params))
 
-    # ── phonetic (TR 13 · EN 11) ──────────────────────────────────────
+    # ── phonetic (TR 14 · EN 12) ──────────────────────────────────────
     if istiyor("phonetic"):
         feats.update(vowel_ratios(raw_text, lang))
         # Ünlü uyumu Türkçeye özgü (Göksel & Kerslake 2005); İngilizcede
         # anlamı yok, anahtar hiç üretilmez — Zeyrek ve okunabilirlikle aynı.
         if lang == "tr":
             feats.update(vowel_harmony_ratios(kelimeler, lang))
+        feats.update({k: (v if raw_text.strip() else math.nan)
+                      for k, v in syllable_count(kelimeler, lang).items()})
         feats.update(syllable_count_stats(kelimeler, lang))
         feats.update(syllable_length_distribution(kelimeler, lang))
         feats.update(sentence_syllable_stats(cumle_kelimeleri, lang))
@@ -365,10 +373,11 @@ def _extract_features(
         else:
             feats.update(english_readability_formulas(raw_text, surface_tokens))
 
-    # ── punctuation (19) ──────────────────────────────────────────────
+    # ── punctuation (20) ──────────────────────────────────────────────
     if istiyor("punctuation"):
         feats.update(char_count(raw_text))
         feats.update(digit_ratio(raw_text))
+        feats.update(punct_count(raw_text))
         feats.update(punctuation_ratios(raw_text))
         feats.update(punct_char_ratio(raw_text))
         feats.update(punct_entropy(raw_text))

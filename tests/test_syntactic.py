@@ -208,6 +208,7 @@ def test_paragraf_elle():
     """3 ve 2 kelime, 1'er cümle, 5 kelimede 2 paragraf."""
     sonuc = paragraph_stats("Bir iki üç.\n\nDört beş.")
     assert sonuc == {
+        "para_count": 2.0,
         "para_len_mean": 2.5,
         "sents_per_para_mean": 1.0,
     }

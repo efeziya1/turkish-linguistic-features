@@ -1,15 +1,15 @@
 # turkish-linguistic-features
 
-Türkçe metinden **202**, İngilizce metinden **175 nicel dilbilimsel öznitelik**
-çıkarır. Her özniteliğin formülü yazılıdır; Türkçedeki 202 özniteliğin 191'i,
-İngilizcedeki 175 özniteliğin 164'ü literatürde bir kaynağa dayanır, geri
+Türkçe metinden **208**, İngilizce metinden **181 nicel dilbilimsel öznitelik**
+çıkarır. Her özniteliğin formülü yazılıdır; Türkçedeki 208 özniteliğin 197'si,
+İngilizcedeki 181 özniteliğin 170'i literatürde bir kaynağa dayanır, geri
 kalanı saf tanımdır (örneğin tirenin noktalama işaretleri içindeki payı).
 [Doğrulama raporu](dogrulama-raporu.md), hangilerinin kaynağın yayımladığı bir
 sayıyla karşılaştırıldığını gösterir.
 
-Extracts 202 quantitative linguistic features from Turkish text and 175 from
-English. Every feature has its formula written out; 191 of the Turkish features
-and 164 of the English ones cite a source in the literature, and the rest are
+Extracts 208 quantitative linguistic features from Turkish text and 181 from
+English. Every feature has its formula written out; 197 of the Turkish features
+and 170 of the English ones cite a source in the literature, and the rest are
 plain definitions (such as the dash's share of punctuation marks). The
 [verification report](verification-report.md) shows which ones have been
 checked against a number their source published.
@@ -38,7 +38,7 @@ oz["atesman"]         # 77.2479  (Ateşman 1997 okunabilirlik)
 
 - **[Başvuru · Reference →](reference/index.md)**
 
-    202 özniteliğin tam listesi ve genel API (İngilizce).
+    208 özniteliğin tam listesi ve genel API (İngilizce).
 
 - **[Doğrulama · Verification →](dogrulama-raporu.md)**
 
@@ -61,10 +61,10 @@ oz["atesman"]         # 77.2479  (Ateşman 1997 okunabilirlik)
 
 | | Türkçe (TR) | İngilizce (EN) |
 |---|---:|---:|
-| Öznitelik | 202 | 175 |
-| Künyesi olan öznitelik | 191 | 164 |
+| Öznitelik | 208 | 181 |
+| Künyesi olan öznitelik | 197 | 170 |
 | Künyesi olmayan, saf tanım | 11 | 11 |
-| Doğrulama adayı rapor satırı | 145 | 131 |
+| Doğrulama adayı rapor satırı | 151 | 137 |
 | — kaynağın sayısıyla tolerans içinde tutan (✅) | 46 | 35 |
 | — tolerans dışında, nedeni açıklanmış (🟡) | 2 | 3 |
 

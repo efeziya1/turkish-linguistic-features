@@ -8,6 +8,7 @@ from turkish_linguistic_features.features.punctuation import (
     consecutive_punct_ratio,
     digit_ratio,
     punct_char_ratio,
+    punct_count,
     punct_entropy,
     punct_variety,
     punctuation_ratios,
@@ -114,6 +115,13 @@ def test_whitespace_ratio_elle():
 def test_punct_char_ratio_uc_nokta_tek_isaret():
     """"a...b": 1 işaret / 5 karakter."""
     assert punct_char_ratio("a...b")["punct_char_ratio"] == 0.2
+
+
+def test_punct_count_uc_nokta_tek_isaret():
+    """"Ne... Gel!": üç nokta bir işaret + ünlem = 2. Boş metinde NaN."""
+    assert punct_count("Ne... Gel!")["punct_count"] == 2.0
+    assert punct_count("ev")["punct_count"] == 0.0
+    assert math.isnan(punct_count("")["punct_count"])
 
 
 def test_punct_char_ratio_kesme_isareti_sayilmaz():

@@ -26,7 +26,7 @@ in another genre, consider deriving the thresholds from your own corpus —
 
 ### 2. Fifteen citations are secondary
 
-**15 of 166** citations carry `as cited in` — the primary source could not
+**15 of 172** citations carry `as cited in` — the primary source could not
 be obtained and the formula was taken from the citing work. For example:
 
 ```text
@@ -84,12 +84,12 @@ numbers, fix the seed before Python starts, e.g. `PYTHONHASHSEED=0`.
 ### 5. Half the candidates are still unverified
 
 82 rows are not verification candidates at all (plain definitions, tag
-schemes, or our own derivations). Of the remaining **145 candidates, 48 are done** (46 ✅ + 2 🟡)
+schemes, or our own derivations). Of the remaining **151 candidates, 48 are done** (46 ✅ + 2 🟡)
 and **97 are 🔍 open**.
 
 The reason is in [The verification system](verification.md): most sources
 publish a formula but never a worked numerical example. This is most
-pronounced in the `lexical` group — 7 of its 37 candidates are verified.
+pronounced in the `lexical` group — 7 of its 40 candidates are verified.
 
 ### 6. The package is not on PyPI yet
 

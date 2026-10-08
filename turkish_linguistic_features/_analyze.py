@@ -100,7 +100,7 @@ def analyze(text: str, lang: str = "tr", model: str | None = None,
     Returns
     -------
     dict[str, float]
-        Öznitelik anahtarı → değer. Taban şema Türkçede 202, İngilizcede 175
+        Öznitelik anahtarı → değer. Taban şema Türkçede 208, İngilizcede 181
         anahtar; ``custom_ngrams`` verilirse üstüne sütun eklenir.
 
     Raises

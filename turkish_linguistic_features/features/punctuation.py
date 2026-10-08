@@ -2,7 +2,8 @@
 
 Bu modül iki grubun anahtarlarını üretir:
 
-- ``punctuation`` (19): ``char_count``, ``digit_ratio``, 10 × ``punct_*_ratio``, ``punct_char_ratio``,
+- ``punctuation`` (20): ``char_count``, ``digit_ratio``, ``punct_count``, 10 × ``punct_*_ratio``,
+  ``punct_char_ratio``,
   ``punct_entropy``, ``consecutive_punct_ratio``, ``whitespace_ratio``,
   ``punct_variety``, ``uppercase_ratio``, ``all_caps_word_ratio``
 - ``chars`` (dinamik): ``char_{harf}_ratio`` — TR 29, EN 26
@@ -115,6 +116,11 @@ def whitespace_ratio(text: str) -> dict[str, float]:
     if not text:
         return {"whitespace_ratio": math.nan}
     return {"whitespace_ratio": round(sum(ch.isspace() for ch in text) / len(text), 6)}
+
+
+def punct_count(text: str) -> dict[str, float]:
+    """Noktalama işareti sayısı (on tür). ``...`` bir işarettir. Boş metinde NaN."""
+    return {"punct_count": float(len(_isaretler(text))) if text else math.nan}
 
 
 def punct_char_ratio(text: str) -> dict[str, float]:

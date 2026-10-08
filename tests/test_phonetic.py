@@ -6,6 +6,7 @@ from turkish_linguistic_features.features.phonetic import (
     _syllabify_tr,
     hece_say,
     sentence_syllable_stats,
+    syllable_count,
     syllable_count_stats,
     syllable_length_distribution,
     vowel_harmony_ratios,
@@ -267,6 +268,12 @@ def test_hece_istatistigi_bos_ve_tek():
     assert all(_nan(v) for v in syllable_count_stats([], "tr").values())
     assert all(_nan(v) for v in syllable_count_stats(["4x4", "."], "tr").values())
     assert syllable_count_stats(["ev"], "tr")["syllable_mean"] == 1.0
+
+
+def test_hece_sayisi_hecelenemeyeni_atlar():
+    """ki-tap (2) + ma-sa (2); "4x4" hecelenemez → 4. Kelime yoksa 0."""
+    assert syllable_count(["xyz", "4x4", "kitap", "masa"], "tr") == {"syllable_count": 4.0}
+    assert syllable_count([], "tr") == {"syllable_count": 0.0}
 
 
 # ── T10: hece uzunluğu dağılımı ───────────────────────────────────────

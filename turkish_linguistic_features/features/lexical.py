@@ -1,6 +1,6 @@
 """Sözcüksel temel: frekans tablosu ve klasik kelime zenginliği ölçütleri.
 
-Bu modül 33 öznitelik anahtarı üretir (`lexical` grubunun 35'inden; kalan
+Bu modül 36 öznitelik anahtarı üretir (`lexical` grubunun 38'inden; kalan
 ``lemma_count`` ve ``word_count`` ``extractor``'da sayılır):
 
 - T04 (10): ``ttr`` · ``entropy`` · ``yule_k`` · ``simpson_d`` · ``brunet_w`` ·
@@ -13,7 +13,8 @@ Bu modül 33 öznitelik anahtarı üretir (`lexical` grubunun 35'inden; kalan
 - T07 (6): ``zipf_exponent`` · ``zipf_r2`` · ``zipf_mandelbrot_q`` ·
   ``zipf_mandelbrot_s`` · ``wordfreq_mean`` · ``wordfreq_rare_ratio``
 - 2026-10-06 (4): ``cttr`` · ``summer_s`` · ``maas_a2`` · ``herdan_vm``
-- 2026-10-08 (1): ``honore_r``
+- 2026-10-08 (4): ``honore_r`` · ``type_count`` · ``hapax_count`` ·
+  ``dislegomena_count``
 
 Bütün fonksiyonlar saftır: girdi token listesi, çıktı sayı. NLP modeli
 gerekmez — tokenizasyonu çağıran taraf yapmıştır.
@@ -154,9 +155,21 @@ def brunet_w(N: int, V: int, a: float = _BRUNET_A) -> dict[str, float]:
     return {"brunet_w": round(float(N ** (V ** -a)), 4)}
 
 
-def hapax_count(items: list) -> int:
-    """Tam olarak bir kez geçen tip sayısı (ham sayım)."""
-    return sum(1 for _, f in items if f == 1)
+def _sikliktaki_tip(items: list, f: int) -> int:
+    """Tam olarak ``f`` kez geçen tip sayısı, V(f) (ham sayım)."""
+    return sum(1 for _, n in items if n == f)
+
+
+def type_counts(items: list) -> dict[str, float]:
+    """Tip sayısı V, bir kez geçen tip V1 (hapax legomena) ve iki kez geçen tip V2
+    (dis legomena). Kelime yoksa üçü de 0; boş metni NaN'a çeviren ``extractor`` (K4,
+    ``word_count`` gibi; 2026-10-08, Efe).
+    """
+    return {
+        "type_count": float(len(items)),
+        "hapax_count": float(_sikliktaki_tip(items, 1)),
+        "dislegomena_count": float(_sikliktaki_tip(items, 2)),
+    }
 
 
 def hapax_ratio(items: list) -> dict[str, float]:
@@ -167,7 +180,7 @@ def hapax_ratio(items: list) -> dict[str, float]:
     """
     if not items:
         return {"hapax_ratio": math.nan}
-    return {"hapax_ratio": round(hapax_count(items) / len(items), 6)}
+    return {"hapax_ratio": round(_sikliktaki_tip(items, 1) / len(items), 6)}
 
 
 def hapax_token_ratio(items: list) -> dict[str, float]:
@@ -181,7 +194,7 @@ def hapax_token_ratio(items: list) -> dict[str, float]:
     if not items:
         return {"hapax_token_ratio": math.nan}
     n = sum(f for _, f in items)
-    return {"hapax_token_ratio": round(hapax_count(items) / n, 6)}
+    return {"hapax_token_ratio": round(_sikliktaki_tip(items, 1) / n, 6)}
 
 
 def word_length_stats(tokens: list[str]) -> float:

@@ -17,7 +17,7 @@ A feature is one of three things:
 3. **A plain definition** — `punct_dash_ratio` ("dashes / all punctuation marks"). No citation,
    because it is not a named measure that could be attributed.
 
-Of 202 keys, 191 have a citation and 11 do not.
+Of 208 keys, 197 have a citation and 11 do not.
 
 ## Key names
 
@@ -109,7 +109,7 @@ suffix analysis · Turkish lemmas
    ↓  the library's own rules
 word and sentence boundaries; each word takes its tags from its own token
    ↓  feature extractors
-202 numbers
+208 numbers
 ```
 
 Two consequences:
@@ -117,7 +117,7 @@ Two consequences:
 1. **The spaCy model is part of the result.** Change the model and the
    tokens, POS, morphological and dependency features change with it.
    State which model you used in your methods section.
-2. **Preprocessing runs once.** All 202 features draw on the same analysis,
+2. **Preprocessing runs once.** All 208 features draw on the same analysis,
    so asking for fewer `groups` does not speed up preprocessing — it only
    shortens the extraction step.
 

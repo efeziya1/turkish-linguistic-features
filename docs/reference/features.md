@@ -27,30 +27,33 @@ published is a separate question — see the
 
 | Group | Keys | What it covers |
 |---|---|---|
-| `lexical` | 35 | Lexical richness & frequency |
+| `lexical` | 38 | Lexical richness & frequency |
 | `frequency_structure` | 13 | Frequency structure (h-point family, Popescu & Altmann) |
 | `sentence` | 7 | Sentence statistics |
-| `paragraph` | 2 | Paragraph structure |
+| `paragraph` | 3 | Paragraph structure |
 | `pos` | 12 | Part-of-speech ratios |
 | `syntactic` | 7 | Discourse & syntax |
 | `syntactic_dep` | 16 | Dependency tree (distance, depth, sentence-final POS) |
 | `morphological` | 19 | Morphological style (spaCy) |
 | `morphological_zeyrek` | 23 | Morphological style (Zeyrek, TR only) |
-| `phonetic` | 13 | Phonetic patterns |
+| `phonetic` | 14 | Phonetic patterns |
 | `readability` | 11 | Readability scores |
-| `punctuation` | 19 | Punctuation & digits |
+| `punctuation` | 20 | Punctuation & digits |
 | `chars` | dynamic | Character frequency vector  [dynamic: one key per letter — TR 29, EN 26] |
 | `custom_ngrams` | dynamic | User-defined n-gram counts  [dynamic: ngram_{...}_count] |
 
 
 ## `lexical` — Lexical richness & frequency
 
-35 keys.
+38 keys.
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
 | `lemma_count` | number of distinct lemmas | `V over lemmas` | at least 1 word | — |
 | `word_count` | number of words | `words` | non-empty text (0 when it has no words) | de Vel (2000) Table 2, attribute 1 "Total number of words"; Zheng et al. (2006) Table 3, p.385, no. 54 "Total number of words (M)" |
+| `type_count` | number of distinct words (V) | `V` | non-empty text (0 when it has no words) | Tweedie & Baayen (1998) p.325, the vocabulary size V(N); Zheng et al. (2006) Table 3, p.385, no. 60 "Total different words/M", here not divided by M |
+| `hapax_count` | number of words occurring once (V1) | `V1` | non-empty text (0 when it has no words) | Tweedie & Baayen (1998) p.325, V(1, N) "the number of hapax legomena"; Zheng et al. (2006) Table 3, p.385, no. 61 "Hapax legomena" ("Frequency of once-occurring words") |
+| `dislegomena_count` | number of words occurring exactly twice (V2) | `V2` | non-empty text (0 when it has no words) | Tweedie & Baayen (1998) p.329, V(2, N) "dis legomena"; Zheng et al. (2006) Table 3, p.385, no. 62 "Hapax dislegomena" ("Frequency of twice-occurring words") |
 | `word_len_mean` | mean word length in characters | `sum(len(w)) / N` | at least 1 word | Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241 |
 | `ttr` | type-token ratio; falls as the text grows | `V / N` | at least 1 word | Malvern et al. (2004); QUITA §6.1.1 |
 | `mattr` | moving-average TTR | `mean TTR of every sliding window of mattr_window words` | at least 100 words (2 x mattr_window) | Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) |
@@ -121,10 +124,11 @@ published is a separate question — see the
 
 ## `paragraph` — Paragraph structure
 
-2 keys.
+3 keys.
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
+| `para_count` | number of paragraphs | `paragraphs (blank line = boundary)` | at least 1 paragraph | Zheng et al. (2006) Table 3, p.385, no. 248 "Total number of paragraphs" |
 | `para_len_mean` | mean paragraph length | `mean words per paragraph (blank line = boundary)` | at least 1 paragraph | Zheng et al. (2006) Table 3, p.385, no. 251 "Number of words per paragraph" |
 | `sents_per_para_mean` | mean sentences per paragraph | `mean count of [.!?…]+ per paragraph (at least 1)` | at least 1 paragraph | Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph" |
 
@@ -242,7 +246,7 @@ published is a separate question — see the
 
 ## `phonetic` — Phonetic patterns
 
-13 keys.
+14 keys.
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
@@ -251,6 +255,7 @@ published is a separate question — see the
 | `back_vowel_ratio` | share of back vowels | `back vowels / alphabet letters` | at least 1 alphabet letter | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) |
 | `harmony_fronting_ratio` | share of words obeying front/back vowel harmony (TR only) | `words whose vowels are all front or all back / words with 2+ vowels` | at least 1 word with 2 vowels | Göksel & Kerslake (2005) §3.1 (fronting harmony); exceptions §3.4 — the measure counts them as disharmonic |
 | `harmony_rounding_ratio` | share of words obeying rounding vowel harmony (TR only) | `words where every vowel after an unrounded one is unrounded and every vowel after a rounded one is close-rounded or open-unrounded / words with 2+ vowels` | at least 1 word with 2 vowels | Göksel & Kerslake (2005) §3.1 (rounding harmony); strictly a suffix phenomenon, measured here as a whole-word pattern |
+| `syllable_count` | number of syllables | `sum of syllables over syllabifiable words` | non-empty text (0 when it has no syllabifiable words) | Kincaid et al. (1975) p.38, "Instructions for Recalculated Flesch Formula", step 3 "Count the number of syllables" |
 | `syllable_mean` | mean syllables per word | `mean syllables per syllabifiable word` | at least 1 syllabifiable word | Flesch (1948) Formula A, wl; unit there = syllables per 100 words, here per word |
 | `syllable_1_ratio` | share of words with 1 syllable | `words with 1 syllable / syllabifiable words` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
 | `syllable_2_ratio` | share of words with 2 syllables | `words with 2 syllables / syllabifiable words` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
@@ -280,12 +285,13 @@ published is a separate question — see the
 
 ## `punctuation` — Punctuation & digits
 
-19 keys.
+20 keys.
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
 | `char_count` | number of characters | `characters, whitespace and line breaks included` | non-empty text | de Vel (2000) Table 2, attribute 8 "Number of characters"; Zheng et al. (2006) Table 3, p.385, no. 1 "Total number of characters (C)" |
 | `digit_ratio` | share of digit characters | `digits / characters` | non-empty text | de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; here digits anywhere in the text |
+| `punct_count` | number of punctuation marks | `marks of the 10 mark types` | non-empty text | de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C", here not divided by C |
 | `punct_comma_ratio` | share of comma marks among all marks | `marks of this type / all marks` | at least 1 punctuation mark | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks |
 | `punct_period_ratio` | share of full stop marks among all marks | `marks of this type / all marks` | at least 1 punctuation mark | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks |
 | `punct_semicolon_ratio` | share of semicolon marks among all marks | `marks of this type / all marks` | at least 1 punctuation mark | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks |

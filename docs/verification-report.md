@@ -54,17 +54,17 @@ table as `tests/test_kaynak_esligi.py`, so the two cannot drift apart. The
 other known-value tests live in their own files.
 
 
-## Turkish — 202 keys, 227 rows
+## Turkish — 208 keys, 233 rows
 
 A key may have more than one worked example in its source; each one is its own row.
 
-**Verification candidates — 145 rows**
+**Verification candidates — 151 rows**
 
 | Status | Rows |
 |---|---|
 | ✅ exact | 46 |
 | 🟡 documented deviation | 2 |
-| 🔍 open — no worked example in source | 97 |
+| 🔍 open — no worked example in source | 103 |
 
 
 **Not verification candidates — 82 rows.** There is no published number to look for in these.
@@ -138,7 +138,7 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### 🔍 Open — verifiable, not yet verified
 
-97 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
+103 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
 
 | Key | Source | Status |
 |---|---|---|
@@ -146,6 +146,9 @@ A key may have more than one worked example in its source; each one is its own r
 | `word_len_mean` | Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241 | 🔍 |
 | `yule_k` | Yule (1944) p.53, eq. (3.22) | 🔍 |
 | `simpson_d` | Simpson (1949), as cited in Bestgen (2023) | 🔍 |
+| `type_count` | Tweedie & Baayen (1998) p.325, the vocabulary size V(N); Zheng et al. (2006) Table 3, p.385, no. 60 "Total different words/M", here not divided by M | 🔍 |
+| `hapax_count` | Tweedie & Baayen (1998) p.325, V(1, N) "the number of hapax legomena"; Zheng et al. (2006) Table 3, p.385, no. 61 "Hapax legomena" ("Frequency of once-occurring words") | 🔍 |
+| `dislegomena_count` | Tweedie & Baayen (1998) p.329, V(2, N) "dis legomena"; Zheng et al. (2006) Table 3, p.385, no. 62 "Hapax dislegomena" ("Frequency of twice-occurring words") | 🔍 |
 | `brunet_w` | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) | 🔍 |
 | `hapax_ratio` | de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of vocabulary words" | 🔍 |
 | `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
@@ -178,6 +181,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `sent_len_median` | Yule (1939) p.369, median sentence length alongside the mean | 🔍 |
 | `sent_count` | de Vel (2000) Table 2, attribute 3 "Number of sentences"; Zheng et al. (2006) Table 3, p.385, no. 247 "Total number of sentences" | 🔍 |
 | `sent_len_char_mean` | Zheng et al. (2006) Table 3, p.385, no. 58 "Average sentence length in terms of character" | 🔍 |
+| `para_count` | Zheng et al. (2006) Table 3, p.385, no. 248 "Total number of paragraphs" | 🔍 |
 | `para_len_mean` | Zheng et al. (2006) Table 3, p.385, no. 251 "Number of words per paragraph" | 🔍 |
 | `sents_per_para_mean` | Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph" | 🔍 |
 | `pronoun_ratio` | Deutsch, Jasbi & Shieber (2020) Table 6 "pronouns per word", listed among existing features; original source not traced | 🔍 |
@@ -190,6 +194,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `back_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `harmony_fronting_ratio` | Göksel & Kerslake (2005) §3.1 (fronting harmony); exceptions §3.4 — the measure counts them as disharmonic | 🔍 |
 | `harmony_rounding_ratio` | Göksel & Kerslake (2005) §3.1 (rounding harmony); strictly a suffix phenomenon, measured here as a whole-word pattern | 🔍 |
+| `syllable_count` | Kincaid et al. (1975) p.38, "Instructions for Recalculated Flesch Formula", step 3 "Count the number of syllables" | 🔍 |
 | `syllable_mean` | Flesch (1948) Formula A, wl; unit there = syllables per 100 words, here per word | 🔍 |
 | `syllable_1_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_2_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
@@ -201,6 +206,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `long_word_ratio` | Anderson (1983); long word = 7+ letters | 🔍 |
 | `char_count` | de Vel (2000) Table 2, attribute 8 "Number of characters"; Zheng et al. (2006) Table 3, p.385, no. 1 "Total number of characters (C)" | 🔍 |
 | `digit_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; here digits anywhere in the text | 🔍 |
+| `punct_count` | de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C", here not divided by C | 🔍 |
 | `punct_comma_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
 | `punct_period_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
 | `punct_semicolon_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
@@ -329,17 +335,17 @@ A key may have more than one worked example in its source; each one is its own r
 | `uppercase_ratio` | — | ⚪ |
 | `all_caps_word_ratio` | — | ⚪ |
 
-## English — 175 keys, 192 rows
+## English — 181 keys, 198 rows
 
 A key may have more than one worked example in its source; each one is its own row.
 
-**Verification candidates — 131 rows**
+**Verification candidates — 137 rows**
 
 | Status | Rows |
 |---|---|
 | ✅ exact | 35 |
 | 🟡 documented deviation | 3 |
-| 🔍 open — no worked example in source | 93 |
+| 🔍 open — no worked example in source | 99 |
 
 
 **Not verification candidates — 61 rows.** There is no published number to look for in these.
@@ -401,7 +407,7 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### 🔍 Open — verifiable, not yet verified
 
-93 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
+99 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
 
 | Key | Source | Status |
 |---|---|---|
@@ -409,6 +415,9 @@ A key may have more than one worked example in its source; each one is its own r
 | `word_len_mean` | Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241 | 🔍 |
 | `yule_k` | Yule (1944) p.53, eq. (3.22) | 🔍 |
 | `simpson_d` | Simpson (1949), as cited in Bestgen (2023) | 🔍 |
+| `type_count` | Tweedie & Baayen (1998) p.325, the vocabulary size V(N); Zheng et al. (2006) Table 3, p.385, no. 60 "Total different words/M", here not divided by M | 🔍 |
+| `hapax_count` | Tweedie & Baayen (1998) p.325, V(1, N) "the number of hapax legomena"; Zheng et al. (2006) Table 3, p.385, no. 61 "Hapax legomena" ("Frequency of once-occurring words") | 🔍 |
+| `dislegomena_count` | Tweedie & Baayen (1998) p.329, V(2, N) "dis legomena"; Zheng et al. (2006) Table 3, p.385, no. 62 "Hapax dislegomena" ("Frequency of twice-occurring words") | 🔍 |
 | `brunet_w` | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) | 🔍 |
 | `hapax_ratio` | de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of vocabulary words" | 🔍 |
 | `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
@@ -441,6 +450,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `sent_len_median` | Yule (1939) p.369, median sentence length alongside the mean | 🔍 |
 | `sent_count` | de Vel (2000) Table 2, attribute 3 "Number of sentences"; Zheng et al. (2006) Table 3, p.385, no. 247 "Total number of sentences" | 🔍 |
 | `sent_len_char_mean` | Zheng et al. (2006) Table 3, p.385, no. 58 "Average sentence length in terms of character" | 🔍 |
+| `para_count` | Zheng et al. (2006) Table 3, p.385, no. 248 "Total number of paragraphs" | 🔍 |
 | `para_len_mean` | Zheng et al. (2006) Table 3, p.385, no. 251 "Number of words per paragraph" | 🔍 |
 | `sents_per_para_mean` | Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph" | 🔍 |
 | `pronoun_ratio` | Deutsch, Jasbi & Shieber (2020) Table 6 "pronouns per word", listed among existing features; original source not traced | 🔍 |
@@ -450,6 +460,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `posdiv` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits | 🔍 |
 | `front_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `back_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
+| `syllable_count` | Kincaid et al. (1975) p.38, "Instructions for Recalculated Flesch Formula", step 3 "Count the number of syllables" | 🔍 |
 | `syllable_mean` | Flesch (1948) Formula A, wl; unit there = syllables per 100 words, here per word | 🔍 |
 | `syllable_1_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_2_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
@@ -463,6 +474,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `smog` | McLaughlin (1969) p.643, Table 1, eq. (d); p = polysyllabic words in a 30-sentence sample | 🔍 |
 | `char_count` | de Vel (2000) Table 2, attribute 8 "Number of characters"; Zheng et al. (2006) Table 3, p.385, no. 1 "Total number of characters (C)" | 🔍 |
 | `digit_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; here digits anywhere in the text | 🔍 |
+| `punct_count` | de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C", here not divided by C | 🔍 |
 | `punct_comma_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
 | `punct_period_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
 | `punct_semicolon_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |

@@ -57,9 +57,9 @@ BOS_GIRDI = dict(raw_text="", surface_tokens=[], lemma_tokens=[], pos_data=[],
                  sentences_as_tokens=[], morpheme_lists=[], morph_tags=[], lang="tr")
 
 # Sözleşme §6'dan türetilmiş beklenti — koddan ölçülmedi.
-# TR taban 202; `dep_data` verilmediği için `syntactic_dep` (16) atlanır.
-TR_DEP_SIZ = 202 - 16
-EN_DEP_SIZ = 175 - 16
+# TR taban 208; `dep_data` verilmediği için `syntactic_dep` (16) atlanır.
+TR_DEP_SIZ = 208 - 16
+EN_DEP_SIZ = 181 - 16
 
 
 # ── 🔴 registry tutarlılık testi — projenin sigortası ─────────────────
@@ -226,6 +226,24 @@ def test_bos_metinde_ngram_sayimi_nan():
     """Boş metin ölçülemez (K4); n-gram sayımı da `word_count` gibi NaN döner."""
     oz = _extract_features(**BOS_GIRDI, custom_ngrams=[["NOUN"]])
     assert math.isnan(oz["ngram_NOUN_count"])
+
+
+def test_sayimlar_elle():
+    """İki paragraf, 5 kelime: V 3, V1 2 (kedi, yok), V2 0; ev·ev·ke·di·ev·yok = 6 hece;
+    3 işaret (virgül, iki nokta). Yalnız noktalamadan oluşan metinde 0, NaN değil."""
+    metin = "Ev ev, kedi.\n\nEv yok."
+    tok = ["Ev", "ev", ",", "kedi", ".", "Ev", "yok", "."]
+    pos = [(t, "PUNCT" if t in ",." else "NOUN") for t in tok]
+    oz = _extract_features(raw_text=metin, surface_tokens=tok,
+                           lemma_tokens=["ev", "ev", "kedi", "ev", "yok"], pos_data=pos,
+                           lang="tr", groups=["lexical", "paragraph", "phonetic", "punctuation"])
+    assert (oz["word_count"], oz["type_count"], oz["hapax_count"], oz["dislegomena_count"]) == (
+        5.0, 3.0, 2.0, 0.0)
+    assert oz["para_count"] == 2.0 and oz["syllable_count"] == 6.0 and oz["punct_count"] == 3.0
+    yalniz = _extract_features(raw_text="...", surface_tokens=["..."], lemma_tokens=[],
+                               pos_data=[("...", "PUNCT")], lang="tr",
+                               groups=["lexical", "phonetic"])
+    assert yalniz["type_count"] == 0.0 and yalniz["syllable_count"] == 0.0
 
 
 def test_bos_metinde_olculebilen_yok():

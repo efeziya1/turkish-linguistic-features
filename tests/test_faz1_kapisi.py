@@ -23,7 +23,7 @@ ZEYREK_EV = [[("Noun", "ev", False), ("A3sg", "", False)]]
 # ad: (boş girdi, tek elemanlı girdi)
 #
 # 🔴 Fikstürün TİPİ fonksiyonun beklediğiyle aynı olmalı. `hapax_ratio` ve
-# `hapax_count` uzun süre `["ev"]` ile çağrıldı; ikisi de `(kelime, sıklık)`
+# `hapax_count` (bugün `type_counts`) uzun süre `["ev"]` ile çağrıldı; ikisi de `(kelime, sıklık)`
 # çifti bekliyor ve `"ev"` iki karakterli olduğu için ikiliye açılıyordu —
 # test çökmeden geçiyor ama fonksiyonu gerçekte sınamıyordu (2026-09-18).
 DURUMLAR: dict[str, tuple[tuple, tuple]] = {
@@ -50,7 +50,7 @@ DURUMLAR: dict[str, tuple[tuple, tuple]] = {
     "lexical.maas_a2": (([],), (["ev"],)),
     "lexical.herdan_vm": ((BOS,), (BIR,)),
     "lexical.honore_r": ((BOS,), (BIR,)),
-    "lexical.hapax_count": (([],), ([("ev", 1)],)),
+    "lexical.type_counts": (([],), ([("ev", 1)],)),
     "lexical.hapax_token_ratio": (([],), ([("ev", 1)],)),
     "lexical.hapax_ratio": (([],), ([("ev", 1)],)),
     "lexical.hdd": (([],), (["ev"],)),
@@ -75,6 +75,7 @@ DURUMLAR: dict[str, tuple[tuple, tuple]] = {
     "phonetic.birim_heceleri": (([], "tr"), (["ev"], "tr")),
     "phonetic.hece_say": (("",), ("ev",)),
     "phonetic.sentence_syllable_stats": (([],), ([["ev"]],)),
+    "phonetic.syllable_count": (([],), (["ev"],)),
     "phonetic.syllable_count_stats": (([],), (["ev"],)),
     "phonetic.syllable_length_distribution": (([],), (["ev"],)),
     "phonetic.vowel_harmony_ratios": (([],), (["ev"],)),
@@ -83,6 +84,7 @@ DURUMLAR: dict[str, tuple[tuple, tuple]] = {
     "punctuation.char_freq_vector": (("", "tr"), ("e", "tr")),
     "punctuation.consecutive_punct_ratio": (("",), (".",)),
     "punctuation.char_count": (("",), ("a",)),
+    "punctuation.punct_count": (("",), (".",)),
     "punctuation.digit_ratio": (("",), ("1",)),
     "punctuation.punct_char_ratio": (("",), (".",)),
     "punctuation.punct_entropy": (("",), (".",)),
