@@ -2356,7 +2356,7 @@ does not touch the sentence thresholds.</p>
 <tbody>
 <tr>
 <td><code>LinguisticFeaturesError</code></td>
-<td>Base class for everything the library raises</td>
+<td>Base class for the library's own errors: missing language data, corpus files that are not UTF-8, an incompatible Zeyrek version</td>
 </tr>
 <tr>
 <td><code>ModelNotFoundError</code></td>
@@ -2372,8 +2372,10 @@ does not touch the sentence thresholds.</p>
 </tr>
 </tbody>
 </table>
-<p>Catching <code>LinguisticFeaturesError</code> catches every error the library raises
-on purpose. It does not catch errors from spaCy or Zeyrek.</p>
+<p>Catching <code>LinguisticFeaturesError</code> catches these. An invalid argument raises
+Python's own error instead: <code>ValueError</code> for an unsupported <code>lang</code> or a
+non-positive <code>segment_size</code>, <code>KeyError</code> from <code>describe_feature</code> for an unknown
+key. Errors raised inside spaCy or Zeyrek are not caught either.</p>
 
 
 

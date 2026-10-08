@@ -819,10 +819,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cumle-esikleri-dile-gore-cozumlenir" class="md-nav__link">
+  <a href="#tumce-esikleri-dile-gore-cozumlenir" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Cümle eşikleri dile göre çözümlenir
+        Tümce eşikleri dile göre çözümlenir
       
     </span>
   </a>
@@ -2053,10 +2053,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cumle-esikleri-dile-gore-cozumlenir" class="md-nav__link">
+  <a href="#tumce-esikleri-dile-gore-cozumlenir" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Cümle eşikleri dile göre çözümlenir
+        Tümce eşikleri dile göre çözümlenir
       
     </span>
   </a>
@@ -2110,18 +2110,18 @@
 <h2 id="kullanm">Kullanım<a class="headerlink" href="#kullanm" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># metin: öğreticideki üç cümlelik örnek (7, 7 ve 16 kelime)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># metin: öğreticideki üç tümcelik örnek (5, 13 ve 7 sözcük)</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">p</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">FeatureParams</span><span class="p">(</span><span class="n">short_sent_threshold</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">long_sent_threshold</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
 </code></pre></div>
 <p><code>FeatureParams</code> bir dataclass'tır; vermediğiniz alanlar varsayılanda kalır.
-Cümle eşiklerinin varsayılanı sabit bir sayı değil, dilin kalibre edilmiş
-değeridir — <a href="#cumle-esikleri-dile-gore-cozumlenir">aşağıda</a>.</p>
+Tümce eşiklerinin varsayılanı sabit bir sayı değil, dilin kalibre edilmiş
+değeridir — <a href="#tumce-esikleri-dile-gore-cozumlenir">aşağıda</a>.</p>
 <p>Çıktı (<code>short_sent_ratio</code>, <code>long_sent_ratio</code>):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>varsayılan (TR 4/17): short=0.0      long=0.0
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>elle (3/12)         : short=0.0      long=0.333333
 </code></pre></div>
-<p>Aynı metin, farklı eşik, farklı sayı. Üç cümlenin biri 12 kelimeyi geçiyor;
+<p>Aynı metin, farklı eşik, farklı sayı. Üç tümcenin biri 12 sözcüğü geçiyor;
 17'yi geçen yok.</p>
 <h2 id="butun-alanlar">Bütün alanlar<a class="headerlink" href="#butun-alanlar" title="Permanent link">&para;</a></h2>
 <table>
@@ -2225,9 +2225,9 @@ değeridir — <a href="#cumle-esikleri-dile-gore-cozumlenir">aşağıda</a>.</p
 </tr>
 </tbody>
 </table>
-<h2 id="cumle-esikleri-dile-gore-cozumlenir">Cümle eşikleri dile göre çözümlenir<a class="headerlink" href="#cumle-esikleri-dile-gore-cozumlenir" title="Permanent link">&para;</a></h2>
-<p>Tablodaki tek sayı olmayan iki alan bunlar. Sebep tipolojik: Türkçe cümleler
-İngilizce cümlelerden kısa, aynı eşik iki dile uymuyor.</p>
+<h2 id="tumce-esikleri-dile-gore-cozumlenir">Tümce eşikleri dile göre çözümlenir<a class="headerlink" href="#tumce-esikleri-dile-gore-cozumlenir" title="Permanent link">&para;</a></h2>
+<p>Tablodaki tek sayı olmayan iki alan bunlar. Sebep tipolojik: Türkçe tümceler
+İngilizce tümcelerden kısa, aynı eşik iki dile uymuyor.</p>
 <table>
 <thead>
 <tr>
@@ -2249,23 +2249,23 @@ değeridir — <a href="#cumle-esikleri-dile-gore-cozumlenir">aşağıda</a>.</p
 </tr>
 </tbody>
 </table>
-<p>Değerler gazete köşe yazılarında, varsayılan cümle kuralı ve varsayılan
-kelimeyle ölçülen cümle uzunluğu dağılımının 15. ve 85. yüzdeliğinden
-türetildi (TR: 162 yazar / 197.990 cümle; EN: 30 yazar / 52.745 cümle). Yöntem: <a href="../../../esik-kalibrasyonu/">Eşik kalibrasyonu</a>.</p>
+<p>Değerler gazete köşe yazılarında, varsayılan tümce kuralı ve varsayılan
+sözcükle ölçülen tümce uzunluğu dağılımının 15. ve 85. yüzdeliğinden
+türetildi (TR: 162 yazar / 197.990 tümce; EN: 30 yazar / 52.745 tümce). Yöntem: <a href="../../../esik-kalibrasyonu/">Eşik kalibrasyonu</a>.</p>
 <p><strong>Çözümleme alan alandır.</strong> Verdiğiniz alan sizin sayınızı, vermediğiniz alan
 dilin kalibre edilmiş değerini kullanır. Yani ilgisiz bir alanı değiştirmek
-cümle eşiklerini bozmaz:</p>
+tümce eşiklerini bozmaz:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">metin</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"Kapı açıldı. Sabah erkenden yola çıktık. Köyün girişindeki "</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>         <span class="s2">"yaşlı çınarın altında oturan adam, uzun yıllar önce bu yollardan "</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>         <span class="s2">"geçen kervanları, pazar günlerini ve kaybolan komşularını anlattı."</span><span class="p">)</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">p</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">FeatureParams</span><span class="p">(</span><span class="n">mattr_window</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>       <span class="c1"># eşiklere dokunulmadı</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>  <span class="c1"># eşikler hâlâ TR 4/17</span>
 </code></pre></div>
-<p>Çıktı — cümlelerin kelime sayıları 2, 4 ve 20:</p>
+<p>Çıktı — tümcelerin sözcük sayıları 2, 4 ve 20:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>params=None                       short=0.333333   long=0.333333
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>FeatureParams(mattr_window=100)   short=0.333333   long=0.333333
 </code></pre></div>
-<p>İki satır aynı, çünkü <code>mattr_window</code> cümle eşikleriyle ilgisiz.</p>
+<p>İki satır aynı, çünkü <code>mattr_window</code> tümce eşikleriyle ilgisiz.</p>
 <h2 id="hangi-oznitelik-hangi-parametreden-etkilenir">Hangi öznitelik hangi parametreden etkilenir<a class="headerlink" href="#hangi-oznitelik-hangi-parametreden-etkilenir" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"mattr"</span><span class="p">)[</span><span class="s2">"params"</span><span class="p">]</span>
 </code></pre></div>
@@ -2277,13 +2277,13 @@ cümle eşiklerini bozmaz:</p>
 varsayılanı 50 — onda biri. Neden:</p>
 <ul>
 <li>Pencere boyu aynı zamanda <strong>alt sınırdır</strong>: <code>mattr</code> en az <code>2 × window</code>
-  kelime ister. 500 olsaydı 1000 kelimeden kısa hiçbir metin sayı
+  sözcük ister. 500 olsaydı 1000 sözcükten kısa hiçbir metin sayı
   üretemezdi.</li>
 </ul>
 <p>Künye bu ayrımı açıkça yazar. 500 istiyorsanız:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">p</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">FeatureParams</span><span class="p">(</span><span class="n">mattr_window</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
 </code></pre></div>
-<p>ve metinlerinizin en az 1000 kelime olduğundan emin olun. Cümle eşiklerini
+<p>ve metinlerinizin en az 1000 sözcük olduğundan emin olun. Tümce eşiklerini
 elle taşımanız gerekmiyor; kalibre edilmiş değerlerinde kalırlar.</p>
 
 

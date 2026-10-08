@@ -2196,7 +2196,7 @@
   Türkçede, <code>q w x</code> yalnız İngilizcede).</li>
 <li><strong>−1</strong> okunabilirlik: Türkçeye özgü 3 öznitelik (Ateşman, Çetinkaya-Uzun ve
   Bezirci-Yılmaz formülleri), İngilizceye özgü 4 öznitelik (Flesch, Flesch-Kincaid
-  ve SMOG formülleri ile çok heceli kelime oranı); ortak olanlar iki dilde de var.</li>
+  ve SMOG formülleri ile çok heceli sözcük oranı); ortak olanlar iki dilde de var.</li>
 </ul>
 <p><code>phonetic</code> grubu Türkçede 14, İngilizcede 12 öznitelik içerir.</p>
 <p><code>lang</code> yalnız <code>"tr"</code> ve <code>"en"</code> alır. Başka bir değer <code>ValueError</code> verir.</p>
@@ -2208,7 +2208,7 @@ anahtarlarını taşır:</p>
 </code></pre></div>
 <p>Grup seçmek az hız kazandırır. Sürenin çoğu spaCy ve Zeyrek ön işlemesinde
 geçer ve o her durumda bir kez yapılır; grup seçimi yalnız sonraki hesabı
-kısaltır. 1000 kelimelik bir metinde bütün gruplar yaklaşık 1,2 saniye, yalnız
+kısaltır. 1000 sözcüklük bir metinde bütün gruplar yaklaşık 1,2 saniye, yalnız
 <code>readability</code> yaklaşık 0,85 saniye sürer.</p>
 <p>Mevcut gruplar ve Türkçede kaç öznitelik içerdikleri:</p>
 <table>
@@ -2268,12 +2268,12 @@ kısaltır. 1000 kelimelik bir metinde bütün gruplar yaklaşık 1,2 saniye, ya
 <tr>
 <td><code>syntactic</code></td>
 <td>7</td>
-<td>Cümle yapısı</td>
+<td>Tümce yapısı</td>
 </tr>
 <tr>
 <td><code>sentence</code></td>
 <td>7</td>
-<td>Cümle uzunluğu dağılımı</td>
+<td>Tümce uzunluğu dağılımı</td>
 </tr>
 <tr>
 <td><code>readability</code></td>
@@ -2300,13 +2300,13 @@ verin:</p>
 </code></pre></div>
 <p>Her öbek bir anahtar olur; değeri metindeki eşleşme sayısıdır.</p>
 <ul>
-<li>Kelimeler küçük harfe indirilerek karşılaştırılır. Yazılı biçim aranır,
+<li>Sözcükler küçük harfe indirilerek karşılaştırılır. Yazılı biçim aranır,
   lemma değil: <code>eski ev</code> ile <code>eski evi</code> ayrı eşleşmelerdir.</li>
 <li>Büyük harfle yazılmış bir UD sözcük türü etiketi (<code>NOUN</code>, <code>VERB</code>, <code>ADJ</code>…)
-  o etiketi taşıyan herhangi bir kelimeyle eşleşir. <code>["ADJ", "NOUN"]</code> bir sıfat
+  o etiketi taşıyan herhangi bir sözcükle eşleşir. <code>["ADJ", "NOUN"]</code> bir sıfat
   ve hemen ardından bir isim demektir; <code>yeni bir bina</code> eşleşmez, çünkü arada
   <code>bir</code> var.</li>
-<li>Eşleşme cümle sınırını aşmaz: <code>kaldı. Ne</code> yan yana sayılmaz.</li>
+<li>Eşleşme tümce sınırını aşmaz: <code>kaldı. Ne</code> yan yana sayılmaz.</li>
 <li>Değer düz sayımdır. Uzunlukları farklı metinleri karşılaştıracaksanız
   <code>word_count</code>'a bölün (<code>oz["ngram_ADJ_NOUN_count"] / oz["word_count"]</code>) ya
   da metinleri aynı boya getirin (<code>segment_size</code>).</li>
@@ -2317,7 +2317,7 @@ verin:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>{'eski ev': 1, 'büyük bahçe': 1, 'eski evi': 1}
 </code></pre></div>
 <p>En sık eşleşme önce gelir; sayıların toplamı <code>ngram_ADJ_NOUN_count</code> ile
-aynıdır. Cümle ve konum bilgisi verilmez. Birden çok metin için sonuçları
+aynıdır. Tümce ve konum bilgisi verilmez. Birden çok metin için sonuçları
 <code>collections.Counter</code> ile toplayın. Çalışan örnek:
 <a href="https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/10_kelime_oruntuleri.py"><code>examples/10_kelime_oruntuleri.py</code></a>.</p>
 <h2 id="ilerleme-gostergesi">İlerleme göstergesi<a class="headerlink" href="#ilerleme-gostergesi" title="Permanent link">&para;</a></h2>

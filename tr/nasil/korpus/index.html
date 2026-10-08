@@ -2236,7 +2236,7 @@ verilir ve okunamayan dosyaların hepsi adıyla listelenir.</p>
 <h2 id="dosyalar-parcalara-bolerek-analiz-edin">Dosyaları parçalara bölerek analiz edin<a class="headerlink" href="#dosyalar-parcalara-bolerek-analiz-edin" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">satirlar</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"korpus/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 </code></pre></div>
-<p>Örneğin 648 kelimelik tek bir dosya içeren <code>tek_dosya/</code> klasöründe:</p>
+<p>Örneğin 648 sözcüklük tek bir dosya içeren <code>tek_dosya/</code> klasöründe:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">butun</span>   <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"tek_dosya/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">parcali</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"tek_dosya/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">butun</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">parcali</span><span class="p">),</span> <span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="s2">"segment_id"</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">parcali</span><span class="p">])</span>
@@ -2244,10 +2244,10 @@ verilir ve okunamayan dosyaların hepsi adıyla listelenir.</p>
 <p>Çıktı:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>1 3 [0, 1, 2]
 </code></pre></div>
-<p>648 ÷ 200 = 3 tam parça; kalan 48 kelime varsayılan <code>min_fill=1.0</code> ile atılır.</p>
+<p>648 ÷ 200 = 3 tam parça; kalan 48 sözcük varsayılan <code>min_fill=1.0</code> ile atılır.</p>
 <p>Etiketleri (yazar, tür, dönem) karşılaştırırken parçaları aynı boyda tutun
 ve etiket başına parça sayısına bakın: tek parçalık bir etiketin ortalaması
-yazarın değil o metnin ortalamasıdır. Cümle uzunluğu dağılımını etiketlere
+yazarın değil o metnin ortalamasıdır. Tümce uzunluğu dağılımını etiketlere
 göre karşılaştıran çalışan örnek:
 <a href="https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/05_cumle_ritmi.py"><code>examples/05_cumle_ritmi.py</code></a>.</p>
 <div class="admonition note">

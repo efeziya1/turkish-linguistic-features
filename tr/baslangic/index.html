@@ -2175,13 +2175,13 @@ tablosuyla bitirir. Dallanma yok; seçenekleri
 <a href="../nasil/">Nasıl yapılır</a> bölümünde bulursunuz.</p>
 <p>Süre: yaklaşık 15 dakika, çoğu model indirmekle geçer.</p>
 <h2 id="1-kutuphaneyi-kurun">1. Kütüphaneyi kurun<a class="headerlink" href="#1-kutuphaneyi-kurun" title="Permanent link">&para;</a></h2>
-<p>Paket henüz PyPI'da değil. Depoyu klonlayıp düzenlenebilir kurulum yapın:</p>
+<p>Paket henüz PyPI'da değil. Depoyu klonlayın ve paketi depodan kurun:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/efeziya1/turkish-linguistic-features.git
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>turkish-linguistic-features
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 </code></pre></div>
-<p><code>-e</code> (editable) kurulum, depoyu güncellediğinizde paketin de güncel kalmasını
-sağlar. Bir kez kurarsınız, <code>git pull</code> yeter.</p>
+<p><code>-e</code> seçeneği paketi kopyalamaz, depodaki dosyalara bağlar. Bu yüzden bir kez
+kurmanız yeter: depoyu <code>git pull</code> ile güncellediğinizde kurulu paket de güncellenir.</p>
 <h2 id="2-dil-verisini-kurun">2. Dil verisini kurun<a class="headerlink" href="#2-dil-verisini-kurun" title="Permanent link">&para;</a></h2>
 <p><code>pip install</code> Python bağımlılıklarını kurar, dil verisini kurmaz.
 Kullandığınız dilin verisini bir kez kurun:</p>
@@ -2210,9 +2210,9 @@ düzeltilecek bir şey yoktur.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">metin</span> <span class="o">=</span> <span class="p">(</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="s2">"Dil, insanın düşüncesini taşıyan en eski araçtır. Yazı ise o düşünceyi "</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="s2">"zamanın dışına çıkarır. Bir metni ölçmek, onun taşıdığı yükü tartmaya "</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="s2">"benzer; tartıyı doğru kurarsanız metin size kendi biçimini anlatır."</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="s2">"Renksiz yeşil fikirler öfkeyle uyur. Chomsky bu tümceyi, dilbilgisine "</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="s2">"uygun bir tümcenin anlamsız da olabileceğini göstermek için kurdu. Bu "</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="s2">"kütüphane de anlamı değil, biçimi ölçer."</span>
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="p">)</span>
 <a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
 <a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
@@ -2220,6 +2220,7 @@ düzeltilecek bir şey yoktur.</p>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>208
 </code></pre></div>
+<p>Metnin ilk tümcesi Chomsky'nin <em>Syntactic Structures</em> (1957) kitabından.</p>
 <p><code>lang</code> verilmezse varsayılan <code>"tr"</code>'dir; İngilizce metin için <code>lang="en"</code>
 yazmanız gerekir.</p>
 <p><code>analyze</code> <strong>düz bir sözlük</strong> döndürür: anahtarlar öznitelik adları, değerler
@@ -2230,12 +2231,12 @@ sayılar. İç içe yapı yok, sınıf yok, <code>pandas</code> zorunluluğu yok
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>          <span class="s2">"syllable_mean"</span><span class="p">,</span> <span class="s2">"atesman"</span><span class="p">,</span> <span class="s2">"entropy"</span><span class="p">):</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">20s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">oz</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>ttr                  1.0
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>word_len_mean        5.7667
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>sent_len_mean        10.0
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>syllable_mean        2.5333
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>atesman              70.9483
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>entropy              3.401197
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>ttr                  0.96
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>word_len_mean        6.04
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>sent_len_mean        8.3333
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>syllable_mean        2.48
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>atesman              77.441
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>entropy              3.163424
 </code></pre></div>
 <p>Bunlar ne anlatıyor:</p>
 <table>
@@ -2249,33 +2250,33 @@ sayılar. İç içe yapı yok, sınıf yok, <code>pandas</code> zorunluluğu yok
 <tbody>
 <tr>
 <td><code>ttr</code></td>
-<td>1.0</td>
-<td>Tip/token oranı. <strong>1.0 = her kelime bir kez geçmiş.</strong> 30 kelimelik bir metinde bu normaldir; uzun metinde imkânsızdır.</td>
+<td>0.96</td>
+<td>Tip/token oranı. 25 sözcüğün 24'ü farklı; yalnız <code>bu</code> iki kez geçiyor. Kısa metinde TTR 1'e yakındır, metin uzadıkça düşer.</td>
 </tr>
 <tr>
 <td><code>word_len_mean</code></td>
-<td>5.7667</td>
-<td>Kelime başına 5,77 karakter.</td>
+<td>6.04</td>
+<td>Sözcük başına 6,04 karakter.</td>
 </tr>
 <tr>
 <td><code>sent_len_mean</code></td>
-<td>10.0</td>
-<td>Cümle başına 10 kelime.</td>
+<td>8.3333</td>
+<td>Tümce başına 8,33 sözcük.</td>
 </tr>
 <tr>
 <td><code>syllable_mean</code></td>
-<td>2.5333</td>
-<td>Kelime başına 2,53 hece.</td>
+<td>2.48</td>
+<td>Sözcük başına 2,48 hece.</td>
 </tr>
 <tr>
 <td><code>atesman</code></td>
-<td>70.9483</td>
-<td>Ateşman (1997) okunabilirlik puanı. Olağan düzyazı 0–100 arasına düşer, ama bu bir sınır değildir. 70 "kolay"a yakın.</td>
+<td>77.441</td>
+<td>Ateşman (1997) okunabilirlik puanı. Olağan düzyazı 0–100 arasına düşer, ama bu bir sınır değildir. 70–89 "kolay" bandı.</td>
 </tr>
 <tr>
 <td><code>entropy</code></td>
-<td>3.401197</td>
-<td>Kelime dağılımının Shannon entropisi, nat (doğal logaritma).</td>
+<td>3.163424</td>
+<td>Sözcük dağılımının Shannon entropisi, nat (doğal logaritma).</td>
 </tr>
 </tbody>
 </table>
@@ -2284,7 +2285,7 @@ sayılar. İç içe yapı yok, sınıf yok, <code>pandas</code> zorunluluğu yok
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>nan
 </code></pre></div>
-<p>Metin 30 kelime; <code>mattr</code> en az 100 kelime ister. Kütüphane eksik veriyle
+<p>Metin 25 sözcük; <code>mattr</code> en az 100 sözcük ister. Kütüphane eksik veriyle
 sayı <strong>uydurmaz</strong>, <code>nan</code> döndürür.</p>
 <p>Ne kadarı <code>nan</code> olur, bakalım:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">kisa</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="s2">"Kısa bir cümle."</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
@@ -2293,7 +2294,7 @@ sayı <strong>uydurmaz</strong>, <code>nan</code> döndürür.</p>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>208 37
 </code></pre></div>
-<p>Üç kelimelik bir metinde 208 öznitelikten <strong>37'si</strong> <code>nan</code> döner. Bu bir hata
+<p>Üç sözcüklük bir metinde 208 öznitelikten <strong>37'si</strong> <code>nan</code> döner. Bu bir hata
 değil, dürüstlüktür. Ayrıntı: <strong><a href="../aciklama/nan/">NaN ne demek</a></strong>.</p>
 <h2 id="6-bir-ozniteligin-kaynagn-gorun">6. Bir özniteliğin kaynağını görün<a class="headerlink" href="#6-bir-ozniteligin-kaynagn-gorun" title="Permanent link">&para;</a></h2>
 <p>Bir sayıyı çalışmanızda kullanacaksanız nereden geldiğini bilmelisiniz:</p>

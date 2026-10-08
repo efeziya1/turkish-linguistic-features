@@ -966,13 +966,52 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#kelime-ve-cumle" class="md-nav__link">
+  <a href="#sozcuk-ve-tumce" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Kelime ve cümle
+        Sözcük ve tümce
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Sözcük ve tümce">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sozcuk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sözcük
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tumce" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tümce
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sozcugun-etiketi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sözcüğün etiketi
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2130,13 +2169,52 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#kelime-ve-cumle" class="md-nav__link">
+  <a href="#sozcuk-ve-tumce" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Kelime ve cümle
+        Sözcük ve tümce
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Sözcük ve tümce">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sozcuk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sözcük
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tumce" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tümce
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sozcugun-etiketi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sözcüğün etiketi
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2246,8 +2324,8 @@ adlar sürüm notlarında duyurulur.</p>
 <p>Biçimbirim öznitelikleri iki çözümleyiciden gelir. spaCy'nin UD
 etiketlerinden gelenler öneksizdir (<code>case_loc_ratio</code>), Zeyrek'ten gelenler
 <code>zeyrek_</code> ile başlar (<code>zeyrek_case_loc_ratio</code>). İkisi aynı sayıyı vermez:
-<code>case_loc_ratio</code> durum etiketi taşıyan kelimeler içinde bulunma durumunun
-payıdır, <code>zeyrek_case_loc_ratio</code> çözümlenen bütün kelimeler içinde. Zeyrek
+<code>case_loc_ratio</code> durum etiketi taşıyan sözcükler içinde bulunma durumunun
+payıdır, <code>zeyrek_case_loc_ratio</code> çözümlenen bütün sözcükler içinde. Zeyrek
 ayrıca -DI ve -mIş geçmişini ayırır (<code>zeyrek_tense_past_def_ratio</code>,
 <code>zeyrek_tense_past_nar_ratio</code>); spaCy'de ikisi tek <code>tense_past_ratio</code>'dur.</p>
 <h2 id="grup">Grup<a class="headerlink" href="#grup" title="Permanent link">&para;</a></h2>
@@ -2290,7 +2368,7 @@ sayfasında.</p>
 </tr>
 <tr>
 <td><code>length</code></td>
-<td>Birimi karakter, kelime ya da cümle olan ortalama uzunluk</td>
+<td>Birimi karakter, sözcük ya da tümce olan ortalama uzunluk</td>
 <td><code>word_len_mean</code>, <code>sent_len_mean</code></td>
 </tr>
 <tr>
@@ -2307,19 +2385,113 @@ sayfasında.</p>
 </table>
 <p><code>ratio_0_1</code> olan iki özniteliği aynı eksende çizebilirsiniz; <code>score</code> olanı
 onların yanına koymak yanıltır.</p>
-<h2 id="kelime-ve-cumle">Kelime ve cümle<a class="headerlink" href="#kelime-ve-cumle" title="Permanent link">&para;</a></h2>
-<p>Öznitelikler kelimeyi ve cümleyi kütüphanenin kendi kuralıyla sayar, modelin
-tokenıyla değil:</p>
+<h2 id="sozcuk-ve-tumce">Sözcük ve tümce<a class="headerlink" href="#sozcuk-ve-tumce" title="Permanent link">&para;</a></h2>
+<p>Öznitelikler sözcüğü ve tümceyi kütüphanenin kendi kuralıyla sayar, modelin
+tokenıyla değil. Bunlar <strong>varsayılan sözcük</strong> ve <strong>varsayılan tümcedir</strong>; bu adları
+kullanan öbür sayfalar buraya gönderir.</p>
+<h3 id="sozcuk">Sözcük<a class="headerlink" href="#sozcuk" title="Permanent link">&para;</a></h3>
+<p>Metin boşluklardan bölünür. Her parçanın kenarındaki noktalama atılır (<code>. , ; : ! ? …</code>,
+tırnaklar, parantezler, tireler, <code>/</code>, <code>*</code>). Kalan birim <strong>en az bir harf ya da rakam
+içeriyorsa sözcüktür</strong>; içermiyorsa sayılmaz.</p>
+<table>
+<thead>
+<tr>
+<th>Metin</th>
+<th>Sözcükler</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Kitabı okudu.</code></td>
+<td><code>Kitabı</code>, <code>okudu</code> — nokta sözcüğe dahil değil</td>
+</tr>
+<tr>
+<td><code>e-posta</code>, <code>Ali'nin</code>, <code>%50</code></td>
+<td>her biri bir sözcük — sözcüğün içindeki işaret kalır</td>
+</tr>
+<tr>
+<td><code>1999 yılında</code></td>
+<td><code>1999</code>, <code>yılında</code> — sayı da sözcüktür</td>
+</tr>
+<tr>
+<td><code>Bu — bir deneme ...</code></td>
+<td><code>Bu</code>, <code>bir</code>, <code>deneme</code> — tek başına duran <code>—</code> ve <code>...</code> sözcük değil</td>
+</tr>
+<tr>
+<td><code>3. kat</code> · <code>Sonuç 3.</code></td>
+<td>Yalnız Türkçede: ardından sözcük ya da virgül gelen <code>3.</code> tek sözcüktür (sıra sayısı); tümce sonunda <code>3</code> olur</td>
+</tr>
+</tbody>
+</table>
+<p>Bağlılık grubu dışındaki her öznitelik bu sözcüğü sayar.</p>
+<h3 id="tumce">Tümce<a class="headerlink" href="#tumce" title="Permanent link">&para;</a></h3>
+<p>Tümceyi bitirenler:</p>
 <ul>
-<li><strong>Kelime</strong> — boşlukla ayrılan, kenar noktalaması atılan, harf ya da rakam
-  içeren birim. <code>e-posta</code>, <code>%50</code> ve sayılar birer kelimedir. Bağlılık
-  öznitelikleri dışında her öznitelik bu kelimeyi sayar.</li>
-<li><strong>Cümle</strong> — <code>. ? ! …</code> cümleyi bitirir; <code>:</code> yalnız ardından yeni bir cümle
-  başlıyorsa. <code>Dr.</code> gibi kısaltmalar cümle bitirmez.</li>
-<li><strong>Kelimenin etiketi</strong> — sözcük türü, biçimbirim etiketi ve lemma, kelimenin
-  içindeki ilk tokendan gelir. Türkçe lemma Zeyrek'in sözlük maddesidir,
-  İngilizce lemma spaCy'nin.</li>
+<li><strong><code>.</code> <code>?</code> <code>!</code> <code>…</code></strong> — her zaman. <code>...</code> ile <code>…</code> aynı işarettir. Art arda gelen
+  işaretler (<code>?!</code>, <code>."</code>) iki değil tek tümce bitirir.</li>
+<li><strong><code>:</code></strong> — yalnız ardından yeni bir tümce başlıyorsa: büyük harf, tırnak, tire ya da
+  açılış parantezi. Ardından küçük harfli bir sözcük ya da sayı gelen iki nokta (liste,
+  açıklama, <code>10:30</code>) tümce bitirmez.</li>
+<li><strong>metnin sonu</strong> — işaret olmasa da.</li>
 </ul>
+<p>Kısaltmadan sonraki nokta tümce <strong>bitirmez</strong>: <code>Dr.</code> tek birimdir. Türkçede <code>bkz.</code> gibi
+listedeki bir kısaltmanın noktası, ancak ardından büyük harfle başlayan bir sözcük gelirse
+tümce bitirir.</p>
+<table>
+<thead>
+<tr>
+<th>Metin</th>
+<th>Tümce</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Geldi. Gitti!</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>Ne dedin?! Bilmiyorum.</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>Şunu söyledi: Yarın geliyorum.</code></td>
+<td>2 — <code>:</code> sonrası büyük harf</td>
+</tr>
+<tr>
+<td><code>Üç şey aldı: ekmek, süt ve peynir.</code></td>
+<td>1 — <code>:</code> sonrası küçük harf</td>
+</tr>
+<tr>
+<td><code>Toplantı 10:30'da başladı.</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>Dr. Ayşe geldi.</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>Ayrıntı için bkz. şekil 3.</code></td>
+<td>1 — <code>bkz.</code> sonrası küçük harf</td>
+</tr>
+<tr>
+<td><code>Geldi ve gitti</code></td>
+<td>1 — işaret yok, metin bitiyor</td>
+</tr>
+</tbody>
+</table>
+<p>Tümce uzunluğu tümcedeki sözcük sayısıdır. Tümce uzunluğu öznitelikleri ve <code>sent_count</code>,
+ortalamayı boş yere aşağı çekmesin diye hiç harf içermeyen tümceyi saymaz:
+<code>Bu bir tümce. 1999. Bitti.</code> 2 tümcedir; <code>1999</code> dahil 5 sözcüğün hepsi sayılır.</p>
+<p>İki tür öznitelik bu kuralı kullanmaz:</p>
+<ul>
+<li>bazı <strong>okunabilirlik formülleri</strong> kendi kaynaklarının sayım kuralını izler:
+  Çetinkaya-Uzun <code>:</code> ve parantezde de tümce bitirir, Flesch formülleri <code>;</code>'de;</li>
+<li><strong>bağlılık grubu</strong> (<code>syntactic_dep</code>) spaCy'nin tokenlarını ve ayrıştırıcısının
+  tümcelerini kullanır.</li>
+</ul>
+<h3 id="sozcugun-etiketi">Sözcüğün etiketi<a class="headerlink" href="#sozcugun-etiketi" title="Permanent link">&para;</a></h3>
+<p>Sözcük türü, biçimbirim etiketi ve lemma sözcüğün içindeki ilk tokendan gelir.
+Türkçe lemma Zeyrek'in sözlük maddesidir, İngilizce lemma spaCy'nin.</p>
 <p>Bir özniteliğin hangi kuralı kullandığını
 <code>describe_feature(anahtar)["definitions"]</code> söyler.</p>
 <h2 id="boru-hatt">Boru hattı<a class="headerlink" href="#boru-hatt" title="Permanent link">&para;</a></h2>
@@ -2330,7 +2502,7 @@ tokenıyla değil:</p>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>   ↓  Zeyrek (yalnız Türkçe)
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>ek çözümlemesi · Türkçe lemma
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>   ↓  kütüphanenin kuralları
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>kelime ve cümle sınırları; her kelime etiketini kendi tokenından alır
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>sözcük ve tümce sınırları; her sözcük etiketini kendi tokenından alır
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>   ↓  öznitelik çıkarıcıları
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>208 sayı
 </code></pre></div>
@@ -2346,10 +2518,10 @@ tokenıyla değil:</p>
 <h2 id="featureparams"><code>FeatureParams</code><a class="headerlink" href="#featureparams" title="Permanent link">&para;</a></h2>
 <p>Pencere boyları, eşikler ve örneklem sayıları burada durur. Ayrıntı:
 <a href="../../nasil/parametreler/">Eşikleri değiştir</a>.</p>
-<p>Cümle eşikleri (<code>short_sent_threshold</code>, <code>long_sent_threshold</code>) <strong>dile göre
+<p>Tümce eşikleri (<code>short_sent_threshold</code>, <code>long_sent_threshold</code>) <strong>dile göre
 kalibre edilmiştir</strong> (TR 4/17, EN 8/32) ve alan alan çözümlenir: verdiğiniz
 alan kazanır, vermediğiniz alan kalibre değerinde kalır. Yani
-<code>FeatureParams(mattr_window=100)</code> cümle eşiklerini değiştirmez.</p>
+<code>FeatureParams(mattr_window=100)</code> tümce eşiklerini değiştirmez.</p>
 <h2 id="kayt-defteri-registry">Kayıt defteri (registry)<a class="headerlink" href="#kayt-defteri-registry" title="Permanent link">&para;</a></h2>
 <p>Öznitelik adları, tanımları, formülleri, gereksinimleri ve künyeleri tek
 bir yerde durur. <code>describe_feature</code>, <a href="../../../reference/">başvuru bölümü</a>

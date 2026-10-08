@@ -2210,17 +2210,17 @@ harmless and there is nothing to fix on either side.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">text</span> <span class="o">=</span> <span class="p">(</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="s2">"Language is the oldest instrument that carries human thought. Writing "</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="s2">"takes that thought outside of time. Measuring a text resembles weighing "</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="s2">"what it carries; set the scale correctly and the text will describe its "</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="s2">"own shape to you."</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="p">)</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">oz</span><span class="p">))</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="s2">"Colorless green ideas sleep furiously. Chomsky built this sentence to "</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="s2">"show that a grammatical sentence can still be meaningless. This library, "</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="s2">"too, measures form, not meaning."</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="p">)</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">oz</span><span class="p">))</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>181
 </code></pre></div>
+<p>The first sentence is from Chomsky's <em>Syntactic Structures</em> (1957).</p>
 <p><code>lang</code> defaults to <code>"tr"</code>. Leave it out and English text is analysed with the
 Turkish model and the Turkish feature set, so always pass <code>lang="en"</code>.</p>
 <p><code>analyze</code> returns a <strong>flat dictionary</strong>: keys are feature names, values are
@@ -2231,12 +2231,12 @@ numbers. No nesting, no classes, no <code>pandas</code> requirement.</p>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>          <span class="s2">"flesch_kincaid_grade"</span><span class="p">,</span> <span class="s2">"ari"</span><span class="p">,</span> <span class="s2">"coleman_liau"</span><span class="p">):</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">22s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">oz</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>ttr                    0.842105
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>word_len_mean          5.0
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>flesch_reading_ease    74.7451
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>flesch_kincaid_grade   5.1939
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>ari                    8.9491
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>coleman_liau           11.2632
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>ttr                    0.923077
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>word_len_mean          5.5385
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>flesch_reading_ease    51.6153
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>flesch_kincaid_grade   8.2131
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>ari                    10.0764
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>coleman_liau           13.3508
 </code></pre></div>
 <p>What these say:</p>
 <table>
@@ -2250,39 +2250,39 @@ numbers. No nesting, no classes, no <code>pandas</code> requirement.</p>
 <tbody>
 <tr>
 <td><code>ttr</code></td>
-<td>0.842</td>
-<td>Type-token ratio. 84% of the words appear once. Normal for a short text; impossible for a long one.</td>
+<td>0.923</td>
+<td>Type-token ratio. 24 of the 26 words are distinct; only <code>this</code> and <code>sentence</code> occur twice. A short text stays close to 1; the ratio falls as a text grows.</td>
 </tr>
 <tr>
 <td><code>word_len_mean</code></td>
-<td>5.0</td>
-<td>Five characters per word.</td>
+<td>5.54</td>
+<td>5.54 characters per word.</td>
 </tr>
 <tr>
 <td><code>flesch_reading_ease</code></td>
-<td>74.7</td>
-<td>Ordinary prose falls between 0 and 100, but that is not a hard limit; 70–80 is "fairly easy", roughly 7th grade.</td>
+<td>51.6</td>
+<td>Ordinary prose falls between 0 and 100, but that is not a hard limit; 50–60 is "fairly difficult", roughly high-school level.</td>
 </tr>
 <tr>
 <td><code>flesch_kincaid_grade</code></td>
-<td>5.19</td>
+<td>8.21</td>
 <td>US grade level.</td>
 </tr>
 <tr>
 <td><code>ari</code></td>
-<td>8.95</td>
+<td>10.08</td>
 <td>Automated Readability Index, also a grade level.</td>
 </tr>
 <tr>
 <td><code>coleman_liau</code></td>
-<td>11.26</td>
+<td>13.35</td>
 <td>Another grade level, from letters and sentences per 100 words.</td>
 </tr>
 </tbody>
 </table>
 <div class="admonition note">
 <p class="admonition-title">Three grade levels, three different numbers</p>
-<p>5.19, 8.95 and 11.26 all claim to be a grade level for the same text.
+<p>8.21, 10.08 and 13.35 all claim to be a grade level for the same text.
 That is not a bug — readability formulas disagree by design, because
 they were fitted on different corpora with different criteria. Report
 which formula you used, and do not average them.</p>
@@ -2292,7 +2292,7 @@ which formula you used, and do not average them.</p>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>nan
 </code></pre></div>
-<p>The text has 38 words; <code>mattr</code> requires at least 100. The library does not
+<p>The text has 26 words; <code>mattr</code> requires at least 100. The library does not
 invent a number from insufficient data — it returns <code>nan</code>.</p>
 <p>How much of the output is affected in a very short text:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">short</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="s2">"A short sentence."</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)</span>

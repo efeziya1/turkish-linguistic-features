@@ -1073,6 +1073,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#neden-sozcuk-ve-tumce" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Neden "sözcük" ve "tümce"
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#neden-kunye-ve-kaynakca-kayd-ayr" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2073,6 +2084,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#neden-sozcuk-ve-tumce" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Neden "sözcük" ve "tümce"
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#neden-kunye-ve-kaynakca-kayd-ayr" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2179,14 +2201,14 @@ sayfada iki ad vermemek.</p>
 </thead>
 <tbody>
 <tr>
-<td><strong>kelime</strong></td>
+<td><strong>sözcük</strong></td>
 <td>word</td>
-<td>Boşlukla ayrılan, kenar noktalaması atılan, harf ya da rakam içeren birim; kütüphanenin saydığı kelime</td>
+<td>Boşlukla ayrılan, kenar noktalaması atılan, harf ya da rakam içeren birim; kütüphanenin saydığı sözcük</td>
 </tr>
 <tr>
-<td><strong>cümle</strong></td>
+<td><strong>tümce</strong></td>
 <td>sentence</td>
-<td><code>. ? ! …</code> ile biten birim; <code>:</code> yalnız ardından yeni cümle geliyorsa</td>
+<td><code>. ? ! …</code> ile biten birim; <code>:</code> yalnız ardından yeni tümce geliyorsa</td>
 </tr>
 <tr>
 <td><strong>spaCy tokenı</strong></td>
@@ -2196,7 +2218,7 @@ sayfada iki ad vermemek.</p>
 <tr>
 <td><strong>lemma</strong></td>
 <td>lemma</td>
-<td>Kelimenin sözlük biçimi; Türkçede Zeyrek'ten, İngilizcede spaCy'den</td>
+<td>Sözcüğün sözlük biçimi; Türkçede Zeyrek'ten, İngilizcede spaCy'den</td>
 </tr>
 <tr>
 <td><strong>sözcük türü etiketi</strong></td>
@@ -2206,17 +2228,17 @@ sayfada iki ad vermemek.</p>
 <tr>
 <td><strong>n-gram</strong></td>
 <td>n-gram</td>
-<td>Ardışık kelimelerden oluşan öbek; <code>custom_ngrams</code> ile sayılır</td>
+<td>Ardışık sözcüklerden oluşan öbek; <code>custom_ngrams</code> ile sayılır</td>
 </tr>
 <tr>
 <td><strong>tip</strong></td>
 <td>type</td>
-<td>Metindeki farklı kelimelerden biri</td>
+<td>Metindeki farklı sözcüklerden biri</td>
 </tr>
 <tr>
 <td><strong>token</strong></td>
 <td>token</td>
-<td>Tip/token oranında: metindeki kelime örneklerinden biri</td>
+<td>Tip/token oranında: metindeki sözcük örneklerinden biri</td>
 </tr>
 <tr>
 <td><strong>tip/token oranı</strong></td>
@@ -2226,7 +2248,7 @@ sayfada iki ad vermemek.</p>
 <tr>
 <td><strong>hapax</strong></td>
 <td>hapax legomenon</td>
-<td>Metinde bir kez geçen kelime</td>
+<td>Metinde bir kez geçen sözcük</td>
 </tr>
 <tr>
 <td><strong>vuruş</strong></td>
@@ -2236,7 +2258,7 @@ sayfada iki ad vermemek.</p>
 <tr>
 <td><strong>pencere</strong></td>
 <td>window</td>
-<td>Kayan hesapta bir seferde bakılan kelime sayısı</td>
+<td>Kayan hesapta bir seferde bakılan sözcük sayısı</td>
 </tr>
 <tr>
 <td><strong>eşik</strong></td>
@@ -2307,6 +2329,10 @@ sayfada iki ad vermemek.</p>
 olması"). Burada kastedilen şey <strong>ölçülmüş bir değişkendir</strong> ve
 istatistiksel modele girer. Türkçe nicel dilbilim ve makine öğrenmesi
 yazınında bunun yerleşik karşılığı "öznitelik"tir.</p>
+<h2 id="neden-sozcuk-ve-tumce">Neden "sözcük" ve "tümce"<a class="headerlink" href="#neden-sozcuk-ve-tumce" title="Permanent link">&para;</a></h2>
+<p>Gündelik dilde "kelime" ve "cümle" de kullanılır; Türkçe dilbilim yazınında yerleşik
+terimler "sözcük" ve "tümce"dir. Doküman boyunca bu ikisi kullanılır; bu seçim "sözcük
+türü" (POS) gibi yerleşik terimlerle de uyumludur.</p>
 <h2 id="neden-kunye-ve-kaynakca-kayd-ayr">Neden "künye" ve "kaynakça kaydı" ayrı<a class="headerlink" href="#neden-kunye-ve-kaynakca-kayd-ayr" title="Permanent link">&para;</a></h2>
 <p>İngilizcede ikisi de citation/reference diye geçebiliyor ve karışıyor.
 Kütüphanede bunlar <strong>iki ayrı alandır</strong>:</p>

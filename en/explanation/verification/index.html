@@ -1610,10 +1610,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#why-97-rows-are-still-open" class="md-nav__link">
+  <a href="#why-103-rows-are-still-open" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why 97 rows are still 🔍 open
+        Why 103 rows are still 🔍 open
       
     </span>
   </a>
@@ -2158,10 +2158,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#why-97-rows-are-still-open" class="md-nav__link">
+  <a href="#why-103-rows-are-still-open" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why 97 rows are still 🔍 open
+        Why 103 rows are still 🔍 open
       
     </span>
   </a>
@@ -2349,7 +2349,7 @@ some of the 208 features are <strong>not even candidates</strong> for verificati
 </tbody>
 </table>
 <p>Where things stand today: <strong>48 of the 151 candidates are done</strong> (46 ✅ +
-2 🟡), 97 are 🔍 open.</p>
+2 🟡), 103 are 🔍 open.</p>
 <p>The tolerance is <strong>1% of the published value</strong> (relative). Sources print
 rounded intermediate values, so exact equality is not expected. A relative
 tolerance means the same at every scale: the old fixed 0.05 was far too loose
@@ -2372,7 +2372,7 @@ step leading to it is correct.</p>
 "syllables per word 2.2 and words per sentence 4". It verifies the formula
 and its coefficients, not the pipeline. It is what is available when the
 source published no text.</p>
-<h2 id="why-97-rows-are-still-open">Why 97 rows are still 🔍 open<a class="headerlink" href="#why-97-rows-are-still-open" title="Permanent link">&para;</a></h2>
+<h2 id="why-103-rows-are-still-open">Why 103 rows are still 🔍 open<a class="headerlink" href="#why-103-rows-are-still-open" title="Permanent link">&para;</a></h2>
 <p>The source published the formula but never applied it to a text and printed
 the result. In quantitative linguistics this is <strong>ordinary</strong>. Yule (1944)
 defines K; he does not print what K comes to for a particular novel. With no
@@ -2455,11 +2455,13 @@ comparison can be made directly:</p>
 </tr>
 <tr>
 <td><code>entropy</code> Text 1</td>
-<td>6.438043</td>
-<td>6.438043</td>
+<td>6.438043 bits = 4.462511 nats</td>
+<td>4.462512</td>
 </tr>
 </tbody>
 </table>
+<p>QUITA prints entropy in bits. Every logarithm in this library is natural, so the published
+value is converted to nats (× ln 2) before the comparison.</p>
 <p>Twenty-seven of the twenty-eight comparisons fall within tolerance (the
 largest relative difference is under 0.1%, and most deviate by zero). The
 remaining one deviates by 0.009, which is 1.5% of the published value; it is
@@ -2500,7 +2502,7 @@ different number: the gap between the mean the source printed in Table 1
 (12.3) and our mean over the 18 passages. Relative to the published
 value that is about 3.9% (0.485 ÷ 12.3), far above the 1% tolerance, so ✅ is out.</p>
 <p><strong>Why is it not ❌?</strong> Because we did not guess where the deviation comes from, we
-measured it. Both formulas take "strokes per word" (letters and digits) as an
+measured it. Both formulas take "strokes per word" (every non-space character: letters, digits and punctuation) as an
 input, and in 1975 that count was made by hand, with a mechanical counter
 attached to a typewriter. We tested whether the difference sits there: how many
 times our stroke count would the source's own number require? In 17 of the 18

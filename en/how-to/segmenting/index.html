@@ -2141,14 +2141,14 @@ sensitive than TTR but not independent of length
 <h2 id="segment-size-is-measured-in-words">Segment size is measured in words<a class="headerlink" href="#segment-size-is-measured-in-words" title="Permanent link">&para;</a></h2>
 <p><code>segment_size</code> counts the word <code>analyze</code> counts: a whitespace-separated piece with
 edge punctuation stripped, containing a letter or digit. Punctuation is not a
-word. With the 30-word Turkish <code>metin</code> from the
+word (<a href="../../explanation/concepts/#word">full definition</a>). With the 25-word Turkish <code>metin</code> from the
 <a href="../../../tr/baslangic/">Turkish tutorial</a>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">long_text</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">metin</span><span class="p">]</span> <span class="o">*</span> <span class="mi">12</span><span class="p">)</span>             <span class="c1"># 360 words</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">long_text</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">metin</span><span class="p">]</span> <span class="o">*</span> <span class="mi">15</span><span class="p">)</span>             <span class="c1"># 375 words</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">segments</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">long_text</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nb">len</span><span class="p">(</span><span class="n">segments</span><span class="p">)</span>                                  <span class="c1"># 3</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">segments</span><span class="p">]</span>             <span class="c1"># [100, 100, 100]</span>
 </code></pre></div>
-<p>360 words ÷ 100 = 3 full segments, and the remaining 60 words are dropped.
+<p>375 words ÷ 100 = 3 full segments, and the remaining 75 words are dropped.
 Each segment is exactly 100 words in <code>analyze</code>, enough for a measure such as
 <code>mattr</code> that needs at least 100 words.</p>
 <h2 id="the-last-segment-min_fill">The last segment: <code>min_fill</code><a class="headerlink" href="#the-last-segment-min_fill" title="Permanent link">&para;</a></h2>
@@ -2157,7 +2157,7 @@ is discarded.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">long_text</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>                <span class="c1"># 3</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">long_text</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">min_fill</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>  <span class="c1"># 4</span>
 </code></pre></div>
-<p>The remainder is 60 words, 60% of a segment: below the <code>1.0</code> threshold,
+<p>The remainder is 75 words, 75% of a segment: below the <code>1.0</code> threshold,
 above <code>0.5</code>.</p>
 <table>
 <thead>

@@ -2171,7 +2171,7 @@ Kütüphane bunu size hazır verir.</p>
 <tbody>
 <tr>
 <td><code>description</code></td>
-<td>Bir cümlelik tanım</td>
+<td>Bir tümcelik tanım</td>
 </tr>
 <tr>
 <td><code>formula</code></td>
@@ -2203,7 +2203,7 @@ Kütüphane bunu size hazır verir.</p>
 </tr>
 <tr>
 <td><code>definitions</code></td>
-<td><code>formula</code>daki terimlerin ne demek olduğu ve tanımın nereden geldiği: her terim için <code>{"name", "source" (kuralı kim koyuyor: tlf, spacy, zeyrek, textstat, wordfreq), "description" (tek cümle: nasıl sayıldığı)}</code>; yalnız o formülün kullandığı terimler; dile göre değişen terimde (<code>syllable</code>) <code>describe_feature(key, lang="tr")</code> dili seçer</td>
+<td><code>formula</code>daki terimlerin ne demek olduğu ve tanımın nereden geldiği: her terim için <code>{"name", "source" (kuralı kim koyuyor: tlf, spacy, zeyrek, textstat, wordfreq), "description" (tek tümce: nasıl sayıldığı)}</code>; yalnız o formülün kullandığı terimler; dile göre değişen terimde (<code>syllable</code>) <code>describe_feature(key, lang="tr")</code> dili seçer</td>
 </tr>
 </tbody>
 </table>
@@ -2233,7 +2233,7 @@ kaynağa dayanıyormuş gibi göstermek, kaynağı hiç vermemekten kötüdür.<
 </code></pre></div>
 <p><code>citation</code> <code>None</code> ise o anahtar <strong>adlandırılmış bir literatür ölçüsü
 değildir,</strong> saf bir tanımdır: <code>punct_dash_ratio</code> ("tire / bütün noktalama işaretleri"),
-<code>uppercase_ratio</code> ("büyük harfle başlayan kelimelerin payı"), <code>lemma_count</code>
+<code>uppercase_ratio</code> ("büyük harfle başlayan sözcüklerin payı"), <code>lemma_count</code>
 ("farklı lemma sayısı").
 Bir dış etiket şemasının kategorisini sayan anahtarların künyesi ise <code>None</code>
 değildir, şemayı gösterir (<code>case_loc_ratio</code> → UD; <code>zeyrek_case_loc_ratio</code> →

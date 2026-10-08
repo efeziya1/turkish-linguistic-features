@@ -1007,10 +1007,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-cumle-esikleri-yalnz-gazete-kose-yazlaryla-kalibre-edildi" class="md-nav__link">
+  <a href="#1-tumce-esikleri-yalnz-gazete-kose-yazlaryla-kalibre-edildi" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Cümle eşikleri yalnız gazete köşe yazılarıyla kalibre edildi
+        1. Tümce eşikleri yalnız gazete köşe yazılarıyla kalibre edildi
       
     </span>
   </a>
@@ -2121,10 +2121,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-cumle-esikleri-yalnz-gazete-kose-yazlaryla-kalibre-edildi" class="md-nav__link">
+  <a href="#1-tumce-esikleri-yalnz-gazete-kose-yazlaryla-kalibre-edildi" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Cümle eşikleri yalnız gazete köşe yazılarıyla kalibre edildi
+        1. Tümce eşikleri yalnız gazete köşe yazılarıyla kalibre edildi
       
     </span>
   </a>
@@ -2266,16 +2266,16 @@
 ikincisi kütüphanenin zayıflığı olmayan ama sonuçları yorumlarken bilmeniz
 gereken noktaları. Yöntem bölümü yazarken ikisine de bakın.</p>
 <h2 id="kutuphanenin-snrllklar">Kütüphanenin sınırlılıkları<a class="headerlink" href="#kutuphanenin-snrllklar" title="Permanent link">&para;</a></h2>
-<h3 id="1-cumle-esikleri-yalnz-gazete-kose-yazlaryla-kalibre-edildi">1. Cümle eşikleri yalnız gazete köşe yazılarıyla kalibre edildi<a class="headerlink" href="#1-cumle-esikleri-yalnz-gazete-kose-yazlaryla-kalibre-edildi" title="Permanent link">&para;</a></h3>
+<h3 id="1-tumce-esikleri-yalnz-gazete-kose-yazlaryla-kalibre-edildi">1. Tümce eşikleri yalnız gazete köşe yazılarıyla kalibre edildi<a class="headerlink" href="#1-tumce-esikleri-yalnz-gazete-kose-yazlaryla-kalibre-edildi" title="Permanent link">&para;</a></h3>
 <p><code>short_sent_ratio</code> ve <code>long_sent_ratio</code> eşikleri (TR 4/17, EN 8/32) gazete
-köşe yazılarında, varsayılan cümle kuralı ve varsayılan kelimeyle ölçülen
-cümle uzunluğu dağılımının 15. ve 85. yüzdeliğinden türetildi:</p>
+köşe yazılarında, varsayılan tümce kuralı ve varsayılan sözcükle ölçülen
+tümce uzunluğu dağılımının 15. ve 85. yüzdeliğinden türetildi:</p>
 <table>
 <thead>
 <tr>
 <th>Dil</th>
 <th>Yazar</th>
-<th>Cümle</th>
+<th>Tümce</th>
 </tr>
 </thead>
 <tbody>
@@ -2307,16 +2307,16 @@ kaynağın kendi ifadesiyle</strong> karşılaştırılmadı.</p>
 göstermeyin.</p>
 <h3 id="3-spacy-modeli-sonuclarn-parcas">3. spaCy modeli sonuçların parçası<a class="headerlink" href="#3-spacy-modeli-sonuclarn-parcas" title="Permanent link">&para;</a></h3>
 <p>Sözcük türü, biçimbilim etiketleri, İngilizce lemmalar ve bağlılık
-öznitelikleri (ayrıştırıcının kendi cümleleriyle) modelden gelir. Model
+öznitelikleri (ayrıştırıcının kendi tümceleriyle) modelden gelir. Model
 değişirse bu sayılar değişir. Türkçe lemmalar Zeyrek'ten gelir (§4).</p>
-<p>Kelime ve cümle kütüphanenin kendi kuralıyla sayılır
-(<a href="../kavramlar/#kelime-ve-cumle">Kavramlar</a>). Kelime başına etiket isteyen
-öznitelikler (sözcük türü, lemma, biçimbilim) etiketi kelimenin içindeki ilk
-kelime tokenından alır: model <code>Türk-Amerikan</code>'ı ya da İngilizce
-<code>it's</code>'i birden çok tokena böler, kelime ilk parçanın etiketini taşır
-(<code>Türk</code>, <code>it</code>). Bu, Türkçe köşe yazılarında kelimelerin %0,3'ünde,
+<p>Sözcük ve tümce kütüphanenin kendi kuralıyla sayılır
+(<a href="../kavramlar/#sozcuk-ve-tumce">Kavramlar</a>). Sözcük başına etiket isteyen
+öznitelikler (sözcük türü, lemma, biçimbilim) etiketi sözcüğün içindeki ilk
+sözcük tokenından alır: model <code>Türk-Amerikan</code>'ı ya da İngilizce
+<code>it's</code>'i birden çok tokena böler, sözcük ilk parçanın etiketini taşır
+(<code>Türk</code>, <code>it</code>). Bu, Türkçe köşe yazılarında sözcüklerin %0,3'ünde,
 İngilizcelerde %2,7'sinde olur. Bağlılık öznitelikleri modelin tokenlarını
-sayar. Hangi özniteliğin hangi kelimeyi kullandığını
+sayar. Hangi özniteliğin hangi sözcüğü kullandığını
 <code>describe_feature(key)["definitions"]["word"]</code> söyler.</p>
 <p>Doğrulanmış kombinasyon: spaCy 3.8.16, <code>en_core_web_sm</code> 3.8.0,
 <code>tr_core_news_md</code> 1.0.</p>
@@ -2326,7 +2326,7 @@ anlatılıyor; ikisi de zararsız.</p>
 <h3 id="4-turkce-morfoloji-zeyreke-bagl">4. Türkçe morfoloji Zeyrek'e bağlı<a class="headerlink" href="#4-turkce-morfoloji-zeyreke-bagl" title="Permanent link">&para;</a></h3>
 <p><code>morphological_zeyrek</code> grubundaki 23 öznitelik ve Türkçe lemmalar Zeyrek'ten
 gelir — Zemberek morfotaktiğinin Python aktarımı. Zeyrek'in çözümleyemediği bir
-kelime Zeyrek özniteliklerinden düşer; lemması kesme işaretinden önceki kısmı
+sözcük Zeyrek özniteliklerinden düşer; lemması kesme işaretinden önceki kısmı
 olur (<code>Pittsburgh'tan</code> → <code>pittsburgh</code>).</p>
 <p>Zeyrek bir <strong>çözümleyicidir, belirsizlik gidericisi değildir</strong>: aynı yüzey
 biçimi için birden çok çözümleme dönebilir ve bağlama bakarak doğrusunu
@@ -2357,7 +2357,7 @@ gereksinimi ya da künye kuralı. Yine de sonuçları etkiler.</p>
 tanımlarıdır. Künyeleri bunu açıkça yazar:</p>
 <ul>
 <li><code>punct_entropy</code>, <code>sent_len_entropy</code> — Shannon formülünün noktalama ve
-  cümle uzunluğu dağılımına uygulanması. Formül Shannon'ın, uygulama kararı
+  tümce uzunluğu dağılımına uygulanması. Formül Shannon'ın, uygulama kararı
   bizim.</li>
 <li><code>polysyllabic_word_ratio</code> — SMOG'un girdisinin oran biçimi. McLaughlin'in
   kendi ölçüsü değil.</li>
@@ -2366,10 +2366,10 @@ tanımlarıdır. Künyeleri bunu açıkça yazar:</p>
 kaynağını verin, ölçünün kendisini kaynağa mal etmeyin. Yöntem bölümünüzde:</p>
 <ul>
 <li>✗ "Shannon (1948) <code>sent_len_entropy</code> ölçüsü"</li>
-<li>✓ "Shannon (1948) entropisinin cümle uzunluğu dağılımına uygulanması
+<li>✓ "Shannon (1948) entropisinin tümce uzunluğu dağılımına uygulanması
   (turkish-linguistic-features'ın tanımı)"</li>
 </ul>
-<p>Sebep basit: Shannon entropiyi tanımladı, cümle uzunluklarına
+<p>Sebep basit: Shannon entropiyi tanımladı, tümce uzunluklarına
 uygulamadı. Birinci yazım okuyucuya, kaynakta aranınca bulunacak bir ölçü
 olduğunu ima ediyor.</p>
 <h3 id="8-paragraf-oznitelikleri-girdinin-bicimlendirmesine-bagl">8. Paragraf öznitelikleri girdinin biçimlendirmesine bağlı<a class="headerlink" href="#8-paragraf-oznitelikleri-girdinin-bicimlendirmesine-bagl" title="Permanent link">&para;</a></h3>
@@ -2377,12 +2377,12 @@ olduğunu ima ediyor.</p>
 sonu paragraf saymaz — aksi hâlde satır satır sarılmış bir metinde her satır
 paragraf olurdu.</p>
 <p>Sonuç: metninizde boş satır yoksa metnin tamamı tek paragraf sayılır.
-<code>para_len_mean</code> bütün metnin kelime sayısına eşitlenir.
+<code>para_len_mean</code> bütün metnin sözcük sayısına eşitlenir.
 Kütüphane bunu düzeltemez — silinmiş paragraf sınırı geri getirilemez.</p>
 <p>Bu, PDF ve EPUB'dan çıkarılmış metinlerde <strong>yaygındır</strong>: paragraflar arasındaki
 boş satırlar çıkarım sırasında kaybolur. Değer <code>nan</code> olmadığı için bunu
 sayılardan fark etmezsiniz; uyarı aşağıda.</p>
-<p>1000 kelimeyi geçen bir metinde hiç paragraf sınırı bulunamazsa
+<p>1000 sözcüğü geçen bir metinde hiç paragraf sınırı bulunamazsa
 <code>ParagraphStructureWarning</code> basılır. Uyarıyı görürseniz iki yol var: kaynak
 metni paragrafları boş satırla ayrılmış hâlde yeniden çıkarın, ya da
 <code>groups</code> ile <code>paragraph</code> grubunu dışarıda bırakın.</p>
@@ -2392,8 +2392,8 @@ protokolündeki gibi sayıları, kısaltmaları ve sembolleri <strong>okunuşlar
 sayar: <code>1918</code> → bin dokuz yüz on sekiz (7 hece), <code>cm</code> → santimetre, <code>%50</code> →
 yüzde elli, <code>3. kat</code> → üçüncü kat, <code>10:30</code> → on otuz, <code>3kg</code> → üç kilogram,
 <code>TBMM</code> → te-be-me-me.</p>
-<p>Sayıdan sonraki nokta, ardından kelime ya da virgül geliyorsa sıra sayısıdır
-(<code>3. kat</code>); gelmiyorsa cümle sonudur (<code>Sonuç 3.</code> → üç).</p>
+<p>Sayıdan sonraki nokta, ardından sözcük ya da virgül geliyorsa sıra sayısıdır
+(<code>3. kat</code>); gelmiyorsa tümce sonudur (<code>Sonuç 3.</code> → üç).</p>
 <p>Okunuşu metinden belirlenemeyen biçimler tahmin edilmez, hece sayımından
 <strong>atlanır</strong>: tek başına birim harfi (<code>m</code> metre de olabilir dakika da),
 okunuşu bağlama göre değişen semboller (<code>/</code>, <code>#</code>, <code>*</code>), listede olmayan ünsüz

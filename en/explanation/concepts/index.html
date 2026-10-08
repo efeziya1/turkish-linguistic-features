@@ -1562,6 +1562,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Word and sentence">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#word" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Word
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sentence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sentence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-words-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A word's tags
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2138,6 +2177,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Word and sentence">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#word" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Word
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sentence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sentence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-words-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A word's tags
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2312,18 +2390,109 @@ letter.</p>
 misleads.</p>
 <h2 id="word-and-sentence">Word and sentence<a class="headerlink" href="#word-and-sentence" title="Permanent link">&para;</a></h2>
 <p>Features count words and sentences with the library's own rules, not with
-the model's tokens:</p>
+the model's tokens. These are the <strong>default word</strong> and the <strong>default sentence</strong>;
+other pages that use these names point here.</p>
+<h3 id="word">Word<a class="headerlink" href="#word" title="Permanent link">&para;</a></h3>
+<p>The text is split at whitespace. Punctuation at the edges of each piece is removed
+(<code>. , ; : ! ? …</code>, quotes, brackets, dashes, <code>/</code>, <code>*</code>). What is left is a <strong>word if it
+contains at least one letter or digit</strong>; otherwise it is not counted.</p>
+<table>
+<thead>
+<tr>
+<th>Text</th>
+<th>Words</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>He read it.</code></td>
+<td><code>He</code>, <code>read</code>, <code>it</code> — the full stop is not part of the word</td>
+</tr>
+<tr>
+<td><code>e-mail</code>, <code>it's</code>, <code>50%</code></td>
+<td>one word each — marks inside a word stay</td>
+</tr>
+<tr>
+<td><code>in 1999</code></td>
+<td><code>in</code>, <code>1999</code> — a number is a word</td>
+</tr>
+<tr>
+<td><code>This — is a test ...</code></td>
+<td><code>This</code>, <code>is</code>, <code>a</code>, <code>test</code> — <code>—</code> and <code>...</code> on their own are not words</td>
+</tr>
+<tr>
+<td><code>3. kat</code> · <code>Sonuç 3.</code></td>
+<td>Turkish only: <code>3.</code> is one word (an ordinal) when a word or a comma follows it; at the end of a sentence it is <code>3</code></td>
+</tr>
+</tbody>
+</table>
+<p>Every feature except the dependency group counts this word.</p>
+<h3 id="sentence">Sentence<a class="headerlink" href="#sentence" title="Permanent link">&para;</a></h3>
+<p>A sentence ends at:</p>
 <ul>
-<li><strong>Word</strong> — a whitespace-separated piece with edge punctuation stripped,
-  containing a letter or digit. <code>e-posta</code>, <code>%50</code> and numbers are one word
-  each. Every feature except the dependency group counts this word.</li>
-<li><strong>Sentence</strong> — <code>. ? ! …</code> end a sentence; <code>:</code> only when a new sentence
-  follows. Abbreviations such as <code>Dr.</code> do not.</li>
-<li><strong>A word's tags</strong> — the part of speech, morphological tags and lemma come
-  from the first token inside the word. Turkish lemmas are Zeyrek's dictionary
-  entry, English lemmas spaCy's.</li>
+<li><strong><code>.</code> <code>?</code> <code>!</code> <code>…</code></strong> — always. <code>...</code> and <code>…</code> are the same mark. Marks in a row
+  (<code>?!</code>, <code>."</code>) end one sentence, not two.</li>
+<li><strong><code>:</code></strong> — only when what follows starts like a new sentence: a capital letter, a
+  quote, a dash or an opening bracket. A colon followed by a lowercase word or a number
+  (a list, an explanation, <code>10:30</code>) does not end a sentence.</li>
+<li><strong>the end of the text</strong>, even without a mark.</li>
 </ul>
-<p><code>describe_feature(key)["definitions"]</code> names the rule a feature uses.</p>
+<p>A full stop after an abbreviation does <strong>not</strong> end a sentence: <code>Dr.</code> is one unit. In
+Turkish, the dot after a listed abbreviation such as <code>bkz.</code> ends a sentence only when the
+next word starts with a capital.</p>
+<table>
+<thead>
+<tr>
+<th>Text</th>
+<th>Sentences</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>He came. He left!</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>What?! I don't know.</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>She said: We leave tomorrow.</code></td>
+<td>2 — a capital after <code>:</code></td>
+</tr>
+<tr>
+<td><code>He bought three things: bread, milk and cheese.</code></td>
+<td>1 — lowercase after <code>:</code></td>
+</tr>
+<tr>
+<td><code>The meeting began at 10:30.</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>Dr. Smith arrived.</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>He came and went</code></td>
+<td>1 — no mark; the text ends</td>
+</tr>
+</tbody>
+</table>
+<p>A sentence's length is the number of words in it. The sentence-length features and
+<code>sent_count</code> do not count a sentence with no letter in it, so that it does not pull the
+mean down: <code>This is one. 1999. Done.</code> has 2 sentences, and all 5 of its words, <code>1999</code>
+included, are counted.</p>
+<p>Two kinds of feature do not use this rule:</p>
+<ul>
+<li>some <strong>readability formulas</strong> follow the counting their own source prescribes:
+  Çetinkaya-Uzun also ends a sentence at <code>:</code> and at brackets, the Flesch formulas at <code>;</code>;</li>
+<li>the <strong>dependency group</strong> (<code>syntactic_dep</code>) uses spaCy's tokens and its parser's
+  sentences.</li>
+</ul>
+<h3 id="a-words-tags">A word's tags<a class="headerlink" href="#a-words-tags" title="Permanent link">&para;</a></h3>
+<p>The part of speech, morphological tags and lemma come from the first token inside the
+word. Turkish lemmas are Zeyrek's dictionary entry, English lemmas spaCy's.</p>
+<p><code>describe_feature(key)["definitions"]</code> names the rule each feature uses.</p>
 <h2 id="the-pipeline">The pipeline<a class="headerlink" href="#the-pipeline" title="Permanent link">&para;</a></h2>
 <p>When you call <code>analyze</code>, this happens in order:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>raw text

@@ -2006,10 +2006,9 @@ to your first table.</p>
 <h2 id="at-a-glance">At a glance<a class="headerlink" href="#at-a-glance" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="s2">"Language is the oldest instrument that carries thought."</span><span class="p">,</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>                 <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nb">len</span><span class="p">(</span><span class="n">oz</span><span class="p">)</span>               <span class="c1"># 181</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">oz</span><span class="p">[</span><span class="s2">"word_len_mean"</span><span class="p">]</span>   <span class="c1"># 5.875</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="s2">"Colorless green ideas sleep furiously."</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nb">len</span><span class="p">(</span><span class="n">oz</span><span class="p">)</span>               <span class="c1"># 181</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">oz</span><span class="p">[</span><span class="s2">"word_len_mean"</span><span class="p">]</span>   <span class="c1"># 6.6</span>
 </code></pre></div>
 <p>The library has <strong>eleven</strong> public names. That is all of them:</p>
 <table>
@@ -2030,7 +2029,7 @@ to your first table.</p>
 </tr>
 <tr>
 <td><code>ngram_matches</code></td>
-<td>Shows what one of your own phrases matched in a text, with counts</td>
+<td>Shows what a sequence of words or POS tags you give (such as <code>["ADJ", "NOUN"]</code>) matched in a text, with counts</td>
 </tr>
 <tr>
 <td><code>segment_text</code></td>
@@ -2042,7 +2041,7 @@ to your first table.</p>
 </tr>
 <tr>
 <td><code>describe_feature</code></td>
-<td>Gives a feature's definition and source</td>
+<td>Gives a feature's definition, formula, scale, the minimum data it needs, and its citation</td>
 </tr>
 <tr>
 <td><code>FeatureParams</code></td>
@@ -2050,7 +2049,7 @@ to your first table.</p>
 </tr>
 <tr>
 <td><code>LinguisticFeaturesError</code></td>
-<td>Base class for every error the library raises</td>
+<td>Base class for the library's own errors</td>
 </tr>
 <tr>
 <td><code>ModelNotFoundError</code></td>
