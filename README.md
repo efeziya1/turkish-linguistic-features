@@ -16,9 +16,9 @@ https://efeziya1.github.io/turkish-linguistic-features/
 ```python
 import turkish_linguistic_features as tlf
 
-oz = tlf.analyze("Dil, insanın düşüncesini taşıyan en eski araçtır.", lang="tr")
-oz["word_len_mean"]   # 5.8571
-oz["atesman"]         # 77.2479  (Ateşman 1997 readability)
+oz = tlf.analyze("Renksiz yeşil fikirler öfkeyle uyur.", lang="tr")
+oz["word_len_mean"]   # 6.2
+oz["atesman"]         # 89.355  (Ateşman 1997 readability)
 ```
 
 ## Documentation

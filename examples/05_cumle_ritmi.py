@@ -1,10 +1,10 @@
-"""Cümle ritmi — etiketler cümle uzunluğunun dağılımıyla ayrışıyor mu?
+"""Tümce ritmi — etiketler tümce uzunluğunun dağılımıyla ayrışıyor mu?
 
-Ortalama cümle uzunluğu tek başına az şey söyler: iki yazar aynı ortalamayla
-biri hep orta boy, öteki kısa ve çok uzun cümleleri karıştırarak yazabilir.
+Ortalama tümce uzunluğu tek başına az şey söyler: iki yazar aynı ortalamayla
+biri hep orta boy, öteki kısa ve çok uzun tümceleri karıştırarak yazabilir.
 Üslup çoğu zaman **değişkenlikte** durur. Bu script korpustaki her etiket
-için ortalama, medyan ve kısa/uzun cümle oranını yan yana koyar;
-kısa ve uzun cümlelerin toplam payı ("uçlar") ritmin ne kadar dalgalı
+için ortalama, medyan ve kısa/uzun tümce oranını yan yana koyar;
+kısa ve uzun tümcelerin toplam payı ("uçlar") ritmin ne kadar dalgalı
 olduğunu gösterir.
 
     python examples/05_cumle_ritmi.py korpus/
@@ -21,8 +21,8 @@ from pathlib import Path
 import turkish_linguistic_features as tlf
 from _demo import demo_korpus_yaz
 
-PARCA_BOYUTU = 1500        # gerçek korpus için (kelime)
-DEMO_PARCA_BOYUTU = 60     # demo metinleri ~100 kelime
+PARCA_BOYUTU = 1500        # gerçek korpus için (sözcük)
+DEMO_PARCA_BOYUTU = 60     # demo metinleri ~100 sözcük
 DIL = "tr"
 CIKTI_DIZINI = Path("examples/output")
 OLCULER = {
@@ -43,12 +43,12 @@ def main() -> None:
         print(f"Korpus verilmedi; demo korpus kullanılıyor: {korpus}\n")
         demo_korpus_yaz(korpus)
 
-    # Yalnız `sentence` grubu: cümle ölçüleri için bütün öznitelikleri
-    # hesaplamak gereksiz, grup seçmek süreyi birkaç kat kısaltır.
+    # Yalnız `sentence` grubu: satırlar yalnız tümce ölçülerini taşır. Süre az kısalır;
+    # spaCy ve Zeyrek ön işlemesi hangi grup seçilirse seçilsin her parçada bir kez çalışır.
     satirlar = tlf.analyze_corpus(korpus, lang=DIL, segment_size=parca_boyutu,
                                   groups=["sentence"], warn=False)
     if not satirlar:
-        sys.exit(f"Hiç parça çıkmadı; metinler {parca_boyutu} kelimeden kısa olabilir.")
+        sys.exit(f"Hiç parça çıkmadı; metinler {parca_boyutu} sözcükten kısa olabilir.")
 
     etiketler: dict[str, list[dict]] = {}
     for satir in satirlar:
@@ -62,7 +62,7 @@ def main() -> None:
             degerler = [float(p[anahtar]) for p in parcalar
                         if float(p[anahtar]) == float(p[anahtar])]
             kayit[anahtar] = round(statistics.mean(degerler), 4) if degerler else float("nan")
-        # Uçlar: kısa + uzun cümlelerin payı; yüksekse ritim dalgalı.
+        # Uçlar: kısa + uzun tümcelerin payı; yüksekse ritim dalgalı.
         kayit["uclar"] = round(kayit["short_sent_ratio"] + kayit["long_sent_ratio"], 4)
         ozet.append(kayit)
     ozet.sort(key=lambda k: k["uclar"])
@@ -76,8 +76,8 @@ def main() -> None:
     en_duzenli, en_dalgali = ozet[0], ozet[-1]
     print(f"\nEn düzenli ritim : {en_duzenli['label']} (uçlar {en_duzenli['uclar']:.3f})")
     print(f"En dalgalı ritim : {en_dalgali['label']} (uçlar {en_dalgali['uclar']:.3f})")
-    print("\nUçlar = kısa + uzun cümlelerin payı: cümle uzunluğunun ne kadar oynadığı.")
-    print("Kısa/uzun eşikleri dile göre kalibre edilmiştir (Türkçe 4 / 17 kelime).")
+    print("\nUçlar = kısa + uzun tümcelerin payı: tümce uzunluğunun ne kadar oynadığı.")
+    print("Kısa/uzun eşikleri dile göre kalibre edilmiştir (Türkçe 4 / 17 sözcük).")
 
     CIKTI_DIZINI.mkdir(parents=True, exist_ok=True)
     yol = CIKTI_DIZINI / "cumle_ritmi.csv"

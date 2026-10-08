@@ -11,7 +11,7 @@ olmazdı.
 
 ## Ne kadar sık
 
-Üç kelimelik bir metinde:
+Üç sözcüklük bir metinde:
 
 ```python
 kisa = tlf.analyze("Kısa bir cümle.", lang="tr")
@@ -33,7 +33,7 @@ len(kisa), len(nan_olan)
 Aynı metinde `ttr` yine de sayı döner:
 
 ```text
-mattr  = nan   (en az 100 kelime ister)
+mattr  = nan   (en az 100 sözcük ister)
 ttr    = 1.0   (her uzunlukta hesaplanır)
 ```
 
@@ -53,9 +53,9 @@ tlf.describe_feature("mattr")["requires"]
 'at least 100 words (2 x mattr_window)'
 ```
 
-Buradaki **kelime** kütüphanenin varsayılan kelimesidir
-([Kavramlar](kavramlar.md#kelime-ve-cumle)). `segment_text`'in `segment_size` değeri de
-aynı kelimeyi sayar: 100 kelimelik parça 100 kelime isteyen bir ölçüye yeter.
+Buradaki **sözcük** kütüphanenin varsayılan sözcüğüdür
+([Kavramlar](kavramlar.md#sozcuk-ve-tumce)). `segment_text`'in `segment_size` değeri de
+aynı sözcüğü sayar: 100 sözcüklük parça 100 sözcük isteyen bir ölçüye yeter.
 
 Sınırın altındaysanız `nan` gelir. Sınırların bir kısmı kaynaktan gelir
 (`mtld` için "texts as short as 100 tokens can be used"), bir kısmı
@@ -65,7 +65,7 @@ ortalama" olmaktan çıkar — o yüzden eşik `2 × pencere`dir.
 ### 2. Gereken yapı yok
 
 `zeyrek_derivational_suffix_ratio` metinde hiç türetme eki bulamazsa paydası sıfır
-olur. `parse_depth_mean` cümle ayrıştırılamazsa değer üretemez.
+olur. `parse_depth_mean` tümce ayrıştırılamazsa değer üretemez.
 `verb_dist_mean` metinde en az iki fiil yoksa ölçülemez.
 
 ### 3. İsteğe bağlı bir paket kurulu değil
@@ -84,10 +84,10 @@ aşağıdaki paragraf uyarısını da susturur.
 
 Paragraf sınırı boş satırla bulunur, tek satır sonu saymaz. Metninizde boş
 satır yoksa metnin tamamı tek paragraf sayılır ve `para_len_mean` bütün
-metnin kelime sayısına eşitlenir: değer `nan` olmaz ama paragraf hakkında
+metnin sözcük sayısına eşitlenir: değer `nan` olmaz ama paragraf hakkında
 bir şey söylemez.
 
-1000 kelimeyi geçen metinde hiç sınır bulunamazsa `ParagraphStructureWarning`
+1000 sözcüğü geçen metinde hiç sınır bulunamazsa `ParagraphStructureWarning`
 basılır:
 
 ```python
@@ -140,7 +140,7 @@ parçalama:
 satirlar = tlf.analyze_corpus("korpus/", lang="tr", segment_size=1000)
 ```
 
-1000 kelimelik parçalar 208 özniteliğin neredeyse tamamını besler. Ayrıntı:
+1000 sözcüklük parçalar 208 özniteliğin neredeyse tamamını besler. Ayrıntı:
 [Metni parçalara böl](../nasil/segmentleme.md).
 
 ## Neden `None` değil de `nan`

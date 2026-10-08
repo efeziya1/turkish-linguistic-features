@@ -42,7 +42,7 @@ tlf.describe_feature("mattr")
 
 | Alan | Ne için |
 |---|---|
-| `description` | Bir cümlelik tanım |
+| `description` | Bir tümcelik tanım |
 | `formula` | Hesabın kendisi, sözel |
 | `scale` | Ölçek: `ratio_0_1`, `score`, `count`… Grafik eksenini buna göre kurun |
 | `inputs` | Hangi ön işleme adımına ihtiyaç duyduğu |
@@ -50,7 +50,7 @@ tlf.describe_feature("mattr")
 | `requires` | Sayı üretmesi için gereken en az veri; sağlanmazsa `nan` |
 | `citation` | **Kısa işaretçi** — yöntem bölümünde parantez içi |
 | `references` | **Tam bibliyografik kayıt** — kaynakçaya kopyalanacak olan |
-| `definitions` | `formula`daki terimlerin ne demek olduğu ve tanımın nereden geldiği: her terim için `{"name", "source" (kuralı kim koyuyor: tlf, spacy, zeyrek, textstat, wordfreq), "description" (tek cümle: nasıl sayıldığı)}`; yalnız o formülün kullandığı terimler; dile göre değişen terimde (`syllable`) `describe_feature(key, lang="tr")` dili seçer |
+| `definitions` | `formula`daki terimlerin ne demek olduğu ve tanımın nereden geldiği: her terim için `{"name", "source" (kuralı kim koyuyor: tlf, spacy, zeyrek, textstat, wordfreq), "description" (tek tümce: nasıl sayıldığı)}`; yalnız o formülün kullandığı terimler; dile göre değişen terimde (`syllable`) `describe_feature(key, lang="tr")` dili seçer |
 
 ## Künye ne bilmediğimizi de söyler
 
@@ -85,7 +85,7 @@ d["citation"], d["references"]
 
 `citation` `None` ise o anahtar **adlandırılmış bir literatür ölçüsü
 değildir,** saf bir tanımdır: `punct_dash_ratio` ("tire / bütün noktalama işaretleri"),
-`uppercase_ratio` ("büyük harfle başlayan kelimelerin payı"), `lemma_count`
+`uppercase_ratio` ("büyük harfle başlayan sözcüklerin payı"), `lemma_count`
 ("farklı lemma sayısı").
 Bir dış etiket şemasının kategorisini sayan anahtarların künyesi ise `None`
 değildir, şemayı gösterir (`case_loc_ratio` → UD; `zeyrek_case_loc_ratio` →

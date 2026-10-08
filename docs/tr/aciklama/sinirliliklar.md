@@ -6,13 +6,13 @@ gereken noktaları. Yöntem bölümü yazarken ikisine de bakın.
 
 ## Kütüphanenin sınırlılıkları
 
-### 1. Cümle eşikleri yalnız gazete köşe yazılarıyla kalibre edildi
+### 1. Tümce eşikleri yalnız gazete köşe yazılarıyla kalibre edildi
 
 `short_sent_ratio` ve `long_sent_ratio` eşikleri (TR 4/17, EN 8/32) gazete
-köşe yazılarında, varsayılan cümle kuralı ve varsayılan kelimeyle ölçülen
-cümle uzunluğu dağılımının 15. ve 85. yüzdeliğinden türetildi:
+köşe yazılarında, varsayılan tümce kuralı ve varsayılan sözcükle ölçülen
+tümce uzunluğu dağılımının 15. ve 85. yüzdeliğinden türetildi:
 
-| Dil | Yazar | Cümle |
+| Dil | Yazar | Tümce |
 |---|---|---|
 | Türkçe | 162 | 197 990 |
 | İngilizce | 30 | 52 745 |
@@ -41,17 +41,17 @@ göstermeyin.
 ### 3. spaCy modeli sonuçların parçası
 
 Sözcük türü, biçimbilim etiketleri, İngilizce lemmalar ve bağlılık
-öznitelikleri (ayrıştırıcının kendi cümleleriyle) modelden gelir. Model
+öznitelikleri (ayrıştırıcının kendi tümceleriyle) modelden gelir. Model
 değişirse bu sayılar değişir. Türkçe lemmalar Zeyrek'ten gelir (§4).
 
-Kelime ve cümle kütüphanenin kendi kuralıyla sayılır
-([Kavramlar](kavramlar.md#kelime-ve-cumle)). Kelime başına etiket isteyen
-öznitelikler (sözcük türü, lemma, biçimbilim) etiketi kelimenin içindeki ilk
-kelime tokenından alır: model `Türk-Amerikan`'ı ya da İngilizce
-`it's`'i birden çok tokena böler, kelime ilk parçanın etiketini taşır
-(`Türk`, `it`). Bu, Türkçe köşe yazılarında kelimelerin %0,3'ünde,
+Sözcük ve tümce kütüphanenin kendi kuralıyla sayılır
+([Kavramlar](kavramlar.md#sozcuk-ve-tumce)). Sözcük başına etiket isteyen
+öznitelikler (sözcük türü, lemma, biçimbilim) etiketi sözcüğün içindeki ilk
+sözcük tokenından alır: model `Türk-Amerikan`'ı ya da İngilizce
+`it's`'i birden çok tokena böler, sözcük ilk parçanın etiketini taşır
+(`Türk`, `it`). Bu, Türkçe köşe yazılarında sözcüklerin %0,3'ünde,
 İngilizcelerde %2,7'sinde olur. Bağlılık öznitelikleri modelin tokenlarını
-sayar. Hangi özniteliğin hangi kelimeyi kullandığını
+sayar. Hangi özniteliğin hangi sözcüğü kullandığını
 `describe_feature(key)["definitions"]["word"]` söyler.
 
 Doğrulanmış kombinasyon: spaCy 3.8.16, `en_core_web_sm` 3.8.0,
@@ -65,7 +65,7 @@ anlatılıyor; ikisi de zararsız.
 
 `morphological_zeyrek` grubundaki 23 öznitelik ve Türkçe lemmalar Zeyrek'ten
 gelir — Zemberek morfotaktiğinin Python aktarımı. Zeyrek'in çözümleyemediği bir
-kelime Zeyrek özniteliklerinden düşer; lemması kesme işaretinden önceki kısmı
+sözcük Zeyrek özniteliklerinden düşer; lemması kesme işaretinden önceki kısmı
 olur (`Pittsburgh'tan` → `pittsburgh`).
 
 Zeyrek bir **çözümleyicidir, belirsizlik gidericisi değildir**: aynı yüzey
@@ -107,7 +107,7 @@ Bazı öznitelikler literatürde adı olan ölçüler değil, bu kütüphanenin
 tanımlarıdır. Künyeleri bunu açıkça yazar:
 
 - `punct_entropy`, `sent_len_entropy` — Shannon formülünün noktalama ve
-  cümle uzunluğu dağılımına uygulanması. Formül Shannon'ın, uygulama kararı
+  tümce uzunluğu dağılımına uygulanması. Formül Shannon'ın, uygulama kararı
   bizim.
 - `polysyllabic_word_ratio` — SMOG'un girdisinin oran biçimi. McLaughlin'in
   kendi ölçüsü değil.
@@ -116,10 +116,10 @@ Bunları kullanmakta sakınca yok. Tek koşul, künyeyi doğru kurmak: formülü
 kaynağını verin, ölçünün kendisini kaynağa mal etmeyin. Yöntem bölümünüzde:
 
 - ✗ "Shannon (1948) `sent_len_entropy` ölçüsü"
-- ✓ "Shannon (1948) entropisinin cümle uzunluğu dağılımına uygulanması
+- ✓ "Shannon (1948) entropisinin tümce uzunluğu dağılımına uygulanması
   (turkish-linguistic-features'ın tanımı)"
 
-Sebep basit: Shannon entropiyi tanımladı, cümle uzunluklarına
+Sebep basit: Shannon entropiyi tanımladı, tümce uzunluklarına
 uygulamadı. Birinci yazım okuyucuya, kaynakta aranınca bulunacak bir ölçü
 olduğunu ima ediyor.
 
@@ -130,14 +130,14 @@ sonu paragraf saymaz — aksi hâlde satır satır sarılmış bir metinde her s
 paragraf olurdu.
 
 Sonuç: metninizde boş satır yoksa metnin tamamı tek paragraf sayılır.
-`para_len_mean` bütün metnin kelime sayısına eşitlenir.
+`para_len_mean` bütün metnin sözcük sayısına eşitlenir.
 Kütüphane bunu düzeltemez — silinmiş paragraf sınırı geri getirilemez.
 
 Bu, PDF ve EPUB'dan çıkarılmış metinlerde **yaygındır**: paragraflar arasındaki
 boş satırlar çıkarım sırasında kaybolur. Değer `nan` olmadığı için bunu
 sayılardan fark etmezsiniz; uyarı aşağıda.
 
-1000 kelimeyi geçen bir metinde hiç paragraf sınırı bulunamazsa
+1000 sözcüğü geçen bir metinde hiç paragraf sınırı bulunamazsa
 `ParagraphStructureWarning` basılır. Uyarıyı görürseniz iki yol var: kaynak
 metni paragrafları boş satırla ayrılmış hâlde yeniden çıkarın, ya da
 `groups` ile `paragraph` grubunu dışarıda bırakın.
@@ -150,8 +150,8 @@ sayar: `1918` → bin dokuz yüz on sekiz (7 hece), `cm` → santimetre, `%50` �
 yüzde elli, `3. kat` → üçüncü kat, `10:30` → on otuz, `3kg` → üç kilogram,
 `TBMM` → te-be-me-me.
 
-Sayıdan sonraki nokta, ardından kelime ya da virgül geliyorsa sıra sayısıdır
-(`3. kat`); gelmiyorsa cümle sonudur (`Sonuç 3.` → üç).
+Sayıdan sonraki nokta, ardından sözcük ya da virgül geliyorsa sıra sayısıdır
+(`3. kat`); gelmiyorsa tümce sonudur (`Sonuç 3.` → üç).
 
 Okunuşu metinden belirlenemeyen biçimler tahmin edilmez, hece sayımından
 **atlanır**: tek başına birim harfi (`m` metre de olabilir dakika da),

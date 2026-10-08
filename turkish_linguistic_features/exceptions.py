@@ -1,8 +1,8 @@
 """Kütüphaneye özgü hata tipleri.
 
 Neden ayrı tipler? Kullanıcı `except LinguisticFeaturesError` yazarak bu
-kütüphanenin hatalarını yakalayabilsin, ama `except ImportError` yazan
-mevcut kodu da kırmayalım — bu yüzden çoklu miras kullanıyoruz.
+kütüphanenin hatalarını yakalayabilsin, ama `except OSError` yazan mevcut kod da
+`ModelNotFoundError`'ı yakalamaya devam etsin — bu yüzden çoklu miras kullanıyoruz.
 
 🔴 **Hata metinleri İngilizcedir** (2026-09-24, Efe) — uyarılarla aynı kural,
 bkz. `_warnings.py`. Kod içi yorum ve docstring Türkçe kalıyor; `raise` içine
@@ -13,7 +13,9 @@ içindeki bütün `raise` çağrıları (25 metin, 11 dosya) ve `show_progress=T
 
 
 class LinguisticFeaturesError(Exception):
-    """Bu kütüphanenin ürettiği tüm hataların ortak atası."""
+    """Bu kütüphanenin kendi hata tiplerinin ortak atası.
+
+    Geçersiz argüman Python'un kendi hatasını verir (``ValueError``, ``KeyError``)."""
 
 
 # `MissingDependencyError` 2026-10-08'de kaldırıldı (Efe): hiç fırlatılmıyordu. İsteğe bağlı

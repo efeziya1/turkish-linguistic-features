@@ -8,8 +8,8 @@ On çalışan script. Her biri ayrı bir soruya cevap verir.
 | `02_korpus_analizi.py` | Bir klasörü nasıl CSV'ye çeviririm? | [Korpusu CSV'ye çıkar](../docs/tr/nasil/korpus.md) |
 | `03_duzenleme_oncesi_sonrasi.py` | Düzenleme neyi değiştirdi? | [İki sürümü karşılaştır](../docs/tr/nasil/karsilastirma.md) |
 | `04_matrisi_sakla.py` | Pahalı adımı nasıl bir kez öderim? | [Metni parçalara böl](../docs/tr/nasil/segmentleme.md) |
-| `05_cumle_ritmi.py` | Etiketler cümle uzunluğunun dağılımıyla ayrışıyor mu? | [Korpusu CSV'ye çıkar](../docs/tr/nasil/korpus.md) |
-| `06_esik_kalibrasyonu.py` | Kısa/uzun cümle eşiğini kendi korpusumdan nasıl türetirim? | [Eşik kalibrasyonu](../docs/esik-kalibrasyonu.md) |
+| `05_cumle_ritmi.py` | Etiketler tümce uzunluğunun dağılımıyla ayrışıyor mu? | [Korpusu CSV'ye çıkar](../docs/tr/nasil/korpus.md) |
+| `06_esik_kalibrasyonu.py` | Kısa/uzun tümce eşiğini kendi korpusumdan nasıl türetirim? | [Eşik kalibrasyonu](../docs/esik-kalibrasyonu.md) |
 | `07_nan_haritasi.py` | Metnim ne kadar kısa olabilir? | [NaN ne demek](../docs/tr/aciklama/nan.md) |
 | `08_tekrarlanabilirlik.py` | Aynı metin yarın da aynı sayıları verir mi? | [Eşikleri değiştir](../docs/tr/nasil/parametreler.md) |
 | `09_uzunluk_duyarliligi.py` | Hangi zenginlik ölçüsü metin boyundan bağımsız? | [Sınırlılıklar](../docs/tr/aciklama/sinirliliklar.md) |

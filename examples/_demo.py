@@ -4,7 +4,7 @@ Depoda korpus yok. Bir örnek korpus ya da dosya argümanı almadan
 çalıştırılırsa bu küçük metinler kullanılır. İçerik bu depo için yazıldı;
 telif sorunu yok.
 
-İki etiket, ikişer metin, her biri ~100 kelime. Gerçek bir korpusun yerini
+İki etiket, ikişer metin, her biri ~100 sözcük. Gerçek bir korpusun yerini
 tutmaz — örneklerin **nasıl çalıştığını** göstermek için var, sayıları
 yorumlamak için değil.
 """
@@ -66,5 +66,5 @@ def demo_korpus_yaz(dizin: Path) -> None:
 
 
 def demo_metni() -> str:
-    """Dört demo metnini boş satırla ayrılmış tek metin olarak verir (~300 kelime)."""
+    """Dört demo metnini boş satırla ayrılmış tek metin olarak verir (~300 sözcük)."""
     return "\n\n".join(DEMO_METINLER.values())

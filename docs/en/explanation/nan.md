@@ -142,7 +142,7 @@ segmenting:
 rows = tlf.analyze_corpus("corpus/", lang="en", segment_size=1000)
 ```
 
-1000-word segments feed nearly all 208 features. See
+1000-word segments feed nearly all 181 features. See
 [Split a text into segments](../how-to/segmenting.md).
 
 ## Why `nan` and not `None`

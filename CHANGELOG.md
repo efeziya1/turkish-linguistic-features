@@ -79,8 +79,7 @@ column for column. Keys: Turkish 208 (the same number, not the same keys), Engli
   parser.
 - **Sentence-length thresholds** are calibrated on newspaper columns with the rules above
   (15th/85th percentile; Turkish 162 columnists / 197,990 sentences, English 30 columnists /
-  52,745 sentences): Turkish 4/18 → 4/17, English 7/39 → 8/32. The 15th/85th choice was
-  compared with 5/95 to 25/75 on the same columns; the calibration page has the table.
+  52,745 sentences): Turkish 4/18 → 4/17, English 7/39 → 8/32.
 - **`segment_text` and `analyze_corpus(segment_size=...)` count words**, the same word
   `analyze` counts: a `segment_size=1000` segment is exactly 1000 words. They used to count
   spaCy tokens, punctuation included (100 tokens were about 83 words). Segment boundaries

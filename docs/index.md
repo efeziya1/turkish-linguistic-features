@@ -17,9 +17,9 @@ checked against a number their source published.
 ```python
 import turkish_linguistic_features as tlf
 
-oz = tlf.analyze("Dil, insanın düşüncesini taşıyan en eski araçtır.", lang="tr")
-oz["word_len_mean"]   # 5.8571
-oz["atesman"]         # 77.2479  (Ateşman 1997 okunabilirlik)
+oz = tlf.analyze("Renksiz yeşil fikirler öfkeyle uyur.", lang="tr")
+oz["word_len_mean"]   # 6.2
+oz["atesman"]         # 89.355  (Ateşman 1997 okunabilirlik)
 ```
 
 ---

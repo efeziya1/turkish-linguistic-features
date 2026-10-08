@@ -83,18 +83,68 @@ misleads.
 ## Word and sentence
 
 Features count words and sentences with the library's own rules, not with
-the model's tokens:
+the model's tokens. These are the **default word** and the **default sentence**;
+other pages that use these names point here.
 
-- **Word** — a whitespace-separated piece with edge punctuation stripped,
-  containing a letter or digit. `e-posta`, `%50` and numbers are one word
-  each. Every feature except the dependency group counts this word.
-- **Sentence** — `. ? ! …` end a sentence; `:` only when a new sentence
-  follows. Abbreviations such as `Dr.` do not.
-- **A word's tags** — the part of speech, morphological tags and lemma come
-  from the first token inside the word. Turkish lemmas are Zeyrek's dictionary
-  entry, English lemmas spaCy's.
+### Word
 
-`describe_feature(key)["definitions"]` names the rule a feature uses.
+The text is split at whitespace. Punctuation at the edges of each piece is removed
+(`. , ; : ! ? …`, quotes, brackets, dashes, `/`, `*`). What is left is a **word if it
+contains at least one letter or digit**; otherwise it is not counted.
+
+| Text | Words |
+|---|---|
+| `He read it.` | `He`, `read`, `it` — the full stop is not part of the word |
+| `e-mail`, `it's`, `50%` | one word each — marks inside a word stay |
+| `in 1999` | `in`, `1999` — a number is a word |
+| `This — is a test ...` | `This`, `is`, `a`, `test` — `—` and `...` on their own are not words |
+| `3. kat` · `Sonuç 3.` | Turkish only: `3.` is one word (an ordinal) when a word or a comma follows it; at the end of a sentence it is `3` |
+
+Every feature except the dependency group counts this word.
+
+### Sentence
+
+A sentence ends at:
+
+- **`.` `?` `!` `…`** — always. `...` and `…` are the same mark. Marks in a row
+  (`?!`, `."`) end one sentence, not two.
+- **`:`** — only when what follows starts like a new sentence: a capital letter, a
+  quote, a dash or an opening bracket. A colon followed by a lowercase word or a number
+  (a list, an explanation, `10:30`) does not end a sentence.
+- **the end of the text**, even without a mark.
+
+A full stop after an abbreviation does **not** end a sentence: `Dr.` is one unit. In
+Turkish, the dot after a listed abbreviation such as `bkz.` ends a sentence only when the
+next word starts with a capital.
+
+| Text | Sentences |
+|---|---|
+| `He came. He left!` | 2 |
+| `What?! I don't know.` | 2 |
+| `She said: We leave tomorrow.` | 2 — a capital after `:` |
+| `He bought three things: bread, milk and cheese.` | 1 — lowercase after `:` |
+| `The meeting began at 10:30.` | 1 |
+| `Dr. Smith arrived.` | 1 |
+| `He came and went` | 1 — no mark; the text ends |
+
+A sentence's length is the number of words in it. The sentence-length features and
+`sent_count` do not count a sentence with no letter in it, so that it does not pull the
+mean down: `This is one. 1999. Done.` has 2 sentences, and all 5 of its words, `1999`
+included, are counted.
+
+Two kinds of feature do not use this rule:
+
+- some **readability formulas** follow the counting their own source prescribes:
+  Çetinkaya-Uzun also ends a sentence at `:` and at brackets, the Flesch formulas at `;`;
+- the **dependency group** (`syntactic_dep`) uses spaCy's tokens and its parser's
+  sentences.
+
+### A word's tags
+
+The part of speech, morphological tags and lemma come from the first token inside the
+word. Turkish lemmas are Zeyrek's dictionary entry, English lemmas spaCy's.
+
+`describe_feature(key)["definitions"]` names the rule each feature uses.
 
 ## The pipeline
 

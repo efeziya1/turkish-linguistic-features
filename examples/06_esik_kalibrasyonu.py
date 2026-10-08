@@ -1,20 +1,20 @@
-"""Eşik kalibrasyonu — kısa/uzun cümle eşiğini kendi korpusumdan türetmek.
+"""Eşik kalibrasyonu — kısa/uzun tümce eşiğini kendi korpusumdan türetmek.
 
-Varsayılan eşikler (Türkçe kısa < 4, uzun > 17) gazete köşe yazılarında cümle
+Varsayılan eşikler (Türkçe kısa < 4, uzun > 17) gazete köşe yazılarında tümce
 uzunluğu dağılımının 15. ve 85. yüzdeliğinden gelir ([belge](../docs/esik-kalibrasyonu.md)).
 Başka bir türle — roman, akademik metin, transkript — çalışıyorsanız aynı
 yöntemi kendi korpusunuza uygulayabilirsiniz.
 
     python examples/06_esik_kalibrasyonu.py korpus/
 
-**Tek kural: cümleyi kütüphaneyle aynı biçimde bölün.** Nokta/soru işaretine
-göre bölen kaba bir bölücü kısaltmada, baş harfte ve üç noktada sahte cümle
+**Tek kural: tümceyi kütüphaneyle aynı biçimde bölün.** Nokta/soru işaretine
+göre bölen kaba bir bölücü kısaltmada, baş harfte ve üç noktada sahte tümce
 üretir ve dağılımı aşağı çeker; ortaya çıkan fark "korpusum farklı" diye
-okunur ama aslında yöntem farkıdır. Bu script cümleleri ve kelimeleri
+okunur ama aslında yöntem farkıdır. Bu script tümceleri ve sözcükleri
 kütüphanenin kendi kuralıyla sayar ve bunu **kendisi denetler**: her dosyada
 kendi medyanını kütüphanenin ``sent_len_median`` değeriyle karşılaştırır.
 
-Argüman verilmezse demo korpus kullanılır (cümle sayısı az; yüzdelikler
+Argüman verilmezse demo korpus kullanılır (tümce sayısı az; yüzdelikler
 yalnız yöntemi gösterir).
 """
 
@@ -25,7 +25,7 @@ from pathlib import Path
 import turkish_linguistic_features as tlf
 from _demo import demo_korpus_yaz
 
-# Kütüphanenin cümle ve kelime kuralı genel API'de ayrı bir fonksiyon olarak
+# Kütüphanenin tümce ve sözcük kuralı genel API'de ayrı bir fonksiyon olarak
 # yok; eşiği aynı kuralla türetmek için iç yardımcıları doğrudan çağırıyoruz.
 from turkish_linguistic_features._analyze import _get_preprocessor
 from turkish_linguistic_features.features.readability import cumle_birimleri, kural_cumleleri
@@ -47,8 +47,8 @@ def orta_dilim(metin: str, karakter: int) -> str:
 
 
 def cumle_uzunluklari(metin: str) -> list[int]:
-    """Kütüphanenin kuralı: varsayılan cümle kuralı ve varsayılan kelime
-    (boşlukla ayrılan, kenar noktalaması atılan birim); harfsiz cümle sayılmaz."""
+    """Kütüphanenin kuralı: varsayılan tümce kuralı ve varsayılan sözcük
+    (boşlukla ayrılan, kenar noktalaması atılan birim); harfsiz tümce sayılmaz."""
     tokenlar = _get_preprocessor(DIL, None).process(metin).to_dict()["surface_tokens"]
     cumleler = cumle_birimleri(metin, kural_cumleleri(tokenlar, DIL), DIL)
     return [len(c) for c in _cumle_kelimeleri(cumleler)]
@@ -70,7 +70,7 @@ def main() -> None:
 
     tum_uzunluklar: list[int] = []
     ilk_metin = ""
-    print(f"{'dosya':<34}{'cümle':>7}{'medyanım':>10}{'kütüphane':>11}")
+    print(f"{'dosya':<34}{'tümce':>7}{'medyanım':>10}{'kütüphane':>11}")
     for dosya in sorted(korpus.glob("*.txt")):
         metin = orta_dilim(dosya.read_text(encoding="utf-8"), DOSYA_BASINA_KARAKTER)
         uzunluklar = cumle_uzunluklari(metin)
@@ -86,14 +86,14 @@ def main() -> None:
               f"{kutuphane:>11.1f}{isaret}")
 
     if not tum_uzunluklar:
-        sys.exit("Korpusta ölçülecek cümle bulunamadı.")
+        sys.exit("Korpusta ölçülecek tümce bulunamadı.")
 
     sirali = sorted(tum_uzunluklar)
     kisa, uzun = (yuzdelik(sirali, p) for p in YUZDELIKLER)
-    print(f"\nToplam {len(sirali):,} cümle, medyan {statistics.median(sirali):.1f} kelime")
+    print(f"\nToplam {len(sirali):,} tümce, medyan {statistics.median(sirali):.1f} sözcük")
     for p in (5, 10, 15, 25, 50, 75, 85, 90, 95):
         isaret = "   <- eşik" if p in YUZDELIKLER else ""
-        print(f"  {p:>3}. yüzdelik: {yuzdelik(sirali, p):>3} kelime{isaret}")
+        print(f"  {p:>3}. yüzdelik: {yuzdelik(sirali, p):>3} sözcük{isaret}")
 
     print(f"\nKorpusunuzun eşiği : kısa < {kisa}, uzun > {uzun}")
     v_kisa, v_uzun = resolve_sent_thresholds(DEFAULT_PARAMS, DIL)
