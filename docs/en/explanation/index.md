@@ -8,5 +8,5 @@ the boundaries.
 |---|---|
 | [Concepts](concepts.md) | Feature, group, scale, pipeline — the basic structure |
 | [What NaN means](nan.md) | Why a number is missing, and why that is good |
-| [The verification system](verification.md) | What ✅ 🟡 ⚪ ❌ mean and how to read them |
+| [The verification system](verification.md) | What ✅ 🟡 🔍 ❌ ⚪ ⚫ 🔧 mean and how to read them |
 | [Limitations](limitations.md) | Where not to trust it |

@@ -54,12 +54,9 @@ tlf.describe_feature("mattr")["requires"]
 'at least 100 words (2 x mattr_window)'
 ```
 
-A **word** here is the library's default word: a whitespace-separated unit
-with edge punctuation stripped that contains a letter or digit (`e-posta`,
-`%50` and numbers are one word each). Every feature except the dependency
-features counts this word; `describe_feature(key)["definitions"]["word"]` says
-which. `segment_text`'s `size` counts the same word, so a 100-word segment
-meets a 100-word minimum.
+A **word** here is the library's default word
+([Concepts](concepts.md#word-and-sentence)). `segment_text`'s `size` counts the
+same word, so a 100-word segment meets a 100-word minimum.
 
 Below the minimum you get `nan`. Some minimums come from the source
 (`mtld`: "texts as short as 100 tokens can be used"), others from the
@@ -70,7 +67,7 @@ being a moving average — hence the `2 × window` threshold.
 
 `zeyrek_derivational_suffix_ratio` has a zero denominator if the text contains no
 derivational suffixes. `parse_depth_mean` cannot produce a value if no
-sentence parses. `hapax_ratio` is meaningless in a one-word text.
+sentence parses. `verb_dist_mean` cannot be measured unless the text has at least two verbs.
 
 ### 3. An optional package is missing
 
@@ -82,7 +79,7 @@ oz = tlf.analyze(text, lang="en", warn=False)
 ```
 
 `warn=False` silences the warning only; the feature is still `nan`. The same
-flag also silences `ParagraphStructureWarning`.
+flag also silences the paragraph warning described below.
 
 ## Not `nan`, but misleading: paragraphs
 

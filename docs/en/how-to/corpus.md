@@ -172,3 +172,33 @@ df = pd.DataFrame(tlf.analyze_corpus("corpus/", lang="tr"))
 ```
 
 `pandas` is not a required dependency; you install it yourself.
+
+## Summarise by label
+
+In most studies the real question is how the labels (author, genre, period)
+differ. The table carries the `label` column, so the summary is one line:
+
+```python
+df = pd.DataFrame(tlf.analyze_corpus("corpus/", lang="tr", segment_size=1000))
+print(df.groupby("label").size())                                   # segments per label
+print(df.groupby("label")[["sent_len_mean", "word_len_mean", "atesman"]].mean().round(2))
+```
+
+On the examples' demo corpus (two labels, short texts, `segment_size=50`):
+
+```text
+label
+Anlatı    2
+Bilgi     2
+
+        sent_len_mean  word_len_mean  atesman
+label
+Anlatı           7.29           5.78    77.35
+Bilgi           10.42           6.57    58.75
+```
+
+When comparing labels, keep the segments the same size (`segment_size`) and
+check the number of segments per label: the mean of a label with a single
+segment is that text's mean, not the author's. A working example that compares
+sentence-length distributions across labels:
+[`examples/05_cumle_ritmi.py`](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/05_cumle_ritmi.py).

@@ -1,7 +1,7 @@
 # turkish-linguistic-features
 
 Türkçe metinden **202**, İngilizce metinden **175 nicel dilbilimsel öznitelik**
-çıkarır. Her özniteliğin formülü yazılıdır; Türkçedeki 202 özniteliğin 191'ı,
+çıkarır. Her özniteliğin formülü yazılıdır; Türkçedeki 202 özniteliğin 191'i,
 İngilizcedeki 175 özniteliğin 164'ü literatürde bir kaynağa dayanır, geri
 kalanı saf tanımdır (örneğin tirenin noktalama işaretleri içindeki payı).
 [Doğrulama raporu](dogrulama-raporu.md), hangilerinin kaynağın yayımladığı bir
@@ -70,20 +70,8 @@ oz["atesman"]         # 77.2479  (Ateşman 1997 okunabilirlik)
 
 Kaynakçada 56 eser var (iki dil için tek kaynakça).
 
-**Formüller ile doğrulama iki ayrı şeydir.** 202 özniteliğin hepsinin
-formülü yazılıdır ve testlerle sınanır. Künyesi olan 191 özniteliğin formülü
-kaynağına dayanır; künye sayfa ve denklem numarası verir. Kalan 11'i saf
-tanımdır (`uppercase_ratio`, `punct_dash_ratio`), bir kaynağı yoktur.
-
-İkinci katman, kaynağın *yayımladığı bir sayıyı* alıp bizim çıktımızla
-karşılaştırmaktır. Bu her öznitelikte mümkün değil. Doğrulama raporunda
-82 **satır** aday değildir: saf tanım (`uppercase_ratio`), bir etiket şemasının
-kategorisi (`pos_noun_ratio`) ya da bu kütüphanenin kendi türevi (`sent_len_entropy`);
-aranacak bir literatür sayısı yoktur. Kalan 145
-aday satırın 48'i kaynağın sayısıyla karşılaştırıldı; 97'sında kaynak
-formülü yayımlamış ama uygulanmış bir örnek basmamış, bu yüzden açık
-duruyor.
-
-Açık bir satır, formülünün yanlış olduğu anlamına **gelmez**; karşılaştırılacak
-yayımlanmış bir sayı bulunamadığı anlamına gelir.
-Ayrıntı: [doğrulama raporu](dogrulama-raporu.md).
+Künye, formülün kaynağını sayfa ve denklem numarasıyla verir. Doğrulama
+raporu ayrıca, kaynağın yayımladığı bir sayıyla karşılaştırılabilen satırları
+listeler. İkisinin farkı ve raporun nasıl okunacağı:
+[Doğrulama sistemi](tr/aciklama/dogrulama.md) ·
+[The verification system](en/explanation/verification.md).

@@ -9,6 +9,7 @@ bakın — bu sayfalar kurulumun yapıldığını varsayar.
 | Sayfa | Hangi soruya cevap verir |
 |---|---|
 | [Tek metni analiz et](tek-metin.md) | Elimde bir metin var, sayıları nasıl alırım? |
+| [Kendi öbeklerinizi sayın](tek-metin.md#kendi-obeklerinizi-sayn) | Aradığım bir kelime ya da sözcük türü dizisini nasıl sayarım, neyle eşleştiğini nasıl görürüm? |
 | [Korpusu CSV'ye çıkar](korpus.md) | Bir klasör dolusu dosyayı nasıl tabloya çeviririm? |
 | [Metni parçalara böl](segmentleme.md) | Metinlerim farklı uzunlukta, karşılaştırma nasıl adil olur? |
 | [İki sürümü karşılaştır](karsilastirma.md) | Düzenleme öncesi ve sonrası neyi değiştirdi? |

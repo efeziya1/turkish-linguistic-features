@@ -46,12 +46,9 @@ POS tags, morphological tags, English lemmas and the dependency features
 (with the parser's own sentences) come from the model. Change the model and
 those numbers change. Turkish lemmas come from Zeyrek (§4).
 
-Word and sentence counts do not use the model's labels. The default word is a
-whitespace-separated unit with edge punctuation stripped; the default sentence
-rule reads sentence-ending marks from the model's tokenizer. Every feature
-except the dependency features counts this word. Features that need a label
-per word (POS, lemma, morphology) take it from the first word token inside the
-word: the model splits `Türk-Amerikan` or English `it's` into several tokens,
+Words and sentences are counted with the library's own rules
+([Concepts](concepts.md#word-and-sentence)). Features that need a label per word
+(POS, lemma, morphology) take it from the first word token inside the word: the model splits `Türk-Amerikan` or English `it's` into several tokens,
 and the word carries the first part's label (`Türk`, `it`). This happens to
 0.3% of the words in Turkish newspaper columns and 2.7% in English ones. The
 dependency features count the model's tokens.

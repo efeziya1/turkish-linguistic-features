@@ -9,6 +9,7 @@ trying to do right now.
 | I need to get a specific job done | **[How-to](how-to/index.md)** |
 | I am looking up what a feature is | **[Reference](../reference/index.md)** |
 | I want to understand why it works this way | **[Explanation](explanation/index.md)** |
+| I want to start from a working script | **[Example scripts](https://github.com/efeziya1/turkish-linguistic-features/tree/main/examples)** (ten scripts, each answering one question; comments in Turkish) |
 
 If you are not sure, start with the tutorial: it takes you from installation
 to your first table.

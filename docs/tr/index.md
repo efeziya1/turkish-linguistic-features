@@ -9,6 +9,7 @@ istediğinize bağlı.
 | Belirli bir işi yapmam lazım | **[Nasıl yapılır](nasil/index.md)** |
 | Bir özniteliğin ne olduğunu arıyorum | **[Başvuru](../reference/index.md)** (İngilizce) |
 | Neden böyle çalıştığını anlamak istiyorum | **[Açıklama](aciklama/index.md)** |
+| Çalışan bir betikten başlamak istiyorum | **[Örnek betikler](https://github.com/efeziya1/turkish-linguistic-features/tree/main/examples)** (on betik, her biri bir soruya cevap) |
 
 Emin değilseniz öğreticiden başlayın: kurulumdan ilk tabloya kadar götürür.
 

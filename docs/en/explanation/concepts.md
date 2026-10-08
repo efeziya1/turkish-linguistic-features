@@ -15,7 +15,7 @@ A feature is one of three things:
    `zeyrek_case_loc_ratio` (Zeyrek). The citation points at the scheme, not at the
    measure.
 3. **A plain definition** — `punct_dash_ratio` ("dashes / all punctuation marks"). No citation,
-   because there is nothing to attribute.
+   because it is not a named measure that could be attributed.
 
 Of 202 keys, 191 have a citation and 11 do not.
 
@@ -71,7 +71,7 @@ Every feature has a scale, and it matters when you plot:
 
 | Scale | Meaning | Example |
 |---|---|---|
-| `ratio_0_1` | A ratio between 0 and 1 | `ttr`, `mattr` |
+| `ratio_0_1` | A share between 0 and 1 | `ttr`, `mattr` |
 | `score` | A formula score with no fixed range | `atesman`, `yule_k`, `mtld` |
 | `length` | A mean length in characters, words or sentences | `word_len_mean`, `sent_len_mean` |
 | `nats` | Entropy in nats (natural logarithm; every logarithm in the library is ln) | `entropy`, `punct_entropy` |
@@ -134,10 +134,6 @@ a field you set wins, a field you leave out stays calibrated. So
 ## The registry
 
 Feature names, descriptions, formulas, requirements and citations all live
-in one place: `features/_registry_texts.py`. `describe_feature` reads from
-it, the [reference section](../../reference/index.md) is generated from it,
-and the [verification report](../../verification-report.md) takes its
-coverage list from it.
-
-This is deliberate: add a feature without registering it and the tests
-fail. No feature can escape the documentation.
+in one place. `describe_feature`, the [reference section](../../reference/index.md)
+and the [verification report](../../verification-report.md) read from it, so the
+three always agree.
