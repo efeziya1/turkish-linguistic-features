@@ -53,9 +53,9 @@ long_word_ratio            0.4528     0.2083    -0.2445
 
 How to read it:
 
-- **Sentence length 26.5 → 8 words.** This is the real change; two long
+- **Mean sentence length 26.5 → 8 words.** This is the real change; two long
   sentences became three short ones.
-- **Flesch Reading Ease 10.7 → 68.3.** On the 0–100 scale, 10.7 is
+- **Flesch Reading Ease 10.7 → 68.3.** On Flesch's bands, 10.7 is
   "very difficult" (postgraduate) and 68.3 is "standard". A 57-point jump.
 - **All three grade-level formulas agree on the direction** and roughly on
   the size: FKGL −12.6, ARI −15.0, Coleman-Liau −10.1. Agreement in direction
@@ -68,31 +68,13 @@ How to read it:
 
 ## What to watch for
 
-!!! warning "If the length changed, do not read lexical richness"
+!!! note "If the length changed, read lexical richness with care"
 
-    When an edit shortens a text, `ttr`, `hapax_ratio` and `yule_k` change
-    **because of length**. For a real comparison on those measures, bring
-    both texts to the same size. That only works when both texts are at
-    least `size` words long; it does not suit the short examples on this
-    page (`segment_text` returns an empty list).
-
-    ```python
-    p1 = tlf.segment_text(before_text, size=500, lang="en")
-    p2 = tlf.segment_text(after_text,  size=500, lang="en")
-    if p1 and p2:                      # both ≥ 500 words
-        before, after = tlf.analyze(p1[0], lang="en"), tlf.analyze(p2[0], lang="en")
-    ```
-
-    `mattr`, `mtld` and `vocd_d` are **less** sensitive to length than TTR,
-    but **not independent** of it; `mtld` and `vocd_d` drift noticeably in
-    Turkish ([measured example](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/09_uzunluk_duyarliligi.py)). They
-    also need at least 100 words. When comparing texts of different lengths,
-    bring them to the same size with `segment_size` first.
-
-Sentence length, syllable mean, word length and the readability formulas
-are relatively insensitive to length, but noisy in short texts: a change to
-a few sentences moves them noticeably. SMOG needs at least 30 sentences and
-returns `nan` below that.
+    When an edit shortens a text, lexical richness measures such as `ttr`,
+    `hapax_ratio` and `yule_k` change because of length too; to compare them,
+    bring both texts to the same size ([Split a text into segments](segmenting.md)).
+    In short texts the sentence and readability measures are jumpy as well;
+    SMOG needs at least 30 sentences.
 
 ## Many pairs at once
 

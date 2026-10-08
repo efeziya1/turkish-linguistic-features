@@ -12,7 +12,7 @@ aktarıyor). Burada sayılar kuralla, kısaltmalar sabit bir listeyle açılır
 Sıra sayısı (``3.``), saat/skor (``10:30``) ve sayıdan sonraki tek harfli
 birim (``100m``) 2026-10-01'den beri okunur (Efe). Okunuşu metinden
 belirlenemeyenler (tek başına ``m``, ``/``, ``#``) okunmaz; hece sayımından
-atlanırlar — sınırlılıklar §10 (``docs/tr/aciklama/sinirliliklar.md``).
+atlanırlar — sınırlılıklar §9 (``docs/tr/aciklama/sinirliliklar.md``).
 Gerçek kelimeyle aynı yazılan kısaltmalar (tel, sok, av, no) yazıldığı gibi
 okunur, bu yüzden listede yok.
 """

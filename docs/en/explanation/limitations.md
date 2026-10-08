@@ -126,19 +126,7 @@ The reason is simple: Shannon defined the entropy; he did not apply it to
 sentence lengths. The first wording implies a measure the reader could look up
 in the source and find.
 
-### 8. Sensitivity to text length
-
-Most lexical richness measures change with length. `ttr` is the extreme
-case: it always falls as a text grows.
-
-`mattr`, `mtld` and `vocd_d` are less sensitive to length than TTR but not
-independent of it; `mtld` and `vocd_d` drift noticeably in Turkish
-([measured example](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/09_uzunluk_duyarliligi.py)). They also
-need at least 100 words. If you compare texts of different lengths, bring
-them to the same size with `segment_size` first
-([how](../how-to/segmenting.md)).
-
-### 9. Paragraph features depend on how the input is formatted
+### 8. Paragraph features depend on how the input is formatted
 
 The two `para_*` features find paragraph boundaries from **blank lines**. A
 single line break does not count as one — otherwise every line of a
@@ -158,7 +146,7 @@ If a text longer than 1000 words yields no paragraph boundary at all, a
 re-extract the source text with paragraphs separated by blank lines, or leave
 the `paragraph` group out via `groups`.
 
-### 10. What the syllable count reads aloud, and what it skips
+### 9. What the syllable count reads aloud, and what it skips
 
 The readability formulas and the syllable features count numbers,
 abbreviations and symbols **as they are read aloud**, following the

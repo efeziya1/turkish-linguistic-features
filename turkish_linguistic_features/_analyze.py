@@ -151,8 +151,8 @@ def ngram_matches(text: str, phrase: list[str], lang: str = "tr",
 
     Examples
     --------
-    >>> ngram_matches("Kadın geldi. Kadın güldü.", ["kadın", "VERB"])  # doctest: +SKIP
-    {'kadın geldi': 1, 'kadın güldü': 1}
+    >>> ngram_matches("Eski ev yıkıldı. Büyük bahçe kaldı.", ["ADJ", "NOUN"])  # doctest: +SKIP
+    {'eski ev': 1, 'büyük bahçe': 1}
     """
     from .features.syntactic import word_ngram_matches
 

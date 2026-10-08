@@ -12,19 +12,19 @@ sensitive than TTR but not independent of length
 The fix is to bring everything to the same size.
 
 ```python
-segments = tlf.segment_text(text, size=1000, lang="en")
+segments = tlf.segment_text(text, segment_size=1000, lang="en")
 ```
 
-## `size` counts words
+## Segment size is measured in words
 
-`size` counts the word `analyze` counts: a whitespace-separated piece with
+`segment_size` counts the word `analyze` counts: a whitespace-separated piece with
 edge punctuation stripped, containing a letter or digit. Punctuation is not a
 word. With the 30-word Turkish `metin` from the
 [Turkish tutorial](../../tr/baslangic.md):
 
 ```python
 long_text = " ".join([metin] * 12)             # 360 words
-segments = tlf.segment_text(long_text, size=100, lang="tr")
+segments = tlf.segment_text(long_text, segment_size=100, lang="tr")
 len(segments)                                  # 3
 [len(s.split()) for s in segments]             # [100, 100, 100]
 ```
@@ -39,8 +39,8 @@ The default `min_fill=1.0` keeps only **full** segments. A short remainder
 is discarded.
 
 ```python
-tlf.segment_text(long_text, size=100, lang="tr")                  # 3
-tlf.segment_text(long_text, size=100, min_fill=0.5, lang="tr")    # 4
+tlf.segment_text(long_text, segment_size=100, lang="tr")                # 3
+tlf.segment_text(long_text, segment_size=100, min_fill=0.5, lang="tr")  # 4
 ```
 
 The remainder is 60 words, 60% of a segment: below the `1.0` threshold,
@@ -55,7 +55,7 @@ above `0.5`.
 !!! warning "Discarded data is discarded silently"
 
     The library does not tell you how many segments it dropped. With
-    `min_fill=1.0` and `size=1000`, a 1400-word file yields **one**
+    `min_fill=1.0` and `segment_size=1000`, a 1400-word file yields **one**
     segment and the remaining 400 words are gone. Short files in your
     corpus may produce no segments at all.
 
@@ -64,14 +64,14 @@ above `0.5`.
     ```python
     for path in files:
         n = len(tlf.segment_text(path.read_text(encoding="utf-8"),
-                                 size=1000, lang="en"))
+                                 segment_size=1000, lang="en"))
         print(path.name, n)
     ```
 
 ## Splitting by characters
 
 ```python
-tlf.segment_text(text, size=5000, unit="char", lang="en")
+tlf.segment_text(text, segment_size=5000, unit="char", lang="en")
 ```
 
 `unit="char"` counts raw characters; the word rule is not involved, so
@@ -86,15 +86,12 @@ You do not have to split and call `analyze` yourself:
 rows = tlf.analyze_corpus("corpus/", lang="en", segment_size=1000)
 ```
 
-`segment_size`, `min_fill` and `unit` mean the same thing and are applied
-**to each file separately**.
-
 ## Full signature
 
 ```python
 segment_text(
     text: str,
-    size: int = 1000,
+    segment_size: int = 1000,
     min_fill: float = 1.0,
     unit: str = "word",
     lang: str = "tr",

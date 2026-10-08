@@ -16,7 +16,7 @@ column for column. Keys: Turkish 208 (the same number, not the same keys), Engli
   8; Zheng et al. (2006) Table 3, nos. 1, 54, 60–62, 247 and 248; Tweedie & Baayen (1998)
   pp.325 and 329; de Vel et al. (2001) Table 2; Kincaid et al. (1975) p.38.
 - `ngram_matches(text, phrase, lang="tr")`: what one `custom_ngrams` phrase matched, with
-  counts, most frequent first: `{"kadın geldi": 2, "kadın güldü": 1}`. The matching is the
+  counts, most frequent first: `{"eski ev": 2, "büyük bahçe": 1}`. The matching is the
   one `analyze` uses, so the counts add up to the phrase's `ngram_{...}_count`. The public API
   has eleven names.
 - Five lexical richness measures: `cttr` (Carroll's corrected TTR), `summer_s` (Summer's S),
@@ -82,14 +82,17 @@ column for column. Keys: Turkish 208 (the same number, not the same keys), Engli
   52,745 sentences): Turkish 4/18 → 4/17, English 7/39 → 8/32. The 15th/85th choice was
   compared with 5/95 to 25/75 on the same columns; the calibration page has the table.
 - **`segment_text` and `analyze_corpus(segment_size=...)` count words**, the same word
-  `analyze` counts: a `size=1000` segment is exactly 1000 words. They used to count spaCy
-  tokens, punctuation included (100 tokens were about 83 words). Segment boundaries change.
+  `analyze` counts: a `segment_size=1000` segment is exactly 1000 words. They used to count
+  spaCy tokens, punctuation included (100 tokens were about 83 words). Segment boundaries
+  change.
+- **`segment_text(size=...)` is now `segment_text(segment_size=...)`**, the name
+  `analyze_corpus` already uses for the same thing. Passing `size=` raises `TypeError`.
 - **Punctuation shares.** The ten `punct_*_ratio` keys are each mark type's share of all
   punctuation marks (0-1, summing to 1), no longer marks per word, which could exceed 1. How
   much punctuation a text has is `punct_char_ratio`. A text without punctuation gives `nan`.
 - **`custom_ngrams`** keys are `ngram_{...}_count` and the value is the number of matches, not
   matches per window. A phrase item written as an UPPERCASE UD tag (`NOUN`, `VERB` …) matches
-  any word with that tag: `["kadın", "VERB"]` counts "kadın" followed by a verb. Matches stay
+  any word with that tag: `["ADJ", "NOUN"]` counts an adjective followed by a noun. Matches stay
   inside a sentence. An empty text gives `nan`, like every other feature.
 - **Natural logarithm everywhere.** `dugast_u`, `lambda_pa`, `adjusted_modulus` (were log₁₀)
   and `entropy`, `punct_entropy`, `sent_len_entropy`, `zeyrek_suffix_bigram_entropy`, `posdiv`

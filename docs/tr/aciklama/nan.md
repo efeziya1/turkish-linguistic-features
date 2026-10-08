@@ -54,7 +54,7 @@ tlf.describe_feature("mattr")["requires"]
 ```
 
 Buradaki **kelime** kütüphanenin varsayılan kelimesidir
-([Kavramlar](kavramlar.md#kelime-ve-cumle)). `segment_text`'in `size` değeri de
+([Kavramlar](kavramlar.md#kelime-ve-cumle)). `segment_text`'in `segment_size` değeri de
 aynı kelimeyi sayar: 100 kelimelik parça 100 kelime isteyen bir ölçüye yeter.
 
 Sınırın altındaysanız `nan` gelir. Sınırların bir kısmı kaynaktan gelir
@@ -106,7 +106,7 @@ words and 7347 sentences were counted as a single paragraph. ...
 Uyarı metinleri İngilizcedir — öznitelik anahtarları ve künyeler de öyle.
 
 Bu genellikle metnin PDF/EPUB'dan çıkarılırken satır sonlarını kaybetmesinden
-olur; [sınırlılıklar §9](sinirliliklar.md) ölçümü veriyor.
+olur; [sınırlılıklar §8](sinirliliklar.md) ölçümü veriyor.
 
 ## Tabloda ne yapmalı
 

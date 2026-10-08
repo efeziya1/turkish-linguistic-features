@@ -123,18 +123,7 @@ Sebep basit: Shannon entropiyi tanımladı, cümle uzunluklarına
 uygulamadı. Birinci yazım okuyucuya, kaynakta aranınca bulunacak bir ölçü
 olduğunu ima ediyor.
 
-### 8. Metin uzunluğuna duyarlılık
-
-Sözcüksel zenginlik ölçülerinin çoğu uzunlukla değişir. `ttr` en uçtaki
-örnektir: metin uzadıkça mutlaka düşer.
-
-`mattr`, `mtld` ve `vocd_d` uzunluğa TTR'den daha az duyarlıdır ama
-bağımsız değildir; `mtld` ve `vocd_d` Türkçede belirgin biçimde kayar
-([ölçüm örneği](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/09_uzunluk_duyarliligi.py)). Onlar da en az
-100 kelime ister. Farklı uzunluktaki metinleri karşılaştırıyorsanız önce
-`segment_size` ile aynı boya getirin ([nasıl](../nasil/segmentleme.md)).
-
-### 9. Paragraf öznitelikleri girdinin biçimlendirmesine bağlı
+### 8. Paragraf öznitelikleri girdinin biçimlendirmesine bağlı
 
 İki `para_*` özniteliği paragraf sınırını **boş satırdan** bulur. Tek satır
 sonu paragraf saymaz — aksi hâlde satır satır sarılmış bir metinde her satır
@@ -153,7 +142,7 @@ sayılardan fark etmezsiniz; uyarı aşağıda.
 metni paragrafları boş satırla ayrılmış hâlde yeniden çıkarın, ya da
 `groups` ile `paragraph` grubunu dışarıda bırakın.
 
-### 10. Hece sayımında okunuşla sayılanlar ve atlananlar
+### 9. Hece sayımında okunuşla sayılanlar ve atlananlar
 
 Okunabilirlik formülleri ve hece öznitelikleri, Çetinkaya-Uzun (2010) sayım
 protokolündeki gibi sayıları, kısaltmaları ve sembolleri **okunuşlarıyla**

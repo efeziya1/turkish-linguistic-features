@@ -39,7 +39,7 @@ def main() -> None:
 
     satirlar = []
     for boy in boylar:
-        parcalar = tlf.segment_text(metin, size=boy, lang=DIL)
+        parcalar = tlf.segment_text(metin, segment_size=boy, lang=DIL)
         if not parcalar:
             print(f"  {boy:>5} kelime: metin bu boydan kısa, atlandı")
             continue

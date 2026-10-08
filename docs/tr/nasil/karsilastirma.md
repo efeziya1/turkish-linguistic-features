@@ -51,9 +51,9 @@ long_word_ratio            0.5278     0.4500    -0.0778
 
 Okunuşu:
 
-- **Cümle uzunluğu 18 → 6,7 kelime.** Asıl değişiklik bu; bir uzun cümle
+- **Ortalama cümle uzunluğu 18 → 6,7 kelime.** Asıl değişiklik bu; bir uzun cümle
   üçe bölündü.
-- **Ateşman 16,8 → 58,9.** 0–100 ölçeğinde 16,8 "çok zor", 58,9 "orta".
+- **Ateşman 16,8 → 58,9.** Ateşman'ın bantlarına göre 16,8 "çok zor", 58,9 "orta".
   42 puanlık sıçramanın çoğu cümle uzunluğundan geliyor, çünkü formülde
   sözcük/cümle terimi var.
 - **Hece ortalaması 3,36 → 3,05.** "değerlendirilmesi" gibi uzun türetmeler
@@ -64,31 +64,13 @@ Okunuşu:
 
 ## Neye dikkat edin
 
-!!! warning "Uzunluk değiştiyse sözcüksel zenginliğe bakmayın"
+!!! note "Uzunluk değiştiyse sözcüksel zenginliğe dikkat"
 
-    Düzenleme metni kısaltmışsa `ttr`, `hapax_ratio`, `yule_k` gibi
-    öznitelikler **uzunluk yüzünden** değişir. Bu ölçülerde gerçek bir
-    karşılaştırma istiyorsanız iki metni aynı boya getirin. Bu yalnız iki
-    metin de en az `size` kelime uzunluğundaysa işe yarar; bu sayfadaki kısa
-    örnekler için uygun değildir (`segment_text` boş liste döndürür).
-
-    ```python
-    p1 = tlf.segment_text(once_metin,  size=500, lang="tr")
-    p2 = tlf.segment_text(sonra_metin, size=500, lang="tr")
-    if p1 and p2:                      # ikisi de ≥ 500 kelime
-        once, sonra = tlf.analyze(p1[0], lang="tr"), tlf.analyze(p2[0], lang="tr")
-    ```
-
-    `mattr`, `mtld` ve `vocd_d` uzunluğa TTR'den **daha az** duyarlıdır ama
-    **bağımsız değildir**; `mtld` ve `vocd_d` Türkçede belirgin biçimde
-    kayar ([ölçüm örneği](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/09_uzunluk_duyarliligi.py)). En az 100
-    kelime de isterler. Farklı uzunluktaki metinleri karşılaştırırken önce
-    `segment_size` ile aynı boya getirin.
-
-Cümle uzunluğu, hece ortalaması, kelime uzunluğu ve okunabilirlik
-formülleri uzunluğa görece az duyarlıdır, ama kısa metinde gürültülüdür:
-birkaç cümlelik bir değişiklik sonucu belirgin oynatır. SMOG en az 30 cümle
-ister, daha kısa metinde `nan` döner.
+    Düzenleme metni kısalttıysa `ttr`, `hapax_ratio`, `yule_k` gibi sözcüksel
+    zenginlik ölçüleri uzunluk yüzünden de değişir; bunları karşılaştırmak için
+    iki metni aynı boya getirin ([Metni parçalara böl](segmentleme.md)). Kısa
+    metinde cümle ve okunabilirlik ölçüleri de oynaktır; SMOG en az 30 cümle
+    ister.
 
 ## Birden çok çifti karşılaştırmak
 

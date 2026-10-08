@@ -25,7 +25,7 @@ corpus/
   notes.txt           → label "" (no underscore), source "notes"
 ```
 
-!!! warning "File names with underscores"
+!!! note "File names with underscores"
 
     If a file at the root has an underscore in its name, the first part
     becomes the **label**: `text_1.txt` → label `"text"`, source `"1"`. If
@@ -129,11 +129,17 @@ Output:
 648 ÷ 200 = 3 full segments; the remaining 48 words are dropped under the
 default `min_fill=1.0`.
 
-!!! danger "Segmenting is per file, not across the corpus"
+When comparing labels (author, genre, period), keep the segments the same size
+and check the number of segments per label: the mean of a label with a single
+segment is that text's mean, not the author's. A working example that compares
+sentence-length distributions across labels:
+[`examples/05_cumle_ritmi.py`](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/05_cumle_ritmi.py).
+
+!!! note "Segmenting is per file, not across the corpus"
 
     `segment_size=1000` splits **each file separately** into 1000-word
     chunks. It does not concatenate the corpus and cut every 1000 words.
-    So every file leaves a remainder shorter than `size`, and with the
+    So every file leaves a remainder shorter than `segment_size`, and with the
     default `min_fill=1.0` that remainder is **discarded**.
 
     Why and when to segment →
@@ -160,45 +166,3 @@ analyze_corpus(
 
 `groups`, `params`, `model`, `custom_ngrams` and `warn` mean the same as in
 `analyze` and apply to every segment. `custom_ngrams` counts are per segment.
-
-## A DataFrame instead of a CSV
-
-`save_csv` writes to disk. To stay in memory, the returned list is already
-`pandas`-ready:
-
-```python
-import pandas as pd
-df = pd.DataFrame(tlf.analyze_corpus("corpus/", lang="tr"))
-```
-
-`pandas` is not a required dependency; you install it yourself.
-
-## Summarise by label
-
-In most studies the real question is how the labels (author, genre, period)
-differ. The table carries the `label` column, so the summary is one line:
-
-```python
-df = pd.DataFrame(tlf.analyze_corpus("corpus/", lang="tr", segment_size=1000))
-print(df.groupby("label").size())                                   # segments per label
-print(df.groupby("label")[["sent_len_mean", "word_len_mean", "atesman"]].mean().round(2))
-```
-
-On the examples' demo corpus (two labels, short texts, `segment_size=50`):
-
-```text
-label
-Anlatı    2
-Bilgi     2
-
-        sent_len_mean  word_len_mean  atesman
-label
-Anlatı           7.29           5.78    77.35
-Bilgi           10.42           6.57    58.75
-```
-
-When comparing labels, keep the segments the same size (`segment_size`) and
-check the number of segments per label: the mean of a label with a single
-segment is that text's mean, not the author's. A working example that compares
-sentence-length distributions across labels:
-[`examples/05_cumle_ritmi.py`](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/05_cumle_ritmi.py).

@@ -23,28 +23,36 @@ len(en)   # 181
 
 The 27-feature difference breaks down as:
 
-- **+23** Zeyrek suffix analysis (`morphological_zeyrek`: suffix chain,
-  case markers, mood and tense) — Turkish only.
+- **+23** Zeyrek suffix analysis: the `morphological_zeyrek` group (suffix
+  chain, case markers, mood and tense; every key starts with `zeyrek_`) —
+  Turkish only.
 - **+2** vowel harmony (`harmony_fronting_ratio`, `harmony_rounding_ratio`) —
   a property of Turkish; not produced for English.
 - **+3** letters: the Turkish alphabet has 29, English 26 (`ç ğ ı ö ş ü`
   only in Turkish, `q w x` only in English).
-- **−1** readability: three formulas in Turkish (Ateşman, Çetinkaya-Uzun,
-  Bezirci-Yılmaz), four features in English (Flesch, Flesch-Kincaid, SMOG and the
-  polysyllabic word ratio); the shared ones exist in both.
+- **−1** readability: 3 Turkish-only features (the Ateşman, Çetinkaya-Uzun and
+  Bezirci-Yılmaz formulas), 4 English-only features (the Flesch, Flesch-Kincaid
+  and SMOG formulas and the polysyllabic word ratio); the shared ones exist in
+  both.
 
-The `phonetic` group has 13 features in Turkish and 11 in English.
+The `phonetic` group has 14 features in Turkish and 12 in English.
 
 `lang` accepts only `"tr"` and `"en"`. Anything else raises `ValueError`.
 
 ## Ask for specific groups
 
-Computing all 208 features takes time. If you do not need them all:
+If you do not need all 208 features, pick groups; the output then carries
+only those groups' keys:
 
 ```python
 oz = tlf.analyze(text, lang="tr", groups=["readability", "lexical"])
 len(oz)     # 45
 ```
+
+Picking groups saves little time. Most of it goes to the spaCy and Zeyrek
+preprocessing, which runs once whatever you ask for; groups only shorten the
+calculation after it. On a 1000-word text all groups take about 1.2 seconds,
+`readability` alone about 0.85 seconds.
 
 The groups, with their Turkish feature counts:
 
@@ -72,37 +80,37 @@ If you are after a pattern the built-in features do not cover, pass it as
 `custom_ngrams`:
 
 ```python
-text = ("The woman came. The woman laughed and the woman sat down. "
-        "The woman came. Yet nobody asked anything.")
-oz = tlf.analyze(text, lang="en", custom_ngrams=[["yet", "nobody"], ["woman", "VERB"]])
+text = ("The old house was torn down. A new building went up, but the big garden "
+        "stayed. Yet nobody forgot the old house.")
+oz = tlf.analyze(text, lang="en", custom_ngrams=[["yet", "nobody"], ["ADJ", "NOUN"]])
 oz["ngram_yet_nobody_count"]   # 1.0
-oz["ngram_woman_VERB_count"]   # 4.0
+oz["ngram_ADJ_NOUN_count"]     # 4.0
 ```
 
 Each phrase becomes one key; its value is the number of matches in the text.
 
 - Words are compared lowercased. The written form is matched, not the lemma:
-  `women` does not match `woman`.
+  `old houses` would not match `old house`.
 - An UPPERCASE UD part-of-speech tag (`NOUN`, `VERB`, `ADJ`…) matches any
-  word carrying that tag. `["woman", "VERB"]` means "woman" followed directly
-  by a verb.
-- A match never crosses a sentence boundary: `came. The` is not adjacent.
+  word carrying that tag. `["ADJ", "NOUN"]` means an adjective followed
+  directly by a noun.
+- A match never crosses a sentence boundary: `down. A` is not adjacent.
 - The value is a plain count. To compare texts of different lengths, divide
-  by `word_count` (`oz["ngram_woman_VERB_count"] / oz["word_count"]`) or bring
+  by `word_count` (`oz["ngram_ADJ_NOUN_count"] / oz["word_count"]`) or bring
   them to the same size first (`segment_size`).
 
 The count answers "how often". To see **what** the phrase matched:
 
 ```python
-tlf.ngram_matches(text, ["woman", "VERB"], lang="en")
+tlf.ngram_matches(text, ["ADJ", "NOUN"], lang="en")
 ```
 
 ```text
-{'woman came': 2, 'woman laughed': 1, 'woman sat': 1}
+{'old house': 2, 'new building': 1, 'big garden': 1}
 ```
 
 The most frequent match comes first, and the counts add up to
-`ngram_woman_VERB_count`. Sentence and position are not returned. For several
+`ngram_ADJ_NOUN_count`. Sentence and position are not returned. For several
 texts, add the results up with `collections.Counter`. Working example:
 [`examples/10_kelime_oruntuleri.py`](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/10_kelime_oruntuleri.py).
 
