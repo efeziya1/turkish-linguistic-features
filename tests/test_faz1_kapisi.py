@@ -49,6 +49,7 @@ DURUMLAR: dict[str, tuple[tuple, tuple]] = {
     "lexical.summer_s": (([],), (["ev"],)),
     "lexical.maas_a2": (([],), (["ev"],)),
     "lexical.herdan_vm": ((BOS,), (BIR,)),
+    "lexical.honore_r": ((BOS,), (BIR,)),
     "lexical.hapax_count": (([],), ([("ev", 1)],)),
     "lexical.hapax_token_ratio": (([],), ([("ev", 1)],)),
     "lexical.hapax_ratio": (([],), ([("ev", 1)],)),

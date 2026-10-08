@@ -16,6 +16,7 @@ from turkish_linguistic_features.features.lexical import (
     hdd,
     heaps_beta,
     herdan_vm,
+    honore_r,
     maas_a2,
     msttr,
     mtld,
@@ -785,3 +786,10 @@ def test_maas_a2_dugast_u_tersi():
     """İkisi de ln (2026-10-06): Tweedie & Baayen (1998) a² = 1/U tam tutar."""
     t = ["a", "b", "a", "c", "d", "a", "b"]
     assert maas_a2(t)["maas_a2"] * dugast_u(t)["dugast_u"] == pytest.approx(1.0, abs=1e-3)
+
+
+def test_honore_r_elle():
+    """f = (2, 1, 1): N = 4, V = 3, V1 = 2 → 100 · ln 4 / (1 − 2/3) = 415.888308."""
+    assert honore_r(np.array([2, 1, 1]))["honore_r"] == round(100 * math.log(4) * 3, 6)
+    assert _nan(honore_r(np.array([1, 1, 1]))["honore_r"])     # hepsi hapax → payda 0
+    assert _nan(honore_r(np.array([], dtype=np.int64))["honore_r"])

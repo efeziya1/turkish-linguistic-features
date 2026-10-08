@@ -1,4 +1,4 @@
-"""Registry metin tabloları — 176 statik anahtarın açıklaması, formülü,
+"""Registry metin tabloları — 177 statik anahtarın açıklaması, formülü,
 ölçüm şartı ve künyesi.
 
 Bu dosya **veridir**, mantık içermez. ``registry.py``'den ayrı durmasının
@@ -64,6 +64,7 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'summer_s': "Summer's S, log-log type-token ratio",
     'maas_a2': "Maas' a²; higher = more repetitive",
     'herdan_vm': "Herdan's Vm; higher = more repetitive",
+    'honore_r': "Honoré's R; higher = more words used once, richer vocabulary",
     'heaps_beta': 'vocabulary growth rate',
     'entropy': 'Shannon entropy of word frequencies',
     'yule_k': "Yule's K; higher = more repetitive",
@@ -241,7 +242,7 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
 
 # Anahtar → NASIL hesaplandığı. Anahtarın kendi satırı yoksa describe_feature
 # grup adındaki satıra düşer; bu yalnız dinamik gruplarda (chars, custom_ngrams)
-# var, 176 statik anahtarın hepsinin kendi satırı var.
+# var, 177 statik anahtarın hepsinin kendi satırı var.
 FEATURE_FORMULAS: dict[str, str] = {
     # ── lexical ─────────────────────────────────────────────────
     'lemma_count': 'V over lemmas',
@@ -262,6 +263,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'summer_s': 'ln(ln V) / ln(ln N)',
     'maas_a2': '(ln N - ln V) / (ln N)^2',
     'herdan_vm': 'sqrt(sum(f^2) / N^2 - 1 / V)',
+    'honore_r': '100 * ln N / (1 - V1 / V)',
     'heaps_beta':
         'least-squares slope of log V ~ log N over prefixes every heaps_step words, not '
         'clipped',
@@ -472,6 +474,7 @@ FEATURE_REQUIRES: dict[str, str] = {
     'summer_s': 'at least 3 words and 2 distinct words',
     'maas_a2': 'at least 2 words',
     'herdan_vm': 'at least 1 word',
+    'honore_r': 'at least 1 word occurring more than once',
     'heaps_beta': 'at least 300 words (heaps_min_tokens)',
     'entropy': 'at least 1 word',
     'yule_k': 'at least 1 word',
@@ -691,6 +694,7 @@ FEATURE_CITATIONS: dict[str, str] = {
         'which reproduces the values in Torruella & Capsada (2013) Table 1; all logarithms in '
         'this library are natural',
     'herdan_vm': 'Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18)',
+    'honore_r': 'Honoré (1979), as cited in Tweedie & Baayen (1998) p.329, eq. (11)',
     'heaps_beta': 'Heaps (1978), as cited in Manning et al. (2008) §5.1.1',
     # Shannon entropisi beş anahtarda kullanılıyor. Formülün kaynağı hepsinde
     # aynı (Shannon 1948); ayrıldıkları yer formülün NEYE uygulandığı. Künye
@@ -1103,6 +1107,10 @@ BIBLIOGRAPHY: dict[str, str] = {
     'Herdan (1960/1964)':
         'Herdan, G. (1960). Type-Token Mathematics. The Hague: Mouton. / Herdan, G. '
         '(1964). Quantitative Linguistics. London: Butterworths.',
+    'Honoré (1979)':
+        'Honoré, A. (1979). Some simple measures of richness of vocabulary. Association for '
+        'Literary and Linguistic Computing Bulletin, 7(2), 172–177. The record was verified from '
+        'the reference list of Tweedie & Baayen (1998). The primary source could not be obtained.',
     'Jing & Liu (2015)':
         'Jing, Y., & Liu, H. (2015). Mean hierarchical distance: Augmenting mean '
         'dependency distance. Proceedings of Depling 2015, Uppsala, 161–170.',

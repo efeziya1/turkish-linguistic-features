@@ -49,17 +49,17 @@ karşılaştırma tablosunu okur, yani ikisi ayrışamaz. Diğer bilinen-değer
 testleri kendi dosyalarında duruyor.
 
 
-## Türkçe — 201 anahtar, 226 satır
+## Türkçe — 202 anahtar, 227 satır
 
 Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
-**Doğrulama adayı — 144 satır**
+**Doğrulama adayı — 145 satır**
 
 | Durum | Satır sayısı |
 |---|---|
 | ✅ birebir | 46 |
 | 🟡 belgelenmiş sapma | 2 |
-| 🔍 açık — kaynakta sayısal örnek yok | 96 |
+| 🔍 açık — kaynakta sayısal örnek yok | 97 |
 
 
 **Doğrulama adayı olmayan — 82 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
@@ -133,7 +133,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 ### 🔍 Açık — doğrulanabilir, henüz doğrulanmadı
 
-96 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
+97 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
@@ -151,6 +151,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `summer_s` | Somers (1966), as cited in Torruella & Capsada (2013) p.448, where it is named "Summer"; the source gives no logarithm base, the natural logarithm is this library's choice | 🔍 |
 | `maas_a2` | Maas (1972), as cited in Tweedie & Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella & Capsada (2013) Table 1; all logarithms in this library are natural | 🔍 |
 | `herdan_vm` | Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18) | 🔍 |
+| `honore_r` | Honoré (1979), as cited in Tweedie & Baayen (1998) p.329, eq. (11) | 🔍 |
 | `heaps_beta` | Heaps (1978), as cited in Manning et al. (2008) §5.1.1 | 🔍 |
 | `sichel_s` | Sichel (1975); formula from Malvern et al. (2004) eq. 3.10 | 🔍 |
 | `noun_variation` | Lu (2012) Table 2 | 🔍 |
@@ -323,17 +324,17 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `uppercase_ratio` | — | ⚪ |
 | `all_caps_word_ratio` | — | ⚪ |
 
-## İngilizce — 174 anahtar, 191 satır
+## İngilizce — 175 anahtar, 192 satır
 
 Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
-**Doğrulama adayı — 130 satır**
+**Doğrulama adayı — 131 satır**
 
 | Durum | Satır sayısı |
 |---|---|
 | ✅ birebir | 35 |
 | 🟡 belgelenmiş sapma | 3 |
-| 🔍 açık — kaynakta sayısal örnek yok | 92 |
+| 🔍 açık — kaynakta sayısal örnek yok | 93 |
 
 
 **Doğrulama adayı olmayan — 61 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
@@ -395,7 +396,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 ### 🔍 Açık — doğrulanabilir, henüz doğrulanmadı
 
-92 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
+93 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
@@ -413,6 +414,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `summer_s` | Somers (1966), as cited in Torruella & Capsada (2013) p.448, where it is named "Summer"; the source gives no logarithm base, the natural logarithm is this library's choice | 🔍 |
 | `maas_a2` | Maas (1972), as cited in Tweedie & Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella & Capsada (2013) Table 1; all logarithms in this library are natural | 🔍 |
 | `herdan_vm` | Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18) | 🔍 |
+| `honore_r` | Honoré (1979), as cited in Tweedie & Baayen (1998) p.329, eq. (11) | 🔍 |
 | `heaps_beta` | Heaps (1978), as cited in Manning et al. (2008) §5.1.1 | 🔍 |
 | `sichel_s` | Sichel (1975); formula from Malvern et al. (2004) eq. 3.10 | 🔍 |
 | `noun_variation` | Lu (2012) Table 2 | 🔍 |

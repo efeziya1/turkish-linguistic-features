@@ -41,7 +41,7 @@ Extracts every feature from one text. Returns a flat `dict`; values are
 | Parameter | Meaning |
 |---|---|
 | `text` | The text to analyse |
-| `lang` | `"tr"` (default) or `"en"`. Anything else raises `ValueError`. Changes the feature set (201 vs 174) |
+| `lang` | `"tr"` (default) or `"en"`. Anything else raises `ValueError`. Changes the feature set (202 vs 175) |
 | `model` | spaCy model name. Defaults: `tr_core_news_md`, `en_core_web_sm` |
 | `groups` | Restrict to these groups; `None` means all |
 | `params` | Thresholds and window sizes. **`None` selects language-calibrated values** |

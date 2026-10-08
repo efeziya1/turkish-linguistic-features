@@ -68,10 +68,10 @@ Bu kadar. Zincirin tamamı bu.
 
 ```text
 satır sayısı: 3
-sütun sayısı: 204
+sütun sayısı: 205
 ```
 
-Her dosya bir satır. 204 sütun = 201 öznitelik + üç kimlik sütunu:
+Her dosya bir satır. 205 sütun = 202 öznitelik + üç kimlik sütunu:
 
 ```text
 label=yazar_a  source=metin1     segment_id=0  ttr=1.0

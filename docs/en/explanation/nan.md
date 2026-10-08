@@ -20,10 +20,10 @@ len(short), len(nans)
 ```
 
 ```text
-(174, 33)
+(175, 34)
 ```
 
-**33 of 174** features are `nan`. Examples:
+**34 of 175** features are `nan`. Examples:
 
 ```text
 ['aspect_imp_ratio', 'aspect_perf_ratio', 'aspect_prog_ratio',
@@ -145,7 +145,7 @@ segmenting:
 rows = tlf.analyze_corpus("corpus/", lang="en", segment_size=1000)
 ```
 
-1000-word segments feed nearly all 201 features. See
+1000-word segments feed nearly all 202 features. See
 [Split a text into segments](../how-to/segmenting.md).
 
 ## Why `nan` and not `None`

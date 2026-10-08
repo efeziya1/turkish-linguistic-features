@@ -24,16 +24,16 @@ novels, technical writing, transcripts, poetry or children's books. If you work
 in another genre, consider deriving the thresholds from your own corpus —
 [the method is here](../../threshold-calibration.md).
 
-### 2. Fourteen citations are secondary
+### 2. Fifteen citations are secondary
 
-**14 of 165** citations carry `as cited in` — the primary source could not
+**15 of 166** citations carry `as cited in` — the primary source could not
 be obtained and the formula was taken from the citing work. For example:
 
 ```text
 Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)
 ```
 
-Affected measures include `herdan_c`, `herdan_vm`, `maas_a2`, `brunet_w`,
+Affected measures include `herdan_c`, `herdan_vm`, `honore_r`, `maas_a2`, `brunet_w`,
 `dugast_u`, `simpson_d`, `heaps_beta`, `lix`, `cttr` and `summer_s`. The formulas were verified, but not
 against the **primary source's own wording**.
 
@@ -87,12 +87,12 @@ numbers, fix the seed before Python starts, e.g. `PYTHONHASHSEED=0`.
 ### 5. Half the candidates are still unverified
 
 82 rows are not verification candidates at all (plain definitions, tag
-schemes, or our own derivations). Of the remaining **144 candidates, 48 are done** (46 ✅ + 2 🟡)
-and **96 are 🔍 open**.
+schemes, or our own derivations). Of the remaining **145 candidates, 48 are done** (46 ✅ + 2 🟡)
+and **97 are 🔍 open**.
 
 The reason is in [The verification system](verification.md): most sources
 publish a formula but never a worked numerical example. This is most
-pronounced in the `lexical` group — 7 of its 36 candidates are verified.
+pronounced in the `lexical` group — 7 of its 37 candidates are verified.
 
 ### 6. The package is not on PyPI yet
 

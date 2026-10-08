@@ -3,8 +3,8 @@
 ## [Unreleased]
 
 This release renames and removes feature keys; tables built with 0.1.0 will not line up
-column for column. Keys: Turkish 208 → 201, English 180 → 174. Cited features: Turkish
-141 → 190, English 116 → 163; 11 keys in each language are plain definitions without a source.
+column for column. Keys: Turkish 208 → 202, English 180 → 175. Cited features: Turkish
+141 → 191, English 116 → 164; 11 keys in each language are plain definitions without a source.
 
 ### Added
 
@@ -17,10 +17,11 @@ column for column. Keys: Turkish 208 → 201, English 180 → 174. Cited feature
   counts, most frequent first: `{"kadın geldi": 2, "kadın güldü": 1}`. The matching is the
   one `analyze` uses, so the counts add up to the phrase's `ngram_{...}_count`. The public API
   has eleven names.
-- Four lexical richness measures: `cttr` (Carroll's corrected TTR), `summer_s` (Summer's S),
-  `maas_a2` (Maas' a²) and `herdan_vm` (Herdan's Vm). Citations: Carroll (1964) and Somers
-  (1966) as cited in Torruella & Capsada (2013) p.448; Maas (1972) and Herdan (1955) as cited
-  in Tweedie & Baayen (1998) eqs. (7) and (18).
+- Five lexical richness measures: `cttr` (Carroll's corrected TTR), `summer_s` (Summer's S),
+  `maas_a2` (Maas' a²), `herdan_vm` (Herdan's Vm) and `honore_r` (Honoré's R, 100 · ln N /
+  (1 − V1/V)). Citations: Carroll (1964) and Somers (1966) as cited in Torruella & Capsada
+  (2013) p.448; Maas (1972), Herdan (1955) and Honoré (1979) as cited in Tweedie & Baayen
+  (1998) eqs. (7), (18) and (11).
 - `describe_feature(key)["definitions"]`: for every term the `formula` uses (`sentence`,
   `word`, `type`, `syllable`, `pos_tag` … 21 terms), the rule the library counts it with, who
   defines that rule (`tlf`, `spacy`, `zeyrek`, `textstat`, `wordfreq`) and one sentence on
@@ -100,7 +101,7 @@ column for column. Keys: Turkish 208 → 201, English 180 → 174. Cited feature
   (Flesch 1948), `word_len_mean` (Mendenhall 1887), `sent_len_median` (Yule 1939),
   `hapax_ratio` (de Vel 2000), the letter and punctuation shares (Zheng et al. 2006) and
   `yule_k`, which now cites Yule (1944) itself. Where the library's definition differs from
-  the source, the citation says so. Bibliography 45 → 55 works.
+  the source, the citation says so. Bibliography 45 → 56 works.
 - **Verification tolerance** is 1% of the published value instead of a fixed 0.05. One row
   moves from ✅ to 🟡 with its reason written out (`ttr`, QUITA Text 2, a misprint in the
   source). Turkish report: 46 ✅ + 2 🟡; English: 35 ✅ + 3 🟡; no ❌.

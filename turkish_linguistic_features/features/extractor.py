@@ -55,6 +55,7 @@ from .lexical import (
     hdd,
     heaps_beta,
     herdan_vm,
+    honore_r,
     maas_a2,
     msttr,
     mtld,
@@ -188,7 +189,7 @@ def _extract_features(
     Returns
     -------
     dict[str, float]
-        Anahtar → değer. Türkçe taban 201, İngilizce 174; ``dep_data``
+        Anahtar → değer. Türkçe taban 202, İngilizce 175; ``dep_data``
         verilmezse her ikisinden de 16 eksik.
 
     Raises
@@ -238,7 +239,7 @@ def _extract_features(
     # birleşik nokta (U+0307) ekler — ttr ve kelime uzunluğu kayardı.
     kucuk_kelimeler = [_kucuk_harf(tok, lang) for tok in kelimeler]
 
-    # ── lexical (34) — yüzey biçim sayar ──────────────────────────────
+    # ── lexical (35) — yüzey biçim sayar ──────────────────────────────
     if istiyor("lexical"):
         freqs, N, V, items = rank_word_freq_table(kucuk_kelimeler, lang)
         feats.update({
@@ -266,6 +267,7 @@ def _extract_features(
         feats.update(summer_s(kucuk_kelimeler))
         feats.update(maas_a2(kucuk_kelimeler))
         feats.update(herdan_vm(freqs))
+        feats.update(honore_r(freqs))
         feats.update(heaps_beta(kucuk_kelimeler, params.heaps_min_tokens, params.heaps_step))
         feats.update(rare_word_metrics(kucuk_kelimeler))
         feats.update(pos_lexical_variation(wv.lemmas, wv.pos))
