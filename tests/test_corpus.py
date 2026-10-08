@@ -1,13 +1,14 @@
 r"""T27 — korpus yükleyici: klasör/CSV → analiz edilebilir kayıtlar.
 
-``segment_text`` spaCy tokenizer'ı kullanıyor (A kararı, 2026-09-19). Ölçüm
-gerekçesi: ``\S+`` ile "tam 1000 kelime" diye kesilen parçalar gerçekte
-1018–1562 spaCy token çıkıyordu ve bu aralıkta aynı metnin TTR'si %7,6
-oynuyordu — yani ``min_fill``'in önlemek için var olduğu uzunluk karışıklığı
-sayım yönteminden giriyordu.
+``segment_text`` kütüphanenin varsayılan kelimesini sayar (2026-10-08, Efe):
+``analyze`` aynı kelimeyi saydığı için parça ``analyze``'da tam ``size`` kelime
+eder. Önceden spaCy tokenı sayılıyordu (2026-09-19); noktalamayı da saydığı
+için 100 token ~83 kelime ediyordu.
 """
 
 import pytest
+
+from turkish_linguistic_features.features.readability import kelime_birimleri
 
 # ``_load_corpus`` 2026-09-23'te public yüzeyden çıktı (``analyze_corpus``
 # zinciri kapatıyor) ama kodu duruyor: üç dosya düzeni algılaması ve CSV
@@ -26,27 +27,20 @@ def _metin(n: int) -> str:
 # ── segment_text ──────────────────────────────────────────────────────
 
 
-def test_parca_boyu_TAM_istenen_token_sayisi():
-    r"""🔴 A kararının bütün noktası bu: parça boyu yaklaşık değil, tam.
-
-    Noktalama spaCy'de ayrı token — ``\S+`` sayımı burada şişerdi.
-    """
-    import spacy
+def test_parca_boyu_TAM_istenen_kelime_sayisi():
+    """Parça ``analyze``'ın saydığı kelimeyle tam ``size``: noktalama kelime değil."""
     metin = "Ali eve gitti, kitabı okudu. " * 400
     parcalar = segment_text(metin, size=100, lang="tr")
-    tokenizer = spacy.blank("tr").tokenizer
     assert parcalar
-    assert all(len(tokenizer(p)) == 100 for p in parcalar)
+    assert all(len(kelime_birimleri(p, "tr")[0]) == 100 for p in parcalar)
 
 
-def test_satir_sonu_tokenlari_sayilmaz():
-    """``analyze`` boşluk tokenlarını atıyor; parça boyu da aynı sayımla tam olmalı."""
-    import spacy
-    metin = "\n".join(["Ben eve gittim ve sonra yemek yedim bugün"] * 60)
+def test_satir_sonu_ve_tireli_kelime():
+    """Satır sonu kelime ayırır ama kelime sayılmaz; ``e-posta`` tek kelime."""
+    metin = "\n".join(["Ben e-posta yazdım ve sonra yemek yedim bugün"] * 50)
     parcalar = segment_text(metin, size=100, lang="tr")
-    tokenizer = spacy.blank("tr").tokenizer
-    assert parcalar
-    assert all(sum(not t.is_space for t in tokenizer(p)) == 100 for p in parcalar)
+    assert len(parcalar) == 4
+    assert all(len(kelime_birimleri(p, "tr")[0]) == 100 for p in parcalar)
 
 
 def test_min_fill_varsayilani_yarim_parcayi_atar():
@@ -204,7 +198,7 @@ def test_csv_disa_aktarma(tmp_path):
 
 
 def test_lang__load_corpus_uzerinden_geciyor(tmp_path):
-    """``lang`` artık gerçek bir iş yapıyor — tokenizer'ı seçiyor."""
+    """``lang`` kelime kuralını seçiyor; desteklenmeyen dil hata verir."""
     (tmp_path / "A_b.txt").write_text(_metin(250), encoding="utf-8")
     assert _load_corpus(tmp_path, segment_size=100, lang="en")
 

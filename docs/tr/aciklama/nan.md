@@ -20,10 +20,10 @@ len(kisa), len(nan_olan)
 ```
 
 ```text
-(198, 36)
+(199, 36)
 ```
 
-198 öznitelikten **36'sı** `nan`. Örnekler:
+199 öznitelikten **36'sı** `nan`. Örnekler:
 
 ```text
 ['aspect_imp_ratio', 'aspect_perf_ratio', 'aspect_prog_ratio', 'dugast_u',
@@ -57,8 +57,8 @@ Buradaki **kelime** kütüphanenin varsayılan kelimesidir: boşlukla ayrılan,
 kenar noktalaması atılan ve harf ya da rakam içeren birim (`e-posta`, `%50`
 ve sayılar birer kelime). Bağlılık öznitelikleri dışında her öznitelik bu
 kelimeyi sayar; hangisi olduğunu `describe_feature(key)["definitions"]["word"]`
-söyler. `segment_text`'in `size` değeri ise noktalamayı da sayar: 100 tokenlık
-parça ~83 kelime eder ve 100 kelime isteyen bir ölçüye yetmeyebilir.
+söyler. `segment_text`'in `size` değeri de aynı kelimeyi sayar: 100 kelimelik
+parça 100 kelime isteyen bir ölçüye yeter.
 
 Sınırın altındaysanız `nan` gelir. Sınırların bir kısmı kaynaktan gelir
 (`mtld` için "texts as short as 100 tokens can be used"), bir kısmı
@@ -143,7 +143,7 @@ parçalama:
 satirlar = tlf.analyze_corpus("korpus/", lang="tr", segment_size=1000)
 ```
 
-1000 tokenlık parçalar 198 özniteliğin neredeyse tamamını besler. Ayrıntı:
+1000 kelimelik parçalar 199 özniteliğin neredeyse tamamını besler. Ayrıntı:
 [Metni parçalara böl](../nasil/segmentleme.md).
 
 ## Neden `None` değil de `nan`

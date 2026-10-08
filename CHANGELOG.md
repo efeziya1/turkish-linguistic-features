@@ -4,6 +4,11 @@
 
 ### Changed
 
+- `segment_text(unit="word")` and `analyze_corpus(segment_size=...)` count the library's
+  default word instead of spaCy tokens (decided 2026-10-08): a `size=1000` segment is exactly
+  1000 words in `analyze`. Before, punctuation counted too and 100 tokens were about 83 words.
+  Segment boundaries, and so segment counts and values, change; `segment_text` no longer loads
+  a spaCy tokenizer.
 - Every logarithm in the library is now the natural logarithm (decided 2026-10-06). Changed:
   `dugast_u`, `lambda_pa` and `adjusted_modulus` (were log₁₀) and the entropy measures
   `entropy`, `punct_entropy`, `sent_len_entropy`, `zeyrek_suffix_bigram_entropy` and `posdiv`
@@ -125,6 +130,10 @@
 
 ### Added
 
+- `word_count` in the `lexical` group (decided 2026-10-08): the number of words, by the
+  library's default word. Divide `ngram_{...}_count` values by it to compare texts of different
+  length. Cites de Vel (2000) Table 2, attribute 1, and Zheng et al. (2006) Table 3, no. 54.
+  Keys: TR 198 → 199, EN 171 → 172.
 - `ngram_matches(text, phrase, lang="tr")` (decided 2026-10-08): what one `custom_ngrams`
   phrase matched, as `{"kadın geldi": 2, "kadın güldü": 1}`, most frequent first. The matching is
   the one `analyze` uses, so the values add up to `ngram_{...}_count`. Sentence and position are
@@ -184,6 +193,13 @@
 
 ### Fixed
 
+- The Zheng et al. (2006) citations gave Table 3 as p.384; the table is on p.385 (p.384 only
+  refers to it). Checked against the article PDF.
+- `describe_feature(key)["inputs"]` still listed the inputs from before the one-word definition;
+  the groups that count words or take a tag per word now list `raw_text`, `surface_tokens`,
+  `lemma_tokens` and `pos_data`.
+- `examples/02_korpus_analizi.py` no longer prints highly correlated feature pairs; the library
+  measures and leaves feature selection to the user.
 - `examples/06_esik_kalibrasyonu.py` split sentences with spaCy's parser while the library
   uses its own sentence rule, so its built-in check reported a different median; it now counts
   sentences and words with the library's rule and prints the calibrated default thresholds

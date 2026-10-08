@@ -24,7 +24,7 @@ sayfada iki ad vermemek.
 |---|---|---|
 | **kelime** | word | Boşlukla ayrılan, kenar noktalaması atılan, harf ya da rakam içeren birim; kütüphanenin saydığı kelime |
 | **cümle** | sentence | `. ? ! …` ile biten birim; `:` yalnız ardından yeni cümle geliyorsa |
-| **spaCy tokenı** | spaCy token | Modelin metni böldüğü birim; noktalama ayrı tokendır. `segment_text` bunu sayar |
+| **spaCy tokenı** | spaCy token | Modelin metni böldüğü birim; noktalama ayrı tokendır. Bağlılık öznitelikleri bunu sayar |
 | **lemma** | lemma | Kelimenin sözlük biçimi; Türkçede Zeyrek'ten, İngilizcede spaCy'den |
 | **sözcük türü etiketi** | POS tag | UD'nin 17 etiketinden biri (`NOUN`, `VERB`, `ADJ`…) |
 | **n-gram** | n-gram | Ardışık kelimelerden oluşan öbek; `custom_ngrams` ile sayılır |

@@ -17,7 +17,7 @@ adlar sürüm notlarında duyurulur.
 3. **Saf tanım** — `punct_dash_ratio` ("tire / bütün noktalama işaretleri"). Künyesi yoktur,
    çünkü tanımlanacak bir şey yoktur.
 
-198 anahtarın 187'sinin künyesi vardır, 11'inin yoktur.
+199 anahtarın 188'inin künyesi vardır, 11'inin yoktur.
 
 ## Anahtar adları
 
@@ -27,7 +27,7 @@ Ad, özniteliğin ne ölçtüğünü okunur kılacak biçimde kurulur:
 |---|---|---|
 | `…_ratio` | 0 ile 1 arası pay | `hapax_ratio`, `pos_noun_ratio` |
 | `…_mean`, `…_median` | Ortalama, medyan | `sent_len_mean`, `sent_len_median` |
-| `…_count` | Sayım | `lemma_count` |
+| `…_count` | Sayım | `word_count`, `lemma_count` |
 | Literatürdeki adı | Adı yerleşik ölçü; `_ratio` almaz | `ttr`, `mattr`, `yule_k`, `posddev` |
 
 Biçimbirim öznitelikleri iki çözümleyiciden gelir. spaCy'nin UD
@@ -107,7 +107,7 @@ ek çözümlemesi · Türkçe lemma
    ↓  kütüphanenin kuralları
 kelime ve cümle sınırları; her kelime etiketini kendi tokenından alır
    ↓  öznitelik çıkarıcıları
-198 sayı
+199 sayı
 ```
 
 Bunun iki sonucu var:
@@ -115,7 +115,7 @@ Bunun iki sonucu var:
 1. **spaCy modeli sonuçların parçasıdır.** Model değişirse tokenlar,
    sözcük türü, biçimbirim ve bağlılık öznitelikleri değişir. Hangi modeli
    kullandığınızı yöntem bölümüne yazın.
-2. **Ön işleme bir kez yapılır.** 198 özniteliğin hepsi aynı çözümlemeden
+2. **Ön işleme bir kez yapılır.** 199 özniteliğin hepsi aynı çözümlemeden
    beslenir; `groups` ile az öznitelik istemek ön işlemeyi hızlandırmaz,
    yalnız çıkarım adımını kısaltır.
 

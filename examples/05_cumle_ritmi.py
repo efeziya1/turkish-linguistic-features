@@ -21,8 +21,8 @@ from pathlib import Path
 import turkish_linguistic_features as tlf
 from _demo import demo_korpus_yaz
 
-PARCA_BOYUTU = 1500        # gerçek korpus için (spaCy tokenı)
-DEMO_PARCA_BOYUTU = 60     # demo metinleri ~120 token
+PARCA_BOYUTU = 1500        # gerçek korpus için (kelime)
+DEMO_PARCA_BOYUTU = 60     # demo metinleri ~100 kelime
 DIL = "tr"
 CIKTI_DIZINI = Path("examples/output")
 OLCULER = {

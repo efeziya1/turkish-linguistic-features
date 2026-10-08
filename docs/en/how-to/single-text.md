@@ -17,8 +17,8 @@ number.
 tr = tlf.analyze(tr_text, lang="tr")
 en = tlf.analyze(en_text, lang="en")
 
-len(tr)   # 198
-len(en)   # 171
+len(tr)   # 199
+len(en)   # 172
 ```
 
 The 27-feature difference breaks down as:
@@ -39,18 +39,18 @@ The `phonetic` group has 13 features in Turkish and 11 in English.
 
 ## Ask for specific groups
 
-Computing all 198 features takes time. If you do not need them all:
+Computing all 199 features takes time. If you do not need them all:
 
 ```python
 oz = tlf.analyze(text, lang="tr", groups=["readability", "lexical"])
-len(oz)     # 40
+len(oz)     # 41
 ```
 
 The groups, with their Turkish feature counts:
 
 | Group | Features | Contents |
 |---|---|---|
-| `lexical` | 33 | Lexical richness, frequency |
+| `lexical` | 34 | Lexical richness, frequency |
 | `chars` | 29 | Letter frequency vector: one key per letter of the Turkish alphabet (26 in English; `q`, `w`, `x` only there) |
 | `morphological_zeyrek` | 23 | Zeyrek suffix analysis (Turkish only) |
 | `morphological` | 19 | UD morphological features |
@@ -87,7 +87,8 @@ Each phrase becomes one key; its value is the number of matches in the text.
   word carrying that tag. `["woman", "VERB"]` means "woman" followed directly
   by a verb.
 - A match never crosses a sentence boundary: `came. The` is not adjacent.
-- The value is a plain count. To compare texts of different lengths, bring
+- The value is a plain count. To compare texts of different lengths, divide
+  by `word_count` (`oz["ngram_woman_VERB_count"] / oz["word_count"]`) or bring
   them to the same size first (`segment_size`).
 
 The count answers "how often". To see **what** the phrase matched:

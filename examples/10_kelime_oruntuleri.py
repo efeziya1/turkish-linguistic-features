@@ -40,10 +40,14 @@ def main() -> None:
 
     # Yalnız `custom_ngrams` grubu: öbek sayımı için bütün öznitelikleri
     # hesaplamaya gerek yok.
-    oz = tlf.analyze(metin, lang=DIL, custom_ngrams=OBEKLER, groups=["custom_ngrams"])
-    print("-- Sayımlar " + "-" * 40)
+    oz = tlf.analyze(metin, lang=DIL, custom_ngrams=OBEKLER,
+                     groups=["custom_ngrams", "lexical"])
+    kelime = oz["word_count"]
+    print(f"-- Sayımlar ({kelime:.0f} kelime) " + "-" * 26)
+    print(f"{'anahtar':<28}{'sayı':>6}{'1000 kelimede':>16}")
     for anahtar, sayi in oz.items():
-        print(f"{anahtar:<28}{sayi:>6.0f}")
+        if anahtar.startswith("ngram_"):
+            print(f"{anahtar:<28}{sayi:>6.0f}{sayi / kelime * 1000:>16.1f}")
 
     # Sayı tek başına "kaç kez" der; "hangi kelimelerle" sorusunun cevabı burada.
     for obek in OBEKLER:
@@ -65,7 +69,7 @@ def main() -> None:
         print(f"  {etiket:<10}{ilk}")
 
     print("\nSayımlar düz sayıdır; uzunlukları farklı metinleri karşılaştırırken "
-          "kelime\nsayısına bölün ya da metinleri aynı boya getirin (segment_size).")
+          "word_count'a\nbölün ya da metinleri aynı boya getirin (segment_size).")
 
 
 if __name__ == "__main__":

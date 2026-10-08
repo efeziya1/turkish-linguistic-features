@@ -20,10 +20,10 @@ len(short), len(nans)
 ```
 
 ```text
-(171, 33)
+(172, 33)
 ```
 
-**33 of 171** features are `nan`. Examples:
+**33 of 172** features are `nan`. Examples:
 
 ```text
 ['aspect_imp_ratio', 'aspect_perf_ratio', 'aspect_prog_ratio',
@@ -58,8 +58,8 @@ A **word** here is the library's default word: a whitespace-separated unit
 with edge punctuation stripped that contains a letter or digit (`e-posta`,
 `%50` and numbers are one word each). Every feature except the dependency
 features counts this word; `describe_feature(key)["definitions"]["word"]` says
-which. `segment_text`'s `size`, by contrast, counts punctuation too:
-a 100-token segment is about 83 words and may fall short of a 100-word minimum.
+which. `segment_text`'s `size` counts the same word, so a 100-word segment
+meets a 100-word minimum.
 
 Below the minimum you get `nan`. Some minimums come from the source
 (`mtld`: "texts as short as 100 tokens can be used"), others from the
@@ -145,7 +145,7 @@ segmenting:
 rows = tlf.analyze_corpus("corpus/", lang="en", segment_size=1000)
 ```
 
-1000-token segments feed nearly all 198 features. See
+1000-word segments feed nearly all 199 features. See
 [Split a text into segments](../how-to/segmenting.md).
 
 ## Why `nan` and not `None`

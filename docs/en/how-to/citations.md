@@ -64,7 +64,7 @@ Other forms of the same pattern:
 
 - `"Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)"`
   — **the primary source could not be obtained**; the formula was taken
-  from the citing work. **14 of 162** citations are like this, and all of
+  from the citing work. **14 of 163** citations are like this, and all of
   them carry `as cited in`.
 - `"McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form
   of SMOG's input, not the source's own measure"` — derived from the
@@ -94,7 +94,7 @@ literature**; it is a plain definition: `punct_dash_ratio` ("dashes / all punctu
 have a citation, pointing at the scheme (`case_loc_ratio` → UD;
 `zeyrek_case_loc_ratio` → Zeyrek).
 
-**11 of the 198** Turkish keys have no citation: 7 are punctuation and
+**11 of the 199** Turkish keys have no citation: 7 are punctuation and
 capitalisation ratios, and 4 are other plain definitions such as the lemma
 count or the share of vowels.
 

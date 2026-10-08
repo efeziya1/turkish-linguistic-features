@@ -19,15 +19,14 @@ and the default word:
 | Turkish | 162 | 197,990 |
 | English | 30 | 52,745 |
 
-A column is a **single genre**. Novels already give another distribution
-(dialogue lines are very short), and there is **no guarantee** the thresholds
-suit technical writing, transcripts, poetry or children's books. If you work
+A column is a **single genre**. There is **no guarantee** the thresholds suit
+novels, technical writing, transcripts, poetry or children's books. If you work
 in another genre, consider deriving the thresholds from your own corpus —
 [the method is here](../../threshold-calibration.md).
 
 ### 2. Fourteen citations are secondary
 
-**14 of 162** citations carry `as cited in` — the primary source could not
+**14 of 163** citations carry `as cited in` — the primary source could not
 be obtained and the formula was taken from the citing work. For example:
 
 ```text
@@ -88,12 +87,12 @@ numbers, fix the seed before Python starts, e.g. `PYTHONHASHSEED=0`.
 ### 5. Half the candidates are still unverified
 
 82 rows are not verification candidates at all (plain definitions, tag
-schemes, or our own derivations). Of the remaining **141 candidates, 48 are done** (46 ✅ + 2 🟡)
-and **93 are 🔍 open**.
+schemes, or our own derivations). Of the remaining **142 candidates, 48 are done** (46 ✅ + 2 🟡)
+and **94 are 🔍 open**.
 
 The reason is in [The verification system](verification.md): most sources
 publish a formula but never a worked numerical example. This is most
-pronounced in the `lexical` group — 7 of its 35 candidates are verified.
+pronounced in the `lexical` group — 7 of its 36 candidates are verified.
 
 ### 6. The package is not on PyPI yet
 

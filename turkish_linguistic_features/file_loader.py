@@ -18,15 +18,10 @@ from __future__ import annotations
 
 import csv
 from pathlib import Path
-from typing import TYPE_CHECKING
-
-import spacy
 
 from .alfabe import _ALFABE
 from .exceptions import LinguisticFeaturesError
-
-if TYPE_CHECKING:
-    from spacy.tokenizer import Tokenizer
+from .features.readability import word_units
 
 __all__ = ["segment_text", "save_csv"]
 
@@ -36,62 +31,39 @@ _TEXT_KEYS = ("text", "Text", "metin", "Metin", "METIN", "content")
 _TITLE_KEYS = ("source", "Source", "kaynak", "Kaynak", "başlık",
                "title", "book", "file")
 
-# Tokenizer önbelleği. ``spacy.blank(lang)`` kurulu model gerektirmiyor ve
-# ölçüldü (2026-09-19): tokenizer'ı eğitilmiş modelinkiyle **birebir aynı**
-# sayıyı veriyor. Yani parçalama, ``analyze()``ın sonradan yapacağı
-# tokenizasyonla tam uyumlu ama model indirmeye bağlı değil.
-_tokenizer_cache: dict[str, Tokenizer] = {}
-
-
-def _get_tokenizer(lang: str) -> Tokenizer:
-    if lang not in _ALFABE:
-        raise ValueError(f"Unsupported language: {lang!r}. Expected one of: {sorted(_ALFABE)}")
-    if lang not in _tokenizer_cache:
-        _tokenizer_cache[lang] = spacy.blank(lang).tokenizer
-    return _tokenizer_cache[lang]
-
 
 def segment_text(text: str, size: int = 1000, min_fill: float = 1.0,
                  unit: str = "word", lang: str = "tr") -> list[str]:
-    r"""Metni sabit büyüklükte parçalara böler.
+    """Metni sabit büyüklükte parçalara böler.
 
-    🔴 Kelime sınırları **spaCy tokenizer'ı** ile bulunur (2026-09-19, Efe).
-    Planın önceki sürümü ``re.finditer(r"\S+")`` diyordu; ölçüldü ve
-    araştırma kullanımı için yeterince kesin değil: ``\S+`` ile "tam 1000
-    kelime" diye kesilen 40 parça gerçekte **1018-1562** spaCy token çıktı
-    (en uzunu en kısadan %53 uzun) ve aynı metinde bu aralıkta TTR **%7,6**
-    oynuyor. Yani ``min_fill``'in önlemek için var olduğu uzunluk karışıklığı
-    sayım yönteminden giriyordu.
+    ``unit="word"`` kütüphanenin **varsayılan kelimesini** sayar (2026-10-08,
+    Efe): boşlukla ayrılan, kenar noktalaması atılan, harf ya da rakam içeren
+    birim (``readability.word_units``). ``analyze`` aynı kelimeyi saydığı için
+    ``size=1000`` parça ``analyze``'da tam 1000 kelime eder. Önceden spaCy tokenı
+    sayılıyordu; noktalama da token olduğundan 100 token ~83 kelime ediyordu.
 
-    Maliyet ölçüldü ve önemsiz: 1,2 s/MB, yani ardından gelen ``analyze()``
-    çağrılarının %1'i kadar. Cümle sınırında bölmek de denendi ve daha kötü:
-    bozuk noktalamalı metinde tek "cümle" 2611 token olabiliyor, parça boyu
-    385-2611'e yayılıyor.
-
-    Parça içeriği **ham metin dilimidir**, yeniden birleştirilmiş token
-    listesi değil.
+    Parça, ilk kelimesinin boşluk biriminin başından son kelimesininkinin sonuna
+    kadar **ham metin dilimidir**; kenar noktalaması ve aradaki satır sonları
+    olduğu gibi kalır.
 
     Parameters
     ----------
     text
         Bölünecek metin.
     size
-        Parça başına token (``unit="word"``) ya da karakter (``"char"``).
+        Parça başına kelime (``unit="word"``) ya da karakter (``"char"``).
     min_fill
         Son parça bu orandan az doluysa atılır. ``1.0`` (varsayılan) yalnız
         tam parçaları tutar; ``0.5`` yarım dolu son parçayı da tutar.
 
         Sözcüksel zenginlik öznitelikleri metin uzunluğuna duyarlıdır. 1000
-        token'lık parçalarla 50 token'lık bir artığı aynı tabloda toplarsanız
+        kelimelik parçalarla 50 kelimelik bir artığı aynı tabloda toplarsanız
         ölçtüğünüz fark metin değil parça uzunluğu olur.
     unit
         ``"word"`` ya da ``"char"``.
     lang
-        Tokenizer dili; yalnız ``unit="word"`` için anlamlı.
-
-        Planın önceki sürümünde bu parametre **yoktu** ve gerekçesi o zaman
-        doğruydu: ``\S+`` dilden bağımsızdı, yani ``lang`` hiçbir şey
-        yapmıyordu. Artık tokenizer'ı seçiyor, yani gerçek bir iş yapıyor.
+        Metnin dili. Kelime kuralı dile göre küçük farklar taşır (Türkçede
+        ``3.`` sıra sayısı tek kelimedir).
 
     Returns
     -------
@@ -102,20 +74,18 @@ def segment_text(text: str, size: int = 1000, min_fill: float = 1.0,
         raise ValueError(f"unit must be 'word' or 'char', not {unit!r}")
     if size <= 0:
         raise ValueError(f"size must be positive: {size}")
-    tokenizer = _get_tokenizer(lang)       # geçersiz dil burada patlar
+    if lang not in _ALFABE:
+        raise ValueError(f"Unsupported language: {lang!r}. Expected one of: {sorted(_ALFABE)}")
 
     if unit == "char":
         parcalar = [(text[i:i + size], len(text[i:i + size]))
                     for i in range(0, len(text), size)]
     else:
-        # Boşluk/satır sonu tokenları SAYILMAZ: `analyze` onları atıyor
-        # (spacy_pipeline `tok.is_space`), parça boyu aynı sayımla ölçülmeli.
-        # Parça, ilk ve son sözcük tokenı arasındaki ham metin dilimidir.
-        tokenlar = [t for t in tokenizer(text) if not t.is_space]
+        kelimeler = [(bas, son) for _, kelime_mi, bas, son in word_units(text, lang) if kelime_mi]
         parcalar = []
-        for i in range(0, len(tokenlar), size):
-            kume = tokenlar[i:i + size]
-            parcalar.append((text[kume[0].idx:kume[-1].idx + len(kume[-1])], len(kume)))
+        for i in range(0, len(kelimeler), size):
+            kume = kelimeler[i:i + size]
+            parcalar.append((text[kume[0][0]:kume[-1][1]], len(kume)))
 
     esik = size * min_fill
     return [metin for metin, n in parcalar if n >= esik and metin.strip()]

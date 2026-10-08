@@ -17,15 +17,14 @@ cümle uzunluğu dağılımının 15. ve 85. yüzdeliğinden türetildi:
 | Türkçe | 162 | 197 990 |
 | İngilizce | 30 | 52 745 |
 
-Köşe yazısı **tek bir tür**. Roman bile başka bir dağılım verir (diyalog
-satırları çok kısa); teknik metin, transkript, şiir ya da çocuk kitabı için
-genelleneceği **garanti değil.** Kendi türünüzde çalışıyorsanız eşikleri
+Köşe yazısı **tek bir tür**. Roman, teknik metin, transkript, şiir ya da
+çocuk kitabı için genelleneceği **garanti değil.** Kendi türünüzde çalışıyorsanız eşikleri
 kendi korpusunuzdan türetmeyi düşünün —
 [yöntem burada](../../esik-kalibrasyonu.md).
 
 ### 2. On dört künye ikincil kaynaktan
 
-162 künyenin **14'ü** `as cited in` ile işaretlidir — birincil kaynağa
+163 künyenin **14'ü** `as cited in` ile işaretlidir — birincil kaynağa
 ulaşılamadı, formül aktaran kaynaktan alındı. Örnek:
 
 ```text
@@ -88,11 +87,11 @@ Tekrar üretilebilir sayılar için tohumu Python başlamadan sabitleyin, örne�
 
 82 satır doğrulama adayı bile değil (saf tanım, etiket şeması ya da
 bizim türevimiz).
-Kalan **141 adayın 48'i** bitmiş (46 ✅ + 2 🟡), **93'ü 🔍 açık**.
+Kalan **142 adayın 48'i** bitmiş (46 ✅ + 2 🟡), **94'ü 🔍 açık**.
 
 Sebebi [doğrulama sistemi](dogrulama.md) sayfasında: kaynakların çoğu
 formülü yayımlar, o formülün uygulandığı bir sayısal örnek vermez. Bu
-özellikle `lexical` grubunda belirgin — 35 adayın 7'si doğrulanmış.
+özellikle `lexical` grubunda belirgin — 36 adayın 7'si doğrulanmış.
 
 ### 6. Paket henüz PyPI'da değil
 

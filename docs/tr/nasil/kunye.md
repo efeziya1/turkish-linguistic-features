@@ -63,7 +63,7 @@ Aynı kalıbın başka biçimleri:
 
 - `"Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)"`
   — **birincil kaynağa ulaşılamadı**, formül aktaran kaynaktan alındı.
-  162 künyenin **14'ü** böyledir ve hepsi `as cited in` ile işaretlidir.
+  163 künyenin **14'ü** böyledir ve hepsi `as cited in` ile işaretlidir.
 - `"McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form of
   SMOG's input, not the source's own measure"` — ölçü kaynaktan türetilmiş
   ama kaynağın kendi ölçüsü değil.
@@ -93,7 +93,7 @@ Bir dış etiket şemasının kategorisini sayan anahtarların künyesi ise `Non
 değildir, şemayı gösterir (`case_loc_ratio` → UD; `zeyrek_case_loc_ratio` →
 Zeyrek).
 
-Türkçedeki 198 anahtarın **11'inin** künyesi yoktur: 7'si noktalama ve
+Türkçedeki 199 anahtarın **11'inin** künyesi yoktur: 7'si noktalama ve
 büyük harf oranı, 4'ü lemma sayısı ya da ünlü payı gibi başka saf
 tanımlar.
 

@@ -187,7 +187,7 @@ def _extract_features(
     Returns
     -------
     dict[str, float]
-        Anahtar → değer. Türkçe taban 198, İngilizce 171; ``dep_data``
+        Anahtar → değer. Türkçe taban 199, İngilizce 172; ``dep_data``
         verilmezse her ikisinden de 16 eksik.
 
     Raises
@@ -237,13 +237,17 @@ def _extract_features(
     # birleşik nokta (U+0307) ekler — ttr ve kelime uzunluğu kayardı.
     kucuk_kelimeler = [_kucuk_harf(tok, lang) for tok in kelimeler]
 
-    # ── lexical (33) — yüzey biçim sayar ──────────────────────────────
+    # ── lexical (34) — yüzey biçim sayar ──────────────────────────────
     if istiyor("lexical"):
         freqs, N, V, items = rank_word_freq_table(kucuk_kelimeler, lang)
         feats.update({
             # `lemma_tokens` zaten noktalamasız (T21). Lemma yoksa
             # "ölçüldü ve sıfır çıktı" değil, ölçülemedi (K4).
             "lemma_count": float(len(set(wv.lemmas))) if wv.lemmas else math.nan,
+            # Varsayılan kelime sayısı (2026-10-08, Efe): sayımları (ngram_*_count)
+            # kelimeye bölmek isteyen için. Boş metin ölçülemez (K4); yalnız
+            # noktalamadan oluşan metinde 0 gerçek sayımdır.
+            "word_count": float(len(kelimeler)) if raw_text.strip() else math.nan,
             "word_len_mean": word_length_stats(kucuk_kelimeler),
             "entropy": shannon_entropy(freqs),
             "yule_k": yules_k(freqs) if N else math.nan,

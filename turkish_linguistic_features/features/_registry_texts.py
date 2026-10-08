@@ -1,4 +1,4 @@
-"""Registry metin tabloları — 187 statik anahtarın açıklaması, formülü,
+"""Registry metin tabloları — 174 statik anahtarın açıklaması, formülü,
 ölçüm şartı ve künyesi.
 
 Bu dosya **veridir**, mantık içermez. ``registry.py``'den ayrı durmasının
@@ -47,6 +47,7 @@ __all__ = [
 FEATURE_DESCRIPTIONS: dict[str, str] = {
     # ── lexical ─────────────────────────────────────────────────
     'lemma_count': 'number of distinct lemmas',
+    'word_count': 'number of words',
     'word_len_mean': 'mean word length in characters',
     'ttr': 'type-token ratio; falls as the text grows',
     'mattr': 'moving-average TTR',
@@ -238,10 +239,11 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
 
 # Anahtar → NASIL hesaplandığı. Anahtarın kendi satırı yoksa describe_feature
 # grup adındaki satıra düşer; bu yalnız dinamik gruplarda (chars, custom_ngrams)
-# var, 187 statik anahtarın hepsinin kendi satırı var.
+# var, 174 statik anahtarın hepsinin kendi satırı var.
 FEATURE_FORMULAS: dict[str, str] = {
     # ── lexical ─────────────────────────────────────────────────
     'lemma_count': 'V over lemmas',
+    'word_count': 'words',
     'word_len_mean': 'sum(len(w)) / N',
     'ttr': 'V / N',
     'mattr': 'mean TTR of every sliding window of mattr_window words',
@@ -449,6 +451,7 @@ FEATURE_FORMULAS: dict[str, str] = {
 FEATURE_REQUIRES: dict[str, str] = {
     # ── lexical ─────────────────────────────────────────────────
     'lemma_count': 'at least 1 word',
+    'word_count': 'non-empty text (0 when it has no words)',
     'word_len_mean': 'at least 1 word',
     'ttr': 'at least 1 word',
     'mattr': 'at least 100 words (2 x mattr_window)',
@@ -940,7 +943,7 @@ FEATURE_CITATIONS: dict[str, str] = {
     # ── 2026-10-07 citation search (Efe): primary sources read in tlf-kaynaklar ──
     # Dynamic group: every char_* key takes this citation (registry._citation).
     'chars':
-        'Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; '
+        'Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; '
         "here each letter of the language's alphabet (Turkish 29, English 26) as a share of all "
         'its letters',
     'word_len_mean':
@@ -954,37 +957,40 @@ FEATURE_CITATIONS: dict[str, str] = {
     'hapax_ratio':
         'de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of '
         'vocabulary words"',
+    'word_count':
+        'de Vel (2000) Table 2, attribute 1 "Total number of words"; Zheng et al. (2006) '
+        'Table 3, p.385, no. 54 "Total number of words (M)"',
     'whitespace_ratio':
         'de Vel et al. (2001) Table 2, p.60 "Total number of white-space characters/C"',
     'punct_char_ratio': 'de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C"',
     'digit_ratio':
         'de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; '
         'here digits anywhere in the text',
-    'para_len_mean': 'Zheng et al. (2006) Table 3, p.384, no. 251 "Number of words per paragraph"',
+    'para_len_mean': 'Zheng et al. (2006) Table 3, p.385, no. 251 "Number of words per paragraph"',
     'sents_per_para_mean':
-        'Zheng et al. (2006) Table 3, p.384, no. 249 "Number of sentences per paragraph"',
+        'Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph"',
     'sent_len_char_mean':
-        'Zheng et al. (2006) Table 3, p.384, no. 58 "Average sentence length in terms of character"',
+        'Zheng et al. (2006) Table 3, p.385, no. 58 "Average sentence length in terms of character"',
     'punct_comma_ratio':
-        'Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); '
+        'Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); '
         "here the share among all marks",
     'punct_period_ratio':
-        'Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); '
+        'Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); '
         "here the share among all marks",
     'punct_semicolon_ratio':
-        'Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); '
+        'Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); '
         "here the share among all marks",
     'punct_exclamation_ratio':
-        'Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); '
+        'Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); '
         "here the share among all marks",
     'punct_colon_ratio':
-        'Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); '
+        'Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); '
         "here the share among all marks",
     'punct_question_ratio':
-        'Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); '
+        'Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); '
         "here the share among all marks",
     'punct_quote_ratio':
-        'Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); '
+        'Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); '
         "here the share among all marks",
 }
 

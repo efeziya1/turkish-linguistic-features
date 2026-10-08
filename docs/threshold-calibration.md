@@ -138,12 +138,8 @@ of variance in `short_sent_ratio` and `long_sent_ratio` explained by author iden
 
 **The thresholds were calibrated on newspaper columns.** A column is a single genre.
 
-Novels give another distribution because dialogue lines produce very short
-sentences: in Turkish novels (126 books, 992,259 sentences) under the default rule and word,
-26.5% of sentences are shorter than 4 words and 7.6% longer than 17 (12.2% and 15.0% in
-columns). There is
-also **no guarantee** that the same thresholds suit technical writing, transcripts,
-poetry, legal text or textbooks. If you work with those genres, compute the
+There is **no guarantee** that the same thresholds suit novels, technical
+writing, transcripts, poetry, legal text or textbooks. If you work with those genres, compute the
 percentiles of your own corpus and pass them through `FeatureParams`.
 
 Also, `short_sent_ratio` and `long_sent_ratio` are **not comparable across the two

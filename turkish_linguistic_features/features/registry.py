@@ -1,4 +1,4 @@
-"""Öznitelik registry — 187 statik anahtarın tek doğruluk kaynağı (T19).
+"""Öznitelik registry — 174 statik anahtarın tek doğruluk kaynağı (T19).
 
 ``describe_feature(key)`` bir anahtar hakkında bilinen her şeyi tek çağrıda
 döndürür: ne ölçtüğü, nasıl hesaplandığı, hangi ölçekte olduğu, hangi
@@ -6,7 +6,7 @@ döndürür: ne ölçtüğü, nasıl hesaplandığı, hangi ölçekte olduğu, h
 kadar metin gerektirdiği ve künyesi. Kullanıcı üç ayrı sözlüğe bakmak zorunda
 kalmasın diye tek giriş noktası budur.
 
-Taban şema **TR 198 · EN 171**: 173 statik anahtardan dile özgü olanlar + dile
+Taban şema **TR 199 · EN 172**: 174 statik anahtardan dile özgü olanlar + dile
 göre 26–29 ``char_*``.
 ``custom_ngrams`` istenmedikçe anahtar üretmez, bu yüzden toplama girmez.
 14 grup = 12 statik + 2 dinamik.
@@ -65,7 +65,8 @@ _CHAR_HARFLERI: frozenset[str] = frozenset("".join(_ALFABE.values()))
 
 STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
     "lexical": (
-        'lemma_count', 'word_len_mean', 'ttr', 'mattr', 'herdan_c', 'sichel_s', 'zipf_exponent', 'zipf_r2',
+        'lemma_count', 'word_count', 'word_len_mean', 'ttr', 'mattr', 'herdan_c', 'sichel_s',
+        'zipf_exponent', 'zipf_r2',
         'zipf_mandelbrot_q',
         'zipf_mandelbrot_s', 'mtld', 'dugast_u', 'guiraud_r', 'cttr', 'summer_s', 'maas_a2',
         'herdan_vm', 'heaps_beta',
@@ -145,20 +146,23 @@ STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
 # ``frequency_structure`` (2026-08-25) ve ``syntactic`` (2026-08-26) iki kez
 # eksik kaydedildi ve ikisi de "kaydı var mı" testinden geçiyordu.
 GROUP_INPUTS: dict[str, tuple[str, ...]] = {
-    "lexical": ("surface_tokens", "lemma_tokens", "pos_data"),
-    "frequency_structure": ("lemma_tokens", "pos_data"),
-    "sentence": ("surface_tokens",),
+    # Kelime ham metinden sayılır, etiketi konumla tokendan alınır (2026-10-07, Efe):
+    # etiket isteyen grup `raw_text` + `surface_tokens` + `pos_data` + `lemma_tokens` okur.
+    "lexical": ("raw_text", "surface_tokens", "lemma_tokens", "pos_data"),
+    "frequency_structure": ("raw_text", "surface_tokens", "lemma_tokens", "pos_data"),
+    "sentence": ("raw_text", "surface_tokens"),
     "paragraph": ("raw_text",),
-    "pos": ("pos_data",),
-    "syntactic": ("pos_data", "surface_tokens"),
+    "pos": ("raw_text", "surface_tokens", "lemma_tokens", "pos_data"),
+    "syntactic": ("raw_text", "surface_tokens", "lemma_tokens", "pos_data"),
     "syntactic_dep": ("dep_data",),
-    "morphological": ("morph_tags", "pos_data", "surface_tokens", "lemma_tokens"),
-    "morphological_zeyrek": ("morpheme_lists", "pos_data"),
+    "morphological": ("raw_text", "surface_tokens", "lemma_tokens", "pos_data", "morph_tags"),
+    "morphological_zeyrek": ("raw_text", "surface_tokens", "lemma_tokens", "pos_data",
+                             "morpheme_lists"),
     "phonetic": ("raw_text", "surface_tokens"),
     "readability": ("raw_text", "surface_tokens"),
     "punctuation": ("raw_text", "surface_tokens"),
     "chars": ("raw_text",),
-    "custom_ngrams": ("pos_data", "surface_tokens"),
+    "custom_ngrams": ("raw_text", "surface_tokens", "lemma_tokens", "pos_data"),
 }
 
 
@@ -198,6 +202,7 @@ GROUP_SCALES: dict[str, str] = {
 FEATURE_SCALES: dict[str, str] = {
     # lexical
     "lemma_count": "count",
+    "word_count": "count",
     "word_len_mean": "length",
     "entropy": "nats",
     "yule_k": "score",

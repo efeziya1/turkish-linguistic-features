@@ -41,7 +41,7 @@ Extracts every feature from one text. Returns a flat `dict`; values are
 | Parameter | Meaning |
 |---|---|
 | `text` | The text to analyse |
-| `lang` | `"tr"` (default) or `"en"`. Anything else raises `ValueError`. Changes the feature set (198 vs 171) |
+| `lang` | `"tr"` (default) or `"en"`. Anything else raises `ValueError`. Changes the feature set (199 vs 172) |
 | `model` | spaCy model name. Defaults: `tr_core_news_md`, `en_core_web_sm` |
 | `groups` | Restrict to these groups; `None` means all |
 | `params` | Thresholds and window sizes. **`None` selects language-calibrated values** |
@@ -135,15 +135,14 @@ segment_text(
 ) -> list[str]
 ```
 
-Splits a text into fixed-size pieces. `size` counts **spaCy tokens**
-(`unit="word"`) or raw characters (`unit="char"`). A trailing piece shorter
+Splits a text into fixed-size pieces. `size` counts **words** — the word
+`analyze` counts (`unit="word"`) — or raw characters (`unit="char"`). A trailing piece shorter
 than `min_fill × size` is discarded.
 
-Returned pieces are slices of the raw text, not re-joined tokens.
+Returned pieces are slices of the raw text, not re-joined words.
 
-Pass the text's language: tokenization rules differ (apostrophes,
-abbreviations), so the same English text gives different piece boundaries
-with the default `lang="tr"`.
+Pass the text's language; the word rule differs slightly (Turkish ordinals
+such as `3.` are one word).
 
 See: [TR](../tr/nasil/segmentleme.md) · [EN](../en/how-to/segmenting.md)
 

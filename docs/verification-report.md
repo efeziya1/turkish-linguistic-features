@@ -54,17 +54,17 @@ table as `tests/test_kaynak_esligi.py`, so the two cannot drift apart. The
 other known-value tests live in their own files.
 
 
-## Turkish — 198 keys, 223 rows
+## Turkish — 199 keys, 224 rows
 
 A key may have more than one worked example in its source; each one is its own row.
 
-**Verification candidates — 141 rows**
+**Verification candidates — 142 rows**
 
 | Status | Rows |
 |---|---|
 | ✅ exact | 46 |
 | 🟡 documented deviation | 2 |
-| 🔍 open — no worked example in source | 93 |
+| 🔍 open — no worked example in source | 94 |
 
 
 **Not verification candidates — 82 rows.** There is no published number to look for in these.
@@ -138,10 +138,11 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### 🔍 Open — verifiable, not yet verified
 
-93 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
+94 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
 
 | Key | Source | Status |
 |---|---|---|
+| `word_count` | de Vel (2000) Table 2, attribute 1 "Total number of words"; Zheng et al. (2006) Table 3, p.385, no. 54 "Total number of words (M)" | 🔍 |
 | `word_len_mean` | Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241 | 🔍 |
 | `yule_k` | Yule (1944) p.53, eq. (3.22) | 🔍 |
 | `simpson_d` | Simpson (1949), as cited in Bestgen (2023) | 🔍 |
@@ -174,9 +175,9 @@ A key may have more than one worked example in its source; each one is its own r
 | `secondary_thematic_concentration` | QUITA §6.2.6 | 🔍 |
 | `sent_len_mean` | Flesch (1948) p.223, element (1) "Average Sentence Length in Words" | 🔍 |
 | `sent_len_median` | Yule (1939) p.369, median sentence length alongside the mean | 🔍 |
-| `sent_len_char_mean` | Zheng et al. (2006) Table 3, p.384, no. 58 "Average sentence length in terms of character" | 🔍 |
-| `para_len_mean` | Zheng et al. (2006) Table 3, p.384, no. 251 "Number of words per paragraph" | 🔍 |
-| `sents_per_para_mean` | Zheng et al. (2006) Table 3, p.384, no. 249 "Number of sentences per paragraph" | 🔍 |
+| `sent_len_char_mean` | Zheng et al. (2006) Table 3, p.385, no. 58 "Average sentence length in terms of character" | 🔍 |
+| `para_len_mean` | Zheng et al. (2006) Table 3, p.385, no. 251 "Number of words per paragraph" | 🔍 |
+| `sents_per_para_mean` | Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph" | 🔍 |
 | `pronoun_ratio` | Deutsch, Jasbi & Shieber (2020) Table 6 "pronouns per word", listed among existing features; original source not traced | 🔍 |
 | `verb_dist_mean` | QUITA §6.2.1 | 🔍 |
 | `lexical_density` | Lu (2012); definition in the broad Hallidayan sense — all open-class words | 🔍 |
@@ -197,44 +198,44 @@ A key may have more than one worked example in its source; each one is its own r
 | `lix` | Björnsson (1968), as cited in Anderson (1983) p.490; long word = 7+ letters | 🔍 |
 | `long_word_ratio` | Anderson (1983); long word = 7+ letters | 🔍 |
 | `digit_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; here digits anywhere in the text | 🔍 |
-| `punct_comma_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
-| `punct_period_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
-| `punct_semicolon_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
-| `punct_exclamation_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
-| `punct_colon_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
-| `punct_quote_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
-| `punct_question_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_comma_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_period_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_semicolon_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_exclamation_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_colon_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_quote_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_question_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
 | `punct_char_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C" | 🔍 |
 | `whitespace_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of white-space characters/C" | 🔍 |
-| `char_a_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_b_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_c_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_ç_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_d_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_e_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_f_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_g_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_ğ_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_h_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_ı_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_i_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_j_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_k_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_l_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_m_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_n_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_o_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_ö_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_p_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_r_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_s_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_ş_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_t_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_u_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_ü_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_v_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_y_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_z_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_a_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_b_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_c_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_ç_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_d_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_e_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_f_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_g_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_ğ_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_h_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_ı_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_i_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_j_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_k_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_l_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_m_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_n_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_o_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_ö_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_p_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_r_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_s_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_ş_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_t_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_u_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_ü_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_v_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_y_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_z_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
 
 ### Not verification candidates
 
@@ -325,17 +326,17 @@ A key may have more than one worked example in its source; each one is its own r
 | `uppercase_ratio` | — | ⚪ |
 | `all_caps_word_ratio` | — | ⚪ |
 
-## English — 171 keys, 188 rows
+## English — 172 keys, 189 rows
 
 A key may have more than one worked example in its source; each one is its own row.
 
-**Verification candidates — 127 rows**
+**Verification candidates — 128 rows**
 
 | Status | Rows |
 |---|---|
 | ✅ exact | 35 |
 | 🟡 documented deviation | 3 |
-| 🔍 open — no worked example in source | 89 |
+| 🔍 open — no worked example in source | 90 |
 
 
 **Not verification candidates — 61 rows.** There is no published number to look for in these.
@@ -397,10 +398,11 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### 🔍 Open — verifiable, not yet verified
 
-89 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
+90 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
 
 | Key | Source | Status |
 |---|---|---|
+| `word_count` | de Vel (2000) Table 2, attribute 1 "Total number of words"; Zheng et al. (2006) Table 3, p.385, no. 54 "Total number of words (M)" | 🔍 |
 | `word_len_mean` | Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241 | 🔍 |
 | `yule_k` | Yule (1944) p.53, eq. (3.22) | 🔍 |
 | `simpson_d` | Simpson (1949), as cited in Bestgen (2023) | 🔍 |
@@ -433,9 +435,9 @@ A key may have more than one worked example in its source; each one is its own r
 | `secondary_thematic_concentration` | QUITA §6.2.6 | 🔍 |
 | `sent_len_mean` | Flesch (1948) p.223, element (1) "Average Sentence Length in Words" | 🔍 |
 | `sent_len_median` | Yule (1939) p.369, median sentence length alongside the mean | 🔍 |
-| `sent_len_char_mean` | Zheng et al. (2006) Table 3, p.384, no. 58 "Average sentence length in terms of character" | 🔍 |
-| `para_len_mean` | Zheng et al. (2006) Table 3, p.384, no. 251 "Number of words per paragraph" | 🔍 |
-| `sents_per_para_mean` | Zheng et al. (2006) Table 3, p.384, no. 249 "Number of sentences per paragraph" | 🔍 |
+| `sent_len_char_mean` | Zheng et al. (2006) Table 3, p.385, no. 58 "Average sentence length in terms of character" | 🔍 |
+| `para_len_mean` | Zheng et al. (2006) Table 3, p.385, no. 251 "Number of words per paragraph" | 🔍 |
+| `sents_per_para_mean` | Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph" | 🔍 |
 | `pronoun_ratio` | Deutsch, Jasbi & Shieber (2020) Table 6 "pronouns per word", listed among existing features; original source not traced | 🔍 |
 | `verb_dist_mean` | QUITA §6.2.1 | 🔍 |
 | `lexical_density` | Lu (2012); definition in the broad Hallidayan sense — all open-class words | 🔍 |
@@ -455,41 +457,41 @@ A key may have more than one worked example in its source; each one is its own r
 | `flesch_reading_ease` | Flesch (1948) Formula A; coefficient .846, unit = syllables per 100 words | 🔍 |
 | `smog` | McLaughlin (1969) p.643, Table 1, eq. (d); p = polysyllabic words in a 30-sentence sample | 🔍 |
 | `digit_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; here digits anywhere in the text | 🔍 |
-| `punct_comma_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
-| `punct_period_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
-| `punct_semicolon_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
-| `punct_exclamation_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
-| `punct_colon_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
-| `punct_quote_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
-| `punct_question_ratio` | Zheng et al. (2006) Table 3, p.384, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_comma_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_period_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_semicolon_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_exclamation_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_colon_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_quote_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_question_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
 | `punct_char_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C" | 🔍 |
 | `whitespace_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of white-space characters/C" | 🔍 |
-| `char_a_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_b_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_c_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_d_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_e_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_f_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_g_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_h_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_i_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_j_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_k_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_l_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_m_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_n_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_o_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_p_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_q_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_r_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_s_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_t_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_u_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_v_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_w_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_x_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_y_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_z_ratio` | Zheng et al. (2006) Table 3, p.384, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_a_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_b_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_c_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_d_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_e_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_f_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_g_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_h_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_i_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_j_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_k_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_l_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_m_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_n_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_o_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_p_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_q_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_r_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_s_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_t_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_u_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_v_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_w_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_x_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_y_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_z_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
 
 ### Not verification candidates
 

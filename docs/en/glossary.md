@@ -25,7 +25,7 @@ pages.
 |---|---|
 | **word** | A whitespace-separated piece with edge punctuation stripped, containing a letter or digit; the word the library counts |
 | **sentence** | A unit ending in `. ? ! …`; `:` only when a new sentence follows |
-| **spaCy token** | The unit the model splits text into; punctuation is a token of its own. `segment_text` counts these |
+| **spaCy token** | The unit the model splits text into; punctuation is a token of its own. The dependency features count these |
 | **lemma** | A word's dictionary form; from Zeyrek for Turkish, from spaCy for English |
 | **POS tag** | One of the 17 UD part-of-speech tags (`NOUN`, `VERB`, `ADJ`…) |
 | **n-gram** | A sequence of consecutive words; counted with `custom_ngrams` |

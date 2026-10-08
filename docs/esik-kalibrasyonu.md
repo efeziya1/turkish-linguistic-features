@@ -134,11 +134,8 @@ karşılaştırılmıştı; 15./85. dört ölçümün hepsinde eşit ya da daha 
 
 **Eşikler gazete köşe yazılarıyla kalibre edildi.** Köşe yazısı tek bir tür.
 
-Romanda diyalog satırları çok kısa cümle ürettiği için aynı eşikler başka dağılım verir:
-Türkçe romanda (126 kitap, 992.259 cümle) varsayılan kural ve kelimeyle cümlelerin %26,5'i
-4 sözcükten kısa, %7,6'sı 17 sözcükten uzun (köşe yazısında %12,2 ve %15,0). Teknik metin, transkript,
-şiir, hukuk metni ya da ders kitabında da eşiklerin uygun olacağı **garanti
-değildir**. Bu türlerle çalışıyorsanız kendi korpusunuzun yüzdeliklerini hesaplayıp
+Roman, teknik metin, transkript, şiir, hukuk metni ya da ders kitabında eşiklerin
+uygun olacağı **garanti değildir**. Bu türlerle çalışıyorsanız kendi korpusunuzun yüzdeliklerini hesaplayıp
 `FeatureParams` ile geçirin.
 
 Ayrıca `short_sent_ratio` ve `long_sent_ratio` **iki dilde kıyaslanamaz**: aynı

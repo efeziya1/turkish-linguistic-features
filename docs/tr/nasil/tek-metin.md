@@ -16,8 +16,8 @@ Dönen şey düz bir `dict`: anahtar öznitelik adı, değer sayı.
 tr = tlf.analyze(tr_metin, lang="tr")
 en = tlf.analyze(en_metin, lang="en")
 
-len(tr)   # 198
-len(en)   # 171
+len(tr)   # 199
+len(en)   # 172
 ```
 
 Aradaki 27'nin dökümü:
@@ -38,18 +38,18 @@ Aradaki 27'nin dökümü:
 
 ## Yalnız bazı grupları isteyin
 
-198 özniteliğin hepsini hesaplamak zaman alır. İhtiyacınız yoksa grup seçin:
+199 özniteliğin hepsini hesaplamak zaman alır. İhtiyacınız yoksa grup seçin:
 
 ```python
 oz = tlf.analyze(metin, lang="tr", groups=["readability", "lexical"])
-len(oz)     # 40
+len(oz)     # 41
 ```
 
 Mevcut gruplar ve Türkçede kaç öznitelik içerdikleri:
 
 | Grup | Öznitelik | İçerik |
 |---|---|---|
-| `lexical` | 33 | Sözcüksel zenginlik, sıklık |
+| `lexical` | 34 | Sözcüksel zenginlik, sıklık |
 | `chars` | 29 | Harf sıklık vektörü: Türkçe alfabenin her harfi için bir anahtar (İngilizcede 26; `q`, `w`, `x` yalnız orada) |
 | `morphological_zeyrek` | 23 | Zeyrek ek çözümlemesi (yalnız TR) |
 | `morphological` | 19 | UD morfolojik özellikleri |
@@ -87,8 +87,9 @@ Her öbek bir anahtar olur; değeri metindeki eşleşme sayısıdır.
   o etiketi taşıyan herhangi bir kelimeyle eşleşir. `["kadın", "VERB"]`,
   "kadın" ve hemen ardından bir fiil demektir.
 - Eşleşme cümle sınırını aşmaz: `geldi. Kadın` yan yana sayılmaz.
-- Değer düz sayımdır. Uzunlukları farklı metinleri karşılaştıracaksanız önce
-  aynı boya getirin (`segment_size`).
+- Değer düz sayımdır. Uzunlukları farklı metinleri karşılaştıracaksanız
+  `word_count`'a bölün (`oz["ngram_kadın_VERB_count"] / oz["word_count"]`) ya
+  da metinleri aynı boya getirin (`segment_size`).
 
 Sayı "kaç kez" sorusunu cevaplar. Öbeğin **neyle** eşleştiğini görmek için:
 

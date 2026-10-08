@@ -1,7 +1,7 @@
 """Sözcüksel temel: frekans tablosu ve klasik kelime zenginliği ölçütleri.
 
-Bu modül 32 öznitelik anahtarı üretir (`lexical` grubunun 33'ünden; kalan
-``lemma_count`` T20'de sayılır):
+Bu modül 32 öznitelik anahtarı üretir (`lexical` grubunun 34'ünden; kalan
+``lemma_count`` ve ``word_count`` ``extractor``'da sayılır):
 
 - T04 (10): ``ttr`` · ``entropy`` · ``yule_k`` · ``simpson_d`` · ``brunet_w`` ·
   ``hapax_ratio`` · ``hapax_token_ratio`` · ``word_len_mean`` ·

@@ -67,7 +67,7 @@ print(len(oz))
 ```
 
 ```text
-198
+199
 ```
 
 `lang` verilmezse varsayılan `"tr"`'dir; İngilizce metin için `lang="en"`
@@ -78,7 +78,7 @@ sayılar. İç içe yapı yok, sınıf yok, `pandas` zorunluluğu yok.
 
 ## 4. Çıktıyı okuyun
 
-198 sayıya birden bakmanın anlamı yok. Birkaçına bakalım:
+199 sayıya birden bakmanın anlamı yok. Birkaçına bakalım:
 
 ```python
 for k in ("ttr", "word_len_mean", "sent_len_mean",
@@ -101,7 +101,7 @@ Bunlar ne anlatıyor:
 |---|---|---|
 | `ttr` | 1.0 | Tip/token oranı. **1.0 = her kelime bir kez geçmiş.** 30 kelimelik bir metinde bu normaldir; uzun metinde imkânsızdır. |
 | `word_len_mean` | 5.7667 | Kelime başına 5,77 karakter. |
-| `sent_len_mean` | 10.0 | Cümle başına 10 kelime. Türkçe roman korpusunda medyan 9'dur. |
+| `sent_len_mean` | 10.0 | Cümle başına 10 kelime. |
 | `syllable_mean` | 2.5333 | Kelime başına 2,53 hece. |
 | `atesman` | 70.9483 | Ateşman (1997) okunabilirlik puanı, 0–100. 70 "kolay"a yakın. |
 | `entropy` | 3.401197 | Kelime dağılımının Shannon entropisi, nat (doğal logaritma). |
@@ -137,10 +137,10 @@ print(len(kisa), len(nan_olan))
 ```
 
 ```text
-198 36
+199 36
 ```
 
-Üç kelimelik bir metinde 198 öznitelikten **36'sı** `nan` döner. Bu bir hata
+Üç kelimelik bir metinde 199 öznitelikten **36'sı** `nan` döner. Bu bir hata
 değil, dürüstlüktür. Ayrıntı: **[NaN ne demek](aciklama/nan.md)**.
 
 ## 6. Bir özniteliğin kaynağını görün
@@ -196,10 +196,10 @@ print("sütun sayısı:", len(satirlar[0]))
 
 ```text
 satır sayısı: 3
-sütun sayısı: 201
+sütun sayısı: 202
 ```
 
-Her dosya bir satır olur. 201 sütun = 198 öznitelik + üç kimlik sütunu:
+Her dosya bir satır olur. 202 sütun = 199 öznitelik + üç kimlik sütunu:
 
 ```text
 label=yazar_a  source=metin1     segment_id=0
@@ -211,7 +211,7 @@ label=yazar_b  source=metin3     segment_id=0
 adıdır. CSV'nin ilk satırı:
 
 ```text
-label,source,segment_id,lemma_count,word_len_mean,entropy,yule_k,simpso...
+label,source,segment_id,lemma_count,word_count,word_len_mean,entropy,yu...
 ```
 
 Bu dosyayı `pandas`, R ya da SPSS ile doğrudan açabilirsiniz.

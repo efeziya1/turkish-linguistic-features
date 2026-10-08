@@ -173,7 +173,7 @@ TERMS: dict[str, tuple[dict[str, str | None], dict[str, str | None]]] = {
     "word": (GROUP_WORD, FEATURE_WORD),
     "type": (
         {"lexical": "lowercase_surface", "frequency_structure": PER_LANGUAGE},
-        {**_hepsi(PER_LANGUAGE, _TYPE_LEMMA), "word_len_mean": None},
+        {**_hepsi(PER_LANGUAGE, _TYPE_LEMMA), "word_len_mean": None, "word_count": None},
     ),
     "token": ({}, {"sent_len_char_mean": "spacy_token"}),
     "syllable": ({}, _hepsi(PER_LANGUAGE, _SYLLABLE_PHONETIC + _SYLLABLE_READABILITY)),
