@@ -2188,23 +2188,30 @@ number.</p>
 </code></pre></div>
 <p>The 27-feature difference breaks down as:</p>
 <ul>
-<li><strong>+23</strong> Zeyrek suffix analysis (<code>morphological_zeyrek</code>: suffix chain,
-  case markers, mood and tense) — Turkish only.</li>
+<li><strong>+23</strong> Zeyrek suffix analysis: the <code>morphological_zeyrek</code> group (suffix
+  chain, case markers, mood and tense; every key starts with <code>zeyrek_</code>) —
+  Turkish only.</li>
 <li><strong>+2</strong> vowel harmony (<code>harmony_fronting_ratio</code>, <code>harmony_rounding_ratio</code>) —
   a property of Turkish; not produced for English.</li>
 <li><strong>+3</strong> letters: the Turkish alphabet has 29, English 26 (<code>ç ğ ı ö ş ü</code>
   only in Turkish, <code>q w x</code> only in English).</li>
-<li><strong>−1</strong> readability: three formulas in Turkish (Ateşman, Çetinkaya-Uzun,
-  Bezirci-Yılmaz), four features in English (Flesch, Flesch-Kincaid, SMOG and the
-  polysyllabic word ratio); the shared ones exist in both.</li>
+<li><strong>−1</strong> readability: 3 Turkish-only features (the Ateşman, Çetinkaya-Uzun and
+  Bezirci-Yılmaz formulas), 4 English-only features (the Flesch, Flesch-Kincaid
+  and SMOG formulas and the polysyllabic word ratio); the shared ones exist in
+  both.</li>
 </ul>
-<p>The <code>phonetic</code> group has 13 features in Turkish and 11 in English.</p>
+<p>The <code>phonetic</code> group has 14 features in Turkish and 12 in English.</p>
 <p><code>lang</code> accepts only <code>"tr"</code> and <code>"en"</code>. Anything else raises <code>ValueError</code>.</p>
 <h2 id="ask-for-specific-groups">Ask for specific groups<a class="headerlink" href="#ask-for-specific-groups" title="Permanent link">&para;</a></h2>
-<p>Computing all 208 features takes time. If you do not need them all:</p>
+<p>If you do not need all 208 features, pick groups; the output then carries
+only those groups' keys:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="s2">"readability"</span><span class="p">,</span> <span class="s2">"lexical"</span><span class="p">])</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">len</span><span class="p">(</span><span class="n">oz</span><span class="p">)</span>     <span class="c1"># 45</span>
 </code></pre></div>
+<p>Picking groups saves little time. Most of it goes to the spaCy and Zeyrek
+preprocessing, which runs once whatever you ask for; groups only shorten the
+calculation after it. On a 1000-word text all groups take about 1.2 seconds,
+<code>readability</code> alone about 0.85 seconds.</p>
 <p>The groups, with their Turkish feature counts:</p>
 <table>
 <thead>
@@ -2286,31 +2293,31 @@ number.</p>
 <h2 id="count-your-own-phrases">Count your own phrases<a class="headerlink" href="#count-your-own-phrases" title="Permanent link">&para;</a></h2>
 <p>If you are after a pattern the built-in features do not cover, pass it as
 <code>custom_ngrams</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">text</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"The woman came. The woman laughed and the woman sat down. "</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>        <span class="s2">"The woman came. Yet nobody asked anything."</span><span class="p">)</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">,</span> <span class="n">custom_ngrams</span><span class="o">=</span><span class="p">[[</span><span class="s2">"yet"</span><span class="p">,</span> <span class="s2">"nobody"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"woman"</span><span class="p">,</span> <span class="s2">"VERB"</span><span class="p">]])</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">text</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"The old house was torn down. A new building went up, but the big garden "</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>        <span class="s2">"stayed. Yet nobody forgot the old house."</span><span class="p">)</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">,</span> <span class="n">custom_ngrams</span><span class="o">=</span><span class="p">[[</span><span class="s2">"yet"</span><span class="p">,</span> <span class="s2">"nobody"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"ADJ"</span><span class="p">,</span> <span class="s2">"NOUN"</span><span class="p">]])</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">oz</span><span class="p">[</span><span class="s2">"ngram_yet_nobody_count"</span><span class="p">]</span>   <span class="c1"># 1.0</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">oz</span><span class="p">[</span><span class="s2">"ngram_woman_VERB_count"</span><span class="p">]</span>   <span class="c1"># 4.0</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">oz</span><span class="p">[</span><span class="s2">"ngram_ADJ_NOUN_count"</span><span class="p">]</span>     <span class="c1"># 4.0</span>
 </code></pre></div>
 <p>Each phrase becomes one key; its value is the number of matches in the text.</p>
 <ul>
 <li>Words are compared lowercased. The written form is matched, not the lemma:
-  <code>women</code> does not match <code>woman</code>.</li>
+  <code>old houses</code> would not match <code>old house</code>.</li>
 <li>An UPPERCASE UD part-of-speech tag (<code>NOUN</code>, <code>VERB</code>, <code>ADJ</code>…) matches any
-  word carrying that tag. <code>["woman", "VERB"]</code> means "woman" followed directly
-  by a verb.</li>
-<li>A match never crosses a sentence boundary: <code>came. The</code> is not adjacent.</li>
+  word carrying that tag. <code>["ADJ", "NOUN"]</code> means an adjective followed
+  directly by a noun.</li>
+<li>A match never crosses a sentence boundary: <code>down. A</code> is not adjacent.</li>
 <li>The value is a plain count. To compare texts of different lengths, divide
-  by <code>word_count</code> (<code>oz["ngram_woman_VERB_count"] / oz["word_count"]</code>) or bring
+  by <code>word_count</code> (<code>oz["ngram_ADJ_NOUN_count"] / oz["word_count"]</code>) or bring
   them to the same size first (<code>segment_size</code>).</li>
 </ul>
 <p>The count answers "how often". To see <strong>what</strong> the phrase matched:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">ngram_matches</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="p">[</span><span class="s2">"woman"</span><span class="p">,</span> <span class="s2">"VERB"</span><span class="p">],</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">ngram_matches</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="p">[</span><span class="s2">"ADJ"</span><span class="p">,</span> <span class="s2">"NOUN"</span><span class="p">],</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>{'woman came': 2, 'woman laughed': 1, 'woman sat': 1}
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>{'old house': 2, 'new building': 1, 'big garden': 1}
 </code></pre></div>
 <p>The most frequent match comes first, and the counts add up to
-<code>ngram_woman_VERB_count</code>. Sentence and position are not returned. For several
+<code>ngram_ADJ_NOUN_count</code>. Sentence and position are not returned. For several
 texts, add the results up with <code>collections.Counter</code>. Working example:
 <a href="https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/10_kelime_oruntuleri.py"><code>examples/10_kelime_oruntuleri.py</code></a>.</p>
 <h2 id="progress-output">Progress output<a class="headerlink" href="#progress-output" title="Permanent link">&para;</a></h2>

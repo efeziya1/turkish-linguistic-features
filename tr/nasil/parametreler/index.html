@@ -2109,11 +2109,10 @@
 <p>Pencere boyları, eşikler ve örneklem sayıları <code>FeatureParams</code> içinde durur.</p>
 <h2 id="kullanm">Kullanım<a class="headerlink" href="#kullanm" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureParams</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># metin: öğreticideki üç cümlelik örnek (7, 7 ve 16 kelime)</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">p</span> <span class="o">=</span> <span class="n">FeatureParams</span><span class="p">(</span><span class="n">short_sent_threshold</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">long_sent_threshold</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># metin: öğreticideki üç cümlelik örnek (7, 7 ve 16 kelime)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">p</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">FeatureParams</span><span class="p">(</span><span class="n">short_sent_threshold</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">long_sent_threshold</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
 </code></pre></div>
 <p><code>FeatureParams</code> bir dataclass'tır; vermediğiniz alanlar varsayılanda kalır.
 Cümle eşiklerinin varsayılanı sabit bir sayı değil, dilin kalibre edilmiş
@@ -2259,7 +2258,7 @@ cümle eşiklerini bozmaz:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">metin</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"Kapı açıldı. Sabah erkenden yola çıktık. Köyün girişindeki "</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>         <span class="s2">"yaşlı çınarın altında oturan adam, uzun yıllar önce bu yollardan "</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>         <span class="s2">"geçen kervanları, pazar günlerini ve kaybolan komşularını anlattı."</span><span class="p">)</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">p</span> <span class="o">=</span> <span class="n">FeatureParams</span><span class="p">(</span><span class="n">mattr_window</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>          <span class="c1"># eşiklere dokunulmadı</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">p</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">FeatureParams</span><span class="p">(</span><span class="n">mattr_window</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>       <span class="c1"># eşiklere dokunulmadı</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>  <span class="c1"># eşikler hâlâ TR 4/17</span>
 </code></pre></div>
 <p>Çıktı — cümlelerin kelime sayıları 2, 4 ve 20:</p>
@@ -2282,7 +2281,7 @@ varsayılanı 50 — onda biri. Neden:</p>
   üretemezdi.</li>
 </ul>
 <p>Künye bu ayrımı açıkça yazar. 500 istiyorsanız:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">p</span> <span class="o">=</span> <span class="n">FeatureParams</span><span class="p">(</span><span class="n">mattr_window</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">p</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">FeatureParams</span><span class="p">(</span><span class="n">mattr_window</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
 </code></pre></div>
 <p>ve metinlerinizin en az 1000 kelime olduğundan emin olun. Cümle eşiklerini
 elle taşımanız gerekmiyor; kalibre edilmiş değerlerinde kalırlar.</p>

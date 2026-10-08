@@ -1689,10 +1689,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#8-sensitivity-to-text-length" class="md-nav__link">
+  <a href="#8-paragraph-features-depend-on-how-the-input-is-formatted" class="md-nav__link">
     <span class="md-ellipsis">
       
-        8. Sensitivity to text length
+        8. Paragraph features depend on how the input is formatted
       
     </span>
   </a>
@@ -1700,21 +1700,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#9-paragraph-features-depend-on-how-the-input-is-formatted" class="md-nav__link">
+  <a href="#9-what-the-syllable-count-reads-aloud-and-what-it-skips" class="md-nav__link">
     <span class="md-ellipsis">
       
-        9. Paragraph features depend on how the input is formatted
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#10-what-the-syllable-count-reads-aloud-and-what-it-skips" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        10. What the syllable count reads aloud, and what it skips
+        9. What the syllable count reads aloud, and what it skips
       
     </span>
   </a>
@@ -2226,10 +2215,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#8-sensitivity-to-text-length" class="md-nav__link">
+  <a href="#8-paragraph-features-depend-on-how-the-input-is-formatted" class="md-nav__link">
     <span class="md-ellipsis">
       
-        8. Sensitivity to text length
+        8. Paragraph features depend on how the input is formatted
       
     </span>
   </a>
@@ -2237,21 +2226,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#9-paragraph-features-depend-on-how-the-input-is-formatted" class="md-nav__link">
+  <a href="#9-what-the-syllable-count-reads-aloud-and-what-it-skips" class="md-nav__link">
     <span class="md-ellipsis">
       
-        9. Paragraph features depend on how the input is formatted
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#10-what-the-syllable-count-reads-aloud-and-what-it-skips" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        10. What the syllable count reads aloud, and what it skips
+        9. What the syllable count reads aloud, and what it skips
       
     </span>
   </a>
@@ -2397,16 +2375,7 @@ measure itself to that source. In your methods section:</p>
 <p>The reason is simple: Shannon defined the entropy; he did not apply it to
 sentence lengths. The first wording implies a measure the reader could look up
 in the source and find.</p>
-<h3 id="8-sensitivity-to-text-length">8. Sensitivity to text length<a class="headerlink" href="#8-sensitivity-to-text-length" title="Permanent link">&para;</a></h3>
-<p>Most lexical richness measures change with length. <code>ttr</code> is the extreme
-case: it always falls as a text grows.</p>
-<p><code>mattr</code>, <code>mtld</code> and <code>vocd_d</code> are less sensitive to length than TTR but not
-independent of it; <code>mtld</code> and <code>vocd_d</code> drift noticeably in Turkish
-(<a href="https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/09_uzunluk_duyarliligi.py">measured example</a>). They also
-need at least 100 words. If you compare texts of different lengths, bring
-them to the same size with <code>segment_size</code> first
-(<a href="../../how-to/segmenting/">how</a>).</p>
-<h3 id="9-paragraph-features-depend-on-how-the-input-is-formatted">9. Paragraph features depend on how the input is formatted<a class="headerlink" href="#9-paragraph-features-depend-on-how-the-input-is-formatted" title="Permanent link">&para;</a></h3>
+<h3 id="8-paragraph-features-depend-on-how-the-input-is-formatted">8. Paragraph features depend on how the input is formatted<a class="headerlink" href="#8-paragraph-features-depend-on-how-the-input-is-formatted" title="Permanent link">&para;</a></h3>
 <p>The two <code>para_*</code> features find paragraph boundaries from <strong>blank lines</strong>. A
 single line break does not count as one — otherwise every line of a
 hard-wrapped text would be a paragraph.</p>
@@ -2421,7 +2390,7 @@ will not show it; the warning below does.</p>
 <code>ParagraphStructureWarning</code> is raised. If you see it you have two options:
 re-extract the source text with paragraphs separated by blank lines, or leave
 the <code>paragraph</code> group out via <code>groups</code>.</p>
-<h3 id="10-what-the-syllable-count-reads-aloud-and-what-it-skips">10. What the syllable count reads aloud, and what it skips<a class="headerlink" href="#10-what-the-syllable-count-reads-aloud-and-what-it-skips" title="Permanent link">&para;</a></h3>
+<h3 id="9-what-the-syllable-count-reads-aloud-and-what-it-skips">9. What the syllable count reads aloud, and what it skips<a class="headerlink" href="#9-what-the-syllable-count-reads-aloud-and-what-it-skips" title="Permanent link">&para;</a></h3>
 <p>The readability formulas and the syllable features count numbers,
 abbreviations and symbols <strong>as they are read aloud</strong>, following the
 Çetinkaya-Uzun (2010) counting protocol: <code>1918</code> → bin dokuz yüz on sekiz

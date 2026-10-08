@@ -2187,23 +2187,29 @@
 </code></pre></div>
 <p>Aradaki 27'nin dökümü:</p>
 <ul>
-<li><strong>+23</strong> Zeyrek ek çözümlemesi (<code>morphological_zeyrek</code>; ek zinciri,
-  durum ekleri, kip ve zaman) — yalnız Türkçe.</li>
+<li><strong>+23</strong> Zeyrek ek çözümlemesi: <code>morphological_zeyrek</code> grubu (ek zinciri,
+  durum ekleri, kip ve zaman; anahtarların hepsi <code>zeyrek_</code> ile başlar) — yalnız
+  Türkçe.</li>
 <li><strong>+2</strong> ünlü uyumu (<code>harmony_fronting_ratio</code>, <code>harmony_rounding_ratio</code>) —
   Türkçenin özelliği; İngilizcede üretilmez.</li>
 <li><strong>+3</strong> harf: Türkçe alfabe 29 harf, İngilizce 26 (<code>ç ğ ı ö ş ü</code> yalnız
   Türkçede, <code>q w x</code> yalnız İngilizcede).</li>
-<li><strong>−1</strong> okunabilirlik: Türkçede üç formül (Ateşman, Çetinkaya-Uzun,
-  Bezirci-Yılmaz), İngilizcede dört öznitelik (Flesch, Flesch-Kincaid, SMOG ve çok
-  heceli kelime oranı); ortak olanlar iki dilde de var.</li>
+<li><strong>−1</strong> okunabilirlik: Türkçeye özgü 3 öznitelik (Ateşman, Çetinkaya-Uzun ve
+  Bezirci-Yılmaz formülleri), İngilizceye özgü 4 öznitelik (Flesch, Flesch-Kincaid
+  ve SMOG formülleri ile çok heceli kelime oranı); ortak olanlar iki dilde de var.</li>
 </ul>
-<p><code>phonetic</code> grubu Türkçede 13, İngilizcede 11 öznitelik içerir.</p>
+<p><code>phonetic</code> grubu Türkçede 14, İngilizcede 12 öznitelik içerir.</p>
 <p><code>lang</code> yalnız <code>"tr"</code> ve <code>"en"</code> alır. Başka bir değer <code>ValueError</code> verir.</p>
 <h2 id="yalnz-baz-gruplar-isteyin">Yalnız bazı grupları isteyin<a class="headerlink" href="#yalnz-baz-gruplar-isteyin" title="Permanent link">&para;</a></h2>
-<p>208 özniteliğin hepsini hesaplamak zaman alır. İhtiyacınız yoksa grup seçin:</p>
+<p>208 özniteliğin hepsine ihtiyacınız yoksa grup seçin; çıktı yalnız o grupların
+anahtarlarını taşır:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="s2">"readability"</span><span class="p">,</span> <span class="s2">"lexical"</span><span class="p">])</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">len</span><span class="p">(</span><span class="n">oz</span><span class="p">)</span>     <span class="c1"># 45</span>
 </code></pre></div>
+<p>Grup seçmek az hız kazandırır. Sürenin çoğu spaCy ve Zeyrek ön işlemesinde
+geçer ve o her durumda bir kez yapılır; grup seçimi yalnız sonraki hesabı
+kısaltır. 1000 kelimelik bir metinde bütün gruplar yaklaşık 1,2 saniye, yalnız
+<code>readability</code> yaklaşık 0,85 saniye sürer.</p>
 <p>Mevcut gruplar ve Türkçede kaç öznitelik içerdikleri:</p>
 <table>
 <thead>
@@ -2286,30 +2292,31 @@ söyler.</p>
 <h2 id="kendi-obeklerinizi-sayn">Kendi öbeklerinizi sayın<a class="headerlink" href="#kendi-obeklerinizi-sayn" title="Permanent link">&para;</a></h2>
 <p>Hazır özniteliklerin dışında aradığınız bir kalıp varsa <code>custom_ngrams</code> ile
 verin:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">metin</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"Kadın geldi. Kadın güldü ve kadın oturdu. Kadın geldi. "</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>         <span class="s2">"Ne var ki kimse bir şey sormadı."</span><span class="p">)</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">custom_ngrams</span><span class="o">=</span><span class="p">[[</span><span class="s2">"ne"</span><span class="p">,</span> <span class="s2">"var"</span><span class="p">,</span> <span class="s2">"ki"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"kadın"</span><span class="p">,</span> <span class="s2">"VERB"</span><span class="p">]])</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">oz</span><span class="p">[</span><span class="s2">"ngram_ne_var_ki_count"</span><span class="p">]</span>    <span class="c1"># 1.0</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">oz</span><span class="p">[</span><span class="s2">"ngram_kadın_VERB_count"</span><span class="p">]</span>   <span class="c1"># 4.0</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">metin</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"Eski ev yıkıldı. Yerine yeni bir bina yapıldı, ama büyük bahçe kaldı. "</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>         <span class="s2">"Ne var ki kimse eski evi unutmadı."</span><span class="p">)</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">custom_ngrams</span><span class="o">=</span><span class="p">[[</span><span class="s2">"ne"</span><span class="p">,</span> <span class="s2">"var"</span><span class="p">,</span> <span class="s2">"ki"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"ADJ"</span><span class="p">,</span> <span class="s2">"NOUN"</span><span class="p">]])</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">oz</span><span class="p">[</span><span class="s2">"ngram_ne_var_ki_count"</span><span class="p">]</span>   <span class="c1"># 1.0</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">oz</span><span class="p">[</span><span class="s2">"ngram_ADJ_NOUN_count"</span><span class="p">]</span>    <span class="c1"># 3.0</span>
 </code></pre></div>
 <p>Her öbek bir anahtar olur; değeri metindeki eşleşme sayısıdır.</p>
 <ul>
 <li>Kelimeler küçük harfe indirilerek karşılaştırılır. Yazılı biçim aranır,
-  lemma değil: <code>kadınlar</code> <code>kadın</code> ile eşleşmez.</li>
+  lemma değil: <code>eski ev</code> ile <code>eski evi</code> ayrı eşleşmelerdir.</li>
 <li>Büyük harfle yazılmış bir UD sözcük türü etiketi (<code>NOUN</code>, <code>VERB</code>, <code>ADJ</code>…)
-  o etiketi taşıyan herhangi bir kelimeyle eşleşir. <code>["kadın", "VERB"]</code>,
-  "kadın" ve hemen ardından bir fiil demektir.</li>
-<li>Eşleşme cümle sınırını aşmaz: <code>geldi. Kadın</code> yan yana sayılmaz.</li>
+  o etiketi taşıyan herhangi bir kelimeyle eşleşir. <code>["ADJ", "NOUN"]</code> bir sıfat
+  ve hemen ardından bir isim demektir; <code>yeni bir bina</code> eşleşmez, çünkü arada
+  <code>bir</code> var.</li>
+<li>Eşleşme cümle sınırını aşmaz: <code>kaldı. Ne</code> yan yana sayılmaz.</li>
 <li>Değer düz sayımdır. Uzunlukları farklı metinleri karşılaştıracaksanız
-  <code>word_count</code>'a bölün (<code>oz["ngram_kadın_VERB_count"] / oz["word_count"]</code>) ya
+  <code>word_count</code>'a bölün (<code>oz["ngram_ADJ_NOUN_count"] / oz["word_count"]</code>) ya
   da metinleri aynı boya getirin (<code>segment_size</code>).</li>
 </ul>
 <p>Sayı "kaç kez" sorusunu cevaplar. Öbeğin <strong>neyle</strong> eşleştiğini görmek için:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">ngram_matches</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="p">[</span><span class="s2">"kadın"</span><span class="p">,</span> <span class="s2">"VERB"</span><span class="p">],</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">ngram_matches</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="p">[</span><span class="s2">"ADJ"</span><span class="p">,</span> <span class="s2">"NOUN"</span><span class="p">],</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>{'kadın geldi': 2, 'kadın güldü': 1, 'kadın oturdu': 1}
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>{'eski ev': 1, 'büyük bahçe': 1, 'eski evi': 1}
 </code></pre></div>
-<p>En sık eşleşme önce gelir; sayıların toplamı <code>ngram_kadın_VERB_count</code> ile
+<p>En sık eşleşme önce gelir; sayıların toplamı <code>ngram_ADJ_NOUN_count</code> ile
 aynıdır. Cümle ve konum bilgisi verilmez. Birden çok metin için sonuçları
 <code>collections.Counter</code> ile toplayın. Çalışan örnek:
 <a href="https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/10_kelime_oruntuleri.py"><code>examples/10_kelime_oruntuleri.py</code></a>.</p>

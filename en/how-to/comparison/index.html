@@ -2134,9 +2134,9 @@ how far they agree. We looked at three formulas that are widely used.</p>
 </code></pre></div>
 <p>How to read it:</p>
 <ul>
-<li><strong>Sentence length 26.5 → 8 words.</strong> This is the real change; two long
+<li><strong>Mean sentence length 26.5 → 8 words.</strong> This is the real change; two long
   sentences became three short ones.</li>
-<li><strong>Flesch Reading Ease 10.7 → 68.3.</strong> On the 0–100 scale, 10.7 is
+<li><strong>Flesch Reading Ease 10.7 → 68.3.</strong> On Flesch's bands, 10.7 is
   "very difficult" (postgraduate) and 68.3 is "standard". A 57-point jump.</li>
 <li><strong>All three grade-level formulas agree on the direction</strong> and roughly on
   the size: FKGL −12.6, ARI −15.0, Coleman-Liau −10.1. Agreement in direction
@@ -2148,39 +2148,25 @@ how far they agree. We looked at three formulas that are widely used.</p>
   not be read on its own.</li>
 </ul>
 <h2 id="what-to-watch-for">What to watch for<a class="headerlink" href="#what-to-watch-for" title="Permanent link">&para;</a></h2>
-<div class="admonition warning">
-<p class="admonition-title">If the length changed, do not read lexical richness</p>
-<p>When an edit shortens a text, <code>ttr</code>, <code>hapax_ratio</code> and <code>yule_k</code> change
-<strong>because of length</strong>. For a real comparison on those measures, bring
-both texts to the same size. That only works when both texts are at
-least <code>size</code> words long; it does not suit the short examples on this
-page (<code>segment_text</code> returns an empty list).</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">p1</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">before_text</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">p2</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">after_text</span><span class="p">,</span>  <span class="n">size</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">if</span> <span class="n">p1</span> <span class="ow">and</span> <span class="n">p2</span><span class="p">:</span>                      <span class="c1"># both ≥ 500 words</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="n">before</span><span class="p">,</span> <span class="n">after</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">),</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">p2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)</span>
-</code></pre></div>
-<p><code>mattr</code>, <code>mtld</code> and <code>vocd_d</code> are <strong>less</strong> sensitive to length than TTR,
-but <strong>not independent</strong> of it; <code>mtld</code> and <code>vocd_d</code> drift noticeably in
-Turkish (<a href="https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/09_uzunluk_duyarliligi.py">measured example</a>). They
-also need at least 100 words. When comparing texts of different lengths,
-bring them to the same size with <code>segment_size</code> first.</p>
+<div class="admonition note">
+<p class="admonition-title">If the length changed, read lexical richness with care</p>
+<p>When an edit shortens a text, lexical richness measures such as <code>ttr</code>,
+<code>hapax_ratio</code> and <code>yule_k</code> change because of length too; to compare them,
+bring both texts to the same size (<a href="../segmenting/">Split a text into segments</a>).
+In short texts the sentence and readability measures are jumpy as well;
+SMOG needs at least 30 sentences.</p>
 </div>
-<p>Sentence length, syllable mean, word length and the readability formulas
-are relatively insensitive to length, but noisy in short texts: a change to
-a few sentences moves them noticeably. SMOG needs at least 30 sentences and
-returns <code>nan</code> below that.</p>
 <h2 id="many-pairs-at-once">Many pairs at once<a class="headerlink" href="#many-pairs-at-once" title="Permanent link">&para;</a></h2>
 <p>If you have a set of pairs, build a table:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">before_text</span><span class="p">,</span> <span class="n">after_text</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">:</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">text</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">"before"</span><span class="p">,</span> <span class="n">before_text</span><span class="p">),</span> <span class="p">(</span><span class="s2">"after"</span><span class="p">,</span> <span class="n">after_text</span><span class="p">)):</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"label"</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span> <span class="s2">"source"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">"segment_id"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>                     <span class="o">**</span><span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)})</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">tlf</span><span class="o">.</span><span class="n">save_csv</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="s2">"before-after.csv"</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">before_text</span><span class="p">,</span> <span class="n">after_text</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">:</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">text</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">"before"</span><span class="p">,</span> <span class="n">before_text</span><span class="p">),</span> <span class="p">(</span><span class="s2">"after"</span><span class="p">,</span> <span class="n">after_text</span><span class="p">)):</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"label"</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span> <span class="s2">"source"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">"segment_id"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>                     <span class="o">**</span><span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)})</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="n">tlf</span><span class="o">.</span><span class="n">save_csv</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="s2">"before-after.csv"</span><span class="p">)</span>
 </code></pre></div>
 <p>Because <code>label</code> holds <code>before</code>/<code>after</code>, the CSV feeds straight into a
 paired analysis.</p>

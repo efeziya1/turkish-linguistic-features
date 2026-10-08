@@ -2194,7 +2194,7 @@ Kullandığınız dilin verisini bir kez kurun:</p>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>python<span class="w"> </span>-m<span class="w"> </span>spacy<span class="w"> </span>download<span class="w"> </span>en_core_web_sm
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>python<span class="w"> </span>-m<span class="w"> </span>nltk.downloader<span class="w"> </span>cmudict
 </code></pre></div>
-<div class="admonition warning">
+<div class="admonition note">
 <p class="admonition-title">Türkçe modelde hata sanacağınız iki şey</p>
 <p><strong>Wheel kendisiyle çelişiyor.</strong> Dosya adı <code>1.0</code> diyor, içindeki üstveri
 <code>3.4.2</code> diyor. <code>pip</code> bunu kabul eder ve kurar; daha katı kurucular
@@ -2270,7 +2270,7 @@ sayılar. İç içe yapı yok, sınıf yok, <code>pandas</code> zorunluluğu yok
 <tr>
 <td><code>atesman</code></td>
 <td>70.9483</td>
-<td>Ateşman (1997) okunabilirlik puanı, 0–100. 70 "kolay"a yakın.</td>
+<td>Ateşman (1997) okunabilirlik puanı. Olağan düzyazı 0–100 arasına düşer, ama bu bir sınır değildir. 70 "kolay"a yakın.</td>
 </tr>
 <tr>
 <td><code>entropy</code></td>
@@ -2279,15 +2279,6 @@ sayılar. İç içe yapı yok, sınıf yok, <code>pandas</code> zorunluluğu yok
 </tr>
 </tbody>
 </table>
-<div class="admonition note">
-<p class="admonition-title"><code>ttr = 1.0</code> sizi yanıltmasın</p>
-<p>TTR metin uzunluğuna çok duyarlıdır: metin uzadıkça mutlaka düşer.
-Bu yüzden farklı uzunluktaki metinleri TTR ile karşılaştıramazsınız.
-<code>mattr</code>, <code>mtld</code> ve <code>vocd_d</code> uzunluğa daha az duyarlıdır ama bağımsız
-değildir (<a href="https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/09_uzunluk_duyarliligi.py">ölçüm örneği</a>); daha uzun
-metin de isterler (bkz. adım 5). Farklı uzunluktaki metinleri
-karşılaştırırken önce <code>segment_size</code> ile aynı boya getirin.</p>
-</div>
 <h2 id="5-neden-baz-degerler-nan">5. Neden bazı değerler <code>nan</code>?<a class="headerlink" href="#5-neden-baz-degerler-nan" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nb">print</span><span class="p">(</span><span class="n">oz</span><span class="p">[</span><span class="s2">"mattr"</span><span class="p">])</span>
 </code></pre></div>
@@ -2306,28 +2297,18 @@ sayı <strong>uydurmaz</strong>, <code>nan</code> döndürür.</p>
 değil, dürüstlüktür. Ayrıntı: <strong><a href="../aciklama/nan/">NaN ne demek</a></strong>.</p>
 <h2 id="6-bir-ozniteligin-kaynagn-gorun">6. Bir özniteliğin kaynağını görün<a class="headerlink" href="#6-bir-ozniteligin-kaynagn-gorun" title="Permanent link">&para;</a></h2>
 <p>Bir sayıyı çalışmanızda kullanacaksanız nereden geldiğini bilmelisiniz:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"mattr"</span><span class="p">),</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">d</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"mattr"</span><span class="p">)</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">"citation"</span><span class="p">])</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">"references"</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="p">{</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mattr"</span><span class="p">,</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="nt">"group"</span><span class="p">:</span><span class="w"> </span><span class="s2">"lexical"</span><span class="p">,</span>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span><span class="nt">"group_label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Lexical richness &amp; frequency"</span><span class="p">,</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">  </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"moving-average TTR"</span><span class="p">,</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">  </span><span class="nt">"formula"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mean TTR of every sliding window of mattr_window words"</span><span class="p">,</span>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">  </span><span class="nt">"scale"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ratio_0_1"</span><span class="p">,</span>
-<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">  </span><span class="nt">"inputs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"raw_text"</span><span class="p">,</span><span class="w"> </span><span class="s2">"surface_tokens"</span><span class="p">,</span><span class="w"> </span><span class="s2">"lemma_tokens"</span><span class="p">,</span><span class="w"> </span><span class="s2">"pos_data"</span><span class="p">],</span>
-<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">  </span><span class="nt">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"mattr_window"</span><span class="p">],</span>
-<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">  </span><span class="nt">"requires"</span><span class="p">:</span><span class="w"> </span><span class="s2">"at least 100 words (2 x mattr_window)"</span><span class="p">,</span>
-<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="w">  </span><span class="nt">"citation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Covington &amp; McFall (2010); default window 50 — C&amp;M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window)"</span><span class="p">,</span>
-<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="w">  </span><span class="nt">"references"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="w">    </span><span class="s2">"Covington, M. A., &amp; McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098"</span>
-<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="w">  </span><span class="p">]</span>
-<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Covington &amp; McFall (2010); default window 50 — C&amp;M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window)
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>Covington, M. A., &amp; McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098
 </code></pre></div>
 <p><code>references</code> alanı yöntem bölümünüze kopyalayacağınız şeydir. <code>citation</code>
 kısa işaretçidir ve <strong>ne bilmediğimizi de söyler</strong> — yukarıdaki örnekte
-varsayılan pencere boyunun kaynaktan gelmediğini açıkça yazıyor.</p>
+varsayılan pencere boyunun kaynaktan gelmediğini açıkça yazıyor. Sözlükteki öbür
+alanlar (formül, ölçek, gereken en az veri…): <a href="../nasil/kunye/">Bir özniteliğin kaynağını
+bul</a>.</p>
 <h2 id="7-bir-korpusu-tabloya-cevirin">7. Bir korpusu tabloya çevirin<a class="headerlink" href="#7-bir-korpusu-tabloya-cevirin" title="Permanent link">&para;</a></h2>
 <p>Tek metin nadiren yeterlidir. Dizin yapınız şöyle olsun:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>korpus/

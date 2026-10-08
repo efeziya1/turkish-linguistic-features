@@ -2132,9 +2132,9 @@ yaygın olan üç formül ele alındı.</p>
 </code></pre></div>
 <p>Okunuşu:</p>
 <ul>
-<li><strong>Cümle uzunluğu 18 → 6,7 kelime.</strong> Asıl değişiklik bu; bir uzun cümle
+<li><strong>Ortalama cümle uzunluğu 18 → 6,7 kelime.</strong> Asıl değişiklik bu; bir uzun cümle
   üçe bölündü.</li>
-<li><strong>Ateşman 16,8 → 58,9.</strong> 0–100 ölçeğinde 16,8 "çok zor", 58,9 "orta".
+<li><strong>Ateşman 16,8 → 58,9.</strong> Ateşman'ın bantlarına göre 16,8 "çok zor", 58,9 "orta".
   42 puanlık sıçramanın çoğu cümle uzunluğundan geliyor, çünkü formülde
   sözcük/cümle terimi var.</li>
 <li><strong>Hece ortalaması 3,36 → 3,05.</strong> "değerlendirilmesi" gibi uzun türetmeler
@@ -2144,39 +2144,25 @@ yaygın olan üç formül ele alındı.</p>
   TTR'nin neden tek başına okunmaması gerektiğinin örneğidir.</li>
 </ul>
 <h2 id="neye-dikkat-edin">Neye dikkat edin<a class="headerlink" href="#neye-dikkat-edin" title="Permanent link">&para;</a></h2>
-<div class="admonition warning">
-<p class="admonition-title">Uzunluk değiştiyse sözcüksel zenginliğe bakmayın</p>
-<p>Düzenleme metni kısaltmışsa <code>ttr</code>, <code>hapax_ratio</code>, <code>yule_k</code> gibi
-öznitelikler <strong>uzunluk yüzünden</strong> değişir. Bu ölçülerde gerçek bir
-karşılaştırma istiyorsanız iki metni aynı boya getirin. Bu yalnız iki
-metin de en az <code>size</code> kelime uzunluğundaysa işe yarar; bu sayfadaki kısa
-örnekler için uygun değildir (<code>segment_text</code> boş liste döndürür).</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">p1</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">once_metin</span><span class="p">,</span>  <span class="n">size</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">p2</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">sonra_metin</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">if</span> <span class="n">p1</span> <span class="ow">and</span> <span class="n">p2</span><span class="p">:</span>                      <span class="c1"># ikisi de ≥ 500 kelime</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="n">once</span><span class="p">,</span> <span class="n">sonra</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">),</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">p2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
-</code></pre></div>
-<p><code>mattr</code>, <code>mtld</code> ve <code>vocd_d</code> uzunluğa TTR'den <strong>daha az</strong> duyarlıdır ama
-<strong>bağımsız değildir</strong>; <code>mtld</code> ve <code>vocd_d</code> Türkçede belirgin biçimde
-kayar (<a href="https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/09_uzunluk_duyarliligi.py">ölçüm örneği</a>). En az 100
-kelime de isterler. Farklı uzunluktaki metinleri karşılaştırırken önce
-<code>segment_size</code> ile aynı boya getirin.</p>
+<div class="admonition note">
+<p class="admonition-title">Uzunluk değiştiyse sözcüksel zenginliğe dikkat</p>
+<p>Düzenleme metni kısalttıysa <code>ttr</code>, <code>hapax_ratio</code>, <code>yule_k</code> gibi sözcüksel
+zenginlik ölçüleri uzunluk yüzünden de değişir; bunları karşılaştırmak için
+iki metni aynı boya getirin (<a href="../segmentleme/">Metni parçalara böl</a>). Kısa
+metinde cümle ve okunabilirlik ölçüleri de oynaktır; SMOG en az 30 cümle
+ister.</p>
 </div>
-<p>Cümle uzunluğu, hece ortalaması, kelime uzunluğu ve okunabilirlik
-formülleri uzunluğa görece az duyarlıdır, ama kısa metinde gürültülüdür:
-birkaç cümlelik bir değişiklik sonucu belirgin oynatır. SMOG en az 30 cümle
-ister, daha kısa metinde <code>nan</code> döner.</p>
 <h2 id="birden-cok-cifti-karslastrmak">Birden çok çifti karşılaştırmak<a class="headerlink" href="#birden-cok-cifti-karslastrmak" title="Permanent link">&para;</a></h2>
 <p>Elinizde çok sayıda çift varsa tablo hâline getirin:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">satirlar</span> <span class="o">=</span> <span class="p">[]</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">for</span> <span class="n">ad</span><span class="p">,</span> <span class="n">once_m</span><span class="p">,</span> <span class="n">sonra_m</span> <span class="ow">in</span> <span class="n">ciftler</span><span class="p">:</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="k">for</span> <span class="n">etiket</span><span class="p">,</span> <span class="n">metin</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">"once"</span><span class="p">,</span> <span class="n">once_m</span><span class="p">),</span> <span class="p">(</span><span class="s2">"sonra"</span><span class="p">,</span> <span class="n">sonra_m</span><span class="p">)):</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>        <span class="n">satirlar</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"label"</span><span class="p">:</span> <span class="n">etiket</span><span class="p">,</span> <span class="s2">"source"</span><span class="p">:</span> <span class="n">ad</span><span class="p">,</span> <span class="s2">"segment_id"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>                         <span class="o">**</span><span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)})</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">tlf</span><span class="o">.</span><span class="n">save_csv</span><span class="p">(</span><span class="n">satirlar</span><span class="p">,</span> <span class="s2">"oncesi-sonrasi.csv"</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">satirlar</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="k">for</span> <span class="n">ad</span><span class="p">,</span> <span class="n">once_m</span><span class="p">,</span> <span class="n">sonra_m</span> <span class="ow">in</span> <span class="n">ciftler</span><span class="p">:</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="k">for</span> <span class="n">etiket</span><span class="p">,</span> <span class="n">metin</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">"once"</span><span class="p">,</span> <span class="n">once_m</span><span class="p">),</span> <span class="p">(</span><span class="s2">"sonra"</span><span class="p">,</span> <span class="n">sonra_m</span><span class="p">)):</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>        <span class="n">satirlar</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"label"</span><span class="p">:</span> <span class="n">etiket</span><span class="p">,</span> <span class="s2">"source"</span><span class="p">:</span> <span class="n">ad</span><span class="p">,</span> <span class="s2">"segment_id"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>                         <span class="o">**</span><span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)})</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="n">tlf</span><span class="o">.</span><span class="n">save_csv</span><span class="p">(</span><span class="n">satirlar</span><span class="p">,</span> <span class="s2">"oncesi-sonrasi.csv"</span><span class="p">)</span>
 </code></pre></div>
 <p><code>label</code> sütunu <code>once</code>/<code>sonra</code> olduğu için CSV doğrudan eşleştirilmiş bir
 analize girer.</p>

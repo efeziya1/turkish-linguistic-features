@@ -2260,7 +2260,7 @@ to tell.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>'at least 100 words (2 x mattr_window)'
 </code></pre></div>
 <p>A <strong>word</strong> here is the library's default word
-(<a href="../concepts/#word-and-sentence">Concepts</a>). <code>segment_text</code>'s <code>size</code> counts the
+(<a href="../concepts/#word-and-sentence">Concepts</a>). <code>segment_text</code>'s <code>segment_size</code> counts the
 same word, so a 100-word segment meets a 100-word minimum.</p>
 <p>Below the minimum you get <code>nan</code>. Some minimums come from the source
 (<code>mtld</code>: "texts as short as 100 tokens can be used"), others from the
@@ -2296,7 +2296,7 @@ value is not <code>nan</code>, but it says nothing about paragraphs.</p>
 <p>The message carries your own word and sentence counts, so you can tell at a
 glance whether the text really is one paragraph.</p>
 <p>This usually happens when the text lost its line breaks during extraction from
-PDF or EPUB; <a href="../limitations/">limitations §9</a> has the measurement.</p>
+PDF or EPUB; <a href="../limitations/">limitations §8</a> has the measurement.</p>
 <h2 id="what-to-do-in-your-table">What to do in your table<a class="headerlink" href="#what-to-do-in-your-table" title="Permanent link">&para;</a></h2>
 <p><strong>Do not fill <code>nan</code> with zero.</strong> Zero is a measurement; <code>nan</code> is the
 absence of one. <code>ttr = 0</code> says "no diversity at all"; <code>ttr = nan</code> says

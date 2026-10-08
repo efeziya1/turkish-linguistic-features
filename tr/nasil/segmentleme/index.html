@@ -724,10 +724,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#size-kelime-sayar" class="md-nav__link">
+  <a href="#parca-boyu-kelimeyle-olculur" class="md-nav__link">
     <span class="md-ellipsis">
       
-        size kelime sayar
+        Parça boyu kelimeyle ölçülür
       
     </span>
   </a>
@@ -2053,10 +2053,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#size-kelime-sayar" class="md-nav__link">
+  <a href="#parca-boyu-kelimeyle-olculur" class="md-nav__link">
     <span class="md-ellipsis">
       
-        size kelime sayar
+        Parça boyu kelimeyle ölçülür
       
     </span>
   </a>
@@ -2136,14 +2136,14 @@ bir romanla 800 kelimelik bir köşe yazısını aynı tabloda karşılaştırı
 daha az duyarlıdır ama bağımsız değildir
 (<a href="https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/09_uzunluk_duyarliligi.py">ölçüm örneği</a>).</p>
 <p>Çözüm: hepsini aynı boya getirin.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">parcalar</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">parcalar</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
 </code></pre></div>
-<h2 id="size-kelime-sayar"><code>size</code> kelime sayar<a class="headerlink" href="#size-kelime-sayar" title="Permanent link">&para;</a></h2>
-<p><code>size</code>, <code>analyze</code>'ın saydığı kelimeyi sayar: boşlukla ayrılan, kenar
+<h2 id="parca-boyu-kelimeyle-olculur">Parça boyu kelimeyle ölçülür<a class="headerlink" href="#parca-boyu-kelimeyle-olculur" title="Permanent link">&para;</a></h2>
+<p><code>segment_size</code>, <code>analyze</code>'ın saydığı kelimeyi sayar: boşlukla ayrılan, kenar
 noktalaması atılan, harf ya da rakam içeren birim. Noktalama kelime değildir.
 <a href="../../baslangic/">Öğreticideki</a> 30 kelimelik <code>metin</code> ile:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">uzun</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">metin</span><span class="p">]</span> <span class="o">*</span> <span class="mi">12</span><span class="p">)</span>                  <span class="c1"># 360 kelime</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">parcalar</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">uzun</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">parcalar</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">uzun</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nb">len</span><span class="p">(</span><span class="n">parcalar</span><span class="p">)</span>                                  <span class="c1"># 3</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parcalar</span><span class="p">]</span>             <span class="c1"># [100, 100, 100]</span>
 </code></pre></div>
@@ -2153,8 +2153,8 @@ noktalaması atılan, harf ya da rakam içeren birim. Noktalama kelime değildir
 <h2 id="son-parca-min_fill">Son parça: <code>min_fill</code><a class="headerlink" href="#son-parca-min_fill" title="Permanent link">&para;</a></h2>
 <p>Varsayılan <code>min_fill=1.0</code> yalnız <strong>tam</strong> parçaları tutar. Eksik kalan son
 parça atılır.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">uzun</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>                   <span class="c1"># 3 parça</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">uzun</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">min_fill</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>     <span class="c1"># 4 parça</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">uzun</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>                <span class="c1"># 3 parça</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">uzun</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">min_fill</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>  <span class="c1"># 4 parça</span>
 </code></pre></div>
 <p>Artık 60 kelime, yani parçanın %60'ı: <code>1.0</code> eşiğinin altında, <code>0.5</code>'in
 üstünde.</p>
@@ -2183,18 +2183,18 @@ parça atılır.</p>
 <div class="admonition warning">
 <p class="admonition-title">Atılan veri sessizce atılır</p>
 <p>Kütüphane kaç parça attığını size söylemez. <code>min_fill=1.0</code> ile 1400
-kelimelik bir dosyadan <code>size=1000</code> ile <strong>tek</strong> parça çıkar; kalan 400
+kelimelik bir dosyadan <code>segment_size=1000</code> ile <strong>tek</strong> parça çıkar; kalan 400
 kelime gider. Korpusunuzda kısa dosyalar varsa hiç parça
 üretmeyebilirler.</p>
 <p>Bunu bilerek kullanın. Şüpheliyseniz önce sayın:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">for</span> <span class="n">yol</span> <span class="ow">in</span> <span class="n">dosyalar</span><span class="p">:</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">yol</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">),</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>                             <span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">))</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>                             <span class="n">segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">))</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">yol</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
 </code></pre></div>
 </div>
 <h2 id="karakterle-bolmek">Karakterle bölmek<a class="headerlink" href="#karakterle-bolmek" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">"char"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">"char"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
 </code></pre></div>
 <p><code>unit="char"</code> ham karakter sayar; kelime kuralı devreye girmez, dolayısıyla
 <code>lang</code> anlamsızlaşır. Kelime sınırına saygı göstermez — parça bir kelimenin
@@ -2203,12 +2203,10 @@ ortasında bitebilir. Yalnız kaba bir bölme yeterliyse kullanın.</p>
 <p>Tek tek bölüp <code>analyze</code> çağırmanıza gerek yok:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">satirlar</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"korpus/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 </code></pre></div>
-<p><code>segment_size</code>, <code>min_fill</code> ve <code>unit</code> aynı anlamdadır ve <strong>her dosyaya ayrı
-ayrı</strong> uygulanır.</p>
 <h2 id="tam-imza">Tam imza<a class="headerlink" href="#tam-imza" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">segment_text</span><span class="p">(</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">segment_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="n">min_fill</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"word"</span><span class="p">,</span>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"tr"</span><span class="p">,</span>

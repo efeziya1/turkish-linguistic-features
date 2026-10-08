@@ -750,28 +750,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#csv-yerine-dataframe" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        CSV yerine DataFrame
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#etiketlere-gore-ozet" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Etiketlere göre özet
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -2129,28 +2107,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#csv-yerine-dataframe" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        CSV yerine DataFrame
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#etiketlere-gore-ozet" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Etiketlere göre özet
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -2189,7 +2145,7 @@ etikettir:</strong></p>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  Roman_Yaban.txt     → label "Roman", source "Yaban"
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  notlar.txt          → label "" (alt çizgi yok), source "notlar"
 </code></pre></div>
-<div class="admonition warning">
+<div class="admonition note">
 <p class="admonition-title">Alt çizgili dosya adları</p>
 <p>Kökteki bir dosyanın adında alt çizgi varsa ilk kısım <strong>etiket</strong> olur:
 <code>metin_1.txt</code> → label <code>"metin"</code>, source <code>"1"</code>. Etiket istemiyorsanız
@@ -2289,11 +2245,16 @@ verilir ve okunamayan dosyaların hepsi adıyla listelenir.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>1 3 [0, 1, 2]
 </code></pre></div>
 <p>648 ÷ 200 = 3 tam parça; kalan 48 kelime varsayılan <code>min_fill=1.0</code> ile atılır.</p>
-<div class="admonition danger">
+<p>Etiketleri (yazar, tür, dönem) karşılaştırırken parçaları aynı boyda tutun
+ve etiket başına parça sayısına bakın: tek parçalık bir etiketin ortalaması
+yazarın değil o metnin ortalamasıdır. Cümle uzunluğu dağılımını etiketlere
+göre karşılaştıran çalışan örnek:
+<a href="https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/05_cumle_ritmi.py"><code>examples/05_cumle_ritmi.py</code></a>.</p>
+<div class="admonition note">
 <p class="admonition-title">Parçalama dosya dosya yapılır, korpus geneli değil</p>
 <p><code>segment_size=1000</code>, <strong>her dosyayı ayrı ayrı</strong> 1000'lik parçalara
 böler. Bütün dosyaları birleştirip baştan sona 1000'er kesmez.
-Dolayısıyla her dosyanın sonunda <code>size</code>'dan kısa bir artık kalır ve
+Dolayısıyla her dosyanın sonunda <code>segment_size</code>'dan kısa bir artık kalır ve
 varsayılan <code>min_fill=1.0</code> ile <strong>atılır</strong>.</p>
 <p>Neden ve ne zaman parçalamalısınız →
 <a href="../segmentleme/">Metni parçalara böl</a>.</p>
@@ -2316,35 +2277,6 @@ varsayılan <code>min_fill=1.0</code> ile <strong>atılır</strong>.</p>
 </code></pre></div>
 <p><code>groups</code>, <code>params</code>, <code>model</code>, <code>custom_ngrams</code>, <code>warn</code> — hepsi <code>analyze</code> ile aynı
 anlamda ve her parçaya uygulanır. <code>custom_ngrams</code> sayıları parça başınadır.</p>
-<h2 id="csv-yerine-dataframe">CSV yerine DataFrame<a class="headerlink" href="#csv-yerine-dataframe" title="Permanent link">&para;</a></h2>
-<p><code>save_csv</code> diskle çalışır. Bellekte kalmak isterseniz dönen liste zaten
-<code>pandas</code>'a hazırdır:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"korpus/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">))</span>
-</code></pre></div>
-<p><code>pandas</code> kütüphanenin zorunlu bağımlılığı değildir; bunu siz kurarsınız.</p>
-<h2 id="etiketlere-gore-ozet">Etiketlere göre özet<a class="headerlink" href="#etiketlere-gore-ozet" title="Permanent link">&para;</a></h2>
-<p>Çoğu çalışmada asıl soru etiketlerin (yazar, tür, dönem) birbirinden nasıl
-ayrıldığıdır. Tablo <code>label</code> sütununu taşıdığı için özet tek satırdır:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"korpus/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">))</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"label"</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>                                   <span class="c1"># etiket başına parça</span>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"label"</span><span class="p">)[[</span><span class="s2">"sent_len_mean"</span><span class="p">,</span> <span class="s2">"word_len_mean"</span><span class="p">,</span> <span class="s2">"atesman"</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-</code></pre></div>
-<p>Örnek betiklerin demo korpusunda (iki etiket, kısa metinler, <code>segment_size=50</code>):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>label
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>Anlatı    2
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>Bilgi     2
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>        sent_len_mean  word_len_mean  atesman
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>label
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>Anlatı           7.29           5.78    77.35
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>Bilgi           10.42           6.57    58.75
-</code></pre></div>
-<p>Etiketleri karşılaştırırken parçaları aynı boyda tutun (<code>segment_size</code>) ve
-etiket başına parça sayısına bakın: tek parçalık bir etiketin ortalaması
-yazarın değil o metnin ortalamasıdır. Cümle uzunluğu dağılımını etiketlere
-göre karşılaştıran çalışan örnek:
-<a href="https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/05_cumle_ritmi.py"><code>examples/05_cumle_ritmi.py</code></a>.</p>
 
 
 

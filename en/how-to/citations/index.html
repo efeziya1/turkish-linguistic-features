@@ -2131,30 +2131,34 @@
 <p>If you are going to use a number in your own work, you have to say where it
 came from. The library hands you that.</p>
 <h2 id="describe_feature"><code>describe_feature</code><a class="headerlink" href="#describe_feature" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"mattr"</span><span class="p">),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"mattr"</span><span class="p">)</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mattr"</span><span class="p">,</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">"group"</span><span class="p">:</span><span class="w"> </span><span class="s2">"lexical"</span><span class="p">,</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nt">"group_label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Lexical richness &amp; frequency"</span><span class="p">,</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"moving-average TTR"</span><span class="p">,</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="nt">"formula"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mean TTR of every sliding window of mattr_window words"</span><span class="p">,</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="nt">"scale"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ratio_0_1"</span><span class="p">,</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="nt">"inputs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"raw_text"</span><span class="p">,</span><span class="w"> </span><span class="s2">"surface_tokens"</span><span class="p">,</span><span class="w"> </span><span class="s2">"lemma_tokens"</span><span class="p">,</span><span class="w"> </span><span class="s2">"pos_data"</span><span class="p">],</span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="nt">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"mattr_window"</span><span class="p">],</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="nt">"requires"</span><span class="p">:</span><span class="w"> </span><span class="s2">"at least 100 words (2 x mattr_window)"</span><span class="p">,</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="nt">"citation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Covington &amp; McFall (2010); default window 50 — C&amp;M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window)"</span><span class="p">,</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">  </span><span class="nt">"references"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="s2">"Covington, M. A., &amp; McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098"</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span><span class="p">],</span>
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">  </span><span class="nt">"definitions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="nt">"word"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"space_unit"</span><span class="p">,</span><span class="w"> </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tlf"</span><span class="p">,</span><span class="w"> </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Whitespace-separated piece of the raw text with edge punctuation stripped, containing a letter or digit; the library's default word."</span><span class="p">},</span>
-<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"lowercase_surface"</span><span class="p">,</span><span class="w"> </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tlf"</span><span class="p">,</span><span class="w"> </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The word string lowercased by language (Turkish I→ı, İ→i); inflected forms are separate types."</span><span class="p">}</span>
-<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">  </span><span class="p">}</span>
-<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>{'key': 'mattr',
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a> 'group': 'lexical',
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a> 'group_label': 'Lexical richness &amp; frequency',
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a> 'description': 'moving-average TTR',
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a> 'formula': 'mean TTR of every sliding window of mattr_window words',
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a> 'scale': 'ratio_0_1',
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a> 'inputs': ('raw_text', 'surface_tokens', 'lemma_tokens', 'pos_data'),
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a> 'params': ('mattr_window',),
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a> 'requires': 'at least 100 words (2 x mattr_window)',
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a> 'citation': 'Covington &amp; McFall (2010); default window 50 — C&amp;M recommend a window of '
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>             '500; 50 is used here so that texts of 100+ words can be measured (mattr '
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>             'needs 2 × window)',
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a> 'references': ('Covington, M. A., &amp; McFall, J. D. (2010). Cutting the Gordian knot: '
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>                'The moving-average type–token ratio (MATTR). Journal of Quantitative '
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>                'Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098',),
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a> 'definitions': {'word': {'name': 'space_unit',
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>                          'source': 'tlf',
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>                          'description': 'Whitespace-separated piece of the raw text '
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>                                         'with edge punctuation stripped, containing a '
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>                                         "letter or digit; the library's default "
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>                                         'word.'},
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>                 'type': {'name': 'lowercase_surface',
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>                          'source': 'tlf',
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>                          'description': 'The word string lowercased by language '
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>                                         '(Turkish I→ı, İ→i); inflected forms are '
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>                                         'separate types.'}}}
 </code></pre></div>
 <h2 id="what-each-field-is-for">What each field is for<a class="headerlink" href="#what-each-field-is-for" title="Permanent link">&para;</a></h2>
 <table>
@@ -2224,16 +2228,10 @@ not, is worse than giving no source at all.</p>
   source, but not a measure the source itself defines.</li>
 </ul>
 <h2 id="features-without-a-source">Features without a source<a class="headerlink" href="#features-without-a-source" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"punct_dash_ratio"</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">d</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"punct_dash_ratio"</span><span class="p">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">d</span><span class="p">[</span><span class="s2">"citation"</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="s2">"references"</span><span class="p">]</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"punct_dash_ratio"</span><span class="p">,</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">"group"</span><span class="p">:</span><span class="w"> </span><span class="s2">"punctuation"</span><span class="p">,</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"share of hyphen or dash marks among all marks"</span><span class="p">,</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="nt">"formula"</span><span class="p">:</span><span class="w"> </span><span class="s2">"marks of this type / all marks"</span><span class="p">,</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="nt">"citation"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="nt">"references"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>(None, ())
 </code></pre></div>
 <p>A <code>citation</code> of <code>None</code> means the key is <strong>not a named measure from the
 literature</strong>; it is a plain definition: <code>punct_dash_ratio</code> ("dashes / all punctuation marks"),
