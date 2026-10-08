@@ -32,14 +32,14 @@ _TITLE_KEYS = ("source", "Source", "kaynak", "Kaynak", "başlık",
                "title", "book", "file")
 
 
-def segment_text(text: str, size: int = 1000, min_fill: float = 1.0,
+def segment_text(text: str, segment_size: int = 1000, min_fill: float = 1.0,
                  unit: str = "word", lang: str = "tr") -> list[str]:
     """Metni sabit büyüklükte parçalara böler.
 
     ``unit="word"`` kütüphanenin **varsayılan kelimesini** sayar (2026-10-08,
     Efe): boşlukla ayrılan, kenar noktalaması atılan, harf ya da rakam içeren
     birim (``readability.word_units``). ``analyze`` aynı kelimeyi saydığı için
-    ``size=1000`` parça ``analyze``'da tam 1000 kelime eder. Önceden spaCy tokenı
+    ``segment_size=1000`` parça ``analyze``'da tam 1000 kelime eder. Önceden spaCy tokenı
     sayılıyordu; noktalama da token olduğundan 100 token ~83 kelime ediyordu.
 
     Parça, ilk kelimesinin boşluk biriminin başından son kelimesininkinin sonuna
@@ -50,7 +50,7 @@ def segment_text(text: str, size: int = 1000, min_fill: float = 1.0,
     ----------
     text
         Bölünecek metin.
-    size
+    segment_size
         Parça başına kelime (``unit="word"``) ya da karakter (``"char"``).
     min_fill
         Son parça bu orandan az doluysa atılır. ``1.0`` (varsayılan) yalnız
@@ -72,22 +72,22 @@ def segment_text(text: str, size: int = 1000, min_fill: float = 1.0,
     """
     if unit not in ("word", "char"):
         raise ValueError(f"unit must be 'word' or 'char', not {unit!r}")
-    if size <= 0:
-        raise ValueError(f"size must be positive: {size}")
+    if segment_size <= 0:
+        raise ValueError(f"segment_size must be positive: {segment_size}")
     if lang not in _ALFABE:
         raise ValueError(f"Unsupported language: {lang!r}. Expected one of: {sorted(_ALFABE)}")
 
     if unit == "char":
-        parcalar = [(text[i:i + size], len(text[i:i + size]))
-                    for i in range(0, len(text), size)]
+        parcalar = [(text[i:i + segment_size], len(text[i:i + segment_size]))
+                    for i in range(0, len(text), segment_size)]
     else:
         kelimeler = [(bas, son) for _, kelime_mi, bas, son in word_units(text, lang) if kelime_mi]
         parcalar = []
-        for i in range(0, len(kelimeler), size):
-            kume = kelimeler[i:i + size]
+        for i in range(0, len(kelimeler), segment_size):
+            kume = kelimeler[i:i + segment_size]
             parcalar.append((text[kume[0][0]:kume[-1][1]], len(kume)))
 
-    esik = size * min_fill
+    esik = segment_size * min_fill
     return [metin for metin, n in parcalar if n >= esik and metin.strip()]
 
 
@@ -227,7 +227,7 @@ def _load_corpus(path: str | Path, segment_size: int | None = None,
             kayitlar.append({"label": etiket, "source": kaynak,
                              "segment_id": 0, "text": metin})
             continue
-        parcalar = segment_text(metin, size=segment_size, min_fill=min_fill,
+        parcalar = segment_text(metin, segment_size=segment_size, min_fill=min_fill,
                                 unit=unit, lang=lang)
         for i, parca in enumerate(parcalar):
             kayitlar.append({"label": etiket, "source": kaynak,

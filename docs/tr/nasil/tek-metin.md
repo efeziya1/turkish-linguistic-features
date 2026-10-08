@@ -22,28 +22,35 @@ len(en)   # 181
 
 Aradaki 27'nin dökümü:
 
-- **+23** Zeyrek ek çözümlemesi (`morphological_zeyrek`; ek zinciri,
-  durum ekleri, kip ve zaman) — yalnız Türkçe.
+- **+23** Zeyrek ek çözümlemesi: `morphological_zeyrek` grubu (ek zinciri,
+  durum ekleri, kip ve zaman; anahtarların hepsi `zeyrek_` ile başlar) — yalnız
+  Türkçe.
 - **+2** ünlü uyumu (`harmony_fronting_ratio`, `harmony_rounding_ratio`) —
   Türkçenin özelliği; İngilizcede üretilmez.
 - **+3** harf: Türkçe alfabe 29 harf, İngilizce 26 (`ç ğ ı ö ş ü` yalnız
   Türkçede, `q w x` yalnız İngilizcede).
-- **−1** okunabilirlik: Türkçede üç formül (Ateşman, Çetinkaya-Uzun,
-  Bezirci-Yılmaz), İngilizcede dört öznitelik (Flesch, Flesch-Kincaid, SMOG ve çok
-  heceli kelime oranı); ortak olanlar iki dilde de var.
+- **−1** okunabilirlik: Türkçeye özgü 3 öznitelik (Ateşman, Çetinkaya-Uzun ve
+  Bezirci-Yılmaz formülleri), İngilizceye özgü 4 öznitelik (Flesch, Flesch-Kincaid
+  ve SMOG formülleri ile çok heceli kelime oranı); ortak olanlar iki dilde de var.
 
-`phonetic` grubu Türkçede 13, İngilizcede 11 öznitelik içerir.
+`phonetic` grubu Türkçede 14, İngilizcede 12 öznitelik içerir.
 
 `lang` yalnız `"tr"` ve `"en"` alır. Başka bir değer `ValueError` verir.
 
 ## Yalnız bazı grupları isteyin
 
-208 özniteliğin hepsini hesaplamak zaman alır. İhtiyacınız yoksa grup seçin:
+208 özniteliğin hepsine ihtiyacınız yoksa grup seçin; çıktı yalnız o grupların
+anahtarlarını taşır:
 
 ```python
 oz = tlf.analyze(metin, lang="tr", groups=["readability", "lexical"])
 len(oz)     # 45
 ```
+
+Grup seçmek az hız kazandırır. Sürenin çoğu spaCy ve Zeyrek ön işlemesinde
+geçer ve o her durumda bir kez yapılır; grup seçimi yalnız sonraki hesabı
+kısaltır. 1000 kelimelik bir metinde bütün gruplar yaklaşık 1,2 saniye, yalnız
+`readability` yaklaşık 0,85 saniye sürer.
 
 Mevcut gruplar ve Türkçede kaç öznitelik içerdikleri:
 
@@ -72,36 +79,37 @@ Hazır özniteliklerin dışında aradığınız bir kalıp varsa `custom_ngrams
 verin:
 
 ```python
-metin = ("Kadın geldi. Kadın güldü ve kadın oturdu. Kadın geldi. "
-         "Ne var ki kimse bir şey sormadı.")
-oz = tlf.analyze(metin, lang="tr", custom_ngrams=[["ne", "var", "ki"], ["kadın", "VERB"]])
-oz["ngram_ne_var_ki_count"]    # 1.0
-oz["ngram_kadın_VERB_count"]   # 4.0
+metin = ("Eski ev yıkıldı. Yerine yeni bir bina yapıldı, ama büyük bahçe kaldı. "
+         "Ne var ki kimse eski evi unutmadı.")
+oz = tlf.analyze(metin, lang="tr", custom_ngrams=[["ne", "var", "ki"], ["ADJ", "NOUN"]])
+oz["ngram_ne_var_ki_count"]   # 1.0
+oz["ngram_ADJ_NOUN_count"]    # 3.0
 ```
 
 Her öbek bir anahtar olur; değeri metindeki eşleşme sayısıdır.
 
 - Kelimeler küçük harfe indirilerek karşılaştırılır. Yazılı biçim aranır,
-  lemma değil: `kadınlar` `kadın` ile eşleşmez.
+  lemma değil: `eski ev` ile `eski evi` ayrı eşleşmelerdir.
 - Büyük harfle yazılmış bir UD sözcük türü etiketi (`NOUN`, `VERB`, `ADJ`…)
-  o etiketi taşıyan herhangi bir kelimeyle eşleşir. `["kadın", "VERB"]`,
-  "kadın" ve hemen ardından bir fiil demektir.
-- Eşleşme cümle sınırını aşmaz: `geldi. Kadın` yan yana sayılmaz.
+  o etiketi taşıyan herhangi bir kelimeyle eşleşir. `["ADJ", "NOUN"]` bir sıfat
+  ve hemen ardından bir isim demektir; `yeni bir bina` eşleşmez, çünkü arada
+  `bir` var.
+- Eşleşme cümle sınırını aşmaz: `kaldı. Ne` yan yana sayılmaz.
 - Değer düz sayımdır. Uzunlukları farklı metinleri karşılaştıracaksanız
-  `word_count`'a bölün (`oz["ngram_kadın_VERB_count"] / oz["word_count"]`) ya
+  `word_count`'a bölün (`oz["ngram_ADJ_NOUN_count"] / oz["word_count"]`) ya
   da metinleri aynı boya getirin (`segment_size`).
 
 Sayı "kaç kez" sorusunu cevaplar. Öbeğin **neyle** eşleştiğini görmek için:
 
 ```python
-tlf.ngram_matches(metin, ["kadın", "VERB"], lang="tr")
+tlf.ngram_matches(metin, ["ADJ", "NOUN"], lang="tr")
 ```
 
 ```text
-{'kadın geldi': 2, 'kadın güldü': 1, 'kadın oturdu': 1}
+{'eski ev': 1, 'büyük bahçe': 1, 'eski evi': 1}
 ```
 
-En sık eşleşme önce gelir; sayıların toplamı `ngram_kadın_VERB_count` ile
+En sık eşleşme önce gelir; sayıların toplamı `ngram_ADJ_NOUN_count` ile
 aynıdır. Cümle ve konum bilgisi verilmez. Birden çok metin için sonuçları
 `collections.Counter` ile toplayın. Çalışan örnek:
 [`examples/10_kelime_oruntuleri.py`](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/10_kelime_oruntuleri.py).

@@ -35,7 +35,7 @@ python -m spacy download en_core_web_sm
 python -m nltk.downloader cmudict
 ```
 
-!!! warning "Two things about the Turkish model that look like bugs"
+!!! note "Two things about the Turkish model that look like bugs"
 
     **The wheel disagrees with itself.** The filename says version `1.0`,
     the metadata inside says `3.4.2`. `pip` accepts it and installs it;
@@ -102,7 +102,7 @@ What these say:
 |---|---|---|
 | `ttr` | 0.842 | Type-token ratio. 84% of the words appear once. Normal for a short text; impossible for a long one. |
 | `word_len_mean` | 5.0 | Five characters per word. |
-| `flesch_reading_ease` | 74.7 | 0–100 scale; 70–80 is "fairly easy", roughly 7th grade. |
+| `flesch_reading_ease` | 74.7 | Ordinary prose falls between 0 and 100, but that is not a hard limit; 70–80 is "fairly easy", roughly 7th grade. |
 | `flesch_kincaid_grade` | 5.19 | US grade level. |
 | `ari` | 8.95 | Automated Readability Index, also a grade level. |
 | `coleman_liau` | 11.26 | Another grade level, from letters and sentences per 100 words. |
@@ -148,31 +148,21 @@ If you are going to put a number in your own work, you need to know its
 source:
 
 ```python
-import json
-print(json.dumps(tlf.describe_feature("mattr"), indent=2))
+d = tlf.describe_feature("mattr")
+print(d["citation"])
+print(d["references"][0])
 ```
 
-```json
-{
-  "key": "mattr",
-  "group": "lexical",
-  "group_label": "Lexical richness & frequency",
-  "description": "moving-average TTR",
-  "formula": "mean TTR of every sliding window of mattr_window words",
-  "scale": "ratio_0_1",
-  "inputs": ["raw_text", "surface_tokens", "lemma_tokens", "pos_data"],
-  "params": ["mattr_window"],
-  "requires": "at least 100 words (2 x mattr_window)",
-  "citation": "Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window)",
-  "references": [
-    "Covington, M. A., & McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098"
-  ]
-}
+```text
+Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window)
+Covington, M. A., & McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098
 ```
 
 `references` is what you copy into your bibliography. `citation` is the
 short pointer, and it **also tells you what we do not know** — in this case
-it says outright that the default window size does not come from the source.
+it says outright that the default window size does not come from the source. The
+dictionary's other fields (formula, scale, minimum data…): [Find a feature's
+source](how-to/citations.md).
 
 ## 7. Turn a corpus into a table
 

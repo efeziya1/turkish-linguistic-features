@@ -6,10 +6,9 @@ Window sizes, thresholds and sample counts live in `FeatureParams`.
 
 ```python
 import turkish_linguistic_features as tlf
-from turkish_linguistic_features import FeatureParams
 
-# metin: the three-sentence Turkish text from the tutorial (7, 7 and 16 words)
-p = FeatureParams(short_sent_threshold=3, long_sent_threshold=12)
+# text: the three-sentence text from the Turkish tutorial (7, 7 and 16 words)
+p = tlf.FeatureParams(short_sent_threshold=3, long_sent_threshold=12)
 oz = tlf.analyze(text, lang="tr", params=p)
 ```
 
@@ -75,7 +74,7 @@ field therefore does not disturb the thresholds:
 text = ("Kapı açıldı. Sabah erkenden yola çıktık. Köyün girişindeki "
         "yaşlı çınarın altında oturan adam, uzun yıllar önce bu yollardan "
         "geçen kervanları, pazar günlerini ve kaybolan komşularını anlattı.")
-p = FeatureParams(mattr_window=100)            # thresholds untouched
+p = tlf.FeatureParams(mattr_window=100)         # thresholds untouched
 feats = tlf.analyze(text, lang="tr", params=p)  # still TR 4/17
 ```
 
@@ -113,7 +112,7 @@ default here is 50 — a tenth of that. The reasons:
 The citation states this distinction openly. If you want 500:
 
 ```python
-p = FeatureParams(mattr_window=500)
+p = tlf.FeatureParams(mattr_window=500)
 ```
 
 and make sure your texts are at least 1000 words. You do not need to carry the

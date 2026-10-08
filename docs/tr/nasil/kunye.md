@@ -6,32 +6,36 @@ Kütüphane bunu size hazır verir.
 ## `describe_feature`
 
 ```python
-import json
-import turkish_linguistic_features as tlf
-
-print(json.dumps(tlf.describe_feature("mattr"), ensure_ascii=False, indent=2))
+tlf.describe_feature("mattr")
 ```
 
-```json
-{
-  "key": "mattr",
-  "group": "lexical",
-  "group_label": "Lexical richness & frequency",
-  "description": "moving-average TTR",
-  "formula": "mean TTR of every sliding window of mattr_window words",
-  "scale": "ratio_0_1",
-  "inputs": ["raw_text", "surface_tokens", "lemma_tokens", "pos_data"],
-  "params": ["mattr_window"],
-  "requires": "at least 100 words (2 x mattr_window)",
-  "citation": "Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window)",
-  "references": [
-    "Covington, M. A., & McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098"
-  ],
-  "definitions": {
-    "word": {"name": "space_unit", "source": "tlf", "description": "Whitespace-separated piece of the raw text with edge punctuation stripped, containing a letter or digit; the library's default word."},
-    "type": {"name": "lowercase_surface", "source": "tlf", "description": "The word string lowercased by language (Turkish I→ı, İ→i); inflected forms are separate types."}
-  }
-}
+```text
+{'key': 'mattr',
+ 'group': 'lexical',
+ 'group_label': 'Lexical richness & frequency',
+ 'description': 'moving-average TTR',
+ 'formula': 'mean TTR of every sliding window of mattr_window words',
+ 'scale': 'ratio_0_1',
+ 'inputs': ('raw_text', 'surface_tokens', 'lemma_tokens', 'pos_data'),
+ 'params': ('mattr_window',),
+ 'requires': 'at least 100 words (2 x mattr_window)',
+ 'citation': 'Covington & McFall (2010); default window 50 — C&M recommend a window of '
+             '500; 50 is used here so that texts of 100+ words can be measured (mattr '
+             'needs 2 × window)',
+ 'references': ('Covington, M. A., & McFall, J. D. (2010). Cutting the Gordian knot: '
+                'The moving-average type–token ratio (MATTR). Journal of Quantitative '
+                'Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098',),
+ 'definitions': {'word': {'name': 'space_unit',
+                          'source': 'tlf',
+                          'description': 'Whitespace-separated piece of the raw text '
+                                         'with edge punctuation stripped, containing a '
+                                         "letter or digit; the library's default "
+                                         'word.'},
+                 'type': {'name': 'lowercase_surface',
+                          'source': 'tlf',
+                          'description': 'The word string lowercased by language '
+                                         '(Turkish I→ı, İ→i); inflected forms are '
+                                         'separate types.'}}}
 ```
 
 ## Alanlar ne işe yarar
@@ -71,18 +75,12 @@ Aynı kalıbın başka biçimleri:
 ## Kaynağı olmayan öznitelikler
 
 ```python
-tlf.describe_feature("punct_dash_ratio")
+d = tlf.describe_feature("punct_dash_ratio")
+d["citation"], d["references"]
 ```
 
-```json
-{
-  "key": "punct_dash_ratio",
-  "group": "punctuation",
-  "description": "share of hyphen or dash marks among all marks",
-  "formula": "marks of this type / all marks",
-  "citation": null,
-  "references": []
-}
+```text
+(None, ())
 ```
 
 `citation` `None` ise o anahtar **adlandırılmış bir literatür ölçüsü

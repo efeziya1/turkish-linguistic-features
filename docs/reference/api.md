@@ -73,11 +73,11 @@ matching is the same as in `analyze`, so the values add up to the phrase's
 `ngram_{...}_count`.
 
 ```python
-tlf.ngram_matches("Kadın geldi. Kadın güldü ve kadın oturdu.", ["kadın", "VERB"])
+tlf.ngram_matches("Eski ev yıkıldı. Büyük bahçe kaldı.", ["ADJ", "NOUN"])
 ```
 
 ```text
-{'kadın geldi': 1, 'kadın güldü': 1, 'kadın oturdu': 1}
+{'eski ev': 1, 'büyük bahçe': 1}
 ```
 
 Sentence and position are not returned. For several texts, add the results up
@@ -128,16 +128,16 @@ See: [TR](../tr/nasil/korpus.md) · [EN](../en/how-to/corpus.md)
 ```python
 segment_text(
     text: str,
-    size: int = 1000,
+    segment_size: int = 1000,
     min_fill: float = 1.0,
     unit: str = "word",
     lang: str = "tr",
 ) -> list[str]
 ```
 
-Splits a text into fixed-size pieces. `size` counts **words** — the word
+Splits a text into fixed-size pieces. `segment_size` counts **words** — the word
 `analyze` counts (`unit="word"`) — or raw characters (`unit="char"`). A trailing piece shorter
-than `min_fill × size` is discarded.
+than `min_fill × segment_size` is discarded.
 
 Returned pieces are slices of the raw text, not re-joined words.
 

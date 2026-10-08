@@ -25,7 +25,7 @@ korpus/
   notlar.txt          → label "" (alt çizgi yok), source "notlar"
 ```
 
-!!! warning "Alt çizgili dosya adları"
+!!! note "Alt çizgili dosya adları"
 
     Kökteki bir dosyanın adında alt çizgi varsa ilk kısım **etiket** olur:
     `metin_1.txt` → label `"metin"`, source `"1"`. Etiket istemiyorsanız
@@ -127,11 +127,17 @@ print(len(butun), len(parcali), [s["segment_id"] for s in parcali])
 
 648 ÷ 200 = 3 tam parça; kalan 48 kelime varsayılan `min_fill=1.0` ile atılır.
 
-!!! danger "Parçalama dosya dosya yapılır, korpus geneli değil"
+Etiketleri (yazar, tür, dönem) karşılaştırırken parçaları aynı boyda tutun
+ve etiket başına parça sayısına bakın: tek parçalık bir etiketin ortalaması
+yazarın değil o metnin ortalamasıdır. Cümle uzunluğu dağılımını etiketlere
+göre karşılaştıran çalışan örnek:
+[`examples/05_cumle_ritmi.py`](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/05_cumle_ritmi.py).
+
+!!! note "Parçalama dosya dosya yapılır, korpus geneli değil"
 
     `segment_size=1000`, **her dosyayı ayrı ayrı** 1000'lik parçalara
     böler. Bütün dosyaları birleştirip baştan sona 1000'er kesmez.
-    Dolayısıyla her dosyanın sonunda `size`'dan kısa bir artık kalır ve
+    Dolayısıyla her dosyanın sonunda `segment_size`'dan kısa bir artık kalır ve
     varsayılan `min_fill=1.0` ile **atılır**.
 
     Neden ve ne zaman parçalamalısınız →
@@ -158,45 +164,3 @@ analyze_corpus(
 
 `groups`, `params`, `model`, `custom_ngrams`, `warn` — hepsi `analyze` ile aynı
 anlamda ve her parçaya uygulanır. `custom_ngrams` sayıları parça başınadır.
-
-## CSV yerine DataFrame
-
-`save_csv` diskle çalışır. Bellekte kalmak isterseniz dönen liste zaten
-`pandas`'a hazırdır:
-
-```python
-import pandas as pd
-df = pd.DataFrame(tlf.analyze_corpus("korpus/", lang="tr"))
-```
-
-`pandas` kütüphanenin zorunlu bağımlılığı değildir; bunu siz kurarsınız.
-
-## Etiketlere göre özet
-
-Çoğu çalışmada asıl soru etiketlerin (yazar, tür, dönem) birbirinden nasıl
-ayrıldığıdır. Tablo `label` sütununu taşıdığı için özet tek satırdır:
-
-```python
-df = pd.DataFrame(tlf.analyze_corpus("korpus/", lang="tr", segment_size=1000))
-print(df.groupby("label").size())                                   # etiket başına parça
-print(df.groupby("label")[["sent_len_mean", "word_len_mean", "atesman"]].mean().round(2))
-```
-
-Örnek betiklerin demo korpusunda (iki etiket, kısa metinler, `segment_size=50`):
-
-```text
-label
-Anlatı    2
-Bilgi     2
-
-        sent_len_mean  word_len_mean  atesman
-label
-Anlatı           7.29           5.78    77.35
-Bilgi           10.42           6.57    58.75
-```
-
-Etiketleri karşılaştırırken parçaları aynı boyda tutun (`segment_size`) ve
-etiket başına parça sayısına bakın: tek parçalık bir etiketin ortalaması
-yazarın değil o metnin ortalamasıdır. Cümle uzunluğu dağılımını etiketlere
-göre karşılaştıran çalışan örnek:
-[`examples/05_cumle_ritmi.py`](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/05_cumle_ritmi.py).

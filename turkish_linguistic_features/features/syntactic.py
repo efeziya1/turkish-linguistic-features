@@ -361,11 +361,11 @@ def word_ngram_counts(
     - Öbekteki büyük harfli bir UD etiketi (``NOUN``, ``VERB`` …, ``UPOS_TAGS``)
       o etiketli herhangi bir kelimeyle eşleşir; geri kalan her öge kelimedir
       ve dile göre küçük harfe inen yazılı biçimle eşleşir (lemma değil).
-      ``["kadın", "VERB"]`` = "kadın" ve hemen ardından bir fiil.
+      ``["ADJ", "NOUN"]`` = bir sıfat ve hemen ardından bir isim.
     - Arama cümle içindedir: öbek cümle sınırını aşmaz.
     - Üst üste binen eşleşmeler sayılır: ``ha ha ha`` içinde ``ha ha`` = 2.
     - Anahtarda kelimeler küçük harf, etiketler büyük harf kalır:
-      ``ngram_kadın_VERB_count``.
+      ``ngram_ne_var_ki_count``, ``ngram_ADJ_NOUN_count``.
 
     ``sentences`` her cümlenin ``(kelime, etiket)`` listesidir (``WordView``).
     Boş öbek → ``ValueError``. ``custom_ngrams`` verilmezse **boş sözlük**
@@ -380,7 +380,7 @@ def word_ngram_counts(
 
 def word_ngram_matches(sentences: list[list[tuple[str, str]]], phrase: list[str],
                        lang: str = "tr") -> dict[str, int]:
-    """Bir öbeğin eşleşmeleri ve sıklıkları → ``{"kadın geldi": 2, …}``.
+    """Bir öbeğin eşleşmeleri ve sıklıkları → ``{"eski ev": 2, …}``.
 
     Eşleştirme ``word_ngram_counts`` ile aynıdır; değerlerin toplamı o öbeğin
     ``ngram_{...}_count`` değeridir. Anahtar eşleşen kelimelerin küçük harfli,

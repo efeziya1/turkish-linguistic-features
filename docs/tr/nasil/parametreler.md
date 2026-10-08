@@ -6,10 +6,9 @@ Pencere boyları, eşikler ve örneklem sayıları `FeatureParams` içinde durur
 
 ```python
 import turkish_linguistic_features as tlf
-from turkish_linguistic_features import FeatureParams
 
 # metin: öğreticideki üç cümlelik örnek (7, 7 ve 16 kelime)
-p = FeatureParams(short_sent_threshold=3, long_sent_threshold=12)
+p = tlf.FeatureParams(short_sent_threshold=3, long_sent_threshold=12)
 oz = tlf.analyze(metin, lang="tr", params=p)
 ```
 
@@ -72,7 +71,7 @@ cümle eşiklerini bozmaz:
 metin = ("Kapı açıldı. Sabah erkenden yola çıktık. Köyün girişindeki "
          "yaşlı çınarın altında oturan adam, uzun yıllar önce bu yollardan "
          "geçen kervanları, pazar günlerini ve kaybolan komşularını anlattı.")
-p = FeatureParams(mattr_window=100)          # eşiklere dokunulmadı
+p = tlf.FeatureParams(mattr_window=100)       # eşiklere dokunulmadı
 oz = tlf.analyze(metin, lang="tr", params=p)  # eşikler hâlâ TR 4/17
 ```
 
@@ -109,7 +108,7 @@ varsayılanı 50 — onda biri. Neden:
 Künye bu ayrımı açıkça yazar. 500 istiyorsanız:
 
 ```python
-p = FeatureParams(mattr_window=500)
+p = tlf.FeatureParams(mattr_window=500)
 ```
 
 ve metinlerinizin en az 1000 kelime olduğundan emin olun. Cümle eşiklerini

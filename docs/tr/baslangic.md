@@ -35,7 +35,7 @@ python -m spacy download en_core_web_sm
 python -m nltk.downloader cmudict
 ```
 
-!!! warning "Türkçe modelde hata sanacağınız iki şey"
+!!! note "Türkçe modelde hata sanacağınız iki şey"
 
     **Wheel kendisiyle çelişiyor.** Dosya adı `1.0` diyor, içindeki üstveri
     `3.4.2` diyor. `pip` bunu kabul eder ve kurar; daha katı kurucular
@@ -103,17 +103,8 @@ Bunlar ne anlatıyor:
 | `word_len_mean` | 5.7667 | Kelime başına 5,77 karakter. |
 | `sent_len_mean` | 10.0 | Cümle başına 10 kelime. |
 | `syllable_mean` | 2.5333 | Kelime başına 2,53 hece. |
-| `atesman` | 70.9483 | Ateşman (1997) okunabilirlik puanı, 0–100. 70 "kolay"a yakın. |
+| `atesman` | 70.9483 | Ateşman (1997) okunabilirlik puanı. Olağan düzyazı 0–100 arasına düşer, ama bu bir sınır değildir. 70 "kolay"a yakın. |
 | `entropy` | 3.401197 | Kelime dağılımının Shannon entropisi, nat (doğal logaritma). |
-
-!!! note "`ttr = 1.0` sizi yanıltmasın"
-
-    TTR metin uzunluğuna çok duyarlıdır: metin uzadıkça mutlaka düşer.
-    Bu yüzden farklı uzunluktaki metinleri TTR ile karşılaştıramazsınız.
-    `mattr`, `mtld` ve `vocd_d` uzunluğa daha az duyarlıdır ama bağımsız
-    değildir ([ölçüm örneği](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/09_uzunluk_duyarliligi.py)); daha uzun
-    metin de isterler (bkz. adım 5). Farklı uzunluktaki metinleri
-    karşılaştırırken önce `segment_size` ile aynı boya getirin.
 
 ## 5. Neden bazı değerler `nan`?
 
@@ -148,31 +139,21 @@ değil, dürüstlüktür. Ayrıntı: **[NaN ne demek](aciklama/nan.md)**.
 Bir sayıyı çalışmanızda kullanacaksanız nereden geldiğini bilmelisiniz:
 
 ```python
-import json
-print(json.dumps(tlf.describe_feature("mattr"), ensure_ascii=False, indent=2))
+d = tlf.describe_feature("mattr")
+print(d["citation"])
+print(d["references"][0])
 ```
 
-```json
-{
-  "key": "mattr",
-  "group": "lexical",
-  "group_label": "Lexical richness & frequency",
-  "description": "moving-average TTR",
-  "formula": "mean TTR of every sliding window of mattr_window words",
-  "scale": "ratio_0_1",
-  "inputs": ["raw_text", "surface_tokens", "lemma_tokens", "pos_data"],
-  "params": ["mattr_window"],
-  "requires": "at least 100 words (2 x mattr_window)",
-  "citation": "Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window)",
-  "references": [
-    "Covington, M. A., & McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098"
-  ]
-}
+```text
+Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window)
+Covington, M. A., & McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098
 ```
 
 `references` alanı yöntem bölümünüze kopyalayacağınız şeydir. `citation`
 kısa işaretçidir ve **ne bilmediğimizi de söyler** — yukarıdaki örnekte
-varsayılan pencere boyunun kaynaktan gelmediğini açıkça yazıyor.
+varsayılan pencere boyunun kaynaktan gelmediğini açıkça yazıyor. Sözlükteki öbür
+alanlar (formül, ölçek, gereken en az veri…): [Bir özniteliğin kaynağını
+bul](nasil/kunye.md).
 
 ## 7. Bir korpusu tabloya çevirin
 

@@ -55,7 +55,7 @@ tlf.describe_feature("mattr")["requires"]
 ```
 
 A **word** here is the library's default word
-([Concepts](concepts.md#word-and-sentence)). `segment_text`'s `size` counts the
+([Concepts](concepts.md#word-and-sentence)). `segment_text`'s `segment_size` counts the
 same word, so a 100-word segment meets a 100-word minimum.
 
 Below the minimum you get `nan`. Some minimums come from the source
@@ -108,7 +108,7 @@ The message carries your own word and sentence counts, so you can tell at a
 glance whether the text really is one paragraph.
 
 This usually happens when the text lost its line breaks during extraction from
-PDF or EPUB; [limitations §9](limitations.md) has the measurement.
+PDF or EPUB; [limitations §8](limitations.md) has the measurement.
 
 ## What to do in your table
 

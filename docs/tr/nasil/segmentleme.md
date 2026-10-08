@@ -12,18 +12,18 @@ daha az duyarlıdır ama bağımsız değildir
 Çözüm: hepsini aynı boya getirin.
 
 ```python
-parcalar = tlf.segment_text(metin, size=1000, lang="tr")
+parcalar = tlf.segment_text(metin, segment_size=1000, lang="tr")
 ```
 
-## `size` kelime sayar
+## Parça boyu kelimeyle ölçülür
 
-`size`, `analyze`'ın saydığı kelimeyi sayar: boşlukla ayrılan, kenar
+`segment_size`, `analyze`'ın saydığı kelimeyi sayar: boşlukla ayrılan, kenar
 noktalaması atılan, harf ya da rakam içeren birim. Noktalama kelime değildir.
 [Öğreticideki](../baslangic.md) 30 kelimelik `metin` ile:
 
 ```python
 uzun = " ".join([metin] * 12)                  # 360 kelime
-parcalar = tlf.segment_text(uzun, size=100, lang="tr")
+parcalar = tlf.segment_text(uzun, segment_size=100, lang="tr")
 len(parcalar)                                  # 3
 [len(p.split()) for p in parcalar]             # [100, 100, 100]
 ```
@@ -38,8 +38,8 @@ Varsayılan `min_fill=1.0` yalnız **tam** parçaları tutar. Eksik kalan son
 parça atılır.
 
 ```python
-tlf.segment_text(uzun, size=100, lang="tr")                   # 3 parça
-tlf.segment_text(uzun, size=100, min_fill=0.5, lang="tr")     # 4 parça
+tlf.segment_text(uzun, segment_size=100, lang="tr")                # 3 parça
+tlf.segment_text(uzun, segment_size=100, min_fill=0.5, lang="tr")  # 4 parça
 ```
 
 Artık 60 kelime, yani parçanın %60'ı: `1.0` eşiğinin altında, `0.5`'in
@@ -54,7 +54,7 @@ Artık 60 kelime, yani parçanın %60'ı: `1.0` eşiğinin altında, `0.5`'in
 !!! warning "Atılan veri sessizce atılır"
 
     Kütüphane kaç parça attığını size söylemez. `min_fill=1.0` ile 1400
-    kelimelik bir dosyadan `size=1000` ile **tek** parça çıkar; kalan 400
+    kelimelik bir dosyadan `segment_size=1000` ile **tek** parça çıkar; kalan 400
     kelime gider. Korpusunuzda kısa dosyalar varsa hiç parça
     üretmeyebilirler.
 
@@ -63,14 +63,14 @@ Artık 60 kelime, yani parçanın %60'ı: `1.0` eşiğinin altında, `0.5`'in
     ```python
     for yol in dosyalar:
         n = len(tlf.segment_text(yol.read_text(encoding="utf-8"),
-                                 size=1000, lang="tr"))
+                                 segment_size=1000, lang="tr"))
         print(yol.name, n)
     ```
 
 ## Karakterle bölmek
 
 ```python
-tlf.segment_text(metin, size=5000, unit="char", lang="tr")
+tlf.segment_text(metin, segment_size=5000, unit="char", lang="tr")
 ```
 
 `unit="char"` ham karakter sayar; kelime kuralı devreye girmez, dolayısıyla
@@ -85,15 +85,12 @@ Tek tek bölüp `analyze` çağırmanıza gerek yok:
 satirlar = tlf.analyze_corpus("korpus/", lang="tr", segment_size=1000)
 ```
 
-`segment_size`, `min_fill` ve `unit` aynı anlamdadır ve **her dosyaya ayrı
-ayrı** uygulanır.
-
 ## Tam imza
 
 ```python
 segment_text(
     text: str,
-    size: int = 1000,
+    segment_size: int = 1000,
     min_fill: float = 1.0,
     unit: str = "word",
     lang: str = "tr",

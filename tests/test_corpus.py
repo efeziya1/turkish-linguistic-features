@@ -1,7 +1,7 @@
 r"""T27 — korpus yükleyici: klasör/CSV → analiz edilebilir kayıtlar.
 
 ``segment_text`` kütüphanenin varsayılan kelimesini sayar (2026-10-08, Efe):
-``analyze`` aynı kelimeyi saydığı için parça ``analyze``'da tam ``size`` kelime
+``analyze`` aynı kelimeyi saydığı için parça ``analyze``'da tam ``segment_size`` kelime
 eder. Önceden spaCy tokenı sayılıyordu (2026-09-19); noktalamayı da saydığı
 için 100 token ~83 kelime ediyordu.
 """
@@ -28,9 +28,9 @@ def _metin(n: int) -> str:
 
 
 def test_parca_boyu_TAM_istenen_kelime_sayisi():
-    """Parça ``analyze``'ın saydığı kelimeyle tam ``size``: noktalama kelime değil."""
+    """Parça ``analyze``'ın saydığı kelimeyle tam ``segment_size``: noktalama kelime değil."""
     metin = "Ali eve gitti, kitabı okudu. " * 400
-    parcalar = segment_text(metin, size=100, lang="tr")
+    parcalar = segment_text(metin, segment_size=100, lang="tr")
     assert parcalar
     assert all(len(kelime_birimleri(p, "tr")[0]) == 100 for p in parcalar)
 
@@ -38,25 +38,25 @@ def test_parca_boyu_TAM_istenen_kelime_sayisi():
 def test_satir_sonu_ve_tireli_kelime():
     """Satır sonu kelime ayırır ama kelime sayılmaz; ``e-posta`` tek kelime."""
     metin = "\n".join(["Ben e-posta yazdım ve sonra yemek yedim bugün"] * 50)
-    parcalar = segment_text(metin, size=100, lang="tr")
+    parcalar = segment_text(metin, segment_size=100, lang="tr")
     assert len(parcalar) == 4
     assert all(len(kelime_birimleri(p, "tr")[0]) == 100 for p in parcalar)
 
 
 def test_min_fill_varsayilani_yarim_parcayi_atar():
-    assert len(segment_text(_metin(250), size=100, lang="tr")) == 2
+    assert len(segment_text(_metin(250), segment_size=100, lang="tr")) == 2
 
 
 def test_min_fill_dusurulunce_son_parca_kaliyor():
-    assert len(segment_text(_metin(250), size=100, min_fill=0.5, lang="tr")) == 3
+    assert len(segment_text(_metin(250), segment_size=100, min_fill=0.5, lang="tr")) == 3
 
 
 def test_min_fill_esigin_altinda_kalan_atilir():
-    assert len(segment_text(_metin(230), size=100, min_fill=0.5, lang="tr")) == 2
+    assert len(segment_text(_metin(230), segment_size=100, min_fill=0.5, lang="tr")) == 2
 
 
 def test_karakter_birimi():
-    parcalar = segment_text("a" * 250, size=100, unit="char")
+    parcalar = segment_text("a" * 250, segment_size=100, unit="char")
     assert len(parcalar) == 2
     assert all(len(p) == 100 for p in parcalar)
 
@@ -64,25 +64,25 @@ def test_karakter_birimi():
 def test_parca_ham_metin_dilimi():
     """İçerik yeniden birleştirilmiş token listesi değil, ham metin olmalı."""
     metin = "Ali   eve\tgitti. " * 50
-    assert segment_text(metin, size=10, lang="tr")[0] in metin
+    assert segment_text(metin, segment_size=10, lang="tr")[0] in metin
 
 
 def test_bos_metin():
-    assert segment_text("", size=100, lang="tr") == []
+    assert segment_text("", segment_size=100, lang="tr") == []
 
 
 def test_kisa_metin_min_fill_1():
-    assert segment_text(_metin(10), size=100, lang="tr") == []
+    assert segment_text(_metin(10), segment_size=100, lang="tr") == []
 
 
 def test_gecersiz_dil():
     with pytest.raises(ValueError):
-        segment_text("deneme", size=10, lang="de")
+        segment_text("deneme", segment_size=10, lang="de")
 
 
 def test_gecersiz_birim():
     with pytest.raises(ValueError):
-        segment_text("deneme", size=10, unit="hece")
+        segment_text("deneme", segment_size=10, unit="hece")
 
 
 # ── _load_corpus: üç düzen ─────────────────────────────────────────────
