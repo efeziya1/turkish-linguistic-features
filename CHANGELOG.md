@@ -117,6 +117,8 @@ column for column. Keys: Turkish 208 → 199, English 180 → 172. Cited feature
 - `para_count_norm`: exactly 1000 / `para_len_mean`.
 - `nominal_verbal_ratio`: count `custom_ngrams=[["NOUN"], ["VERB"]]` and divide.
 - The `"cv"` and `"signed"` scales, which no key uses any more.
+- `exceptions.MissingDependencyError`: it was never raised. A missing optional package gives
+  `MissingDependencyWarning` and `nan`; missing language data gives `ModelNotFoundError`.
 - The undocumented `LINGUISTIC_FEATURES_NO_ZEYREK_WARMUP` environment variable: skipping the
   Zeyrek warm-up and then analysing Turkish in the same process could crash on Windows.
 

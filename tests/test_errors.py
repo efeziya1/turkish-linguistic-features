@@ -9,14 +9,12 @@ from turkish_linguistic_features._warnings import (
 )
 from turkish_linguistic_features.exceptions import (
     LinguisticFeaturesError,
-    MissingDependencyError,
     ModelNotFoundError,
 )
 
 
 def test_hata_hiyerarsisi():
-    assert issubclass(MissingDependencyError, LinguisticFeaturesError)
-    assert issubclass(MissingDependencyError, ImportError)
+    assert issubclass(ModelNotFoundError, LinguisticFeaturesError)
     assert issubclass(ModelNotFoundError, OSError)
 
 
@@ -59,7 +57,8 @@ def test_eksik_opsiyonel_paket_cokertmez():
     assert issubclass(kayit[0].category, MissingDependencyWarning)
 
 
-def test_except_importerror_ile_yakalanir():
-    """Eski kodu kırmamak için ImportError'dan da miras alıyoruz."""
-    with pytest.raises(ImportError):
-        raise MissingDependencyError("test")
+def test_missing_dependency_error_yok():
+    """Hiç fırlatılmadığı için 2026-10-08'de kaldırıldı (Efe)."""
+    import turkish_linguistic_features.exceptions as hatalar
+
+    assert not hasattr(hatalar, "MissingDependencyError")
