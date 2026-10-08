@@ -20,7 +20,7 @@ print(json.dumps(tlf.describe_feature("mattr"), indent=2))
   "description": "moving-average TTR",
   "formula": "mean TTR of every sliding window of mattr_window words",
   "scale": "ratio_0_1",
-  "inputs": ["surface_tokens", "lemma_tokens", "pos_data"],
+  "inputs": ["raw_text", "surface_tokens", "lemma_tokens", "pos_data"],
   "params": ["mattr_window"],
   "requires": "at least 100 words (2 x mattr_window)",
   "citation": "Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window)",

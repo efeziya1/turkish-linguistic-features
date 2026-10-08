@@ -16,8 +16,9 @@ class LinguisticFeaturesError(Exception):
     """Bu kütüphanenin ürettiği tüm hataların ortak atası."""
 
 
-class MissingDependencyError(LinguisticFeaturesError, ImportError):
-    """Opsiyonel bir paket kurulu değil."""
+# `MissingDependencyError` 2026-10-08'de kaldırıldı (Efe): hiç fırlatılmıyordu. İsteğe bağlı
+# paket eksikse `MissingDependencyWarning` + `nan`; zorunlu paket eksikse Python'un kendi
+# `ModuleNotFoundError`'ı; dil verisi eksikse `ModelNotFoundError`.
 
 
 class ModelNotFoundError(LinguisticFeaturesError, OSError):
