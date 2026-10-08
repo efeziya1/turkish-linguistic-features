@@ -58,7 +58,7 @@ The groups, with their Turkish feature counts:
 | `syntactic_dep` | 16 | Dependency parse |
 | `phonetic` | 13 | Syllables, vowels, sound patterns |
 | `frequency_structure` | 13 | Zipf, h-point, thematic concentration |
-| `pos` | 12 | Part-of-speech ratios |
+| `pos` | 12 | Part-of-speech shares |
 | `syntactic` | 7 | Sentence structure |
 | `sentence` | 7 | Sentence-length distribution |
 | `readability` | 7 | Readability formulas |

@@ -57,7 +57,7 @@ Mevcut gruplar ve Türkçede kaç öznitelik içerdikleri:
 | `syntactic_dep` | 16 | Bağlılık ayrıştırması |
 | `phonetic` | 13 | Hece, ünlü, ses örüntüsü |
 | `frequency_structure` | 13 | Zipf, h-noktası, tematik yoğunlaşma |
-| `pos` | 12 | Sözcük türü oranları |
+| `pos` | 12 | Sözcük türü payları |
 | `syntactic` | 7 | Cümle yapısı |
 | `sentence` | 7 | Cümle uzunluğu dağılımı |
 | `readability` | 7 | Okunabilirlik formülleri |

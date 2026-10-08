@@ -170,3 +170,33 @@ df = pd.DataFrame(tlf.analyze_corpus("korpus/", lang="tr"))
 ```
 
 `pandas` kütüphanenin zorunlu bağımlılığı değildir; bunu siz kurarsınız.
+
+## Etiketlere göre özet
+
+Çoğu çalışmada asıl soru etiketlerin (yazar, tür, dönem) birbirinden nasıl
+ayrıldığıdır. Tablo `label` sütununu taşıdığı için özet tek satırdır:
+
+```python
+df = pd.DataFrame(tlf.analyze_corpus("korpus/", lang="tr", segment_size=1000))
+print(df.groupby("label").size())                                   # etiket başına parça
+print(df.groupby("label")[["sent_len_mean", "word_len_mean", "atesman"]].mean().round(2))
+```
+
+Örnek betiklerin demo korpusunda (iki etiket, kısa metinler, `segment_size=50`):
+
+```text
+label
+Anlatı    2
+Bilgi     2
+
+        sent_len_mean  word_len_mean  atesman
+label
+Anlatı           7.29           5.78    77.35
+Bilgi           10.42           6.57    58.75
+```
+
+Etiketleri karşılaştırırken parçaları aynı boyda tutun (`segment_size`) ve
+etiket başına parça sayısına bakın: tek parçalık bir etiketin ortalaması
+yazarın değil o metnin ortalamasıdır. Cümle uzunluğu dağılımını etiketlere
+göre karşılaştıran çalışan örnek:
+[`examples/05_cumle_ritmi.py`](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/05_cumle_ritmi.py).

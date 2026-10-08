@@ -8,5 +8,5 @@ sınırları anlatmak için.
 |---|---|
 | [Kavramlar](kavramlar.md) | Öznitelik, grup, ölçek, boru hattı — temel yapı |
 | [NaN ne demek](nan.md) | Neden sayı yerine `nan` dönüyor ve bu neden iyi |
-| [Doğrulama sistemi](dogrulama.md) | ✅ 🟡 ⚪ ❌ ne anlama geliyor, nasıl okunur |
+| [Doğrulama sistemi](dogrulama.md) | ✅ 🟡 🔍 ❌ ⚪ ⚫ 🔧 ne anlama geliyor, nasıl okunur |
 | [Sınırlılıklar](sinirliliklar.md) | Nerede güvenmemeniz gerektiği |

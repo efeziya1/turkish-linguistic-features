@@ -53,12 +53,9 @@ tlf.describe_feature("mattr")["requires"]
 'at least 100 words (2 x mattr_window)'
 ```
 
-Buradaki **kelime** kütüphanenin varsayılan kelimesidir: boşlukla ayrılan,
-kenar noktalaması atılan ve harf ya da rakam içeren birim (`e-posta`, `%50`
-ve sayılar birer kelime). Bağlılık öznitelikleri dışında her öznitelik bu
-kelimeyi sayar; hangisi olduğunu `describe_feature(key)["definitions"]["word"]`
-söyler. `segment_text`'in `size` değeri de aynı kelimeyi sayar: 100 kelimelik
-parça 100 kelime isteyen bir ölçüye yeter.
+Buradaki **kelime** kütüphanenin varsayılan kelimesidir
+([Kavramlar](kavramlar.md#kelime-ve-cumle)). `segment_text`'in `size` değeri de
+aynı kelimeyi sayar: 100 kelimelik parça 100 kelime isteyen bir ölçüye yeter.
 
 Sınırın altındaysanız `nan` gelir. Sınırların bir kısmı kaynaktan gelir
 (`mtld` için "texts as short as 100 tokens can be used"), bir kısmı
@@ -69,7 +66,7 @@ ortalama" olmaktan çıkar — o yüzden eşik `2 × pencere`dir.
 
 `zeyrek_derivational_suffix_ratio` metinde hiç türetme eki bulamazsa paydası sıfır
 olur. `parse_depth_mean` cümle ayrıştırılamazsa değer üretemez.
-`hapax_ratio` tek kelimelik metinde anlamsızdır.
+`verb_dist_mean` metinde en az iki fiil yoksa ölçülemez.
 
 ### 3. İsteğe bağlı bir paket kurulu değil
 
@@ -81,7 +78,7 @@ oz = tlf.analyze(metin, lang="tr", warn=False)
 ```
 
 `warn=False` yalnız uyarıyı susturur; öznitelik yine `nan` kalır. Aynı bayrak
-`ParagraphStructureWarning`'i de susturur.
+aşağıdaki paragraf uyarısını da susturur.
 
 ## `nan` dönmeyen ama yanıltan durum: paragraf
 

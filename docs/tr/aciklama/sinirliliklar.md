@@ -44,12 +44,10 @@ Sözcük türü, biçimbilim etiketleri, İngilizce lemmalar ve bağlılık
 öznitelikleri (ayrıştırıcının kendi cümleleriyle) modelden gelir. Model
 değişirse bu sayılar değişir. Türkçe lemmalar Zeyrek'ten gelir (§4).
 
-Kelime ve cümle sayımı modelin etiketlerini kullanmaz. Varsayılan kelime,
-boşlukla ayrılan ve kenar noktalaması atılan birimdir; varsayılan cümle
-kuralı cümle bitiren işaretleri modelin tokenizer'ından okur. Bağlılık
-öznitelikleri dışında her öznitelik bu kelimeyi sayar. Kelime başına etiket
-isteyen öznitelikler (sözcük türü, lemma, biçimbilim) etiketi kelimenin
-içindeki ilk kelime tokenından alır: model `Türk-Amerikan`'ı ya da İngilizce
+Kelime ve cümle kütüphanenin kendi kuralıyla sayılır
+([Kavramlar](kavramlar.md#kelime-ve-cumle)). Kelime başına etiket isteyen
+öznitelikler (sözcük türü, lemma, biçimbilim) etiketi kelimenin içindeki ilk
+kelime tokenından alır: model `Türk-Amerikan`'ı ya da İngilizce
 `it's`'i birden çok tokena böler, kelime ilk parçanın etiketini taşır
 (`Türk`, `it`). Bu, Türkçe köşe yazılarında kelimelerin %0,3'ünde,
 İngilizcelerde %2,7'sinde olur. Bağlılık öznitelikleri modelin tokenlarını
@@ -87,7 +85,7 @@ Tekrar üretilebilir sayılar için tohumu Python başlamadan sabitleyin, örne�
 
 82 satır doğrulama adayı bile değil (saf tanım, etiket şeması ya da
 bizim türevimiz).
-Kalan **145 adayın 48'i** bitmiş (46 ✅ + 2 🟡), **97'ü 🔍 açık**.
+Kalan **145 adayın 48'i** bitmiş (46 ✅ + 2 🟡), **97'si 🔍 açık**.
 
 Sebebi [doğrulama sistemi](dogrulama.md) sayfasında: kaynakların çoğu
 formülü yayımlar, o formülün uygulandığı bir sayısal örnek vermez. Bu

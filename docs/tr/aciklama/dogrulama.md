@@ -56,7 +56,7 @@ adayı** kalıyor. Gerçek payda budur.
 | 🔍 **açık** | Kaynak formülü veriyor ama uygulanmış bir örnek vermiyor. Doğrulanabilir, henüz doğrulanmadı. |
 | ❌ **uyuşmazlık** | **Açıklanmamış** fark. **Yayın kapısı: bir tane bile varsa sürüm çıkmaz.** |
 
-Bugünkü durum: **145 adayın 48'i bitmiş** (46 ✅ + 2 🟡), 97'ü 🔍 açık.
+Bugünkü durum: **145 adayın 48'i bitmiş** (46 ✅ + 2 🟡), 97'si 🔍 açık.
 
 Tolerans yayımlanan değerin **%1'i** (göreli). Kaynaklar ara değerleri
 yuvarlayarak bastığı için mutlak eşitlik beklenmez. Göreli tolerans her ölçekte

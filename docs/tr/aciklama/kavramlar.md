@@ -15,9 +15,9 @@ adlar sürüm notlarında duyurulur.
    `zeyrek_case_loc_ratio` (Zeyrek). Künyesi şemaya bağlıdır, ölçünün kendisine
    değil.
 3. **Saf tanım** — `punct_dash_ratio` ("tire / bütün noktalama işaretleri"). Künyesi yoktur,
-   çünkü tanımlanacak bir şey yoktur.
+   çünkü kaynak gösterilecek adlandırılmış bir ölçü değildir.
 
-202 anahtarın 191'ınin künyesi vardır, 11'inin yoktur.
+202 anahtarın 191'inin künyesi vardır, 11'inin yoktur.
 
 ## Anahtar adları
 
@@ -68,7 +68,7 @@ Her özniteliğin bir ölçeği vardır ve grafik kurarken bu önemlidir:
 
 | Ölçek | Anlamı | Örnek |
 |---|---|---|
-| `ratio_0_1` | 0 ile 1 arası oran | `ttr`, `mattr` |
+| `ratio_0_1` | 0 ile 1 arası pay | `ttr`, `mattr` |
 | `score` | Formülün ürettiği puan; sabit bir aralığı yok | `atesman`, `yule_k`, `mtld` |
 | `length` | Birimi karakter, kelime ya da cümle olan ortalama uzunluk | `word_len_mean`, `sent_len_mean` |
 | `nats` | Nat cinsinden entropi (doğal logaritma; kütüphanedeki bütün logaritmalar ln) | `entropy`, `punct_entropy` |
@@ -132,12 +132,9 @@ alan kazanır, vermediğiniz alan kalibre değerinde kalır. Yani
 ## Kayıt defteri (registry)
 
 Öznitelik adları, tanımları, formülleri, gereksinimleri ve künyeleri tek
-bir yerde durur: `features/_registry_texts.py`. `describe_feature` oradan
-okur, [başvuru bölümü](../../reference/index.md) oradan üretilir,
-[doğrulama raporu](../../dogrulama-raporu.md) kapsam listesini oradan alır.
-
-Bu kasıtlı: bir öznitelik eklenip kayıt defterine yazılmazsa testler
-düşer. Hiçbir öznitelik dokümandan kaçamaz.
+bir yerde durur. `describe_feature`, [başvuru bölümü](../../reference/index.md)
+ve [doğrulama raporu](../../dogrulama-raporu.md) aynı kaynaktan okur; bu yüzden
+üçü birbiriyle hep aynıdır.
 
 Kayıt defteri **İngilizcedir**. Tanımlar, formüller ve künyeler tek dilde
 tutulur ki kaynakla karşılaştırırken araya çeviri katmanı girmesin.
