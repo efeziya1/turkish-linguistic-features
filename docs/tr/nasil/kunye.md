@@ -63,7 +63,7 @@ Aynı kalıbın başka biçimleri:
 
 - `"Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)"`
   — **birincil kaynağa ulaşılamadı**, formül aktaran kaynaktan alındı.
-  148 künyenin **14'ü** böyledir ve hepsi `as cited in` ile işaretlidir.
+  163 künyenin **14'ü** böyledir ve hepsi `as cited in` ile işaretlidir.
 - `"McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form of
   SMOG's input, not the source's own measure"` — ölçü kaynaktan türetilmiş
   ama kaynağın kendi ölçüsü değil.
@@ -71,36 +71,37 @@ Aynı kalıbın başka biçimleri:
 ## Kaynağı olmayan öznitelikler
 
 ```python
-tlf.describe_feature("punc_,_ratio")
+tlf.describe_feature("punct_dash_ratio")
 ```
 
 ```json
 {
-  "key": "punc_,_ratio",
+  "key": "punct_dash_ratio",
   "group": "punctuation",
-  "description": "comma marks per word",
-  "formula": "marks / words",
+  "description": "share of hyphen or dash marks among all marks",
+  "formula": "marks of this type / all marks",
   "citation": null,
   "references": []
 }
 ```
 
 `citation` `None` ise o anahtar **adlandırılmış bir literatür ölçüsü
-değildir,** saf bir tanımdır: `punc_,_ratio` ("virgül / kelime"),
-`char_a` ("a harfinin payı"), `avg_sent_len_word` ("cümle başına kelime").
+değildir,** saf bir tanımdır: `punct_dash_ratio` ("tire / bütün noktalama işaretleri"),
+`uppercase_ratio` ("büyük harfle başlayan kelimelerin payı"), `lemma_count`
+("farklı lemma sayısı").
 Bir dış etiket şemasının kategorisini sayan anahtarların künyesi ise `None`
-değildir, şemayı gösterir (`morph_case_loc` → UD; `case_loc_ratio` →
+değildir, şemayı gösterir (`case_loc_ratio` → UD; `zeyrek_case_loc_ratio` →
 Zeyrek).
 
-Türkçedeki 212 anahtarın **68'inin** künyesi yoktur: 29'u harf sıklık
-vektörü (Türkçe alfabenin her harfi için bir anahtar), 17'si noktalama
-oranı, 22'si uzunluk ve dağılım gibi başka saf tanımlar.
+Türkçedeki 199 anahtarın **11'inin** künyesi yoktur: 7'si noktalama ve
+büyük harf oranı, 4'ü lemma sayısı ya da ünlü payı gibi başka saf
+tanımlar.
 
 ## Yöntem bölümüne yazarken
 
 ```python
 oz = tlf.analyze(metin, lang="tr")
-kullandiklarim = ["mattr", "atesman", "avg_sent_len_word"]
+kullandiklarim = ["mattr", "atesman", "sent_len_mean"]
 
 kaynaklar = set()
 for k in kullandiklarim:
@@ -110,7 +111,7 @@ for r in sorted(kaynaklar):
     print(r)
 ```
 
-Bu size yalnız **kullandığınız** özniteliklerin kaynakçasını verir — 50
+Bu size yalnız **kullandığınız** özniteliklerin kaynakçasını verir — 55
 eserin tamamını değil.
 
 ## Sayı gerçekten tutuyor mu

@@ -28,7 +28,7 @@ UC_KELIME = ((0, "NOUN", "obl", 2), (1, "NOUN", "obj", 2), (2, "VERB", "root", 2
 def test_16_anahtar():
     sonuc = dependency_features((IKI_KELIME,))
     assert len(sonuc) == 16
-    assert {"arc_len_mean", "parse_depth_mean", "sentfinal_other"} <= set(sonuc)
+    assert {"arc_len_mean", "parse_depth_mean", "sentfinal_other_ratio"} <= set(sonuc)
 
 
 def test_jing_liu_ornegi_noktalama_atilir():
@@ -71,23 +71,23 @@ def test_dongu_sonsuza_girmez():
 
 def test_cumle_sonu_noktalama_atlanir():
     sonuc = dependency_features((IKI_KELIME, UC_KELIME))
-    assert sonuc["sentfinal_verb"] == 1.0
-    assert sonuc["sentfinal_noun"] == 0.0
+    assert sonuc["sentfinal_verb_ratio"] == 1.0
+    assert sonuc["sentfinal_noun_ratio"] == 0.0
 
 
 def test_cumle_sonu_diger_kovasi_toplam_bir():
-    """PART 13 türde yok → sentfinal_other; 14 oranın toplamı 1."""
+    """PART 13 türde yok → sentfinal_other_ratio; 14 oranın toplamı 1."""
     soru = ((0, "VERB", "root", 0), (1, "PART", "discourse", 0), (2, "PUNCT", "punct", 0))
     sifat = ((0, "NOUN", "nsubj", 1), (1, "ADJ", "root", 1))
     sonuc = dependency_features((soru, sifat))
-    assert sonuc["sentfinal_other"] == 0.5
-    assert sonuc["sentfinal_adj"] == 0.5
+    assert sonuc["sentfinal_other_ratio"] == 0.5
+    assert sonuc["sentfinal_adj_ratio"] == 0.5
     assert sum(v for k, v in sonuc.items() if k.startswith("sentfinal_")) == 1.0
 
 
 def test_yalniz_noktalama_cumlesi_sayilmaz():
     nokta = ((0, "PUNCT", "punct", 0),)
-    assert dependency_features((nokta, IKI_KELIME))["sentfinal_verb"] == 1.0
+    assert dependency_features((nokta, IKI_KELIME))["sentfinal_verb_ratio"] == 1.0
 
 
 def test_bos_girdi():

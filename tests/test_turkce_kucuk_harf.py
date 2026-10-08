@@ -29,10 +29,10 @@ def _girdi(kelimeler: list[str], lang: str) -> dict:
 
 
 def test_ttr_ve_kelime_uzunlugu_turkce_kucuk_harfle():
-    """🔴 Regresyon: ``str.lower()`` ile ttr 1.0, avg_word_length 6.25 çıkıyordu."""
+    """🔴 Regresyon: ``str.lower()`` ile ttr 1.0, word_len_mean 6.25 çıkıyordu."""
     oz = _extract_features(**_girdi(KELIMELER, "tr"))
     assert oz["ttr"] == 0.5
-    assert oz["avg_word_length"] == 6.0
+    assert oz["word_len_mean"] == 6.0
 
 
 def test_frekans_tablosu_turkce_I_ve_noktali_I():

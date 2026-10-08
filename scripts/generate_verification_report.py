@@ -110,7 +110,6 @@ ADAY_OLMAYAN = (KAYNAK_YOK, SEMA, TUREV)
 # ``test_turev_kunyeleri_isaretli`` her birinin künyesinin bunu hâlâ açıkça
 # söylediğini sınıyor.
 TUREV_ANAHTARLARI = frozenset({
-    "entropy_std",              # Shannon'ın entropisi, parçalar arası std bizim
     "punct_entropy",            # Shannon'ın formülü, noktalamaya uygulama bizim
     "sent_len_entropy",         # Shannon'ın formülü, cümle uzunluğuna bizim
     "short_sent_ratio",         # eşik kendi kalibrasyonumuzdan
@@ -119,12 +118,12 @@ TUREV_ANAHTARLARI = frozenset({
 })
 
 # Bir ÖLÇÜ değil, dış bir ETİKET ŞEMASININ kategorisini sayan öznitelikler.
-# de Marneffe'in makalesi "morph_case_loc = 0,07" diye bir sayı basmaz ve
+# de Marneffe'in makalesi "case_loc_ratio = 0,07" diye bir sayı basmaz ve
 # basamaz — şema kategorileri tanımlar, ölçüm yayımlamaz. Bu satırlar
 # doğrulama adayı değildir.
 #
 # Ölçüt künyenin BAŞLANGICI: künye şemayla başlıyorsa satır şema
-# kategorisidir. Şemayı sonradan anan künyeler (``suffix_bigram_entropy``:
+# kategorisidir. Şemayı sonradan anan künyeler (``zeyrek_suffix_bigram_entropy``:
 # "Shannon (1948) — the entropy formula; Zeyrek …") gerçek bir ölçüdür ve
 # açık listede kalır.
 SEMA_ONEKLERI = ("de Marneffe et al. (2021)", "Zeyrek (a Python port")
@@ -352,7 +351,7 @@ def _quita(anahtar: str, bas: list[int]) -> float:
     if anahtar == "rr_mcintosh":
         rr = F.repeat_rate(fr, N)["repeat_rate"]
         return F.rr_mcintosh(rr, V)["rr_mcintosh"]
-    if anahtar == "hapax_percentage":
+    if anahtar == "hapax_token_ratio":
         return float(np.sum(fr == 1)) / N
     if anahtar == "gini_coef":
         return F.gini_coef(fr, N, V)["gini_coef"]
@@ -631,7 +630,7 @@ _QUITA_ORNEKLER: dict[str, tuple[str, float, float, str | dict[str, str],
                     "Text 1 · N=179", "Text 2 · N=202"),
     "rr_mcintosh": ("§6.1.5", 0.946, 0.939,
                     "Text 1 · V=119", "Text 2 · V=121"),
-    "hapax_percentage": ("§6.1.6", 0.547, 0.455,
+    "hapax_token_ratio": ("§6.1.6", 0.547, 0.455,
                          "Text 1 · 98/179", "Text 2 · 92/202"),
     "gini_coef": ("§6.1.8", 0.3045, 0.3511,
                   "Text 1 · m₁=41.88268156", "Text 2 · m₁=39.75742574"),
@@ -778,9 +777,9 @@ Aşağıdaki üç durum **doğrulama adayı değildir** — aranacak bir sayı y
 
 | | Anlamı |
 |---|---|
-| ⚪ **kaynak yok** | Adlandırılmış bir literatür ölçüsü değil; saf tanım (`punc_,_ratio`, `char_a`). |
-| ⚫ **etiket şeması** | Bir ölçü değil, dış bir şemanın kategorisini sayıyor (`pos_noun` → UD; `case_loc_ratio` → Zeyrek). Şema kategori tanımlar, ölçüm yayımlamaz. |
-| 🔧 **türev** | Formül bir kaynaktan, **uygulaması bu kütüphaneden**. `entropy_std` Shannon'ın entropisidir ama parçalar arası standart sapması bizim; `long_sent_ratio`'nun eşiği kendi kalibrasyonumuzdan gelir. Kimse bu ölçüyü yayımlamadı, dolayısıyla karşılaştırılacak sayı da yok. Kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
+| ⚪ **kaynak yok** | Adlandırılmış bir literatür ölçüsü değil; saf tanım (`punct_dash_ratio`, `uppercase_ratio`). |
+| ⚫ **etiket şeması** | Bir ölçü değil, dış bir şemanın kategorisini sayıyor (`pos_noun_ratio` → UD; `zeyrek_case_loc_ratio` → Zeyrek). Şema kategori tanımlar, ölçüm yayımlamaz. |
+| 🔧 **türev** | Formül bir kaynaktan, **uygulaması bu kütüphaneden**. `sent_len_entropy` Shannon'ın entropisidir ama cümle uzunluklarına uygulanması bizim; `long_sent_ratio`'nun eşiği kendi kalibrasyonumuzdan gelir. Kimse bu ölçüyü yayımlamadı, dolayısıyla karşılaştırılacak sayı da yok. Kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
 
 Tolerans yayımlanan değerin **%1'i** (göreli). Kaynaklar ara değerleri
 yuvarlayarak bastığı için mutlak eşitlik beklenmiyor; göreli tolerans her
@@ -832,9 +831,9 @@ number to look for:
 
 | | Meaning |
 |---|---|
-| ⚪ **no source** | Not a named measure from the literature; a plain definition (`punc_,_ratio`, `char_a`). |
-| ⚫ **tag scheme** | Not a measure but a count of an external scheme's categories (`pos_noun` → UD; `case_loc_ratio` → Zeyrek). A scheme defines categories; it does not publish measurements. |
-| 🔧 **derivative** | The formula comes from a source, **the application is this library's**. `entropy_std` is Shannon's entropy, but taking its standard deviation across segments is ours; `long_sent_ratio`'s threshold comes from our own calibration. Nobody has published this measure, so there is no number to compare against. Testing it against our own calibration would be reading our own answer sheet. |
+| ⚪ **no source** | Not a named measure from the literature; a plain definition (`punct_dash_ratio`, `uppercase_ratio`). |
+| ⚫ **tag scheme** | Not a measure but a count of an external scheme's categories (`pos_noun_ratio` → UD; `zeyrek_case_loc_ratio` → Zeyrek). A scheme defines categories; it does not publish measurements. |
+| 🔧 **derivative** | The formula comes from a source, **the application is this library's**. `sent_len_entropy` is Shannon's entropy, but applying it to sentence lengths is ours; `long_sent_ratio`'s threshold comes from our own calibration. Nobody has published this measure, so there is no number to compare against. Testing it against our own calibration would be reading our own answer sheet. |
 
 The tolerance is **1% relative** to the published value. Sources print rounded
 intermediate values, so exact equality is not expected; a relative tolerance
@@ -912,8 +911,8 @@ _METIN = {
                       "yalnız *kaynağın sayısıyla* karşılaştırma.\n\n",
         "kalan_sutun": "| Anahtar | Kaynak | Durum |\n|---|---|---|\n",
         "disi_basligi": "\n### Doğrulama adayı olmayanlar\n\n",
-        "disi_ozet": "{n} anahtar. ⚪ olanlar saf tanım (`punc_,_ratio`, "
-                     "`char_a`) — adlandırılmış bir literatür ölçüsü değil. "
+        "disi_ozet": "{n} anahtar. ⚪ olanlar saf tanım (`punct_dash_ratio`, "
+                     "`uppercase_ratio`) — adlandırılmış bir literatür ölçüsü değil. "
                      "⚫ olanlar bir ölçü değil, dış bir etiket şemasının "
                      "kategorisini sayıyor; şema kategori tanımlar, ölçüm "
                      "yayımlamaz. 🔧 olanların formülü bir kaynaktan gelir ama "
@@ -973,7 +972,7 @@ _METIN = {
         "kalan_sutun": "| Key | Source | Status |\n|---|---|---|\n",
         "disi_basligi": "\n### Not verification candidates\n\n",
         "disi_ozet": "{n} keys. The ⚪ ones are plain definitions "
-                     "(`punc_,_ratio`, `char_a`) — not named measures from the "
+                     "(`punct_dash_ratio`, `uppercase_ratio`) — not named measures from the "
                      "literature. The ⚫ ones are not measures at all but "
                      "counts of an external tag scheme's categories; a scheme "
                      "defines categories, it does not publish measurements. "

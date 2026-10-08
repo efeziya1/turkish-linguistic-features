@@ -64,7 +64,7 @@ Other forms of the same pattern:
 
 - `"Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)"`
   — **the primary source could not be obtained**; the formula was taken
-  from the citing work. **14 of 148** citations are like this, and all of
+  from the citing work. **14 of 163** citations are like this, and all of
   them carry `as cited in`.
 - `"McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form
   of SMOG's input, not the source's own measure"` — derived from the
@@ -73,35 +73,35 @@ Other forms of the same pattern:
 ## Features without a source
 
 ```python
-tlf.describe_feature("punc_,_ratio")
+tlf.describe_feature("punct_dash_ratio")
 ```
 
 ```json
 {
-  "key": "punc_,_ratio",
+  "key": "punct_dash_ratio",
   "group": "punctuation",
-  "description": "comma marks per word",
-  "formula": "marks / words",
+  "description": "share of hyphen or dash marks among all marks",
+  "formula": "marks of this type / all marks",
   "citation": null,
   "references": []
 }
 ```
 
 A `citation` of `None` means the key is **not a named measure from the
-literature**; it is a plain definition: `punc_,_ratio` ("commas / words"),
-`char_a` ("share of the letter a"), `avg_sent_len_word` ("words per
-sentence"). Keys that count the categories of an external tag scheme do
-have a citation, pointing at the scheme (`morph_case_loc` → UD;
-`case_loc_ratio` → Zeyrek).
+literature**; it is a plain definition: `punct_dash_ratio` ("dashes / all punctuation marks"),
+`uppercase_ratio` ("share of words that start with a capital"),
+`lemma_count` ("number of distinct lemmas"). Keys that count the categories of an external tag scheme do
+have a citation, pointing at the scheme (`case_loc_ratio` → UD;
+`zeyrek_case_loc_ratio` → Zeyrek).
 
-**68 of the 212** Turkish keys have no citation: 29 are the letter-frequency
-vector (one key per letter of the Turkish alphabet), 17 are punctuation
-ratios, and 22 are other plain definitions such as lengths and spreads.
+**11 of the 199** Turkish keys have no citation: 7 are punctuation and
+capitalisation ratios, and 4 are other plain definitions such as the lemma
+count or the share of vowels.
 
 ## Building a bibliography for your methods section
 
 ```python
-used = ["mattr", "flesch_reading_ease", "avg_sent_len_word"]
+used = ["mattr", "flesch_reading_ease", "sent_len_mean"]
 
 refs = set()
 for k in used:
@@ -112,7 +112,7 @@ for r in sorted(refs):
 ```
 
 This gives you the bibliography for the features **you actually used**, not
-all 50 works.
+all 55 works.
 
 ## Does the number actually match?
 

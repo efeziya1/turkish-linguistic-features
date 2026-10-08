@@ -254,11 +254,9 @@ def test_hece_say_ingilizce_unlusuz_kelime():
 # ── T10: kelime başına hece ───────────────────────────────────────────
 
 
-def test_hece_ortalamasi_ve_cv_elle():
-    """ki-tap (2) + ev (1) → ortalama 1.5; std 0.5 → CV 1/3."""
-    sonuc = syllable_count_stats(["kitap", "ev"], "tr")
-    assert sonuc["syllable_mean"] == 1.5
-    assert sonuc["syllable_cv"] == pytest.approx(1 / 3, abs=1e-4)
+def test_hece_ortalamasi_elle():
+    """ki-tap (2) + ev (1) → ortalama 1.5."""
+    assert syllable_count_stats(["kitap", "ev"], "tr") == {"syllable_mean": 1.5}
 
 
 def test_hece_istatistigi_sayilamayanlari_atlar():
@@ -268,9 +266,7 @@ def test_hece_istatistigi_sayilamayanlari_atlar():
 def test_hece_istatistigi_bos_ve_tek():
     assert all(_nan(v) for v in syllable_count_stats([], "tr").values())
     assert all(_nan(v) for v in syllable_count_stats(["4x4", "."], "tr").values())
-    sonuc = syllable_count_stats(["ev"], "tr")
-    assert sonuc["syllable_mean"] == 1.0
-    assert _nan(sonuc["syllable_cv"])               # tek değer
+    assert syllable_count_stats(["ev"], "tr")["syllable_mean"] == 1.0
 
 
 # ── T10: hece uzunluğu dağılımı ───────────────────────────────────────
@@ -307,26 +303,23 @@ def test_hece_dagilimi_bos_girdi():
 
 
 def test_cumle_hecesi_elle():
-    """7, 8, 13 hece → ortalama 9.3333; std 2.6247 → CV 0.2812. Noktalama sayılmaz."""
+    """7, 8, 13 hece → ortalama 9.3333. Noktalama sayılmaz."""
     cumleler = [["Ali", "okula", "gitti", "."],
                 ["Öğretmen", "dersi", "anlattı", "."],
                 ["Kitaplarımızdaki", "resimler", "güzeldi", "."]]
     sonuc = sentence_syllable_stats(cumleler, "tr")
-    assert sonuc["sentence_syllable_mean"] == pytest.approx(28 / 3, abs=1e-4)
-    assert sonuc["sentence_syllable_cv"] == pytest.approx(0.2812, abs=1e-4)
+    assert sonuc == {"sent_syllable_mean": pytest.approx(28 / 3, abs=1e-4)}
 
 
 def test_cumle_hecesi_hecesiz_cumle_sayilmaz():
     """Yalnız rakam/noktalama içeren cümlenin hecesi ölçülemez, hesaba girmez."""
     sonuc = sentence_syllable_stats([["ev", "."], ["4x4", "."], ["okul", "."]], "tr")
-    assert sonuc["sentence_syllable_mean"] == 1.5
+    assert sonuc["sent_syllable_mean"] == 1.5
 
 
 def test_cumle_hecesi_bos_ve_tek():
     assert all(_nan(v) for v in sentence_syllable_stats([], "tr").values())
-    sonuc = sentence_syllable_stats([["kitap", "okudu"]], "tr")
-    assert sonuc["sentence_syllable_mean"] == 5.0
-    assert _nan(sonuc["sentence_syllable_cv"])
+    assert sentence_syllable_stats([["kitap", "okudu"]], "tr")["sent_syllable_mean"] == 5.0
 
 
 # ── küçük ünlü uyumu (T?? — 2026-09-19) ───────────────────────────────

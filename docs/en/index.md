@@ -20,16 +20,17 @@ import turkish_linguistic_features as tlf
 
 oz = tlf.analyze("Language is the oldest instrument that carries thought.",
                  lang="en")
-len(oz)                   # 184
-oz["avg_word_length"]     # 5.875
+len(oz)               # 172
+oz["word_len_mean"]   # 5.875
 ```
 
-The library has **ten** public names. That is all of them:
+The library has **eleven** public names. That is all of them:
 
 | Name | What it does |
 |---|---|
 | `analyze` | Extracts every feature from one text |
 | `analyze_corpus` | Runs `analyze` on every text in a folder |
+| `ngram_matches` | Shows what one of your own phrases matched in a text, with counts |
 | `segment_text` | Splits a text into fixed-size segments |
 | `save_csv` | Writes the resulting rows to CSV |
 | `describe_feature` | Gives a feature's definition and source |
@@ -39,7 +40,7 @@ The library has **ten** public names. That is all of them:
 | `MissingDependencyWarning` | Warned when an optional package is missing |
 | `ParagraphStructureWarning` | Warned when a text over 1000 words has no paragraph boundary |
 
-Ten names, 184 features for English (212 for Turkish). You never need to learn a new function to get
+Eleven names, 172 features for English (199 for Turkish). You never need to learn a new function to get
 more features — they all come out of `analyze`.
 
 ## Terms

@@ -3,8 +3,9 @@
 Ortalama cümle uzunluğu tek başına az şey söyler: iki yazar aynı ortalamayla
 biri hep orta boy, öteki kısa ve çok uzun cümleleri karıştırarak yazabilir.
 Üslup çoğu zaman **değişkenlikte** durur. Bu script korpustaki her etiket
-için ortalama, medyan, değişim katsayısı (CV), çarpıklık ve kısa/uzun cümle
-oranını yan yana koyar.
+için ortalama, medyan ve kısa/uzun cümle oranını yan yana koyar;
+kısa ve uzun cümlelerin toplam payı ("uçlar") ritmin ne kadar dalgalı
+olduğunu gösterir.
 
     python examples/05_cumle_ritmi.py korpus/
 
@@ -20,15 +21,13 @@ from pathlib import Path
 import turkish_linguistic_features as tlf
 from _demo import demo_korpus_yaz
 
-PARCA_BOYUTU = 1500        # gerçek korpus için (spaCy tokenı)
-DEMO_PARCA_BOYUTU = 60     # demo metinleri ~120 token
+PARCA_BOYUTU = 1500        # gerçek korpus için (kelime)
+DEMO_PARCA_BOYUTU = 60     # demo metinleri ~100 kelime
 DIL = "tr"
 CIKTI_DIZINI = Path("examples/output")
 OLCULER = {
-    "avg_sent_len_word": "ortalama",
-    "med_sent_len": "medyan",
-    "sentence_length_cv": "CV",
-    "sent_len_skewness": "çarpıklık",
+    "sent_len_mean": "ortalama",
+    "sent_len_median": "medyan",
     "short_sent_ratio": "kısa",
     "long_sent_ratio": "uzun",
 }
@@ -44,7 +43,7 @@ def main() -> None:
         print(f"Korpus verilmedi; demo korpus kullanılıyor: {korpus}\n")
         demo_korpus_yaz(korpus)
 
-    # Yalnız `sentence` grubu: cümle ölçüleri için 212 özniteliğin hepsini
+    # Yalnız `sentence` grubu: cümle ölçüleri için bütün öznitelikleri
     # hesaplamak gereksiz, grup seçmek süreyi birkaç kat kısaltır.
     satirlar = tlf.analyze_corpus(korpus, lang=DIL, segment_size=parca_boyutu,
                                   groups=["sentence"], warn=False)
@@ -55,8 +54,7 @@ def main() -> None:
     for satir in satirlar:
         etiketler.setdefault(str(satir["label"]), []).append(satir)
 
-    # Etiket başına parça ortalaması. NaN'lı parça (ör. tek cümlelik parçada
-    # CV) o ölçünün ortalamasına girmez.
+    # Etiket başına parça ortalaması. NaN'lı parça o ölçünün ortalamasına girmez.
     ozet = []
     for etiket, parcalar in etiketler.items():
         kayit = {"label": etiket, "parca": len(parcalar)}
@@ -64,21 +62,22 @@ def main() -> None:
             degerler = [float(p[anahtar]) for p in parcalar
                         if float(p[anahtar]) == float(p[anahtar])]
             kayit[anahtar] = round(statistics.mean(degerler), 4) if degerler else float("nan")
+        # Uçlar: kısa + uzun cümlelerin payı; yüksekse ritim dalgalı.
+        kayit["uclar"] = round(kayit["short_sent_ratio"] + kayit["long_sent_ratio"], 4)
         ozet.append(kayit)
-    ozet.sort(key=lambda k: k["sentence_length_cv"])
+    ozet.sort(key=lambda k: k["uclar"])
 
-    print(f"{'etiket':<24}{'parça':>6}" + "".join(f"{b:>11}" for b in OLCULER.values()))
+    sutunlar = {**OLCULER, "uclar": "uçlar"}
+    print(f"{'etiket':<24}{'parça':>6}" + "".join(f"{b:>11}" for b in sutunlar.values()))
     for k in ozet:
         print(f"{k['label']:<24}{k['parca']:>6}"
-              + "".join(f"{k[a]:>11.3f}" for a in OLCULER))
+              + "".join(f"{k[a]:>11.3f}" for a in sutunlar))
 
     en_duzenli, en_dalgali = ozet[0], ozet[-1]
-    print(f"\nEn düzenli ritim : {en_duzenli['label']} "
-          f"(CV {en_duzenli['sentence_length_cv']:.3f})")
-    print(f"En dalgalı ritim : {en_dalgali['label']} "
-          f"(CV {en_dalgali['sentence_length_cv']:.3f})")
-    print("\nCV = standart sapma / ortalama: cümle uzunluğunun ne kadar oynadığı.")
-    print("Kısa/uzun eşikleri dile göre kalibre edilmiştir (Türkçe 4 / 18 kelime).")
+    print(f"\nEn düzenli ritim : {en_duzenli['label']} (uçlar {en_duzenli['uclar']:.3f})")
+    print(f"En dalgalı ritim : {en_dalgali['label']} (uçlar {en_dalgali['uclar']:.3f})")
+    print("\nUçlar = kısa + uzun cümlelerin payı: cümle uzunluğunun ne kadar oynadığı.")
+    print("Kısa/uzun eşikleri dile göre kalibre edilmiştir (Türkçe 4 / 17 kelime).")
 
     CIKTI_DIZINI.mkdir(parents=True, exist_ok=True)
     yol = CIKTI_DIZINI / "cumle_ritmi.csv"

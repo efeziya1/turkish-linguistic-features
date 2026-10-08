@@ -15,34 +15,23 @@ The fix is to bring everything to the same size.
 segments = tlf.segment_text(text, size=1000, lang="en")
 ```
 
-## `size` counts spaCy tokens, not whitespace words
+## `size` counts words
 
-This is the part that surprises people. With the 30-word Turkish `metin` from
-the [Turkish tutorial](../../tr/baslangic.md):
-
-```python
-import spacy
-
-tokenizer = spacy.blank("tr").tokenizer
-long_text = " ".join([metin] * 12)
-len(long_text.split())         # 360  ← whitespace "words"
-len(tokenizer(long_text))      # 432  ← spaCy tokens
-```
-
-The ratio is 1.20; the difference is punctuation, which spaCy counts as
-separate tokens. So:
+`size` counts the word `analyze` counts: a whitespace-separated piece with
+edge punctuation stripped, containing a letter or digit. Punctuation is not a
+word. With the 30-word Turkish `metin` from the
+[Turkish tutorial](../../tr/baslangic.md):
 
 ```python
+long_text = " ".join([metin] * 12)             # 360 words
 segments = tlf.segment_text(long_text, size=100, lang="tr")
-len(segments)                             # 4
-[len(s.split()) for s in segments]        # [83, 84, 84, 83]
+len(segments)                                  # 3
+[len(s.split()) for s in segments]             # [100, 100, 100]
 ```
 
-432 tokens ÷ 100 = 4 full segments, and the remaining 32 tokens are
-dropped. Each segment holds 100 **tokens** but 83–84 **words**.
-
-`size` counts spaCy tokens because splitting on whitespace changed segment
-lengths by up to 50%.
+360 words ÷ 100 = 3 full segments, and the remaining 60 words are dropped.
+Each segment is exactly 100 words in `analyze`, enough for a measure such as
+`mattr` that needs at least 100 words.
 
 ## The last segment: `min_fill`
 
@@ -50,12 +39,12 @@ The default `min_fill=1.0` keeps only **full** segments. A short remainder
 is discarded.
 
 ```python
-tlf.segment_text(long_text, size=100, lang="tr")                  # 4
+tlf.segment_text(long_text, size=100, lang="tr")                  # 3
 tlf.segment_text(long_text, size=100, min_fill=0.5, lang="tr")    # 4
 ```
 
-Both give 4 here because the remainder is 32 tokens = 32%, below the `0.5`
-threshold as well.
+The remainder is 60 words, 60% of a segment: below the `1.0` threshold,
+above `0.5`.
 
 | `min_fill` | Meaning |
 |---|---|
@@ -66,9 +55,8 @@ threshold as well.
 !!! warning "Discarded data is discarded silently"
 
     The library does not tell you how many segments it dropped. With
-    `min_fill=1.0` and `size=1000`, a 1400-token file yields **one**
-    segment and the remaining 400 tokens (punctuation included, ~330
-    words) are gone. Short files in your
+    `min_fill=1.0` and `size=1000`, a 1400-word file yields **one**
+    segment and the remaining 400 words are gone. Short files in your
     corpus may produce no segments at all.
 
     Use it knowingly. If in doubt, count first:
@@ -86,7 +74,7 @@ threshold as well.
 tlf.segment_text(text, size=5000, unit="char", lang="en")
 ```
 
-`unit="char"` counts raw characters; the tokenizer is not involved, so
+`unit="char"` counts raw characters; the word rule is not involved, so
 `lang` becomes meaningless. It does not respect word boundaries — a
 segment can end mid-word. Use it when a rough split is enough.
 
@@ -113,9 +101,9 @@ segment_text(
 ) -> list[str]
 ```
 
-`lang` must match the text. It defaults to `"tr"`; apostrophes and
-abbreviations tokenize differently in the two languages, so splitting an
-English text without `lang="en"` shifts the segment boundaries.
+`lang` must match the text. It defaults to `"tr"`. The word rule is nearly the
+same in both languages; the difference is ordinals (in Turkish the `3.` of
+`3. kat` is one word), so an English text rarely shifts its boundaries.
 
-A segment's content is a **slice of the raw text**, not a re-joined token
+A segment's content is a **slice of the raw text**, not a re-joined word
 list. Punctuation, whitespace and line breaks survive unchanged.

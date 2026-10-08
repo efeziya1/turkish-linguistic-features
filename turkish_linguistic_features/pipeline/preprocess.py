@@ -13,7 +13,7 @@ DepToken = tuple[int, str, str, int]  # (index, pos, deprel, head_index)
 # kadar görünmez. Ölçüldü (2026-08-21): çalışan eski kod
 # `(morph.id_, surf, morph.derivational)` üretiyor.
 #
-# Why üçüncü alan: `derivational_suffix_ratio()` (T16) türetimsel ekleri
+# Why üçüncü alan: `zeyrek_derivational_suffix_ratio()` (T16) türetimsel ekleri
 # elle tutulan bir yüzey-biçim listesinden değil, Zeyrek'in kendi
 # morfotaktik modelinden okuyor. Bu bayrak olmadan o öznitelik
 # hesaplanamaz — ölçüldü: eski kodda ikili tuple `IndexError` veriyor.

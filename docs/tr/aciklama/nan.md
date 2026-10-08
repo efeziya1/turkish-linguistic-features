@@ -20,15 +20,14 @@ len(kisa), len(nan_olan)
 ```
 
 ```text
-(212, 46)
+(199, 36)
 ```
 
-212 öznitelikten **46'sı** `nan`. Örnekler:
+199 öznitelikten **36'sı** `nan`. Örnekler:
 
 ```text
-['causative_suffix_ratio', 'conditional_suffix_ratio',
- 'derivational_suffix_ratio', 'dugast_u', 'entropy_std', 'hdd',
- 'heaps_beta', 'mattr']
+['aspect_imp_ratio', 'aspect_perf_ratio', 'aspect_prog_ratio', 'dugast_u',
+ 'hdd', 'heaps_beta', 'mattr', 'msttr']
 ```
 
 Aynı metinde `ttr` yine de sayı döner:
@@ -40,7 +39,7 @@ ttr    = 1.0   (her uzunlukta hesaplanır)
 
 ## Neden `nan` dönüyor
 
-Dört sebep var.
+Üç sebep var.
 
 ### 1. Metin çok kısa
 
@@ -56,10 +55,10 @@ tlf.describe_feature("mattr")["requires"]
 
 Buradaki **kelime** kütüphanenin varsayılan kelimesidir: boşlukla ayrılan,
 kenar noktalaması atılan ve harf ya da rakam içeren birim (`e-posta`, `%50`
-ve sayılar birer kelime). Sözcük türü ya da lemma isteyen öznitelikler ise
-noktalama ve sembol olmayan spaCy tokenlarını sayar; hangisi olduğunu
-`describe_feature(key)["definitions"]["word"]` söyler. `segment_text`'in `size` değeri ise noktalamayı da sayar: 100 tokenlık
-parça ~83 kelime eder ve 100 kelime isteyen bir ölçüye yetmeyebilir.
+ve sayılar birer kelime). Bağlılık öznitelikleri dışında her öznitelik bu
+kelimeyi sayar; hangisi olduğunu `describe_feature(key)["definitions"]["word"]`
+söyler. `segment_text`'in `size` değeri de aynı kelimeyi sayar: 100 kelimelik
+parça 100 kelime isteyen bir ölçüye yeter.
 
 Sınırın altındaysanız `nan` gelir. Sınırların bir kısmı kaynaktan gelir
 (`mtld` için "texts as short as 100 tokens can be used"), bir kısmı
@@ -68,17 +67,28 @@ ortalama" olmaktan çıkar — o yüzden eşik `2 × pencere`dir.
 
 ### 2. Gereken yapı yok
 
-`derivational_suffix_ratio` metinde hiç türetme eki bulamazsa paydası sıfır
+`zeyrek_derivational_suffix_ratio` metinde hiç türetme eki bulamazsa paydası sıfır
 olur. `parse_depth_mean` cümle ayrıştırılamazsa değer üretemez.
 `hapax_ratio` tek kelimelik metinde anlamsızdır.
 
-### 3. Girdide paragraf sınırı yok
+### 3. İsteğe bağlı bir paket kurulu değil
 
-`para_len_cv` ve `sents_per_para_cv` en az **iki** paragraf ister —
-değişkenlik tek değerden ölçülmez. Paragraf sınırı boş satırla bulunur, tek
-satır sonu saymaz. Metninizde boş satır yoksa metnin tamamı tek paragraf
-sayılır, bu iki öznitelik `nan` döner ve `para_len_mean` bütün metnin kelime
-sayısına eşitlenir.
+`wordfreq` kurulu değilse `wordfreq_mean` ve `wordfreq_rare_ratio` `nan`
+döner ve kütüphane bir `MissingDependencyWarning` basar.
+
+```python
+oz = tlf.analyze(metin, lang="tr", warn=False)
+```
+
+`warn=False` yalnız uyarıyı susturur; öznitelik yine `nan` kalır. Aynı bayrak
+`ParagraphStructureWarning`'i de susturur.
+
+## `nan` dönmeyen ama yanıltan durum: paragraf
+
+Paragraf sınırı boş satırla bulunur, tek satır sonu saymaz. Metninizde boş
+satır yoksa metnin tamamı tek paragraf sayılır ve `para_len_mean` bütün
+metnin kelime sayısına eşitlenir: değer `nan` olmaz ama paragraf hakkında
+bir şey söylemez.
 
 1000 kelimeyi geçen metinde hiç sınır bulunamazsa `ParagraphStructureWarning`
 basılır:
@@ -100,18 +110,6 @@ Uyarı metinleri İngilizcedir — öznitelik anahtarları ve künyeler de öyle
 
 Bu genellikle metnin PDF/EPUB'dan çıkarılırken satır sonlarını kaybetmesinden
 olur; [sınırlılıklar §9](sinirliliklar.md) ölçümü veriyor.
-
-### 4. İsteğe bağlı bir paket kurulu değil
-
-`wordfreq` kurulu değilse `wordfreq_mean` ve `wordfreq_rare_ratio` `nan`
-döner ve kütüphane bir `MissingDependencyWarning` basar.
-
-```python
-oz = tlf.analyze(metin, lang="tr", warn=False)
-```
-
-`warn=False` yalnız uyarıyı susturur; öznitelik yine `nan` kalır. Aynı bayrak
-`ParagraphStructureWarning`'i de susturur.
 
 ## Tabloda ne yapmalı
 
@@ -145,7 +143,7 @@ parçalama:
 satirlar = tlf.analyze_corpus("korpus/", lang="tr", segment_size=1000)
 ```
 
-1000 tokenlık parçalar 212 özniteliğin neredeyse tamamını besler. Ayrıntı:
+1000 kelimelik parçalar 199 özniteliğin neredeyse tamamını besler. Ayrıntı:
 [Metni parçalara böl](../nasil/segmentleme.md).
 
 ## Neden `None` değil de `nan`

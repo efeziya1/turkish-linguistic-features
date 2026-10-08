@@ -4,14 +4,14 @@
 
 - ``morphological`` (19, T15, spaCy): ``spacy_morph_ratios`` (18) ·
   ``surface_per_lemma`` (1)
-- ``morphological_zeyrek`` (24, T16, yalnız Türkçe): ``zeyrek_morfoloji``;
+- ``morphological_zeyrek`` (23, T16, yalnız Türkçe): ``zeyrek_morfoloji``;
   kararlar aşağıda, "T16" bölümünde.
 
 T15 kararları (2026-09-17, Efe):
 
 - Payda, o kategorinin etiketini taşıyan tokenlerdir (``Case=Acc`` / ``Case``
   taşıyan). Listede anahtarı olmayan değerler (``Case=Ins``) paydaya girer.
-- İstisna ``morph_voice_pass``: UD'de etken fiile çoğunlukla ``Voice`` yazılmaz;
+- İstisna ``voice_pass_ratio``: UD'de etken fiile çoğunlukla ``Voice`` yazılmaz;
   payda VERB etiketli tokenlerdir (AUX sayılmaz).
 - Kategoriden hiç etiket yoksa (fiil yoksa) oranlar NaN (K4).
 - ``Person[psor]`` gibi iyelik özellikleri ayrı özelliktir, sayılmaz.
@@ -22,8 +22,6 @@ from __future__ import annotations
 import math
 from collections import Counter
 
-import numpy as np
-
 from ..alfabe import _kucuk_harf
 from ..params import DEFAULT_PARAMS, FeatureParams
 from ..vocab import ASPECT_TAGS, NON_WORD_POS
@@ -31,12 +29,12 @@ from .lexical import _hizala
 
 # (UD özelliği, anahtar öneki, [(UD değeri, anahtar soneki)])
 _KATEGORILER: tuple[tuple[str, str, tuple[tuple[str, str], ...]], ...] = (
-    ("Tense", "morph_tense", (("Past", "past"), ("Pres", "pres"), ("Fut", "fut"))),
-    ("Aspect", "morph_aspect", tuple((d, d.lower()) for d in ASPECT_TAGS)),
-    ("Case", "morph_case", (("Nom", "nom"), ("Acc", "acc"), ("Dat", "dat"),
-                            ("Loc", "loc"), ("Abl", "abl"), ("Gen", "gen"))),
-    ("Person", "morph_person", (("1", "1"), ("2", "2"), ("3", "3"))),
-    ("Number", "morph_number", (("Sing", "sing"), ("Plur", "plur"))),
+    ("Tense", "tense", (("Past", "past"), ("Pres", "pres"), ("Fut", "fut"))),
+    ("Aspect", "aspect", tuple((d, d.lower()) for d in ASPECT_TAGS)),
+    ("Case", "case", (("Nom", "nom"), ("Acc", "acc"), ("Dat", "dat"),
+                      ("Loc", "loc"), ("Abl", "abl"), ("Gen", "gen"))),
+    ("Person", "person", (("1", "1"), ("2", "2"), ("3", "3"))),
+    ("Number", "number", (("Sing", "sing"), ("Plur", "plur"))),
 )
 
 
@@ -56,8 +54,8 @@ def spacy_morph_ratios(morph_tags: list[tuple[str, str]],
     """18 UD morfoloji oranı: zaman, görünüş, durum, kişi, sayı, çatı.
 
     ``morph_tags`` ve ``pos_data`` aynı tokenleri taşır; uzunluklar tutmuyorsa
-    ``ValueError``. Örnek: ``morph_case_acc`` = ``Case=Acc`` token / ``Case``
-    taşıyan token. ``morph_voice_pass`` = ``Voice=Pass`` taşıyan VERB / VERB.
+    ``ValueError``. Örnek: ``case_acc_ratio`` = ``Case=Acc`` token / ``Case``
+    taşıyan token. ``voice_pass_ratio`` = ``Voice=Pass`` taşıyan VERB / VERB.
     """
     if len(morph_tags) != len(pos_data):
         raise ValueError(
@@ -69,10 +67,10 @@ def spacy_morph_ratios(morph_tags: list[tuple[str, str]],
     for ozellik, onek, degerler in _KATEGORILER:
         tasiyan = [o[ozellik] for o in ozellikler if ozellik in o]
         for deger, sonek in degerler:
-            sonuc[f"{onek}_{sonek}"] = _oran(tasiyan.count(deger), len(tasiyan))
+            sonuc[f"{onek}_{sonek}_ratio"] = _oran(tasiyan.count(deger), len(tasiyan))
     fiiller = [o for o, (_, p) in zip(ozellikler, pos_data, strict=False) if p == "VERB"]
     edilgen = sum(1 for o in fiiller if o.get("Voice") == "Pass")
-    sonuc["morph_voice_pass"] = _oran(edilgen, len(fiiller))
+    sonuc["voice_pass_ratio"] = _oran(edilgen, len(fiiller))
     return sonuc
 
 
@@ -128,12 +126,15 @@ _ZEYREK_TURLER = frozenset({
 })
 _KELIME_DISI_KOK = frozenset({"Unk", "Punc"})
 _ZAMANLAR: dict[str, str] = {
-    "Past": "tense_past_def", "Narr": "tense_past_nar", "Fut": "tense_future",
-    "Prog1": "tense_present", "Prog2": "tense_present", "Aor": "tense_present",
+    "Past": "zeyrek_tense_past_def_ratio", "Narr": "zeyrek_tense_past_nar_ratio",
+    "Fut": "zeyrek_tense_future_ratio", "Prog1": "zeyrek_tense_present_ratio",
+    "Prog2": "zeyrek_tense_present_ratio", "Aor": "zeyrek_tense_present_ratio",
 }
-_ZAMAN_ANAHTARLARI = ("tense_past_def", "tense_past_nar", "tense_present", "tense_future")
-_DURUMLAR = (("Acc", "case_acc_ratio"), ("Dat", "case_dat_ratio"), ("Loc", "case_loc_ratio"),
-             ("Abl", "case_abl_ratio"), ("Gen", "case_gen_ratio"), ("Ins", "case_ins_ratio"))
+_ZAMAN_ANAHTARLARI = ("zeyrek_tense_past_def_ratio", "zeyrek_tense_past_nar_ratio",
+                      "zeyrek_tense_present_ratio", "zeyrek_tense_future_ratio")
+_DURUMLAR = (("Acc", "zeyrek_case_acc_ratio"), ("Dat", "zeyrek_case_dat_ratio"),
+             ("Loc", "zeyrek_case_loc_ratio"), ("Abl", "zeyrek_case_abl_ratio"),
+             ("Gen", "zeyrek_case_gen_ratio"), ("Ins", "zeyrek_case_ins_ratio"))
 
 
 def _kelime_morfemleri(morpheme_lists: list[list[Morpheme]],
@@ -175,31 +176,30 @@ def _fiil_orani(fiiller: list[list[Morpheme]], etiketler: set[str]) -> float:
     return _oran(sum(1 for m in fiiller if _etiketler(m) & etiketler), len(fiiller))
 
 
-def agglutination_depth(morpheme_lists: list[list[Morpheme]],
+def zeyrek_agglutination_depth(morpheme_lists: list[list[Morpheme]],
                         pos_data: list[tuple[str, str]]) -> dict[str, float]:
     """Kelime başına ortalama görünen ek sayısı."""
     kelimeler = _kelime_morfemleri(morpheme_lists, pos_data)
     if not kelimeler:
-        return {"agglutination_depth": math.nan}
+        return {"zeyrek_agglutination_depth": math.nan}
     ortalama = sum(len(_gorunen_ekler(m)) for m in kelimeler) / len(kelimeler)
-    return {"agglutination_depth": round(ortalama, 5)}
+    return {"zeyrek_agglutination_depth": round(ortalama, 5)}
 
 
-def suffix_char_length_ratio(morpheme_lists: list[list[Morpheme]],
+def zeyrek_suffix_char_length_ratio(morpheme_lists: list[list[Morpheme]],
                              pos_data: list[tuple[str, str]]) -> dict[str, float]:
     """Ek harfleri / kelime harfleri (kök + ekler, Zeyrek yüzeyleriyle)."""
     kelimeler = _kelime_morfemleri(morpheme_lists, pos_data)
     ek = sum(len(e[1]) for m in kelimeler for e in _ekler(m))
     toplam = sum(len(e[1]) for m in kelimeler for e in m)
-    return {"suffix_char_length_ratio": _oran(ek, toplam)}
+    return {"zeyrek_suffix_char_length_ratio": _oran(ek, toplam)}
 
 
 def suffix_ngrams(morpheme_lists: list[list[Morpheme]],
                   pos_data: list[tuple[str, str]]) -> dict[str, float]:
-    """Ek zinciri: kelime içi ardışık ek çiftlerinin entropisi (nat) ve zincir uzunluğu CV'si.
+    """Ek zinciri: kelime içi ardışık ek çiftlerinin entropisi (nat).
 
-    Çift yoksa entropi NaN. CV = popülasyon sapması / ortalama; tek kelime ya da
-    ortalama 0 ise NaN.
+    Çift yoksa NaN. ``suffix_chain_cv`` 2026-10-08'de kaldırıldı (Efe).
     """
     kelimeler = _kelime_morfemleri(morpheme_lists, pos_data)
     zincirler = [[e[0] for e in _gorunen_ekler(m)] for m in kelimeler]
@@ -208,21 +208,17 @@ def suffix_ngrams(morpheme_lists: list[list[Morpheme]],
     if ciftler:
         n = sum(ciftler.values())
         entropi = round(-sum(k / n * math.log(k / n) for k in ciftler.values()), 5) + 0.0
-    uzunluklar = np.array([len(z) for z in zincirler], dtype=np.float64)
-    cv = math.nan
-    if len(uzunluklar) > 1 and uzunluklar.mean() > 0:
-        cv = round(float(uzunluklar.std() / uzunluklar.mean()), 5)
-    return {"suffix_bigram_entropy": entropi, "suffix_chain_cv": cv}
+    return {"zeyrek_suffix_bigram_entropy": entropi}
 
 
-def derivational_suffix_ratio(morpheme_lists: list[list[Morpheme]],
+def zeyrek_derivational_suffix_ratio(morpheme_lists: list[list[Morpheme]],
                               pos_data: list[tuple[str, str]]) -> dict[str, float]:
     """Yapım eki / görünen ek (Zeyrek'in türetimsellik işareti)."""
     ekler = [e for m in _kelime_morfemleri(morpheme_lists, pos_data) for e in _gorunen_ekler(m)]
-    return {"derivational_suffix_ratio": _oran(sum(1 for e in ekler if e[2]), len(ekler))}
+    return {"zeyrek_derivational_suffix_ratio": _oran(sum(1 for e in ekler if e[2]), len(ekler))}
 
 
-def verb_suffix_diversity(morpheme_lists: list[list[Morpheme]], pos_data: list[tuple[str, str]],
+def zeyrek_verb_suffix_diversity(morpheme_lists: list[list[Morpheme]], pos_data: list[tuple[str, str]],
                           params: FeatureParams = DEFAULT_PARAMS) -> dict[str, float]:
     """Sabit boy fiil parçalarında farklı görünen ek türü sayısının ortalaması.
 
@@ -234,9 +230,9 @@ def verb_suffix_diversity(morpheme_lists: list[list[Morpheme]], pos_data: list[t
     boy = params.verb_suffix_window
     parcalar = [fiiller[i:i + boy] for i in range(0, len(fiiller) - boy + 1, boy)] if boy > 0 else []
     if not parcalar:
-        return {"verb_suffix_diversity": math.nan}
+        return {"zeyrek_verb_suffix_diversity": math.nan}
     turler = [len({e[0] for m in p for e in _gorunen_ekler(m)}) for p in parcalar]
-    return {"verb_suffix_diversity": round(sum(turler) / len(turler), 5)}
+    return {"zeyrek_verb_suffix_diversity": round(sum(turler) / len(turler), 5)}
 
 
 def tense_ratios(morpheme_lists: list[list[Morpheme]],
@@ -258,33 +254,33 @@ def modal_suffix_ratios(morpheme_lists: list[list[Morpheme]],
                         pos_data: list[tuple[str, str]]) -> dict[str, float]:
     """Kip eki oranları — payda fiil, ``tense_ratios`` ile aynı.
 
-    Öngörü kipi için ayrı anahtar yok — ``tense_future`` onu ölçüyor.
+    Öngörü kipi için ayrı anahtar yok — ``zeyrek_tense_future_ratio`` onu ölçüyor.
     """
     fiiller = _fiiller(_kelime_morfemleri(morpheme_lists, pos_data))
-    return {"modal_possibility_ratio": _fiil_orani(fiiller, {"Able", "Unable"}),
-            "modal_necessity_ratio": _fiil_orani(fiiller, {"Neces"})}
+    return {"zeyrek_modal_possibility_ratio": _fiil_orani(fiiller, {"Able", "Unable"}),
+            "zeyrek_modal_necessity_ratio": _fiil_orani(fiiller, {"Neces"})}
 
 
-def negation_ratio(morpheme_lists: list[list[Morpheme]],
+def zeyrek_negation_ratio(morpheme_lists: list[list[Morpheme]],
                    pos_data: list[tuple[str, str]]) -> dict[str, float]:
     """Olumsuz fiil (``-me``, ``-eme``) / fiil."""
     fiiller = _fiiller(_kelime_morfemleri(morpheme_lists, pos_data))
-    return {"negation_ratio": _fiil_orani(fiiller, {"Neg", "Unable"})}
+    return {"zeyrek_negation_ratio": _fiil_orani(fiiller, {"Neg", "Unable"})}
 
 
-def passive_ratio(morpheme_lists: list[list[Morpheme]],
+def zeyrek_passive_ratio(morpheme_lists: list[list[Morpheme]],
                   pos_data: list[tuple[str, str]]) -> dict[str, float]:
     """Edilgen fiil / fiil."""
     fiiller = _fiiller(_kelime_morfemleri(morpheme_lists, pos_data))
-    return {"passive_ratio": _fiil_orani(fiiller, {"Pass"})}
+    return {"zeyrek_passive_ratio": _fiil_orani(fiiller, {"Pass"})}
 
 
 def mood_suffix_ratios(morpheme_lists: list[list[Morpheme]],
                        pos_data: list[tuple[str, str]]) -> dict[str, float]:
     """Şart (``-se``) ve ettirgen (``-dır``, ``-t``) fiil / fiil."""
     fiiller = _fiiller(_kelime_morfemleri(morpheme_lists, pos_data))
-    return {"conditional_suffix_ratio": _fiil_orani(fiiller, {"Cond"}),
-            "causative_suffix_ratio": _fiil_orani(fiiller, {"Caus"})}
+    return {"zeyrek_conditional_suffix_ratio": _fiil_orani(fiiller, {"Cond"}),
+            "zeyrek_causative_suffix_ratio": _fiil_orani(fiiller, {"Caus"})}
 
 
 def _isim_cogulu(m: list[Morpheme]) -> bool:
@@ -298,11 +294,11 @@ def _isim_cogulu(m: list[Morpheme]) -> bool:
     return False
 
 
-def plural_ratio(morpheme_lists: list[list[Morpheme]],
+def zeyrek_plural_ratio(morpheme_lists: list[list[Morpheme]],
                  pos_data: list[tuple[str, str]]) -> dict[str, float]:
     """Çoğul (``-ler`` isim parçasında) kelime / kelime."""
     kelimeler = _kelime_morfemleri(morpheme_lists, pos_data)
-    return {"plural_ratio": _oran(sum(1 for m in kelimeler if _isim_cogulu(m)), len(kelimeler))}
+    return {"zeyrek_plural_ratio": _oran(sum(1 for m in kelimeler if _isim_cogulu(m)), len(kelimeler))}
 
 
 def case_suffix_ratios(morpheme_lists: list[list[Morpheme]],
@@ -314,22 +310,22 @@ def case_suffix_ratios(morpheme_lists: list[list[Morpheme]],
             for hal, anahtar in _DURUMLAR}
 
 
-def question_particle_ratio(morpheme_lists: list[list[Morpheme]],
+def zeyrek_question_particle_ratio(morpheme_lists: list[list[Morpheme]],
                             pos_data: list[tuple[str, str]]) -> dict[str, float]:
     """Soru eki (Zeyrek türü ``Ques``, çekimliler dahil) / kelime."""
     kelimeler = _kelime_morfemleri(morpheme_lists, pos_data)
-    return {"question_particle_ratio": _oran(sum(1 for m in kelimeler if m[0][0] == "Ques"),
+    return {"zeyrek_question_particle_ratio": _oran(sum(1 for m in kelimeler if m[0][0] == "Ques"),
                                              len(kelimeler))}
 
 
 def zeyrek_morfoloji(morpheme_lists: list[list[Morpheme]], pos_data: list[tuple[str, str]],
                      params: FeatureParams = DEFAULT_PARAMS) -> dict[str, float]:
-    """``morphological_zeyrek`` grubunun 24 anahtarı."""
+    """``morphological_zeyrek`` grubunun 23 anahtarı."""
     sonuc: dict[str, float] = {}
-    for fonksiyon in (agglutination_depth, suffix_char_length_ratio, suffix_ngrams,
-                      derivational_suffix_ratio, tense_ratios, modal_suffix_ratios,
-                      negation_ratio, passive_ratio, plural_ratio, case_suffix_ratios,
-                      mood_suffix_ratios, question_particle_ratio):
+    for fonksiyon in (zeyrek_agglutination_depth, zeyrek_suffix_char_length_ratio, suffix_ngrams,
+                      zeyrek_derivational_suffix_ratio, tense_ratios, modal_suffix_ratios,
+                      zeyrek_negation_ratio, zeyrek_passive_ratio, zeyrek_plural_ratio, case_suffix_ratios,
+                      mood_suffix_ratios, zeyrek_question_particle_ratio):
         sonuc.update(fonksiyon(morpheme_lists, pos_data))
-    sonuc.update(verb_suffix_diversity(morpheme_lists, pos_data, params))
+    sonuc.update(zeyrek_verb_suffix_diversity(morpheme_lists, pos_data, params))
     return sonuc

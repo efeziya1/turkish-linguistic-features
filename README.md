@@ -3,10 +3,10 @@
 [![CI](https://github.com/efeziya1/turkish-linguistic-features/actions/workflows/ci.yml/badge.svg)](https://github.com/efeziya1/turkish-linguistic-features/actions/workflows/ci.yml)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23009540.svg)](https://doi.org/10.5281/zenodo.23009540)
 
-Extracts 212 quantitative linguistic features from Turkish text and 184 from
-English. Every feature has its formula written out; 144 of the Turkish features
-and 119 of the English ones cite a source in the literature, and the rest are
-plain definitions (such as a letter's share of the text). The
+Extracts 199 quantitative linguistic features from Turkish text and 172 from
+English. Every feature has its formula written out; 188 of the Turkish features
+and 161 of the English ones cite a source in the literature, and the rest are
+plain definitions (such as the dash's share of punctuation marks). The
 [verification report](docs/verification-report.md) shows which ones have been
 checked against a number their source published. Documentation:
 https://efeziya1.github.io/turkish-linguistic-features/
@@ -17,8 +17,8 @@ https://efeziya1.github.io/turkish-linguistic-features/
 import turkish_linguistic_features as tlf
 
 oz = tlf.analyze("Dil, insanın düşüncesini taşıyan en eski araçtır.", lang="tr")
-oz["avg_word_length"]     # 5.8571
-oz["atesman"]             # 77.2479  (Ateşman 1997 readability)
+oz["word_len_mean"]   # 5.8571
+oz["atesman"]         # 77.2479  (Ateşman 1997 readability)
 ```
 
 ## Documentation
@@ -69,15 +69,17 @@ loading it prints a `W094` warning; both are harmless
 
 ## The whole API
 
-Ten public names:
+Eleven public names:
 
 ```python
-tlf.analyze(text, lang="tr")                     # 212 features (TR) / 184 (EN)
+tlf.analyze(text, lang="tr")                     # 199 features (TR) / 172 (EN)
 tlf.analyze(text, groups=["readability"])        # one group only
 tlf.analyze_corpus("corpus/")                    # one row per file
 tlf.analyze_corpus("corpus/", segment_size=1000) # or split into chunks
 tlf.save_csv(rows, "features.csv")               # write them out
 tlf.segment_text(text, size=1000, lang="tr")     # split a single text
+tlf.analyze(text, custom_ngrams=[["kadın", "VERB"]])  # count your own phrases
+tlf.ngram_matches(text, ["kadın", "VERB"])       # ...and see what they matched
 tlf.describe_feature("mtld")                     # what a key measures, and its source
 tlf.FeatureParams(mattr_window=100)              # metric constants
 

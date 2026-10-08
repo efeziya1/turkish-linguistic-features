@@ -14,7 +14,7 @@ before = tlf.analyze(before_text, lang="en")
 after  = tlf.analyze(after_text,  lang="en")
 
 print(f"{'key':22s} {'before':>10} {'after':>10} {'diff':>10}")
-for k in ("avg_sent_len_word", "avg_word_length", "flesch_reading_ease",
+for k in ("sent_len_mean", "word_len_mean", "flesch_reading_ease",
           "flesch_kincaid_grade", "ari", "coleman_liau", "ttr", "long_word_ratio"):
     print(f"{k:22s} {before[k]:10.4f} {after[k]:10.4f} {after[k]-before[k]:+10.4f}")
 ```
@@ -41,8 +41,8 @@ Output:
 
 ```text
 key                        before      after       diff
-avg_sent_len_word         26.5000     8.0000   -18.5000
-avg_word_length            5.9434     4.6667    -1.2767
+sent_len_mean             26.5000     8.0000   -18.5000
+word_len_mean              5.9434     4.6667    -1.2767
 flesch_reading_ease       10.7375    68.2900   +57.5525
 flesch_kincaid_grade      18.3450     5.7217   -12.6233
 ari                       20.1689     5.1387   -15.0302
@@ -73,13 +73,13 @@ How to read it:
     When an edit shortens a text, `ttr`, `hapax_ratio` and `yule_k` change
     **because of length**. For a real comparison on those measures, bring
     both texts to the same size. That only works when both texts are at
-    least `size` tokens long; it does not suit the short examples on this
+    least `size` words long; it does not suit the short examples on this
     page (`segment_text` returns an empty list).
 
     ```python
     p1 = tlf.segment_text(before_text, size=500, lang="en")
     p2 = tlf.segment_text(after_text,  size=500, lang="en")
-    if p1 and p2:                      # both ≥ 500 tokens
+    if p1 and p2:                      # both ≥ 500 words
         before, after = tlf.analyze(p1[0], lang="en"), tlf.analyze(p2[0], lang="en")
     ```
 

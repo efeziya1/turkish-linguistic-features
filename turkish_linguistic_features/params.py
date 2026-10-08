@@ -28,13 +28,12 @@ class FeatureParams:
     vocd_random_seed: int = 42
     heaps_min_tokens: int = 300
     heaps_step: int = 50
-    ttr_slope_chunk_size: int = 50   # ayrık parça boyu (2026-09-15, Efe)
     # Brunet's W üs sabiti. Kademe C — Tweedie & Baayen (1998),
     # Computers and the Humanities 32(5):323-352, denklem (10).
     # Bazı ikincil kaynaklar 0.165 veriyor; tartışmalı olduğu için
     # gizlenmiyor, buradan değiştirilebiliyor.
     brunet_w_a: float = 0.172
-    # biçimbilim — verb_suffix_diversity parça boyu, fiil sayısı (2026-09-17, Efe)
+    # biçimbilim — zeyrek_verb_suffix_diversity parça boyu, fiil sayısı (2026-09-17, Efe)
     verb_suffix_window: int = 50
     # Cümle uzunluğu dağılımı. `None` = "dile göre çözümle" (2026-09-24, Efe).
     # Why sentinel: eskiden bu iki alan 5 ve 30 diye sabit yazıyordu ve dile

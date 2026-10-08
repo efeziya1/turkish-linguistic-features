@@ -46,8 +46,8 @@ def test_grup_sayilari():
 
 
 def test_statik_anahtar_sayisi():
-    """Sözleşme §4 toplamı: 183 statik anahtar (TR 208, EN 180 dinamikle)."""
-    assert len(TUM_STATIK) == 187
+    """Statik anahtar sayısı (TR 199, EN 172 dinamikle)."""
+    assert len(TUM_STATIK) == 174
 
 
 def test_anahtarlar_gruplar_arasi_tekrarlanmaz():
@@ -98,8 +98,8 @@ def test_get_group_statik():
 
 
 def test_get_group_dinamik():
-    assert get_group("char_a") == "chars"
-    assert get_group("ng_ve_bir") == "custom_ngrams"
+    assert get_group("char_a_ratio") == "chars"
+    assert get_group("ngram_ve_bir_count") == "custom_ngrams"
 
 
 def test_get_group_bilinmeyen_anahtar():
@@ -107,14 +107,16 @@ def test_get_group_bilinmeyen_anahtar():
         get_group("boyle_bir_sey_yok")
 
 
-@pytest.mark.parametrize("anahtar", ["char_a", "char_ş", "char_ı", "char_ğ", "char_q", "char_w", "char_x"])
+@pytest.mark.parametrize("anahtar", ["char_a_ratio", "char_ş_ratio", "char_ı_ratio", "char_ğ_ratio",
+                                     "char_q_ratio", "char_w_ratio", "char_x_ratio"])
 def test_char_iki_alfabenin_harfini_kabul_eder(anahtar):
     """TR 29 harf + EN'deki q, w, x — iki dilin ``chars`` anahtarlarının birleşimi."""
     assert get_group(anahtar) == "chars"
     assert describe_feature(anahtar)["group"] == "chars"
 
 
-@pytest.mark.parametrize("anahtar", ["char_zzz", "char_", "char_A", "char_1", "char_ab", "char_é"])
+@pytest.mark.parametrize("anahtar", ["char_zzz_ratio", "char__ratio", "char_A_ratio", "char_1_ratio",
+                                     "char_ab_ratio", "char_é_ratio", "char_a"])
 def test_char_gecersiz_son_ek_keyerror(anahtar):
     """🔴 Regresyon: ``startswith`` yalnız öneki denetliyordu, ``char_zzz`` kabul ediliyordu."""
     with pytest.raises(KeyError):
@@ -122,21 +124,21 @@ def test_char_gecersiz_son_ek_keyerror(anahtar):
 
 
 def test_ng_oneki_serbest():
-    """Kullanıcı n-gramı istediği kelimeyi seçer; ``ng_`` son eki doğrulanmaz."""
-    assert get_group("ng_herhangi_bir_obek") == "custom_ngrams"
+    """Kullanıcı n-gramı istediği kelimeyi seçer; yalnız ``_count`` son eki doğrulanır."""
+    assert get_group("ngram_herhangi_bir_obek_count") == "custom_ngrams"
 
 
 def test_kullanici_ngrami_registryde_kayitli():
     """custom_ngrams grubu yoksa ``analyze(custom_ngrams=...)`` T20'yi kırar."""
-    assert DYNAMIC_PREFIXES["custom_ngrams"] == "ng_"
+    assert DYNAMIC_PREFIXES["custom_ngrams"] == "ngram_"
     assert "custom_ngrams" in GROUP_LABELS
-    assert describe_feature("ng_ve_bir")["group"] == "custom_ngrams"
+    assert describe_feature("ngram_ve_bir_count")["group"] == "custom_ngrams"
 
 
 def test_cumle_sonu_anahtarlari_vocab_ile_uyumlu():
     from turkish_linguistic_features.vocab import SENT_FINAL_POS
     son = [k for k in STATIC_GROUP_KEYS["syntactic_dep"] if k.startswith("sentfinal_")]
-    assert len(son) == len(SENT_FINAL_POS) + 1 == 14   # + sentfinal_other
+    assert len(son) == len(SENT_FINAL_POS) + 1 == 14   # + sentfinal_other_ratio
 
 
 # ── describe_feature ──────────────────────────────────────────────────
@@ -159,8 +161,8 @@ def test_describe_statik_anahtar():
 
 
 def test_describe_dinamik_anahtar_grup_formulunu_alir():
-    """``char_a``'nın kendi formülü yok, grubunki dönmeli."""
-    d = describe_feature("char_a")
+    """``char_a_ratio``'nın kendi formülü yok, grubunki dönmeli."""
+    d = describe_feature("char_a_ratio")
     assert d["group"] == "chars"
     assert d["formula"] == FEATURE_FORMULAS["chars"]
     assert d["inputs"] == ("raw_text",)
@@ -172,7 +174,7 @@ def test_describe_literatur_olcusu_degilse_citation_none():
     ``None`` ölçünün bize ait olduğunu **söylemez**; yalnız adlandırılmış bir
     literatür ölçüsü olmadığını söyler (2026-09-19, Efe).
     """
-    assert describe_feature("ttr_moving_slope")["citation"] is None
+    assert describe_feature("lemma_count")["citation"] is None
 
 
 def test_describe_ayarlanamayan_ozellik_bos_params():
@@ -185,7 +187,7 @@ def test_describe_bilinmeyen_anahtar():
 
 
 def test_her_statik_anahtar_describe_edilebiliyor():
-    """187 statik anahtarın hiçbiri boş alan döndürmemeli."""
+    """174 statik anahtarın hiçbiri boş alan döndürmemeli."""
     for k in TUM_STATIK:
         d = describe_feature(k)
         assert d["description"], f"{k}: açıklama boş"
@@ -221,24 +223,20 @@ def test_feature_scales_anahtarlari_registryde_kayitli():
 
 
 def test_scale_gruptan_miras_alinir():
-    assert describe_feature("pos_noun")["scale"] == GROUP_SCALES["pos"]
-    assert describe_feature("char_a")["scale"] == "ratio_0_1"
+    assert describe_feature("pos_noun_ratio")["scale"] == GROUP_SCALES["pos"]
+    assert describe_feature("char_a_ratio")["scale"] == "ratio_0_1"
 
 
 def test_scale_istisnalari_gruptan_farkli():
     assert describe_feature("entropy")["scale"] == "nats"
-    assert describe_feature("n_lemma_count")["scale"] == "count"
-    assert describe_feature("sent_len_skewness")["scale"] == "signed"
-    assert describe_feature("word_length_cv")["scale"] == "cv"
+    assert describe_feature("lemma_count")["scale"] == "count"
     assert describe_feature("h_point")["scale"] == "score"
     assert describe_feature("verb_dist_mean")["scale"] == "length"
 
 
 def test_olcek_ilkesi_taniminda_0_1_olmayanlar_ratio_degil():
     """2026-09-18 kararları: bunların hepsi 1'i aşabiliyor → ``score``."""
-    for k in ("para_count_norm", "thematic_concentration",
-              "secondary_thematic_concentration", "heaps_beta",
-              "punc_,_ratio", "punc_question_ratio"):
+    for k in ("thematic_concentration", "secondary_thematic_concentration", "heaps_beta"):
         assert describe_feature(k)["scale"] == "score", k
 
 
@@ -282,7 +280,7 @@ def test_inputs_kaydi_gercekten_okunan_alanlari_iceriyor():
     bilinen = {
         "activity_ratio":          "pos_data",   # syntactic grubu
         "lexical_density":         "pos_data",
-        "pos_kl_div":              "pos_data",
+        "posdiv":              "pos_data",
         "noun_variation":          "pos_data",   # lexical grubu
         "thematic_concentration":  "pos_data",   # frequency_structure grubu
     }
@@ -331,7 +329,7 @@ def test_describe_feature_tam_kaydi_dondurur():
 
 
 def test_citation_yoksa_references_bos():
-    d = describe_feature("ttr_moving_slope")
+    d = describe_feature("lemma_count")
     assert d["citation"] is None
     assert d["references"] == ()
 
@@ -351,7 +349,7 @@ from turkish_linguistic_features.features._registry_definitions import (  # noqa
     TERMS,
 )
 
-HER_ANAHTAR = TUM_STATIK + ["char_a", "ng_ve_bir"]
+HER_ANAHTAR = TUM_STATIK + ["char_a_ratio", "ngram_ve_bir_count"]
 
 
 def _kayitlar(d):
@@ -428,7 +426,7 @@ _FORMUL_ANAHTARLARI = {
     "syllable": r"syllable",
     "polysyllable": r"polysyllables|3\+ syllable",
     "paragraph": r"paragraph",
-    "mark": r"marks / |/ marks|mark types",   # "final mark" (question_per_sent) başka şey
+    "mark": r"marks / |/ marks|mark types",   # "final mark" (question_sent_ratio) başka şey
     "long_word": r"long word",
     "letter": r"letter",
     "character": r"characters|strokes|len\(",
@@ -444,7 +442,7 @@ def test_definitions_formulde_gecen_terim_kayitli(anahtar):
 
 
 @pytest.mark.parametrize("anahtar, beklenen", [
-    ("avg_sent_len_word", {"sentence": "default", "word": "space_unit"}),
+    ("sent_len_mean", {"sentence": "default", "word": "space_unit"}),
     ("arc_len_mean", {"sentence": "spacy_parser", "word": "pos_token", "dependency": "spacy_head"}),
     ("sents_per_para_mean", {"sentence": "regex_paragraph", "paragraph": "blank_line"}),
     ("cetinkaya_uzun", {"sentence": "cetinkaya", "word": "space_unit_with_symbols",
@@ -454,19 +452,26 @@ def test_definitions_formulde_gecen_terim_kayitli(anahtar):
     ("lix", {"sentence": "default", "word": "space_unit", "letter": "unicode_letter",
              "long_word": "7_plus_letters"}),
     ("ttr", {"word": "space_unit", "type": "lowercase_surface"}),
-    ("n_lemma_count", {"word": "pos_token", "type": "spacy_lemma"}),
-    ("pos_noun", {"token": "spacy_token", "pos_tag": "spacy_upos"}),
-    ("morph_case_acc", {"token": "spacy_token", "morph_feature": "spacy_morph"}),
-    ("case_acc_ratio", {"word": "zeyrek_analysed_token", "zeyrek_tag": "zeyrek_tag"}),
-    ("wordfreq_mean", {"word": "pos_token", "type": "spacy_lemma",
+    # Tek kelime tanımı ve Türkçe Zeyrek lemması (2026-10-07, Efe); `type` dile göre.
+    ("lemma_count", {"word": "space_unit", "type": "zeyrek_lemma"}),
+    ("pos_noun_ratio", {"word": "space_unit", "pos_tag": "spacy_upos"}),
+    ("case_acc_ratio", {"word": "space_unit", "morph_feature": "spacy_morph"}),
+    ("zeyrek_case_acc_ratio", {"word": "zeyrek_analysed_word", "zeyrek_tag": "zeyrek_tag"}),
+    ("wordfreq_mean", {"word": "space_unit", "type": "zeyrek_lemma",
                        "lexical_word": "noun_propn_verb_adj_adv", "pos_tag": "spacy_upos",
                        "zipf_score": "wordfreq_zipf"}),
     ("vowel_ratio", {"letter": "alphabet_letter"}),
-    ("char_a", {"letter": "alphabet_letter"}),
-    ("question_per_sent", {"sentence": "default"}),
+    ("char_a_ratio", {"letter": "alphabet_letter"}),
+    ("question_sent_ratio", {"sentence": "default"}),
 ])
 def test_definitions_ornekler(anahtar, beklenen):
     assert _adlar(anahtar) == beklenen
+
+
+def test_lemma_turu_dile_gore():
+    """Türkçe lemma Zeyrek'ten, İngilizce spaCy'den (2026-10-07, Efe)."""
+    assert _adlar("lemma_count", lang="en")["type"] == "spacy_lemma"
+    assert _adlar("ttr", lang="en")["type"] == "lowercase_surface"
 
 
 def test_definitions_hece_dile_gore_adlandirilir():
@@ -475,9 +480,8 @@ def test_definitions_hece_dile_gore_adlandirilir():
 
 
 def test_cumle_kullanan_ozellikler_kayitli():
-    """`sentence` grubunun 8'i, `question_per_sent`, `pos_kl_div` ve cümle hecesi 'default'."""
+    """`sentence` grubunun 7'si, `question_sent_ratio`, `posdiv` ve cümle hecesi 'default'."""
     default = {k for k in TUM_STATIK
                if _adlar(k).get("sentence") == "default"}
     assert set(STATIC_GROUP_KEYS["sentence"]) <= default
-    assert {"question_per_sent", "pos_kl_div", "sentence_syllable_mean",
-            "sentence_syllable_cv"} <= default
+    assert {"question_sent_ratio", "posdiv", "sent_syllable_mean"} <= default

@@ -24,9 +24,9 @@ number to look for:
 
 | | Meaning |
 |---|---|
-| ⚪ **no source** | Not a named measure from the literature; a plain definition (`punc_,_ratio`, `char_a`). |
-| ⚫ **tag scheme** | Not a measure but a count of an external scheme's categories (`pos_noun` → UD; `case_loc_ratio` → Zeyrek). A scheme defines categories; it does not publish measurements. |
-| 🔧 **derivative** | The formula comes from a source, **the application is this library's**. `entropy_std` is Shannon's entropy, but taking its standard deviation across segments is ours; `long_sent_ratio`'s threshold comes from our own calibration. Nobody has published this measure, so there is no number to compare against. Testing it against our own calibration would be reading our own answer sheet. |
+| ⚪ **no source** | Not a named measure from the literature; a plain definition (`punct_dash_ratio`, `uppercase_ratio`). |
+| ⚫ **tag scheme** | Not a measure but a count of an external scheme's categories (`pos_noun_ratio` → UD; `zeyrek_case_loc_ratio` → Zeyrek). A scheme defines categories; it does not publish measurements. |
+| 🔧 **derivative** | The formula comes from a source, **the application is this library's**. `sent_len_entropy` is Shannon's entropy, but applying it to sentence lengths is ours; `long_sent_ratio`'s threshold comes from our own calibration. Nobody has published this measure, so there is no number to compare against. Testing it against our own calibration would be reading our own answer sheet. |
 
 The tolerance is **1% relative** to the published value. Sources print rounded
 intermediate values, so exact equality is not expected; a relative tolerance
@@ -54,26 +54,26 @@ table as `tests/test_kaynak_esligi.py`, so the two cannot drift apart. The
 other known-value tests live in their own files.
 
 
-## Turkish — 212 keys, 237 rows
+## Turkish — 199 keys, 224 rows
 
 A key may have more than one worked example in its source; each one is its own row.
 
-**Verification candidates — 95 rows**
+**Verification candidates — 142 rows**
 
 | Status | Rows |
 |---|---|
 | ✅ exact | 46 |
 | 🟡 documented deviation | 2 |
-| 🔍 open — no worked example in source | 47 |
+| 🔍 open — no worked example in source | 94 |
 
 
-**Not verification candidates — 142 rows.** There is no published number to look for in these.
+**Not verification candidates — 82 rows.** There is no published number to look for in these.
 
 | Status | Rows |
 |---|---|
-| ⚪ no source — plain definition | 68 |
-| ⚫ tag scheme — not a measure | 69 |
-| 🔧 derivative — the application is this library's | 5 |
+| ⚪ no source — plain definition | 11 |
+| ⚫ tag scheme — not a measure | 67 |
+| 🔧 derivative — the application is this library's | 4 |
 
 ### Keys with a numeric comparison
 
@@ -83,8 +83,8 @@ A key may have more than one worked example in its source; each one is its own r
 | `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26); source 6.395099 in bits → × ln 2 | formula | 4.433 | 4.433 | +0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formula | 0.665 | 0.665 | -0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; source printed 0.590 (typo) | formula | 0.590 | 0.599 | +0.009 | 🟡 |
-| `hapax_percentage` | QUITA §6.1.6 | Text 1 · 98/179 | formula | 0.547 | 0.547 | +0.000 | ✅ |
-| `hapax_percentage` | QUITA §6.1.6 | Text 2 · 92/202 | formula | 0.455 | 0.455 | +0.000 | ✅ |
+| `hapax_token_ratio` | QUITA §6.1.6 | Text 1 · 98/179 | formula | 0.547 | 0.547 | +0.000 | ✅ |
+| `hapax_token_ratio` | QUITA §6.1.6 | Text 2 · 92/202 | formula | 0.455 | 0.455 | +0.000 | ✅ |
 | `mtld` | McCarthy & Jarvis (2010) p.385 | partial factor · TTR .887 → 40.4% | formula | 0.404 | 0.404 | +0.000 | ✅ |
 | `h_point` | QUITA §6.1.2 | Text 1 · rank 5 = frequency 5 | formula | 5.000 | 5.000 | +0.000 | ✅ |
 | `h_point` | QUITA §6.1.2 | Text 2 · interpolation, eq. (6.2) | formula | 4.750 | 4.750 | +0.000 | ✅ |
@@ -138,13 +138,16 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### 🔍 Open — verifiable, not yet verified
 
-47 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
+94 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
 
 | Key | Source | Status |
 |---|---|---|
+| `word_count` | de Vel (2000) Table 2, attribute 1 "Total number of words"; Zheng et al. (2006) Table 3, p.385, no. 54 "Total number of words (M)" | 🔍 |
+| `word_len_mean` | Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241 | 🔍 |
 | `yule_k` | Yule (1944) p.53, eq. (3.22) | 🔍 |
 | `simpson_d` | Simpson (1949), as cited in Bestgen (2023) | 🔍 |
 | `brunet_w` | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) | 🔍 |
+| `hapax_ratio` | de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of vocabulary words" | 🔍 |
 | `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
 | `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) | 🔍 |
 | `dugast_u` | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 | 🔍 |
@@ -170,12 +173,17 @@ A key may have more than one worked example in its source; each one is its own r
 | `msttr` | Johnson (1944), as cited in Malvern et al. (2004) p.25 and McCarthy & Jarvis (2010) p.385 | 🔍 |
 | `thematic_concentration` | QUITA §6.2.5 | 🔍 |
 | `secondary_thematic_concentration` | QUITA §6.2.6 | 🔍 |
+| `sent_len_mean` | Flesch (1948) p.223, element (1) "Average Sentence Length in Words" | 🔍 |
+| `sent_len_median` | Yule (1939) p.369, median sentence length alongside the mean | 🔍 |
+| `sent_len_char_mean` | Zheng et al. (2006) Table 3, p.385, no. 58 "Average sentence length in terms of character" | 🔍 |
+| `para_len_mean` | Zheng et al. (2006) Table 3, p.385, no. 251 "Number of words per paragraph" | 🔍 |
+| `sents_per_para_mean` | Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph" | 🔍 |
+| `pronoun_ratio` | Deutsch, Jasbi & Shieber (2020) Table 6 "pronouns per word", listed among existing features; original source not traced | 🔍 |
 | `verb_dist_mean` | QUITA §6.2.1 | 🔍 |
-| `verb_dist_cv` | QUITA §6.2.1 | 🔍 |
 | `lexical_density` | Lu (2012); definition in the broad Hallidayan sense — all open-class words | 🔍 |
-| `pos_dist_std` | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 13 UD tags | 🔍 |
-| `pos_kl_div` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits | 🔍 |
-| `suffix_bigram_entropy` | Shannon (1948) — the entropy formula; Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | 🔍 |
+| `posddev` | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 12 UD tags | 🔍 |
+| `posdiv` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits | 🔍 |
+| `zeyrek_suffix_bigram_entropy` | Shannon (1948) — the entropy formula; Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | 🔍 |
 | `front_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `back_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `harmony_fronting_ratio` | Göksel & Kerslake (2005) §3.1 (fronting harmony); exceptions §3.4 — the measure counts them as disharmonic | 🔍 |
@@ -189,176 +197,155 @@ A key may have more than one worked example in its source; each one is its own r
 | `syllable_6plus_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `lix` | Björnsson (1968), as cited in Anderson (1983) p.490; long word = 7+ letters | 🔍 |
 | `long_word_ratio` | Anderson (1983); long word = 7+ letters | 🔍 |
+| `digit_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; here digits anywhere in the text | 🔍 |
+| `punct_comma_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_period_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_semicolon_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_exclamation_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_colon_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_quote_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_question_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_char_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C" | 🔍 |
+| `whitespace_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of white-space characters/C" | 🔍 |
+| `char_a_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_b_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_c_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_ç_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_d_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_e_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_f_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_g_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_ğ_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_h_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_ı_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_i_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_j_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_k_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_l_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_m_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_n_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_o_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_ö_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_p_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_r_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_s_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_ş_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_t_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_u_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_ü_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_v_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_y_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_z_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
 
 ### Not verification candidates
 
-142 keys. The ⚪ ones are plain definitions (`punc_,_ratio`, `char_a`) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.
+82 keys. The ⚪ ones are plain definitions (`punct_dash_ratio`, `uppercase_ratio`) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.
 
 | Key | Source | Status |
 |---|---|---|
-| `n_lemma_count` | — | ⚪ |
-| `avg_word_length` | — | ⚪ |
-| `word_length_cv` | — | ⚪ |
-| `hapax_ratio` | — | ⚪ |
-| `entropy_std` | Shannon (1948) — the entropy formula; the standard deviation across segments is this library's own derivation | 🔧 |
-| `ttr_moving_slope` | — | ⚪ |
-| `avg_sent_len_word` | — | ⚪ |
-| `sentence_length_cv` | — | ⚪ |
-| `sent_len_skewness` | — | ⚪ |
-| `med_sent_len` | — | ⚪ |
-| `avg_sent_len_char` | — | ⚪ |
+| `lemma_count` | — | ⚪ |
 | `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only | 🔧 |
 | `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only | 🔧 |
 | `sent_len_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision | 🔧 |
-| `para_len_mean` | — | ⚪ |
-| `para_len_cv` | — | ⚪ |
-| `sents_per_para_mean` | — | ⚪ |
-| `sents_per_para_cv` | — | ⚪ |
-| `para_count_norm` | — | ⚪ |
-| `pos_noun` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_propn` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_verb` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_adj` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_adv` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_det` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_adp` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_intj` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_cconj` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_sconj` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_num` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_aux` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_punct` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `question_per_sent` | — | ⚪ |
-| `pronoun_freq` | — | ⚪ |
-| `nominal_verbal_ratio` | — | ⚪ |
-| `sentfinal_noun` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_propn` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_verb` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_adj` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_adv` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_det` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_adp` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_intj` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_cconj` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_sconj` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_num` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_aux` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_pron` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_other` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_noun_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_propn_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_verb_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_adj_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_adv_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_det_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_adp_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_intj_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_cconj_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_sconj_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_num_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_aux_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `question_sent_ratio` | — | ⚪ |
+| `sentfinal_noun_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_propn_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_verb_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_adj_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_adv_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_det_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_adp_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_intj_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_cconj_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_sconj_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_num_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_aux_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_pron_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_other_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `surface_per_lemma` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_tense_past` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_tense_pres` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_tense_fut` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_aspect_perf` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_aspect_imp` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_aspect_prog` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_case_nom` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_case_acc` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_case_dat` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_case_loc` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_case_abl` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_case_gen` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_person_1` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_person_2` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_person_3` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_number_sing` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_number_plur` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_voice_pass` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `agglutination_depth` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `suffix_char_length_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `suffix_chain_cv` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `derivational_suffix_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `tense_past_def` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `tense_past_nar` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `tense_present` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `tense_future` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `modal_possibility_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `modal_necessity_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `negation_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `passive_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `plural_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `case_acc_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `case_dat_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `case_loc_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `case_abl_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `case_gen_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `case_ins_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `conditional_suffix_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `causative_suffix_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `question_particle_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `verb_suffix_diversity` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `tense_past_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `tense_pres_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `tense_fut_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `aspect_perf_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `aspect_imp_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `aspect_prog_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `case_nom_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `case_acc_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `case_dat_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `case_loc_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `case_abl_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `case_gen_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `person_1_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `person_2_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `person_3_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `number_sing_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `number_plur_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `voice_pass_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `zeyrek_agglutination_depth` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `zeyrek_suffix_char_length_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `zeyrek_derivational_suffix_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `zeyrek_tense_past_def_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `zeyrek_tense_past_nar_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `zeyrek_tense_present_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `zeyrek_tense_future_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `zeyrek_modal_possibility_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `zeyrek_modal_necessity_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `zeyrek_negation_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `zeyrek_passive_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `zeyrek_plural_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `zeyrek_case_acc_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `zeyrek_case_dat_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `zeyrek_case_loc_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `zeyrek_case_abl_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `zeyrek_case_gen_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `zeyrek_case_ins_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `zeyrek_conditional_suffix_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `zeyrek_causative_suffix_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `zeyrek_question_particle_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `zeyrek_verb_suffix_diversity` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
 | `vowel_ratio` | — | ⚪ |
-| `syllable_cv` | — | ⚪ |
-| `sentence_syllable_mean` | — | ⚪ |
-| `sentence_syllable_cv` | — | ⚪ |
-| `digit_vs_all` | — | ⚪ |
-| `punc_,_ratio` | — | ⚪ |
-| `punc_._ratio` | — | ⚪ |
-| `punc_;_ratio` | — | ⚪ |
-| `punc_!_ratio` | — | ⚪ |
-| `punc_:_ratio` | — | ⚪ |
-| `punc_-_ratio` | — | ⚪ |
-| `punc_ellipsis_ratio` | — | ⚪ |
-| `punc_paren_ratio` | — | ⚪ |
-| `punc_quote_ratio` | — | ⚪ |
-| `punc_question_ratio` | — | ⚪ |
-| `punct_density` | — | ⚪ |
+| `sent_syllable_mean` | — | ⚪ |
+| `punct_dash_ratio` | — | ⚪ |
+| `punct_ellipsis_ratio` | — | ⚪ |
+| `punct_paren_ratio` | — | ⚪ |
 | `punct_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of punctuation types is this library's own decision | 🔧 |
 | `consecutive_punct_ratio` | — | ⚪ |
-| `whitespace_ratio` | — | ⚪ |
 | `punct_variety` | — | ⚪ |
 | `uppercase_ratio` | — | ⚪ |
 | `all_caps_word_ratio` | — | ⚪ |
-| `char_a` | — | ⚪ |
-| `char_b` | — | ⚪ |
-| `char_c` | — | ⚪ |
-| `char_ç` | — | ⚪ |
-| `char_d` | — | ⚪ |
-| `char_e` | — | ⚪ |
-| `char_f` | — | ⚪ |
-| `char_g` | — | ⚪ |
-| `char_ğ` | — | ⚪ |
-| `char_h` | — | ⚪ |
-| `char_ı` | — | ⚪ |
-| `char_i` | — | ⚪ |
-| `char_j` | — | ⚪ |
-| `char_k` | — | ⚪ |
-| `char_l` | — | ⚪ |
-| `char_m` | — | ⚪ |
-| `char_n` | — | ⚪ |
-| `char_o` | — | ⚪ |
-| `char_ö` | — | ⚪ |
-| `char_p` | — | ⚪ |
-| `char_r` | — | ⚪ |
-| `char_s` | — | ⚪ |
-| `char_ş` | — | ⚪ |
-| `char_t` | — | ⚪ |
-| `char_u` | — | ⚪ |
-| `char_ü` | — | ⚪ |
-| `char_v` | — | ⚪ |
-| `char_y` | — | ⚪ |
-| `char_z` | — | ⚪ |
 
-## English — 184 keys, 201 rows
+## English — 172 keys, 189 rows
 
 A key may have more than one worked example in its source; each one is its own row.
 
-**Verification candidates — 84 rows**
+**Verification candidates — 128 rows**
 
 | Status | Rows |
 |---|---|
 | ✅ exact | 35 |
 | 🟡 documented deviation | 3 |
-| 🔍 open — no worked example in source | 46 |
+| 🔍 open — no worked example in source | 90 |
 
 
-**Not verification candidates — 117 rows.** There is no published number to look for in these.
+**Not verification candidates — 61 rows.** There is no published number to look for in these.
 
 | Status | Rows |
 |---|---|
-| ⚪ no source — plain definition | 65 |
-| ⚫ tag scheme — not a measure | 46 |
-| 🔧 derivative — the application is this library's | 6 |
+| ⚪ no source — plain definition | 11 |
+| ⚫ tag scheme — not a measure | 45 |
+| 🔧 derivative — the application is this library's | 5 |
 
 ### Keys with a numeric comparison
 
@@ -368,8 +355,8 @@ A key may have more than one worked example in its source; each one is its own r
 | `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26); source 6.395099 in bits → × ln 2 | formula | 4.433 | 4.433 | +0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formula | 0.665 | 0.665 | -0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; source printed 0.590 (typo) | formula | 0.590 | 0.599 | +0.009 | 🟡 |
-| `hapax_percentage` | QUITA §6.1.6 | Text 1 · 98/179 | formula | 0.547 | 0.547 | +0.000 | ✅ |
-| `hapax_percentage` | QUITA §6.1.6 | Text 2 · 92/202 | formula | 0.455 | 0.455 | +0.000 | ✅ |
+| `hapax_token_ratio` | QUITA §6.1.6 | Text 1 · 98/179 | formula | 0.547 | 0.547 | +0.000 | ✅ |
+| `hapax_token_ratio` | QUITA §6.1.6 | Text 2 · 92/202 | formula | 0.455 | 0.455 | +0.000 | ✅ |
 | `mtld` | McCarthy & Jarvis (2010) p.385 | partial factor · TTR .887 → 40.4% | formula | 0.404 | 0.404 | +0.000 | ✅ |
 | `h_point` | QUITA §6.1.2 | Text 1 · rank 5 = frequency 5 | formula | 5.000 | 5.000 | +0.000 | ✅ |
 | `h_point` | QUITA §6.1.2 | Text 2 · interpolation, eq. (6.2) | formula | 4.750 | 4.750 | +0.000 | ✅ |
@@ -411,13 +398,16 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### 🔍 Open — verifiable, not yet verified
 
-46 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
+90 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
 
 | Key | Source | Status |
 |---|---|---|
+| `word_count` | de Vel (2000) Table 2, attribute 1 "Total number of words"; Zheng et al. (2006) Table 3, p.385, no. 54 "Total number of words (M)" | 🔍 |
+| `word_len_mean` | Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241 | 🔍 |
 | `yule_k` | Yule (1944) p.53, eq. (3.22) | 🔍 |
 | `simpson_d` | Simpson (1949), as cited in Bestgen (2023) | 🔍 |
 | `brunet_w` | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) | 🔍 |
+| `hapax_ratio` | de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of vocabulary words" | 🔍 |
 | `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
 | `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) | 🔍 |
 | `dugast_u` | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 | 🔍 |
@@ -443,11 +433,16 @@ A key may have more than one worked example in its source; each one is its own r
 | `msttr` | Johnson (1944), as cited in Malvern et al. (2004) p.25 and McCarthy & Jarvis (2010) p.385 | 🔍 |
 | `thematic_concentration` | QUITA §6.2.5 | 🔍 |
 | `secondary_thematic_concentration` | QUITA §6.2.6 | 🔍 |
+| `sent_len_mean` | Flesch (1948) p.223, element (1) "Average Sentence Length in Words" | 🔍 |
+| `sent_len_median` | Yule (1939) p.369, median sentence length alongside the mean | 🔍 |
+| `sent_len_char_mean` | Zheng et al. (2006) Table 3, p.385, no. 58 "Average sentence length in terms of character" | 🔍 |
+| `para_len_mean` | Zheng et al. (2006) Table 3, p.385, no. 251 "Number of words per paragraph" | 🔍 |
+| `sents_per_para_mean` | Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph" | 🔍 |
+| `pronoun_ratio` | Deutsch, Jasbi & Shieber (2020) Table 6 "pronouns per word", listed among existing features; original source not traced | 🔍 |
 | `verb_dist_mean` | QUITA §6.2.1 | 🔍 |
-| `verb_dist_cv` | QUITA §6.2.1 | 🔍 |
 | `lexical_density` | Lu (2012); definition in the broad Hallidayan sense — all open-class words | 🔍 |
-| `pos_dist_std` | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 13 UD tags | 🔍 |
-| `pos_kl_div` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits | 🔍 |
+| `posddev` | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 12 UD tags | 🔍 |
+| `posdiv` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits | 🔍 |
 | `front_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `back_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `syllable_mean` | Flesch (1948) Formula A, wl; unit there = syllables per 100 words, here per word | 🔍 |
@@ -461,130 +456,110 @@ A key may have more than one worked example in its source; each one is its own r
 | `long_word_ratio` | Anderson (1983); long word = 7+ letters | 🔍 |
 | `flesch_reading_ease` | Flesch (1948) Formula A; coefficient .846, unit = syllables per 100 words | 🔍 |
 | `smog` | McLaughlin (1969) p.643, Table 1, eq. (d); p = polysyllabic words in a 30-sentence sample | 🔍 |
+| `digit_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; here digits anywhere in the text | 🔍 |
+| `punct_comma_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_period_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_semicolon_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_exclamation_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_colon_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_quote_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_question_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
+| `punct_char_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C" | 🔍 |
+| `whitespace_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of white-space characters/C" | 🔍 |
+| `char_a_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_b_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_c_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_d_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_e_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_f_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_g_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_h_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_i_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_j_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_k_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_l_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_m_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_n_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_o_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_p_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_q_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_r_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_s_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_t_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_u_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_v_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_w_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_x_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_y_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_z_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
 
 ### Not verification candidates
 
-117 keys. The ⚪ ones are plain definitions (`punc_,_ratio`, `char_a`) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.
+61 keys. The ⚪ ones are plain definitions (`punct_dash_ratio`, `uppercase_ratio`) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.
 
 | Key | Source | Status |
 |---|---|---|
-| `n_lemma_count` | — | ⚪ |
-| `avg_word_length` | — | ⚪ |
-| `word_length_cv` | — | ⚪ |
-| `hapax_ratio` | — | ⚪ |
-| `entropy_std` | Shannon (1948) — the entropy formula; the standard deviation across segments is this library's own derivation | 🔧 |
-| `ttr_moving_slope` | — | ⚪ |
-| `avg_sent_len_word` | — | ⚪ |
-| `sentence_length_cv` | — | ⚪ |
-| `sent_len_skewness` | — | ⚪ |
-| `med_sent_len` | — | ⚪ |
-| `avg_sent_len_char` | — | ⚪ |
+| `lemma_count` | — | ⚪ |
 | `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only | 🔧 |
 | `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only | 🔧 |
 | `sent_len_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision | 🔧 |
-| `para_len_mean` | — | ⚪ |
-| `para_len_cv` | — | ⚪ |
-| `sents_per_para_mean` | — | ⚪ |
-| `sents_per_para_cv` | — | ⚪ |
-| `para_count_norm` | — | ⚪ |
-| `pos_noun` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_propn` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_verb` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_adj` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_adv` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_det` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_adp` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_intj` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_cconj` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_sconj` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_num` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_aux` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `pos_punct` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `question_per_sent` | — | ⚪ |
-| `pronoun_freq` | — | ⚪ |
-| `nominal_verbal_ratio` | — | ⚪ |
-| `sentfinal_noun` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_propn` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_verb` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_adj` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_adv` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_det` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_adp` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_intj` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_cconj` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_sconj` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_num` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_aux` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_pron` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `sentfinal_other` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_noun_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_propn_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_verb_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_adj_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_adv_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_det_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_adp_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_intj_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_cconj_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_sconj_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_num_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `pos_aux_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `question_sent_ratio` | — | ⚪ |
+| `sentfinal_noun_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_propn_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_verb_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_adj_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_adv_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_det_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_adp_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_intj_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_cconj_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_sconj_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_num_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_aux_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_pron_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
+| `sentfinal_other_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `surface_per_lemma` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_tense_past` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_tense_pres` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_tense_fut` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_aspect_perf` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_aspect_imp` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_aspect_prog` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_case_nom` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_case_acc` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_case_dat` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_case_loc` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_case_abl` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_case_gen` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_person_1` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_person_2` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_person_3` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_number_sing` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_number_plur` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `morph_voice_pass` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `tense_past_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `tense_pres_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `tense_fut_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `aspect_perf_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `aspect_imp_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `aspect_prog_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `case_nom_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `case_acc_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `case_dat_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `case_loc_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `case_abl_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `case_gen_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `person_1_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `person_2_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `person_3_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `number_sing_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `number_plur_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
+| `voice_pass_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
 | `vowel_ratio` | — | ⚪ |
-| `syllable_cv` | — | ⚪ |
-| `sentence_syllable_mean` | — | ⚪ |
-| `sentence_syllable_cv` | — | ⚪ |
+| `sent_syllable_mean` | — | ⚪ |
 | `polysyllabic_word_ratio` | McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form of SMOG's input, not the source's own measure | 🔧 |
-| `digit_vs_all` | — | ⚪ |
-| `punc_,_ratio` | — | ⚪ |
-| `punc_._ratio` | — | ⚪ |
-| `punc_;_ratio` | — | ⚪ |
-| `punc_!_ratio` | — | ⚪ |
-| `punc_:_ratio` | — | ⚪ |
-| `punc_-_ratio` | — | ⚪ |
-| `punc_ellipsis_ratio` | — | ⚪ |
-| `punc_paren_ratio` | — | ⚪ |
-| `punc_quote_ratio` | — | ⚪ |
-| `punc_question_ratio` | — | ⚪ |
-| `punct_density` | — | ⚪ |
+| `punct_dash_ratio` | — | ⚪ |
+| `punct_ellipsis_ratio` | — | ⚪ |
+| `punct_paren_ratio` | — | ⚪ |
 | `punct_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of punctuation types is this library's own decision | 🔧 |
 | `consecutive_punct_ratio` | — | ⚪ |
-| `whitespace_ratio` | — | ⚪ |
 | `punct_variety` | — | ⚪ |
 | `uppercase_ratio` | — | ⚪ |
 | `all_caps_word_ratio` | — | ⚪ |
-| `char_a` | — | ⚪ |
-| `char_b` | — | ⚪ |
-| `char_c` | — | ⚪ |
-| `char_d` | — | ⚪ |
-| `char_e` | — | ⚪ |
-| `char_f` | — | ⚪ |
-| `char_g` | — | ⚪ |
-| `char_h` | — | ⚪ |
-| `char_i` | — | ⚪ |
-| `char_j` | — | ⚪ |
-| `char_k` | — | ⚪ |
-| `char_l` | — | ⚪ |
-| `char_m` | — | ⚪ |
-| `char_n` | — | ⚪ |
-| `char_o` | — | ⚪ |
-| `char_p` | — | ⚪ |
-| `char_q` | — | ⚪ |
-| `char_r` | — | ⚪ |
-| `char_s` | — | ⚪ |
-| `char_t` | — | ⚪ |
-| `char_u` | — | ⚪ |
-| `char_v` | — | ⚪ |
-| `char_w` | — | ⚪ |
-| `char_x` | — | ⚪ |
-| `char_y` | — | ⚪ |
-| `char_z` | — | ⚪ |
 
 ## Syllabification — 10/10
 

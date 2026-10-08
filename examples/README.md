@@ -1,6 +1,6 @@
 # Örnek scriptler
 
-Dokuz çalışan script. Her biri ayrı bir soruya cevap verir.
+On çalışan script. Her biri ayrı bir soruya cevap verir.
 
 | Script | Soru | Ayrıntılı anlatım |
 |---|---|---|
@@ -13,6 +13,7 @@ Dokuz çalışan script. Her biri ayrı bir soruya cevap verir.
 | `07_nan_haritasi.py` | Metnim ne kadar kısa olabilir? | [NaN ne demek](../docs/tr/aciklama/nan.md) |
 | `08_tekrarlanabilirlik.py` | Aynı metin yarın da aynı sayıları verir mi? | [Eşikleri değiştir](../docs/tr/nasil/parametreler.md) |
 | `09_uzunluk_duyarliligi.py` | Hangi zenginlik ölçüsü metin boyundan bağımsız? | [Sınırlılıklar](../docs/tr/aciklama/sinirliliklar.md) |
+| `10_kelime_oruntuleri.py` | Kendi aradığım kalıbı nasıl sayarım, neyle eşleştiğini nasıl görürüm? | [Tek metni analiz et](../docs/tr/nasil/tek-metin.md) |
 
 ## Çalıştırma
 
@@ -34,10 +35,10 @@ Türkçe için `tr_core_news_md` kurulu olmalı — kurulum komutu depo kökünd
 [README](../README.md)'de. Model yoksa `analyze()` kurulum komutunu içeren bir
 `ModelNotFoundError` verir.
 
-Hepsi temel kurulumla çalışır. `pandas` yalnız `02`'nin son iki bloğunda
+Hepsi temel kurulumla çalışır. `pandas` yalnız `02`'nin son bloğunda
 kullanılır; kurulu değilse o kısım atlanır.
 
-`05`–`09` kendi korpusunuzu ya da metninizi argüman olarak alır
+`05`–`10` kendi korpusunuzu ya da metninizi argüman olarak alır
 (`python examples/05_cumle_ritmi.py korpus/`, `python examples/07_nan_haritasi.py metin.txt`).
 Argüman verilmezse `_demo.py`'deki küçük demo metinler kullanılır; bunlar
 script'in nasıl çalıştığını gösterir, sayılarını yorumlamak için değildir.

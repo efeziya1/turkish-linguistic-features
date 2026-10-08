@@ -17,15 +17,14 @@ cümle uzunluğu dağılımının 15. ve 85. yüzdeliğinden türetildi:
 | Türkçe | 162 | 197 990 |
 | İngilizce | 30 | 52 745 |
 
-Köşe yazısı **tek bir tür**. Roman bile başka bir dağılım verir (diyalog
-satırları çok kısa); teknik metin, transkript, şiir ya da çocuk kitabı için
-genelleneceği **garanti değil.** Kendi türünüzde çalışıyorsanız eşikleri
+Köşe yazısı **tek bir tür**. Roman, teknik metin, transkript, şiir ya da
+çocuk kitabı için genelleneceği **garanti değil.** Kendi türünüzde çalışıyorsanız eşikleri
 kendi korpusunuzdan türetmeyi düşünün —
 [yöntem burada](../../esik-kalibrasyonu.md).
 
 ### 2. On dört künye ikincil kaynaktan
 
-148 künyenin **14'ü** `as cited in` ile işaretlidir — birincil kaynağa
+163 künyenin **14'ü** `as cited in` ile işaretlidir — birincil kaynağa
 ulaşılamadı, formül aktaran kaynaktan alındı. Örnek:
 
 ```text
@@ -41,17 +40,21 @@ göstermeyin.
 
 ### 3. spaCy modeli sonuçların parçası
 
-Sözcük türü, lemma, biçimbilim etiketleri ve bağlılık öznitelikleri
-(ayrıştırıcının kendi cümleleriyle) modelden gelir. Model değişirse bu
-sayılar değişir.
+Sözcük türü, biçimbilim etiketleri, İngilizce lemmalar ve bağlılık
+öznitelikleri (ayrıştırıcının kendi cümleleriyle) modelden gelir. Model
+değişirse bu sayılar değişir. Türkçe lemmalar Zeyrek'ten gelir (§4).
 
 Kelime ve cümle sayımı modelin etiketlerini kullanmaz. Varsayılan kelime,
 boşlukla ayrılan ve kenar noktalaması atılan birimdir; varsayılan cümle
-kuralı cümle bitiren işaretleri modelin tokenizer'ından okur. Kelime başına
-etiket isteyen öznitelikler (sözcük türü, lemma, biçimbilim, bağlılık) ise
-modelin tokenlarını sayar; yani iki kelime tanımı yan yana durur: `e-posta`
-`ttr`'de tek kelime, `lexical_density`'de iki tokendir. Hangi özniteliğin
-hangisini kullandığını `describe_feature(key)["definitions"]["word"]` söyler.
+kuralı cümle bitiren işaretleri modelin tokenizer'ından okur. Bağlılık
+öznitelikleri dışında her öznitelik bu kelimeyi sayar. Kelime başına etiket
+isteyen öznitelikler (sözcük türü, lemma, biçimbilim) etiketi kelimenin
+içindeki ilk kelime tokenından alır: model `Türk-Amerikan`'ı ya da İngilizce
+`it's`'i birden çok tokena böler, kelime ilk parçanın etiketini taşır
+(`Türk`, `it`). Bu, Türkçe köşe yazılarında kelimelerin %0,3'ünde,
+İngilizcelerde %2,7'sinde olur. Bağlılık öznitelikleri modelin tokenlarını
+sayar. Hangi özniteliğin hangi kelimeyi kullandığını
+`describe_feature(key)["definitions"]["word"]` söyler.
 
 Doğrulanmış kombinasyon: spaCy 3.8.16, `en_core_web_sm` 3.8.0,
 `tr_core_news_md` 1.0.
@@ -62,9 +65,10 @@ anlatılıyor; ikisi de zararsız.
 
 ### 4. Türkçe morfoloji Zeyrek'e bağlı
 
-`morphological_zeyrek` grubundaki 24 öznitelik Zeyrek'ten gelir — Zemberek
-morfotaktiğinin Python aktarımı. Zeyrek'in çözümleyemediği bir kelime
-öznitelikten düşer.
+`morphological_zeyrek` grubundaki 23 öznitelik ve Türkçe lemmalar Zeyrek'ten
+gelir — Zemberek morfotaktiğinin Python aktarımı. Zeyrek'in çözümleyemediği bir
+kelime Zeyrek özniteliklerinden düşer; lemması kesme işaretinden önceki kısmı
+olur (`Pittsburgh'tan` → `pittsburgh`).
 
 Zeyrek bir **çözümleyicidir, belirsizlik gidericisi değildir**: aynı yüzey
 biçimi için birden çok çözümleme dönebilir ve bağlama bakarak doğrusunu
@@ -81,13 +85,13 @@ Tekrar üretilebilir sayılar için tohumu Python başlamadan sabitleyin, örne�
 
 ### 5. Adayların yarısı hâlâ doğrulanmadı
 
-142 satır doğrulama adayı bile değil (saf tanım, etiket şeması ya da
+82 satır doğrulama adayı bile değil (saf tanım, etiket şeması ya da
 bizim türevimiz).
-Kalan **91 adayın 48'i** bitmiş (46 ✅ + 2 🟡), **43'ü 🔍 açık**.
+Kalan **142 adayın 48'i** bitmiş (46 ✅ + 2 🟡), **94'ü 🔍 açık**.
 
 Sebebi [doğrulama sistemi](dogrulama.md) sayfasında: kaynakların çoğu
 formülü yayımlar, o formülün uygulandığı bir sayısal örnek vermez. Bu
-özellikle `lexical` grubunda belirgin — 29 adayın 7'si doğrulanmış.
+özellikle `lexical` grubunda belirgin — 36 adayın 7'si doğrulanmış.
 
 ### 6. Paket henüz PyPI'da değil
 
@@ -104,8 +108,6 @@ gereksinimi ya da künye kuralı. Yine de sonuçları etkiler.
 Bazı öznitelikler literatürde adı olan ölçüler değil, bu kütüphanenin
 tanımlarıdır. Künyeleri bunu açıkça yazar:
 
-- `entropy_std` — Shannon entropisinin **parçalar arası standart sapması**.
-  Entropi Shannon'ın, standart sapma bizim.
 - `punct_entropy`, `sent_len_entropy` — Shannon formülünün noktalama ve
   cümle uzunluğu dağılımına uygulanması. Formül Shannon'ın, uygulama kararı
   bizim.
@@ -115,12 +117,12 @@ tanımlarıdır. Künyeleri bunu açıkça yazar:
 Bunları kullanmakta sakınca yok. Tek koşul, künyeyi doğru kurmak: formülün
 kaynağını verin, ölçünün kendisini kaynağa mal etmeyin. Yöntem bölümünüzde:
 
-- ✗ "Shannon (1948) `entropy_std` ölçüsü"
-- ✓ "Shannon (1948) entropisinin parçalar arası standart sapması
+- ✗ "Shannon (1948) `sent_len_entropy` ölçüsü"
+- ✓ "Shannon (1948) entropisinin cümle uzunluğu dağılımına uygulanması
   (turkish-linguistic-features'ın tanımı)"
 
-Sebep basit: Shannon entropiyi tanımladı, parçalar arası standart sapmasını
-tanımlamadı. Birinci yazım okuyucuya, kaynakta aranınca bulunacak bir ölçü
+Sebep basit: Shannon entropiyi tanımladı, cümle uzunluklarına
+uygulamadı. Birinci yazım okuyucuya, kaynakta aranınca bulunacak bir ölçü
 olduğunu ima ediyor.
 
 ### 8. Metin uzunluğuna duyarlılık
@@ -136,18 +138,17 @@ bağımsız değildir; `mtld` ve `vocd_d` Türkçede belirgin biçimde kayar
 
 ### 9. Paragraf öznitelikleri girdinin biçimlendirmesine bağlı
 
-Beş `para_*` özniteliği paragraf sınırını **boş satırdan** bulur. Tek satır
+İki `para_*` özniteliği paragraf sınırını **boş satırdan** bulur. Tek satır
 sonu paragraf saymaz — aksi hâlde satır satır sarılmış bir metinde her satır
 paragraf olurdu.
 
 Sonuç: metninizde boş satır yoksa metnin tamamı tek paragraf sayılır.
-`para_len_mean` bütün metnin kelime sayısına eşitlenir, iki CV NaN döner.
+`para_len_mean` bütün metnin kelime sayısına eşitlenir.
 Kütüphane bunu düzeltemez — silinmiş paragraf sınırı geri getirilemez.
 
 Bu, PDF ve EPUB'dan çıkarılmış metinlerde **yaygındır**: paragraflar arasındaki
-boş satırlar çıkarım sırasında kaybolur. Kendi metninizde hangi özniteliklerin
-bu yüzden ölçülemediğini [NaN haritası örneğiyle](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/07_nan_haritasi.py)
-görebilirsiniz.
+boş satırlar çıkarım sırasında kaybolur. Değer `nan` olmadığı için bunu
+sayılardan fark etmezsiniz; uyarı aşağıda.
 
 1000 kelimeyi geçen bir metinde hiç paragraf sınırı bulunamazsa
 `ParagraphStructureWarning` basılır. Uyarıyı görürseniz iki yol var: kaynak

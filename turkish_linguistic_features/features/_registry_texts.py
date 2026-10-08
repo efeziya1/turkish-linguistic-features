@@ -1,4 +1,4 @@
-"""Registry metin tabloları — 187 statik anahtarın açıklaması, formülü,
+"""Registry metin tabloları — 174 statik anahtarın açıklaması, formülü,
 ölçüm şartı ve künyesi.
 
 Bu dosya **veridir**, mantık içermez. ``registry.py``'den ayrı durmasının
@@ -46,12 +46,11 @@ __all__ = [
 # Anahtar → NE ölçtüğü.
 FEATURE_DESCRIPTIONS: dict[str, str] = {
     # ── lexical ─────────────────────────────────────────────────
-    'n_lemma_count': 'number of distinct lemmas',
-    'avg_word_length': 'mean word length in characters',
-    'word_length_cv': 'spread of word length',
+    'lemma_count': 'number of distinct lemmas',
+    'word_count': 'number of words',
+    'word_len_mean': 'mean word length in characters',
     'ttr': 'type-token ratio; falls as the text grows',
     'mattr': 'moving-average TTR',
-    'entropy_std': 'how much word entropy varies across the text',
     'herdan_c': "Herdan's C (LogTTR)",
     'sichel_s': 'share of types occurring exactly twice',
     'zipf_exponent': 'Zipf slope',
@@ -65,14 +64,13 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'summer_s': "Summer's S, log-log type-token ratio",
     'maas_a2': "Maas' a²; higher = more repetitive",
     'herdan_vm': "Herdan's Vm; higher = more repetitive",
-    'ttr_moving_slope': 'whether vocabulary thins out towards the end',
     'heaps_beta': 'vocabulary growth rate',
     'entropy': 'Shannon entropy of word frequencies',
     'yule_k': "Yule's K; higher = more repetitive",
     'simpson_d': 'chance that two words drawn without replacement are the same type',
     'brunet_w': "Brunet's W",
     'hapax_ratio': 'share of types occurring once',
-    'hapax_percentage': 'share of tokens that occur once',
+    'hapax_token_ratio': 'share of tokens that occur once',
     'vocd_d': 'voc-D',
     'hdd': 'HD-D',
     'msttr': 'mean segmental TTR',
@@ -95,108 +93,99 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'adjusted_modulus': 'distance from the h-point to the curve ends',
     'writers_view_alpha': 'angle at the h-point, in radians',
     'thematic_concentration': 'weight of content words above the h-point',
-    'secondary_thematic_concentration': 'same, up to rank 2h',
+    'secondary_thematic_concentration': 'weight of content words up to rank 2h',
     # ── sentence ────────────────────────────────────────────────
-    'avg_sent_len_word': 'mean sentence length in words',
-    'avg_sent_len_char': 'mean sentence length in characters',
-    'sentence_length_cv': 'spread of sentence length',
-    'sent_len_skewness': 'skew of sentence length; positive = long-sentence tail',
+    'sent_len_mean': 'mean sentence length in words',
+    'sent_len_char_mean': 'mean sentence length in characters',
     'short_sent_ratio': 'share of short sentences',
     'long_sent_ratio': 'share of long sentences',
-    'med_sent_len': 'median sentence length',
+    'sent_len_median': 'median sentence length',
     'sent_len_entropy': 'variety of sentence lengths',
     # ── paragraph ───────────────────────────────────────────────
     'para_len_mean': 'mean paragraph length',
-    'para_len_cv': 'spread of paragraph length',
     'sents_per_para_mean': 'mean sentences per paragraph',
-    'sents_per_para_cv': 'spread of sentences per paragraph',
-    'para_count_norm': 'paragraphs per 1000 words',
     # ── pos ─────────────────────────────────────────────────────
-    'pos_noun': 'share of NOUN tokens',
-    'pos_propn': 'share of PROPN tokens',
-    'pos_verb': 'share of VERB tokens',
-    'pos_adj': 'share of ADJ tokens',
-    'pos_adv': 'share of ADV tokens',
-    'pos_det': 'share of DET tokens',
-    'pos_adp': 'share of ADP tokens',
-    'pos_aux': 'share of AUX tokens',
-    'pos_cconj': 'share of CCONJ tokens',
-    'pos_sconj': 'share of SCONJ tokens',
-    'pos_num': 'share of NUM tokens',
-    'pos_intj': 'share of INTJ tokens',
-    'pos_punct': 'share of PUNCT tokens',
+    'pos_noun_ratio': 'share of NOUN words',
+    'pos_propn_ratio': 'share of PROPN words',
+    'pos_verb_ratio': 'share of VERB words',
+    'pos_adj_ratio': 'share of ADJ words',
+    'pos_adv_ratio': 'share of ADV words',
+    'pos_det_ratio': 'share of DET words',
+    'pos_adp_ratio': 'share of ADP words',
+    'pos_aux_ratio': 'share of AUX words',
+    'pos_cconj_ratio': 'share of CCONJ words',
+    'pos_sconj_ratio': 'share of SCONJ words',
+    'pos_num_ratio': 'share of NUM words',
+    'pos_intj_ratio': 'share of INTJ words',
     # ── syntactic ───────────────────────────────────────────────
-    'question_per_sent': 'share of sentences ending in "?"',
-    'pronoun_freq': 'share of pronoun tokens',
-    'nominal_verbal_ratio': 'noun-to-verb balance',
-    'verb_dist_mean': 'mean token gap between consecutive verbs',
-    'verb_dist_cv': 'spread of verb gaps',
+    'question_sent_ratio': 'share of sentences ending in "?"',
+    'pronoun_ratio': 'share of pronoun words',
+    'verb_dist_mean': 'mean word gap between consecutive verbs',
     'activity_ratio': 'activity Q',
     'lexical_density': 'share of lexical words',
-    'pos_dist_std': 'how uneven the POS distribution is',
-    'pos_kl_div': 'how much sentences differ from the document in POS make-up',
+    'posddev': 'how uneven the POS distribution is',
+    'posdiv': 'how much sentences differ from the document in POS make-up',
     # ── syntactic_dep ───────────────────────────────────────────
     'arc_len_mean': 'mean dependency distance (MDD2)',
     'parse_depth_mean': 'mean hierarchical distance (MHD2)',
-    'sentfinal_noun': 'share of sentences ending in a NOUN',
-    'sentfinal_propn': 'share of sentences ending in a PROPN',
-    'sentfinal_verb': 'share of sentences ending in a VERB',
-    'sentfinal_adj': 'share of sentences ending in a ADJ',
-    'sentfinal_adv': 'share of sentences ending in a ADV',
-    'sentfinal_det': 'share of sentences ending in a DET',
-    'sentfinal_adp': 'share of sentences ending in a ADP',
-    'sentfinal_intj': 'share of sentences ending in a INTJ',
-    'sentfinal_cconj': 'share of sentences ending in a CCONJ',
-    'sentfinal_sconj': 'share of sentences ending in a SCONJ',
-    'sentfinal_num': 'share of sentences ending in a NUM',
-    'sentfinal_aux': 'share of sentences ending in a AUX',
-    'sentfinal_pron': 'share of sentences ending in a PRON',
-    'sentfinal_other': 'share of sentences ending in any other tag',
+    'sentfinal_noun_ratio': 'share of sentences ending in a NOUN',
+    'sentfinal_propn_ratio': 'share of sentences ending in a PROPN',
+    'sentfinal_verb_ratio': 'share of sentences ending in a VERB',
+    'sentfinal_adj_ratio': 'share of sentences ending in a ADJ',
+    'sentfinal_adv_ratio': 'share of sentences ending in a ADV',
+    'sentfinal_det_ratio': 'share of sentences ending in a DET',
+    'sentfinal_adp_ratio': 'share of sentences ending in a ADP',
+    'sentfinal_intj_ratio': 'share of sentences ending in a INTJ',
+    'sentfinal_cconj_ratio': 'share of sentences ending in a CCONJ',
+    'sentfinal_sconj_ratio': 'share of sentences ending in a SCONJ',
+    'sentfinal_num_ratio': 'share of sentences ending in a NUM',
+    'sentfinal_aux_ratio': 'share of sentences ending in a AUX',
+    'sentfinal_pron_ratio': 'share of sentences ending in a PRON',
+    'sentfinal_other_ratio': 'share of sentences ending in any other tag',
     # ── morphological ───────────────────────────────────────────
     'surface_per_lemma': 'distinct forms per lemma',
-    'morph_tense_past': 'share of tokens tagged Tense=Past',
-    'morph_tense_pres': 'share of tokens tagged Tense=Pres',
-    'morph_tense_fut': 'share of tokens tagged Tense=Fut',
-    'morph_aspect_perf': 'share of tokens tagged Aspect=Perf',
-    'morph_aspect_imp': 'share of tokens tagged Aspect=Imp',
-    'morph_aspect_prog': 'share of tokens tagged Aspect=Prog',
-    'morph_case_nom': 'share of tokens tagged Case=Nom',
-    'morph_case_acc': 'share of tokens tagged Case=Acc',
-    'morph_case_dat': 'share of tokens tagged Case=Dat',
-    'morph_case_loc': 'share of tokens tagged Case=Loc',
-    'morph_case_abl': 'share of tokens tagged Case=Abl',
-    'morph_case_gen': 'share of tokens tagged Case=Gen',
-    'morph_person_1': 'share of tokens tagged Person=1',
-    'morph_person_2': 'share of tokens tagged Person=2',
-    'morph_person_3': 'share of tokens tagged Person=3',
-    'morph_number_sing': 'share of tokens tagged Number=Sing',
-    'morph_number_plur': 'share of tokens tagged Number=Plur',
-    'morph_voice_pass': 'share of passive verbs',
+    'tense_past_ratio': 'share of words tagged Tense=Past',
+    'tense_pres_ratio': 'share of words tagged Tense=Pres',
+    'tense_fut_ratio': 'share of words tagged Tense=Fut',
+    'aspect_perf_ratio': 'share of words tagged Aspect=Perf',
+    'aspect_imp_ratio': 'share of words tagged Aspect=Imp',
+    'aspect_prog_ratio': 'share of words tagged Aspect=Prog',
+    'case_nom_ratio': 'share of words tagged Case=Nom',
+    'case_acc_ratio': 'share of words tagged Case=Acc',
+    'case_dat_ratio': 'share of words tagged Case=Dat',
+    'case_loc_ratio': 'share of words tagged Case=Loc',
+    'case_abl_ratio': 'share of words tagged Case=Abl',
+    'case_gen_ratio': 'share of words tagged Case=Gen',
+    'person_1_ratio': 'share of words tagged Person=1',
+    'person_2_ratio': 'share of words tagged Person=2',
+    'person_3_ratio': 'share of words tagged Person=3',
+    'number_sing_ratio': 'share of words tagged Number=Sing',
+    'number_plur_ratio': 'share of words tagged Number=Plur',
+    'voice_pass_ratio': 'share of passive verbs',
     # ── morphological_zeyrek ────────────────────────────────────
-    'agglutination_depth': 'visible suffixes per word',
-    'suffix_char_length_ratio': 'share of word letters in suffixes',
-    'suffix_bigram_entropy': 'variety of suffix sequences',
-    'derivational_suffix_ratio': 'share of derivational suffixes',
-    'verb_suffix_diversity': 'suffix variety on verbs',
-    'tense_past_def': 'share of verbs in the definite past (-DI)',
-    'tense_past_nar': 'share of verbs in the reported past (-mIş)',
-    'tense_present': 'share of verbs in the present',
-    'tense_future': 'share of verbs in the future (-AcAk)',
-    'negation_ratio': 'share of negative verbs',
-    'passive_ratio': 'share of passive verbs',
-    'plural_ratio': 'share of plural nominals',
-    'case_acc_ratio': 'share of words in the accusative case',
-    'case_dat_ratio': 'share of words in the dative case',
-    'case_loc_ratio': 'share of words in the locative case',
-    'case_abl_ratio': 'share of words in the ablative case',
-    'case_gen_ratio': 'share of words in the genitive case',
-    'case_ins_ratio': 'share of words in the instrumental case',
-    'conditional_suffix_ratio': 'share of conditional verbs',
-    'causative_suffix_ratio': 'share of causative verbs',
-    'suffix_chain_cv': 'spread of suffix-chain length',
-    'modal_possibility_ratio': 'share of ability verbs',
-    'modal_necessity_ratio': 'share of necessity verbs',
-    'question_particle_ratio': 'share of question particles',
+    'zeyrek_agglutination_depth': 'visible suffixes per word',
+    'zeyrek_suffix_char_length_ratio': 'share of word letters in suffixes',
+    'zeyrek_suffix_bigram_entropy': 'variety of suffix sequences',
+    'zeyrek_derivational_suffix_ratio': 'share of derivational suffixes',
+    'zeyrek_verb_suffix_diversity': 'suffix variety on verbs',
+    'zeyrek_tense_past_def_ratio': 'share of verbs in the definite past (-DI)',
+    'zeyrek_tense_past_nar_ratio': 'share of verbs in the reported past (-mIş)',
+    'zeyrek_tense_present_ratio': 'share of verbs in the present',
+    'zeyrek_tense_future_ratio': 'share of verbs in the future (-AcAk)',
+    'zeyrek_negation_ratio': 'share of negative verbs',
+    'zeyrek_passive_ratio': 'share of passive verbs',
+    'zeyrek_plural_ratio': 'share of plural nominals',
+    'zeyrek_case_acc_ratio': 'share of words in the accusative case',
+    'zeyrek_case_dat_ratio': 'share of words in the dative case',
+    'zeyrek_case_loc_ratio': 'share of words in the locative case',
+    'zeyrek_case_abl_ratio': 'share of words in the ablative case',
+    'zeyrek_case_gen_ratio': 'share of words in the genitive case',
+    'zeyrek_case_ins_ratio': 'share of words in the instrumental case',
+    'zeyrek_conditional_suffix_ratio': 'share of conditional verbs',
+    'zeyrek_causative_suffix_ratio': 'share of causative verbs',
+    'zeyrek_modal_possibility_ratio': 'share of ability verbs',
+    'zeyrek_modal_necessity_ratio': 'share of necessity verbs',
+    'zeyrek_question_particle_ratio': 'share of question particles',
     # ── phonetic ────────────────────────────────────────────────
     'vowel_ratio': 'share of vowels',
     'front_vowel_ratio': 'share of front vowels',
@@ -204,15 +193,13 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'harmony_fronting_ratio': 'share of words obeying front/back vowel harmony (TR only)',
     'harmony_rounding_ratio': 'share of words obeying rounding vowel harmony (TR only)',
     'syllable_mean': 'mean syllables per word',
-    'syllable_cv': 'spread of syllables per word',
     'syllable_1_ratio': 'share of words with 1 syllable',
     'syllable_2_ratio': 'share of words with 2 syllables',
     'syllable_3_ratio': 'share of words with 3 syllables',
     'syllable_4_ratio': 'share of words with 4 syllables',
     'syllable_5_ratio': 'share of words with 5 syllables',
     'syllable_6plus_ratio': 'share of words with 6 or more syllables',
-    'sentence_syllable_mean': 'syllables per sentence',
-    'sentence_syllable_cv': 'spread of syllables per sentence',
+    'sent_syllable_mean': 'syllables per sentence',
     # ── readability ─────────────────────────────────────────────
     'bezirci_yilmaz': 'Bezirci-Yılmaz; higher = harder',
     'atesman': 'Ateşman; higher = easier',
@@ -226,18 +213,18 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'polysyllabic_word_ratio': 'share of 3+ syllable words (EN)',
     'long_word_ratio': 'share of 7+ letter words',
     # ── punctuation ─────────────────────────────────────────────
-    'digit_vs_all': 'share of digit characters',
-    'punc_,_ratio': 'comma marks per word',
-    'punc_._ratio': 'full stop marks per word',
-    'punc_;_ratio': 'semicolon marks per word',
-    'punc_!_ratio': 'exclamation mark marks per word',
-    'punc_:_ratio': 'colon marks per word',
-    'punc_-_ratio': 'hyphen or dash marks per word',
-    'punc_ellipsis_ratio': 'ellipsis marks per word',
-    'punc_paren_ratio': 'parenthesis marks per word',
-    'punc_quote_ratio': 'quotation mark marks per word',
-    'punc_question_ratio': 'question mark marks per word',
-    'punct_density': 'punctuation marks per character',
+    'digit_ratio': 'share of digit characters',
+    'punct_comma_ratio': 'share of comma marks among all marks',
+    'punct_period_ratio': 'share of full stop marks among all marks',
+    'punct_semicolon_ratio': 'share of semicolon marks among all marks',
+    'punct_exclamation_ratio': 'share of exclamation marks among all marks',
+    'punct_colon_ratio': 'share of colon marks among all marks',
+    'punct_dash_ratio': 'share of hyphen or dash marks among all marks',
+    'punct_ellipsis_ratio': 'share of ellipsis marks among all marks',
+    'punct_paren_ratio': 'share of parenthesis marks among all marks',
+    'punct_quote_ratio': 'share of quotation marks among all marks',
+    'punct_question_ratio': 'share of question marks among all marks',
+    'punct_char_ratio': 'share of punctuation marks among characters',
     'punct_entropy': 'variety of punctuation types',
     'consecutive_punct_ratio': 'share of marks directly next to another mark',
     'whitespace_ratio': 'share of whitespace characters',
@@ -247,20 +234,19 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     # ── chars (dinamik grup) ───────────────────────────────────────
     'chars': 'share of that letter among alphabet letters',
     # ── custom_ngrams (dinamik grup) ───────────────────────────────
-    'custom_ngrams': 'rate of a user-supplied word sequence',
+    'custom_ngrams': 'count of a user-supplied word or POS-tag sequence within sentences',
 }
 
 # Anahtar → NASIL hesaplandığı. Anahtarın kendi satırı yoksa describe_feature
 # grup adındaki satıra düşer; bu yalnız dinamik gruplarda (chars, custom_ngrams)
-# var, 187 statik anahtarın hepsinin kendi satırı var.
+# var, 174 statik anahtarın hepsinin kendi satırı var.
 FEATURE_FORMULAS: dict[str, str] = {
     # ── lexical ─────────────────────────────────────────────────
-    'n_lemma_count': 'V over lemmas',
-    'avg_word_length': 'sum(len(w)) / N',
-    'word_length_cv': 'std(len(w)) / mean(len(w)), population std',
+    'lemma_count': 'V over lemmas',
+    'word_count': 'words',
+    'word_len_mean': 'sum(len(w)) / N',
     'ttr': 'V / N',
     'mattr': 'mean TTR of every sliding window of mattr_window words',
-    'entropy_std': 'population std of entropies (nats) of disjoint mattr_window-word chunks',
     'herdan_c': 'log(V) / log(N)',
     'sichel_s': 'V2 / V',
     'zipf_exponent': 'abs(slope) of least-squares fit log f(r) ~ log r',
@@ -274,7 +260,6 @@ FEATURE_FORMULAS: dict[str, str] = {
     'summer_s': 'ln(ln V) / ln(ln N)',
     'maas_a2': '(ln N - ln V) / (ln N)^2',
     'herdan_vm': 'sqrt(sum(f^2) / N^2 - 1 / V)',
-    'ttr_moving_slope': 'linear slope of TTR over disjoint ttr_slope_chunk_size-word chunks',
     'heaps_beta':
         'least-squares slope of log V ~ log N over prefixes every heaps_step words, not '
         'clipped',
@@ -283,16 +268,16 @@ FEATURE_FORMULAS: dict[str, str] = {
     'simpson_d': 'sum(f(f-1)) / (N(N-1))',
     'brunet_w': 'N^(V^-a), a = brunet_w_a',
     'hapax_ratio': 'V1 / V',
-    'hapax_percentage': 'V1 / N',
+    'hapax_token_ratio': 'V1 / N',
     'vocd_d':
         'D fitted to mean TTR of random samples of vocd_sample_min–vocd_sample_max words, '
         'vocd_num_runs runs averaged',
     'hdd': 'expected TTR of a hdd_sample_size-word sample (hypergeometric)',
     'msttr': 'mean TTR of full msttr_segment_size-word segments',
-    'noun_variation': 'distinct noun lemmas / lexical-word tokens',
-    'verb_variation': 'distinct verb lemmas / verb tokens',
-    'adj_variation': 'distinct adjective lemmas / lexical-word tokens',
-    'adv_variation': 'distinct adverb lemmas / lexical-word tokens',
+    'noun_variation': 'distinct noun lemmas / lexical words',
+    'verb_variation': 'distinct verb lemmas / verbs',
+    'adj_variation': 'distinct adjective lemmas / lexical words',
+    'adv_variation': 'distinct adverb lemmas / lexical words',
     'wordfreq_mean': 'mean wordfreq Zipf score of lexical-word lemmas (unlisted = 0)',
     'wordfreq_rare_ratio': 'lexical-word lemmas with Zipf score <= 3 / lexical words',
     # ── frequency_structure ─────────────────────────────────────
@@ -310,108 +295,99 @@ FEATURE_FORMULAS: dict[str, str] = {
     'thematic_concentration': "sum(2(h - r') f(r')) / (h(h-1) f1), content words with r' < h",
     'secondary_thematic_concentration': "sum((2h - r') f(r')) / (h(2h-1) f1), r' <= 2h",
     # ── sentence ────────────────────────────────────────────────
-    'avg_sent_len_word': 'mean words per sentence',
-    'avg_sent_len_char': 'mean len(tokens joined by single spaces)',
-    'sentence_length_cv': 'population std / mean of words per sentence',
-    'sent_len_skewness': 'Fisher-Pearson g1 = m3 / m2^1.5 over words per sentence',
+    'sent_len_mean': 'mean words per sentence',
+    'sent_len_char_mean': 'mean len(tokens joined by single spaces)',
     'short_sent_ratio': 'sentences with fewer than short_sent_threshold words / sentences',
     'long_sent_ratio': 'sentences with more than long_sent_threshold words / sentences',
-    'med_sent_len': 'median words per sentence',
+    'sent_len_median': 'median words per sentence',
     'sent_len_entropy': 'Shannon entropy (nats) of the distribution of words per sentence',
     # ── paragraph ───────────────────────────────────────────────
     'para_len_mean': 'mean words per paragraph (blank line = boundary)',
-    'para_len_cv': 'population std / mean',
     'sents_per_para_mean': 'mean count of [.!?…]+ per paragraph (at least 1)',
-    'sents_per_para_cv': 'population std / mean',
-    'para_count_norm': 'paragraphs / words * 1000',
     # ── pos ─────────────────────────────────────────────────────
-    'pos_noun': 'tag count / all tokens (punctuation included)',
-    'pos_propn': 'tag count / all tokens (punctuation included)',
-    'pos_verb': 'tag count / all tokens (punctuation included)',
-    'pos_adj': 'tag count / all tokens (punctuation included)',
-    'pos_adv': 'tag count / all tokens (punctuation included)',
-    'pos_det': 'tag count / all tokens (punctuation included)',
-    'pos_adp': 'tag count / all tokens (punctuation included)',
-    'pos_aux': 'tag count / all tokens (punctuation included)',
-    'pos_cconj': 'tag count / all tokens (punctuation included)',
-    'pos_sconj': 'tag count / all tokens (punctuation included)',
-    'pos_num': 'tag count / all tokens (punctuation included)',
-    'pos_intj': 'tag count / all tokens (punctuation included)',
-    'pos_punct': 'tag count / all tokens (punctuation included)',
+    'pos_noun_ratio': 'tag count / words',
+    'pos_propn_ratio': 'tag count / words',
+    'pos_verb_ratio': 'tag count / words',
+    'pos_adj_ratio': 'tag count / words',
+    'pos_adv_ratio': 'tag count / words',
+    'pos_det_ratio': 'tag count / words',
+    'pos_adp_ratio': 'tag count / words',
+    'pos_aux_ratio': 'tag count / words',
+    'pos_cconj_ratio': 'tag count / words',
+    'pos_sconj_ratio': 'tag count / words',
+    'pos_num_ratio': 'tag count / words',
+    'pos_intj_ratio': 'tag count / words',
     # ── syntactic ───────────────────────────────────────────────
-    'question_per_sent': 'sentences whose final mark contains "?" / sentences',
-    'pronoun_freq': 'PRON / all tokens',
-    'nominal_verbal_ratio': '(NOUN + PROPN) / VERB',
+    'question_sent_ratio': 'sentences whose final mark contains "?" / sentences',
+    'pronoun_ratio': 'PRON / words',
     'verb_dist_mean': 'mean difference of VERB positions',
-    'verb_dist_cv': 'population std / mean of those gaps',
     'activity_ratio': 'VERB / (VERB + ADJ)',
     'lexical_density': '(NOUN + PROPN + VERB + ADJ + ADV) / all words, PUNCT and SYM excluded',
-    'pos_dist_std': 'population std of the 13 pos_* shares',
-    'pos_kl_div': 'mean over sentences of KL(sentence POS ‖ document POS), nats',
+    'posddev': 'population std of the 12 pos_*_ratio shares',
+    'posdiv': 'mean over sentences of KL(sentence POS ‖ document POS), nats',
     # ── syntactic_dep ───────────────────────────────────────────
     'arc_len_mean':
         'mean over sentences of mean abs(word position - head position), punctuation removed, '
         'root excluded',
     'parse_depth_mean': 'mean over sentences of mean steps to the root, capped at max_parse_depth',
-    'sentfinal_noun': 'sentences ending in that tag / sentences',
-    'sentfinal_propn': 'sentences ending in that tag / sentences',
-    'sentfinal_verb': 'sentences ending in that tag / sentences',
-    'sentfinal_adj': 'sentences ending in that tag / sentences',
-    'sentfinal_adv': 'sentences ending in that tag / sentences',
-    'sentfinal_det': 'sentences ending in that tag / sentences',
-    'sentfinal_adp': 'sentences ending in that tag / sentences',
-    'sentfinal_intj': 'sentences ending in that tag / sentences',
-    'sentfinal_cconj': 'sentences ending in that tag / sentences',
-    'sentfinal_sconj': 'sentences ending in that tag / sentences',
-    'sentfinal_num': 'sentences ending in that tag / sentences',
-    'sentfinal_aux': 'sentences ending in that tag / sentences',
-    'sentfinal_pron': 'sentences ending in that tag / sentences',
-    'sentfinal_other': 'same, tags outside the 13',
+    'sentfinal_noun_ratio': 'sentences ending in that tag / sentences',
+    'sentfinal_propn_ratio': 'sentences ending in that tag / sentences',
+    'sentfinal_verb_ratio': 'sentences ending in that tag / sentences',
+    'sentfinal_adj_ratio': 'sentences ending in that tag / sentences',
+    'sentfinal_adv_ratio': 'sentences ending in that tag / sentences',
+    'sentfinal_det_ratio': 'sentences ending in that tag / sentences',
+    'sentfinal_adp_ratio': 'sentences ending in that tag / sentences',
+    'sentfinal_intj_ratio': 'sentences ending in that tag / sentences',
+    'sentfinal_cconj_ratio': 'sentences ending in that tag / sentences',
+    'sentfinal_sconj_ratio': 'sentences ending in that tag / sentences',
+    'sentfinal_num_ratio': 'sentences ending in that tag / sentences',
+    'sentfinal_aux_ratio': 'sentences ending in that tag / sentences',
+    'sentfinal_pron_ratio': 'sentences ending in that tag / sentences',
+    'sentfinal_other_ratio': 'sentences ending in a tag outside the 13 / sentences',
     # ── morphological ───────────────────────────────────────────
     'surface_per_lemma': 'distinct (lemma, form) pairs / distinct lemmas, lowercased',
-    'morph_tense_past': 'tokens with Tense=X / tokens with any Tense',
-    'morph_tense_pres': 'tokens with Tense=X / tokens with any Tense',
-    'morph_tense_fut': 'tokens with Tense=X / tokens with any Tense',
-    'morph_aspect_perf': 'same with Aspect',
-    'morph_aspect_imp': 'same with Aspect',
-    'morph_aspect_prog': 'same with Aspect',
-    'morph_case_nom': 'same with Case',
-    'morph_case_acc': 'same with Case',
-    'morph_case_dat': 'same with Case',
-    'morph_case_loc': 'same with Case',
-    'morph_case_abl': 'same with Case',
-    'morph_case_gen': 'same with Case',
-    'morph_person_1': 'same with Person',
-    'morph_person_2': 'same with Person',
-    'morph_person_3': 'same with Person',
-    'morph_number_sing': 'same with Number',
-    'morph_number_plur': 'same with Number',
-    'morph_voice_pass': 'VERB with Voice=Pass / VERB',
+    'tense_past_ratio': 'words with Tense=X / words with any Tense',
+    'tense_pres_ratio': 'words with Tense=X / words with any Tense',
+    'tense_fut_ratio': 'words with Tense=X / words with any Tense',
+    'aspect_perf_ratio': 'words with Aspect=X / words with any Aspect',
+    'aspect_imp_ratio': 'words with Aspect=X / words with any Aspect',
+    'aspect_prog_ratio': 'words with Aspect=X / words with any Aspect',
+    'case_nom_ratio': 'words with Case=X / words with any Case',
+    'case_acc_ratio': 'words with Case=X / words with any Case',
+    'case_dat_ratio': 'words with Case=X / words with any Case',
+    'case_loc_ratio': 'words with Case=X / words with any Case',
+    'case_abl_ratio': 'words with Case=X / words with any Case',
+    'case_gen_ratio': 'words with Case=X / words with any Case',
+    'person_1_ratio': 'words with Person=X / words with any Person',
+    'person_2_ratio': 'words with Person=X / words with any Person',
+    'person_3_ratio': 'words with Person=X / words with any Person',
+    'number_sing_ratio': 'words with Number=X / words with any Number',
+    'number_plur_ratio': 'words with Number=X / words with any Number',
+    'voice_pass_ratio': 'VERB with Voice=Pass / VERB',
     # ── morphological_zeyrek ────────────────────────────────────
-    'agglutination_depth': 'visible suffixes / analysed words',
-    'suffix_char_length_ratio': 'suffix letters / word letters',
-    'suffix_bigram_entropy': 'Shannon entropy (nats) of within-word visible suffix pairs',
-    'derivational_suffix_ratio': 'derivational / visible suffixes',
-    'verb_suffix_diversity': 'mean distinct visible suffix tags per verb_suffix_window-verb chunk',
-    'tense_past_def': 'verbs whose last tense tag is X / verbs',
-    'tense_past_nar': 'verbs whose last tense tag is X / verbs',
-    'tense_present': 'verbs whose last tense tag is X / verbs',
-    'tense_future': 'verbs whose last tense tag is X / verbs',
-    'negation_ratio': 'verbs with Neg or Unable / verbs',
-    'passive_ratio': 'verbs with Pass / verbs',
-    'plural_ratio': 'words with A3pl on a non-verb part / analysed words',
-    'case_acc_ratio': 'words with Acc … Ins / analysed words',
-    'case_dat_ratio': 'words with Acc … Ins / analysed words',
-    'case_loc_ratio': 'words with Acc … Ins / analysed words',
-    'case_abl_ratio': 'words with Acc … Ins / analysed words',
-    'case_gen_ratio': 'words with Acc … Ins / analysed words',
-    'case_ins_ratio': 'words with Acc … Ins / analysed words',
-    'conditional_suffix_ratio': 'verbs with Cond / verbs',
-    'causative_suffix_ratio': 'verbs with Caus / verbs',
-    'suffix_chain_cv': 'population std / mean of visible suffixes per word',
-    'modal_possibility_ratio': 'verbs with Able or Unable / verbs',
-    'modal_necessity_ratio': 'verbs with Neces / verbs',
-    'question_particle_ratio': 'words with root Ques / analysed words',
+    'zeyrek_agglutination_depth': 'visible suffixes / analysed words',
+    'zeyrek_suffix_char_length_ratio': 'suffix letters / word letters',
+    'zeyrek_suffix_bigram_entropy': 'Shannon entropy (nats) of within-word visible suffix pairs',
+    'zeyrek_derivational_suffix_ratio': 'derivational / visible suffixes',
+    'zeyrek_verb_suffix_diversity': 'mean distinct visible suffix tags per verb_suffix_window-verb chunk',
+    'zeyrek_tense_past_def_ratio': 'verbs whose last tense tag is X / verbs',
+    'zeyrek_tense_past_nar_ratio': 'verbs whose last tense tag is X / verbs',
+    'zeyrek_tense_present_ratio': 'verbs whose last tense tag is X / verbs',
+    'zeyrek_tense_future_ratio': 'verbs whose last tense tag is X / verbs',
+    'zeyrek_negation_ratio': 'verbs with Neg or Unable / verbs',
+    'zeyrek_passive_ratio': 'verbs with Pass / verbs',
+    'zeyrek_plural_ratio': 'words with A3pl on a non-verb part / analysed words',
+    'zeyrek_case_acc_ratio': 'words with Acc … Ins / analysed words',
+    'zeyrek_case_dat_ratio': 'words with Acc … Ins / analysed words',
+    'zeyrek_case_loc_ratio': 'words with Acc … Ins / analysed words',
+    'zeyrek_case_abl_ratio': 'words with Acc … Ins / analysed words',
+    'zeyrek_case_gen_ratio': 'words with Acc … Ins / analysed words',
+    'zeyrek_case_ins_ratio': 'words with Acc … Ins / analysed words',
+    'zeyrek_conditional_suffix_ratio': 'verbs with Cond / verbs',
+    'zeyrek_causative_suffix_ratio': 'verbs with Caus / verbs',
+    'zeyrek_modal_possibility_ratio': 'verbs with Able or Unable / verbs',
+    'zeyrek_modal_necessity_ratio': 'verbs with Neces / verbs',
+    'zeyrek_question_particle_ratio': 'words with root Ques / analysed words',
     # ── phonetic ────────────────────────────────────────────────
     'vowel_ratio': 'vowels / alphabet letters',
     'front_vowel_ratio': 'front vowels / alphabet letters',
@@ -423,15 +399,13 @@ FEATURE_FORMULAS: dict[str, str] = {
         'vowel after a rounded one is close-rounded or open-unrounded / words '
         'with 2+ vowels',
     'syllable_mean': 'mean syllables per syllabifiable word',
-    'syllable_cv': 'population std / mean of syllables per syllabifiable word',
     'syllable_1_ratio': 'words with 1 syllable / syllabifiable words',
     'syllable_2_ratio': 'words with 2 syllables / syllabifiable words',
     'syllable_3_ratio': 'words with 3 syllables / syllabifiable words',
     'syllable_4_ratio': 'words with 4 syllables / syllabifiable words',
     'syllable_5_ratio': 'words with 5 syllables / syllabifiable words',
     'syllable_6plus_ratio': 'words with 6 or more syllables / syllabifiable words',
-    'sentence_syllable_mean': 'mean syllables per sentence',
-    'sentence_syllable_cv': 'population std / mean',
+    'sent_syllable_mean': 'mean syllables per sentence',
     # ── readability ─────────────────────────────────────────────
     'bezirci_yilmaz':
         'sqrt(words/sentence * (0.84 H3 + 1.5 H4 + 3.5 H5 + 26.25 H6)), Hk per sentence',
@@ -447,18 +421,18 @@ FEATURE_FORMULAS: dict[str, str] = {
     'polysyllabic_word_ratio': '3+ syllable words / syllabifiable words',
     'long_word_ratio': 'long words / words',
     # ── punctuation ─────────────────────────────────────────────
-    'digit_vs_all': 'digits / characters',
-    'punc_,_ratio': 'marks / words',
-    'punc_._ratio': 'marks / words',
-    'punc_;_ratio': 'marks / words',
-    'punc_!_ratio': 'marks / words',
-    'punc_:_ratio': 'marks / words',
-    'punc_-_ratio': 'marks / words',
-    'punc_ellipsis_ratio': 'marks / words',
-    'punc_paren_ratio': 'marks / words',
-    'punc_quote_ratio': 'marks / words',
-    'punc_question_ratio': 'marks / words',
-    'punct_density': 'marks / characters',
+    'digit_ratio': 'digits / characters',
+    'punct_comma_ratio': 'marks of this type / all marks',
+    'punct_period_ratio': 'marks of this type / all marks',
+    'punct_semicolon_ratio': 'marks of this type / all marks',
+    'punct_exclamation_ratio': 'marks of this type / all marks',
+    'punct_colon_ratio': 'marks of this type / all marks',
+    'punct_dash_ratio': 'marks of this type / all marks',
+    'punct_ellipsis_ratio': 'marks of this type / all marks',
+    'punct_paren_ratio': 'marks of this type / all marks',
+    'punct_quote_ratio': 'marks of this type / all marks',
+    'punct_question_ratio': 'marks of this type / all marks',
+    'punct_char_ratio': 'marks / characters',
     'punct_entropy': 'Shannon entropy (nats) of the 10 mark types',
     'consecutive_punct_ratio': 'adjacent marks / marks',
     'whitespace_ratio': 'whitespace / characters',
@@ -468,18 +442,19 @@ FEATURE_FORMULAS: dict[str, str] = {
     # ── chars (dinamik grup) ───────────────────────────────────────
     'chars': 'letter count / alphabet letters',
     # ── custom_ngrams (dinamik grup) ───────────────────────────────
-    'custom_ngrams': 'matches / (words - n + 1), overlapping matches counted',
+    'custom_ngrams':
+        'matches inside sentences; overlapping matches counted; UPPERCASE UD tags match any word '
+        'with that tag',
 }
 
 # Anahtar → ölçüm şartı. Sağlanmazsa değer NaN (K4).
 FEATURE_REQUIRES: dict[str, str] = {
     # ── lexical ─────────────────────────────────────────────────
-    'n_lemma_count': 'at least 1 word',
-    'avg_word_length': 'at least 1 word',
-    'word_length_cv': 'at least 2 words',
+    'lemma_count': 'at least 1 word',
+    'word_count': 'non-empty text (0 when it has no words)',
+    'word_len_mean': 'at least 1 word',
     'ttr': 'at least 1 word',
     'mattr': 'at least 100 words (2 x mattr_window)',
-    'entropy_std': 'at least 100 words (2 x mattr_window)',
     'herdan_c': 'at least 2 words',
     'sichel_s': 'at least 1 word',
     'zipf_exponent': 'at least 10 distinct words',
@@ -493,14 +468,13 @@ FEATURE_REQUIRES: dict[str, str] = {
     'summer_s': 'at least 3 words and 2 distinct words',
     'maas_a2': 'at least 2 words',
     'herdan_vm': 'at least 1 word',
-    'ttr_moving_slope': 'at least 100 words (2 x ttr_slope_chunk_size)',
     'heaps_beta': 'at least 300 words (heaps_min_tokens)',
     'entropy': 'at least 1 word',
     'yule_k': 'at least 1 word',
     'simpson_d': 'at least 2 words',
     'brunet_w': 'at least 1 word',
     'hapax_ratio': 'at least 1 word',
-    'hapax_percentage': 'at least 1 word',
+    'hapax_token_ratio': 'at least 1 word',
     'vocd_d': 'at least 50 words (vocd_min_tokens, vocd_sample_max)',
     'hdd': 'at least 42 words (hdd_sample_size)',
     'msttr': 'at least 100 words (msttr_segment_size)',
@@ -525,106 +499,97 @@ FEATURE_REQUIRES: dict[str, str] = {
     'thematic_concentration': 'at least one repeated word',
     'secondary_thematic_concentration': 'at least 1 word',
     # ── sentence ────────────────────────────────────────────────
-    'avg_sent_len_word': 'at least 1 sentence with a letter',
-    'avg_sent_len_char': 'at least 1 sentence',
-    'sentence_length_cv': 'at least 2 sentences with a letter',
-    'sent_len_skewness': 'at least 2 sentences of different length',
+    'sent_len_mean': 'at least 1 sentence with a letter',
+    'sent_len_char_mean': 'at least 1 sentence',
     'short_sent_ratio': 'at least 1 sentence with a letter',
     'long_sent_ratio': 'at least 1 sentence with a letter',
-    'med_sent_len': 'at least 1 sentence with a letter',
+    'sent_len_median': 'at least 1 sentence with a letter',
     'sent_len_entropy': 'at least 2 sentences with a letter',
     # ── paragraph ───────────────────────────────────────────────
     'para_len_mean': 'at least 1 paragraph',
-    'para_len_cv': 'at least 2 paragraphs',
     'sents_per_para_mean': 'at least 1 paragraph',
-    'sents_per_para_cv': 'at least 2 paragraphs',
-    'para_count_norm': 'at least 1 paragraph',
     # ── pos ─────────────────────────────────────────────────────
-    'pos_noun': 'at least 1 token',
-    'pos_propn': 'at least 1 token',
-    'pos_verb': 'at least 1 token',
-    'pos_adj': 'at least 1 token',
-    'pos_adv': 'at least 1 token',
-    'pos_det': 'at least 1 token',
-    'pos_adp': 'at least 1 token',
-    'pos_aux': 'at least 1 token',
-    'pos_cconj': 'at least 1 token',
-    'pos_sconj': 'at least 1 token',
-    'pos_num': 'at least 1 token',
-    'pos_intj': 'at least 1 token',
-    'pos_punct': 'at least 1 token',
+    'pos_noun_ratio': 'at least 1 word',
+    'pos_propn_ratio': 'at least 1 word',
+    'pos_verb_ratio': 'at least 1 word',
+    'pos_adj_ratio': 'at least 1 word',
+    'pos_adv_ratio': 'at least 1 word',
+    'pos_det_ratio': 'at least 1 word',
+    'pos_adp_ratio': 'at least 1 word',
+    'pos_aux_ratio': 'at least 1 word',
+    'pos_cconj_ratio': 'at least 1 word',
+    'pos_sconj_ratio': 'at least 1 word',
+    'pos_num_ratio': 'at least 1 word',
+    'pos_intj_ratio': 'at least 1 word',
     # ── syntactic ───────────────────────────────────────────────
-    'question_per_sent': 'at least 1 sentence',
-    'pronoun_freq': 'at least 1 token',
-    'nominal_verbal_ratio': 'at least 1 verb',
+    'question_sent_ratio': 'at least 1 sentence',
+    'pronoun_ratio': 'at least 1 word',
     'verb_dist_mean': 'at least 2 verbs',
-    'verb_dist_cv': 'at least 3 verbs',
     'activity_ratio': 'at least 1 verb or adjective',
     'lexical_density': 'at least 1 word',
-    'pos_dist_std': 'at least 1 token',
-    'pos_kl_div': 'at least 1 token',
+    'posddev': 'at least 1 word',
+    'posdiv': 'at least 1 word',
     # ── syntactic_dep ───────────────────────────────────────────
     'arc_len_mean': 'at least 1 sentence with 2 words',
     'parse_depth_mean': 'at least 1 sentence with 2 words',
-    'sentfinal_noun': 'at least 1 sentence with a word',
-    'sentfinal_propn': 'at least 1 sentence with a word',
-    'sentfinal_verb': 'at least 1 sentence with a word',
-    'sentfinal_adj': 'at least 1 sentence with a word',
-    'sentfinal_adv': 'at least 1 sentence with a word',
-    'sentfinal_det': 'at least 1 sentence with a word',
-    'sentfinal_adp': 'at least 1 sentence with a word',
-    'sentfinal_intj': 'at least 1 sentence with a word',
-    'sentfinal_cconj': 'at least 1 sentence with a word',
-    'sentfinal_sconj': 'at least 1 sentence with a word',
-    'sentfinal_num': 'at least 1 sentence with a word',
-    'sentfinal_aux': 'at least 1 sentence with a word',
-    'sentfinal_pron': 'at least 1 sentence with a word',
-    'sentfinal_other': 'at least 1 sentence with a word',
+    'sentfinal_noun_ratio': 'at least 1 sentence with a word',
+    'sentfinal_propn_ratio': 'at least 1 sentence with a word',
+    'sentfinal_verb_ratio': 'at least 1 sentence with a word',
+    'sentfinal_adj_ratio': 'at least 1 sentence with a word',
+    'sentfinal_adv_ratio': 'at least 1 sentence with a word',
+    'sentfinal_det_ratio': 'at least 1 sentence with a word',
+    'sentfinal_adp_ratio': 'at least 1 sentence with a word',
+    'sentfinal_intj_ratio': 'at least 1 sentence with a word',
+    'sentfinal_cconj_ratio': 'at least 1 sentence with a word',
+    'sentfinal_sconj_ratio': 'at least 1 sentence with a word',
+    'sentfinal_num_ratio': 'at least 1 sentence with a word',
+    'sentfinal_aux_ratio': 'at least 1 sentence with a word',
+    'sentfinal_pron_ratio': 'at least 1 sentence with a word',
+    'sentfinal_other_ratio': 'at least 1 sentence with a word',
     # ── morphological ───────────────────────────────────────────
     'surface_per_lemma': 'at least 1 word',
-    'morph_tense_past': 'at least 1 token with a Tense tag',
-    'morph_tense_pres': 'at least 1 token with a Tense tag',
-    'morph_tense_fut': 'at least 1 token with a Tense tag',
-    'morph_aspect_perf': 'at least 1 token with an Aspect tag',
-    'morph_aspect_imp': 'at least 1 token with an Aspect tag',
-    'morph_aspect_prog': 'at least 1 token with an Aspect tag',
-    'morph_case_nom': 'at least 1 token with a Case tag',
-    'morph_case_acc': 'at least 1 token with a Case tag',
-    'morph_case_dat': 'at least 1 token with a Case tag',
-    'morph_case_loc': 'at least 1 token with a Case tag',
-    'morph_case_abl': 'at least 1 token with a Case tag',
-    'morph_case_gen': 'at least 1 token with a Case tag',
-    'morph_person_1': 'at least 1 token with a Person tag',
-    'morph_person_2': 'at least 1 token with a Person tag',
-    'morph_person_3': 'at least 1 token with a Person tag',
-    'morph_number_sing': 'at least 1 token with a Number tag',
-    'morph_number_plur': 'at least 1 token with a Number tag',
-    'morph_voice_pass': 'at least 1 verb',
+    'tense_past_ratio': 'at least 1 word with a Tense tag',
+    'tense_pres_ratio': 'at least 1 word with a Tense tag',
+    'tense_fut_ratio': 'at least 1 word with a Tense tag',
+    'aspect_perf_ratio': 'at least 1 word with an Aspect tag',
+    'aspect_imp_ratio': 'at least 1 word with an Aspect tag',
+    'aspect_prog_ratio': 'at least 1 word with an Aspect tag',
+    'case_nom_ratio': 'at least 1 word with a Case tag',
+    'case_acc_ratio': 'at least 1 word with a Case tag',
+    'case_dat_ratio': 'at least 1 word with a Case tag',
+    'case_loc_ratio': 'at least 1 word with a Case tag',
+    'case_abl_ratio': 'at least 1 word with a Case tag',
+    'case_gen_ratio': 'at least 1 word with a Case tag',
+    'person_1_ratio': 'at least 1 word with a Person tag',
+    'person_2_ratio': 'at least 1 word with a Person tag',
+    'person_3_ratio': 'at least 1 word with a Person tag',
+    'number_sing_ratio': 'at least 1 word with a Number tag',
+    'number_plur_ratio': 'at least 1 word with a Number tag',
+    'voice_pass_ratio': 'at least 1 verb',
     # ── morphological_zeyrek ────────────────────────────────────
-    'agglutination_depth': 'at least 1 analysed word',
-    'suffix_char_length_ratio': 'at least 1 analysed word',
-    'suffix_bigram_entropy': 'at least 1 word with 2 visible suffixes',
-    'derivational_suffix_ratio': 'at least 1 visible suffix',
-    'verb_suffix_diversity': 'at least 50 verbs (verb_suffix_window)',
-    'tense_past_def': 'at least 1 verb',
-    'tense_past_nar': 'at least 1 verb',
-    'tense_present': 'at least 1 verb',
-    'tense_future': 'at least 1 verb',
-    'negation_ratio': 'at least 1 verb',
-    'passive_ratio': 'at least 1 verb',
-    'plural_ratio': 'at least 1 analysed word',
-    'case_acc_ratio': 'at least 1 analysed word',
-    'case_dat_ratio': 'at least 1 analysed word',
-    'case_loc_ratio': 'at least 1 analysed word',
-    'case_abl_ratio': 'at least 1 analysed word',
-    'case_gen_ratio': 'at least 1 analysed word',
-    'case_ins_ratio': 'at least 1 analysed word',
-    'conditional_suffix_ratio': 'at least 1 verb',
-    'causative_suffix_ratio': 'at least 1 verb',
-    'suffix_chain_cv': 'at least 2 analysed words, at least 1 suffix',
-    'modal_possibility_ratio': 'at least 1 verb',
-    'modal_necessity_ratio': 'at least 1 verb',
-    'question_particle_ratio': 'at least 1 analysed word',
+    'zeyrek_agglutination_depth': 'at least 1 analysed word',
+    'zeyrek_suffix_char_length_ratio': 'at least 1 analysed word',
+    'zeyrek_suffix_bigram_entropy': 'at least 1 word with 2 visible suffixes',
+    'zeyrek_derivational_suffix_ratio': 'at least 1 visible suffix',
+    'zeyrek_verb_suffix_diversity': 'at least 50 verbs (verb_suffix_window)',
+    'zeyrek_tense_past_def_ratio': 'at least 1 verb',
+    'zeyrek_tense_past_nar_ratio': 'at least 1 verb',
+    'zeyrek_tense_present_ratio': 'at least 1 verb',
+    'zeyrek_tense_future_ratio': 'at least 1 verb',
+    'zeyrek_negation_ratio': 'at least 1 verb',
+    'zeyrek_passive_ratio': 'at least 1 verb',
+    'zeyrek_plural_ratio': 'at least 1 analysed word',
+    'zeyrek_case_acc_ratio': 'at least 1 analysed word',
+    'zeyrek_case_dat_ratio': 'at least 1 analysed word',
+    'zeyrek_case_loc_ratio': 'at least 1 analysed word',
+    'zeyrek_case_abl_ratio': 'at least 1 analysed word',
+    'zeyrek_case_gen_ratio': 'at least 1 analysed word',
+    'zeyrek_case_ins_ratio': 'at least 1 analysed word',
+    'zeyrek_conditional_suffix_ratio': 'at least 1 verb',
+    'zeyrek_causative_suffix_ratio': 'at least 1 verb',
+    'zeyrek_modal_possibility_ratio': 'at least 1 verb',
+    'zeyrek_modal_necessity_ratio': 'at least 1 verb',
+    'zeyrek_question_particle_ratio': 'at least 1 analysed word',
     # ── phonetic ────────────────────────────────────────────────
     'vowel_ratio': 'at least 1 alphabet letter',
     'front_vowel_ratio': 'at least 1 alphabet letter',
@@ -632,15 +597,13 @@ FEATURE_REQUIRES: dict[str, str] = {
     'harmony_fronting_ratio': 'at least 1 word with 2 vowels',
     'harmony_rounding_ratio': 'at least 1 word with 2 vowels',
     'syllable_mean': 'at least 1 syllabifiable word',
-    'syllable_cv': 'at least 2 syllabifiable words',
     'syllable_1_ratio': 'at least 1 syllabifiable word',
     'syllable_2_ratio': 'at least 1 syllabifiable word',
     'syllable_3_ratio': 'at least 1 syllabifiable word',
     'syllable_4_ratio': 'at least 1 syllabifiable word',
     'syllable_5_ratio': 'at least 1 syllabifiable word',
     'syllable_6plus_ratio': 'at least 1 syllabifiable word',
-    'sentence_syllable_mean': 'at least 1 sentence with a syllabifiable word',
-    'sentence_syllable_cv': 'at least 2 such sentences',
+    'sent_syllable_mean': 'at least 1 sentence with a syllabifiable word',
     # ── readability ─────────────────────────────────────────────
     'bezirci_yilmaz': 'at least 1 syllabifiable word',
     'atesman': 'at least 1 syllabifiable word',
@@ -654,18 +617,18 @@ FEATURE_REQUIRES: dict[str, str] = {
     'polysyllabic_word_ratio': 'at least 1 syllabifiable word',
     'long_word_ratio': 'at least 1 word',
     # ── punctuation ─────────────────────────────────────────────
-    'digit_vs_all': 'non-empty text',
-    'punc_,_ratio': 'at least 1 word',
-    'punc_._ratio': 'at least 1 word',
-    'punc_;_ratio': 'at least 1 word',
-    'punc_!_ratio': 'at least 1 word',
-    'punc_:_ratio': 'at least 1 word',
-    'punc_-_ratio': 'at least 1 word',
-    'punc_ellipsis_ratio': 'at least 1 word',
-    'punc_paren_ratio': 'at least 1 word',
-    'punc_quote_ratio': 'at least 1 word',
-    'punc_question_ratio': 'at least 1 word',
-    'punct_density': 'non-empty text',
+    'digit_ratio': 'non-empty text',
+    'punct_comma_ratio': 'at least 1 punctuation mark',
+    'punct_period_ratio': 'at least 1 punctuation mark',
+    'punct_semicolon_ratio': 'at least 1 punctuation mark',
+    'punct_exclamation_ratio': 'at least 1 punctuation mark',
+    'punct_colon_ratio': 'at least 1 punctuation mark',
+    'punct_dash_ratio': 'at least 1 punctuation mark',
+    'punct_ellipsis_ratio': 'at least 1 punctuation mark',
+    'punct_paren_ratio': 'at least 1 punctuation mark',
+    'punct_quote_ratio': 'at least 1 punctuation mark',
+    'punct_question_ratio': 'at least 1 punctuation mark',
+    'punct_char_ratio': 'non-empty text',
     'punct_entropy': 'at least 1 punctuation mark',
     'consecutive_punct_ratio': 'at least 1 punctuation mark',
     'whitespace_ratio': 'non-empty text',
@@ -675,7 +638,7 @@ FEATURE_REQUIRES: dict[str, str] = {
     # ── chars (dinamik grup) ───────────────────────────────────────
     'chars': 'at least 1 alphabet letter',
     # ── custom_ngrams (dinamik grup) ───────────────────────────────
-    'custom_ngrams': 'at least n words for an n-word phrase',
+    'custom_ngrams': 'none (0 when the phrase is longer than every sentence)',
 }
 
 # Anahtar → literatür künyesi. Burada olmayan anahtarın künyesi YOKTUR;
@@ -728,12 +691,12 @@ FEATURE_CITATIONS: dict[str, str] = {
     # bunu tek tek söylüyor — "Shannon (1948)" deyip bırakmak, dağılımın
     # seçimini de Shannon'a mal ederdi (2026-09-23, Efe).
     'entropy': 'Shannon (1948), as cited in QUITA §6.1.12',
-    'entropy_std':
-        'Shannon (1948) — the entropy formula; the standard deviation across segments '
-        "is this library's own derivation",
     'punct_entropy':
         'Shannon (1948) — the entropy formula; applying it to the distribution of '
         "punctuation types is this library's own decision",
+    # Flesch (1948) p.223, element (1); earlier use: Sherman (1888), Yule (1939) — not read,
+    # so not cited (K10, 2026-10-07, Efe).
+    'sent_len_mean': 'Flesch (1948) p.223, element (1) "Average Sentence Length in Words"',
     'short_sent_ratio':
         "This library's threshold calibration (docs/threshold-calibration.md); "
         'TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word '
@@ -754,7 +717,7 @@ FEATURE_CITATIONS: dict[str, str] = {
     'yule_k': 'Yule (1944) p.53, eq. (3.22)',
     'simpson_d': 'Simpson (1949), as cited in Bestgen (2023)',
     'brunet_w': 'Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10)',
-    'hapax_percentage': 'QUITA §6.1.6',
+    'hapax_token_ratio': 'QUITA §6.1.6',
     'vocd_d':
         'Malvern et al. (2004) pp.56–57; procedure from McCarthy & Jarvis (2010) p.383',
     'hdd': 'McCarthy & Jarvis (2007), as cited in McCarthy & Jarvis (2010) p.383',
@@ -783,159 +746,154 @@ FEATURE_CITATIONS: dict[str, str] = {
     'thematic_concentration': 'QUITA §6.2.5',
     'secondary_thematic_concentration': 'QUITA §6.2.6',
     # ── pos ─────────────────────────────────────────────────
-    'pos_noun': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'pos_propn': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'pos_verb': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'pos_adj': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'pos_adv': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'pos_det': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'pos_adp': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'pos_aux': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'pos_cconj': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'pos_sconj': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'pos_num': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'pos_intj': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'pos_punct': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'pos_noun_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'pos_propn_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'pos_verb_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'pos_adj_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'pos_adv_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'pos_det_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'pos_adp_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'pos_aux_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'pos_cconj_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'pos_sconj_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'pos_num_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'pos_intj_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
     # ── syntactic ───────────────────────────────────────────
     'verb_dist_mean': 'QUITA §6.2.1',
-    'verb_dist_cv': 'QUITA §6.2.1',
     'activity_ratio': 'QUITA §6.2.2',
     'lexical_density':
         'Lu (2012); definition in the broad Hallidayan sense — all open-class words',
-    'pos_dist_std':
+    'posddev':
         'Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over '
-        'ratios, 13 UD tags',
-    'pos_kl_div':
+        'ratios, 12 UD tags',
+    'posdiv':
         'Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the '
         'source uses bits',
     # ── syntactic_dep ───────────────────────────────────────
     'arc_len_mean':
         'Liu (2008) eq. (1); text level from Jing & Liu (2015) p.164, eq. (3) (MDD2)',
     'parse_depth_mean': 'Jing & Liu (2015) p.164, eq. (2) and (4) (MHD2)',
-    'sentfinal_noun': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'sentfinal_propn': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'sentfinal_verb': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'sentfinal_adj': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'sentfinal_adv': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'sentfinal_det': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'sentfinal_adp': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'sentfinal_intj': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'sentfinal_cconj': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'sentfinal_sconj': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'sentfinal_num': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'sentfinal_aux': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'sentfinal_pron': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    'sentfinal_other': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'sentfinal_noun_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'sentfinal_propn_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'sentfinal_verb_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'sentfinal_adj_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'sentfinal_adv_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'sentfinal_det_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'sentfinal_adp_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'sentfinal_intj_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'sentfinal_cconj_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'sentfinal_sconj_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'sentfinal_num_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'sentfinal_aux_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'sentfinal_pron_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
+    'sentfinal_other_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
     # ── morphological ───────────────────────────────────────
     'surface_per_lemma':
         'de Marneffe et al. (2021) Table 2 (universal morphological features)',
-    'morph_tense_past':
+    'tense_past_ratio':
         'de Marneffe et al. (2021) Table 2 (universal morphological features)',
-    'morph_tense_pres':
+    'tense_pres_ratio':
         'de Marneffe et al. (2021) Table 2 (universal morphological features)',
-    'morph_tense_fut':
+    'tense_fut_ratio':
         'de Marneffe et al. (2021) Table 2 (universal morphological features)',
-    'morph_aspect_perf':
+    'aspect_perf_ratio':
         'de Marneffe et al. (2021) Table 2 (universal morphological features)',
-    'morph_aspect_imp':
+    'aspect_imp_ratio':
         'de Marneffe et al. (2021) Table 2 (universal morphological features)',
-    'morph_aspect_prog':
+    'aspect_prog_ratio':
         'de Marneffe et al. (2021) Table 2 (universal morphological features)',
-    'morph_case_nom':
+    'case_nom_ratio':
         'de Marneffe et al. (2021) Table 2 (universal morphological features)',
-    'morph_case_acc':
+    'case_acc_ratio':
         'de Marneffe et al. (2021) Table 2 (universal morphological features)',
-    'morph_case_dat':
+    'case_dat_ratio':
         'de Marneffe et al. (2021) Table 2 (universal morphological features)',
-    'morph_case_loc':
+    'case_loc_ratio':
         'de Marneffe et al. (2021) Table 2 (universal morphological features)',
-    'morph_case_abl':
+    'case_abl_ratio':
         'de Marneffe et al. (2021) Table 2 (universal morphological features)',
-    'morph_case_gen':
+    'case_gen_ratio':
         'de Marneffe et al. (2021) Table 2 (universal morphological features)',
-    'morph_person_1':
+    'person_1_ratio':
         'de Marneffe et al. (2021) Table 2 (universal morphological features)',
-    'morph_person_2':
+    'person_2_ratio':
         'de Marneffe et al. (2021) Table 2 (universal morphological features)',
-    'morph_person_3':
+    'person_3_ratio':
         'de Marneffe et al. (2021) Table 2 (universal morphological features)',
-    'morph_number_sing':
+    'number_sing_ratio':
         'de Marneffe et al. (2021) Table 2 (universal morphological features)',
-    'morph_number_plur':
+    'number_plur_ratio':
         'de Marneffe et al. (2021) Table 2 (universal morphological features)',
-    'morph_voice_pass':
+    'voice_pass_ratio':
         'de Marneffe et al. (2021) Table 2 (universal morphological features)',
     # ── morphological_zeyrek ────────────────────────────────
-    'agglutination_depth':
+    'zeyrek_agglutination_depth':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'suffix_char_length_ratio':
+    'zeyrek_suffix_char_length_ratio':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'suffix_bigram_entropy':
+    'zeyrek_suffix_bigram_entropy':
         "Shannon (1948) — the entropy formula; Zeyrek (a Python port of Zemberek's "
         'morphotactics); tag set from Akın & Akın (2007)',
-    'derivational_suffix_ratio':
+    'zeyrek_derivational_suffix_ratio':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'verb_suffix_diversity':
+    'zeyrek_verb_suffix_diversity':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'tense_past_def':
+    'zeyrek_tense_past_def_ratio':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'tense_past_nar':
+    'zeyrek_tense_past_nar_ratio':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'tense_present':
+    'zeyrek_tense_present_ratio':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'tense_future':
+    'zeyrek_tense_future_ratio':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'negation_ratio':
+    'zeyrek_negation_ratio':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'passive_ratio':
+    'zeyrek_passive_ratio':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'plural_ratio':
+    'zeyrek_plural_ratio':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'case_acc_ratio':
+    'zeyrek_case_acc_ratio':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'case_dat_ratio':
+    'zeyrek_case_dat_ratio':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'case_loc_ratio':
+    'zeyrek_case_loc_ratio':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'case_abl_ratio':
+    'zeyrek_case_abl_ratio':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'case_gen_ratio':
+    'zeyrek_case_gen_ratio':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'case_ins_ratio':
+    'zeyrek_case_ins_ratio':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'conditional_suffix_ratio':
+    'zeyrek_conditional_suffix_ratio':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'causative_suffix_ratio':
+    'zeyrek_causative_suffix_ratio':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'suffix_chain_cv':
+    'zeyrek_modal_possibility_ratio':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'modal_possibility_ratio':
+    'zeyrek_modal_necessity_ratio':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'modal_necessity_ratio':
-        "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
-        '(2007)',
-    'question_particle_ratio':
+    'zeyrek_question_particle_ratio':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
     # ── phonetic ────────────────────────────────────────────
@@ -951,7 +909,7 @@ FEATURE_CITATIONS: dict[str, str] = {
     # Flesch (1948) p.223 defines "average word length in syllables" as an
     # element of its own; Ateşman (1997) p.73 adapts Flesch's formula. The
     # measure is not language-specific. The CV of syllables is not a named
-    # measure, so syllable_cv has no citation (K10, 2026-10-01, Efe).
+    # measure (K10, 2026-10-01, Efe); syllable_cv was removed on 2026-10-07.
     'syllable_mean':
         'Flesch (1948) Formula A, wl; unit there = syllables per 100 words, here per word',
     'syllable_1_ratio': 'Bezirci & Yılmaz (2010) Table 1-c',
@@ -982,6 +940,58 @@ FEATURE_CITATIONS: dict[str, str] = {
     'lix':
         'Björnsson (1968), as cited in Anderson (1983) p.490; long word = 7+ letters',
     'long_word_ratio': 'Anderson (1983); long word = 7+ letters',
+    # ── 2026-10-07 citation search (Efe): primary sources read in tlf-kaynaklar ──
+    # Dynamic group: every char_* key takes this citation (registry._citation).
+    'chars':
+        'Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; '
+        "here each letter of the language's alphabet (Turkish 29, English 26) as a share of all "
+        'its letters',
+    'word_len_mean':
+        'Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241',
+    'sent_len_median': 'Yule (1939) p.369, median sentence length alongside the mean',
+    # Chain traced: Deutsch et al. -> Vajjala Balakrishna (2015) software ("several other POS tag
+    # density features", no source) -> nothing further (2026-10-07, Efe).
+    'pronoun_ratio':
+        'Deutsch, Jasbi & Shieber (2020) Table 6 "pronouns per word", listed among existing '
+        'features; original source not traced',
+    'hapax_ratio':
+        'de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of '
+        'vocabulary words"',
+    'word_count':
+        'de Vel (2000) Table 2, attribute 1 "Total number of words"; Zheng et al. (2006) '
+        'Table 3, p.385, no. 54 "Total number of words (M)"',
+    'whitespace_ratio':
+        'de Vel et al. (2001) Table 2, p.60 "Total number of white-space characters/C"',
+    'punct_char_ratio': 'de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C"',
+    'digit_ratio':
+        'de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; '
+        'here digits anywhere in the text',
+    'para_len_mean': 'Zheng et al. (2006) Table 3, p.385, no. 251 "Number of words per paragraph"',
+    'sents_per_para_mean':
+        'Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph"',
+    'sent_len_char_mean':
+        'Zheng et al. (2006) Table 3, p.385, no. 58 "Average sentence length in terms of character"',
+    'punct_comma_ratio':
+        'Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); '
+        "here the share among all marks",
+    'punct_period_ratio':
+        'Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); '
+        "here the share among all marks",
+    'punct_semicolon_ratio':
+        'Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); '
+        "here the share among all marks",
+    'punct_exclamation_ratio':
+        'Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); '
+        "here the share among all marks",
+    'punct_colon_ratio':
+        'Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); '
+        "here the share among all marks",
+    'punct_question_ratio':
+        'Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); '
+        "here the share among all marks",
+    'punct_quote_ratio':
+        'Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); '
+        "here the share among all marks",
 }
 
 
@@ -1043,6 +1053,12 @@ BIBLIOGRAPHY: dict[str, str] = {
         'de Marneffe, M.-C., Manning, C. D., Nivre, J., & Zeman, D. (2021). '
         'Universal Dependencies. Computational Linguistics, 47(2), 255–308. DOI '
         '10.1162/COLI_a_00402',
+    'de Vel (2000)':
+        'de Vel, O. (2000). Mining e-mail authorship. In KDD-2000 Workshop on Text Mining, '
+        'Boston, August 20, 2000.',
+    'de Vel et al. (2001)':
+        'de Vel, O., Anderson, A., Corney, M., & Mohay, G. (2001). Mining e-mail content for '
+        'author identification forensics. ACM SIGMOD Record, 30(4), 55–64. DOI 10.1145/604264.604272',
     'Deutsch, Jasbi & Shieber (2020)':
         'Deutsch, T., Jasbi, M., & Shieber, S. (2020). Linguistic features for '
         'readability assessment. Proceedings of the 15th Workshop on Innovative Use '
@@ -1123,6 +1139,9 @@ BIBLIOGRAPHY: dict[str, str] = {
     'McLaughlin (1969)':
         'McLaughlin, G. H. (1969). SMOG grading — a new readability formula. '
         'Journal of Reading, 12(8), 639–646.',
+    'Mendenhall (1887)':
+        'Mendenhall, T. C. (1887). The characteristic curves of composition. Science, 9(214), '
+        '237–249. JSTOR 1764604.',
     'Piantadosi (2014)':
         "Piantadosi, S. T. (2014). Zipf's word frequency law in natural language: A "
         'critical review and future directions. Psychonomic Bulletin & Review, '
@@ -1176,12 +1195,21 @@ BIBLIOGRAPHY: dict[str, str] = {
         'SUBTLEX-UK: A new and improved word frequency database for British '
         'English. Quarterly Journal of Experimental Psychology, 67(6), 1176–1190. '
         'DOI 10.1080/17470218.2013.850521',
+    'Yule (1939)':
+        'Yule, G. U. (1939). On sentence-length as a statistical characteristic of style in prose: '
+        'With application to two cases of disputed authorship. Biometrika, 30(3/4), 363–390. '
+        'JSTOR 2332655.',
     'Yule (1944)':
         'Yule, G. U. (1944). The Statistical Study of Literary Vocabulary. '
         'Cambridge University Press.',
     'Zeyrek':
         'Zeyrek — a Python port of the Zemberek morphological analyser. '
         'github.com/obulat/zeyrek',
+    'Zheng et al. (2006)':
+        'Zheng, R., Li, J., Chen, H., & Huang, Z. (2006). A framework for authorship identification '
+        'of online messages: Writing-style features and classification techniques. Journal of the '
+        'American Society for Information Science and Technology, 57(3), 378–393. '
+        'DOI 10.1002/asi.20316',
     'Çetinkaya (2010)':
         'Çetinkaya, G. (2010). Türkçe metinlerin okunabilirlik düzeylerinin '
         'tanımlanması ve sınıflandırılması [Unpublished doctoral dissertation]. Ankara '

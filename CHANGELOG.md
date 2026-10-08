@@ -4,10 +4,15 @@
 
 ### Changed
 
+- `segment_text(unit="word")` and `analyze_corpus(segment_size=...)` count the library's
+  default word instead of spaCy tokens (decided 2026-10-08): a `size=1000` segment is exactly
+  1000 words in `analyze`. Before, punctuation counted too and 100 tokens were about 83 words.
+  Segment boundaries, and so segment counts and values, change; `segment_text` no longer loads
+  a spaCy tokenizer.
 - Every logarithm in the library is now the natural logarithm (decided 2026-10-06). Changed:
   `dugast_u`, `lambda_pa` and `adjusted_modulus` (were log₁₀) and the entropy measures
-  `entropy`, `entropy_std`, `punct_entropy`, `sent_len_entropy`, `suffix_bigram_entropy` and
-  `pos_kl_div` (were log₂). Values scale by a constant (log₁₀ → ln: × ln 10 for `dugast_u` and
+  `entropy`, `punct_entropy`, `sent_len_entropy`, `zeyrek_suffix_bigram_entropy` and `posdiv`
+  (were log₂). Values scale by a constant (log₁₀ → ln: × ln 10 for `dugast_u` and
   `lambda_pa`, ÷ ln 10 for `adjusted_modulus`; bits → nats: × ln 2), so the ranking of texts does
   not change. The scale name `"bits"` is now `"nats"`. QUITA publishes these in log₁₀ and bits;
   the verification report converts the published values to ln units, and all six rows stay ✅.
@@ -18,15 +23,82 @@
   forms (`%50`) are one word; numbers stay words. Features that only count words or read their
   written form switch to it: sentence lengths (7), paragraph lengths (3), syllable features (10),
   vowel harmony (2), punctuation per word (10), capitalisation (2), surface-form lexical richness
-  (`ttr`, `mtld`, `yule_k`, `avg_word_length` … 26) and `custom_ngrams`. Features that need a
-  spaCy or Zeyrek label per word (POS, lemma, morphology, dependency) keep the spaCy token
-  (`pos_token`). `describe_feature(key)["definitions"]["word"]` says which one a feature uses; the
+  (`ttr`, `mtld`, `yule_k`, `word_len_mean` … 26) and `custom_ngrams`. Features that need a
+  label per word followed on 2026-10-07 (next item). `describe_feature(key)["definitions"]["word"]`
+  says which word a feature uses; the
   word names `alnum_token`, `letter_token`, `syllabifiable_token`, `space_split` and the word sense
   of `spacy_token` are gone. On TOMA 57 features change; most move under 1% (median), texts with
   Ottoman izafet (`ulüvv-i`, which spaCy split into a separate one-syllable word `i`) move most,
   up to 36% in `syllable_1_ratio`. The verification reports do not change (46 ✅ + 2 🟡). The
   internal token-based syllable helpers (`phonetic.toplam_hece` and its helpers) and the unused
   `okunus.sembol_oku` were removed; `phonetic.birim_hecesi` is the one syllable counter.
+- Eighteen features that had no citation now cite a source read in full (decided
+  2026-10-07): `sent_len_mean` → Flesch (1948) p.223; `word_len_mean` → Mendenhall (1887)
+  p.237; `sent_len_median` → Yule (1939) p.369; `hapax_ratio` → de Vel (2000) Table 2;
+  `whitespace_ratio`, `punct_char_ratio`, `digit_ratio` → de Vel et al. (2001) Table 2;
+  `para_len_mean`, `sents_per_para_mean`, `sent_len_char_mean` and seven `punct_*_ratio` keys
+  (comma, full stop, semicolon, exclamation, colon, question, quote) → Zheng et al. (2006)
+  Table 3; `pronoun_ratio` →
+  Deutsch, Jasbi & Shieber (2020) Table 6 (the original source could
+  not be traced, and the citation says so). The letter-frequency keys (`char_*`, TR 29, EN 26)
+  cite Zheng et al. (2006) Table 3, no. 7-32; Zheng counts the 26 letters A-Z, here each language
+  keeps its own alphabet. Where our definition differs from the source the citation says so.
+  `pos_punct` (it cited the UPOS tag set) is gone. With the removals below, cited features:
+  TR 144 → 187, EN 119 → 160; uncited: TR 11, EN 11; verification candidates: TR 95 → 141,
+  EN 84 → 127; bibliography 50 → 55 works. No values change.
+- Feature keys renamed so that a key says what it measures (decided 2026-10-07/08). No values
+  change unless stated below. Rules: a 0-1 share ends in `_ratio` unless the measure has an
+  established name (`ttr`, `hdd`, `lexical_density`); means and medians end the key; one family,
+  one prefix.
+  - Punctuation: `punct_` and the mark's name. `punc_,_ratio` → `punct_comma_ratio`,
+    `punc_._ratio` → `punct_period_ratio`, `punc_;_ratio` → `punct_semicolon_ratio`,
+    `punc_!_ratio` → `punct_exclamation_ratio`, `punc_:_ratio` → `punct_colon_ratio`,
+    `punc_-_ratio` → `punct_dash_ratio`, `punc_ellipsis/paren/quote/question_ratio` →
+    `punct_…_ratio`, `punct_density` → `punct_char_ratio`, `digit_vs_all` → `digit_ratio`
+    (column names with `.`, `-` or `!` broke attribute access in pandas and were rewritten by R).
+  - Means and medians: `avg_sent_len_word` → `sent_len_mean`, `avg_sent_len_char` →
+    `sent_len_char_mean`, `med_sent_len` → `sent_len_median`, `avg_word_length` →
+    `word_len_mean`, `sentence_syllable_mean` → `sent_syllable_mean`.
+  - Shares: `pos_noun` … → `pos_noun_ratio` … (12), `sentfinal_noun` … → `sentfinal_noun_ratio`
+    … (14), `char_a` … → `char_a_ratio` … (TR 29, EN 26), `hapax_percentage` →
+    `hapax_token_ratio` (a 0-1 share, not a percentage), `question_per_sent` →
+    `question_sent_ratio`, `pronoun_freq` → `pronoun_ratio`, `n_lemma_count` → `lemma_count`.
+  - Morphology: the spaCy (UD) keys drop `morph_` (`morph_case_loc` → `case_loc_ratio`,
+    `morph_tense_past` → `tense_past_ratio`, `morph_voice_pass` → `voice_pass_ratio`, 18 keys);
+    the Zeyrek keys take `zeyrek_` (`case_loc_ratio` → `zeyrek_case_loc_ratio`, `tense_past_def`
+    → `zeyrek_tense_past_def_ratio`, `agglutination_depth` → `zeyrek_agglutination_depth`, 23
+    keys). The two analysers' measures of the same category no longer look alike.
+  - Deutsch, Jasbi & Shieber (2020) measures take their source names: `pos_dist_std` →
+    `posddev`, `pos_kl_div` → `posdiv`; with the old names a `pos_*` column filter caught them.
+  - Feature functions named after a key are renamed the same way (`hapax_percentage`,
+    `avg_sent_len_char`, `question_per_sent`, `pronoun_freq`, `punct_density`, the Zeyrek
+    functions).
+- The ten `punct_*_ratio` keys are now each mark type's share of all punctuation marks (0-1,
+  summing to 1) instead of marks per word, which could exceed 1 (decided 2026-10-08). How much
+  punctuation a text has is `punct_char_ratio`. A text without punctuation gives `nan`. Values
+  change.
+- `custom_ngrams` (decided 2026-10-08): keys are `ngram_{...}_count` (were `ng_{...}`) and the
+  value is the number of matches, not matches per window; divide by the word count if you need a
+  rate. A phrase item written as an UPPERCASE UD tag (`NOUN`, `VERB` …) matches any word with that
+  tag: `["kadın", "VERB"]` counts "kadın" followed by a verb (`ngram_kadın_VERB_count`). Matches no
+  longer cross sentence boundaries.
+- One word definition for every feature except the dependency group (decided 2026-10-07). The
+  POS, syntactic, morphological and Zeyrek features, the lemma-based lexical features
+  (`lemma_count`, `*_variation`, `wordfreq_*`) and `frequency_structure` now count the default
+  word (`space_unit`) instead of the spaCy token. A word takes its POS tag, morphological tags,
+  lemma and Zeyrek analysis from the first token inside it that is not punctuation; the model
+  splits 0.3% of Turkish and 2.7% of English words (Turkish `Türk-Amerikan`, `4-5`; English
+  `it's`, `don't`), and these take their first part's labels. Punctuation no longer enters the
+  denominators of the `pos_*` shares and `pronoun_ratio`, and `verb_dist_*` measure distances in
+  words. `syntactic_dep` keeps the spaCy token and the parser's sentences.
+- Turkish lemmas now come from Zeyrek instead of spaCy (decided 2026-10-07): the dictionary entry
+  of Zeyrek's first analysis, lowercased, without the infinitive `-mak/-mek`; circumflexes stay
+  as in Zeyrek's dictionary (`millî`). A word Zeyrek cannot analyse keeps the part before its
+  apostrophe (`Pittsburgh'tan` → `pittsburgh`). spaCy's Turkish lemma left inflected forms as
+  lemmas in 15% of words (TOMA, 11 texts). Changed: `lemma_count`, `noun_variation`,
+  `verb_variation`, `adj_variation`, `adv_variation`, `wordfreq_mean`, `wordfreq_rare_ratio`,
+  `surface_per_lemma` and the 13 `frequency_structure` features. English lemmas still come from
+  spaCy; `describe_feature(key, lang=...)["definitions"]["type"]` names the source per language.
 
 - The verification tolerance changed from a fixed absolute 0.05 to 1% relative
   to the published value (`math.isclose(rel_tol=0.01)`, with a 1e-9 absolute
@@ -58,6 +130,16 @@
 
 ### Added
 
+- `word_count` in the `lexical` group (decided 2026-10-08): the number of words, by the
+  library's default word. Divide `ngram_{...}_count` values by it to compare texts of different
+  length. Cites de Vel (2000) Table 2, attribute 1, and Zheng et al. (2006) Table 3, no. 54.
+  Keys: TR 198 → 199, EN 171 → 172.
+- `ngram_matches(text, phrase, lang="tr")` (decided 2026-10-08): what one `custom_ngrams`
+  phrase matched, as `{"kadın geldi": 2, "kadın güldü": 1}`, most frequent first. The matching is
+  the one `analyze` uses, so the values add up to `ngram_{...}_count`. Sentence and position are
+  not returned. The public API has eleven names.
+- `examples/10_kelime_oruntuleri.py`: counting your own word and tag phrases with
+  `custom_ngrams` and seeing what they matched with `ngram_matches`.
 - Four lexical richness measures in the `lexical` group (TR 208 → 212 keys, EN 180 → 184):
   `cttr` (Carroll's corrected TTR, V/√(2N)), `summer_s` (Summer's S, ln(ln V)/ln(ln N)),
   `maas_a2` (Maas' a², (ln N − ln V)/(ln N)²) and `herdan_vm` (Herdan's Vm,
@@ -95,9 +177,9 @@
 ### Changed (sentence definition)
 
 - The twelve features that used spaCy's parser sentences now use the default sentence rule:
-  the eight `sentence` features, `question_per_sent`, `pos_kl_div`, `sentence_syllable_mean` and
+  the eight `sentence` features, `question_sent_ratio`, `posdiv`, `sent_syllable_mean` and
   `sentence_syllable_cv`. The values change; on the 57 TOMA texts the median change is 0% but single
-  texts move up to about ±16% (`avg_sent_len_word`) and `question_per_sent` rises (median +29% where
+  texts move up to about ±16% (`sent_len_mean`) and `question_sent_ratio` rises (median +29% where
   non-zero). `syntactic_dep` (16 features, parser) and the paragraph group (`sents_per_para_*`,
   regex `[.!?…]+`) keep their own definitions; `describe_feature` names them.
 - The default sentence-length thresholds are now calibrated on newspaper columns with the default
@@ -111,6 +193,20 @@
 
 ### Fixed
 
+- The choice of the 15th/85th percentiles for the sentence thresholds rested on a comparison
+  made on novels. It was repeated on the newspaper columns (η² by author, 5/95 to 25/75): 15/85
+  stays, the thresholds do not change, and the threshold calibration page shows the table.
+- The Zheng et al. (2006) citations gave Table 3 as p.384; the table is on p.385 (p.384 only
+  refers to it). Checked against the article PDF.
+- `describe_feature(key)["inputs"]` still listed the inputs from before the one-word definition;
+  the groups that count words or take a tag per word now list `raw_text`, `surface_tokens`,
+  `lemma_tokens` and `pos_data`.
+- `examples/02_korpus_analizi.py` no longer prints highly correlated feature pairs; the library
+  measures and leaves feature selection to the user.
+- `examples/06_esik_kalibrasyonu.py` split sentences with spaCy's parser while the library
+  uses its own sentence rule, so its built-in check reported a different median; it now counts
+  sentences and words with the library's rule and prints the calibrated default thresholds
+  (TR 4/17) instead of the old novel-based 4/18.
 - The readability formulas counted `...` (three dots) as a sentence end but not
   the single character `…`, so the same text got a different sentence count (and
   different `atesman`, `cetinkaya_uzun`, `bezirci_yilmaz`, `lix`, `ari`,
@@ -148,6 +244,28 @@
 
 ### Removed
 
+- `pos_punct` (decided 2026-10-07): with POS shares counted per word there is no punctuation
+  token left to count; the `punctuation` group measures punctuation. The `pos` group has 12
+  keys. The verification reports' verified rows do not change.
+- `ttr_moving_slope` and its parameter `FeatureParams.ttr_slope_chunk_size` (decided 2026-10-07):
+  the slope of TTR over disjoint chunks was hard to read and had no source. Keys: TR 212 → 211,
+  EN 184 → 183; `lexical` 36 → 35. Passing `ttr_slope_chunk_size` to `FeatureParams` now
+  raises `TypeError`.
+- Six coefficient-of-variation features (decided 2026-10-07): `word_length_cv`,
+  `sentence_length_cv`, `para_len_cv`, `sents_per_para_cv`, `syllable_cv` and
+  `sentence_syllable_cv`. None had a source and what they showed was unclear; two repeated
+  another in syllables, two depended on blank-line paragraph boundaries. Keys: TR 211 → 205,
+  EN 183 → 177; `lexical` 35 → 34, `sentence` 8 → 7, `paragraph` 5 → 3, `phonetic` TR 15 → 13,
+  EN 13 → 11. `examples/05_cumle_ritmi.py` now ranks labels by the share of short plus long
+  sentences instead of the CV.
+- Seven more features (decided 2026-10-08): the last two coefficients of variation
+  (`verb_dist_cv`, `suffix_chain_cv`); `entropy_std` and `sent_len_skewness` (spread statistics
+  with no source of their own; summary statistics over a distribution may return as one general
+  function); `para_count_norm` (exactly 1000 / `para_len_mean`); `nominal_verbal_ratio` (count
+  `custom_ngrams=[["NOUN"], ["VERB"]]` and divide); `punct_total_ratio` (the same information as `punct_char_ratio`, per
+  word). The `"cv"` and `"signed"` scales go with them. Keys: TR 205 → 198, EN 177 → 171;
+  `lexical` 34 → 33, `sentence` 7 → 6, `paragraph` 3 → 2, `syntactic` 9 → 7,
+  `morphological_zeyrek` 24 → 23, `punctuation` 19 → 18. Wells (1960) leaves the bibliography.
 - The undocumented `LINGUISTIC_FEATURES_NO_ZEYREK_WARMUP` environment variable.
   The Zeyrek warm-up now always runs on import: skipping it and then analysing
   Turkish in the same process could crash on Windows.

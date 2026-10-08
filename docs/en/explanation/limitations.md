@@ -19,15 +19,14 @@ and the default word:
 | Turkish | 162 | 197,990 |
 | English | 30 | 52,745 |
 
-A column is a **single genre**. Novels already give another distribution
-(dialogue lines are very short), and there is **no guarantee** the thresholds
-suit technical writing, transcripts, poetry or children's books. If you work
+A column is a **single genre**. There is **no guarantee** the thresholds suit
+novels, technical writing, transcripts, poetry or children's books. If you work
 in another genre, consider deriving the thresholds from your own corpus —
 [the method is here](../../threshold-calibration.md).
 
 ### 2. Fourteen citations are secondary
 
-**14 of 148** citations carry `as cited in` — the primary source could not
+**14 of 163** citations carry `as cited in` — the primary source could not
 be obtained and the formula was taken from the citing work. For example:
 
 ```text
@@ -43,17 +42,20 @@ present it as though you read the primary.
 
 ### 3. The spaCy model is part of the result
 
-POS tags, lemmas, morphological tags and the dependency features (with the
-parser's own sentences) come from the model. Change the model and those
-numbers change.
+POS tags, morphological tags, English lemmas and the dependency features
+(with the parser's own sentences) come from the model. Change the model and
+those numbers change. Turkish lemmas come from Zeyrek (§4).
 
 Word and sentence counts do not use the model's labels. The default word is a
 whitespace-separated unit with edge punctuation stripped; the default sentence
-rule reads sentence-ending marks from the model's tokenizer. Features that need
-a label per word (POS, lemma, morphology, dependency) count the model's tokens
-instead, so two word definitions coexist: `e-posta` is one word in `ttr` and two
-tokens in `lexical_density`. `describe_feature(key)["definitions"]["word"]`
-names the one each feature uses.
+rule reads sentence-ending marks from the model's tokenizer. Every feature
+except the dependency features counts this word. Features that need a label
+per word (POS, lemma, morphology) take it from the first word token inside the
+word: the model splits `Türk-Amerikan` or English `it's` into several tokens,
+and the word carries the first part's label (`Türk`, `it`). This happens to
+0.3% of the words in Turkish newspaper columns and 2.7% in English ones. The
+dependency features count the model's tokens.
+`describe_feature(key)["definitions"]["word"]` names the word each feature uses.
 
 Verified combination: spaCy 3.8.16, `en_core_web_sm` 3.8.0,
 `tr_core_news_md` 1.0.
@@ -65,9 +67,10 @@ harmless.
 
 ### 4. Turkish morphology depends on Zeyrek
 
-The 24 features in the `morphological_zeyrek` group come from Zeyrek, a
-Python port of Zemberek's morphotactics. A word Zeyrek cannot analyse drops
-out of those features.
+The 23 features in the `morphological_zeyrek` group and the Turkish lemmas
+come from Zeyrek, a Python port of Zemberek's morphotactics. A word Zeyrek
+cannot analyse drops out of the Zeyrek features; its lemma is the part before
+its apostrophe (`Pittsburgh'tan` → `pittsburgh`).
 
 Zeyrek is an **analyser, not a disambiguator**: it can return several
 analyses for the same surface form and does not pick the right one from
@@ -83,13 +86,13 @@ numbers, fix the seed before Python starts, e.g. `PYTHONHASHSEED=0`.
 
 ### 5. Half the candidates are still unverified
 
-142 rows are not verification candidates at all (plain definitions, tag
-schemes, or our own derivations). Of the remaining **91 candidates, 48 are done** (46 ✅ + 2 🟡)
-and **43 are 🔍 open**.
+82 rows are not verification candidates at all (plain definitions, tag
+schemes, or our own derivations). Of the remaining **142 candidates, 48 are done** (46 ✅ + 2 🟡)
+and **94 are 🔍 open**.
 
 The reason is in [The verification system](verification.md): most sources
 publish a formula but never a worked numerical example. This is most
-pronounced in the `lexical` group — 7 of its 29 candidates are verified.
+pronounced in the `lexical` group — 7 of its 36 candidates are verified.
 
 ### 6. The package is not on PyPI yet
 
@@ -108,8 +111,6 @@ affect your results.
 A few features are not named measures from the literature but definitions
 this library made. Their citations say so plainly:
 
-- `entropy_std` — the **standard deviation of Shannon entropy across
-  segments**. The entropy is Shannon's; the standard deviation is ours.
 - `punct_entropy`, `sent_len_entropy` — Shannon's formula applied to the
   distribution of punctuation types and of sentence lengths. The formula is
   Shannon's; the decision to apply it there is ours.
@@ -120,12 +121,12 @@ There is nothing wrong with using them. The one requirement is getting the
 attribution right: cite the source of the formula, but do not attribute the
 measure itself to that source. In your methods section:
 
-- ✗ "the Shannon (1948) `entropy_std` measure"
-- ✓ "the standard deviation of Shannon (1948) entropy across segments
+- ✗ "the Shannon (1948) `sent_len_entropy` measure"
+- ✓ "Shannon (1948) entropy applied to the distribution of sentence lengths
   (as defined by turkish-linguistic-features)"
 
-The reason is simple: Shannon defined the entropy, not its standard deviation
-across segments. The first wording implies a measure the reader could look up
+The reason is simple: Shannon defined the entropy; he did not apply it to
+sentence lengths. The first wording implies a measure the reader could look up
 in the source and find.
 
 ### 8. Sensitivity to text length
@@ -142,18 +143,18 @@ them to the same size with `segment_size` first
 
 ### 9. Paragraph features depend on how the input is formatted
 
-The five `para_*` features find paragraph boundaries from **blank lines**. A
+The two `para_*` features find paragraph boundaries from **blank lines**. A
 single line break does not count as one — otherwise every line of a
 hard-wrapped text would be a paragraph.
 
 The consequence: if your text has no blank lines, the whole text counts as one
-paragraph. `para_len_mean` becomes the word count of the entire text and both
-CVs return NaN. The library cannot fix this — a boundary that was deleted
+paragraph. `para_len_mean` becomes the word count of the entire text. The
+library cannot fix this — a boundary that was deleted
 cannot be recovered.
 
 This is **common** in text extracted from PDF and EPUB: blank lines between
-paragraphs are lost during extraction. The [NaN map example](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/07_nan_haritasi.py)
-shows which features this leaves unmeasurable in your own text.
+paragraphs are lost during extraction. The value is not `nan`, so the numbers
+will not show it; the warning below does.
 
 If a text longer than 1000 words yields no paragraph boundary at all, a
 `ParagraphStructureWarning` is raised. If you see it you have two options:

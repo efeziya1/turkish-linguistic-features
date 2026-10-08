@@ -23,12 +23,18 @@ pages.
 
 | Term | Meaning |
 |---|---|
+| **word** | A whitespace-separated piece with edge punctuation stripped, containing a letter or digit; the word the library counts |
+| **sentence** | A unit ending in `. ? ! …`; `:` only when a new sentence follows |
+| **spaCy token** | The unit the model splits text into; punctuation is a token of its own. The dependency features count these |
+| **lemma** | A word's dictionary form; from Zeyrek for Turkish, from spaCy for English |
+| **POS tag** | One of the 17 UD part-of-speech tags (`NOUN`, `VERB`, `ADJ`…) |
+| **n-gram** | A sequence of consecutive words; counted with `custom_ngrams` |
 | **type** | One of the distinct words in a text |
-| **token** | One of the word instances in a text |
+| **token** | In the type-token ratio: one of the word instances in a text |
 | **type-token ratio (TTR)** | Number of types ÷ number of tokens |
 | **hapax legomenon** | A word occurring exactly once in the text |
 | **stroke** | Every non-space character — the input to ARI |
-| **window** | The number of tokens examined at a time in a rolling computation |
+| **window** | The number of words examined at a time in a rolling computation |
 | **threshold** | The boundary value that triggers a classification |
 | **percentile** | The value below which n% of the distribution falls |
 | **calibration** | Deriving a threshold from data rather than picking it |

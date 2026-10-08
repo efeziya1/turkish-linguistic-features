@@ -15,34 +15,22 @@ daha az duyarlıdır ama bağımsız değildir
 parcalar = tlf.segment_text(metin, size=1000, lang="tr")
 ```
 
-## `size` spaCy token sayar, boşlukla ayrılmış kelime değil
+## `size` kelime sayar
 
-Bu en çok şaşırtan noktadır. [Öğreticideki](../baslangic.md) 30 kelimelik
-`metin` ile:
-
-```python
-import spacy
-
-tokenizer = spacy.blank("tr").tokenizer
-uzun = " ".join([metin] * 12)
-len(uzun.split())              # 360  ← boşlukla ayrılmış "kelime"
-len(tokenizer(uzun))           # 432  ← spaCy token
-```
-
-Oran 1,20 — fark noktalama işaretlerinden geliyor; spaCy onları ayrı token
-sayar. Dolayısıyla:
+`size`, `analyze`'ın saydığı kelimeyi sayar: boşlukla ayrılan, kenar
+noktalaması atılan, harf ya da rakam içeren birim. Noktalama kelime değildir.
+[Öğreticideki](../baslangic.md) 30 kelimelik `metin` ile:
 
 ```python
+uzun = " ".join([metin] * 12)                  # 360 kelime
 parcalar = tlf.segment_text(uzun, size=100, lang="tr")
-len(parcalar)                                  # 4
-[len(p.split()) for p in parcalar]             # [83, 84, 84, 83]
+len(parcalar)                                  # 3
+[len(p.split()) for p in parcalar]             # [100, 100, 100]
 ```
 
-432 token ÷ 100 = 4 tam parça, artan 32 token atılır. Her parça 100
-**token** ama 83–84 **kelime**.
-
-`size` spaCy token sayar, çünkü boşlukla bölmek parça boylarını %50'ye
-varan oranda değiştiriyordu.
+360 kelime ÷ 100 = 3 tam parça, artan 60 kelime atılır. Her parça
+`analyze`'da tam 100 kelime eder; `mattr` gibi "en az 100 kelime" isteyen bir
+ölçüye yeter.
 
 ## Son parça: `min_fill`
 
@@ -50,12 +38,12 @@ Varsayılan `min_fill=1.0` yalnız **tam** parçaları tutar. Eksik kalan son
 parça atılır.
 
 ```python
-tlf.segment_text(uzun, size=100, lang="tr")                   # 4 parça
+tlf.segment_text(uzun, size=100, lang="tr")                   # 3 parça
 tlf.segment_text(uzun, size=100, min_fill=0.5, lang="tr")     # 4 parça
 ```
 
-Yukarıdaki örnekte ikisi de 4 veriyor çünkü artık 32 token = %32, yani
-`0.5` eşiğinin de altında.
+Artık 60 kelime, yani parçanın %60'ı: `1.0` eşiğinin altında, `0.5`'in
+üstünde.
 
 | `min_fill` | Anlamı |
 |---|---|
@@ -66,8 +54,8 @@ Yukarıdaki örnekte ikisi de 4 veriyor çünkü artık 32 token = %32, yani
 !!! warning "Atılan veri sessizce atılır"
 
     Kütüphane kaç parça attığını size söylemez. `min_fill=1.0` ile 1400
-    tokenlık bir dosyadan `size=1000` ile **tek** parça çıkar; kalan 400
-    token (noktalama dahil, ~330 kelime) gider. Korpusunuzda kısa dosyalar varsa hiç parça
+    kelimelik bir dosyadan `size=1000` ile **tek** parça çıkar; kalan 400
+    kelime gider. Korpusunuzda kısa dosyalar varsa hiç parça
     üretmeyebilirler.
 
     Bunu bilerek kullanın. Şüpheliyseniz önce sayın:
@@ -85,7 +73,7 @@ Yukarıdaki örnekte ikisi de 4 veriyor çünkü artık 32 token = %32, yani
 tlf.segment_text(metin, size=5000, unit="char", lang="tr")
 ```
 
-`unit="char"` ham karakter sayar; tokenizer devreye girmez, dolayısıyla
+`unit="char"` ham karakter sayar; kelime kuralı devreye girmez, dolayısıyla
 `lang` anlamsızlaşır. Kelime sınırına saygı göstermez — parça bir kelimenin
 ortasında bitebilir. Yalnız kaba bir bölme yeterliyse kullanın.
 
@@ -112,9 +100,9 @@ segment_text(
 ) -> list[str]
 ```
 
-`lang` metnin diliyle aynı olmalı. Varsayılan `"tr"`; kesme işareti ve
-kısaltmalar iki dilde farklı tokenlara ayrıldığı için İngilizce bir metni
-`lang="en"` vermeden bölerseniz parça sınırları değişir.
+`lang` metnin diliyle aynı olmalı. Varsayılan `"tr"`. Kelime kuralı iki dilde
+neredeyse aynıdır; fark sıra sayısındadır (Türkçede `3. kat`'taki `3.` tek
+kelime), yani İngilizce bir metinde parça sınırları nadiren kayar.
 
-Parça içeriği **ham metin dilimidir** — yeniden birleştirilmiş token listesi
+Parça içeriği **ham metin dilimidir** — yeniden birleştirilmiş kelime listesi
 değil. Yani noktalama, boşluk ve satır sonları olduğu gibi kalır.

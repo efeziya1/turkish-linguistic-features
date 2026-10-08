@@ -69,10 +69,10 @@ That is the whole chain.
 
 ```text
 row count:    3
-column count: 211
+column count: 202
 ```
 
-One row per file. 215 columns = 212 features plus three identity columns:
+One row per file. 202 columns = 199 features plus three identity columns:
 
 ```text
 label=author_a  source=text1     segment_id=0  ttr=1.0
@@ -89,7 +89,7 @@ label=author_b  source=text3     segment_id=0  ttr=1.0
 The CSV header:
 
 ```text
-label,source,segment_id,n_lemma_count,avg_word_length,word_length_cv,entropy,yule_k,simpso...
+label,source,segment_id,lemma_count,word_count,word_len_mean,entropy,yu...
 ```
 
 ## Watch progress
@@ -112,7 +112,7 @@ rows = tlf.analyze_corpus("corpus/", lang="tr", show_progress=True)
 rows = tlf.analyze_corpus("corpus/", lang="tr", segment_size=1000)
 ```
 
-For example, in a folder `one_file/` holding a single 648-token file:
+For example, in a folder `one_file/` holding a single 648-word file:
 
 ```python
 whole    = tlf.analyze_corpus("one_file/", lang="tr")
@@ -126,13 +126,13 @@ Output:
 1 3 [0, 1, 2]
 ```
 
-648 ÷ 200 = 3 full segments; the remaining 48 tokens are dropped under the
+648 ÷ 200 = 3 full segments; the remaining 48 words are dropped under the
 default `min_fill=1.0`.
 
 !!! danger "Segmenting is per file, not across the corpus"
 
-    `segment_size=1000` splits **each file separately** into 1000-token
-    chunks. It does not concatenate the corpus and cut every 1000 tokens.
+    `segment_size=1000` splits **each file separately** into 1000-word
+    chunks. It does not concatenate the corpus and cut every 1000 words.
     So every file leaves a remainder shorter than `size`, and with the
     default `min_fill=1.0` that remainder is **discarded**.
 
@@ -158,8 +158,8 @@ analyze_corpus(
 ) -> list[dict[str, object]]
 ```
 
-`groups`, `params`, `model` and `warn` mean the same as in `analyze` and
-apply to every segment.
+`groups`, `params`, `model`, `custom_ngrams` and `warn` mean the same as in
+`analyze` and apply to every segment. `custom_ngrams` counts are per segment.
 
 ## A DataFrame instead of a CSV
 

@@ -1,13 +1,13 @@
 """Sözcüksel temel: frekans tablosu ve klasik kelime zenginliği ölçütleri.
 
-Bu modül 35 öznitelik anahtarı üretir (`lexical` grubunun 36'sından; kalan
-``n_lemma_count`` T20'de sayılır):
+Bu modül 32 öznitelik anahtarı üretir (`lexical` grubunun 34'ünden; kalan
+``lemma_count`` ve ``word_count`` ``extractor``'da sayılır):
 
-- T04 (11): ``ttr`` · ``entropy`` · ``yule_k`` · ``simpson_d`` · ``brunet_w`` ·
-  ``hapax_ratio`` · ``hapax_percentage`` · ``avg_word_length`` ·
-  ``word_length_cv`` · ``sichel_s`` · ``heaps_beta``
-- T05 (11): ``mattr`` · ``entropy_std`` · ``herdan_c`` · ``mtld`` ·
-  ``dugast_u`` · ``guiraud_r`` · ``ttr_moving_slope`` · ``noun_variation`` ·
+- T04 (10): ``ttr`` · ``entropy`` · ``yule_k`` · ``simpson_d`` · ``brunet_w`` ·
+  ``hapax_ratio`` · ``hapax_token_ratio`` · ``word_len_mean`` ·
+  ``sichel_s`` · ``heaps_beta``
+- T05 (9): ``mattr`` · ``herdan_c`` · ``mtld`` ·
+  ``dugast_u`` · ``guiraud_r`` · ``noun_variation`` ·
   ``verb_variation`` · ``adj_variation`` · ``adv_variation``
 - T06 (3): ``vocd_d`` · ``hdd`` · ``msttr``
 - T07 (6): ``zipf_exponent`` · ``zipf_r2`` · ``zipf_mandelbrot_q`` ·
@@ -21,7 +21,7 @@ gerekmez — tokenizasyonu çağıran taraf yapmıştır.
 noktalamasız **yüzey biçimleri** sayar — klasik literatürün (McCarthy &
 Jarvis 2010, Covington & McFall 2010, Tweedie & Baayen 1998) birimi.
 Listeyi T20 hazırlar. İstisnalar: ``*_variation`` lemma sayar (Lu 2012),
-``n_lemma_count`` adı gereği lemma.
+``lemma_count`` adı gereği lemma.
 
 **K4 (2026-09-16, Efe):** ``0.0`` yalnız "ölçüldü ve sıfır çıktı" demektir.
 Ölçülemeyen değer — boş girdi, en az uzunluğun altı, boş alt küme, tanımsız
@@ -162,14 +162,14 @@ def hapax_ratio(items: list) -> dict[str, float]:
     """Bir kez geçen tip / toplam **tip** (V1 / V). Boşsa NaN.
 
     Paydası tip olduğu için "kelime dağarcığının ne kadarı tek kullanımlık"
-    sorusunu yanıtlar. QUITA'nın ölçütü bu değil — o ``hapax_percentage``.
+    sorusunu yanıtlar. QUITA'nın ölçütü bu değil — o ``hapax_token_ratio``.
     """
     if not items:
         return {"hapax_ratio": math.nan}
     return {"hapax_ratio": round(hapax_count(items) / len(items), 6)}
 
 
-def hapax_percentage(items: list) -> dict[str, float]:
+def hapax_token_ratio(items: list) -> dict[str, float]:
     """Bir kez geçen tip / toplam **token** (V1 / N) — QUITA §6.1.6. Boşsa NaN.
 
     ``hapax_ratio`` ile payı aynı, paydası farklı: orada V (tip), burada N
@@ -178,34 +178,19 @@ def hapax_percentage(items: list) -> dict[str, float]:
     yüzde, dağarcık okuması için oran.
     """
     if not items:
-        return {"hapax_percentage": math.nan}
+        return {"hapax_token_ratio": math.nan}
     n = sum(f for _, f in items)
-    return {"hapax_percentage": round(hapax_count(items) / n, 6)}
+    return {"hapax_token_ratio": round(hapax_count(items) / n, 6)}
 
 
-def word_length_stats(tokens: list[str]) -> tuple[float, float]:
-    """Kelime uzunluğunun ortalaması ve değişim katsayısı.
+def word_length_stats(tokens: list[str]) -> float:
+    """Kelime uzunluğunun ortalaması (karakter). Boşsa NaN.
 
-    Returns
-    -------
-    (ortalama, cv) : tuple[float, float]
-        ``cv = std / ortalama``. Standart sapma **popülasyon** sapmasıdır
-        (``ddof=0``) — elimizdeki token listesi örneklem değil, metnin
-        kendisi.
-
-    Not: bu **kelime** uzunluğunun değişkenliğidir, cümle uzunluğunun
-    değil. Cümle versiyonu ayrı bir anahtar: ``sentence_length_cv``.
-
-    Boşsa ikisi de NaN; tek kelimede CV NaN (tek değerden değişkenlik ölçülmez).
+    ``word_length_cv`` 2026-10-07'de kaldırıldı (Efe): kaynaksız, anlamı belirsiz.
     """
     if not tokens:
-        return (math.nan, math.nan)
-    uzunluklar = np.array([len(t) for t in tokens], dtype=np.float64)
-    ortalama = float(uzunluklar.mean())
-    if len(tokens) < 2 or ortalama == 0.0:
-        return (round(ortalama, 4), math.nan)
-    cv = float(uzunluklar.std()) / ortalama
-    return (round(ortalama, 4), round(cv, 4))
+        return math.nan
+    return round(float(np.mean([len(t) for t in tokens])), 4)
 
 
 def rare_word_metrics(tokens: list[str]) -> dict[str, float]:
@@ -268,9 +253,9 @@ def heaps_beta(tokens: list[str], min_tokens: int = 300,
 
 # ── T05: pencereli ve eğri tabanlı zenginlik ──────────────────────────
 #
-# Pencere ve parça boyları (MATTR 50 kayan, entropy_std ve ttr_moving_slope
-# 50'lik ayrık parça) 2026-09-15'te geçici kabul edildi; Efe'nin notuyla
-# ileride yeniden gözden geçirilecek.
+# Pencere boyu (MATTR 50 kayan)
+# 2026-09-15'te geçici kabul edildi; Efe'nin notuyla ileride yeniden gözden
+# geçirilecek. ttr_moving_slope 2026-10-07'de kaldırıldı (Efe: fazla karışık).
 
 
 def _hizala(lemma_tokens: list[str], pos_data: list[tuple[str, str]]) -> list[str]:
@@ -303,7 +288,7 @@ def _parcalar(tokens: list[str], boy: int) -> list[list[str]]:
 
 
 def advanced_lexical_richness(tokens: list[str], window: int = 50) -> dict[str, float]:
-    """MATTR, entropy_std, Herdan-C.
+    """MATTR ve Herdan-C.
 
     - ``mattr`` — 1'er kayan ``window``'luk pencerelerin TTR ortalaması
       (Covington & McFall 2010). **2 × window**'dan kısa metinde NaN
@@ -311,18 +296,17 @@ def advanced_lexical_richness(tokens: list[str], window: int = 50) -> dict[str, 
       boyundayken tek pencere kalıyordu: ortalama alacak bir şey olmuyor,
       MATTR matematiksel olarak düz TTR'a çöküyordu — yani düzeltmek için
       var olduğu şeye dönüşüp bunu sessizce yapıyordu.
-    - ``entropy_std`` — ``window``'luk **ayrık** parçaların entropileri (nat)
-      arasındaki popülasyon sapması (2026-09-15, Efe). 2'den az tam parça → NaN.
     - ``herdan_c`` — ``log V / log N``; taban oranda sadeleşir. ``N = 1`` → NaN.
 
     ``bigram_entropy`` 2026-09-15'te çıkarıldı (Efe): lemma çiftlerinin çoğu
-    tek seferlik olduğundan değer metin uzunluğunu izliyordu.
+    tek seferlik olduğundan değer metin uzunluğunu izliyordu. ``entropy_std``
+    2026-10-08'de kaldırıldı (Efe): sapma kısmının kaynağı yoktu.
     """
     N = len(tokens)
     if window <= 0:
         raise ValueError(f"window must be positive: {window}")
     if N == 0:
-        return {"mattr": math.nan, "entropy_std": math.nan, "herdan_c": math.nan}
+        return {"mattr": math.nan, "herdan_c": math.nan}
     V = len(set(tokens))
 
     if N < 2 * window:            # tek/az pencere = ortalama değil, bkz. docstring
@@ -339,17 +323,8 @@ def advanced_lexical_richness(tokens: list[str], window: int = 50) -> dict[str, 
             toplam += len(sayim)
         mattr = toplam / ((N - window + 1) * window)
 
-    parcalar = _parcalar(tokens, window)
-    if len(parcalar) >= 2:
-        entropiler = [shannon_entropy(np.array(list(Counter(p).values()), dtype=np.float64))
-                      for p in parcalar]
-        entropy_std = float(np.std(entropiler))
-    else:
-        entropy_std = math.nan
-
     herdan = math.log(V) / math.log(N) if N > 1 else math.nan
-    return {"mattr": round(mattr, 5), "entropy_std": round(entropy_std, 5),
-            "herdan_c": round(herdan, 5)}
+    return {"mattr": round(mattr, 5), "herdan_c": round(herdan, 5)}
 
 
 def _mtld_tek_yon(tokens: list[str], esik: float) -> float:
@@ -465,23 +440,6 @@ def herdan_vm(freqs: np.ndarray) -> dict[str, float]:
     ic = float(np.sum(f ** 2)) / N ** 2 - 1 / len(f)
     return {"herdan_vm": round(math.sqrt(max(ic, 0.0)), 6)}
 
-
-def ttr_moving_slope(tokens: list[str], chunk_size: int = 50) -> dict[str, float]:
-    """Ayrık ``chunk_size``'lık parçaların TTR'lerine doğrusal eğim.
-
-    Negatif = metnin sonuna doğru kelime tekrarı artıyor. Parça boyu sabit
-    (2026-09-15, Efe): plandaki "4 eşit parça" hem 4 noktadan oynak eğim
-    veriyordu hem de uzun metinde parçaları uzatıp eğimi uzunluğa bağlıyordu.
-    Sondaki eksik parça atılır; 2'den az tam parça → NaN.
-    """
-    if chunk_size <= 0:
-        raise ValueError(f"chunk_size must be positive: {chunk_size}")
-    parcalar = _parcalar(tokens, chunk_size)
-    if len(parcalar) < 2:
-        return {"ttr_moving_slope": math.nan}
-    ttrler = [len(set(p)) / len(p) for p in parcalar]
-    egim = float(np.polyfit(np.arange(len(ttrler), dtype=np.float64), ttrler, 1)[0])
-    return {"ttr_moving_slope": round(egim, 5)}
 
 
 def pos_lexical_variation(lemma_tokens: list[str],

@@ -11,7 +11,7 @@ olduğu tek bakışta belli oluyor.
 
 **Grup girdisi yoksa grup sessizce atlanır.** ``dep_data`` verilmezse
 ``syntactic_dep`` (16), ``morph_tags`` verilmezse ``morphological`` (19),
-``morpheme_lists`` verilmezse ``morphological_zeyrek`` (24) hiç üretilmez —
+``morpheme_lists`` verilmezse ``morphological_zeyrek`` (23) hiç üretilmez —
 hata da verilmez. Bu üç alan ``pos_data`` ile **hizalı** olmak zorunda, boş
 liste geçerli bir "hizalı" değer değil. ``analyze()`` yolunda ``Preprocessor``
 üçünü de doldurur (T21), yani taban şema bundan etkilenmez.
@@ -50,8 +50,8 @@ from .lexical import (
     cttr,
     dugast_u,
     guiraud_r,
-    hapax_percentage,
     hapax_ratio,
+    hapax_token_ratio,
     hdd,
     heaps_beta,
     herdan_vm,
@@ -65,7 +65,6 @@ from .lexical import (
     shannon_entropy,
     simpsons_d,
     summer_s,
-    ttr_moving_slope,
     type_token_ratio,
     vocd_d,
     word_length_stats,
@@ -86,7 +85,7 @@ from .punctuation import (
     char_freq_vector,
     consecutive_punct_ratio,
     digit_ratio,
-    punct_density,
+    punct_char_ratio,
     punct_entropy,
     punct_variety,
     punctuation_ratios,
@@ -104,20 +103,20 @@ from .readability import (
 from .registry import GROUP_LABELS
 from .syntactic import (
     activity_ratio,
-    avg_sent_len_char,
     lexical_density,
-    nominal_verbal_ratio,
     paragraph_stats,
     pos_distribution_stats,
     pos_ratios,
-    pronoun_freq,
-    question_per_sent,
+    pronoun_ratio,
+    question_sent_ratio,
+    sent_len_char_mean,
     sent_len_entropy,
     sentence_distribution_stats,
     sentence_stats,
     verb_distance_stats,
-    word_ngram_ratios,
+    word_ngram_counts,
 )
+from .word_alignment import WordView, word_view
 
 __all__ = ["_extract_features"]
 
@@ -136,6 +135,26 @@ def _lemma_pos(lemma_tokens: list[str],
     özelliği değil ön işleme hatasıdır → ``ValueError`` (K4).
     """
     return list(zip(lemma_tokens, _hizala(lemma_tokens, pos_data), strict=False))
+
+
+def _etiketli_cumleler(wv: WordView) -> list[list[tuple[str, str]]]:
+    """Kelime + etiket, cümle cümle: n-gram öbeği cümle sınırını aşmaz (2026-10-08, Efe)."""
+    etiketli, i = [], 0
+    for cumle in wv.sentences:
+        etiketli.append(wv.pos[i:i + len(cumle)])
+        i += len(cumle)
+    return etiketli
+
+
+def _ngram_cumleleri(raw_text: str, surface_tokens: list[str], lemma_tokens: list[str],
+                     pos_data: list[tuple[str, str]], lang: str = "tr",
+                     **_: Any) -> list[list[tuple[str, str]]]:
+    """``ngram_matches`` için: ``_extract_features``'la aynı kelime ve cümleler, etiketli."""
+    cumleler = kural_cumleleri(surface_tokens, lang)
+    kelimeler = kelime_birimleri(raw_text, lang)[0]
+    wv = word_view(raw_text, kelimeler, surface_tokens, pos_data, lemma_tokens,
+                   None, None, cumleler, lang)
+    return _etiketli_cumleler(wv)
 
 
 def _extract_features(
@@ -162,13 +181,13 @@ def _extract_features(
     groups
         Yalnız bu grupları üret. ``None`` hepsi demektir.
     custom_ngrams
-        Aranacak kelime öbekleri. Verilmezse ``ng_*`` anahtarı üretilmez —
+        Aranacak kelime öbekleri. Verilmezse ``ngram_*`` anahtarı üretilmez —
         bu grup taban şemanın parçası değildir.
 
     Returns
     -------
     dict[str, float]
-        Anahtar → değer. Türkçe taban 208, İngilizce 180; ``dep_data``
+        Anahtar → değer. Türkçe taban 199, İngilizce 172; ``dep_data``
         verilmezse her ikisinden de 16 eksik.
 
     Raises
@@ -206,25 +225,30 @@ def _extract_features(
 
     # Varsayılan kelime tanımı (2026-10-06, Efe): boşlukla ayrılan birim, kenar noktalaması
     # atılır, harf ya da rakam içeren birim kelimedir (`kelime_birimleri`; okunabilirlik
-    # formülleriyle aynı, TOMA uzman sayımıyla 57/57 metinde birebir). Yalnız sayıya ve
-    # yazılı biçime bakan gruplar bunu okur. Sözcük türü, lemma, biçimbilim ya da bağımlılık
-    # isteyen öznitelikler spaCy tokenında kalır (`pos_data`, `lemma_tokens`): etiket o tokena bağlı.
+    # formülleriyle aynı, TOMA uzman sayımıyla 57/57 metinde birebir).
     kelimeler = kelime_birimleri(raw_text, lang)[0]
     cumle_kelimeleri = cumle_birimleri(raw_text, cumleler, lang)
+    # Tek kelime tanımı (2026-10-07, Efe): etiket isteyen öznitelikler de varsayılan kelimeyi
+    # sayar; etiket kelimenin içindeki ilk kelime tokenından gelir (`word_alignment`).
+    # Yalnız `syntactic_dep` spaCy tokenında ve ayrıştırıcı cümlesinde kalır.
+    wv = word_view(raw_text, kelimeler, surface_tokens, pos_data, lemma_tokens,
+                   morph_tags, morpheme_lists, cumleler, lang)
     # Dile göre küçük harf: `str.lower()` Türkçede "I"yı "i" yapar, "İ"ye
     # birleşik nokta (U+0307) ekler — ttr ve kelime uzunluğu kayardı.
     kucuk_kelimeler = [_kucuk_harf(tok, lang) for tok in kelimeler]
 
-    # ── lexical (36) — yüzey biçim sayar ──────────────────────────────
+    # ── lexical (34) — yüzey biçim sayar ──────────────────────────────
     if istiyor("lexical"):
         freqs, N, V, items = rank_word_freq_table(kucuk_kelimeler, lang)
-        ort_uzunluk, uzunluk_cv = word_length_stats(kucuk_kelimeler)
         feats.update({
             # `lemma_tokens` zaten noktalamasız (T21). Lemma yoksa
             # "ölçüldü ve sıfır çıktı" değil, ölçülemedi (K4).
-            "n_lemma_count": float(len(set(lemma_tokens))) if lemma_tokens else math.nan,
-            "avg_word_length": ort_uzunluk,
-            "word_length_cv": uzunluk_cv,
+            "lemma_count": float(len(set(wv.lemmas))) if wv.lemmas else math.nan,
+            # Varsayılan kelime sayısı (2026-10-08, Efe): sayımları (ngram_*_count)
+            # kelimeye bölmek isteyen için. Boş metin ölçülemez (K4); yalnız
+            # noktalamadan oluşan metinde 0 gerçek sayımdır.
+            "word_count": float(len(kelimeler)) if raw_text.strip() else math.nan,
+            "word_len_mean": word_length_stats(kucuk_kelimeler),
             "entropy": shannon_entropy(freqs),
             "yule_k": yules_k(freqs) if N else math.nan,
             "simpson_d": simpsons_d(freqs),
@@ -232,7 +256,7 @@ def _extract_features(
         feats.update(type_token_ratio(N, V))
         feats.update(brunet_w(N, V, params.brunet_w_a))
         feats.update(hapax_ratio(items))
-        feats.update(hapax_percentage(items))
+        feats.update(hapax_token_ratio(items))
         feats.update(advanced_lexical_richness(kucuk_kelimeler, params.mattr_window))
         feats.update(mtld(kucuk_kelimeler, params.mtld_threshold, params.mtld_min_tokens))
         feats.update(dugast_u(kucuk_kelimeler))
@@ -241,13 +265,12 @@ def _extract_features(
         feats.update(summer_s(kucuk_kelimeler))
         feats.update(maas_a2(kucuk_kelimeler))
         feats.update(herdan_vm(freqs))
-        feats.update(ttr_moving_slope(kucuk_kelimeler, params.ttr_slope_chunk_size))
         feats.update(heaps_beta(kucuk_kelimeler, params.heaps_min_tokens, params.heaps_step))
         feats.update(rare_word_metrics(kucuk_kelimeler))
-        feats.update(pos_lexical_variation(lemma_tokens, pos_data))
+        feats.update(pos_lexical_variation(wv.lemmas, wv.pos))
         feats.update(zipf(freqs))
         feats.update(zipf_mandelbrot(freqs))
-        feats.update(reference_frequency_sophistication(lemma_tokens, pos_data, lang))
+        feats.update(reference_frequency_sophistication(wv.lemmas, wv.pos, lang))
         feats.update(vocd_d(kucuk_kelimeler, params.vocd_sample_min, params.vocd_sample_max,
                             params.vocd_num_samples, params.vocd_num_runs,
                             params.vocd_min_tokens, params.vocd_random_seed))
@@ -257,7 +280,7 @@ def _extract_features(
     # ── frequency_structure (13) — lemma sıklıkları ───────────────────
     # Birim grup içinde tek olmak zorunda: TC h-point'i kullanıyor.
     if istiyor("frequency_structure"):
-        lemma_pos = _lemma_pos(lemma_tokens, pos_data)
+        lemma_pos = _lemma_pos(wv.lemmas, wv.pos)
         lemmalar = [lem for lem, _ in lemma_pos]
         l_freqs, l_N, l_V, l_items = rank_word_freq_table(lemmalar, lang)
         h = h_point(l_freqs)
@@ -278,30 +301,29 @@ def _extract_features(
         feats.update(thematic_concentration(l_items, lemma_pos, h, lang))
         feats.update(secondary_thematic_concentration(l_items, lemma_pos, h, lang))
 
-    # ── sentence (8) ──────────────────────────────────────────────────
+    # ── sentence (6) ──────────────────────────────────────────────────
     if istiyor("sentence"):
         feats.update(sentence_stats(cumle_kelimeleri))
-        feats.update(avg_sent_len_char(cumleler))
+        feats.update(sent_len_char_mean(cumleler))
         feats.update(sentence_distribution_stats(cumle_kelimeleri, kisa_esik, uzun_esik))
         feats.update(sent_len_entropy(cumle_kelimeleri))
 
-    # ── paragraph (5) ─────────────────────────────────────────────────
+    # ── paragraph (2) ─────────────────────────────────────────────────
     if istiyor("paragraph"):
         feats.update(paragraph_stats(raw_text, lang))
 
-    # ── pos (13) ──────────────────────────────────────────────────────
+    # ── pos (12) ──────────────────────────────────────────────────────
     if istiyor("pos"):
-        feats.update(pos_ratios(pos_data))
+        feats.update(pos_ratios(wv.pos))
 
-    # ── syntactic (9) ─────────────────────────────────────────────────
+    # ── syntactic (7) ─────────────────────────────────────────────────
     if istiyor("syntactic"):
-        feats.update(question_per_sent(cumleler))
-        feats.update(pronoun_freq(pos_data))
-        feats.update(nominal_verbal_ratio(pos_data))
-        feats.update(verb_distance_stats(pos_data))
-        feats.update(activity_ratio(pos_data))
-        feats.update(lexical_density(pos_data))
-        feats.update(pos_distribution_stats(pos_data, cumleler))
+        feats.update(question_sent_ratio(cumleler))
+        feats.update(pronoun_ratio(wv.pos))
+        feats.update(verb_distance_stats(wv.pos))
+        feats.update(activity_ratio(wv.pos))
+        feats.update(lexical_density(wv.pos))
+        feats.update(pos_distribution_stats(wv.pos, wv.sentences))
 
     # ── syntactic_dep (16) — girdi yoksa atlanır ──────────────────────
     if istiyor("syntactic_dep") and dep_data is not None:
@@ -311,17 +333,17 @@ def _extract_features(
     # `morph_tags` `pos_data` ile hizalı olmak zorunda; verilmemişse grup
     # `syntactic_dep` gibi sessizce atlanır. `analyze()` yolunda `Preprocessor`
     # alanı her zaman doldurur (T21), yani taban şema bundan etkilenmez.
-    if istiyor("morphological") and morph_tags is not None:
-        feats.update(surface_per_lemma(surface_tokens, pos_data, lemma_tokens, lang))
-        feats.update(spacy_morph_ratios(morph_tags, pos_data))
+    if istiyor("morphological") and wv.morph is not None:
+        feats.update(surface_per_lemma(wv.words, wv.pos, wv.lemmas, lang))
+        feats.update(spacy_morph_ratios(wv.morph, wv.pos))
 
-    # ── morphological_zeyrek (24) — yalnız Türkçe ─────────────────────
+    # ── morphological_zeyrek (23) — yalnız Türkçe ─────────────────────
     # K11: dil şemayı belirler. İngilizcede grup hiç üretilmez; Zeyrek
     # İngilizce çözümlemiyor, kurmak bir şeyi değiştirmez.
-    if istiyor("morphological_zeyrek") and lang == "tr" and morpheme_lists is not None:
-        feats.update(zeyrek_morfoloji(morpheme_lists, pos_data, params))
+    if istiyor("morphological_zeyrek") and lang == "tr" and wv.morphemes is not None:
+        feats.update(zeyrek_morfoloji(wv.morphemes, wv.pos, params))
 
-    # ── phonetic (TR 15 · EN 13) ──────────────────────────────────────
+    # ── phonetic (TR 13 · EN 11) ──────────────────────────────────────
     if istiyor("phonetic"):
         feats.update(vowel_ratios(raw_text, lang))
         # Ünlü uyumu Türkçeye özgü (Göksel & Kerslake 2005); İngilizcede
@@ -340,11 +362,11 @@ def _extract_features(
         else:
             feats.update(english_readability_formulas(raw_text, surface_tokens))
 
-    # ── punctuation (18) ──────────────────────────────────────────────
+    # ── punctuation (19) ──────────────────────────────────────────────
     if istiyor("punctuation"):
         feats.update(digit_ratio(raw_text))
-        feats.update(punctuation_ratios(raw_text, len(kelimeler)))
-        feats.update(punct_density(raw_text))
+        feats.update(punctuation_ratios(raw_text))
+        feats.update(punct_char_ratio(raw_text))
         feats.update(punct_entropy(raw_text))
         feats.update(consecutive_punct_ratio(raw_text))
         feats.update(whitespace_ratio(raw_text))
@@ -358,6 +380,6 @@ def _extract_features(
 
     # ── custom_ngrams (dinamik, taban şemada yok) ─────────────────────
     if istiyor("custom_ngrams") and custom_ngrams:
-        feats.update(word_ngram_ratios(kelimeler, custom_ngrams, lang))
+        feats.update(word_ngram_counts(_etiketli_cumleler(wv), custom_ngrams, lang))
 
     return feats

@@ -68,10 +68,10 @@ Bu kadar. Zincirin tamamı bu.
 
 ```text
 satır sayısı: 3
-sütun sayısı: 211
+sütun sayısı: 202
 ```
 
-Her dosya bir satır. 215 sütun = 212 öznitelik + üç kimlik sütunu:
+Her dosya bir satır. 202 sütun = 199 öznitelik + üç kimlik sütunu:
 
 ```text
 label=yazar_a  source=metin1     segment_id=0  ttr=1.0
@@ -88,7 +88,7 @@ label=yazar_b  source=metin3     segment_id=0  ttr=1.0
 CSV başlığı:
 
 ```text
-label,source,segment_id,n_lemma_count,avg_word_length,word_length_cv,entropy,yule_k,simpso...
+label,source,segment_id,lemma_count,word_count,word_len_mean,entropy,yu...
 ```
 
 ## İlerlemeyi görün
@@ -111,7 +111,7 @@ satirlar = tlf.analyze_corpus("korpus/", lang="tr", show_progress=True)
 satirlar = tlf.analyze_corpus("korpus/", lang="tr", segment_size=1000)
 ```
 
-Örneğin 648 tokenlık tek bir dosya içeren `tek_dosya/` klasöründe:
+Örneğin 648 kelimelik tek bir dosya içeren `tek_dosya/` klasöründe:
 
 ```python
 butun   = tlf.analyze_corpus("tek_dosya/", lang="tr")
@@ -125,7 +125,7 @@ print(len(butun), len(parcali), [s["segment_id"] for s in parcali])
 1 3 [0, 1, 2]
 ```
 
-648 ÷ 200 = 3 tam parça; kalan 48 token varsayılan `min_fill=1.0` ile atılır.
+648 ÷ 200 = 3 tam parça; kalan 48 kelime varsayılan `min_fill=1.0` ile atılır.
 
 !!! danger "Parçalama dosya dosya yapılır, korpus geneli değil"
 
@@ -156,8 +156,8 @@ analyze_corpus(
 ) -> list[dict[str, object]]
 ```
 
-`groups`, `params`, `model`, `warn` — hepsi `analyze` ile aynı anlamda ve her
-parçaya uygulanır.
+`groups`, `params`, `model`, `custom_ngrams`, `warn` — hepsi `analyze` ile aynı
+anlamda ve her parçaya uygulanır. `custom_ngrams` sayıları parça başınadır.
 
 ## CSV yerine DataFrame
 

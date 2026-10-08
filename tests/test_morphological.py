@@ -4,22 +4,22 @@ import pytest
 
 from turkish_linguistic_features.features.morphological import (
     _parse_morph,
-    agglutination_depth,
     case_suffix_ratios,
-    derivational_suffix_ratio,
     modal_suffix_ratios,
     mood_suffix_ratios,
-    negation_ratio,
-    passive_ratio,
-    plural_ratio,
-    question_particle_ratio,
     spacy_morph_ratios,
-    suffix_char_length_ratio,
     suffix_ngrams,
     surface_per_lemma,
     tense_ratios,
-    verb_suffix_diversity,
+    zeyrek_agglutination_depth,
+    zeyrek_derivational_suffix_ratio,
     zeyrek_morfoloji,
+    zeyrek_negation_ratio,
+    zeyrek_passive_ratio,
+    zeyrek_plural_ratio,
+    zeyrek_question_particle_ratio,
+    zeyrek_suffix_char_length_ratio,
+    zeyrek_verb_suffix_diversity,
 )
 from turkish_linguistic_features.params import FeatureParams
 
@@ -49,9 +49,9 @@ def test_gorunus_orani_paydasi_gorunuslu_tokenler():
         ("gelmiş", "Aspect=Perf", "VERB"), ("geliyor", "Aspect=Prog", "VERB"),
         ("ev", "", "NOUN"), ("ve", "", "CCONJ"),
     ]))
-    assert sonuc["morph_aspect_perf"] == 0.5
-    assert sonuc["morph_aspect_prog"] == 0.5
-    assert sonuc["morph_aspect_imp"] == 0.0
+    assert sonuc["aspect_perf_ratio"] == 0.5
+    assert sonuc["aspect_prog_ratio"] == 0.5
+    assert sonuc["aspect_imp_ratio"] == 0.0
 
 
 def test_durum_orani_paydasi_durumlu_tokenler():
@@ -60,7 +60,7 @@ def test_durum_orani_paydasi_durumlu_tokenler():
         ("a", "Case=Acc", "NOUN"), ("b", "Case=Dat", "NOUN"),
         ("c", "", "X"), ("d", "", "X"), ("e", "", "X"),
     ]))
-    assert sonuc["morph_case_acc"] == 0.5
+    assert sonuc["case_acc_ratio"] == 0.5
 
 
 def test_listede_olmayan_deger_paydaya_girer():
@@ -68,8 +68,8 @@ def test_listede_olmayan_deger_paydaya_girer():
     sonuc = spacy_morph_ratios(*_etiketle([
         ("kalemle", "Case=Ins", "NOUN"), ("evi", "Case=Acc", "NOUN"),
     ]))
-    assert sonuc["morph_case_acc"] == 0.5
-    assert sonuc["morph_case_nom"] == 0.0
+    assert sonuc["case_acc_ratio"] == 0.5
+    assert sonuc["case_nom_ratio"] == 0.0
 
 
 def test_iyelik_kisisi_kisi_sayilmaz():
@@ -77,16 +77,16 @@ def test_iyelik_kisisi_kisi_sayilmaz():
     sonuc = spacy_morph_ratios(*_etiketle([
         ("kitabım", "Case=Nom|Number=Sing|Number[psor]=Sing|Person=3|Person[psor]=1", "NOUN"),
     ]))
-    assert sonuc["morph_person_3"] == 1.0
-    assert sonuc["morph_person_1"] == 0.0
+    assert sonuc["person_3_ratio"] == 1.0
+    assert sonuc["person_1_ratio"] == 0.0
 
 
 def test_etiketi_olmayan_kategori_nan():
     """Metinde hiç Case yok → altı durum oranı NaN, diğerleri ölçülür (S1)."""
     sonuc = spacy_morph_ratios(*_etiketle([("geldi", "Tense=Past", "VERB")]))
-    durumlar = [k for k in sonuc if k.startswith("morph_case_")]
+    durumlar = [k for k in sonuc if k.startswith("case_")]
     assert len(durumlar) == 6 and all(math.isnan(sonuc[k]) for k in durumlar)
-    assert sonuc["morph_tense_past"] == 1.0
+    assert sonuc["tense_past_ratio"] == 1.0
 
 
 def test_edilgen_orani_paydasi_fiiller():
@@ -95,12 +95,12 @@ def test_edilgen_orani_paydasi_fiiller():
         ("geldi", "", "VERB"), ("yazıldı", "Voice=Pass", "VERB"),
         ("yaptırdı", "Voice=Cau", "VERB"), ("değil", "", "AUX"),
     ]))
-    assert sonuc["morph_voice_pass"] == pytest.approx(1 / 3, abs=1e-5)
+    assert sonuc["voice_pass_ratio"] == pytest.approx(1 / 3, abs=1e-5)
 
 
 def test_edilgen_orani_fiil_yoksa_nan():
     sonuc = spacy_morph_ratios(*_etiketle([("ev", "Case=Nom", "NOUN")]))
-    assert math.isnan(sonuc["morph_voice_pass"])
+    assert math.isnan(sonuc["voice_pass_ratio"])
 
 
 def test_morph_bos_liste():
@@ -199,132 +199,125 @@ def _z(*kelimeler):
 
 def test_ek_derinligi_elle():
     """kitaplarımızda: 3 ek, ev: 0 görünen ek → 1.5 (S1)."""
-    assert agglutination_depth(*_z(KITAPLARIMIZDA, EV))["agglutination_depth"] == 1.5
+    assert zeyrek_agglutination_depth(*_z(KITAPLARIMIZDA, EV))["zeyrek_agglutination_depth"] == 1.5
 
 
 def test_derinlik_gorunmeyen_ek_ve_tur_etiketi_sayilmaz():
     """evdeydi: de + ydi = 2; A3sg, Zero, Verb sayılmaz."""
-    assert agglutination_depth(*_z(EV))["agglutination_depth"] == 0.0
-    assert agglutination_depth(*_z(EVDEYDI))["agglutination_depth"] == 2.0
+    assert zeyrek_agglutination_depth(*_z(EV))["zeyrek_agglutination_depth"] == 0.0
+    assert zeyrek_agglutination_depth(*_z(EVDEYDI))["zeyrek_agglutination_depth"] == 2.0
 
 
 def test_bilinmeyen_ve_noktalama_paydada_yok():
     """S6: Unk ve noktalama hiçbir paydaya girmez."""
-    sonuc = agglutination_depth(*_z(KITAPLARIMIZDA, BILINMEYEN, NOKTA))
-    assert sonuc["agglutination_depth"] == 3.0
+    sonuc = zeyrek_agglutination_depth(*_z(KITAPLARIMIZDA, BILINMEYEN, NOKTA))
+    assert sonuc["zeyrek_agglutination_depth"] == 3.0
 
 
 def test_cogul_orani():
-    assert plural_ratio(*_z(KITAPLARIMIZDA, EV))["plural_ratio"] == 0.5
+    assert zeyrek_plural_ratio(*_z(KITAPLARIMIZDA, EV))["zeyrek_plural_ratio"] == 0.5
 
 
 def test_cogul_bagli_oldugu_parcaya_bakar():
     """S10: öğrencilerdi → isme bağlı -ler çoğul; geldiler → kişi eki."""
-    assert plural_ratio(*_z(OGRENCILERDI, GELDILER))["plural_ratio"] == 0.5
+    assert zeyrek_plural_ratio(*_z(OGRENCILERDI, GELDILER))["zeyrek_plural_ratio"] == 0.5
 
 
 def test_olumsuzluk_paydasi_fiiller_eme_dahil():
     """S5a, S9: 3 fiil (gelmedim, gelemedim olumsuz) + isim → 2/3."""
-    sonuc = negation_ratio(*_z(GELMEDIM, GELEMEDIM, GELIRSE, EV))
-    assert sonuc["negation_ratio"] == pytest.approx(2 / 3, abs=1e-5)
+    sonuc = zeyrek_negation_ratio(*_z(GELMEDIM, GELEMEDIM, GELIRSE, EV))
+    assert sonuc["zeyrek_negation_ratio"] == pytest.approx(2 / 3, abs=1e-5)
 
 
 def test_kip_ayrimi_eme_yeterlilik_sayilir():
     """S9: gelebilirim, gelemedim → Able; gitmeliyim → Neces."""
     sonuc = modal_suffix_ratios(*_z(GELEBILIRIM, GELEMEDIM, GITMELIYIM, EV))
-    assert sonuc["modal_possibility_ratio"] == pytest.approx(2 / 3, abs=1e-5)
-    assert sonuc["modal_necessity_ratio"] == pytest.approx(1 / 3, abs=1e-5)
+    assert sonuc["zeyrek_modal_possibility_ratio"] == pytest.approx(2 / 3, abs=1e-5)
+    assert sonuc["zeyrek_modal_necessity_ratio"] == pytest.approx(1 / 3, abs=1e-5)
 
 
 def test_edilgen_fiil_genel_etiketle():
     """yazılan sıfat (genel etiket Adj) → payda ve paya girmez → 1/2."""
-    assert passive_ratio(*_z(YAZILDI, YAZILAN, GELMEDIM))["passive_ratio"] == 0.5
+    assert zeyrek_passive_ratio(*_z(YAZILDI, YAZILAN, GELMEDIM))["zeyrek_passive_ratio"] == 0.5
 
 
 def test_zaman_orani_paydasi_fiiller():
-    """1 fiil (geçmiş) + 3 isim → tense_past_def = 1.0, 0.25 değil."""
-    assert tense_ratios(*_z(GELMEDIM, EV, EV, EV))["tense_past_def"] == 1.0
+    """1 fiil (geçmiş) + 3 isim → zeyrek_tense_past_def_ratio = 1.0, 0.25 değil."""
+    assert tense_ratios(*_z(GELMEDIM, EV, EV, EV))["zeyrek_tense_past_def_ratio"] == 1.0
 
 
 def test_birlesik_zamanda_son_ek_sayilir():
     """S3: gidiyordum → yalnız geçmiş."""
     sonuc = tense_ratios(*_z(GIDIYORDUM))
-    assert sonuc["tense_past_def"] == 1.0 and sonuc["tense_present"] == 0.0
+    assert sonuc["zeyrek_tense_past_def_ratio"] == 1.0 and sonuc["zeyrek_tense_present_ratio"] == 0.0
 
 
 def test_simdiki_genis_zaman_ve_ek_fiil():
     """S4: geniş zaman (görünmeyen dahil) present; evdeydi fiil sayılır."""
-    assert tense_ratios(*_z(GELIRSE, GELMEM))["tense_present"] == 1.0
-    assert tense_ratios(*_z(EVDEYDI))["tense_past_def"] == 1.0
+    assert tense_ratios(*_z(GELIRSE, GELMEM))["zeyrek_tense_present_ratio"] == 1.0
+    assert tense_ratios(*_z(EVDEYDI))["zeyrek_tense_past_def_ratio"] == 1.0
 
 
 def test_sart_ve_ettirgen():
     sonuc = mood_suffix_ratios(*_z(GELIRSE, YAPTIRDI, EV))
-    assert sonuc["conditional_suffix_ratio"] == 0.5
-    assert sonuc["causative_suffix_ratio"] == 0.5
+    assert sonuc["zeyrek_conditional_suffix_ratio"] == 0.5
+    assert sonuc["zeyrek_causative_suffix_ratio"] == 0.5
 
 
 def test_durum_eki_orani():
     sonuc = case_suffix_ratios(*_z(KITAPLARIMIZDA, EV))
-    assert sonuc["case_loc_ratio"] == 0.5
-    assert sonuc["case_acc_ratio"] == 0.0
+    assert sonuc["zeyrek_case_loc_ratio"] == 0.5
+    assert sonuc["zeyrek_case_acc_ratio"] == 0.0
 
 
 def test_soru_eki_orani():
-    sonuc = question_particle_ratio(*_z(MI, EV, BILINMEYEN))
-    assert sonuc["question_particle_ratio"] == 0.5
+    sonuc = zeyrek_question_particle_ratio(*_z(MI, EV, BILINMEYEN))
+    assert sonuc["zeyrek_question_particle_ratio"] == 0.5
 
 
 def test_ek_karakter_orani():
     """kitaplarımızda: kök 5, ek 9 karakter → 9/14; noktalama sayılmaz."""
-    sonuc = suffix_char_length_ratio(*_z(KITAPLARIMIZDA, NOKTA))
-    assert sonuc["suffix_char_length_ratio"] == pytest.approx(9 / 14, abs=1e-5)
+    sonuc = zeyrek_suffix_char_length_ratio(*_z(KITAPLARIMIZDA, NOKTA))
+    assert sonuc["zeyrek_suffix_char_length_ratio"] == pytest.approx(9 / 14, abs=1e-5)
 
 
 def test_yapim_eki_orani_zeyrek_isareti():
     """S2: yazıldı → ıl yapım, dı çekim → 0.5."""
-    assert derivational_suffix_ratio(*_z(YAZILDI))["derivational_suffix_ratio"] == 0.5
-    assert derivational_suffix_ratio(*_z(GELMEDIM))["derivational_suffix_ratio"] == 0.0
-    assert math.isnan(derivational_suffix_ratio(*_z(EV))["derivational_suffix_ratio"])
+    assert zeyrek_derivational_suffix_ratio(*_z(YAZILDI))["zeyrek_derivational_suffix_ratio"] == 0.5
+    assert zeyrek_derivational_suffix_ratio(*_z(GELMEDIM))["zeyrek_derivational_suffix_ratio"] == 0.0
+    assert math.isnan(zeyrek_derivational_suffix_ratio(*_z(EV))["zeyrek_derivational_suffix_ratio"])
 
 
 def test_ek_bigram_entropisi():
     """kitaplarımızda: (A3pl,P1pl), (P1pl,Loc) eşit → ln 2 nat (1 bit); tek desen 0."""
-    assert suffix_ngrams(*_z(KITAPLARIMIZDA))["suffix_bigram_entropy"] == round(math.log(2), 5)
-    assert suffix_ngrams(*_z(GELDILER, GELDILER))["suffix_bigram_entropy"] == 0.0
-    assert math.isnan(suffix_ngrams(*_z(EV))["suffix_bigram_entropy"])
-
-
-def test_ek_zinciri_cv():
-    """3 ve 0 ek → ortalama 1.5, sapma 1.5 → 1.0; tek kelime ya da hiç ek yok → NaN."""
-    assert suffix_ngrams(*_z(KITAPLARIMIZDA, EV))["suffix_chain_cv"] == 1.0
-    assert math.isnan(suffix_ngrams(*_z(KITAPLARIMIZDA))["suffix_chain_cv"])
-    assert math.isnan(suffix_ngrams(*_z(EV, EV))["suffix_chain_cv"])
+    assert suffix_ngrams(*_z(KITAPLARIMIZDA))["zeyrek_suffix_bigram_entropy"] == round(math.log(2), 5)
+    assert suffix_ngrams(*_z(GELDILER, GELDILER))["zeyrek_suffix_bigram_entropy"] == 0.0
+    assert math.isnan(suffix_ngrams(*_z(EV))["zeyrek_suffix_bigram_entropy"])
 
 
 def test_fiil_eki_cesitliligi_parcali():
     """S7: 2'şer fiil; {Neg,Past,A1sg,Prog1}=4, {Neg,Past,A1sg}=3 → 3.5; artık atılır."""
     params = FeatureParams(verb_suffix_window=2)
-    sonuc = verb_suffix_diversity(
+    sonuc = zeyrek_verb_suffix_diversity(
         *_z(GELMEDIM, EV, GIDIYORDUM, GELMEDIM, GELMEDIM, GIDIYORDUM), params)
-    assert sonuc["verb_suffix_diversity"] == 3.5
+    assert sonuc["zeyrek_verb_suffix_diversity"] == 3.5
 
 
 def test_fiil_eki_cesitliligi_kisa_metin_nan():
     assert FeatureParams().verb_suffix_window == 50
-    assert math.isnan(verb_suffix_diversity(*_z(GELMEDIM))["verb_suffix_diversity"])
+    assert math.isnan(zeyrek_verb_suffix_diversity(*_z(GELMEDIM))["zeyrek_verb_suffix_diversity"])
 
 
-def test_zeyrek_morfoloji_24_anahtar():
-    assert len(zeyrek_morfoloji(*_z(KITAPLARIMIZDA, GELMEDIM))) == 24
+def test_zeyrek_morfoloji_23_anahtar():
+    assert len(zeyrek_morfoloji(*_z(KITAPLARIMIZDA, GELMEDIM))) == 23
 
 
 def test_bos_morfem_listesi():
-    """Boş girdi → 24'ü de NaN (K4)."""
+    """Boş girdi → 23'ü de NaN (K4)."""
     sonuc = zeyrek_morfoloji([], [])
-    assert len(sonuc) == 24 and all(math.isnan(v) for v in sonuc.values())
+    assert len(sonuc) == 23 and all(math.isnan(v) for v in sonuc.values())
 
 
 def test_zeyrek_hizasiz_girdi_hata():
     with pytest.raises(ValueError):
-        agglutination_depth([EV], [])
+        zeyrek_agglutination_depth([EV], [])

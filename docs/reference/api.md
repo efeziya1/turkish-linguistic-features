@@ -1,6 +1,6 @@
 # Public API
 
-Ten names. Everything else in the package is private and may change
+Eleven names. Everything else in the package is private and may change
 without notice.
 
 Every function that takes `lang` defaults to `"tr"`. For English text,
@@ -13,8 +13,8 @@ tlf.__all__
 ```
 
 ```text
-['analyze', 'analyze_corpus', 'FeatureParams', 'segment_text', 'save_csv',
- 'describe_feature', 'LinguisticFeaturesError', 'ModelNotFoundError',
+['analyze', 'analyze_corpus', 'ngram_matches', 'FeatureParams', 'segment_text',
+ 'save_csv', 'describe_feature', 'LinguisticFeaturesError', 'ModelNotFoundError',
  'MissingDependencyWarning', 'ParagraphStructureWarning']
 ```
 
@@ -41,11 +41,11 @@ Extracts every feature from one text. Returns a flat `dict`; values are
 | Parameter | Meaning |
 |---|---|
 | `text` | The text to analyse |
-| `lang` | `"tr"` (default) or `"en"`. Anything else raises `ValueError`. Changes the feature set (212 vs 184) |
+| `lang` | `"tr"` (default) or `"en"`. Anything else raises `ValueError`. Changes the feature set (199 vs 172) |
 | `model` | spaCy model name. Defaults: `tr_core_news_md`, `en_core_web_sm` |
 | `groups` | Restrict to these groups; `None` means all |
 | `params` | Thresholds and window sizes. **`None` selects language-calibrated values** |
-| `custom_ngrams` | Token sequences to count; each becomes an `ng_*` key |
+| `custom_ngrams` | Word sequences to count, one key `ngram_{...}_count` each. An UPPERCASE UD tag (`NOUN`, `VERB` …) in a phrase matches any word with that tag; matches stay inside a sentence. See `ngram_matches` for what matched |
 | `show_progress` | Print progress to stdout |
 | `warn` | `False` silences `MissingDependencyWarning` and `ParagraphStructureWarning`; does not change the result |
 
@@ -54,6 +54,35 @@ English, when `phonetic` or `readability` is requested — if NLTK's `cmudict`
 corpus is not. The check runs before any model is loaded.
 
 See: [TR](../tr/nasil/tek-metin.md) · [EN](../en/how-to/single-text.md)
+
+---
+
+## `ngram_matches`
+
+```python
+ngram_matches(
+    text: str,
+    phrase: list[str],
+    lang: str = "tr",
+    model: str | None = None,
+) -> dict[str, int]
+```
+
+What one `custom_ngrams` phrase matched in a text, most frequent first. The
+matching is the same as in `analyze`, so the values add up to the phrase's
+`ngram_{...}_count`.
+
+```python
+tlf.ngram_matches("Kadın geldi. Kadın güldü ve kadın oturdu.", ["kadın", "VERB"])
+```
+
+```text
+{'kadın geldi': 1, 'kadın güldü': 1, 'kadın oturdu': 1}
+```
+
+Sentence and position are not returned. For several texts, add the results up
+(`collections.Counter`). The text goes through the spaCy pipeline, as in
+`analyze`.
 
 ---
 
@@ -106,15 +135,14 @@ segment_text(
 ) -> list[str]
 ```
 
-Splits a text into fixed-size pieces. `size` counts **spaCy tokens**
-(`unit="word"`) or raw characters (`unit="char"`). A trailing piece shorter
+Splits a text into fixed-size pieces. `size` counts **words** — the word
+`analyze` counts (`unit="word"`) — or raw characters (`unit="char"`). A trailing piece shorter
 than `min_fill × size` is discarded.
 
-Returned pieces are slices of the raw text, not re-joined tokens.
+Returned pieces are slices of the raw text, not re-joined words.
 
-Pass the text's language: tokenization rules differ (apostrophes,
-abbreviations), so the same English text gives different piece boundaries
-with the default `lang="tr"`.
+Pass the text's language; the word rule differs slightly (Turkish ordinals
+such as `3.` are one word).
 
 See: [TR](../tr/nasil/segmentleme.md) · [EN](../en/how-to/segmenting.md)
 
@@ -158,7 +186,7 @@ rule tlf counts it with, who defines that rule (`tlf`, `spacy`, `zeyrek`,
 Where the definition differs by language (`syllable`), `describe_feature(key, lang="tr")` returns
 that language's entry; without `lang` you get `{"tr": ..., "en": ...}`.
 
-Dynamic keys (`char_a`, `ng_*`) are accepted; for them `formula` and
+Dynamic keys (`char_a_ratio`, `ngram_*_count`) are accepted; for them `formula` and
 `requires` are stated at the group level.
 
 See: [TR](../tr/nasil/kunye.md) · [EN](../en/how-to/citations.md)
@@ -168,7 +196,7 @@ See: [TR](../tr/nasil/kunye.md) · [EN](../en/how-to/citations.md)
 ## `FeatureParams`
 
 A frozen dataclass (`frozen=True`) holding thresholds, window sizes and
-sample counts. Nineteen fields; the full table is in
+sample counts. Eighteen fields; the full table is in
 [TR](../tr/nasil/parametreler.md) · [EN](../en/how-to/parameters.md).
 
 !!! note
@@ -188,7 +216,7 @@ sample counts. Nineteen fields; the full table is in
 | `LinguisticFeaturesError` | Base class for everything the library raises |
 | `ModelNotFoundError` | Required language data is not installed: a spaCy model, or NLTK's `cmudict` for English syllable counts. The message contains the install command |
 | `MissingDependencyWarning` | The optional `wordfreq` package is missing; the two `wordfreq_*` features return `nan` |
-| `ParagraphStructureWarning` | A text over 1000 words has no blank-line paragraph boundary; `para_*` features describe the whole text as one paragraph |
+| `ParagraphStructureWarning` | A text over 1000 words has no blank-line paragraph boundary; the two `para_*` features describe the whole text as one paragraph |
 
 Catching `LinguisticFeaturesError` catches every error the library raises
 on purpose. It does not catch errors from spaCy or Zeyrek.

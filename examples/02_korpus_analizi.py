@@ -15,7 +15,7 @@ Beklenen düzen: ``korpus/Etiket_Başlık.txt`` (ya da ``korpus/Etiket/*.txt``,
 ya da tek bir ``korpus.csv``).
 
 pandas **opsiyonel**: kurulu değilse script yine baştan sona çalışır, yalnız
-sondaki iki blok atlanır.
+sondaki blok atlanır.
 """
 
 import math
@@ -31,7 +31,6 @@ PARCA_BOYUTU = 1000        # gerçek korpus için tipik değer (kelime)
 DEMO_PARCA_BOYUTU = 60     # demo metinleri kısa; 1000 ile hiç parça çıkmazdı
 DIL = "tr"
 CIKTI_DIZINI = Path("examples/output")
-KORELASYON_ESIGI = 0.95
 EN_COK_DEGISEN = 10
 
 def main() -> None:
@@ -90,28 +89,15 @@ def main() -> None:
     try:
         import pandas as pd
     except ImportError:
-        print("\n(pandas kurulu değil; sabit sütun ve korelasyon blokları "
-              "atlandı.)")
+        print("\n(pandas kurulu değil; sabit sütun bloğu atlandı.)")
         print("Kurmak için: pip install pandas")
         return
 
     df = pd.DataFrame(satirlar).set_index(["label", "source", "segment_id"])
 
-    # 5a. Sabit sütunlar: korpusta hiç değişmeyen öznitelik ayırt edici değil.
+    # 5. Sabit sütunlar: korpusta hiç değişmeyen öznitelik ayırt edici değil.
     degisenler = df.loc[:, df.nunique() > 1]
     print(f"\nSabit sütunlar elendi: {df.shape[1]} -> {degisenler.shape[1]}")
-
-    # 5b. Birbirini tekrarlayan öznitelik çiftleri.
-    #    Az sayıda parçayla korelasyon katsayısı güvenilir değildir; bu blok
-    #    kalıbı gösterir, demo korpusun sayılarını yorumlamak için değil.
-    korelasyon = degisenler.corr().abs()
-    ciftler = [(a, b, korelasyon.loc[a, b])
-               for i, a in enumerate(korelasyon.columns)
-               for b in korelasyon.columns[i + 1:]
-               if korelasyon.loc[a, b] >= KORELASYON_ESIGI]
-    print(f"|r| >= {KORELASYON_ESIGI} olan çift sayısı: {len(ciftler)}")
-    for a, b, r in sorted(ciftler, key=lambda p: p[2], reverse=True)[:10]:
-        print(f"  {a:<28} {b:<28} r={r:.3f}")
 
 
 if __name__ == "__main__":

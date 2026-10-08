@@ -66,5 +66,5 @@ def demo_korpus_yaz(dizin: Path) -> None:
 
 
 def demo_metni() -> str:
-    """Dört demo metnini boş satırla ayrılmış tek metin olarak verir (~400 kelime)."""
+    """Dört demo metnini boş satırla ayrılmış tek metin olarak verir (~300 kelime)."""
     return "\n\n".join(DEMO_METINLER.values())

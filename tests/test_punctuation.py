@@ -1,11 +1,13 @@
 import math
 
+import pytest
+
 from turkish_linguistic_features.features.punctuation import (
     all_caps_word_ratio,
     char_freq_vector,
     consecutive_punct_ratio,
     digit_ratio,
-    punct_density,
+    punct_char_ratio,
     punct_entropy,
     punct_variety,
     punctuation_ratios,
@@ -19,13 +21,13 @@ from turkish_linguistic_features.features.punctuation import (
 def test_karakter_vektoru_tr_29_harf():
     sonuc = char_freq_vector("merhaba dünya", lang="tr")
     assert len(sonuc) == 29
-    assert "char_ç" in sonuc and "char_ğ" in sonuc
+    assert "char_ç_ratio" in sonuc and "char_ğ_ratio" in sonuc
 
 
 def test_karakter_vektoru_en_26_harf():
     sonuc = char_freq_vector("hello world", lang="en")
     assert len(sonuc) == 26
-    assert "char_ç" not in sonuc and "char_w" in sonuc
+    assert "char_ç_ratio" not in sonuc and "char_w_ratio" in sonuc
 
 
 def test_karakter_oranlari_toplami_bire_yakin():
@@ -36,78 +38,86 @@ def test_karakter_oranlari_toplami_bire_yakin():
 def test_ingilizce_q_w_x_sayilir():
     """"wax" → w, a, x üçte bir."""
     sonuc = char_freq_vector("wax", lang="en")
-    assert sonuc["char_w"] == sonuc["char_a"] == sonuc["char_x"] == 0.333333
+    assert sonuc["char_w_ratio"] == sonuc["char_a_ratio"] == sonuc["char_x_ratio"] == 0.333333
 
 
 def test_turkce_buyuk_harf_kurali():
     """TR: I → ı, İ → i. Python'un lower()'ı ikisini de 'i' yapardı."""
     sonuc = char_freq_vector("Iİ", lang="tr")
-    assert sonuc["char_ı"] == 0.5 and sonuc["char_i"] == 0.5
+    assert sonuc["char_ı_ratio"] == 0.5 and sonuc["char_i_ratio"] == 0.5
 
 
 def test_alfabe_disi_harf_paydaya_girmez():
     """TR alfabesinde w yok: "wa" → yalnız a sayılır → 1.0."""
-    assert char_freq_vector("wa", lang="tr")["char_a"] == 1.0
+    assert char_freq_vector("wa", lang="tr")["char_a_ratio"] == 1.0
 
 
-# ── noktalama oranları (kelime başına) ────────────────────────────────
+# ── noktalama oranları (işaretler içindeki pay, 2026-10-08) ───────────
 
 
 def test_noktalama_orani_elle_hesap():
-    # 10 kelime, 2 virgül → 0.2
-    sonuc = punctuation_ratios("a, b, c", total_words=10)
-    assert sonuc["punc_,_ratio"] == 0.2
+    # 2 virgül + 1 nokta = 3 işaret → virgül 2/3
+    sonuc = punctuation_ratios("a, b, c.")
+    assert sonuc["punct_comma_ratio"] == round(2 / 3, 6)
+    assert sonuc["punct_period_ratio"] == round(1 / 3, 6)
 
 
 def test_on_anahtar():
-    assert len(punctuation_ratios("", total_words=0)) == 10
+    """On tür; `punct_total_ratio` 2026-10-08'de kaldırıldı (Efe)."""
+    assert len(punctuation_ratios("")) == 10
+
+
+def test_paylarin_toplami_bir():
+    sonuc = punctuation_ratios("Geldi, gitti... Sonra? (Hayır!)")   # , … ? ( ! ) = 6 işaret
+    assert sum(sonuc.values()) == pytest.approx(1.0, abs=1e-5)
+    assert sonuc["punct_paren_ratio"] == round(2 / 6, 6)
 
 
 def test_uc_nokta_tek_isaret_ve_nokta_sayilmaz():
     """"..." ve "…" ikisi de bir üç nokta; içindeki noktalar nokta değil. Sondaki "." bir nokta."""
-    sonuc = punctuation_ratios("Bekledi... Sonra… gitti.", total_words=10)
-    assert sonuc["punc_ellipsis_ratio"] == 0.2
-    assert sonuc["punc_._ratio"] == 0.1
+    sonuc = punctuation_ratios("Bekledi... Sonra… gitti.")
+    assert sonuc["punct_ellipsis_ratio"] == round(2 / 3, 6)
+    assert sonuc["punct_period_ratio"] == round(1 / 3, 6)
 
 
 def test_tire_uc_bicim():
-    assert punctuation_ratios("a-b – c — d", total_words=10)["punc_-_ratio"] == 0.3
+    assert punctuation_ratios("a-b – c — d.")["punct_dash_ratio"] == 0.75
 
 
 def test_parantez_iki_isaret():
-    assert punctuation_ratios("(a) (b)", total_words=10)["punc_paren_ratio"] == 0.4
+    assert punctuation_ratios("(a) (b).")["punct_paren_ratio"] == 0.8
 
 
 def test_tirnak_genis_kume_kesme_isareti_haric():
-    """“ ” « » ve kelime sınırındaki ' ' tırnak: 6. Ankara’ya'daki ’ kesme işareti."""
+    """“ ” « » ve kelime sınırındaki ' ' tırnak: 6, artı , ve . → 6/8. Ankara’ya'daki ’ kesme işareti."""
     metin = "“Ankara’ya” dedi, «evet» 'hayır'."
-    assert punctuation_ratios(metin, total_words=10)["punc_quote_ratio"] == 0.6
+    assert punctuation_ratios(metin)["punct_quote_ratio"] == 0.75
 
 
 def test_soru_unlem_iki_nokta_noktali_virgul():
-    sonuc = punctuation_ratios("a? b! c: d;", total_words=10)
-    assert (sonuc["punc_question_ratio"], sonuc["punc_!_ratio"],
-            sonuc["punc_:_ratio"], sonuc["punc_;_ratio"]) == (0.1, 0.1, 0.1, 0.1)
+    sonuc = punctuation_ratios("a? b! c: d;")
+    assert (sonuc["punct_question_ratio"], sonuc["punct_exclamation_ratio"],
+            sonuc["punct_colon_ratio"], sonuc["punct_semicolon_ratio"]) == (0.25, 0.25, 0.25, 0.25)
 
 
 # ── karakter düzeyi oranlar ───────────────────────────────────────────
 
 
 def test_digit_ratio_elle():
-    assert digit_ratio("a1b2")["digit_vs_all"] == 0.5
+    assert digit_ratio("a1b2")["digit_ratio"] == 0.5
 
 
 def test_whitespace_ratio_elle():
     assert whitespace_ratio("a b")["whitespace_ratio"] == 0.333333
 
 
-def test_punct_density_uc_nokta_tek_isaret():
+def test_punct_char_ratio_uc_nokta_tek_isaret():
     """"a...b": 1 işaret / 5 karakter."""
-    assert punct_density("a...b")["punct_density"] == 0.2
+    assert punct_char_ratio("a...b")["punct_char_ratio"] == 0.2
 
 
-def test_punct_density_kesme_isareti_sayilmaz():
-    assert punct_density("Ankara’ya")["punct_density"] == 0.0
+def test_punct_char_ratio_kesme_isareti_sayilmaz():
+    assert punct_char_ratio("Ankara’ya")["punct_char_ratio"] == 0.0
 
 
 def test_punct_entropy_elle():
@@ -171,7 +181,7 @@ def _hepsi_nan(d: dict) -> bool:
 
 
 def test_bos_girdiler_hepsi_nan():
-    for sonuc in (punctuation_ratios("a, b", total_words=0), punct_density(""),
+    for sonuc in (punctuation_ratios("a b"), punct_char_ratio(""),
                   digit_ratio(""), whitespace_ratio(""), punct_entropy(""),
                   consecutive_punct_ratio(""), punct_variety(""), uppercase_ratio([]),
                   all_caps_word_ratio([".", "1"]), char_freq_vector("", "tr"),
@@ -184,4 +194,4 @@ def test_isaretsiz_metinde():
     assert _hepsi_nan(punct_entropy("bir iki"))
     assert _hepsi_nan(consecutive_punct_ratio("bir iki"))
     assert punct_variety("bir iki")["punct_variety"] == 0.0
-    assert punct_density("bir iki")["punct_density"] == 0.0
+    assert punct_char_ratio("bir iki")["punct_char_ratio"] == 0.0

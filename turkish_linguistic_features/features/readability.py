@@ -30,6 +30,7 @@ Katsayılar birincil kaynaklardan (K12, ``tlf-kaynaklar``). Fonksiyonlar saftır
 from __future__ import annotations
 
 import math
+import re
 
 from .okunus import SEMBOLLER, kisaltma_oku
 from .phonetic import _dil_denetle, birim_hecesi
@@ -90,22 +91,37 @@ def kelime_birimleri(raw_text: str, lang: str) -> tuple[list[str], list[str]]:
     comma follows; a sentence-final ``3.`` stays the cardinal ``3``
     (2026-10-01, Efe).
     """
-    _dil_denetle(lang)
-    semboller = SEMBOLLER[lang]
     kelimeler: list[str] = []
     tek_semboller: list[str] = []
-    hamlar = raw_text.split()
-    for i, ham in enumerate(hamlar):
+    for birim, kelime_mi, _, _ in word_units(raw_text, lang):
+        (kelimeler if kelime_mi else tek_semboller).append(birim)
+    return kelimeler, tek_semboller
+
+
+def word_units(raw_text: str, lang: str) -> list[tuple[str, bool, int, int]]:
+    """Whitespace units with their place in ``raw_text``: ``(unit, is_word, start, end)``.
+
+    ``start``/``end`` delimit the whole whitespace chunk (edge punctuation included),
+    so model tokens can be matched to the word they fall in. ``is_word`` False is a
+    stand-alone listed symbol; chunks that are neither are left out. Same rules as
+    ``kelime_birimleri``, which is built on this.
+    """
+    _dil_denetle(lang)
+    semboller = SEMBOLLER[lang]
+    parcalar = [(m.group(), m.start(), m.end()) for m in re.finditer(r"\S+", raw_text)]
+    out: list[tuple[str, bool, int, int]] = []
+    for i, (ham, bas, son) in enumerate(parcalar):
         birim = ham.strip(_KENAR)
         if not birim:
             continue
-        if lang == "tr" and birim.isdigit() and _ordinal_dot(ham, birim, hamlar[i + 1:]):
+        sonrakiler = [p for p, _, _ in parcalar[i + 1:i + 2]]
+        if lang == "tr" and birim.isdigit() and _ordinal_dot(ham, birim, sonrakiler):
             birim += "."
         if any(c.isalnum() for c in birim):
-            kelimeler.append(birim)
+            out.append((birim, True, bas, son))
         elif all(c in semboller for c in birim):
-            tek_semboller.append(birim)
-    return kelimeler, tek_semboller
+            out.append((birim, False, bas, son))
+    return out
 
 
 def _ordinal_dot(ham: str, birim: str, sonrakiler: list[str]) -> bool:
