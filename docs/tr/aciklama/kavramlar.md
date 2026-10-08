@@ -17,7 +17,7 @@ adlar sürüm notlarında duyurulur.
 3. **Saf tanım** — `punct_dash_ratio` ("tire / bütün noktalama işaretleri"). Künyesi yoktur,
    çünkü kaynak gösterilecek adlandırılmış bir ölçü değildir.
 
-202 anahtarın 191'inin künyesi vardır, 11'inin yoktur.
+208 anahtarın 197'sinin künyesi vardır, 11'inin yoktur.
 
 ## Anahtar adları
 
@@ -107,7 +107,7 @@ ek çözümlemesi · Türkçe lemma
    ↓  kütüphanenin kuralları
 kelime ve cümle sınırları; her kelime etiketini kendi tokenından alır
    ↓  öznitelik çıkarıcıları
-202 sayı
+208 sayı
 ```
 
 Bunun iki sonucu var:
@@ -115,7 +115,7 @@ Bunun iki sonucu var:
 1. **spaCy modeli sonuçların parçasıdır.** Model değişirse tokenlar,
    sözcük türü, biçimbirim ve bağlılık öznitelikleri değişir. Hangi modeli
    kullandığınızı yöntem bölümüne yazın.
-2. **Ön işleme bir kez yapılır.** 202 özniteliğin hepsi aynı çözümlemeden
+2. **Ön işleme bir kez yapılır.** 208 özniteliğin hepsi aynı çözümlemeden
    beslenir; `groups` ile az öznitelik istemek ön işlemeyi hızlandırmaz,
    yalnız çıkarım adımını kısaltır.
 

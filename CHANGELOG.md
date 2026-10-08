@@ -3,16 +3,18 @@
 ## [Unreleased]
 
 This release renames and removes feature keys; tables built with 0.1.0 will not line up
-column for column. Keys: Turkish 208 → 202, English 180 → 175. Cited features: Turkish
-141 → 191, English 116 → 164; 11 keys in each language are plain definitions without a source.
+column for column. Keys: Turkish 208 (the same number, not the same keys), English 180 → 181. Cited features: Turkish
+141 → 197, English 116 → 170; 11 keys in each language are plain definitions without a source.
 
 ### Added
 
-- Three counts: `word_count` (`lexical`), `sent_count` (`sentence`) and `char_count`
-  (`punctuation`): words by the library's word, sentences by its sentence rule, characters
-  with whitespace. Divide other counts by them to compare texts of different length. Cite de
-  Vel (2000) Table 2, attributes 1, 3 and 8, and Zheng et al. (2006) Table 3, nos. 54, 247
-  and 1.
+- Nine counts. `lexical`: `word_count` (words by the library's word), `type_count` (V),
+  `hapax_count` (V1, words occurring once) and `dislegomena_count` (V2, twice); `sentence`:
+  `sent_count`; `paragraph`: `para_count`; `phonetic`: `syllable_count`; `punctuation`:
+  `char_count` (whitespace included) and `punct_count` (marks). Divide other counts by them
+  to compare texts of different length. Citations: de Vel (2000) Table 2, attributes 1, 3 and
+  8; Zheng et al. (2006) Table 3, nos. 1, 54, 60–62, 247 and 248; Tweedie & Baayen (1998)
+  pp.325 and 329; de Vel et al. (2001) Table 2; Kincaid et al. (1975) p.38.
 - `ngram_matches(text, phrase, lang="tr")`: what one `custom_ngrams` phrase matched, with
   counts, most frequent first: `{"kadın geldi": 2, "kadın güldü": 1}`. The matching is the
   one `analyze` uses, so the counts add up to the phrase's `ngram_{...}_count`. The public API
@@ -118,7 +120,7 @@ column for column. Keys: Turkish 208 → 202, English 180 → 175. Cited feature
   `para_len_cv`, `sents_per_para_cv`, `syllable_cv`, `sentence_syllable_cv`,
   `verb_dist_cv`, `suffix_chain_cv`), `entropy_std` and `sent_len_skewness`: spread
   statistics without a source of their own.
-- `para_count_norm`: exactly 1000 / `para_len_mean`.
+- `para_count_norm`: exactly 1000 / `para_len_mean`. The plain count is `para_count`.
 - `nominal_verbal_ratio`: count `custom_ngrams=[["NOUN"], ["VERB"]]` and divide.
 - The `"cv"` and `"signed"` scales, which no key uses any more.
 - `exceptions.MissingDependencyError`: it was never raised. A missing optional package gives

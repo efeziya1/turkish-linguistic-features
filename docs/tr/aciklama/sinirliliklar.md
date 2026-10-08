@@ -24,7 +24,7 @@ kendi korpusunuzdan türetmeyi düşünün —
 
 ### 2. On beş künye ikincil kaynaktan
 
-166 künyenin **15'i** `as cited in` ile işaretlidir — birincil kaynağa
+172 künyenin **15'i** `as cited in` ile işaretlidir — birincil kaynağa
 ulaşılamadı, formül aktaran kaynaktan alındı. Örnek:
 
 ```text
@@ -85,11 +85,11 @@ Tekrar üretilebilir sayılar için tohumu Python başlamadan sabitleyin, örne�
 
 82 satır doğrulama adayı bile değil (saf tanım, etiket şeması ya da
 bizim türevimiz).
-Kalan **145 adayın 48'i** bitmiş (46 ✅ + 2 🟡), **97'si 🔍 açık**.
+Kalan **151 adayın 48'i** bitmiş (46 ✅ + 2 🟡), **103'ü 🔍 açık**.
 
 Sebebi [doğrulama sistemi](dogrulama.md) sayfasında: kaynakların çoğu
 formülü yayımlar, o formülün uygulandığı bir sayısal örnek vermez. Bu
-özellikle `lexical` grubunda belirgin — 37 adayın 7'si doğrulanmış.
+özellikle `lexical` grubunda belirgin — 40 adayın 7'si doğrulanmış.
 
 ### 6. Paket henüz PyPI'da değil
 

@@ -10,7 +10,6 @@ from turkish_linguistic_features.features.lexical import (
     cttr,
     dugast_u,
     guiraud_r,
-    hapax_count,
     hapax_ratio,
     hapax_token_ratio,
     hdd,
@@ -27,6 +26,7 @@ from turkish_linguistic_features.features.lexical import (
     shannon_entropy,
     simpsons_d,
     summer_s,
+    type_counts,
     type_token_ratio,
     vocd_d,
     word_length_stats,
@@ -157,9 +157,9 @@ def test_hapax_orani():
     assert abs(hapax_ratio(items)["hapax_ratio"] - 2 / 3) < 1e-4
 
 
-def test_hapax_sayimi_ham_int_doner():
-    items = [("c", 3), ("a", 1), ("b", 1)]
-    assert hapax_count(items) == 2
+def test_tip_hapax_dislegomena_sayimi():
+    items = [("c", 3), ("a", 1), ("b", 1), ("d", 2)]
+    assert type_counts(items) == {"type_count": 4.0, "hapax_count": 2.0, "dislegomena_count": 1.0}
 
 
 def test_hapax_yuzdesi_paydasi_token():
@@ -298,7 +298,7 @@ def test_bos_girdiler_cokmez():
     assert _nan(brunet_w(0, 0)["brunet_w"])
     assert _nan(hapax_ratio([])["hapax_ratio"])
     assert _nan(hapax_token_ratio([])["hapax_token_ratio"])
-    assert hapax_count([]) == 0
+    assert type_counts([]) == {"type_count": 0.0, "hapax_count": 0.0, "dislegomena_count": 0.0}
     assert _nan(word_length_stats([]))
     assert _nan(type_token_ratio(0, 0)["ttr"])
     assert _nan(rare_word_metrics([])["sichel_s"])
@@ -314,7 +314,7 @@ def test_tek_elemanli_girdiler_cokmez():
     assert brunet_w(1, 1)["brunet_w"] == 1.0
     assert hapax_ratio(items)["hapax_ratio"] == 1.0
     assert hapax_token_ratio(items)["hapax_token_ratio"] == 1.0
-    assert hapax_count(items) == 1
+    assert type_counts(items)["hapax_count"] == 1.0
     assert word_length_stats(["ev"]) == 2.0
     assert type_token_ratio(1, 1)["ttr"] == 1.0
     assert rare_word_metrics(["ev"])["sichel_s"] == 0.0

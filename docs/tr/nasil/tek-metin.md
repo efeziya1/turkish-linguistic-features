@@ -16,8 +16,8 @@ Dönen şey düz bir `dict`: anahtar öznitelik adı, değer sayı.
 tr = tlf.analyze(tr_metin, lang="tr")
 en = tlf.analyze(en_metin, lang="en")
 
-len(tr)   # 202
-len(en)   # 175
+len(tr)   # 208
+len(en)   # 181
 ```
 
 Aradaki 27'nin dökümü:
@@ -38,30 +38,30 @@ Aradaki 27'nin dökümü:
 
 ## Yalnız bazı grupları isteyin
 
-202 özniteliğin hepsini hesaplamak zaman alır. İhtiyacınız yoksa grup seçin:
+208 özniteliğin hepsini hesaplamak zaman alır. İhtiyacınız yoksa grup seçin:
 
 ```python
 oz = tlf.analyze(metin, lang="tr", groups=["readability", "lexical"])
-len(oz)     # 42
+len(oz)     # 45
 ```
 
 Mevcut gruplar ve Türkçede kaç öznitelik içerdikleri:
 
 | Grup | Öznitelik | İçerik |
 |---|---|---|
-| `lexical` | 35 | Sözcüksel zenginlik, sıklık |
+| `lexical` | 38 | Sözcüksel zenginlik, sıklık |
 | `chars` | 29 | Harf sıklık vektörü: Türkçe alfabenin her harfi için bir anahtar (İngilizcede 26; `q`, `w`, `x` yalnız orada) |
 | `morphological_zeyrek` | 23 | Zeyrek ek çözümlemesi (yalnız TR) |
 | `morphological` | 19 | UD morfolojik özellikleri |
-| `punctuation` | 19 | Noktalama türlerinin payı, noktalama yoğunluğu, büyük harf |
+| `punctuation` | 20 | Noktalama türlerinin payı, noktalama yoğunluğu, büyük harf |
 | `syntactic_dep` | 16 | Bağlılık ayrıştırması |
-| `phonetic` | 13 | Hece, ünlü, ses örüntüsü |
+| `phonetic` | 14 | Hece, ünlü, ses örüntüsü |
 | `frequency_structure` | 13 | Zipf, h-noktası, tematik yoğunlaşma |
 | `pos` | 12 | Sözcük türü payları |
 | `syntactic` | 7 | Cümle yapısı |
 | `sentence` | 7 | Cümle uzunluğu dağılımı |
 | `readability` | 7 | Okunabilirlik formülleri |
-| `paragraph` | 2 | Paragraf yapısı |
+| `paragraph` | 3 | Paragraf yapısı |
 
 Bir özniteliğin hangi grupta olduğunu `describe_feature(anahtar)["group"]`
 söyler.

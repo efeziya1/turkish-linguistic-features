@@ -13,8 +13,8 @@ from turkish_linguistic_features import analyze
 tr_model = pytest.mark.tr_model
 en_model = pytest.mark.en_model
 
-TR_TABAN = 202
-EN_TABAN = 175
+TR_TABAN = 208
+EN_TABAN = 181
 
 
 # ── önbellek — model gerektirmez ──────────────────────────────────────

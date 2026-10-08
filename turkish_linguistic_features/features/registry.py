@@ -1,4 +1,4 @@
-"""Öznitelik registry — 177 statik anahtarın tek doğruluk kaynağı (T19).
+"""Öznitelik registry — 183 statik anahtarın tek doğruluk kaynağı (T19).
 
 ``describe_feature(key)`` bir anahtar hakkında bilinen her şeyi tek çağrıda
 döndürür: ne ölçtüğü, nasıl hesaplandığı, hangi ölçekte olduğu, hangi
@@ -6,7 +6,7 @@ döndürür: ne ölçtüğü, nasıl hesaplandığı, hangi ölçekte olduğu, h
 kadar metin gerektirdiği ve künyesi. Kullanıcı üç ayrı sözlüğe bakmak zorunda
 kalmasın diye tek giriş noktası budur.
 
-Taban şema **TR 202 · EN 175**: 177 statik anahtardan dile özgü olanlar + dile
+Taban şema **TR 208 · EN 181**: 183 statik anahtardan dile özgü olanlar + dile
 göre 26–29 ``char_*``.
 ``custom_ngrams`` istenmedikçe anahtar üretmez, bu yüzden toplama girmez.
 14 grup = 12 statik + 2 dinamik.
@@ -65,7 +65,8 @@ _CHAR_HARFLERI: frozenset[str] = frozenset("".join(_ALFABE.values()))
 
 STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
     "lexical": (
-        'lemma_count', 'word_count', 'word_len_mean', 'ttr', 'mattr', 'herdan_c', 'sichel_s',
+        'lemma_count', 'word_count', 'type_count', 'hapax_count', 'dislegomena_count',
+        'word_len_mean', 'ttr', 'mattr', 'herdan_c', 'sichel_s',
         'zipf_exponent', 'zipf_r2',
         'zipf_mandelbrot_q',
         'zipf_mandelbrot_s', 'mtld', 'dugast_u', 'guiraud_r', 'cttr', 'summer_s', 'maas_a2',
@@ -85,7 +86,7 @@ STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
         'sent_len_entropy',
     ),
     "paragraph": (
-        'para_len_mean', 'sents_per_para_mean',
+        'para_count', 'para_len_mean', 'sents_per_para_mean',
             ),
     "pos": (
         'pos_noun_ratio', 'pos_propn_ratio', 'pos_verb_ratio', 'pos_adj_ratio', 'pos_adv_ratio',
@@ -124,7 +125,7 @@ STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
     "phonetic": (
         'vowel_ratio', 'front_vowel_ratio', 'back_vowel_ratio',
         'harmony_fronting_ratio', 'harmony_rounding_ratio',
-        'syllable_mean', 'syllable_1_ratio', 'syllable_2_ratio',
+        'syllable_count', 'syllable_mean', 'syllable_1_ratio', 'syllable_2_ratio',
         'syllable_3_ratio', 'syllable_4_ratio', 'syllable_5_ratio', 'syllable_6plus_ratio',
         'sent_syllable_mean',
     ),
@@ -134,7 +135,8 @@ STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
         'polysyllabic_word_ratio', 'long_word_ratio',
     ),
     "punctuation": (
-        'char_count', 'digit_ratio', 'punct_comma_ratio', 'punct_period_ratio', 'punct_semicolon_ratio',
+        'char_count', 'digit_ratio', 'punct_count', 'punct_comma_ratio', 'punct_period_ratio',
+        'punct_semicolon_ratio',
         'punct_exclamation_ratio', 'punct_colon_ratio', 'punct_dash_ratio', 'punct_ellipsis_ratio',
         'punct_paren_ratio', 'punct_quote_ratio', 'punct_question_ratio', 'punct_char_ratio', 'punct_entropy',
         'consecutive_punct_ratio', 'whitespace_ratio', 'punct_variety', 'uppercase_ratio',
@@ -206,6 +208,12 @@ FEATURE_SCALES: dict[str, str] = {
     "word_count": "count",
     "sent_count": "count",
     "char_count": "count",
+    "type_count": "count",
+    "hapax_count": "count",
+    "dislegomena_count": "count",
+    "para_count": "count",
+    "syllable_count": "count",
+    "punct_count": "count",
     "word_len_mean": "length",
     "entropy": "nats",
     "yule_k": "score",

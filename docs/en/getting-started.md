@@ -68,7 +68,7 @@ print(len(oz))
 ```
 
 ```text
-175
+181
 ```
 
 `lang` defaults to `"tr"`. Leave it out and English text is analysed with the
@@ -79,7 +79,7 @@ numbers. No nesting, no classes, no `pandas` requirement.
 
 ## 4. Read the output
 
-Looking at 175 numbers at once is pointless. Look at a few:
+Looking at 181 numbers at once is pointless. Look at a few:
 
 ```python
 for k in ("ttr", "word_len_mean", "flesch_reading_ease",
@@ -136,10 +136,10 @@ print(len(short), len(nans))
 ```
 
 ```text
-175 34
+181 34
 ```
 
-In a three-word text, **34 of 175** features return `nan`. That is honesty,
+In a three-word text, **34 of 181** features return `nan`. That is honesty,
 not failure. See **[What NaN means](explanation/nan.md)**.
 
 ## 6. See where a feature comes from

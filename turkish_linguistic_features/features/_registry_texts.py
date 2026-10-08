@@ -1,4 +1,4 @@
-"""Registry metin tabloları — 177 statik anahtarın açıklaması, formülü,
+"""Registry metin tabloları — 183 statik anahtarın açıklaması, formülü,
 ölçüm şartı ve künyesi.
 
 Bu dosya **veridir**, mantık içermez. ``registry.py``'den ayrı durmasının
@@ -48,6 +48,9 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     # ── lexical ─────────────────────────────────────────────────
     'lemma_count': 'number of distinct lemmas',
     'word_count': 'number of words',
+    'type_count': 'number of distinct words (V)',
+    'hapax_count': 'number of words occurring once (V1)',
+    'dislegomena_count': 'number of words occurring exactly twice (V2)',
     'word_len_mean': 'mean word length in characters',
     'ttr': 'type-token ratio; falls as the text grows',
     'mattr': 'moving-average TTR',
@@ -104,6 +107,7 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'sent_len_median': 'median sentence length',
     'sent_len_entropy': 'variety of sentence lengths',
     # ── paragraph ───────────────────────────────────────────────
+    'para_count': 'number of paragraphs',
     'para_len_mean': 'mean paragraph length',
     'sents_per_para_mean': 'mean sentences per paragraph',
     # ── pos ─────────────────────────────────────────────────────
@@ -194,6 +198,7 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'back_vowel_ratio': 'share of back vowels',
     'harmony_fronting_ratio': 'share of words obeying front/back vowel harmony (TR only)',
     'harmony_rounding_ratio': 'share of words obeying rounding vowel harmony (TR only)',
+    'syllable_count': 'number of syllables',
     'syllable_mean': 'mean syllables per word',
     'syllable_1_ratio': 'share of words with 1 syllable',
     'syllable_2_ratio': 'share of words with 2 syllables',
@@ -230,6 +235,7 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'punct_entropy': 'variety of punctuation types',
     'consecutive_punct_ratio': 'share of marks directly next to another mark',
     'char_count': 'number of characters',
+    'punct_count': 'number of punctuation marks',
     'whitespace_ratio': 'share of whitespace characters',
     'punct_variety': 'number of punctuation types used (0–10)',
     'uppercase_ratio': 'share of capitalised words',
@@ -242,11 +248,14 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
 
 # Anahtar → NASIL hesaplandığı. Anahtarın kendi satırı yoksa describe_feature
 # grup adındaki satıra düşer; bu yalnız dinamik gruplarda (chars, custom_ngrams)
-# var, 177 statik anahtarın hepsinin kendi satırı var.
+# var, 183 statik anahtarın hepsinin kendi satırı var.
 FEATURE_FORMULAS: dict[str, str] = {
     # ── lexical ─────────────────────────────────────────────────
     'lemma_count': 'V over lemmas',
     'word_count': 'words',
+    'type_count': 'V',
+    'hapax_count': 'V1',
+    'dislegomena_count': 'V2',
     'word_len_mean': 'sum(len(w)) / N',
     'ttr': 'V / N',
     'mattr': 'mean TTR of every sliding window of mattr_window words',
@@ -307,6 +316,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'sent_len_median': 'median words per sentence',
     'sent_len_entropy': 'Shannon entropy (nats) of the distribution of words per sentence',
     # ── paragraph ───────────────────────────────────────────────
+    'para_count': 'paragraphs (blank line = boundary)',
     'para_len_mean': 'mean words per paragraph (blank line = boundary)',
     'sents_per_para_mean': 'mean count of [.!?…]+ per paragraph (at least 1)',
     # ── pos ─────────────────────────────────────────────────────
@@ -403,6 +413,7 @@ FEATURE_FORMULAS: dict[str, str] = {
         'words where every vowel after an unrounded one is unrounded and every '
         'vowel after a rounded one is close-rounded or open-unrounded / words '
         'with 2+ vowels',
+    'syllable_count': 'sum of syllables over syllabifiable words',
     'syllable_mean': 'mean syllables per syllabifiable word',
     'syllable_1_ratio': 'words with 1 syllable / syllabifiable words',
     'syllable_2_ratio': 'words with 2 syllables / syllabifiable words',
@@ -441,6 +452,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'punct_entropy': 'Shannon entropy (nats) of the 10 mark types',
     'consecutive_punct_ratio': 'adjacent marks / marks',
     'char_count': 'characters, whitespace and line breaks included',
+    'punct_count': 'marks of the 10 mark types',
     'whitespace_ratio': 'whitespace / characters',
     'punct_variety': 'distinct mark types',
     'uppercase_ratio': 'words whose first letter is upper case / words with a letter',
@@ -458,6 +470,9 @@ FEATURE_REQUIRES: dict[str, str] = {
     # ── lexical ─────────────────────────────────────────────────
     'lemma_count': 'at least 1 word',
     'word_count': 'non-empty text (0 when it has no words)',
+    'type_count': 'non-empty text (0 when it has no words)',
+    'hapax_count': 'non-empty text (0 when it has no words)',
+    'dislegomena_count': 'non-empty text (0 when it has no words)',
     'word_len_mean': 'at least 1 word',
     'ttr': 'at least 1 word',
     'mattr': 'at least 100 words (2 x mattr_window)',
@@ -514,6 +529,7 @@ FEATURE_REQUIRES: dict[str, str] = {
     'sent_len_median': 'at least 1 sentence with a letter',
     'sent_len_entropy': 'at least 2 sentences with a letter',
     # ── paragraph ───────────────────────────────────────────────
+    'para_count': 'at least 1 paragraph',
     'para_len_mean': 'at least 1 paragraph',
     'sents_per_para_mean': 'at least 1 paragraph',
     # ── pos ─────────────────────────────────────────────────────
@@ -604,6 +620,7 @@ FEATURE_REQUIRES: dict[str, str] = {
     'back_vowel_ratio': 'at least 1 alphabet letter',
     'harmony_fronting_ratio': 'at least 1 word with 2 vowels',
     'harmony_rounding_ratio': 'at least 1 word with 2 vowels',
+    'syllable_count': 'non-empty text (0 when it has no syllabifiable words)',
     'syllable_mean': 'at least 1 syllabifiable word',
     'syllable_1_ratio': 'at least 1 syllabifiable word',
     'syllable_2_ratio': 'at least 1 syllabifiable word',
@@ -640,6 +657,7 @@ FEATURE_REQUIRES: dict[str, str] = {
     'punct_entropy': 'at least 1 punctuation mark',
     'consecutive_punct_ratio': 'at least 1 punctuation mark',
     'char_count': 'non-empty text',
+    'punct_count': 'non-empty text',
     'whitespace_ratio': 'non-empty text',
     'punct_variety': 'non-empty text',
     'uppercase_ratio': 'at least 1 word with a letter',
@@ -973,6 +991,22 @@ FEATURE_CITATIONS: dict[str, str] = {
     'sent_count':
         'de Vel (2000) Table 2, attribute 3 "Number of sentences"; Zheng et al. (2006) Table 3, '
         'p.385, no. 247 "Total number of sentences"',
+    'type_count':
+        'Tweedie & Baayen (1998) p.325, the vocabulary size V(N); Zheng et al. (2006) Table 3, '
+        'p.385, no. 60 "Total different words/M", here not divided by M',
+    'hapax_count':
+        'Tweedie & Baayen (1998) p.325, V(1, N) "the number of hapax legomena"; Zheng et al. '
+        '(2006) Table 3, p.385, no. 61 "Hapax legomena" ("Frequency of once-occurring words")',
+    'dislegomena_count':
+        'Tweedie & Baayen (1998) p.329, V(2, N) "dis legomena"; Zheng et al. (2006) Table 3, '
+        'p.385, no. 62 "Hapax dislegomena" ("Frequency of twice-occurring words")',
+    'para_count': 'Zheng et al. (2006) Table 3, p.385, no. 248 "Total number of paragraphs"',
+    'punct_count':
+        'de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C", here not divided '
+        'by C',
+    'syllable_count':
+        'Kincaid et al. (1975) p.38, "Instructions for Recalculated Flesch Formula", step 3 '
+        '"Count the number of syllables"',
     'char_count':
         'de Vel (2000) Table 2, attribute 8 "Number of characters"; Zheng et al. (2006) Table 3, '
         'p.385, no. 1 "Total number of characters (C)"',

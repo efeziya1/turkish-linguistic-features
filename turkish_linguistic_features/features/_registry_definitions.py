@@ -77,7 +77,7 @@ _PUNC_TURLER = ("comma", "period", "semicolon", "exclamation", "colon", "dash",
                 "ellipsis", "paren", "quote", "question")
 _PUNC = tuple(f"punct_{t}_ratio" for t in _PUNC_TURLER)
 _SYLLABLE_PHONETIC = (
-    "syllable_mean", "syllable_1_ratio", "syllable_2_ratio", "syllable_3_ratio",
+    "syllable_count", "syllable_mean", "syllable_1_ratio", "syllable_2_ratio", "syllable_3_ratio",
     "syllable_4_ratio", "syllable_5_ratio", "syllable_6plus_ratio",
     "sent_syllable_mean",
 )
@@ -194,9 +194,11 @@ TERMS: dict[str, tuple[dict[str, str | None], dict[str, str | None]]] = {
         "sent_len_char_mean": "sentence_joined_character",
     }),
     "long_word": ({}, _hepsi("7_plus_letters", ("lix", "long_word_ratio"))),
-    "paragraph": ({}, _hepsi("blank_line", ("para_len_mean", "sents_per_para_mean"))),
-    "mark": ({}, _hepsi("ten_mark_types", _PUNC + ("punct_char_ratio", "punct_entropy",
-                                                   "consecutive_punct_ratio", "punct_variety"))),
+    "paragraph": ({}, _hepsi("blank_line", ("para_count", "para_len_mean",
+                                             "sents_per_para_mean"))),
+    "mark": ({}, _hepsi("ten_mark_types", _PUNC + ("punct_count", "punct_char_ratio",
+                                                   "punct_entropy", "consecutive_punct_ratio",
+                                                   "punct_variety"))),
     "noun": ({}, _hepsi("noun_propn", ("noun_variation",))),
     "verb": ({}, {
         **_hepsi("verb_only", ("verb_dist_mean", "activity_ratio", "verb_variation",

@@ -1,10 +1,10 @@
 """Ses ve yazı örüntüleri: ünlü oranları ile büyük ve küçük ünlü uyumu.
 
-Bu modül ``phonetic`` grubunun 13 anahtarını üretir:
+Bu modül ``phonetic`` grubunun 14 anahtarını üretir (İngilizcede ünlü uyumu yok, 12):
 
 - T09 (5): ``vowel_ratio`` · ``front_vowel_ratio`` · ``back_vowel_ratio`` ·
   ``harmony_fronting_ratio`` · ``harmony_rounding_ratio``
-- T10 (8): ``syllable_mean`` · ``syllable_1_ratio`` … ``syllable_5_ratio`` ·
+- T10 (9): ``syllable_count`` · ``syllable_mean`` · ``syllable_1_ratio`` … ``syllable_5_ratio`` ·
   ``syllable_6plus_ratio`` · ``sent_syllable_mean``
 
 T10'un ``hece_say`` / ``birim_hecesi`` fonksiyonları T13'ün Türkçe okunabilirlik
@@ -314,6 +314,15 @@ def syllable_count_stats(birimler: list[str], lang: str = "tr") -> dict[str, flo
     yalnız hecelenebilen birimler sayılır (``birim_hecesi``).
     """
     return {"syllable_mean": _ortalama(birim_heceleri(birimler, lang))}
+
+
+def syllable_count(birimler: list[str], lang: str = "tr") -> dict[str, float]:
+    """Metnin hece sayısı: hecelenebilen kelime birimlerinin hecelerinin toplamı.
+
+    Kelime yoksa 0; boş metni NaN'a çeviren ``extractor`` (K4, ``word_count`` gibi;
+    2026-10-08, Efe).
+    """
+    return {"syllable_count": float(sum(birim_heceleri(birimler, lang)))}
 
 
 _HECE_KOVALARI = ("syllable_1_ratio", "syllable_2_ratio", "syllable_3_ratio",

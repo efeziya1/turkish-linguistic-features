@@ -3,7 +3,7 @@
 Bu modül T11'in anahtarlarını üretir:
 
 - ``pos`` (12): ``pos_noun_ratio`` … ``pos_intj_ratio``
-- ``sentence`` (7) ve ``paragraph`` (2)
+- ``sentence`` (7) ve ``paragraph`` (3)
 - ``syntactic`` grubunun 5'i: ``verb_dist_mean``, ``activity_ratio``,
   ``lexical_density``, ``posddev``, ``posdiv`` (kalan 2'si T12:
   ``question_sent_ratio``, ``pronoun_ratio``)
@@ -271,7 +271,7 @@ def sent_len_entropy(cumleler: list[list[str]]) -> dict[str, float]:
 
 
 def paragraph_stats(raw_text: str, lang: str = "tr") -> dict[str, float]:
-    """Paragraf uzunluğu, paragraf başına cümle ve 1000 kelimede paragraf sayısı.
+    """Paragraf sayısı, paragraf uzunluğu ve paragraf başına cümle.
 
     Üç kural: paragraf = boş satır (tek satır sonu saymaz); paragraf başına
     kelime = varsayılan kelime birimi (``readability.kelime_birimleri``: boşlukla
@@ -291,7 +291,8 @@ def paragraph_stats(raw_text: str, lang: str = "tr") -> dict[str, float]:
     """
     paras = [p for p in _PARA_SPLIT.split(raw_text.replace("\r\n", "\n")) if p.strip()]
     if not paras:
-        return {"para_len_mean": math.nan, "sents_per_para_mean": math.nan}
+        return {"para_count": math.nan, "para_len_mean": math.nan,
+                "sents_per_para_mean": math.nan}
     # K11 istisnası: yerel sayım — paragrafı token akışına hizalamak ikinci geçiş ister
     kelime = np.array([len(kelime_birimleri(p, lang)[0]) for p in paras], dtype=np.float64)
     cumle = np.array([max(len(_SENT_END.findall(p)), 1) for p in paras], dtype=np.float64)
@@ -299,6 +300,7 @@ def paragraph_stats(raw_text: str, lang: str = "tr") -> dict[str, float]:
         from .._warnings import uyar_paragraf_yok
         uyar_paragraf_yok(int(cumle[0]), int(kelime[0]))
     return {
+        "para_count": float(len(paras)),
         "para_len_mean": round(float(kelime.mean()), 4),
         "sents_per_para_mean": round(float(cumle.mean()), 4),
     }
