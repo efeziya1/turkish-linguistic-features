@@ -638,7 +638,7 @@ FEATURE_REQUIRES: dict[str, str] = {
     # ── chars (dinamik grup) ───────────────────────────────────────
     'chars': 'at least 1 alphabet letter',
     # ── custom_ngrams (dinamik grup) ───────────────────────────────
-    'custom_ngrams': 'none (0 when the phrase is longer than every sentence)',
+    'custom_ngrams': 'non-empty text (0 when the phrase is longer than every sentence)',
 }
 
 # Anahtar → literatür künyesi. Burada olmayan anahtarın künyesi YOKTUR;

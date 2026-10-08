@@ -222,6 +222,12 @@ def test_bos_metin_cokmez():
     assert all(isinstance(v, float) for v in sonuc.values())
 
 
+def test_bos_metinde_ngram_sayimi_nan():
+    """Boş metin ölçülemez (K4); n-gram sayımı da `word_count` gibi NaN döner."""
+    oz = _extract_features(**BOS_GIRDI, custom_ngrams=[["NOUN"]])
+    assert math.isnan(oz["ngram_NOUN_count"])
+
+
 def test_bos_metinde_olculebilen_yok():
     """Boş metinde hiçbir öznitelik ölçülemez → hepsi NaN (K4)."""
     olculen = {k: v for k, v in _extract_features(**BOS_GIRDI).items()

@@ -84,7 +84,7 @@ column for column. Keys: Turkish 208 → 199, English 180 → 172. Cited feature
 - **`custom_ngrams`** keys are `ngram_{...}_count` and the value is the number of matches, not
   matches per window. A phrase item written as an UPPERCASE UD tag (`NOUN`, `VERB` …) matches
   any word with that tag: `["kadın", "VERB"]` counts "kadın" followed by a verb. Matches stay
-  inside a sentence.
+  inside a sentence. An empty text gives `nan`, like every other feature.
 - **Natural logarithm everywhere.** `dugast_u`, `lambda_pa`, `adjusted_modulus` (were log₁₀)
   and `entropy`, `punct_entropy`, `sent_len_entropy`, `zeyrek_suffix_bigram_entropy`, `posdiv`
   (were log₂) change by a constant factor; the ranking of texts does not change. The scale

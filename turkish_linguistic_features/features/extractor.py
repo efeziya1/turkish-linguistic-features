@@ -380,6 +380,8 @@ def _extract_features(
 
     # ── custom_ngrams (dinamik, taban şemada yok) ─────────────────────
     if istiyor("custom_ngrams") and custom_ngrams:
-        feats.update(word_ngram_counts(_etiketli_cumleler(wv), custom_ngrams, lang))
+        sayimlar = word_ngram_counts(_etiketli_cumleler(wv), custom_ngrams, lang)
+        # Boş metin ölçülemez (K4), `word_count` gibi; kelimesiz metinde 0 gerçek sayımdır.
+        feats.update({k: (v if raw_text.strip() else math.nan) for k, v in sayimlar.items()})
 
     return feats
