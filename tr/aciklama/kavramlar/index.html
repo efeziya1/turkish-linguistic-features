@@ -2207,9 +2207,9 @@ adlar sürüm notlarında duyurulur.</p>
    <code>zeyrek_case_loc_ratio</code> (Zeyrek). Künyesi şemaya bağlıdır, ölçünün kendisine
    değil.</li>
 <li><strong>Saf tanım</strong> — <code>punct_dash_ratio</code> ("tire / bütün noktalama işaretleri"). Künyesi yoktur,
-   çünkü tanımlanacak bir şey yoktur.</li>
+   çünkü kaynak gösterilecek adlandırılmış bir ölçü değildir.</li>
 </ol>
-<p>202 anahtarın 191'ınin künyesi vardır, 11'inin yoktur.</p>
+<p>202 anahtarın 191'inin künyesi vardır, 11'inin yoktur.</p>
 <h2 id="anahtar-adlar">Anahtar adları<a class="headerlink" href="#anahtar-adlar" title="Permanent link">&para;</a></h2>
 <p>Ad, özniteliğin ne ölçtüğünü okunur kılacak biçimde kurulur:</p>
 <table>
@@ -2280,7 +2280,7 @@ sayfasında.</p>
 <tbody>
 <tr>
 <td><code>ratio_0_1</code></td>
-<td>0 ile 1 arası oran</td>
+<td>0 ile 1 arası pay</td>
 <td><code>ttr</code>, <code>mattr</code></td>
 </tr>
 <tr>
@@ -2352,11 +2352,9 @@ alan kazanır, vermediğiniz alan kalibre değerinde kalır. Yani
 <code>FeatureParams(mattr_window=100)</code> cümle eşiklerini değiştirmez.</p>
 <h2 id="kayt-defteri-registry">Kayıt defteri (registry)<a class="headerlink" href="#kayt-defteri-registry" title="Permanent link">&para;</a></h2>
 <p>Öznitelik adları, tanımları, formülleri, gereksinimleri ve künyeleri tek
-bir yerde durur: <code>features/_registry_texts.py</code>. <code>describe_feature</code> oradan
-okur, <a href="../../../reference/">başvuru bölümü</a> oradan üretilir,
-<a href="../../../dogrulama-raporu/">doğrulama raporu</a> kapsam listesini oradan alır.</p>
-<p>Bu kasıtlı: bir öznitelik eklenip kayıt defterine yazılmazsa testler
-düşer. Hiçbir öznitelik dokümandan kaçamaz.</p>
+bir yerde durur. <code>describe_feature</code>, <a href="../../../reference/">başvuru bölümü</a>
+ve <a href="../../../dogrulama-raporu/">doğrulama raporu</a> aynı kaynaktan okur; bu yüzden
+üçü birbiriyle hep aynıdır.</p>
 <p>Kayıt defteri <strong>İngilizcedir</strong>. Tanımlar, formüller ve künyeler tek dilde
 tutulur ki kaynakla karşılaştırırken araya çeviri katmanı girmesin.</p>
 

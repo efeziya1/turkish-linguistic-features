@@ -761,6 +761,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#etiketlere-gore-ozet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Etiketlere göre özet
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2129,6 +2140,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#etiketlere-gore-ozet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Etiketlere göre özet
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2301,6 +2323,28 @@ anlamda ve her parçaya uygulanır. <code>custom_ngrams</code> sayıları parça
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"korpus/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">))</span>
 </code></pre></div>
 <p><code>pandas</code> kütüphanenin zorunlu bağımlılığı değildir; bunu siz kurarsınız.</p>
+<h2 id="etiketlere-gore-ozet">Etiketlere göre özet<a class="headerlink" href="#etiketlere-gore-ozet" title="Permanent link">&para;</a></h2>
+<p>Çoğu çalışmada asıl soru etiketlerin (yazar, tür, dönem) birbirinden nasıl
+ayrıldığıdır. Tablo <code>label</code> sütununu taşıdığı için özet tek satırdır:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"korpus/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">))</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"label"</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>                                   <span class="c1"># etiket başına parça</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"label"</span><span class="p">)[[</span><span class="s2">"sent_len_mean"</span><span class="p">,</span> <span class="s2">"word_len_mean"</span><span class="p">,</span> <span class="s2">"atesman"</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div>
+<p>Örnek betiklerin demo korpusunda (iki etiket, kısa metinler, <code>segment_size=50</code>):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>label
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>Anlatı    2
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>Bilgi     2
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>        sent_len_mean  word_len_mean  atesman
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>label
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>Anlatı           7.29           5.78    77.35
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>Bilgi           10.42           6.57    58.75
+</code></pre></div>
+<p>Etiketleri karşılaştırırken parçaları aynı boyda tutun (<code>segment_size</code>) ve
+etiket başına parça sayısına bakın: tek parçalık bir etiketin ortalaması
+yazarın değil o metnin ortalamasıdır. Cümle uzunluğu dağılımını etiketlere
+göre karşılaştıran çalışan örnek:
+<a href="https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/05_cumle_ritmi.py"><code>examples/05_cumle_ritmi.py</code></a>.</p>
 
 
 

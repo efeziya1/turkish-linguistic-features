@@ -2258,12 +2258,9 @@ olmazdı.</p>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>'at least 100 words (2 x mattr_window)'
 </code></pre></div>
-<p>Buradaki <strong>kelime</strong> kütüphanenin varsayılan kelimesidir: boşlukla ayrılan,
-kenar noktalaması atılan ve harf ya da rakam içeren birim (<code>e-posta</code>, <code>%50</code>
-ve sayılar birer kelime). Bağlılık öznitelikleri dışında her öznitelik bu
-kelimeyi sayar; hangisi olduğunu <code>describe_feature(key)["definitions"]["word"]</code>
-söyler. <code>segment_text</code>'in <code>size</code> değeri de aynı kelimeyi sayar: 100 kelimelik
-parça 100 kelime isteyen bir ölçüye yeter.</p>
+<p>Buradaki <strong>kelime</strong> kütüphanenin varsayılan kelimesidir
+(<a href="../kavramlar/#kelime-ve-cumle">Kavramlar</a>). <code>segment_text</code>'in <code>size</code> değeri de
+aynı kelimeyi sayar: 100 kelimelik parça 100 kelime isteyen bir ölçüye yeter.</p>
 <p>Sınırın altındaysanız <code>nan</code> gelir. Sınırların bir kısmı kaynaktan gelir
 (<code>mtld</code> için "texts as short as 100 tokens can be used"), bir kısmı
 matematikten: <code>mattr</code> tek pencerede düz TTR'a çöker, yani "hareketli
@@ -2271,14 +2268,14 @@ ortalama" olmaktan çıkar — o yüzden eşik <code>2 × pencere</code>dir.</p>
 <h3 id="2-gereken-yap-yok">2. Gereken yapı yok<a class="headerlink" href="#2-gereken-yap-yok" title="Permanent link">&para;</a></h3>
 <p><code>zeyrek_derivational_suffix_ratio</code> metinde hiç türetme eki bulamazsa paydası sıfır
 olur. <code>parse_depth_mean</code> cümle ayrıştırılamazsa değer üretemez.
-<code>hapax_ratio</code> tek kelimelik metinde anlamsızdır.</p>
+<code>verb_dist_mean</code> metinde en az iki fiil yoksa ölçülemez.</p>
 <h3 id="3-istege-bagl-bir-paket-kurulu-degil">3. İsteğe bağlı bir paket kurulu değil<a class="headerlink" href="#3-istege-bagl-bir-paket-kurulu-degil" title="Permanent link">&para;</a></h3>
 <p><code>wordfreq</code> kurulu değilse <code>wordfreq_mean</code> ve <code>wordfreq_rare_ratio</code> <code>nan</code>
 döner ve kütüphane bir <code>MissingDependencyWarning</code> basar.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 <p><code>warn=False</code> yalnız uyarıyı susturur; öznitelik yine <code>nan</code> kalır. Aynı bayrak
-<code>ParagraphStructureWarning</code>'i de susturur.</p>
+aşağıdaki paragraf uyarısını da susturur.</p>
 <h2 id="nan-donmeyen-ama-yanltan-durum-paragraf"><code>nan</code> dönmeyen ama yanıltan durum: paragraf<a class="headerlink" href="#nan-donmeyen-ama-yanltan-durum-paragraf" title="Permanent link">&para;</a></h2>
 <p>Paragraf sınırı boş satırla bulunur, tek satır sonu saymaz. Metninizde boş
 satır yoksa metnin tamamı tek paragraf sayılır ve <code>para_len_mean</code> bütün

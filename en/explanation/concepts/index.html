@@ -2207,7 +2207,7 @@ release notes.</p>
    <code>zeyrek_case_loc_ratio</code> (Zeyrek). The citation points at the scheme, not at the
    measure.</li>
 <li><strong>A plain definition</strong> — <code>punct_dash_ratio</code> ("dashes / all punctuation marks"). No citation,
-   because there is nothing to attribute.</li>
+   because it is not a named measure that could be attributed.</li>
 </ol>
 <p>Of 202 keys, 191 have a citation and 11 do not.</p>
 <h2 id="key-names">Key names<a class="headerlink" href="#key-names" title="Permanent link">&para;</a></h2>
@@ -2283,7 +2283,7 @@ letter.</p>
 <tbody>
 <tr>
 <td><code>ratio_0_1</code></td>
-<td>A ratio between 0 and 1</td>
+<td>A share between 0 and 1</td>
 <td><code>ttr</code>, <code>mattr</code></td>
 </tr>
 <tr>
@@ -2354,12 +2354,9 @@ a field you set wins, a field you leave out stays calibrated. So
 <code>FeatureParams(mattr_window=100)</code> does not change the sentence thresholds.</p>
 <h2 id="the-registry">The registry<a class="headerlink" href="#the-registry" title="Permanent link">&para;</a></h2>
 <p>Feature names, descriptions, formulas, requirements and citations all live
-in one place: <code>features/_registry_texts.py</code>. <code>describe_feature</code> reads from
-it, the <a href="../../../reference/">reference section</a> is generated from it,
-and the <a href="../../../verification-report/">verification report</a> takes its
-coverage list from it.</p>
-<p>This is deliberate: add a feature without registering it and the tests
-fail. No feature can escape the documentation.</p>
+in one place. <code>describe_feature</code>, the <a href="../../../reference/">reference section</a>
+and the <a href="../../../verification-report/">verification report</a> read from it, so the
+three always agree.</p>
 
 
 

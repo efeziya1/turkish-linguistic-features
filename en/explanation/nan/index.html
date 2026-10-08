@@ -2259,12 +2259,9 @@ to tell.</p>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>'at least 100 words (2 x mattr_window)'
 </code></pre></div>
-<p>A <strong>word</strong> here is the library's default word: a whitespace-separated unit
-with edge punctuation stripped that contains a letter or digit (<code>e-posta</code>,
-<code>%50</code> and numbers are one word each). Every feature except the dependency
-features counts this word; <code>describe_feature(key)["definitions"]["word"]</code> says
-which. <code>segment_text</code>'s <code>size</code> counts the same word, so a 100-word segment
-meets a 100-word minimum.</p>
+<p>A <strong>word</strong> here is the library's default word
+(<a href="../concepts/#word-and-sentence">Concepts</a>). <code>segment_text</code>'s <code>size</code> counts the
+same word, so a 100-word segment meets a 100-word minimum.</p>
 <p>Below the minimum you get <code>nan</code>. Some minimums come from the source
 (<code>mtld</code>: "texts as short as 100 tokens can be used"), others from the
 mathematics: with a single window, <code>mattr</code> collapses to plain TTR and stops
@@ -2272,14 +2269,14 @@ being a moving average — hence the <code>2 × window</code> threshold.</p>
 <h3 id="2-the-required-structure-is-absent">2. The required structure is absent<a class="headerlink" href="#2-the-required-structure-is-absent" title="Permanent link">&para;</a></h3>
 <p><code>zeyrek_derivational_suffix_ratio</code> has a zero denominator if the text contains no
 derivational suffixes. <code>parse_depth_mean</code> cannot produce a value if no
-sentence parses. <code>hapax_ratio</code> is meaningless in a one-word text.</p>
+sentence parses. <code>verb_dist_mean</code> cannot be measured unless the text has at least two verbs.</p>
 <h3 id="3-an-optional-package-is-missing">3. An optional package is missing<a class="headerlink" href="#3-an-optional-package-is-missing" title="Permanent link">&para;</a></h3>
 <p>Without <code>wordfreq</code>, <code>wordfreq_mean</code> and <code>wordfreq_rare_ratio</code> return <code>nan</code>
 and the library raises a <code>MissingDependencyWarning</code>.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 <p><code>warn=False</code> silences the warning only; the feature is still <code>nan</code>. The same
-flag also silences <code>ParagraphStructureWarning</code>.</p>
+flag also silences the paragraph warning described below.</p>
 <h2 id="not-nan-but-misleading-paragraphs">Not <code>nan</code>, but misleading: paragraphs<a class="headerlink" href="#not-nan-but-misleading-paragraphs" title="Permanent link">&para;</a></h2>
 <p>Paragraph boundaries are found from blank lines; a single line break does
 not count. If your text has no blank lines, the whole text counts as one

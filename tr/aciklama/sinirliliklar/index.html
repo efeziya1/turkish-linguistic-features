@@ -2331,12 +2331,10 @@ göstermeyin.</p>
 <p>Sözcük türü, biçimbilim etiketleri, İngilizce lemmalar ve bağlılık
 öznitelikleri (ayrıştırıcının kendi cümleleriyle) modelden gelir. Model
 değişirse bu sayılar değişir. Türkçe lemmalar Zeyrek'ten gelir (§4).</p>
-<p>Kelime ve cümle sayımı modelin etiketlerini kullanmaz. Varsayılan kelime,
-boşlukla ayrılan ve kenar noktalaması atılan birimdir; varsayılan cümle
-kuralı cümle bitiren işaretleri modelin tokenizer'ından okur. Bağlılık
-öznitelikleri dışında her öznitelik bu kelimeyi sayar. Kelime başına etiket
-isteyen öznitelikler (sözcük türü, lemma, biçimbilim) etiketi kelimenin
-içindeki ilk kelime tokenından alır: model <code>Türk-Amerikan</code>'ı ya da İngilizce
+<p>Kelime ve cümle kütüphanenin kendi kuralıyla sayılır
+(<a href="../kavramlar/#kelime-ve-cumle">Kavramlar</a>). Kelime başına etiket isteyen
+öznitelikler (sözcük türü, lemma, biçimbilim) etiketi kelimenin içindeki ilk
+kelime tokenından alır: model <code>Türk-Amerikan</code>'ı ya da İngilizce
 <code>it's</code>'i birden çok tokena böler, kelime ilk parçanın etiketini taşır
 (<code>Türk</code>, <code>it</code>). Bu, Türkçe köşe yazılarında kelimelerin %0,3'ünde,
 İngilizcelerde %2,7'sinde olur. Bağlılık öznitelikleri modelin tokenlarını
@@ -2366,7 +2364,7 @@ Tekrar üretilebilir sayılar için tohumu Python başlamadan sabitleyin, örne�
 <h3 id="5-adaylarn-yars-hala-dogrulanmad">5. Adayların yarısı hâlâ doğrulanmadı<a class="headerlink" href="#5-adaylarn-yars-hala-dogrulanmad" title="Permanent link">&para;</a></h3>
 <p>82 satır doğrulama adayı bile değil (saf tanım, etiket şeması ya da
 bizim türevimiz).
-Kalan <strong>145 adayın 48'i</strong> bitmiş (46 ✅ + 2 🟡), <strong>97'ü 🔍 açık</strong>.</p>
+Kalan <strong>145 adayın 48'i</strong> bitmiş (46 ✅ + 2 🟡), <strong>97'si 🔍 açık</strong>.</p>
 <p>Sebebi <a href="../dogrulama/">doğrulama sistemi</a> sayfasında: kaynakların çoğu
 formülü yayımlar, o formülün uygulandığı bir sayısal örnek vermez. Bu
 özellikle <code>lexical</code> grubunda belirgin — 37 adayın 7'si doğrulanmış.</p>

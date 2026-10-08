@@ -1349,6 +1349,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#summarise-by-label" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summarise by label
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2129,6 +2140,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#summarise-by-label" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summarise by label
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2303,6 +2325,28 @@ default <code>min_fill=1.0</code> that remainder is <strong>discarded</strong>.<
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"corpus/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">))</span>
 </code></pre></div>
 <p><code>pandas</code> is not a required dependency; you install it yourself.</p>
+<h2 id="summarise-by-label">Summarise by label<a class="headerlink" href="#summarise-by-label" title="Permanent link">&para;</a></h2>
+<p>In most studies the real question is how the labels (author, genre, period)
+differ. The table carries the <code>label</code> column, so the summary is one line:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"corpus/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">))</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"label"</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>                                   <span class="c1"># segments per label</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"label"</span><span class="p">)[[</span><span class="s2">"sent_len_mean"</span><span class="p">,</span> <span class="s2">"word_len_mean"</span><span class="p">,</span> <span class="s2">"atesman"</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div>
+<p>On the examples' demo corpus (two labels, short texts, <code>segment_size=50</code>):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>label
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>Anlatı    2
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>Bilgi     2
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>        sent_len_mean  word_len_mean  atesman
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>label
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>Anlatı           7.29           5.78    77.35
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>Bilgi           10.42           6.57    58.75
+</code></pre></div>
+<p>When comparing labels, keep the segments the same size (<code>segment_size</code>) and
+check the number of segments per label: the mean of a label with a single
+segment is that text's mean, not the author's. A working example that compares
+sentence-length distributions across labels:
+<a href="https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/05_cumle_ritmi.py"><code>examples/05_cumle_ritmi.py</code></a>.</p>
 
 
 
