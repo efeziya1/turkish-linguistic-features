@@ -22,12 +22,18 @@ sayfada iki ad vermemek.
 
 | Türkçe | İngilizce | Ne |
 |---|---|---|
+| **kelime** | word | Boşlukla ayrılan, kenar noktalaması atılan, harf ya da rakam içeren birim; kütüphanenin saydığı kelime |
+| **cümle** | sentence | `. ? ! …` ile biten birim; `:` yalnız ardından yeni cümle geliyorsa |
+| **spaCy tokenı** | spaCy token | Modelin metni böldüğü birim; noktalama ayrı tokendır. `segment_text` bunu sayar |
+| **lemma** | lemma | Kelimenin sözlük biçimi; Türkçede Zeyrek'ten, İngilizcede spaCy'den |
+| **sözcük türü etiketi** | POS tag | UD'nin 17 etiketinden biri (`NOUN`, `VERB`, `ADJ`…) |
+| **n-gram** | n-gram | Ardışık kelimelerden oluşan öbek; `custom_ngrams` ile sayılır |
 | **tip** | type | Metindeki farklı kelimelerden biri |
-| **token** | token | Metindeki kelime örneklerinden biri |
+| **token** | token | Tip/token oranında: metindeki kelime örneklerinden biri |
 | **tip/token oranı** | type-token ratio (TTR) | Tip sayısı / token sayısı |
 | **hapax** | hapax legomenon | Metinde bir kez geçen kelime |
 | **vuruş** | stroke / character | Boşluk dışı her karakter (ARI'nin girdisi) |
-| **pencere** | window | Kayan hesapta bir seferde bakılan token sayısı |
+| **pencere** | window | Kayan hesapta bir seferde bakılan kelime sayısı |
 | **eşik** | threshold | Bir sınıflamayı başlatan sınır değer |
 | **yüzdelik** | percentile | Dağılımda altında verinin %n'inin kaldığı değer |
 | **kalibrasyon** | calibration | Bir eşiği veriden türetme işlemi |

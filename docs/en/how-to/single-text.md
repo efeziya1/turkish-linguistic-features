@@ -54,7 +54,7 @@ The groups, with their Turkish feature counts:
 | `chars` | 29 | Letter frequency vector: one key per letter of the Turkish alphabet (26 in English; `q`, `w`, `x` only there) |
 | `morphological_zeyrek` | 23 | Zeyrek suffix analysis (Turkish only) |
 | `morphological` | 19 | UD morphological features |
-| `punctuation` | 18 | Punctuation ratios |
+| `punctuation` | 18 | Each mark type's share, punctuation density, capitalisation |
 | `syntactic_dep` | 16 | Dependency parse |
 | `phonetic` | 13 | Syllables, vowels, sound patterns |
 | `frequency_structure` | 13 | Zipf, h-point, thematic concentration |
@@ -65,6 +65,45 @@ The groups, with their Turkish feature counts:
 | `paragraph` | 2 | Paragraph structure |
 
 `describe_feature(key)["group"]` tells you where a given feature lives.
+
+## Count your own phrases
+
+If you are after a pattern the built-in features do not cover, pass it as
+`custom_ngrams`:
+
+```python
+text = ("The woman came. The woman laughed and the woman sat down. "
+        "The woman came. Yet nobody asked anything.")
+oz = tlf.analyze(text, lang="en", custom_ngrams=[["yet", "nobody"], ["woman", "VERB"]])
+oz["ngram_yet_nobody_count"]   # 1.0
+oz["ngram_woman_VERB_count"]   # 4.0
+```
+
+Each phrase becomes one key; its value is the number of matches in the text.
+
+- Words are compared lowercased. The written form is matched, not the lemma:
+  `women` does not match `woman`.
+- An UPPERCASE UD part-of-speech tag (`NOUN`, `VERB`, `ADJ`…) matches any
+  word carrying that tag. `["woman", "VERB"]` means "woman" followed directly
+  by a verb.
+- A match never crosses a sentence boundary: `came. The` is not adjacent.
+- The value is a plain count. To compare texts of different lengths, bring
+  them to the same size first (`segment_size`).
+
+The count answers "how often". To see **what** the phrase matched:
+
+```python
+tlf.ngram_matches(text, ["woman", "VERB"], lang="en")
+```
+
+```text
+{'woman came': 2, 'woman laughed': 1, 'woman sat': 1}
+```
+
+The most frequent match comes first, and the counts add up to
+`ngram_woman_VERB_count`. Sentence and position are not returned. For several
+texts, add the results up with `collections.Counter`. Working example:
+[`examples/10_kelime_oruntuleri.py`](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/10_kelime_oruntuleri.py).
 
 ## Progress output
 

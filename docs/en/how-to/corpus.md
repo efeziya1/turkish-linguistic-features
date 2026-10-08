@@ -158,8 +158,8 @@ analyze_corpus(
 ) -> list[dict[str, object]]
 ```
 
-`groups`, `params`, `model` and `warn` mean the same as in `analyze` and
-apply to every segment.
+`groups`, `params`, `model`, `custom_ngrams` and `warn` mean the same as in
+`analyze` and apply to every segment. `custom_ngrams` counts are per segment.
 
 ## A DataFrame instead of a CSV
 

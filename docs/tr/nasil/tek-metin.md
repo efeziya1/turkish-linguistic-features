@@ -53,7 +53,7 @@ Mevcut gruplar ve Türkçede kaç öznitelik içerdikleri:
 | `chars` | 29 | Harf sıklık vektörü: Türkçe alfabenin her harfi için bir anahtar (İngilizcede 26; `q`, `w`, `x` yalnız orada) |
 | `morphological_zeyrek` | 23 | Zeyrek ek çözümlemesi (yalnız TR) |
 | `morphological` | 19 | UD morfolojik özellikleri |
-| `punctuation` | 18 | Noktalama oranları |
+| `punctuation` | 18 | Noktalama türlerinin payı, noktalama yoğunluğu, büyük harf |
 | `syntactic_dep` | 16 | Bağlılık ayrıştırması |
 | `phonetic` | 13 | Hece, ünlü, ses örüntüsü |
 | `frequency_structure` | 13 | Zipf, h-noktası, tematik yoğunlaşma |
@@ -65,6 +65,45 @@ Mevcut gruplar ve Türkçede kaç öznitelik içerdikleri:
 
 Bir özniteliğin hangi grupta olduğunu `describe_feature(anahtar)["group"]`
 söyler.
+
+## Kendi öbeklerinizi sayın
+
+Hazır özniteliklerin dışında aradığınız bir kalıp varsa `custom_ngrams` ile
+verin:
+
+```python
+metin = ("Kadın geldi. Kadın güldü ve kadın oturdu. Kadın geldi. "
+         "Ne var ki kimse bir şey sormadı.")
+oz = tlf.analyze(metin, lang="tr", custom_ngrams=[["ne", "var", "ki"], ["kadın", "VERB"]])
+oz["ngram_ne_var_ki_count"]    # 1.0
+oz["ngram_kadın_VERB_count"]   # 4.0
+```
+
+Her öbek bir anahtar olur; değeri metindeki eşleşme sayısıdır.
+
+- Kelimeler küçük harfe indirilerek karşılaştırılır. Yazılı biçim aranır,
+  lemma değil: `kadınlar` `kadın` ile eşleşmez.
+- Büyük harfle yazılmış bir UD sözcük türü etiketi (`NOUN`, `VERB`, `ADJ`…)
+  o etiketi taşıyan herhangi bir kelimeyle eşleşir. `["kadın", "VERB"]`,
+  "kadın" ve hemen ardından bir fiil demektir.
+- Eşleşme cümle sınırını aşmaz: `geldi. Kadın` yan yana sayılmaz.
+- Değer düz sayımdır. Uzunlukları farklı metinleri karşılaştıracaksanız önce
+  aynı boya getirin (`segment_size`).
+
+Sayı "kaç kez" sorusunu cevaplar. Öbeğin **neyle** eşleştiğini görmek için:
+
+```python
+tlf.ngram_matches(metin, ["kadın", "VERB"], lang="tr")
+```
+
+```text
+{'kadın geldi': 2, 'kadın güldü': 1, 'kadın oturdu': 1}
+```
+
+En sık eşleşme önce gelir; sayıların toplamı `ngram_kadın_VERB_count` ile
+aynıdır. Cümle ve konum bilgisi verilmez. Birden çok metin için sonuçları
+`collections.Counter` ile toplayın. Çalışan örnek:
+[`examples/10_kelime_oruntuleri.py`](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/10_kelime_oruntuleri.py).
 
 ## İlerleme göstergesi
 

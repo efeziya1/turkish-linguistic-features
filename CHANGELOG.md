@@ -129,6 +129,8 @@
   phrase matched, as `{"kadın geldi": 2, "kadın güldü": 1}`, most frequent first. The matching is
   the one `analyze` uses, so the values add up to `ngram_{...}_count`. Sentence and position are
   not returned. The public API has eleven names.
+- `examples/10_kelime_oruntuleri.py`: counting your own word and tag phrases with
+  `custom_ngrams` and seeing what they matched with `ngram_matches`.
 - Four lexical richness measures in the `lexical` group (TR 208 → 212 keys, EN 180 → 184):
   `cttr` (Carroll's corrected TTR, V/√(2N)), `summer_s` (Summer's S, ln(ln V)/ln(ln N)),
   `maas_a2` (Maas' a², (ln N − ln V)/(ln N)²) and `herdan_vm` (Herdan's Vm,
@@ -182,6 +184,10 @@
 
 ### Fixed
 
+- `examples/06_esik_kalibrasyonu.py` split sentences with spaCy's parser while the library
+  uses its own sentence rule, so its built-in check reported a different median; it now counts
+  sentences and words with the library's rule and prints the calibrated default thresholds
+  (TR 4/17) instead of the old novel-based 4/18.
 - The readability formulas counted `...` (three dots) as a sentence end but not
   the single character `…`, so the same text got a different sentence count (and
   different `atesman`, `cetinkaya_uzun`, `bezirci_yilmaz`, `lix`, `ari`,

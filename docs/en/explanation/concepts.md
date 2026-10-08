@@ -19,6 +19,25 @@ A feature is one of three things:
 
 Of 198 keys, 187 have a citation and 11 do not.
 
+## Key names
+
+A name is built so that it says what the feature measures:
+
+| Name | Meaning | Example |
+|---|---|---|
+| `…_ratio` | A share between 0 and 1 | `hapax_ratio`, `pos_noun_ratio` |
+| `…_mean`, `…_median` | Mean, median | `sent_len_mean`, `sent_len_median` |
+| `…_count` | A count | `lemma_count` |
+| The name in the literature | An established measure; no `_ratio` | `ttr`, `mattr`, `yule_k`, `posddev` |
+
+The morphological features come from two analysers. Those from spaCy's UD
+tags have no prefix (`case_loc_ratio`); those from Zeyrek start with `zeyrek_`
+(`zeyrek_case_loc_ratio`). The two do not give the same number:
+`case_loc_ratio` is the locative's share among words that carry a case tag,
+`zeyrek_case_loc_ratio` its share among all analysed words. Zeyrek also tells
+the -DI past from the -mIş past (`zeyrek_tense_past_def_ratio`,
+`zeyrek_tense_past_nar_ratio`); in spaCy both are `tense_past_ratio`.
+
 ## Group
 
 Features are organised into 13 groups (14 with the `ngram_*` keys created when
@@ -40,6 +59,7 @@ pattern:
 - `char_*` — the letter-frequency vector, one key per letter of the alphabet
   (Turkish 29: `char_a_ratio`, `char_ç_ratio` … `char_z_ratio`; English 26)
 - `ngram_*` — n-gram counters created when you pass `custom_ngrams`
+  ([how](../how-to/single-text.md#count-your-own-phrases))
 
 If you call `describe_feature("char_a_ratio")`, the `formula` and `requires`
 fields are the **group-level** statement, not something specific to that
@@ -59,6 +79,22 @@ Every feature has a scale, and it matters when you plot:
 
 Two `ratio_0_1` features can share an axis; putting a `score` next to them
 misleads.
+
+## Word and sentence
+
+Features count words and sentences with the library's own rules, not with
+the model's tokens:
+
+- **Word** — a whitespace-separated piece with edge punctuation stripped,
+  containing a letter or digit. `e-posta`, `%50` and numbers are one word
+  each. Every feature except the dependency group counts this word.
+- **Sentence** — `. ? ! …` end a sentence; `:` only when a new sentence
+  follows. Abbreviations such as `Dr.` do not.
+- **A word's tags** — the part of speech, morphological tags and lemma come
+  from the first token inside the word. Turkish lemmas are Zeyrek's dictionary
+  entry, English lemmas spaCy's.
+
+`describe_feature(key)["definitions"]` names the rule a feature uses.
 
 ## The pipeline
 

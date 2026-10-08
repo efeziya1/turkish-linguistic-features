@@ -1,7 +1,7 @@
 """NaN haritası — metnim ne kadar kısa olabilir?
 
 Metin kısaldıkça bazı öznitelikler ölçülemez hâle gelir ve ``nan`` döner:
-tek cümlede cümle uzunluğunun değişkenliği yoktur, 50 kelimede 100'lük
+tek cümlede cümle uzunluklarının entropisi ölçülmez, 50 kelimede 100'lük
 pencereyle MATTR hesaplanmaz. Bu script aynı metinden artan uzunlukta
 parçalar alıp her uzunlukta kaç özniteliğin ölçülebildiğini ve hangilerinin
 hangi uzunlukta "kurtulduğunu" gösterir. Sonuç örneklem tasarımına girer:

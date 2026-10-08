@@ -156,8 +156,8 @@ analyze_corpus(
 ) -> list[dict[str, object]]
 ```
 
-`groups`, `params`, `model`, `warn` — hepsi `analyze` ile aynı anlamda ve her
-parçaya uygulanır.
+`groups`, `params`, `model`, `custom_ngrams`, `warn` — hepsi `analyze` ile aynı
+anlamda ve her parçaya uygulanır. `custom_ngrams` sayıları parça başınadır.
 
 ## CSV yerine DataFrame
 

@@ -1,8 +1,8 @@
 """Eşik kalibrasyonu — kısa/uzun cümle eşiğini kendi korpusumdan türetmek.
 
-Varsayılan eşikler (Türkçe kısa < 4, uzun > 18) roman korpusunda cümle
+Varsayılan eşikler (Türkçe kısa < 4, uzun > 17) gazete köşe yazılarında cümle
 uzunluğu dağılımının 15. ve 85. yüzdeliğinden gelir ([belge](../docs/esik-kalibrasyonu.md)).
-Başka bir türle — haber, akademik metin, transkript — çalışıyorsanız aynı
+Başka bir türle — roman, akademik metin, transkript — çalışıyorsanız aynı
 yöntemi kendi korpusunuza uygulayabilirsiniz.
 
     python examples/06_esik_kalibrasyonu.py korpus/
@@ -10,8 +10,8 @@ yöntemi kendi korpusunuza uygulayabilirsiniz.
 **Tek kural: cümleyi kütüphaneyle aynı biçimde bölün.** Nokta/soru işaretine
 göre bölen kaba bir bölücü kısaltmada, baş harfte ve üç noktada sahte cümle
 üretir ve dağılımı aşağı çeker; ortaya çıkan fark "korpusum farklı" diye
-okunur ama aslında yöntem farkıdır. Bu script cümleleri kütüphanenin
-kullandığı spaCy modeliyle böler ve bunu **kendisi denetler**: her dosyada
+okunur ama aslında yöntem farkıdır. Bu script cümleleri ve kelimeleri
+kütüphanenin kendi kuralıyla sayar ve bunu **kendisi denetler**: her dosyada
 kendi medyanını kütüphanenin ``sent_len_median`` değeriyle karşılaştırır.
 
 Argüman verilmezse demo korpus kullanılır (cümle sayısı az; yüzdelikler
@@ -22,13 +22,17 @@ import statistics
 import sys
 from pathlib import Path
 
-import spacy
-
 import turkish_linguistic_features as tlf
 from _demo import demo_korpus_yaz
 
+# Kütüphanenin cümle ve kelime kuralı genel API'de ayrı bir fonksiyon olarak
+# yok; eşiği aynı kuralla türetmek için iç yardımcıları doğrudan çağırıyoruz.
+from turkish_linguistic_features._analyze import _get_preprocessor
+from turkish_linguistic_features.features.readability import cumle_birimleri, kural_cumleleri
+from turkish_linguistic_features.features.syntactic import _cumle_kelimeleri
+from turkish_linguistic_features.params import DEFAULT_PARAMS, resolve_sent_thresholds
+
 DIL = "tr"
-MODEL = {"tr": "tr_core_news_md", "en": "en_core_web_sm"}[DIL]
 DOSYA_BASINA_KARAKTER = 100_000   # uzun dosyaların ortasından bu kadarı okunur
 YUZDELIKLER = (15, 85)
 CIKTI_DIZINI = Path("examples/output")
@@ -42,16 +46,12 @@ def orta_dilim(metin: str, karakter: int) -> str:
     return metin[bas:bas + karakter]
 
 
-def cumle_uzunluklari(nlp: spacy.language.Language, metin: str) -> list[int]:
-    """Kütüphanenin kuralı: spaCy cümlesi; harf ya da rakam içeren token
-    kelimedir (noktalama düşer); hiç harf içermeyen cümle sayılmaz."""
-    uzunluklar = []
-    for cumle in nlp(metin).sents:
-        tokenlar = [t.text for t in cumle if not t.is_space]
-        if not any(c.isalpha() for t in tokenlar for c in t):
-            continue
-        uzunluklar.append(sum(1 for t in tokenlar if any(c.isalnum() for c in t)))
-    return uzunluklar
+def cumle_uzunluklari(metin: str) -> list[int]:
+    """Kütüphanenin kuralı: varsayılan cümle kuralı ve varsayılan kelime
+    (boşlukla ayrılan, kenar noktalaması atılan birim); harfsiz cümle sayılmaz."""
+    tokenlar = _get_preprocessor(DIL, None).process(metin).to_dict()["surface_tokens"]
+    cumleler = cumle_birimleri(metin, kural_cumleleri(tokenlar, DIL), DIL)
+    return [len(c) for c in _cumle_kelimeleri(cumleler)]
 
 
 def yuzdelik(sirali: list[int], p: float) -> int:
@@ -68,16 +68,12 @@ def main() -> None:
         print(f"Korpus verilmedi; demo korpus kullanılıyor: {korpus}\n")
         demo_korpus_yaz(korpus)
 
-    # Kütüphane Zeyrek'i spaCy'den önce yükler; Windows'ta bu sıra önemli.
-    # Kendi spaCy modelimizi o yüklemeden SONRA açıyoruz.
-    tlf.analyze("Hazırlık.", lang=DIL, groups=["morphological_zeyrek"], warn=False)
-    nlp = spacy.load(MODEL, exclude=["ner"])
     tum_uzunluklar: list[int] = []
     ilk_metin = ""
     print(f"{'dosya':<34}{'cümle':>7}{'medyanım':>10}{'kütüphane':>11}")
     for dosya in sorted(korpus.glob("*.txt")):
         metin = orta_dilim(dosya.read_text(encoding="utf-8"), DOSYA_BASINA_KARAKTER)
-        uzunluklar = cumle_uzunluklari(nlp, metin)
+        uzunluklar = cumle_uzunluklari(metin)
         if not uzunluklar:
             continue
         ilk_metin = ilk_metin or metin
@@ -100,7 +96,8 @@ def main() -> None:
         print(f"  {p:>3}. yüzdelik: {yuzdelik(sirali, p):>3} kelime{isaret}")
 
     print(f"\nKorpusunuzun eşiği : kısa < {kisa}, uzun > {uzun}")
-    print("Varsayılan (roman)  : kısa < 4, uzun > 18")
+    v_kisa, v_uzun = resolve_sent_thresholds(DEFAULT_PARAMS, DIL)
+    print(f"Varsayılan         : kısa < {v_kisa}, uzun > {v_uzun} (köşe yazıları)")
 
     # Türetilen eşiği kullanmak: FeatureParams ile vermek yeter.
     kendi = tlf.FeatureParams(short_sent_threshold=kisa, long_sent_threshold=uzun)

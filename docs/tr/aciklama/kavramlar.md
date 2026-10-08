@@ -19,6 +19,25 @@ adlar sürüm notlarında duyurulur.
 
 198 anahtarın 187'sinin künyesi vardır, 11'inin yoktur.
 
+## Anahtar adları
+
+Ad, özniteliğin ne ölçtüğünü okunur kılacak biçimde kurulur:
+
+| Ad | Anlamı | Örnek |
+|---|---|---|
+| `…_ratio` | 0 ile 1 arası pay | `hapax_ratio`, `pos_noun_ratio` |
+| `…_mean`, `…_median` | Ortalama, medyan | `sent_len_mean`, `sent_len_median` |
+| `…_count` | Sayım | `lemma_count` |
+| Literatürdeki adı | Adı yerleşik ölçü; `_ratio` almaz | `ttr`, `mattr`, `yule_k`, `posddev` |
+
+Biçimbirim öznitelikleri iki çözümleyiciden gelir. spaCy'nin UD
+etiketlerinden gelenler öneksizdir (`case_loc_ratio`), Zeyrek'ten gelenler
+`zeyrek_` ile başlar (`zeyrek_case_loc_ratio`). İkisi aynı sayıyı vermez:
+`case_loc_ratio` durum etiketi taşıyan kelimeler içinde bulunma durumunun
+payıdır, `zeyrek_case_loc_ratio` çözümlenen bütün kelimeler içinde. Zeyrek
+ayrıca -DI ve -mIş geçmişini ayırır (`zeyrek_tense_past_def_ratio`,
+`zeyrek_tense_past_nar_ratio`); spaCy'de ikisi tek `tense_past_ratio`'dur.
+
 ## Grup
 
 Öznitelikler 13 gruba ayrılır (`custom_ngrams` verirseniz oluşan `ngram_*`
@@ -38,6 +57,7 @@ Bazı anahtarlar tek tek yazılmamıştır, kalıptan üretilir:
 - `char_*` — harf sıklık vektörü; alfabenin her harfi için bir anahtar
   (Türkçe 29: `char_a_ratio`, `char_ç_ratio` … `char_z_ratio`; İngilizce 26)
 - `ngram_*` — `custom_ngrams` verirseniz oluşan n-gram sayaçları
+  ([nasıl](../nasil/tek-metin.md#kendi-obeklerinizi-sayn))
 
 `describe_feature("char_a_ratio")` çağırırsanız `formula` ve `requires` alanları
 **grup düzeyinde** genel ifadedir, tek harfe özel değil.
@@ -56,6 +76,23 @@ Her özniteliğin bir ölçeği vardır ve grafik kurarken bu önemlidir:
 
 `ratio_0_1` olan iki özniteliği aynı eksende çizebilirsiniz; `score` olanı
 onların yanına koymak yanıltır.
+
+## Kelime ve cümle
+
+Öznitelikler kelimeyi ve cümleyi kütüphanenin kendi kuralıyla sayar, modelin
+tokenıyla değil:
+
+- **Kelime** — boşlukla ayrılan, kenar noktalaması atılan, harf ya da rakam
+  içeren birim. `e-posta`, `%50` ve sayılar birer kelimedir. Bağlılık
+  öznitelikleri dışında her öznitelik bu kelimeyi sayar.
+- **Cümle** — `. ? ! …` cümleyi bitirir; `:` yalnız ardından yeni bir cümle
+  başlıyorsa. `Dr.` gibi kısaltmalar cümle bitirmez.
+- **Kelimenin etiketi** — sözcük türü, biçimbirim etiketi ve lemma, kelimenin
+  içindeki ilk tokendan gelir. Türkçe lemma Zeyrek'in sözlük maddesidir,
+  İngilizce lemma spaCy'nin.
+
+Bir özniteliğin hangi kuralı kullandığını
+`describe_feature(anahtar)["definitions"]` söyler.
 
 ## Boru hattı
 
