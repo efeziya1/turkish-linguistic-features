@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 202, İngilizce metinden 175 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 202 quantitative linguistic features from Turkish text and 175 from English text">
+        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 181 from English text">
       
       
       
@@ -2240,9 +2240,9 @@ to tell.</p>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">nans</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">short</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v</span> <span class="o">!=</span> <span class="n">v</span><span class="p">]</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">len</span><span class="p">(</span><span class="n">short</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">nans</span><span class="p">)</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>(175, 34)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>(181, 34)
 </code></pre></div>
-<p><strong>34 of 175</strong> features are <code>nan</code>. Examples:</p>
+<p><strong>34 of 181</strong> features are <code>nan</code>. Examples:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>['aspect_imp_ratio', 'aspect_perf_ratio', 'aspect_prog_ratio',
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a> 'case_abl_ratio', 'case_acc_ratio', 'case_dat_ratio', 'case_gen_ratio',
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a> 'case_loc_ratio']
@@ -2319,7 +2319,7 @@ column.</p>
 segmenting:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">rows</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"corpus/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 </code></pre></div>
-<p>1000-word segments feed nearly all 202 features. See
+<p>1000-word segments feed nearly all 208 features. See
 <a href="../../how-to/segmenting/">Split a text into segments</a>.</p>
 <h2 id="why-nan-and-not-none">Why <code>nan</code> and not <code>None</code><a class="headerlink" href="#why-nan-and-not-none" title="Permanent link">&para;</a></h2>
 <p><code>nan</code> is a <code>float</code>. That means every value in the returned dictionary has

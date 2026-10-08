@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 202, İngilizce metinden 175 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 202 quantitative linguistic features from Turkish text and 175 from English text">
+        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 181 from English text">
       
       
       
@@ -2209,7 +2209,7 @@ release notes.</p>
 <li><strong>A plain definition</strong> — <code>punct_dash_ratio</code> ("dashes / all punctuation marks"). No citation,
    because it is not a named measure that could be attributed.</li>
 </ol>
-<p>Of 202 keys, 191 have a citation and 11 do not.</p>
+<p>Of 208 keys, 197 have a citation and 11 do not.</p>
 <h2 id="key-names">Key names<a class="headerlink" href="#key-names" title="Permanent link">&para;</a></h2>
 <p>A name is built so that it says what the feature measures:</p>
 <table>
@@ -2334,14 +2334,14 @@ the model's tokens:</p>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>   ↓  the library's own rules
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>word and sentence boundaries; each word takes its tags from its own token
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>   ↓  feature extractors
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>202 numbers
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>208 numbers
 </code></pre></div>
 <p>Two consequences:</p>
 <ol>
 <li><strong>The spaCy model is part of the result.</strong> Change the model and the
    tokens, POS, morphological and dependency features change with it.
    State which model you used in your methods section.</li>
-<li><strong>Preprocessing runs once.</strong> All 202 features draw on the same analysis,
+<li><strong>Preprocessing runs once.</strong> All 208 features draw on the same analysis,
    so asking for fewer <code>groups</code> does not speed up preprocessing — it only
    shortens the extraction step.</li>
 </ol>

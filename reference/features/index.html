@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 202, İngilizce metinden 175 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 202 quantitative linguistic features from Turkish text and 175 from English text">
+        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 181 from English text">
       
       
       
@@ -2394,7 +2394,7 @@ published is a separate question — see the
 <tbody>
 <tr>
 <td><code>lexical</code></td>
-<td>35</td>
+<td>38</td>
 <td>Lexical richness &amp; frequency</td>
 </tr>
 <tr>
@@ -2409,7 +2409,7 @@ published is a separate question — see the
 </tr>
 <tr>
 <td><code>paragraph</code></td>
-<td>2</td>
+<td>3</td>
 <td>Paragraph structure</td>
 </tr>
 <tr>
@@ -2439,7 +2439,7 @@ published is a separate question — see the
 </tr>
 <tr>
 <td><code>phonetic</code></td>
-<td>13</td>
+<td>14</td>
 <td>Phonetic patterns</td>
 </tr>
 <tr>
@@ -2449,7 +2449,7 @@ published is a separate question — see the
 </tr>
 <tr>
 <td><code>punctuation</code></td>
-<td>19</td>
+<td>20</td>
 <td>Punctuation &amp; digits</td>
 </tr>
 <tr>
@@ -2465,7 +2465,7 @@ published is a separate question — see the
 </tbody>
 </table>
 <h2 id="lexical-lexical-richness-frequency"><code>lexical</code> — Lexical richness &amp; frequency<a class="headerlink" href="#lexical-lexical-richness-frequency" title="Permanent link">&para;</a></h2>
-<p>35 keys.</p>
+<p>38 keys.</p>
 <table>
 <thead>
 <tr>
@@ -2490,6 +2490,27 @@ published is a separate question — see the
 <td><code>words</code></td>
 <td>non-empty text (0 when it has no words)</td>
 <td>de Vel (2000) Table 2, attribute 1 "Total number of words"; Zheng et al. (2006) Table 3, p.385, no. 54 "Total number of words (M)"</td>
+</tr>
+<tr>
+<td><code>type_count</code></td>
+<td>number of distinct words (V)</td>
+<td><code>V</code></td>
+<td>non-empty text (0 when it has no words)</td>
+<td>Tweedie &amp; Baayen (1998) p.325, the vocabulary size V(N); Zheng et al. (2006) Table 3, p.385, no. 60 "Total different words/M", here not divided by M</td>
+</tr>
+<tr>
+<td><code>hapax_count</code></td>
+<td>number of words occurring once (V1)</td>
+<td><code>V1</code></td>
+<td>non-empty text (0 when it has no words)</td>
+<td>Tweedie &amp; Baayen (1998) p.325, V(1, N) "the number of hapax legomena"; Zheng et al. (2006) Table 3, p.385, no. 61 "Hapax legomena" ("Frequency of once-occurring words")</td>
+</tr>
+<tr>
+<td><code>dislegomena_count</code></td>
+<td>number of words occurring exactly twice (V2)</td>
+<td><code>V2</code></td>
+<td>non-empty text (0 when it has no words)</td>
+<td>Tweedie &amp; Baayen (1998) p.329, V(2, N) "dis legomena"; Zheng et al. (2006) Table 3, p.385, no. 62 "Hapax dislegomena" ("Frequency of twice-occurring words")</td>
 </tr>
 <tr>
 <td><code>word_len_mean</code></td>
@@ -2895,7 +2916,7 @@ published is a separate question — see the
 </tbody>
 </table>
 <h2 id="paragraph-paragraph-structure"><code>paragraph</code> — Paragraph structure<a class="headerlink" href="#paragraph-paragraph-structure" title="Permanent link">&para;</a></h2>
-<p>2 keys.</p>
+<p>3 keys.</p>
 <table>
 <thead>
 <tr>
@@ -2907,6 +2928,13 @@ published is a separate question — see the
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>para_count</code></td>
+<td>number of paragraphs</td>
+<td><code>paragraphs (blank line = boundary)</code></td>
+<td>at least 1 paragraph</td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 248 "Total number of paragraphs"</td>
+</tr>
 <tr>
 <td><code>para_len_mean</code></td>
 <td>mean paragraph length</td>
@@ -3538,7 +3566,7 @@ published is a separate question — see the
 </tbody>
 </table>
 <h2 id="phonetic-phonetic-patterns"><code>phonetic</code> — Phonetic patterns<a class="headerlink" href="#phonetic-phonetic-patterns" title="Permanent link">&para;</a></h2>
-<p>13 keys.</p>
+<p>14 keys.</p>
 <table>
 <thead>
 <tr>
@@ -3584,6 +3612,13 @@ published is a separate question — see the
 <td><code>words where every vowel after an unrounded one is unrounded and every vowel after a rounded one is close-rounded or open-unrounded / words with 2+ vowels</code></td>
 <td>at least 1 word with 2 vowels</td>
 <td>Göksel &amp; Kerslake (2005) §3.1 (rounding harmony); strictly a suffix phenomenon, measured here as a whole-word pattern</td>
+</tr>
+<tr>
+<td><code>syllable_count</code></td>
+<td>number of syllables</td>
+<td><code>sum of syllables over syllabifiable words</code></td>
+<td>non-empty text (0 when it has no syllabifiable words)</td>
+<td>Kincaid et al. (1975) p.38, "Instructions for Recalculated Flesch Formula", step 3 "Count the number of syllables"</td>
 </tr>
 <tr>
 <td><code>syllable_mean</code></td>
@@ -3736,7 +3771,7 @@ published is a separate question — see the
 </tbody>
 </table>
 <h2 id="punctuation-punctuation-digits"><code>punctuation</code> — Punctuation &amp; digits<a class="headerlink" href="#punctuation-punctuation-digits" title="Permanent link">&para;</a></h2>
-<p>19 keys.</p>
+<p>20 keys.</p>
 <table>
 <thead>
 <tr>
@@ -3761,6 +3796,13 @@ published is a separate question — see the
 <td><code>digits / characters</code></td>
 <td>non-empty text</td>
 <td>de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; here digits anywhere in the text</td>
+</tr>
+<tr>
+<td><code>punct_count</code></td>
+<td>number of punctuation marks</td>
+<td><code>marks of the 10 mark types</code></td>
+<td>non-empty text</td>
+<td>de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C", here not divided by C</td>
 </tr>
 <tr>
 <td><code>punct_comma_ratio</code></td>
