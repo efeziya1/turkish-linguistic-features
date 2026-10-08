@@ -27,9 +27,9 @@ published is a separate question — see the
 
 | Group | Keys | What it covers |
 |---|---|---|
-| `lexical` | 34 | Lexical richness & frequency |
+| `lexical` | 35 | Lexical richness & frequency |
 | `frequency_structure` | 13 | Frequency structure (h-point family, Popescu & Altmann) |
-| `sentence` | 6 | Sentence statistics |
+| `sentence` | 7 | Sentence statistics |
 | `paragraph` | 2 | Paragraph structure |
 | `pos` | 12 | Part-of-speech ratios |
 | `syntactic` | 7 | Discourse & syntax |
@@ -38,14 +38,14 @@ published is a separate question — see the
 | `morphological_zeyrek` | 23 | Morphological style (Zeyrek, TR only) |
 | `phonetic` | 13 | Phonetic patterns |
 | `readability` | 11 | Readability scores |
-| `punctuation` | 18 | Punctuation & digits |
+| `punctuation` | 19 | Punctuation & digits |
 | `chars` | dynamic | Character frequency vector  [dynamic: one key per letter — TR 29, EN 26] |
 | `custom_ngrams` | dynamic | User-defined n-gram counts  [dynamic: ngram_{...}_count] |
 
 
 ## `lexical` — Lexical richness & frequency
 
-34 keys.
+35 keys.
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
@@ -67,6 +67,7 @@ published is a separate question — see the
 | `summer_s` | Summer's S, log-log type-token ratio | `ln(ln V) / ln(ln N)` | at least 3 words and 2 distinct words | Somers (1966), as cited in Torruella & Capsada (2013) p.448, where it is named "Summer"; the source gives no logarithm base, the natural logarithm is this library's choice |
 | `maas_a2` | Maas' a²; higher = more repetitive | `(ln N - ln V) / (ln N)^2` | at least 2 words | Maas (1972), as cited in Tweedie & Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella & Capsada (2013) Table 1; all logarithms in this library are natural |
 | `herdan_vm` | Herdan's Vm; higher = more repetitive | `sqrt(sum(f^2) / N^2 - 1 / V)` | at least 1 word | Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18) |
+| `honore_r` | Honoré's R; higher = more words used once, richer vocabulary | `100 * ln N / (1 - V1 / V)` | at least 1 word occurring more than once | Honoré (1979), as cited in Tweedie & Baayen (1998) p.329, eq. (11) |
 | `heaps_beta` | vocabulary growth rate | `least-squares slope of log V ~ log N over prefixes every heaps_step words, not clipped` | at least 300 words (heaps_min_tokens) | Heaps (1978), as cited in Manning et al. (2008) §5.1.1 |
 | `entropy` | Shannon entropy of word frequencies | `-sum(p * ln p)` | at least 1 word | Shannon (1948), as cited in QUITA §6.1.12 |
 | `yule_k` | Yule's K; higher = more repetitive | `10000 * (sum(f^2) - N) / N^2` | at least 1 word | Yule (1944) p.53, eq. (3.22) |
@@ -106,11 +107,12 @@ published is a separate question — see the
 
 ## `sentence` — Sentence statistics
 
-6 keys.
+7 keys.
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
 | `sent_len_mean` | mean sentence length in words | `mean words per sentence` | at least 1 sentence with a letter | Flesch (1948) p.223, element (1) "Average Sentence Length in Words" |
+| `sent_count` | number of sentences | `sentences` | at least 1 sentence with a letter | de Vel (2000) Table 2, attribute 3 "Number of sentences"; Zheng et al. (2006) Table 3, p.385, no. 247 "Total number of sentences" |
 | `sent_len_char_mean` | mean sentence length in characters | `mean len(tokens joined by single spaces)` | at least 1 sentence | Zheng et al. (2006) Table 3, p.385, no. 58 "Average sentence length in terms of character" |
 | `short_sent_ratio` | share of short sentences | `sentences with fewer than short_sent_threshold words / sentences` | at least 1 sentence with a letter | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only |
 | `long_sent_ratio` | share of long sentences | `sentences with more than long_sent_threshold words / sentences` | at least 1 sentence with a letter | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only |
@@ -278,10 +280,11 @@ published is a separate question — see the
 
 ## `punctuation` — Punctuation & digits
 
-18 keys.
+19 keys.
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
+| `char_count` | number of characters | `characters, whitespace and line breaks included` | non-empty text | de Vel (2000) Table 2, attribute 8 "Number of characters"; Zheng et al. (2006) Table 3, p.385, no. 1 "Total number of characters (C)" |
 | `digit_ratio` | share of digit characters | `digits / characters` | non-empty text | de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; here digits anywhere in the text |
 | `punct_comma_ratio` | share of comma marks among all marks | `marks of this type / all marks` | at least 1 punctuation mark | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks |
 | `punct_period_ratio` | share of full stop marks among all marks | `marks of this type / all marks` | at least 1 punctuation mark | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks |
@@ -319,7 +322,7 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 
 ## Bibliography
 
-55 works. Every citation above names at least one of these verbatim, and every entry here is named by at least one citation — both directions are tested.
+56 works. Every citation above names at least one of these verbatim, and every entry here is named by at least one citation — both directions are tested.
 
 **Akın & Akın (2007)**
 :   Akın, A. A., & Akın, M. D. (2007). Zemberek, an open source NLP framework for Turkic Languages. 8 pp. Source code: github.com/ahmetaa/zemberek-nlp. (The document does not state a place of publication.)
@@ -377,6 +380,9 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 
 **Herdan (1960/1964)**
 :   Herdan, G. (1960). Type-Token Mathematics. The Hague: Mouton. / Herdan, G. (1964). Quantitative Linguistics. London: Butterworths.
+
+**Honoré (1979)**
+:   Honoré, A. (1979). Some simple measures of richness of vocabulary. Association for Literary and Linguistic Computing Bulletin, 7(2), 172–177. The record was verified from the reference list of Tweedie & Baayen (1998). The primary source could not be obtained.
 
 **Jing & Liu (2015)**
 :   Jing, Y., & Liu, H. (2015). Mean hierarchical distance: Augmenting mean dependency distance. Proceedings of Depling 2015, Uppsala, 161–170.

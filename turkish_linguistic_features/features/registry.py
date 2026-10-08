@@ -1,4 +1,4 @@
-"""Öznitelik registry — 174 statik anahtarın tek doğruluk kaynağı (T19).
+"""Öznitelik registry — 177 statik anahtarın tek doğruluk kaynağı (T19).
 
 ``describe_feature(key)`` bir anahtar hakkında bilinen her şeyi tek çağrıda
 döndürür: ne ölçtüğü, nasıl hesaplandığı, hangi ölçekte olduğu, hangi
@@ -6,7 +6,7 @@ döndürür: ne ölçtüğü, nasıl hesaplandığı, hangi ölçekte olduğu, h
 kadar metin gerektirdiği ve künyesi. Kullanıcı üç ayrı sözlüğe bakmak zorunda
 kalmasın diye tek giriş noktası budur.
 
-Taban şema **TR 199 · EN 172**: 174 statik anahtardan dile özgü olanlar + dile
+Taban şema **TR 202 · EN 175**: 177 statik anahtardan dile özgü olanlar + dile
 göre 26–29 ``char_*``.
 ``custom_ngrams`` istenmedikçe anahtar üretmez, bu yüzden toplama girmez.
 14 grup = 12 statik + 2 dinamik.
@@ -69,7 +69,7 @@ STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
         'zipf_exponent', 'zipf_r2',
         'zipf_mandelbrot_q',
         'zipf_mandelbrot_s', 'mtld', 'dugast_u', 'guiraud_r', 'cttr', 'summer_s', 'maas_a2',
-        'herdan_vm', 'heaps_beta',
+        'herdan_vm', 'honore_r', 'heaps_beta',
         'entropy', 'yule_k', 'simpson_d', 'brunet_w', 'hapax_ratio', 'hapax_token_ratio',
         'vocd_d', 'hdd', 'msttr', 'noun_variation', 'verb_variation', 'adj_variation',
         'adv_variation', 'wordfreq_mean', 'wordfreq_rare_ratio',
@@ -80,7 +80,8 @@ STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
         'writers_view_alpha', 'thematic_concentration', 'secondary_thematic_concentration',
     ),
     "sentence": (
-        'sent_len_mean', 'sent_len_char_mean', 'short_sent_ratio', 'long_sent_ratio', 'sent_len_median',
+        'sent_len_mean', 'sent_count', 'sent_len_char_mean', 'short_sent_ratio',
+        'long_sent_ratio', 'sent_len_median',
         'sent_len_entropy',
     ),
     "paragraph": (
@@ -133,7 +134,7 @@ STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
         'polysyllabic_word_ratio', 'long_word_ratio',
     ),
     "punctuation": (
-        'digit_ratio', 'punct_comma_ratio', 'punct_period_ratio', 'punct_semicolon_ratio',
+        'char_count', 'digit_ratio', 'punct_comma_ratio', 'punct_period_ratio', 'punct_semicolon_ratio',
         'punct_exclamation_ratio', 'punct_colon_ratio', 'punct_dash_ratio', 'punct_ellipsis_ratio',
         'punct_paren_ratio', 'punct_quote_ratio', 'punct_question_ratio', 'punct_char_ratio', 'punct_entropy',
         'consecutive_punct_ratio', 'whitespace_ratio', 'punct_variety', 'uppercase_ratio',
@@ -203,6 +204,8 @@ FEATURE_SCALES: dict[str, str] = {
     # lexical
     "lemma_count": "count",
     "word_count": "count",
+    "sent_count": "count",
+    "char_count": "count",
     "word_len_mean": "length",
     "entropy": "nats",
     "yule_k": "score",
@@ -214,6 +217,7 @@ FEATURE_SCALES: dict[str, str] = {
     "summer_s": "score",
     "maas_a2": "score",
     "herdan_vm": "score",
+    "honore_r": "score",
     "vocd_d": "score",
     "heaps_beta": "score",            # kırpılmıyor, 1'i aşabilir (2026-09-17)
     "zipf_exponent": "score",

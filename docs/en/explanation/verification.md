@@ -23,8 +23,8 @@ misread.
 
 | Layer | What it guarantees | Coverage |
 |---|---|---|
-| **Formula equivalence** | The code implements the equation in the source. The citation gives page and equation number; tests exercise the formula and its edge cases. | The 188 features with a citation (Turkish; the other 11 are plain definitions with no source) |
-| **Source-number verification** | A number the source *published* was found and compared against our output. | 48 of 142 candidate report rows (Turkish) |
+| **Formula equivalence** | The code implements the equation in the source. The citation gives page and equation number; tests exercise the formula and its edge cases. | The 191 features with a citation (Turkish; the other 11 are plain definitions with no source) |
+| **Source-number verification** | A number the source *published* was found and compared against our output. | 48 of 145 candidate report rows (Turkish) |
 
 The second layer is additional work, not a precondition for the first. A
 feature marked "🔍 open" does **not** have a questionable formula; no published
@@ -39,7 +39,7 @@ they rest on no source, so there is no source equation to match.
 ## First: not every feature can be verified
 
 This distinction is the most important part of the report. By definition,
-some of the 199 features are **not even candidates** for verification:
+some of the 202 features are **not even candidates** for verification:
 
 | | Why not a candidate |
 |---|---|
@@ -48,7 +48,7 @@ some of the 199 features are **not even candidates** for verification:
 | 🔧 **derivative** | The formula is from a source, **the application is ours**. `sent_len_entropy` is Shannon's entropy, but applying it to sentence lengths is ours; `long_sent_ratio`'s threshold comes from our own calibration. Nobody has published these measures — testing them against our own calibration would be reading our own answer sheet. |
 
 On the Turkish side **82 rows** are one of these three. That leaves
-**142 verification candidates**. That is the real denominator.
+**145 verification candidates**. That is the real denominator.
 
 ## The four statuses a candidate can have
 
@@ -59,8 +59,8 @@ On the Turkish side **82 rows** are one of these three. That leaves
 | 🔍 **open** | The source gives the formula but never applies it to anything. Verifiable, not yet verified. |
 | ❌ **mismatch** | An **unexplained** difference. **Release gate: a single one blocks a release.** |
 
-Where things stand today: **48 of the 142 candidates are done** (46 ✅ +
-2 🟡), 94 are 🔍 open.
+Where things stand today: **48 of the 145 candidates are done** (46 ✅ +
+2 🟡), 97 are 🔍 open.
 
 The tolerance is **1% of the published value** (relative). Sources print
 rounded intermediate values, so exact equality is not expected. A relative
@@ -91,7 +91,7 @@ step leading to it is correct.
 and its coefficients, not the pipeline. It is what is available when the
 source published no text.
 
-## Why 94 rows are still 🔍 open
+## Why 97 rows are still 🔍 open
 
 The source published the formula but never applied it to a text and printed
 the result. In quantitative linguistics this is **ordinary**. Yule (1944)
@@ -108,7 +108,7 @@ Which groups are verified follows from their genre, not from chance:
 |---|---|---|---|
 | `frequency_structure` | 22 | 0 | 2 |
 | `readability` | 13 | 1 | 2 |
-| `lexical` | 6 | 1 | 29 |
+| `lexical` | 6 | 1 | 30 |
 | `phonetic` | 0 | 0 | 11 |
 
 Readability formulas are **practical instruments** — their authors publish

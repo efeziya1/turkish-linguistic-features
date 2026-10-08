@@ -173,7 +173,7 @@ def test_pos_dagilim_hizalama_bozuksa_hata():
 def test_cumle_istatistikleri_elle():
     """Uzunluklar 2, 4 → ort 3, medyan 3; çarpıklık ve CV kalktı (Efe)."""
     sonuc = sentence_stats([["a", "b"], ["c", "d", "e", "f"]])
-    assert sonuc == {"sent_len_mean": 3.0, "sent_len_median": 3.0}
+    assert sonuc == {"sent_len_mean": 3.0, "sent_len_median": 3.0, "sent_count": 2.0}
 
 
 def test_kisa_uzun_cumle_orani_esik_kullanir():

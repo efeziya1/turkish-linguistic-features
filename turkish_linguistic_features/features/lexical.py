@@ -1,6 +1,6 @@
 """Sözcüksel temel: frekans tablosu ve klasik kelime zenginliği ölçütleri.
 
-Bu modül 32 öznitelik anahtarı üretir (`lexical` grubunun 34'ünden; kalan
+Bu modül 33 öznitelik anahtarı üretir (`lexical` grubunun 35'inden; kalan
 ``lemma_count`` ve ``word_count`` ``extractor``'da sayılır):
 
 - T04 (10): ``ttr`` · ``entropy`` · ``yule_k`` · ``simpson_d`` · ``brunet_w`` ·
@@ -13,6 +13,7 @@ Bu modül 32 öznitelik anahtarı üretir (`lexical` grubunun 34'ünden; kalan
 - T07 (6): ``zipf_exponent`` · ``zipf_r2`` · ``zipf_mandelbrot_q`` ·
   ``zipf_mandelbrot_s`` · ``wordfreq_mean`` · ``wordfreq_rare_ratio``
 - 2026-10-06 (4): ``cttr`` · ``summer_s`` · ``maas_a2`` · ``herdan_vm``
+- 2026-10-08 (1): ``honore_r``
 
 Bütün fonksiyonlar saftır: girdi token listesi, çıktı sayı. NLP modeli
 gerekmez — tokenizasyonu çağıran taraf yapmıştır.
@@ -424,6 +425,20 @@ def maas_a2(tokens: list[str]) -> dict[str, float]:
         return {"maas_a2": math.nan}
     V = len(set(tokens))
     return {"maas_a2": round((math.log(N) - math.log(V)) / math.log(N) ** 2, 6)}
+
+
+def honore_r(freqs: np.ndarray) -> dict[str, float]:
+    """Honoré'nin R'si ``100 · ln N / (1 − V1/V)`` (Honoré 1979, aktaran Tweedie & Baayen 1998
+    s.329, denk. 11). Bir kez geçen kelimelerin tipler içindeki payı arttıkça büyür.
+
+    Bütün tipler bir kez geçiyorsa (``V1 = V``) payda sıfır: NaN. Boşsa NaN (2026-10-08, Efe).
+    """
+    N = int(freqs.sum())
+    V = len(freqs)
+    V1 = int(np.sum(freqs == 1))
+    if N == 0 or V1 == V:
+        return {"honore_r": math.nan}
+    return {"honore_r": round(100 * math.log(N) / (1 - V1 / V), 6)}
 
 
 def herdan_vm(freqs: np.ndarray) -> dict[str, float]:

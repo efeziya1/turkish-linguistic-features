@@ -22,16 +22,16 @@ Köşe yazısı **tek bir tür**. Roman, teknik metin, transkript, şiir ya da
 kendi korpusunuzdan türetmeyi düşünün —
 [yöntem burada](../../esik-kalibrasyonu.md).
 
-### 2. On dört künye ikincil kaynaktan
+### 2. On beş künye ikincil kaynaktan
 
-163 künyenin **14'ü** `as cited in` ile işaretlidir — birincil kaynağa
+166 künyenin **15'i** `as cited in` ile işaretlidir — birincil kaynağa
 ulaşılamadı, formül aktaran kaynaktan alındı. Örnek:
 
 ```text
 Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)
 ```
 
-Etkilenen ölçüler arasında `herdan_c`, `herdan_vm`, `maas_a2`, `brunet_w`,
+Etkilenen ölçüler arasında `herdan_c`, `herdan_vm`, `honore_r`, `maas_a2`, `brunet_w`,
 `dugast_u`, `simpson_d`, `heaps_beta`, `lix`, `cttr`, `summer_s` var. Formüller doğrulandı ama **birincil
 kaynağın kendi ifadesiyle** karşılaştırılmadı.
 
@@ -87,11 +87,11 @@ Tekrar üretilebilir sayılar için tohumu Python başlamadan sabitleyin, örne�
 
 82 satır doğrulama adayı bile değil (saf tanım, etiket şeması ya da
 bizim türevimiz).
-Kalan **142 adayın 48'i** bitmiş (46 ✅ + 2 🟡), **94'ü 🔍 açık**.
+Kalan **145 adayın 48'i** bitmiş (46 ✅ + 2 🟡), **97'ü 🔍 açık**.
 
 Sebebi [doğrulama sistemi](dogrulama.md) sayfasında: kaynakların çoğu
 formülü yayımlar, o formülün uygulandığı bir sayısal örnek vermez. Bu
-özellikle `lexical` grubunda belirgin — 36 adayın 7'si doğrulanmış.
+özellikle `lexical` grubunda belirgin — 37 adayın 7'si doğrulanmış.
 
 ### 6. Paket henüz PyPI'da değil
 

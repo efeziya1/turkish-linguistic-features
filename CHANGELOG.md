@@ -3,21 +3,25 @@
 ## [Unreleased]
 
 This release renames and removes feature keys; tables built with 0.1.0 will not line up
-column for column. Keys: Turkish 208 → 199, English 180 → 172. Cited features: Turkish
-141 → 188, English 116 → 161; 11 keys in each language are plain definitions without a source.
+column for column. Keys: Turkish 208 → 202, English 180 → 175. Cited features: Turkish
+141 → 191, English 116 → 164; 11 keys in each language are plain definitions without a source.
 
 ### Added
 
-- `word_count` (`lexical`): the number of words in the text, by the library's word (see
-  Changed). Cites de Vel (2000) Table 2, attribute 1, and Zheng et al. (2006) Table 3, no. 54.
+- Three counts: `word_count` (`lexical`), `sent_count` (`sentence`) and `char_count`
+  (`punctuation`): words by the library's word, sentences by its sentence rule, characters
+  with whitespace. Divide other counts by them to compare texts of different length. Cite de
+  Vel (2000) Table 2, attributes 1, 3 and 8, and Zheng et al. (2006) Table 3, nos. 54, 247
+  and 1.
 - `ngram_matches(text, phrase, lang="tr")`: what one `custom_ngrams` phrase matched, with
   counts, most frequent first: `{"kadın geldi": 2, "kadın güldü": 1}`. The matching is the
   one `analyze` uses, so the counts add up to the phrase's `ngram_{...}_count`. The public API
   has eleven names.
-- Four lexical richness measures: `cttr` (Carroll's corrected TTR), `summer_s` (Summer's S),
-  `maas_a2` (Maas' a²) and `herdan_vm` (Herdan's Vm). Citations: Carroll (1964) and Somers
-  (1966) as cited in Torruella & Capsada (2013) p.448; Maas (1972) and Herdan (1955) as cited
-  in Tweedie & Baayen (1998) eqs. (7) and (18).
+- Five lexical richness measures: `cttr` (Carroll's corrected TTR), `summer_s` (Summer's S),
+  `maas_a2` (Maas' a²), `herdan_vm` (Herdan's Vm) and `honore_r` (Honoré's R, 100 · ln N /
+  (1 − V1/V)). Citations: Carroll (1964) and Somers (1966) as cited in Torruella & Capsada
+  (2013) p.448; Maas (1972), Herdan (1955) and Honoré (1979) as cited in Tweedie & Baayen
+  (1998) eqs. (7), (18) and (11).
 - `describe_feature(key)["definitions"]`: for every term the `formula` uses (`sentence`,
   `word`, `type`, `syllable`, `pos_tag` … 21 terms), the rule the library counts it with, who
   defines that rule (`tlf`, `spacy`, `zeyrek`, `textstat`, `wordfreq`) and one sentence on
@@ -84,7 +88,7 @@ column for column. Keys: Turkish 208 → 199, English 180 → 172. Cited feature
 - **`custom_ngrams`** keys are `ngram_{...}_count` and the value is the number of matches, not
   matches per window. A phrase item written as an UPPERCASE UD tag (`NOUN`, `VERB` …) matches
   any word with that tag: `["kadın", "VERB"]` counts "kadın" followed by a verb. Matches stay
-  inside a sentence.
+  inside a sentence. An empty text gives `nan`, like every other feature.
 - **Natural logarithm everywhere.** `dugast_u`, `lambda_pa`, `adjusted_modulus` (were log₁₀)
   and `entropy`, `punct_entropy`, `sent_len_entropy`, `zeyrek_suffix_bigram_entropy`, `posdiv`
   (were log₂) change by a constant factor; the ranking of texts does not change. The scale
@@ -97,7 +101,7 @@ column for column. Keys: Turkish 208 → 199, English 180 → 172. Cited feature
   (Flesch 1948), `word_len_mean` (Mendenhall 1887), `sent_len_median` (Yule 1939),
   `hapax_ratio` (de Vel 2000), the letter and punctuation shares (Zheng et al. 2006) and
   `yule_k`, which now cites Yule (1944) itself. Where the library's definition differs from
-  the source, the citation says so. Bibliography 45 → 55 works.
+  the source, the citation says so. Bibliography 45 → 56 works.
 - **Verification tolerance** is 1% of the published value instead of a fixed 0.05. One row
   moves from ✅ to 🟡 with its reason written out (`ttr`, QUITA Text 2, a misprint in the
   source). Turkish report: 46 ✅ + 2 🟡; English: 35 ✅ + 3 🟡; no ❌.

@@ -57,9 +57,9 @@ BOS_GIRDI = dict(raw_text="", surface_tokens=[], lemma_tokens=[], pos_data=[],
                  sentences_as_tokens=[], morpheme_lists=[], morph_tags=[], lang="tr")
 
 # Sözleşme §6'dan türetilmiş beklenti — koddan ölçülmedi.
-# TR taban 199; `dep_data` verilmediği için `syntactic_dep` (16) atlanır.
-TR_DEP_SIZ = 199 - 16
-EN_DEP_SIZ = 172 - 16
+# TR taban 202; `dep_data` verilmediği için `syntactic_dep` (16) atlanır.
+TR_DEP_SIZ = 202 - 16
+EN_DEP_SIZ = 175 - 16
 
 
 # ── 🔴 registry tutarlılık testi — projenin sigortası ─────────────────
@@ -220,6 +220,12 @@ def test_bos_metin_cokmez():
     sonuc = _extract_features(**BOS_GIRDI)
     assert len(sonuc) > 0
     assert all(isinstance(v, float) for v in sonuc.values())
+
+
+def test_bos_metinde_ngram_sayimi_nan():
+    """Boş metin ölçülemez (K4); n-gram sayımı da `word_count` gibi NaN döner."""
+    oz = _extract_features(**BOS_GIRDI, custom_ngrams=[["NOUN"]])
+    assert math.isnan(oz["ngram_NOUN_count"])
 
 
 def test_bos_metinde_olculebilen_yok():

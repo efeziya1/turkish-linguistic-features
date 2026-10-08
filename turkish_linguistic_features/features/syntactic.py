@@ -3,7 +3,7 @@
 Bu modül T11'in anahtarlarını üretir:
 
 - ``pos`` (12): ``pos_noun_ratio`` … ``pos_intj_ratio``
-- ``sentence`` (6) ve ``paragraph`` (2)
+- ``sentence`` (7) ve ``paragraph`` (2)
 - ``syntactic`` grubunun 5'i: ``verb_dist_mean``, ``activity_ratio``,
   ``lexical_density``, ``posddev``, ``posdiv`` (kalan 2'si T12:
   ``question_sent_ratio``, ``pronoun_ratio``)
@@ -206,7 +206,7 @@ def pos_distribution_stats(pos_data: list[tuple[str, str]],
 
 
 def sentence_stats(cumleler: list[list[str]]) -> dict[str, float]:
-    """Cümle uzunluğu (**kelime** sayısı): ortalama ve medyan.
+    """Cümle uzunluğu (**kelime** sayısı): ortalama, medyan ve cümle sayısı.
 
     Uzunluk ``_cumle_kelimeleri`` üzerinden ölçülür — noktalama tokenı
     kelime sayılmaz, alfabesiz cümle cümle sayılmaz. Cümle yoksa NaN.
@@ -215,11 +215,13 @@ def sentence_stats(cumleler: list[list[str]]) -> dict[str, float]:
     """
     kelimeler = _cumle_kelimeleri(cumleler)
     if not kelimeler:
-        return {"sent_len_mean": math.nan, "sent_len_median": math.nan}
+        return {"sent_len_mean": math.nan, "sent_len_median": math.nan, "sent_count": math.nan}
     u = np.array([len(c) for c in kelimeler], dtype=np.float64)
     return {
         "sent_len_mean": round(float(u.mean()), 4),
         "sent_len_median": round(float(np.median(u)), 4),
+        # Cümle sayısı (2026-10-08, Efe): ortalamanın saydığı cümleler, harfsiz olan sayılmaz.
+        "sent_count": float(len(kelimeler)),
     }
 
 

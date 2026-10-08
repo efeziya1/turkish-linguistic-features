@@ -1,4 +1,4 @@
-"""Registry metin tabloları — 174 statik anahtarın açıklaması, formülü,
+"""Registry metin tabloları — 177 statik anahtarın açıklaması, formülü,
 ölçüm şartı ve künyesi.
 
 Bu dosya **veridir**, mantık içermez. ``registry.py``'den ayrı durmasının
@@ -64,6 +64,7 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'summer_s': "Summer's S, log-log type-token ratio",
     'maas_a2': "Maas' a²; higher = more repetitive",
     'herdan_vm': "Herdan's Vm; higher = more repetitive",
+    'honore_r': "Honoré's R; higher = more words used once, richer vocabulary",
     'heaps_beta': 'vocabulary growth rate',
     'entropy': 'Shannon entropy of word frequencies',
     'yule_k': "Yule's K; higher = more repetitive",
@@ -96,6 +97,7 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'secondary_thematic_concentration': 'weight of content words up to rank 2h',
     # ── sentence ────────────────────────────────────────────────
     'sent_len_mean': 'mean sentence length in words',
+    'sent_count': 'number of sentences',
     'sent_len_char_mean': 'mean sentence length in characters',
     'short_sent_ratio': 'share of short sentences',
     'long_sent_ratio': 'share of long sentences',
@@ -227,6 +229,7 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'punct_char_ratio': 'share of punctuation marks among characters',
     'punct_entropy': 'variety of punctuation types',
     'consecutive_punct_ratio': 'share of marks directly next to another mark',
+    'char_count': 'number of characters',
     'whitespace_ratio': 'share of whitespace characters',
     'punct_variety': 'number of punctuation types used (0–10)',
     'uppercase_ratio': 'share of capitalised words',
@@ -239,7 +242,7 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
 
 # Anahtar → NASIL hesaplandığı. Anahtarın kendi satırı yoksa describe_feature
 # grup adındaki satıra düşer; bu yalnız dinamik gruplarda (chars, custom_ngrams)
-# var, 174 statik anahtarın hepsinin kendi satırı var.
+# var, 177 statik anahtarın hepsinin kendi satırı var.
 FEATURE_FORMULAS: dict[str, str] = {
     # ── lexical ─────────────────────────────────────────────────
     'lemma_count': 'V over lemmas',
@@ -260,6 +263,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'summer_s': 'ln(ln V) / ln(ln N)',
     'maas_a2': '(ln N - ln V) / (ln N)^2',
     'herdan_vm': 'sqrt(sum(f^2) / N^2 - 1 / V)',
+    'honore_r': '100 * ln N / (1 - V1 / V)',
     'heaps_beta':
         'least-squares slope of log V ~ log N over prefixes every heaps_step words, not '
         'clipped',
@@ -296,6 +300,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'secondary_thematic_concentration': "sum((2h - r') f(r')) / (h(2h-1) f1), r' <= 2h",
     # ── sentence ────────────────────────────────────────────────
     'sent_len_mean': 'mean words per sentence',
+    'sent_count': 'sentences',
     'sent_len_char_mean': 'mean len(tokens joined by single spaces)',
     'short_sent_ratio': 'sentences with fewer than short_sent_threshold words / sentences',
     'long_sent_ratio': 'sentences with more than long_sent_threshold words / sentences',
@@ -435,6 +440,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'punct_char_ratio': 'marks / characters',
     'punct_entropy': 'Shannon entropy (nats) of the 10 mark types',
     'consecutive_punct_ratio': 'adjacent marks / marks',
+    'char_count': 'characters, whitespace and line breaks included',
     'whitespace_ratio': 'whitespace / characters',
     'punct_variety': 'distinct mark types',
     'uppercase_ratio': 'words whose first letter is upper case / words with a letter',
@@ -468,6 +474,7 @@ FEATURE_REQUIRES: dict[str, str] = {
     'summer_s': 'at least 3 words and 2 distinct words',
     'maas_a2': 'at least 2 words',
     'herdan_vm': 'at least 1 word',
+    'honore_r': 'at least 1 word occurring more than once',
     'heaps_beta': 'at least 300 words (heaps_min_tokens)',
     'entropy': 'at least 1 word',
     'yule_k': 'at least 1 word',
@@ -500,6 +507,7 @@ FEATURE_REQUIRES: dict[str, str] = {
     'secondary_thematic_concentration': 'at least 1 word',
     # ── sentence ────────────────────────────────────────────────
     'sent_len_mean': 'at least 1 sentence with a letter',
+    'sent_count': 'at least 1 sentence with a letter',
     'sent_len_char_mean': 'at least 1 sentence',
     'short_sent_ratio': 'at least 1 sentence with a letter',
     'long_sent_ratio': 'at least 1 sentence with a letter',
@@ -631,6 +639,7 @@ FEATURE_REQUIRES: dict[str, str] = {
     'punct_char_ratio': 'non-empty text',
     'punct_entropy': 'at least 1 punctuation mark',
     'consecutive_punct_ratio': 'at least 1 punctuation mark',
+    'char_count': 'non-empty text',
     'whitespace_ratio': 'non-empty text',
     'punct_variety': 'non-empty text',
     'uppercase_ratio': 'at least 1 word with a letter',
@@ -638,7 +647,7 @@ FEATURE_REQUIRES: dict[str, str] = {
     # ── chars (dinamik grup) ───────────────────────────────────────
     'chars': 'at least 1 alphabet letter',
     # ── custom_ngrams (dinamik grup) ───────────────────────────────
-    'custom_ngrams': 'none (0 when the phrase is longer than every sentence)',
+    'custom_ngrams': 'non-empty text (0 when the phrase is longer than every sentence)',
 }
 
 # Anahtar → literatür künyesi. Burada olmayan anahtarın künyesi YOKTUR;
@@ -685,6 +694,7 @@ FEATURE_CITATIONS: dict[str, str] = {
         'which reproduces the values in Torruella & Capsada (2013) Table 1; all logarithms in '
         'this library are natural',
     'herdan_vm': 'Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18)',
+    'honore_r': 'Honoré (1979), as cited in Tweedie & Baayen (1998) p.329, eq. (11)',
     'heaps_beta': 'Heaps (1978), as cited in Manning et al. (2008) §5.1.1',
     # Shannon entropisi beş anahtarda kullanılıyor. Formülün kaynağı hepsinde
     # aynı (Shannon 1948); ayrıldıkları yer formülün NEYE uygulandığı. Künye
@@ -960,6 +970,12 @@ FEATURE_CITATIONS: dict[str, str] = {
     'word_count':
         'de Vel (2000) Table 2, attribute 1 "Total number of words"; Zheng et al. (2006) '
         'Table 3, p.385, no. 54 "Total number of words (M)"',
+    'sent_count':
+        'de Vel (2000) Table 2, attribute 3 "Number of sentences"; Zheng et al. (2006) Table 3, '
+        'p.385, no. 247 "Total number of sentences"',
+    'char_count':
+        'de Vel (2000) Table 2, attribute 8 "Number of characters"; Zheng et al. (2006) Table 3, '
+        'p.385, no. 1 "Total number of characters (C)"',
     'whitespace_ratio':
         'de Vel et al. (2001) Table 2, p.60 "Total number of white-space characters/C"',
     'punct_char_ratio': 'de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C"',
@@ -1091,6 +1107,10 @@ BIBLIOGRAPHY: dict[str, str] = {
     'Herdan (1960/1964)':
         'Herdan, G. (1960). Type-Token Mathematics. The Hague: Mouton. / Herdan, G. '
         '(1964). Quantitative Linguistics. London: Butterworths.',
+    'Honoré (1979)':
+        'Honoré, A. (1979). Some simple measures of richness of vocabulary. Association for '
+        'Literary and Linguistic Computing Bulletin, 7(2), 172–177. The record was verified from '
+        'the reference list of Tweedie & Baayen (1998). The primary source could not be obtained.',
     'Jing & Liu (2015)':
         'Jing, Y., & Liu, H. (2015). Mean hierarchical distance: Augmenting mean '
         'dependency distance. Proceedings of Depling 2015, Uppsala, 161–170.',

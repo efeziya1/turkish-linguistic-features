@@ -20,14 +20,14 @@ len(kisa), len(nan_olan)
 ```
 
 ```text
-(199, 36)
+(202, 37)
 ```
 
-199 öznitelikten **36'sı** `nan`. Örnekler:
+202 öznitelikten **37'si** `nan`. Örnekler:
 
 ```text
 ['aspect_imp_ratio', 'aspect_perf_ratio', 'aspect_prog_ratio', 'dugast_u',
- 'hdd', 'heaps_beta', 'mattr', 'msttr']
+ 'hdd', 'heaps_beta', 'honore_r', 'mattr']
 ```
 
 Aynı metinde `ttr` yine de sayı döner:
@@ -143,7 +143,7 @@ parçalama:
 satirlar = tlf.analyze_corpus("korpus/", lang="tr", segment_size=1000)
 ```
 
-1000 kelimelik parçalar 199 özniteliğin neredeyse tamamını besler. Ayrıntı:
+1000 kelimelik parçalar 202 özniteliğin neredeyse tamamını besler. Ayrıntı:
 [Metni parçalara böl](../nasil/segmentleme.md).
 
 ## Neden `None` değil de `nan`
