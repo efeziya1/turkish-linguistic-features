@@ -216,7 +216,7 @@ sample counts. Eighteen fields; the full table is in
 | `LinguisticFeaturesError` | Base class for the library's own errors: missing language data, corpus files that are not UTF-8, an incompatible Zeyrek version |
 | `ModelNotFoundError` | Required language data is not installed: a spaCy model, or NLTK's `cmudict` for English syllable counts. The message contains the install command |
 | `MissingDependencyWarning` | The optional `wordfreq` package is missing; the two `wordfreq_*` features return `nan` |
-| `ParagraphStructureWarning` | A text over 1000 words has no blank-line paragraph boundary; the two `para_*` features describe the whole text as one paragraph |
+| `ParagraphStructureWarning` | A text over 1000 words has no blank-line paragraph boundary; the three `paragraph` features (`para_count`, `para_len_mean`, `sents_per_para_mean`) describe the whole text as one paragraph |
 
 Catching `LinguisticFeaturesError` catches these. An invalid argument raises
 Python's own error instead: `ValueError` for an unsupported `lang` or a

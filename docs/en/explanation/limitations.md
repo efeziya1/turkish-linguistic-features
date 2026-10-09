@@ -128,12 +128,13 @@ in the source and find.
 
 ### 8. Paragraph features depend on how the input is formatted
 
-The two `para_*` features find paragraph boundaries from **blank lines**. A
+The three `paragraph` features (`para_count`, `para_len_mean`,
+`sents_per_para_mean`) find paragraph boundaries from **blank lines**. A
 single line break does not count as one — otherwise every line of a
 hard-wrapped text would be a paragraph.
 
 The consequence: if your text has no blank lines, the whole text counts as one
-paragraph. `para_len_mean` becomes the word count of the entire text. The
+paragraph: `para_count` is 1 and `para_len_mean` becomes the word count of the entire text. The
 library cannot fix this — a boundary that was deleted
 cannot be recovered.
 

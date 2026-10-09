@@ -125,12 +125,13 @@ olduğunu ima ediyor.
 
 ### 8. Paragraf öznitelikleri girdinin biçimlendirmesine bağlı
 
-İki `para_*` özniteliği paragraf sınırını **boş satırdan** bulur. Tek satır
+`paragraph` grubunun üç özniteliği (`para_count`, `para_len_mean`,
+`sents_per_para_mean`) paragraf sınırını **boş satırdan** bulur. Tek satır
 sonu paragraf saymaz — aksi hâlde satır satır sarılmış bir metinde her satır
 paragraf olurdu.
 
 Sonuç: metninizde boş satır yoksa metnin tamamı tek paragraf sayılır.
-`para_len_mean` bütün metnin sözcük sayısına eşitlenir.
+`para_count` 1 olur, `para_len_mean` bütün metnin sözcük sayısına eşitlenir.
 Kütüphane bunu düzeltemez — silinmiş paragraf sınırı geri getirilemez.
 
 Bu, PDF ve EPUB'dan çıkarılmış metinlerde **yaygındır**: paragraflar arasındaki

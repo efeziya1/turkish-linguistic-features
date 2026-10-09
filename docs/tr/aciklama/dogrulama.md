@@ -165,13 +165,14 @@ basmış — doğrulama için elde olabilecek en iyi malzeme. 18 parçanın heps
 boru hattımızdan geçirdik.
 
 **Sapma ne kadar?** Pasaj başına mutlak farkların ortalaması **0,54 ARI
-puanı**. Raporda görünen −0,485 başka bir sayıdır: kaynağın Tablo 1'de
+puanı**. Raporda görünen −0,537 başka bir sayıdır: kaynağın Tablo 1'de
 bastığı ortalama (12,3) ile bizim 18 pasajlık ortalamamız arasındaki fark.
-Yayımlanan değere oranı yaklaşık %3,9 (0,485 ÷ 12,3); %1 toleransın çok üstünde, yani ✅ olamıyor.
+Yayımlanan değere oranı yaklaşık %4,4 (0,537 ÷ 12,3); %1 toleransın çok üstünde, yani ✅ olamıyor.
 
 **Neden ❌ değil?** Çünkü sapmanın nereden geldiğini tahmin etmedik, ölçtük.
-Her iki formülün girdisi "sözcük başına vuruş" (boşluk dışı her karakter: harf, rakam ve noktalama), ve
-1975'te bu sayım elle yapılıyordu: daktiloya takılı mekanik bir sayaçla. Farkın
+ARI'nin girdisi "sözcük başına vuruş" (boşluk dışı her karakter: harf, rakam ve
+noktalama), ve 1975'te bu sayım elle yapılıyordu: daktiloya takılı mekanik bir
+sayaçla. Farkın
 oradan gelip gelmediğini şöyle sınadık: kaynağın bastığı sayıyı verecek vuruş
 miktarı bizimkinin kaç katı olmalıydı? 18 parçanın 17'sinde cevap
 **0,996–1,041 katı** — yani parça başına birkaç karakter. Elle sayımda beklenen
@@ -182,6 +183,10 @@ büyüklük bu.
 başlıklarını saymak ise 18 parçanın hepsinde sonucu kötüleştiriyor (yani kaynak
 başlıkları saymamış). Bir parça da kendi içinde tutarsız: 2 numaralı parçada
 kaynağın ARI'sının ima ettiği tümce uzunluğu, kendi FKGL'sini tutturmuyor.
+
+FKGL vuruş kullanmaz, sözcük başına heceyi kullanır. Onun sapması tek bir
+parçada toplanıyor: 18 parçanın 15'inde fark 0,6'nın altında, 12 numaralı
+parçada −4,28; iki ortalama arasındaki fark 0,37 sınıf düzeyi.
 
 Parça bazında bütün sayılar — vuruş ve sözcük sayıları dâhil — raporun sonundaki
 ek tabloda duruyor, farkın hangi girdiden geldiği görülebilsin diye.

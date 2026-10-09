@@ -7,7 +7,7 @@ kütüphanenin hatalarını yakalayabilsin, ama `except OSError` yazan mevcut ko
 🔴 **Hata metinleri İngilizcedir** (2026-09-24, Efe) — uyarılarla aynı kural,
 bkz. `_warnings.py`. Kod içi yorum ve docstring Türkçe kalıyor; `raise` içine
 yazılan metin İngilizce. Kapsam yalnız bu dosyadaki tipler değil: paket
-içindeki bütün `raise` çağrıları (25 metin, 11 dosya) ve `show_progress=True`
+içindeki bütün `raise` çağrıları (34 metin, 14 dosya) ve `show_progress=True`
 çıktısı. Yeni bir hata eklerken metnini İngilizce yaz.
 """
 
