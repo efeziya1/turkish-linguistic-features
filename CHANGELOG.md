@@ -34,6 +34,9 @@ column for column. Keys: Turkish 208 (the same number, not the same keys), Engli
 
 ### Changed
 
+- `analyze_corpus` still stops at the first segment it cannot analyse, but the `ValueError` now
+  names that segment's `label`, `source` and `segment_id`; the original error is its `__cause__`.
+- Python 3.13 is tested in CI and listed in the package classifiers.
 - **Key names.** A name now says what the feature measures: a share between 0 and 1 ends in
   `_ratio` unless the measure has an established name (`ttr`, `hdd`, `lexical_density`);
   means and medians end the key; one family, one prefix. Values do not change.

@@ -124,3 +124,19 @@ def test_varsayilan_kisa_dosyayi_atmaz(tmp_path):
     (tmp_path / "A_kisa.txt").write_text(
         "Kedi bahçede oturdu ve uzun uzun etrafı seyretti.", encoding="utf-8")
     assert len(analyze_corpus(tmp_path, lang="tr")) == 1
+
+
+def test_hata_parcanin_kaynagini_soyluyor(tmp_path, monkeypatch):
+    """Korpus ilk hatada durur ama hangi parçada durduğunu söyler; tip ValueError kalır."""
+    import turkish_linguistic_features._corpus as korpus_modulu
+
+    _korpus_yaz(tmp_path)
+    asil = ValueError("lemma_tokens (3) is not aligned")
+
+    def bozuk_analyze(metin, **_):
+        raise asil
+
+    monkeypatch.setattr(korpus_modulu, "analyze", bozuk_analyze)
+    with pytest.raises(ValueError, match=r"label='Anlatı', source='bir', segment 0: lemma") as bilgi:
+        analyze_corpus(tmp_path, lang="tr")
+    assert bilgi.value.__cause__ is asil

@@ -47,7 +47,7 @@ jobs:
       fail-fast: false                    # biri kırılsa da ötekiler sonuna kadar koşsun
       matrix:                             # aşağıdaki her birleşim ayrı bir makinede
         os: [ubuntu-latest]
-        python-version: ["3.10", "3.11", "3.12"]
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
         include:                          # + Windows: zeyrek/spaCy import sırası Windows'a özgü
           - os: windows-latest
             python-version: "3.11"
