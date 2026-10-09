@@ -193,7 +193,7 @@ passages the answer is **0.996–1.041 times** — a handful of characters per
 passage. That is the size you expect from hand counting.
 
 Two alternative explanations were tested and ruled out: counting spaces as
-strokes pushes the deviation from 0.54 to 4.24 (so our space-excluding count is
+strokes pushes the deviation from 0.54 to 4.32 (so our space-excluding count is
 the right one), and counting the passage headings makes the result worse in all
 18 (so the source did not count them). One passage is also internally
 inconsistent: in passage 2 the sentence length implied by the source's ARI does

@@ -125,7 +125,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 **`ttr` sapması:** Kaynağın kendi sayıları (V=121, N=202) 121/202 = 0,599 verir; basılan 0,590 bu aritmetikle tutmuyor (baskı hatası). Bizim değer aritmetiğe uyuyor; fark yayımlanan değerin %1,5'i.
 
-**`ari` sapması:** Kaynağın sayıları 1975'te daktiloya takılı mekanik bir sayaçla **elle** üretildi (Ek B, ARI talimatı). 18 pasajın 17'sinde, kaynağın ARI'sını verecek vuruş sayısı bizim saydığımızın 0,996-1,041 katı — yani birkaç karakterlik fark. Pasaj 2 aykırı (oran 1,145) ve kaynağın kendi iki sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/sözcük 6,269 gerektiriyor, metnin gerçek değeri 5,475; üstelik o ARI'nın ima ettiği sözcük/tümce FKGL'yi 18,69 yapıyor, oysa Tablo 2 16,7 basmış. Bizim vuruş tanımımız ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten 4,24'e çıkarıyor, yani boşluksuz sayım doğru.
+**`ari` sapması:** Kaynağın sayıları 1975'te daktiloya takılı mekanik bir sayaçla **elle** üretildi (Ek B, ARI talimatı). 18 pasajın 17'sinde, kaynağın ARI'sını verecek vuruş sayısı bizim saydığımızın 0,996-1,041 katı — yani birkaç karakterlik fark. Pasaj 2 aykırı (oran 1,145) ve kaynağın kendi iki sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/sözcük 6,270 gerektiriyor, metnin gerçek değeri 5,475; üstelik o ARI'nın ima ettiği sözcük/tümce FKGL'yi 18,70 yapıyor, oysa Tablo 2 16,7 basmış. Bizim vuruş tanımımız ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten 4,32'ye çıkarıyor, yani boşluksuz sayım doğru.
 
 **`bezirci_yilmaz` sapması:** Makale H6 ara değerini yuvarlamış; fark 0,031 ve iki değer de aynı okunabilirlik sınıfına düşüyor (akademik, 16+).
 
@@ -396,7 +396,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 **`ttr` sapması:** Kaynağın kendi sayıları (V=121, N=202) 121/202 = 0,599 verir; basılan 0,590 bu aritmetikle tutmuyor (baskı hatası). Bizim değer aritmetiğe uyuyor; fark yayımlanan değerin %1,5'i.
 
-**`ari` sapması:** Kaynağın sayıları 1975'te daktiloya takılı mekanik bir sayaçla **elle** üretildi (Ek B, ARI talimatı). 18 pasajın 17'sinde, kaynağın ARI'sını verecek vuruş sayısı bizim saydığımızın 0,996-1,041 katı — yani birkaç karakterlik fark. Pasaj 2 aykırı (oran 1,145) ve kaynağın kendi iki sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/sözcük 6,269 gerektiriyor, metnin gerçek değeri 5,475; üstelik o ARI'nın ima ettiği sözcük/tümce FKGL'yi 18,69 yapıyor, oysa Tablo 2 16,7 basmış. Bizim vuruş tanımımız ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten 4,24'e çıkarıyor, yani boşluksuz sayım doğru.
+**`ari` sapması:** Kaynağın sayıları 1975'te daktiloya takılı mekanik bir sayaçla **elle** üretildi (Ek B, ARI talimatı). 18 pasajın 17'sinde, kaynağın ARI'sını verecek vuruş sayısı bizim saydığımızın 0,996-1,041 katı — yani birkaç karakterlik fark. Pasaj 2 aykırı (oran 1,145) ve kaynağın kendi iki sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/sözcük 6,270 gerektiriyor, metnin gerçek değeri 5,475; üstelik o ARI'nın ima ettiği sözcük/tümce FKGL'yi 18,70 yapıyor, oysa Tablo 2 16,7 basmış. Bizim vuruş tanımımız ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten 4,32'ye çıkarıyor, yani boşluksuz sayım doğru.
 
 **`flesch_kincaid_grade` sapması:** Aynı elle sayım kaynağı. Pasaj başına sapma 18'in 15'inde 0,6'nın altında; pasaj 12 aykırı (-4,28) ve o pasaj FRE bandını da tutturmuyor, yani sapma tek bir pasajda yoğunlaşıyor. Ortalamalar arasındaki fark 0,37 sınıf düzeyi — okunabilirlik sınıflandırmasını değiştirmeyecek kadar küçük.
 
