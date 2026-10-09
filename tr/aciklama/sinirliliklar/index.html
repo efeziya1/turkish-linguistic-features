@@ -2373,11 +2373,12 @@ kaynağını verin, ölçünün kendisini kaynağa mal etmeyin. Yöntem bölüm�
 uygulamadı. Birinci yazım okuyucuya, kaynakta aranınca bulunacak bir ölçü
 olduğunu ima ediyor.</p>
 <h3 id="8-paragraf-oznitelikleri-girdinin-bicimlendirmesine-bagl">8. Paragraf öznitelikleri girdinin biçimlendirmesine bağlı<a class="headerlink" href="#8-paragraf-oznitelikleri-girdinin-bicimlendirmesine-bagl" title="Permanent link">&para;</a></h3>
-<p>İki <code>para_*</code> özniteliği paragraf sınırını <strong>boş satırdan</strong> bulur. Tek satır
+<p><code>paragraph</code> grubunun üç özniteliği (<code>para_count</code>, <code>para_len_mean</code>,
+<code>sents_per_para_mean</code>) paragraf sınırını <strong>boş satırdan</strong> bulur. Tek satır
 sonu paragraf saymaz — aksi hâlde satır satır sarılmış bir metinde her satır
 paragraf olurdu.</p>
 <p>Sonuç: metninizde boş satır yoksa metnin tamamı tek paragraf sayılır.
-<code>para_len_mean</code> bütün metnin sözcük sayısına eşitlenir.
+<code>para_count</code> 1 olur, <code>para_len_mean</code> bütün metnin sözcük sayısına eşitlenir.
 Kütüphane bunu düzeltemez — silinmiş paragraf sınırı geri getirilemez.</p>
 <p>Bu, PDF ve EPUB'dan çıkarılmış metinlerde <strong>yaygındır</strong>: paragraflar arasındaki
 boş satırlar çıkarım sırasında kaybolur. Değer <code>nan</code> olmadığı için bunu

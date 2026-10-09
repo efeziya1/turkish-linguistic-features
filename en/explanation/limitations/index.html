@@ -2376,11 +2376,12 @@ measure itself to that source. In your methods section:</p>
 sentence lengths. The first wording implies a measure the reader could look up
 in the source and find.</p>
 <h3 id="8-paragraph-features-depend-on-how-the-input-is-formatted">8. Paragraph features depend on how the input is formatted<a class="headerlink" href="#8-paragraph-features-depend-on-how-the-input-is-formatted" title="Permanent link">&para;</a></h3>
-<p>The two <code>para_*</code> features find paragraph boundaries from <strong>blank lines</strong>. A
+<p>The three <code>paragraph</code> features (<code>para_count</code>, <code>para_len_mean</code>,
+<code>sents_per_para_mean</code>) find paragraph boundaries from <strong>blank lines</strong>. A
 single line break does not count as one — otherwise every line of a
 hard-wrapped text would be a paragraph.</p>
 <p>The consequence: if your text has no blank lines, the whole text counts as one
-paragraph. <code>para_len_mean</code> becomes the word count of the entire text. The
+paragraph: <code>para_count</code> is 1 and <code>para_len_mean</code> becomes the word count of the entire text. The
 library cannot fix this — a boundary that was deleted
 cannot be recovered.</p>
 <p>This is <strong>common</strong> in text extracted from PDF and EPUB: blank lines between
