@@ -465,21 +465,21 @@ _KINCAID_GEREKCE_ARI = _iki(
     "üretildi (Ek B, ARI talimatı). 18 pasajın 17'sinde, kaynağın ARI'sını "
     "verecek vuruş sayısı bizim saydığımızın 0,996-1,041 katı — yani birkaç "
     "karakterlik fark. Pasaj 2 aykırı (oran 1,145) ve kaynağın kendi iki "
-    "sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/sözcük 6,269 "
+    "sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/sözcük 6,270 "
     "gerektiriyor, metnin gerçek değeri 5,475; üstelik o ARI'nın ima ettiği "
-    "sözcük/tümce FKGL'yi 18,69 yapıyor, oysa Tablo 2 16,7 basmış. Bizim "
+    "sözcük/tümce FKGL'yi 18,70 yapıyor, oysa Tablo 2 16,7 basmış. Bizim "
     "vuruş tanımımız ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten "
-    "4,24'e çıkarıyor, yani boşluksuz sayım doğru.",
+    "4,32'ye çıkarıyor, yani boşluksuz sayım doğru.",
     "The source's numbers were produced **by hand** in 1975 with a mechanical "
     "counter attached to a typewriter (Appendix B, ARI instructions). In 17 of "
     "the 18 passages, the stroke count that would yield the source's ARI is "
     "0.996-1.041 times ours — a difference of a few characters. Passage 2 is "
     "an outlier (ratio 1.145), and there the source's own two numbers "
-    "contradict each other: Table 1's ARI of 20.3 requires 6.269 strokes per "
+    "contradict each other: Table 1's ARI of 20.3 requires 6.270 strokes per "
     "word, while the text's actual value is 5.475; moreover, the words per "
-    "sentence implied by that ARI give an FKGL of 18.69, whereas Table 2 "
+    "sentence implied by that ARI give an FKGL of 18.70, whereas Table 2 "
     "printed 16.7. Our stroke definition was tested separately: counting "
-    "spaces raises the difference from 0.54 to 4.24, so counting without "
+    "spaces raises the difference from 0.54 to 4.32, so counting without "
     "spaces is correct.",
 )
 _KINCAID_GEREKCE_FKGL = _iki(

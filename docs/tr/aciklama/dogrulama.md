@@ -179,7 +179,7 @@ miktarı bizimkinin kaç katı olmalıydı? 18 parçanın 17'sinde cevap
 büyüklük bu.
 
 İki alternatif açıklama da sınandı ve elendi: boşlukları vuruşa katmak sapmayı
-0,54'ten 4,24'e çıkarıyor (yani bizim boşluksuz sayımımız doğru), metin
+0,54'ten 4,32'ye çıkarıyor (yani bizim boşluksuz sayımımız doğru), metin
 başlıklarını saymak ise 18 parçanın hepsinde sonucu kötüleştiriyor (yani kaynak
 başlıkları saymamış). Bir parça da kendi içinde tutarsız: 2 numaralı parçada
 kaynağın ARI'sının ima ettiği tümce uzunluğu, kendi FKGL'sini tutturmuyor.
