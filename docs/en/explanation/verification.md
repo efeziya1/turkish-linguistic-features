@@ -179,15 +179,15 @@ both the input and the answer — the best material verification can hope for. A
 18 went through our pipeline.
 
 **How large is the deviation?** The mean of the per-passage absolute
-differences is **0.54 ARI points**. The −0.485 shown in the report is a
+differences is **0.54 ARI points**. The −0.537 shown in the report is a
 different number: the gap between the mean the source printed in Table 1
 (12.3) and our mean over the 18 passages. Relative to the published
-value that is about 3.9% (0.485 ÷ 12.3), far above the 1% tolerance, so ✅ is out.
+value that is about 4.4% (0.537 ÷ 12.3), far above the 1% tolerance, so ✅ is out.
 
 **Why is it not ❌?** Because we did not guess where the deviation comes from, we
-measured it. Both formulas take "strokes per word" (every non-space character: letters, digits and punctuation) as an
-input, and in 1975 that count was made by hand, with a mechanical counter
-attached to a typewriter. We tested whether the difference sits there: how many
+measured it. ARI takes "strokes per word" (every non-space character: letters,
+digits and punctuation) as an input, and in 1975 that count was made by hand,
+with a mechanical counter attached to a typewriter. We tested whether the difference sits there: how many
 times our stroke count would the source's own number require? In 17 of the 18
 passages the answer is **0.996–1.041 times** — a handful of characters per
 passage. That is the size you expect from hand counting.
@@ -198,6 +198,10 @@ the right one), and counting the passage headings makes the result worse in all
 18 (so the source did not count them). One passage is also internally
 inconsistent: in passage 2 the sentence length implied by the source's ARI does
 not reproduce its own FKGL.
+
+FKGL does not use strokes; it uses syllables per word. Its deviation sits in a
+single passage: in 15 of the 18 the difference is below 0.6, passage 12 is off
+by −4.28, and the two means differ by 0.37 grade levels.
 
 Every number per passage — stroke and word counts included — sits in the
 appendix at the end of the report, so you can see which input a difference came

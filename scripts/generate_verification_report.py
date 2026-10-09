@@ -486,12 +486,12 @@ _KINCAID_GEREKCE_FKGL = _iki(
     "Aynı elle sayım kaynağı. Pasaj başına sapma 18'in 15'inde 0,6'nın "
     "altında; pasaj 12 aykırı (-4,28) ve o pasaj FRE bandını da tutturmuyor, "
     "yani sapma tek bir pasajda yoğunlaşıyor. Ortalamalar arasındaki fark "
-    "0,34 sınıf düzeyi — okunabilirlik sınıflandırmasını değiştirmeyecek "
+    "0,37 sınıf düzeyi — okunabilirlik sınıflandırmasını değiştirmeyecek "
     "kadar küçük.",
     "Same hand-counting source. The per-passage deviation is below 0.6 in 15 "
     "of the 18 passages; passage 12 is an outlier (-4.28) and also misses its "
     "FRE band, so the deviation is concentrated in a single passage. The "
-    "difference between the means is 0.34 grade levels — too small to change "
+    "difference between the means is 0.37 grade levels — too small to change "
     "the readability classification.",
 )
 
