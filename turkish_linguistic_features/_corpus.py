@@ -100,6 +100,10 @@ def analyze_corpus(path: str | Path, lang: str = "tr",
     ModelNotFoundError
         Dil modeli ya da (İngilizce) ``cmudict`` kurulu değilse; mesaj kurulum
         komutunu içerir. Korpus okunmadan önce denetlenir.
+    ValueError
+        Bir parça analiz edilemezse ilk hatada durur; mesaj parçanın
+        ``label``, ``source`` ve ``segment_id`` değerini söyler, asıl hata
+        ``__cause__``'da.
 
     See Also
     --------
@@ -115,10 +119,21 @@ def analyze_corpus(path: str | Path, lang: str = "tr",
     for i, kayit in enumerate(kayitlar, 1):
         if show_progress:
             print(f"  [{i}/{len(kayitlar)}] {kayit['source']} #{kayit['segment_id']}")
-        oznitelikler = analyze(str(kayit["text"]), lang=lang, model=model,
-                               groups=groups, params=params,
-                               custom_ngrams=custom_ngrams,
-                               show_progress=False, warn=warn)
+        # Parça parça `analyze`, toplu `nlp.pipe()` değil: ölçüldü (2026-10-09, Efe), toplam süreyi
+        # TR'de %1,6, EN'de %4 kısaltıyordu; süre Zeyrek'te ve öznitelik hesabında. Bu yüzden
+        # `Preprocessor.process_many` kaldırıldı.
+        # Hata korpusu atlamadan durdurur (yarım tablo sessizce eksilmesin), ama
+        # hangi parçada durduğunu söyler; tip aynı kalır (2026-10-09, Efe).
+        try:
+            oznitelikler = analyze(str(kayit["text"]), lang=lang, model=model,
+                                   groups=groups, params=params,
+                                   custom_ngrams=custom_ngrams,
+                                   show_progress=False, warn=warn)
+        except ValueError as hata:
+            raise ValueError(
+                f"while analysing label={kayit['label']!r}, source={kayit['source']!r}, "
+                f"segment {kayit['segment_id']}: {hata}"
+            ) from hata
         satirlar.append({"label": kayit["label"], "source": kayit["source"],
                          "segment_id": kayit["segment_id"], **oznitelikler})
     return satirlar

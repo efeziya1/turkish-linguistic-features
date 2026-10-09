@@ -125,14 +125,6 @@ def test_uzun_metin_parcalanarak_isleniyor():
     assert sum(len(s) for s in pt.sentences_as_tokens) == len(pt.surface_tokens)
 
 
-@tr_model
-def test_process_many():
-    metinler = ["Ali kitabı okudu.", "Ayşe bahçede oynuyor."]
-    sonuc = Preprocessor(lang="tr").process_many(metinler)
-    assert len(sonuc) == 2
-    assert [pt.raw_text for pt in sonuc] == metinler
-
-
 # ── İngilizce ─────────────────────────────────────────────────────────
 
 
@@ -173,7 +165,7 @@ def test_ingilizce_model_hatasi_spacy_download_diyor():
 def test_chunk_chars_imzada_gecmiyor():
     """Uzun metnin kaç karakterde bölündüğü kullanıcının bilmesi gereken bir şey değil."""
     import inspect
-    for fn in (Preprocessor.__init__, Preprocessor.process, Preprocessor.process_many):
+    for fn in (Preprocessor.__init__, Preprocessor.process):
         assert "chunk_chars" not in inspect.signature(fn).parameters
 
 

@@ -325,7 +325,9 @@ def english_readability_formulas(raw_text: str, surface_tokens: list[str]) -> di
     - FKGL = 0.39·(kelime/cümle) + 11.8·(hece/kelime) − 15.59
       İkisinde sembol kelime, ``;`` cümle sonu (Kincaid talimatı; ``:`` hariç).
     - SMOG = 3.1291 + 1.0430·√p, p = 30 cümleye düşen 3+ heceli kelime
-      (Tablo 1, denklem d). Kelime = harf ya da rakam dizisi, cümle ``. ? !``.
+      (Tablo 1, denklem d). Kelime = varsayılan kelime (harf ya da rakam içeren
+      boşluk birimi, sembol sayılmaz); cümle varsayılan kuraldan: ``. ? ! …`` her
+      zaman, ``:`` yalnız ardından yeni cümle başlıyorsa.
       30 cümleden kısa metinde NaN (2026-09-16, Efe).
     - polysyllabic_word_ratio = 3+ heceli kelime / hecelenebilen kelime
       (SMOG'un kelime ve hece tanımıyla).
@@ -367,7 +369,8 @@ def general_readability_formulas(
     - lix = kelime/cümle + 100·uzun kelime/kelime; uzun = 7 veya daha fazla harf
     - long_word_ratio = uzun kelime / kelime (LIX'in tanımı)
 
-    Dördünde de cümle ``. ? !``.
+    Cümle sayan üçünde (ARI, Coleman-Liau, LIX) cümle varsayılan kuraldan: ``. ? ! …``
+    her zaman, ``:`` yalnız ardından yeni cümle başlıyorsa.
     """
     kelimeler, semboller = kelime_birimleri(raw_text, lang)
     cumle = _sayim(surface_tokens, "varsayilan", lang)

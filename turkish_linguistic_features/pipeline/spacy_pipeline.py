@@ -239,32 +239,3 @@ class Preprocessor:
             dokumanlar.append(self._nlp(parca))
 
         return self._birlestir(text, dokumanlar)
-
-    def process_many(self, texts: list[str], show_progress: bool = False,
-                     batch_size: int = 32) -> list[ProcessedText]:
-        """Birden çok metni tek modelle işler.
-
-        ``spacy.Language.pipe()`` kullanır — metin başına ``nlp()`` çağırmaktan
-        belirgin şekilde hızlıdır çünkü model bir kez yüklenip toplu besleme
-        yapılır. Parçalanması gereken metinler ``process()``a düşer.
-        """
-        self._ensure_loaded()
-        assert self._nlp is not None
-
-        sonuc: list[ProcessedText | None] = [None] * len(texts)
-        kisa: list[tuple[int, str]] = []
-        for i, metin in enumerate(texts):
-            if len(metin) > _DEFAULT_CHUNK_CHARS:
-                if show_progress:
-                    print(f"  text {i + 1}/{len(texts)} (chunking)", flush=True)
-                sonuc[i] = self.process(metin, show_progress=show_progress)
-            else:
-                kisa.append((i, metin))
-
-        if kisa:
-            indeksler = [i for i, _ in kisa]
-            for i, doc in zip(indeksler, self._nlp.pipe([m for _, m in kisa],
-                                                        batch_size=batch_size), strict=False):
-                sonuc[i] = self._birlestir(texts[i], [doc])
-
-        return [pt for pt in sonuc if pt is not None]
