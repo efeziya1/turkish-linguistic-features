@@ -1654,18 +1654,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-to-trust" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What to trust
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="What to trust">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#for-and-we-supply-the-definition" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1673,11 +1661,6 @@
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -2202,18 +2185,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-to-trust" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What to trust
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="What to trust">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#for-and-we-supply-the-definition" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2221,11 +2192,6 @@
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -2288,8 +2254,7 @@ misread.</p>
 </table>
 <p>The second layer is additional work, not a precondition for the first. A
 feature marked "🔍 open" does <strong>not</strong> have a questionable formula; no published
-number was found to compare against. Yule (1944) defines K but never prints
-what K comes to in a novel — his not printing it does not make our K wrong.</p>
+number was found to compare against.</p>
 <p>Every feature has its formula written out. The 11 features without a citation
 are plain definitions (the dash's share of punctuation marks or the number of
 distinct lemmas, for example);
@@ -2352,9 +2317,7 @@ some of the 208 features are <strong>not even candidates</strong> for verificati
 2 🟡), 103 are 🔍 open.</p>
 <p>The tolerance is <strong>1% of the published value</strong> (relative). Sources print
 rounded intermediate values, so exact equality is not expected. A relative
-tolerance means the same at every scale: the old fixed 0.05 was far too loose
-for ratios between 0 and 1 (<code>ttr</code>) and far too tight for values in the
-hundreds (<code>curve_length</code> ≈ 134).</p>
+tolerance means the same at every scale.</p>
 <p><strong>Exceeding the tolerance does not automatically make a row ❌.</strong> What decides
 is not the size of the difference but <strong>whether its cause is known</strong>. If the
 cause has been measured and written down the row is 🟡; if it has not, the row
@@ -2469,9 +2432,6 @@ outside the 1% tolerance, so the row is 🟡, and the cause is plain: for <code>
 on Text 2 the source printed 0.590, but dividing the numbers it
 supplies itself gives 121 ÷ 202 = <strong>0.599</strong>. The published figure has a typo;
 ours is the arithmetically correct value.</p>
-<p>What the repository stores is two frequency distributions: 119 and 121 plain
-integers. The texts themselves are under copyright (Orwell) and are not stored;
-no text can be reconstructed from the numbers.</p>
 <p><strong><code>mtld</code></strong> — The measure sweeps the text and counts a "factor" each time TTR
 drops below 0.72; the leftover stretch is added as a fractional factor.
 McCarthy &amp; Jarvis (2010) p.385 work through exactly that fraction: <em>".887 forms
@@ -2508,15 +2468,8 @@ with a mechanical counter attached to a typewriter. We tested whether the differ
 times our stroke count would the source's own number require? In 17 of the 18
 passages the answer is <strong>0.996–1.041 times</strong> — a handful of characters per
 passage. That is the size you expect from hand counting.</p>
-<p>Two alternative explanations were tested and ruled out: counting spaces as
-strokes pushes the deviation from 0.54 to 4.32 (so our space-excluding count is
-the right one), and counting the passage headings makes the result worse in all
-18 (so the source did not count them). One passage is also internally
-inconsistent: in passage 2 the sentence length implied by the source's ARI does
-not reproduce its own FKGL.</p>
-<p>FKGL does not use strokes; it uses syllables per word. Its deviation sits in a
-single passage: in 15 of the 18 the difference is below 0.6, passage 12 is off
-by −4.28, and the two means differ by 0.37 grade levels.</p>
+<p>The source did not count the passage headings: counting them makes the result worse
+in all 18. FKGL's deviation comes from a single passage (passage 12).</p>
 <p>Every number per passage — stroke and word counts included — sits in the
 appendix at the end of the report, so you can see which input a difference came
 from.</p>
@@ -2530,24 +2483,7 @@ report and the tests cannot drift apart; if the report goes stale, a test
 fails.</p>
 <p>The coverage list comes from the registry, so a feature cannot be added
 and quietly left out of the report.</p>
-<h2 id="what-to-trust">What to trust<a class="headerlink" href="#what-to-trust" title="Permanent link">&para;</a></h2>
-<p>Before you put a number in your work, look up its row:</p>
-<ul>
-<li><strong>✅</strong> — the source's number matches. Use it.</li>
-<li><strong>🟡</strong> — there is a difference but the reason is written down. Read the
-  reason and decide whether it affects your use.</li>
-<li><strong>🔍 open</strong> — the formula is matched to the equation in its source, but has
-  not been compared against a number the source published. Give the citation;
-  do not say "verified against the source's own number".</li>
-<li><strong>⚪ no source</strong> — the library's own definition, because there is no number in
-  the literature to look for (<code>punct_dash_ratio</code> = dashes / all punctuation marks).</li>
-<li><strong>⚫ tag scheme</strong> — the number is ours, the categories are the scheme's.
-  Cite the scheme (UD or Zeyrek), not a measure.</li>
-<li><strong>🔧 derivative</strong> — the formula is the source's; the decision to apply that
-  formula to this data is ours.</li>
-<li><strong>❌</strong> — if one exists, no release was made. If you see one, file an issue.</li>
-</ul>
-<h3 id="for-and-we-supply-the-definition">For ⚪ and 🔧 we supply the definition<a class="headerlink" href="#for-and-we-supply-the-definition" title="Permanent link">&para;</a></h3>
+<h2 id="for-and-we-supply-the-definition">For ⚪ and 🔧 we supply the definition<a class="headerlink" href="#for-and-we-supply-the-definition" title="Permanent link">&para;</a></h2>
 <p>In these two cases you do not have to write the measure's definition from
 scratch for your methods section. The registry keeps a citable definition for
 every feature:</p>
@@ -2592,8 +2528,8 @@ every feature:</p>
 </tr>
 </tbody>
 </table>
-<p>The one requirement is getting the attribution right: cite the source of the
-formula, but do not attribute the measure itself to that source.</p>
+<p>Cite the source of the formula, but do not present the measure as that source's
+own.</p>
 <ul>
 <li>✗ "the Shannon (1948) <code>sent_len_entropy</code> measure"</li>
 <li>✓ "Shannon (1948) entropy applied to the distribution of sentence lengths

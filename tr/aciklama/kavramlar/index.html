@@ -2275,8 +2275,7 @@
 <h2 id="oznitelik">Öznitelik<a class="headerlink" href="#oznitelik" title="Permanent link">&para;</a></h2>
 <p><strong>Öznitelik</strong> (feature), bir metinden çıkarılan tek bir sayıdır. <code>ttr</code>,
 <code>word_len_mean</code>, <code>atesman</code> — her biri bir öznitelik. Adları
-<code>snake_case</code>'dir. Sürüm 1.0'a kadar anahtar adları değişebilir; değişen
-adlar sürüm notlarında duyurulur.</p>
+<code>snake_case</code>'dir.</p>
 <p>Öznitelik üç şeyden biridir:</p>
 <ol>
 <li><strong>Literatürde adı olan bir ölçü</strong> — <code>mattr</code>, <code>yule_k</code>, <code>flesch_reading_ease</code>.
@@ -2349,7 +2348,7 @@ sayfasında.</p>
 <p><code>describe_feature("char_a_ratio")</code> çağırırsanız <code>formula</code> ve <code>requires</code> alanları
 <strong>grup düzeyinde</strong> genel ifadedir, tek harfe özel değil.</p>
 <h2 id="olcek-scale">Ölçek (<code>scale</code>)<a class="headerlink" href="#olcek-scale" title="Permanent link">&para;</a></h2>
-<p>Her özniteliğin bir ölçeği vardır ve grafik kurarken bu önemlidir:</p>
+<p>Her özniteliğin bir ölçeği vardır:</p>
 <table>
 <thead>
 <tr>
@@ -2386,8 +2385,6 @@ sayfasında.</p>
 </tr>
 </tbody>
 </table>
-<p><code>ratio_0_1</code> olan iki özniteliği aynı eksende çizebilirsiniz; <code>score</code> olanı
-onların yanına koymak yanıltır.</p>
 <h2 id="sozcuk-ve-tumce">Sözcük ve tümce<a class="headerlink" href="#sozcuk-ve-tumce" title="Permanent link">&para;</a></h2>
 <p>Öznitelikler sözcüğü ve tümceyi kütüphanenin kendi kuralıyla sayar, modelin
 tokenıyla değil. Bunlar <strong>varsayılan sözcük</strong> ve <strong>varsayılan tümcedir</strong>; bu adları
@@ -2509,15 +2506,8 @@ Türkçe lemma Zeyrek'in sözlük maddesidir, İngilizce lemma spaCy'nin.</p>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>   ↓  öznitelik çıkarıcıları
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>208 sayı
 </code></pre></div>
-<p>Bunun iki sonucu var:</p>
-<ol>
-<li><strong>spaCy modeli sonuçların parçasıdır.</strong> Model değişirse tokenlar,
-   sözcük türü, biçimbirim ve bağlılık öznitelikleri değişir. Hangi modeli
-   kullandığınızı yöntem bölümüne yazın.</li>
-<li><strong>Ön işleme bir kez yapılır.</strong> 208 özniteliğin hepsi aynı çözümlemeden
-   beslenir; <code>groups</code> ile az öznitelik istemek ön işlemeyi hızlandırmaz,
-   yalnız çıkarım adımını kısaltır.</li>
-</ol>
+<p><strong>spaCy modeli sonuçların parçasıdır.</strong> Model değişirse tokenlar, sözcük türü,
+biçimbirim ve bağlılık öznitelikleri değişir.</p>
 <h2 id="featureparams"><code>FeatureParams</code><a class="headerlink" href="#featureparams" title="Permanent link">&para;</a></h2>
 <p>Pencere boyları, eşikler ve örneklem sayıları burada durur. Ayrıntı:
 <a href="../../nasil/parametreler/">Eşikleri değiştir</a>.</p>

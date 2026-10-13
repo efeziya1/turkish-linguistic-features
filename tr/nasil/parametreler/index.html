@@ -2260,16 +2260,12 @@ türetildi (TR: 197.990 tümce; EN: 52.745 tümce). Yöntem: <a href="../../../e
 <p>Boş demet <code>()</code> dönerse o öznitelik hiçbir parametreye bağlı değildir.</p>
 <h2 id="mattr_window-neden-50"><code>mattr_window</code> neden 50<a class="headerlink" href="#mattr_window-neden-50" title="Permanent link">&para;</a></h2>
 <p>Covington &amp; McFall (2010) üslup analizi için <strong>500</strong> öneriyor. Kütüphanenin
-varsayılanı 50 — onda biri. Neden:</p>
-<ul>
-<li>Pencere boyu aynı zamanda <strong>alt sınırdır</strong>: <code>mattr</code> en az <code>2 × window</code>
-  sözcük ister. 500 olsaydı 1000 sözcükten kısa hiçbir metin sayı
-  üretemezdi.</li>
-</ul>
+varsayılanı 50 — onda biri, çünkü pencere boyu aynı zamanda <strong>alt sınırdır</strong>:
+<code>mattr</code> en az <code>2 × window</code> sözcük ister. 500 olsaydı 1000 sözcükten kısa hiçbir
+metin sayı üretemezdi.</p>
 <p>Künye bu ayrımı açıkça yazar. 500 istiyorsanız:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">p</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">FeatureParams</span><span class="p">(</span><span class="n">mattr_window</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
 </code></pre></div>
-<p>ve metinlerinizin en az 1000 sözcük olduğundan emin olun.</p>
 
 
 

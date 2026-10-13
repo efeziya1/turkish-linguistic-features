@@ -2262,16 +2262,12 @@ the default word (Turkish: 197,990 sentences; English: 52,745 sentences). Method
 <p>An empty tuple, <code>()</code>, means the feature depends on no parameter.</p>
 <h2 id="why-mattr_window-is-50">Why <code>mattr_window</code> is 50<a class="headerlink" href="#why-mattr_window-is-50" title="Permanent link">&para;</a></h2>
 <p>Covington &amp; McFall (2010) recommend <strong>500</strong> for stylometric analysis. The
-default here is 50 — a tenth of that. The reasons:</p>
-<ul>
-<li>The window size is also a <strong>lower bound</strong>: <code>mattr</code> requires at least
-  <code>2 × window</code> words. At 500, no text under 1000 words could produce a
-  value at all.</li>
-</ul>
+default here is 50 — a tenth of that, because the window size is also a <strong>lower
+bound</strong>: <code>mattr</code> requires at least <code>2 × window</code> words. At 500, no text under 1000
+words could produce a value at all.</p>
 <p>The citation states this distinction openly. If you want 500:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">p</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">FeatureParams</span><span class="p">(</span><span class="n">mattr_window</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
 </code></pre></div>
-<p>and make sure your texts are at least 1000 words.</p>
 
 
 

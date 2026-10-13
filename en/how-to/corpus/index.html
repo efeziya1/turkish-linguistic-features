@@ -2148,9 +2148,7 @@ is the label:</strong></p>
 <div class="admonition note">
 <p class="admonition-title">File names with underscores</p>
 <p>If a file at the root has an underscore in its name, the first part
-becomes the <strong>label</strong>: <code>text_1.txt</code> → label <code>"text"</code>, source <code>"1"</code>. If
-you do not want a label, avoid underscores in the name or use the
-subfolder layout.</p>
+becomes the <strong>label</strong>: <code>text_1.txt</code> → label <code>"text"</code>, source <code>"1"</code>.</p>
 </div>
 <p>The two layouts can coexist in one folder.</p>
 <p><strong>3. A single CSV or TSV file</strong> — <code>analyze_corpus("corpus.csv")</code>. Column
@@ -2193,7 +2191,6 @@ names that segment's <code>label</code>, <code>source</code> and <code>segment_i
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"row count:   "</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">))</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"column count:"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 </code></pre></div>
-<p>That is the whole chain.</p>
 <h2 id="what-comes-out">What comes out<a class="headerlink" href="#what-comes-out" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>row count:    3
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>column count: 211
@@ -2249,10 +2246,7 @@ names that segment's <code>label</code>, <code>source</code> and <code>segment_i
 </code></pre></div>
 <p>648 ÷ 200 = 3 full segments; the remaining 48 words are dropped under the
 default <code>min_fill=1.0</code>.</p>
-<p>When comparing labels (author, genre, period), keep the segments the same size
-and check the number of segments per label: the mean of a label with a single
-segment is that text's mean, not the author's. A working example that compares
-sentence-length distributions across labels:
+<p>A working example that compares sentence-length distributions across labels:
 <a href="https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/05_cumle_ritmi.py"><code>examples/05_cumle_ritmi.py</code></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Segmenting is per file, not across the corpus</p>

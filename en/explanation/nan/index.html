@@ -2233,27 +2233,12 @@ and the library raises a <code>MissingDependencyWarning</code>.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 <p><code>warn=False</code> silences the warning only; the feature is still <code>nan</code>. The same
-flag also silences the paragraph warning described below.</p>
+flag also silences <code>ParagraphStructureWarning</code>.</p>
 <h2 id="not-nan-but-misleading-paragraphs">Not <code>nan</code>, but misleading: paragraphs<a class="headerlink" href="#not-nan-but-misleading-paragraphs" title="Permanent link">&para;</a></h2>
-<p>Paragraph boundaries are found from blank lines; a single line break does
-not count. If your text has no blank lines, the whole text counts as one
-paragraph and <code>para_len_mean</code> becomes the word count of the entire text: the
-value is not <code>nan</code>, but it says nothing about paragraphs.</p>
-<p>If a text longer than 1000 words yields no boundary at all, a
-<code>ParagraphStructureWarning</code> is raised:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">caught</span><span class="p">:</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">"always"</span><span class="p">)</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="n">feats</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">book_text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">caught</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>No paragraph boundary found: the text contains no blank line, so all 52521
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>words and 7347 sentences were counted as a single paragraph. ...
-</code></pre></div>
-<p>The message carries your own word and sentence counts, so you can tell at a
-glance whether the text really is one paragraph.</p>
-<p>This usually happens when the text lost its line breaks during extraction from
-PDF or EPUB. Details: <a href="../limitations/">limitations §8</a>.</p>
+<p>Paragraph boundaries are found from blank lines. If your text has no blank lines,
+the whole text counts as one paragraph and <code>para_len_mean</code> becomes the word count
+of the entire text: the value is not <code>nan</code>, but it says nothing about paragraphs.
+Details: <a href="../limitations/">limitations §8</a>.</p>
 <h2 id="why-nan-and-not-none">Why <code>nan</code> and not <code>None</code><a class="headerlink" href="#why-nan-and-not-none" title="Permanent link">&para;</a></h2>
 <p><code>nan</code> is a <code>float</code>. That means every value in the returned dictionary has
 the same type, and the table goes straight into <code>pandas</code>, <code>numpy</code>, R or

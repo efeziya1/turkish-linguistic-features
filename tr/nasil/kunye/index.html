@@ -2179,7 +2179,7 @@ Kütüphane bunu size hazır verir.</p>
 </tr>
 <tr>
 <td><code>scale</code></td>
-<td>Ölçek: <code>ratio_0_1</code>, <code>score</code>, <code>count</code>… Grafik eksenini buna göre kurun</td>
+<td>Ölçek: <code>ratio_0_1</code>, <code>score</code>, <code>count</code>…</td>
 </tr>
 <tr>
 <td><code>inputs</code></td>
@@ -2214,8 +2214,7 @@ Kütüphane bunu size hazır verir.</p>
 that texts of 100+ words can be measured (mattr needs 2 × window)</p>
 </blockquote>
 <p>Yani: yöntem Covington &amp; McFall'ın, <strong>ama varsayılan pencere boyu onlardan
-gelmiyor.</strong> Bu ayrımı künyeden okuyabilmeniz kasıtlıdır. Bir sayıyı
-kaynağa dayanıyormuş gibi göstermek, kaynağı hiç vermemekten kötüdür.</p>
+gelmiyor.</strong> Bu ayrımı künyeden okuyabilmeniz kasıtlıdır.</p>
 <p>Aynı kalıbın başka biçimleri:</p>
 <ul>
 <li><code>"Herdan (1960/1964), as cited in Tweedie &amp; Baayen (1998) p.327, eq. (5)"</code>
@@ -2238,19 +2237,16 @@ değildir,</strong> saf bir tanımdır: <code>punct_dash_ratio</code> ("tire / b
 Bir dış etiket şemasının kategorisini sayan anahtarların künyesi ise <code>None</code>
 değildir, şemayı gösterir (<code>case_loc_ratio</code> → UD; <code>zeyrek_case_loc_ratio</code> →
 Zeyrek).</p>
-<p>Türkçedeki 208 anahtarın <strong>11'inin</strong> künyesi yoktur: 7'si noktalama ve
-büyük harf oranı, 4'ü lemma sayısı ya da ünlü payı gibi başka saf
-tanımlar.</p>
+<p>Türkçedeki 208 anahtarın <strong>11'inin</strong> künyesi yoktur.</p>
 <h2 id="yontem-bolumune-yazarken">Yöntem bölümüne yazarken<a class="headerlink" href="#yontem-bolumune-yazarken" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">kullandiklarim</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"mattr"</span><span class="p">,</span> <span class="s2">"atesman"</span><span class="p">,</span> <span class="s2">"sent_len_mean"</span><span class="p">]</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">kaynaklar</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">kullandiklarim</span><span class="p">:</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">kaynaklar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="n">k</span><span class="p">)[</span><span class="s2">"references"</span><span class="p">])</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">kaynaklar</span><span class="p">):</span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">kullandiklarim</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"mattr"</span><span class="p">,</span> <span class="s2">"atesman"</span><span class="p">,</span> <span class="s2">"sent_len_mean"</span><span class="p">]</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">kaynaklar</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">kullandiklarim</span><span class="p">:</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="n">kaynaklar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="n">k</span><span class="p">)[</span><span class="s2">"references"</span><span class="p">])</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">kaynaklar</span><span class="p">):</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
 </code></pre></div>
 <p>Bu size yalnız <strong>kullandığınız</strong> özniteliklerin kaynakçasını verir — 56
 eserin tamamını değil.</p>

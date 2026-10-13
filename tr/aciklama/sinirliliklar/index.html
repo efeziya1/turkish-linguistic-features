@@ -2264,7 +2264,7 @@
 <h1 id="snrllklar">Sınırlılıklar<a class="headerlink" href="#snrllklar" title="Permanent link">&para;</a></h1>
 <p>Bu sayfa iki kısımdan oluşur. İlki kütüphanenin nerede zayıf olduğunu anlatır;
 ikincisi kütüphanenin zayıflığı olmayan ama sonuçları yorumlarken bilmeniz
-gereken noktaları. Yöntem bölümü yazarken ikisine de bakın.</p>
+gereken noktaları.</p>
 <h2 id="kutuphanenin-snrllklar">Kütüphanenin sınırlılıkları<a class="headerlink" href="#kutuphanenin-snrllklar" title="Permanent link">&para;</a></h2>
 <h3 id="1-tumce-esikleri-yalnz-gazete-kose-yazlaryla-kalibre-edildi">1. Tümce eşikleri yalnız gazete köşe yazılarıyla kalibre edildi<a class="headerlink" href="#1-tumce-esikleri-yalnz-gazete-kose-yazlaryla-kalibre-edildi" title="Permanent link">&para;</a></h3>
 <p><code>short_sent_ratio</code> ve <code>long_sent_ratio</code> eşikleri (TR 4/17, EN 8/32) gazete
@@ -2289,9 +2289,8 @@ tümce uzunluğu dağılımının 15. ve 85. yüzdeliğinden türetildi:</p>
 </tbody>
 </table>
 <p>Köşe yazısı <strong>tek bir tür</strong>. Roman, teknik metin, transkript, şiir ya da
-çocuk kitabı için genelleneceği <strong>garanti değil.</strong> Kendi türünüzde çalışıyorsanız eşikleri
-kendi korpusunuzdan türetmeyi düşünün —
-<a href="../../../esik-kalibrasyonu/">yöntem burada</a>.</p>
+çocuk kitabı için genelleneceği <strong>garanti değil.</strong> Yöntem:
+<a href="../../../esik-kalibrasyonu/">Eşik kalibrasyonu</a>.</p>
 <h3 id="2-on-bes-kunye-ikincil-kaynaktan">2. On beş künye ikincil kaynaktan<a class="headerlink" href="#2-on-bes-kunye-ikincil-kaynaktan" title="Permanent link">&para;</a></h3>
 <p>Künyesi olan 172 anahtarın <strong>15'i</strong> <code>as cited in</code> ile işaretlidir — birincil kaynağa
 ulaşılamadı, formül aktaran kaynaktan alındı. Örnek:</p>
@@ -2300,8 +2299,6 @@ ulaşılamadı, formül aktaran kaynaktan alındı. Örnek:</p>
 <p>Etkilenen ölçüler arasında <code>herdan_c</code>, <code>herdan_vm</code>, <code>honore_r</code>, <code>maas_a2</code>, <code>brunet_w</code>,
 <code>dugast_u</code>, <code>simpson_d</code>, <code>heaps_beta</code>, <code>lix</code>, <code>cttr</code>, <code>summer_s</code> var. Formüller doğrulandı ama <strong>birincil
 kaynağın kendi ifadesiyle</strong> karşılaştırılmadı.</p>
-<p>Yöntem bölümünüzde aktarımı aynen taşıyın; birincil kaynağı okumuş gibi
-göstermeyin.</p>
 <h3 id="3-spacy-modeli-sonuclarn-parcas">3. spaCy modeli sonuçların parçası<a class="headerlink" href="#3-spacy-modeli-sonuclarn-parcas" title="Permanent link">&para;</a></h3>
 <p>Sözcük türü, biçimbilim etiketleri, İngilizce lemmalar ve bağlılık
 öznitelikleri (ayrıştırıcının kendi tümceleriyle) modelden gelir. Model
@@ -2311,21 +2308,15 @@ değişirse bu sayılar değişir. Türkçe lemmalar Zeyrek'ten gelir (§4).</p>
 <code>describe_feature(key)["definitions"]["word"]</code> söyler.</p>
 <p>Doğrulanmış kombinasyon: spaCy 3.8.16, <code>en_core_web_sm</code> 3.8.0,
 <code>tr_core_news_md</code> 1.0.</p>
-<p>Türkçe modelin hata sanılabilecek iki tuhaflığı (sürüm numarası çelişkisi ve
-<code>W094</code> uyarısı) <a href="../../baslangic/#2-dil-verisini-kurun">öğreticide</a>
-anlatılıyor; ikisi de zararsız.</p>
 <h3 id="4-turkce-morfoloji-zeyreke-bagl">4. Türkçe morfoloji Zeyrek'e bağlı<a class="headerlink" href="#4-turkce-morfoloji-zeyreke-bagl" title="Permanent link">&para;</a></h3>
 <p><code>morphological_zeyrek</code> grubundaki 23 öznitelik ve Türkçe lemmalar Zeyrek'ten
 gelir. Kütüphane, bağlama bakmadan Zeyrek'in ilk çözümlemesini alır. Bu ilk
 çözümleme Python sürecine göre az da olsa değişebilir; tekrar üretilebilir
 sayılar için Python'u <code>PYTHONHASHSEED=0</code> ile başlatın.</p>
 <h3 id="5-adaylarn-ucte-ikisi-hala-dogrulanmad">5. Adayların üçte ikisi hâlâ doğrulanmadı<a class="headerlink" href="#5-adaylarn-ucte-ikisi-hala-dogrulanmad" title="Permanent link">&para;</a></h3>
-<p>82 satır doğrulama adayı bile değil (saf tanım, etiket şeması ya da
-bizim türevimiz).
-Kalan <strong>151 adayın 48'i</strong> bitmiş (46 ✅ + 2 🟡), <strong>103'ü 🔍 açık</strong>.</p>
-<p>Sebebi <a href="../dogrulama/">doğrulama sistemi</a> sayfasında: kaynakların çoğu
-formülü yayımlar, o formülün uygulandığı bir sayısal örnek vermez. Bu
-özellikle <code>lexical</code> grubunda belirgin — 40 adayın 7'si doğrulanmış.</p>
+<p><strong>151 doğrulama adayının 48'i</strong> bitmiş (46 ✅ + 2 🟡), <strong>103'ü 🔍 açık</strong>: kaynakların
+çoğu formülü yayımlar, o formülün uygulandığı bir sayısal örnek vermez. Ayrıntı:
+<a href="../dogrulama/">doğrulama sistemi</a>.</p>
 <h3 id="6-paket-henuz-pypida-degil">6. Paket henüz PyPI'da değil<a class="headerlink" href="#6-paket-henuz-pypida-degil" title="Permanent link">&para;</a></h3>
 <p>Erken geliştirme aşamasında (0.x). Kurulum klondan yapılır. 1.0'a kadar anahtar
 adları ve genel API değişebilir; değişiklikler sürüm notlarında duyurulur.</p>

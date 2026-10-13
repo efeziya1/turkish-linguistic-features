@@ -2274,9 +2274,7 @@
 <h1 id="concepts">Concepts<a class="headerlink" href="#concepts" title="Permanent link">&para;</a></h1>
 <h2 id="feature">Feature<a class="headerlink" href="#feature" title="Permanent link">&para;</a></h2>
 <p>A <strong>feature</strong> is a single number extracted from a text. <code>ttr</code>,
-<code>word_len_mean</code>, <code>atesman</code> — each is one feature. Names are <code>snake_case</code>.
-Until version 1.0 a key may be renamed; renamed keys are announced in the
-release notes.</p>
+<code>word_len_mean</code>, <code>atesman</code> — each is one feature. Names are <code>snake_case</code>.</p>
 <p>A feature is one of three things:</p>
 <ol>
 <li><strong>A named measure from the literature</strong> — <code>mattr</code>, <code>yule_k</code>,
@@ -2352,7 +2350,7 @@ pattern:</p>
 fields are the <strong>group-level</strong> statement, not something specific to that
 letter.</p>
 <h2 id="scale">Scale<a class="headerlink" href="#scale" title="Permanent link">&para;</a></h2>
-<p>Every feature has a scale, and it matters when you plot:</p>
+<p>Every feature has a scale:</p>
 <table>
 <thead>
 <tr>
@@ -2389,8 +2387,6 @@ letter.</p>
 </tr>
 </tbody>
 </table>
-<p>Two <code>ratio_0_1</code> features can share an axis; putting a <code>score</code> next to them
-misleads.</p>
 <h2 id="word-and-sentence">Word and sentence<a class="headerlink" href="#word-and-sentence" title="Permanent link">&para;</a></h2>
 <p>Features count words and sentences with the library's own rules, not with
 the model's tokens. These are the <strong>default word</strong> and the <strong>default sentence</strong>;
@@ -2508,15 +2504,8 @@ word. Turkish lemmas are Zeyrek's dictionary entry, English lemmas spaCy's.</p>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>   ↓  feature extractors
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>208 numbers
 </code></pre></div>
-<p>Two consequences:</p>
-<ol>
-<li><strong>The spaCy model is part of the result.</strong> Change the model and the
-   tokens, POS, morphological and dependency features change with it.
-   State which model you used in your methods section.</li>
-<li><strong>Preprocessing runs once.</strong> All 208 features draw on the same analysis,
-   so asking for fewer <code>groups</code> does not speed up preprocessing — it only
-   shortens the extraction step.</li>
-</ol>
+<p><strong>The spaCy model is part of the result.</strong> Change the model and the tokens, POS,
+morphological and dependency features change with it.</p>
 <h2 id="featureparams"><code>FeatureParams</code><a class="headerlink" href="#featureparams" title="Permanent link">&para;</a></h2>
 <p>Window sizes, thresholds and sample counts live here. Details:
 <a href="../../how-to/parameters/">Change the thresholds</a>.</p>

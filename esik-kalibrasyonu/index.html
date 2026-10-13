@@ -2286,13 +2286,10 @@ Türkçede 95. yüzdeliğin üstünde kalıyor.</p>
 <h2 id="kapsam-snr">Kapsam sınırı<a class="headerlink" href="#kapsam-snr" title="Permanent link">&para;</a></h2>
 <p><strong>Eşikler gazete köşe yazılarıyla kalibre edildi.</strong> Köşe yazısı tek bir tür.</p>
 <p>Roman, teknik metin, transkript, şiir, hukuk metni ya da ders kitabında eşiklerin
-uygun olacağı <strong>garanti değildir</strong>. Bu türlerle çalışıyorsanız kendi korpusunuzun yüzdeliklerini hesaplayıp
-<code>FeatureParams</code> ile geçirin.</p>
+uygun olacağı <strong>garanti değildir</strong>.</p>
 <p>Ayrıca <code>short_sent_ratio</code> ve <code>long_sent_ratio</code> <strong>iki dilde kıyaslanamaz</strong>: aynı
-isimli sütun iki dilde farklı eşikle ölçülür. "Türkçe metinler daha kısa
-tümceli" gibi bir sonuç çıkarmadan önce bunu göz önüne alın; ölçtüğünüz şey dil
-farkı değil, eşik farkı olabilir. Ortak eşik isterseniz <strong>iki alanı da</strong>
-açıkça verin, örneğin <code>FeatureParams(short_sent_threshold=5,
+isimli sütun iki dilde farklı eşikle ölçülür. Ortak eşik isterseniz <strong>iki alanı
+da</strong> açıkça verin, örneğin <code>FeatureParams(short_sent_threshold=5,
 long_sent_threshold=30)</code>, ve aynı nesneyi iki dile geçirin. Yalnız birini
 verirseniz öteki yine dile göre çözümlenir.</p>
 

@@ -2192,13 +2192,13 @@ gerçek görünen ama anlamsız bir sütun olurdu ve bunu fark etmenin yolu
 olmazdı.</p>
 <h2 id="ne-kadar-sk">Ne kadar sık<a class="headerlink" href="#ne-kadar-sk" title="Permanent link">&para;</a></h2>
 <p>Üç sözcüklük bir metinde:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">kisa</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="s2">"Kısa bir cümle."</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">kisa</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="s2">"Kısa bir tümce."</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">nan_olan</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kisa</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v</span> <span class="o">!=</span> <span class="n">v</span><span class="p">]</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">len</span><span class="p">(</span><span class="n">kisa</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">nan_olan</span><span class="p">)</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>(208, 37)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>(208, 36)
 </code></pre></div>
-<p>208 öznitelikten <strong>37'si</strong> <code>nan</code>. Örnekler:</p>
+<p>208 öznitelikten <strong>36'sı</strong> <code>nan</code>. Örnekler:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>['aspect_imp_ratio', 'aspect_perf_ratio', 'aspect_prog_ratio', 'dugast_u',
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a> 'hdd', 'heaps_beta', 'honore_r', 'mattr']
 </code></pre></div>
@@ -2232,26 +2232,12 @@ döner ve kütüphane bir <code>MissingDependencyWarning</code> basar.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 <p><code>warn=False</code> yalnız uyarıyı susturur; öznitelik yine <code>nan</code> kalır. Aynı bayrak
-aşağıdaki paragraf uyarısını da susturur.</p>
+<code>ParagraphStructureWarning</code>'ı da susturur.</p>
 <h2 id="nan-donmeyen-ama-yanltan-durum-paragraf"><code>nan</code> dönmeyen ama yanıltan durum: paragraf<a class="headerlink" href="#nan-donmeyen-ama-yanltan-durum-paragraf" title="Permanent link">&para;</a></h2>
-<p>Paragraf sınırı boş satırla bulunur, tek satır sonu saymaz. Metninizde boş
-satır yoksa metnin tamamı tek paragraf sayılır ve <code>para_len_mean</code> bütün
-metnin sözcük sayısına eşitlenir: değer <code>nan</code> olmaz ama paragraf hakkında
-bir şey söylemez.</p>
-<p>1000 sözcüğü geçen metinde hiç sınır bulunamazsa <code>ParagraphStructureWarning</code>
-basılır:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">kayit</span><span class="p">:</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">"always"</span><span class="p">)</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">kitap_metni</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">kayit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>No paragraph boundary found: the text contains no blank line, so all 52521
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>words and 7347 sentences were counted as a single paragraph. ...
-</code></pre></div>
-<p>Uyarı metinleri İngilizcedir — öznitelik anahtarları ve künyeler de öyle.</p>
-<p>Bu genellikle metnin PDF/EPUB'dan çıkarılırken satır sonlarını kaybetmesinden
-olur. Ayrıntı: <a href="../sinirliliklar/">sınırlılıklar §8</a>.</p>
+<p>Paragraf sınırı boş satırla bulunur. Metinde boş satır yoksa metnin tamamı tek
+paragraf sayılır ve <code>para_len_mean</code> bütün metnin sözcük sayısına eşitlenir: değer
+<code>nan</code> olmaz ama paragraf hakkında bir şey söylemez. Ayrıntı:
+<a href="../sinirliliklar/">sınırlılıklar §8</a>.</p>
 <h2 id="neden-none-degil-de-nan">Neden <code>None</code> değil de <code>nan</code><a class="headerlink" href="#neden-none-degil-de-nan" title="Permanent link">&para;</a></h2>
 <p><code>nan</code> bir <code>float</code>'tır. Yani dönen sözlüğün bütün değerleri aynı tiptedir ve
 tablo doğrudan <code>pandas</code>, <code>numpy</code>, R ya da CSV'ye geçer. <code>None</code> koysaydık
