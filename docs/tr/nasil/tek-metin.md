@@ -49,8 +49,8 @@ len(oz)     # 45
 
 Grup seçmek az hız kazandırır. Sürenin çoğu spaCy ve Zeyrek ön işlemesinde
 geçer ve o her durumda bir kez yapılır; grup seçimi yalnız sonraki hesabı
-kısaltır. 1000 sözcüklük bir metinde bütün gruplar yaklaşık 1,2 saniye, yalnız
-`readability` yaklaşık 0,85 saniye sürer.
+kısaltır. 1000 sözcüklük bir metinde bütün gruplar yaklaşık 1,1 saniye, yalnız
+`readability` yaklaşık 0,95 saniye sürer.
 
 Mevcut gruplar ve Türkçede kaç öznitelik içerdikleri:
 
