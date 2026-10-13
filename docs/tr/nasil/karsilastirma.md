@@ -59,17 +59,7 @@ Okunuşu:
 - **Hece ortalaması 3,36 → 3,05.** "değerlendirilmesi" gibi uzun türetmeler
   gitti.
 - **`ttr` 0,89 → 1,00 ama bu anlamlı değil.** İkinci metin kısaldığı için
-  TTR yükseldi; üslup değişikliğinin değil uzunluğun sonucu. Bu tam olarak
-  TTR'nin neden tek başına okunmaması gerektiğinin örneğidir.
-
-## Neye dikkat edin
-
-!!! note "Uzunluk değiştiyse sözcüksel zenginliğe dikkat"
-
-    Düzenleme metni kısalttıysa `ttr`, `hapax_ratio`, `yule_k` gibi sözcüksel
-    zenginlik ölçüleri uzunluk yüzünden de değişir; bunları karşılaştırmak için
-    iki metni aynı boya getirin ([Metni parçalara böl](segmentleme.md)). Kısa
-    metinde tümce ve okunabilirlik ölçüleri de oynaktır.
+  TTR yükseldi; üslup değişikliğinin değil uzunluğun sonucu.
 
 ## Birden çok çifti karşılaştırmak
 

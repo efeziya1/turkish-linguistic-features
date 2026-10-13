@@ -76,18 +76,18 @@ def analyze(text: str, lang: str = "tr", model: str | None = None,
     ----------
     text
         Analiz edilecek ham metin. Boş metin çökmez; ölçülemeyen öznitelikler
-        ``NaN`` döner (K4).
+        ``NaN`` döner.
     lang
-        ``"tr"`` ya da ``"en"``. Dil şemayı belirler (K11).
+        ``"tr"`` ya da ``"en"``. Dil şemayı belirler.
     model
         Belirli bir spaCy modeli. ``None`` ise dilin varsayılanı.
     groups
-        Yalnız bu öznitelik grupları üretilir. Pahalı grupları atlamak
-        (``syntactic_dep``, ``lexical``) korpus çalıştırmalarını hızlandırır.
+        Yalnız bu öznitelik grupları üretilir. Grup seçmek yalnız çıkarım adımını
+        kısaltır; ön işleme her durumda bir kez yapılır.
     params
         Metrik sabitleri. ``None`` ise ``DEFAULT_PARAMS``.
     custom_ngrams
-        Kendi kelime ya da etiket öbekleriniz → ``ngram_{...}_count`` sütunları. Taban şemayı
+        Kendi sözcük ya da etiket öbekleriniz → ``ngram_{...}_count`` sütunları. Taban şemayı
         **genişletir**; taban bir tavan değildir.
     show_progress
         Uzun metin parçalanırken ilerleme yazdırılsın mı. Varsayılan
@@ -112,7 +112,7 @@ def analyze(text: str, lang: str = "tr", model: str | None = None,
 
     Examples
     --------
-    >>> feats = analyze("Bu bir deneme metnidir. İkinci cümle.", lang="tr")
+    >>> feats = analyze("Bu bir deneme metnidir. İkinci tümce.", lang="tr")
     >>> feats["sent_len_mean"]
     3.0
     """
@@ -131,23 +131,23 @@ def analyze(text: str, lang: str = "tr", model: str | None = None,
 
 def ngram_matches(text: str, phrase: list[str], lang: str = "tr",
                   model: str | None = None) -> dict[str, int]:
-    """What a ``custom_ngrams`` phrase matched in a text, with frequencies.
+    """Bir ``custom_ngrams`` öbeğinin metinde neyle eşleştiği, sıklıklarıyla.
 
-    The matching is the same as in ``analyze(..., custom_ngrams=[phrase])``: words are
-    lowercased, an UPPERCASE UD tag (``NOUN``, ``VERB`` …) matches any word with that tag,
-    and a match never crosses a sentence boundary. The values add up to that phrase's
-    ``ngram_{...}_count``.
+    Eşleştirme ``analyze(..., custom_ngrams=[phrase])`` ile aynıdır: sözcükler küçük harfe
+    indirilir, BÜYÜK harfle yazılmış bir UD etiketi (``NOUN``, ``VERB`` …) o etiketi taşıyan
+    herhangi bir sözcükle eşleşir ve eşleşme tümce sınırını aşmaz. Değerlerin toplamı o
+    öbeğin ``ngram_{...}_count`` değeridir.
 
     Returns
     -------
     dict[str, int]
-        Matched words (lowercased, joined by a space) → count, most frequent first;
-        ties keep the order of first occurrence. Empty if nothing matched.
+        Eşleşen sözcükler (küçük harfle, boşlukla birleştirilmiş) → sayı, en sık olan önce;
+        eşit sayıda ilk geçiş sırası korunur. Hiç eşleşme yoksa boş.
 
     Raises
     ------
     ValueError
-        Unsupported language or an empty phrase.
+        Desteklenmeyen dil ya da boş öbek.
 
     Examples
     --------

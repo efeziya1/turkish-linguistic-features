@@ -36,13 +36,11 @@ def segment_text(text: str, segment_size: int = 1000, min_fill: float = 1.0,
                  unit: str = "word", lang: str = "tr") -> list[str]:
     """Metni sabit büyüklükte parçalara böler.
 
-    ``unit="word"`` kütüphanenin **varsayılan kelimesini** sayar (2026-10-08,
-    Efe): boşlukla ayrılan, kenar noktalaması atılan, harf ya da rakam içeren
-    birim (``readability.word_units``). ``analyze`` aynı kelimeyi saydığı için
-    ``segment_size=1000`` parça ``analyze``'da tam 1000 kelime eder. Önceden spaCy tokenı
-    sayılıyordu; noktalama da token olduğundan 100 token ~83 kelime ediyordu.
+    ``unit="word"`` kütüphanenin **varsayılan sözcüğünü** sayar: boşlukla ayrılan,
+    kenar noktalaması atılan, harf ya da rakam içeren birim. ``analyze`` aynı sözcüğü
+    saydığı için ``segment_size=1000`` parça ``analyze``'da tam 1000 sözcük eder.
 
-    Parça, ilk kelimesinin boşluk biriminin başından son kelimesininkinin sonuna
+    Parça, ilk sözcüğün boşluk biriminin başından son sözcüğünkinin sonuna
     kadar **ham metin dilimidir**; kenar noktalaması ve aradaki satır sonları
     olduğu gibi kalır.
 
@@ -51,19 +49,19 @@ def segment_text(text: str, segment_size: int = 1000, min_fill: float = 1.0,
     text
         Bölünecek metin.
     segment_size
-        Parça başına kelime (``unit="word"``) ya da karakter (``"char"``).
+        Parça başına sözcük (``unit="word"``) ya da karakter (``"char"``).
     min_fill
         Son parça bu orandan az doluysa atılır. ``1.0`` (varsayılan) yalnız
-        tam parçaları tutar; ``0.5`` yarım dolu son parçayı da tutar.
+        tam parçaları tutar; ``0.5`` en az yarısı dolu son parçayı da tutar.
 
         Sözcüksel zenginlik öznitelikleri metin uzunluğuna duyarlıdır. 1000
-        kelimelik parçalarla 50 kelimelik bir artığı aynı tabloda toplarsanız
+        sözcüklük parçalarla 50 sözcüklük bir artığı aynı tabloda toplarsanız
         ölçtüğünüz fark metin değil parça uzunluğu olur.
     unit
         ``"word"`` ya da ``"char"``.
     lang
-        Metnin dili. Kelime kuralı dile göre küçük farklar taşır (Türkçede
-        ``3.`` sıra sayısı tek kelimedir).
+        Metnin dili. Sözcük kuralı dile göre küçük farklar taşır (Türkçede
+        ``3.`` sıra sayısı tek sözcüktür).
 
     Returns
     -------
@@ -246,11 +244,7 @@ def save_csv(records: list[dict[str, object]], output_path: str | Path) -> None:
     Sütunlar ilk kaydın anahtarlarından alınır. Boş liste hiçbir şey yazmaz.
 
     ``csv.DictWriter`` etrafında ince bir sarmalayıcı; tek işi kodlamayı ve
-    satır sonlarını doğru ayarlamak (K9). 2026-09-23'e kadar adı
-    ``records_to_csv``'ydi ve ``__all__``'da değildi — zinciri kapatan adım
-    public olmadığı için kullanıcı onu bulamıyordu. ``to_csv`` denmedi:
-    pandas'ta o bir metot (``df.to_csv``), serbest fonksiyon olarak özneyi
-    kaybeder ve pandas semantiği beklenmesine yol açar.
+    satır sonlarını doğru ayarlamak.
 
     Parameters
     ----------

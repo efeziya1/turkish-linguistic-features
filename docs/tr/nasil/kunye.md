@@ -44,7 +44,7 @@ tlf.describe_feature("mattr")
 |---|---|
 | `description` | Bir tümcelik tanım |
 | `formula` | Hesabın kendisi, sözel |
-| `scale` | Ölçek: `ratio_0_1`, `score`, `count`… Grafik eksenini buna göre kurun |
+| `scale` | Ölçek: `ratio_0_1`, `score`, `count`… |
 | `inputs` | Hangi ön işleme adımına ihtiyaç duyduğu |
 | `params` | Hangi `FeatureParams` alanının onu etkilediği |
 | `requires` | Sayı üretmesi için gereken en az veri; sağlanmazsa `nan` |
@@ -60,8 +60,7 @@ Yukarıdaki örnekte künye şunu yazıyor:
 > that texts of 100+ words can be measured (mattr needs 2 × window)
 
 Yani: yöntem Covington & McFall'ın, **ama varsayılan pencere boyu onlardan
-gelmiyor.** Bu ayrımı künyeden okuyabilmeniz kasıtlıdır. Bir sayıyı
-kaynağa dayanıyormuş gibi göstermek, kaynağı hiç vermemekten kötüdür.
+gelmiyor.** Bu ayrımı künyeden okuyabilmeniz kasıtlıdır.
 
 Aynı kalıbın başka biçimleri:
 
@@ -91,14 +90,11 @@ Bir dış etiket şemasının kategorisini sayan anahtarların künyesi ise `Non
 değildir, şemayı gösterir (`case_loc_ratio` → UD; `zeyrek_case_loc_ratio` →
 Zeyrek).
 
-Türkçedeki 208 anahtarın **11'inin** künyesi yoktur: 7'si noktalama ve
-büyük harf oranı, 4'ü lemma sayısı ya da ünlü payı gibi başka saf
-tanımlar.
+Türkçedeki 208 anahtarın **11'inin** künyesi yoktur.
 
 ## Yöntem bölümüne yazarken
 
 ```python
-oz = tlf.analyze(metin, lang="tr")
 kullandiklarim = ["mattr", "atesman", "sent_len_mean"]
 
 kaynaklar = set()

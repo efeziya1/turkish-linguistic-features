@@ -78,16 +78,12 @@ Boş demet `()` dönerse o öznitelik hiçbir parametreye bağlı değildir.
 ## `mattr_window` neden 50
 
 Covington & McFall (2010) üslup analizi için **500** öneriyor. Kütüphanenin
-varsayılanı 50 — onda biri. Neden:
-
-- Pencere boyu aynı zamanda **alt sınırdır**: `mattr` en az `2 × window`
-  sözcük ister. 500 olsaydı 1000 sözcükten kısa hiçbir metin sayı
-  üretemezdi.
+varsayılanı 50 — onda biri, çünkü pencere boyu aynı zamanda **alt sınırdır**:
+`mattr` en az `2 × window` sözcük ister. 500 olsaydı 1000 sözcükten kısa hiçbir
+metin sayı üretemezdi.
 
 Künye bu ayrımı açıkça yazar. 500 istiyorsanız:
 
 ```python
 p = tlf.FeatureParams(mattr_window=500)
 ```
-
-ve metinlerinizin en az 1000 sözcük olduğundan emin olun.

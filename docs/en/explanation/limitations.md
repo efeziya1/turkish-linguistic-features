@@ -2,8 +2,7 @@
 
 This page has two parts. The first says where the library is weak; the
 second covers points that are not weaknesses of the library but that you
-need to know when interpreting the results. Read both while writing your
-methods section.
+need to know when interpreting the results.
 
 ## Limitations of the library
 
@@ -20,9 +19,8 @@ and the default word:
 | English | 52,745 |
 
 A column is a **single genre**. There is **no guarantee** the thresholds suit
-novels, technical writing, transcripts, poetry or children's books. If you work
-in another genre, consider deriving the thresholds from your own corpus —
-[the method is here](../../threshold-calibration.md).
+novels, technical writing, transcripts, poetry or children's books. Method:
+[Threshold calibration](../../threshold-calibration.md).
 
 ### 2. Fifteen citations are secondary
 
@@ -37,9 +35,6 @@ Affected measures include `herdan_c`, `herdan_vm`, `honore_r`, `maas_a2`, `brune
 `dugast_u`, `simpson_d`, `heaps_beta`, `lix`, `cttr` and `summer_s`. The formulas were verified, but not
 against the **primary source's own wording**.
 
-Carry the "as cited in" through into your own methods section. Do not
-present it as though you read the primary.
-
 ### 3. The spaCy model is part of the result
 
 POS tags, morphological tags, English lemmas and the dependency features
@@ -53,11 +48,6 @@ Words and sentences are counted with the library's own rules
 Verified combination: spaCy 3.8.16, `en_core_web_sm` 3.8.0,
 `tr_core_news_md` 1.0.
 
-The Turkish model has two oddities that look like bugs (a version-number
-mismatch and a `W094` warning); both are explained in the
-[tutorial](../getting-started.md#2-install-the-language-data) and both are
-harmless.
-
 ### 4. Turkish morphology depends on Zeyrek
 
 The 23 features in the `morphological_zeyrek` group and the Turkish lemmas come
@@ -67,13 +57,9 @@ reproducible numbers, start Python with `PYTHONHASHSEED=0`.
 
 ### 5. Two thirds of the candidates are still unverified
 
-82 rows are not verification candidates at all (plain definitions, tag
-schemes, or our own derivations). Of the remaining **151 candidates, 48 are done** (46 ✅ + 2 🟡)
-and **103 are 🔍 open**.
-
-The reason is in [The verification system](verification.md): most sources
-publish a formula but never a worked numerical example. This is most
-pronounced in the `lexical` group — 7 of its 40 candidates are verified.
+Of the **151 verification candidates, 48 are done** (46 ✅ + 2 🟡) and **103 are 🔍
+open**: most sources publish a formula but never a worked numerical example.
+Details: [The verification system](verification.md).
 
 ### 6. The package is not on PyPI yet
 

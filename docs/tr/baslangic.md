@@ -127,16 +127,16 @@ sayı **uydurmaz**, `nan` döndürür.
 Ne kadarı `nan` olur, bakalım:
 
 ```python
-kisa = tlf.analyze("Kısa bir cümle.", lang="tr")
+kisa = tlf.analyze("Kısa bir tümce.", lang="tr")
 nan_olan = [k for k, v in kisa.items() if isinstance(v, float) and v != v]
 print(len(kisa), len(nan_olan))
 ```
 
 ```text
-208 37
+208 36
 ```
 
-Üç sözcüklük bir metinde 208 öznitelikten **37'si** `nan` döner. Bu bir hata
+Üç sözcüklük bir metinde 208 öznitelikten **36'sı** `nan` döner. Bu bir hata
 değil, dürüstlüktür. Ayrıntı: **[NaN ne demek](aciklama/nan.md)**.
 
 ## 6. Bir özniteliğin kaynağını görün

@@ -59,15 +59,6 @@ above `0.5`.
     segment and the remaining 400 words are gone. Short files in your
     corpus may produce no segments at all.
 
-    Use it knowingly. If in doubt, count first:
-
-    ```python
-    for path in files:
-        n = len(tlf.segment_text(path.read_text(encoding="utf-8"),
-                                 segment_size=1000, lang="en"))
-        print(path.name, n)
-    ```
-
 ## Splitting by characters
 
 ```python
@@ -76,7 +67,7 @@ tlf.segment_text(text, segment_size=5000, unit="char", lang="en")
 
 `unit="char"` counts raw characters; the word rule is not involved, so
 `lang` becomes meaningless. It does not respect word boundaries — a
-segment can end mid-word. Use it when a rough split is enough.
+segment can end mid-word.
 
 ## Use it directly on a corpus
 

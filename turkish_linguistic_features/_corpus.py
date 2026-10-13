@@ -39,12 +39,7 @@ def analyze_corpus(path: str | Path, lang: str = "tr",
 
         rows = analyze_corpus("korpus/", segment_size=1000)
 
-    2026-09-23'ten önce bu zinciri kullanıcı kuruyordu: ``load_corpus()``
-    kayıt listesi veriyor ama onunla ne yapılacağını söylemiyordu, zinciri
-    kapatan ``records_to_csv`` ise public değildi. ``examples/02`` aradaki
-    döngüyü elle yazıyordu — yani örnek script eksik API'nin yerine geçmişti.
-
-    Korpus düzeni ``_load_corpus``'un algıladığı üç biçimden biri::
+    Korpus düzeni üç biçimden biri::
 
         korpus/Etiket_Başlık.txt      düz dosya
         korpus/Etiket/dosya.txt       etiket alt klasörü
@@ -58,16 +53,11 @@ def analyze_corpus(path: str | Path, lang: str = "tr",
         ``"tr"`` ya da ``"en"``. Hem parçalamaya hem analize geçer.
     segment_size
         ``None`` (varsayılan) **bölmez**: her dosya tek satır olur,
-        ``segment_id`` hep ``0``. Sayı verilirse parça başına kelime
+        ``segment_id`` hep ``0``. Sayı verilirse parça başına sözcük
         (``unit="word"``) ya da karakter (``"char"``).
 
         Parçalama **kaynak başına**: dosyalar birbirine eklenmez, her dosya
         kendi sayacıyla sıfırdan başlar.
-
-        Varsayılan 2026-09-23'te ``1000``'den ``None``'a çekildi. Eski
-        varsayılan ``min_fill=1.0`` ile birleşince sessizce veri atıyordu:
-        1500 kelimelik dosyanın son 500 kelimesi gidiyor, 1000'den kısa
-        dosya ise hiç analiz edilmiyordu.
     min_fill, unit
         Yalnız ``segment_size`` verildiğinde anlamlı. ``min_fill`` son
         parça bu orandan az doluysa atar — sözcüksel zenginlik ölçütleri
