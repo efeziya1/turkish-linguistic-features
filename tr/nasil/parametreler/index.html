@@ -2252,24 +2252,10 @@ değeridir — <a href="#tumce-esikleri-dile-gore-cozumlenir">aşağıda</a>.</p
 <p>Değerler gazete köşe yazılarında, varsayılan tümce kuralı ve varsayılan
 sözcükle ölçülen tümce uzunluğu dağılımının 15. ve 85. yüzdeliğinden
 türetildi (TR: 162 yazar / 197.990 tümce; EN: 30 yazar / 52.745 tümce). Yöntem: <a href="../../../esik-kalibrasyonu/">Eşik kalibrasyonu</a>.</p>
-<p><strong>Çözümleme alan alandır.</strong> Verdiğiniz alan sizin sayınızı, vermediğiniz alan
-dilin kalibre edilmiş değerini kullanır. Yani ilgisiz bir alanı değiştirmek
-tümce eşiklerini bozmaz:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">metin</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"Kapı açıldı. Sabah erkenden yola çıktık. Köyün girişindeki "</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>         <span class="s2">"yaşlı çınarın altında oturan adam, uzun yıllar önce bu yollardan "</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>         <span class="s2">"geçen kervanları, pazar günlerini ve kaybolan komşularını anlattı."</span><span class="p">)</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">p</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">FeatureParams</span><span class="p">(</span><span class="n">mattr_window</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>       <span class="c1"># eşiklere dokunulmadı</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>  <span class="c1"># eşikler hâlâ TR 4/17</span>
-</code></pre></div>
-<p>Çıktı — tümcelerin sözcük sayıları 2, 4 ve 20:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>params=None                       short=0.333333   long=0.333333
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>FeatureParams(mattr_window=100)   short=0.333333   long=0.333333
-</code></pre></div>
-<p>İki satır aynı, çünkü <code>mattr_window</code> tümce eşikleriyle ilgisiz.</p>
 <h2 id="hangi-oznitelik-hangi-parametreden-etkilenir">Hangi öznitelik hangi parametreden etkilenir<a class="headerlink" href="#hangi-oznitelik-hangi-parametreden-etkilenir" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"mattr"</span><span class="p">)[</span><span class="s2">"params"</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"mattr"</span><span class="p">)[</span><span class="s2">"params"</span><span class="p">]</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>('mattr_window',)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>('mattr_window',)
 </code></pre></div>
 <p>Boş demet <code>()</code> dönerse o öznitelik hiçbir parametreye bağlı değildir.</p>
 <h2 id="mattr_window-neden-50"><code>mattr_window</code> neden 50<a class="headerlink" href="#mattr_window-neden-50" title="Permanent link">&para;</a></h2>
@@ -2281,10 +2267,9 @@ varsayılanı 50 — onda biri. Neden:</p>
   üretemezdi.</li>
 </ul>
 <p>Künye bu ayrımı açıkça yazar. 500 istiyorsanız:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">p</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">FeatureParams</span><span class="p">(</span><span class="n">mattr_window</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">p</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">FeatureParams</span><span class="p">(</span><span class="n">mattr_window</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
 </code></pre></div>
-<p>ve metinlerinizin en az 1000 sözcük olduğundan emin olun. Tümce eşiklerini
-elle taşımanız gerekmiyor; kalibre edilmiş değerlerinde kalırlar.</p>
+<p>ve metinlerinizin en az 1000 sözcük olduğundan emin olun.</p>
 
 
 

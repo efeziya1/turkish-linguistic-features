@@ -2183,6 +2183,8 @@ tab-separated.</p>
 experimental arm, whatever you are measuring.</p>
 <p>Files must be <strong>UTF-8</strong>. If any file is not, you get an error before the
 analysis starts, listing every unreadable file by name.</p>
+<p>If analysing a segment raises a <code>ValueError</code>, the run stops there. The error
+names that segment's <code>label</code>, <code>source</code> and <code>segment_id</code>.</p>
 <h2 id="two-calls">Two calls<a class="headerlink" href="#two-calls" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>

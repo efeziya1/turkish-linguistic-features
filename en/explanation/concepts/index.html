@@ -2328,6 +2328,9 @@ tags have no prefix (<code>case_loc_ratio</code>); those from Zeyrek start with 
 <code>zeyrek_case_loc_ratio</code> its share among all analysed words. Zeyrek also tells
 the -DI past from the -mIş past (<code>zeyrek_tense_past_def_ratio</code>,
 <code>zeyrek_tense_past_nar_ratio</code>); in spaCy both are <code>tense_past_ratio</code>.</p>
+<p>The ten <code>punct_…_ratio</code> keys (<code>punct_comma_ratio</code>, <code>punct_dash_ratio</code> …) are each
+mark type's share of all punctuation marks, so together they add up to 1. How much
+punctuation a text has is <code>punct_char_ratio</code> (punctuation marks / characters).</p>
 <h2 id="group">Group<a class="headerlink" href="#group" title="Permanent link">&para;</a></h2>
 <p>Features are organised into 13 groups (14 with the <code>ngram_*</code> keys created when
 you pass <code>custom_ngrams</code>). A group is both an organising device
@@ -2518,9 +2521,7 @@ word. Turkish lemmas are Zeyrek's dictionary entry, English lemmas spaCy's.</p>
 <p>Window sizes, thresholds and sample counts live here. Details:
 <a href="../../how-to/parameters/">Change the thresholds</a>.</p>
 <p>The sentence thresholds (<code>short_sent_threshold</code>, <code>long_sent_threshold</code>) are
-<strong>calibrated per language</strong> (TR 4/17, EN 8/32) and resolved field by field:
-a field you set wins, a field you leave out stays calibrated. So
-<code>FeatureParams(mattr_window=100)</code> does not change the sentence thresholds.</p>
+<strong>calibrated per language</strong> (TR 4/17, EN 8/32).</p>
 <h2 id="the-registry">The registry<a class="headerlink" href="#the-registry" title="Permanent link">&para;</a></h2>
 <p>Feature names, descriptions, formulas, requirements and citations all live
 in one place. <code>describe_feature</code>, the <a href="../../../reference/">reference section</a>

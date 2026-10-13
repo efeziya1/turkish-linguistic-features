@@ -2255,25 +2255,10 @@ distribution in newspaper columns, measured with the default sentence rule and
 the default word (Turkish: 162 columnists / 197,990 sentences; English: 30
 columnists / 52,745 sentences). Method:
 <a href="../../../threshold-calibration/">Threshold calibration</a>.</p>
-<p><strong>Resolution is per field.</strong> A field you set uses your number; a field you
-leave out keeps the calibrated value for the language. Changing an unrelated
-field therefore does not disturb the thresholds:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">text</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"Kapı açıldı. Sabah erkenden yola çıktık. Köyün girişindeki "</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>        <span class="s2">"yaşlı çınarın altında oturan adam, uzun yıllar önce bu yollardan "</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>        <span class="s2">"geçen kervanları, pazar günlerini ve kaybolan komşularını anlattı."</span><span class="p">)</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">p</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">FeatureParams</span><span class="p">(</span><span class="n">mattr_window</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>         <span class="c1"># thresholds untouched</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">feats</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>  <span class="c1"># still TR 4/17</span>
-</code></pre></div>
-<p>Output — sentences of 2, 4 and 20 words:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>params=None                       short=0.333333   long=0.333333
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>FeatureParams(mattr_window=100)   short=0.333333   long=0.333333
-</code></pre></div>
-<p>The two rows match, because <code>mattr_window</code> has nothing to do with sentence
-thresholds.</p>
 <h2 id="which-feature-depends-on-which-parameter">Which feature depends on which parameter<a class="headerlink" href="#which-feature-depends-on-which-parameter" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"mattr"</span><span class="p">)[</span><span class="s2">"params"</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"mattr"</span><span class="p">)[</span><span class="s2">"params"</span><span class="p">]</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>('mattr_window',)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>('mattr_window',)
 </code></pre></div>
 <p>An empty tuple, <code>()</code>, means the feature depends on no parameter.</p>
 <h2 id="why-mattr_window-is-50">Why <code>mattr_window</code> is 50<a class="headerlink" href="#why-mattr_window-is-50" title="Permanent link">&para;</a></h2>
@@ -2285,10 +2270,9 @@ default here is 50 — a tenth of that. The reasons:</p>
   value at all.</li>
 </ul>
 <p>The citation states this distinction openly. If you want 500:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">p</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">FeatureParams</span><span class="p">(</span><span class="n">mattr_window</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">p</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">FeatureParams</span><span class="p">(</span><span class="n">mattr_window</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
 </code></pre></div>
-<p>and make sure your texts are at least 1000 words. You do not need to carry the
-sentence thresholds over by hand; they stay at their calibrated values.</p>
+<p>and make sure your texts are at least 1000 words.</p>
 
 
 

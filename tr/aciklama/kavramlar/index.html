@@ -2328,6 +2328,9 @@ etiketlerinden gelenler öneksizdir (<code>case_loc_ratio</code>), Zeyrek'ten ge
 payıdır, <code>zeyrek_case_loc_ratio</code> çözümlenen bütün sözcükler içinde. Zeyrek
 ayrıca -DI ve -mIş geçmişini ayırır (<code>zeyrek_tense_past_def_ratio</code>,
 <code>zeyrek_tense_past_nar_ratio</code>); spaCy'de ikisi tek <code>tense_past_ratio</code>'dur.</p>
+<p>On <code>punct_…_ratio</code> anahtarı (<code>punct_comma_ratio</code>, <code>punct_dash_ratio</code> …) her işaret
+türünün bütün noktalama işaretleri içindeki payıdır; toplamları 1 eder. Metinde ne
+kadar noktalama olduğunu <code>punct_char_ratio</code> söyler (noktalama işaretleri / karakterler).</p>
 <h2 id="grup">Grup<a class="headerlink" href="#grup" title="Permanent link">&para;</a></h2>
 <p>Öznitelikler 13 gruba ayrılır (<code>custom_ngrams</code> verirseniz oluşan <code>ngram_*</code>
 anahtarlarıyla 14). Grup, hem düzenleme hem de seçim aracıdır:</p>
@@ -2519,9 +2522,7 @@ Türkçe lemma Zeyrek'in sözlük maddesidir, İngilizce lemma spaCy'nin.</p>
 <p>Pencere boyları, eşikler ve örneklem sayıları burada durur. Ayrıntı:
 <a href="../../nasil/parametreler/">Eşikleri değiştir</a>.</p>
 <p>Tümce eşikleri (<code>short_sent_threshold</code>, <code>long_sent_threshold</code>) <strong>dile göre
-kalibre edilmiştir</strong> (TR 4/17, EN 8/32) ve alan alan çözümlenir: verdiğiniz
-alan kazanır, vermediğiniz alan kalibre değerinde kalır. Yani
-<code>FeatureParams(mattr_window=100)</code> tümce eşiklerini değiştirmez.</p>
+kalibre edilmiştir</strong> (TR 4/17, EN 8/32).</p>
 <h2 id="kayt-defteri-registry">Kayıt defteri (registry)<a class="headerlink" href="#kayt-defteri-registry" title="Permanent link">&para;</a></h2>
 <p>Öznitelik adları, tanımları, formülleri, gereksinimleri ve künyeleri tek
 bir yerde durur. <code>describe_feature</code>, <a href="../../../reference/">başvuru bölümü</a>
