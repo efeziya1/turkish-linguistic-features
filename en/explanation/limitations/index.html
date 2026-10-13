@@ -1639,10 +1639,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#5-half-the-candidates-are-still-unverified" class="md-nav__link">
+  <a href="#5-two-thirds-of-the-candidates-are-still-unverified" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Half the candidates are still unverified
+        5. Two thirds of the candidates are still unverified
       
     </span>
   </a>
@@ -2165,10 +2165,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#5-half-the-candidates-are-still-unverified" class="md-nav__link">
+  <a href="#5-two-thirds-of-the-candidates-are-still-unverified" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Half the candidates are still unverified
+        5. Two thirds of the candidates are still unverified
       
     </span>
   </a>
@@ -2276,19 +2276,16 @@ and the default word:</p>
 <thead>
 <tr>
 <th>Language</th>
-<th>Columnists</th>
 <th>Sentences</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Turkish</td>
-<td>162</td>
 <td>197,990</td>
 </tr>
 <tr>
 <td>English</td>
-<td>30</td>
 <td>52,745</td>
 </tr>
 </tbody>
@@ -2298,7 +2295,7 @@ novels, technical writing, transcripts, poetry or children's books. If you work
 in another genre, consider deriving the thresholds from your own corpus —
 <a href="../../../threshold-calibration/">the method is here</a>.</p>
 <h3 id="2-fifteen-citations-are-secondary">2. Fifteen citations are secondary<a class="headerlink" href="#2-fifteen-citations-are-secondary" title="Permanent link">&para;</a></h3>
-<p><strong>15 of 172</strong> citations carry <code>as cited in</code> — the primary source could not
+<p><strong>15 of the 172</strong> cited keys carry <code>as cited in</code> — the primary source could not
 be obtained and the formula was taken from the citing work. For example:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Herdan (1960/1964), as cited in Tweedie &amp; Baayen (1998) p.327, eq. (5)
 </code></pre></div>
@@ -2312,11 +2309,7 @@ present it as though you read the primary.</p>
 (with the parser's own sentences) come from the model. Change the model and
 those numbers change. Turkish lemmas come from Zeyrek (§4).</p>
 <p>Words and sentences are counted with the library's own rules
-(<a href="../concepts/#word-and-sentence">Concepts</a>). Features that need a label per word
-(POS, lemma, morphology) take it from the first word token inside the word: the model splits <code>Türk-Amerikan</code> or English <code>it's</code> into several tokens,
-and the word carries the first part's label (<code>Türk</code>, <code>it</code>). This happens to
-0.3% of the words in Turkish newspaper columns and 2.7% in English ones. The
-dependency features count the model's tokens.
+(<a href="../concepts/#word-and-sentence">Concepts</a>).
 <code>describe_feature(key)["definitions"]["word"]</code> names the word each feature uses.</p>
 <p>Verified combination: spaCy 3.8.16, <code>en_core_web_sm</code> 3.8.0,
 <code>tr_core_news_md</code> 1.0.</p>
@@ -2325,21 +2318,11 @@ mismatch and a <code>W094</code> warning); both are explained in the
 <a href="../../getting-started/#2-install-the-language-data">tutorial</a> and both are
 harmless.</p>
 <h3 id="4-turkish-morphology-depends-on-zeyrek">4. Turkish morphology depends on Zeyrek<a class="headerlink" href="#4-turkish-morphology-depends-on-zeyrek" title="Permanent link">&para;</a></h3>
-<p>The 23 features in the <code>morphological_zeyrek</code> group and the Turkish lemmas
-come from Zeyrek, a Python port of Zemberek's morphotactics. A word Zeyrek
-cannot analyse drops out of the Zeyrek features; its lemma is the part before
-its apostrophe (<code>Pittsburgh'tan</code> → <code>pittsburgh</code>).</p>
-<p>Zeyrek is an <strong>analyser, not a disambiguator</strong>: it can return several
-analyses for the same surface form and does not pick the right one from
-context. The library takes the <strong>first</strong> analysis, with no context.</p>
-<p>Zeyrek orders the analyses by the number of suffix transitions, fewest first;
-ties keep the iteration order of an internal Python set, which depends on
-<code>PYTHONHASHSEED</code>. On the TOMA set (57 texts, 8,215 distinct words) 58.2% of
-the words have more than one analysis, and for <strong>200 words (2.4%)</strong> the first
-analysis changed across hash seeds 0–3. The Zeyrek features of the same text
-can therefore differ slightly between Python processes. For reproducible
-numbers, fix the seed before Python starts, e.g. <code>PYTHONHASHSEED=0</code>.</p>
-<h3 id="5-half-the-candidates-are-still-unverified">5. Half the candidates are still unverified<a class="headerlink" href="#5-half-the-candidates-are-still-unverified" title="Permanent link">&para;</a></h3>
+<p>The 23 features in the <code>morphological_zeyrek</code> group and the Turkish lemmas come
+from Zeyrek. The library takes Zeyrek's first analysis, without looking at the
+context. That first analysis can differ slightly between Python processes; for
+reproducible numbers, start Python with <code>PYTHONHASHSEED=0</code>.</p>
+<h3 id="5-two-thirds-of-the-candidates-are-still-unverified">5. Two thirds of the candidates are still unverified<a class="headerlink" href="#5-two-thirds-of-the-candidates-are-still-unverified" title="Permanent link">&para;</a></h3>
 <p>82 rows are not verification candidates at all (plain definitions, tag
 schemes, or our own derivations). Of the remaining <strong>151 candidates, 48 are done</strong> (46 ✅ + 2 🟡)
 and <strong>103 are 🔍 open</strong>.</p>
@@ -2364,33 +2347,14 @@ this library made. Their citations say so plainly:</p>
 <li><code>polysyllabic_word_ratio</code> — the ratio form of SMOG's input. Not a measure
   McLaughlin himself defines.</li>
 </ul>
-<p>There is nothing wrong with using them. The one requirement is getting the
-attribution right: cite the source of the formula, but do not attribute the
-measure itself to that source. In your methods section:</p>
-<ul>
-<li>✗ "the Shannon (1948) <code>sent_len_entropy</code> measure"</li>
-<li>✓ "Shannon (1948) entropy applied to the distribution of sentence lengths
-  (as defined by turkish-linguistic-features)"</li>
-</ul>
-<p>The reason is simple: Shannon defined the entropy; he did not apply it to
-sentence lengths. The first wording implies a measure the reader could look up
-in the source and find.</p>
+<p>There is nothing wrong with using them; cite the source of the formula, but do
+not present the measure as that source's own.</p>
 <h3 id="8-paragraph-features-depend-on-how-the-input-is-formatted">8. Paragraph features depend on how the input is formatted<a class="headerlink" href="#8-paragraph-features-depend-on-how-the-input-is-formatted" title="Permanent link">&para;</a></h3>
-<p>The three <code>paragraph</code> features (<code>para_count</code>, <code>para_len_mean</code>,
-<code>sents_per_para_mean</code>) find paragraph boundaries from <strong>blank lines</strong>. A
-single line break does not count as one — otherwise every line of a
-hard-wrapped text would be a paragraph.</p>
-<p>The consequence: if your text has no blank lines, the whole text counts as one
-paragraph: <code>para_count</code> is 1 and <code>para_len_mean</code> becomes the word count of the entire text. The
-library cannot fix this — a boundary that was deleted
-cannot be recovered.</p>
-<p>This is <strong>common</strong> in text extracted from PDF and EPUB: blank lines between
-paragraphs are lost during extraction. The value is not <code>nan</code>, so the numbers
-will not show it; the warning below does.</p>
-<p>If a text longer than 1000 words yields no paragraph boundary at all, a
-<code>ParagraphStructureWarning</code> is raised. If you see it you have two options:
-re-extract the source text with paragraphs separated by blank lines, or leave
-the <code>paragraph</code> group out via <code>groups</code>.</p>
+<p>The three <code>paragraph</code> features find paragraph boundaries from blank lines; a
+single line break does not count. If the text has no blank lines, the whole
+text counts as one paragraph; this is common in text extracted from PDF and
+EPUB. If a text longer than 1000 words has no paragraph boundary at all, a
+<code>ParagraphStructureWarning</code> is raised.</p>
 <h3 id="9-what-the-syllable-count-reads-aloud-and-what-it-skips">9. What the syllable count reads aloud, and what it skips<a class="headerlink" href="#9-what-the-syllable-count-reads-aloud-and-what-it-skips" title="Permanent link">&para;</a></h3>
 <p>The readability formulas and the syllable features count numbers,
 abbreviations and symbols <strong>as they are read aloud</strong>, following the

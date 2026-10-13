@@ -1022,28 +1022,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tabloda-ne-yapmal" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Tabloda ne yapmalı
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nandan-kacnmann-yolu" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        nan'dan kaçınmanın yolu
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#neden-none-degil-de-nan" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2175,28 +2153,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tabloda-ne-yapmal" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Tabloda ne yapmalı
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nandan-kacnmann-yolu" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        nan'dan kaçınmanın yolu
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#neden-none-degil-de-nan" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2295,31 +2251,7 @@ basılır:</p>
 </code></pre></div>
 <p>Uyarı metinleri İngilizcedir — öznitelik anahtarları ve künyeler de öyle.</p>
 <p>Bu genellikle metnin PDF/EPUB'dan çıkarılırken satır sonlarını kaybetmesinden
-olur; <a href="../sinirliliklar/">sınırlılıklar §8</a> ölçümü veriyor.</p>
-<h2 id="tabloda-ne-yapmal">Tabloda ne yapmalı<a class="headerlink" href="#tabloda-ne-yapmal" title="Permanent link">&para;</a></h2>
-<p><strong><code>nan</code>'ı sıfırla doldurmayın.</strong> Sıfır bir ölçümdür, <code>nan</code> ölçüm
-yokluğudur. <code>ttr = 0</code> "hiç çeşitlilik yok" demektir; <code>ttr = nan</code> "ölçemedim"
-demektir. İkisini karıştırırsanız istatistiğiniz bozulur.</p>
-<p>Sağlam yol:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"korpus/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">))</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># hangi sütunlar hiç ölçülememiş</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">bos</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()]</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># hangi sütunlarda kısmen eksik var</span>
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="n">kismi</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()]</span>
-</code></pre></div>
-<p>Hepsi <code>nan</code> olan sütunları <strong>düşürün</strong> — o öznitelik sizin korpusunuzda
-çalışmıyor. Kısmen eksik olanlarda ise kararı siz verin: satırları mı
-atacaksınız, o sütunu mu?</p>
-<h2 id="nandan-kacnmann-yolu"><code>nan</code>'dan kaçınmanın yolu<a class="headerlink" href="#nandan-kacnmann-yolu" title="Permanent link">&para;</a></h2>
-<p>Metinleri yeterince uzun tutun. Eşikleri aşmak için en pratik yol
-parçalama:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">satirlar</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"korpus/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
-</code></pre></div>
-<p>1000 sözcüklük parçalar 208 özniteliğin neredeyse tamamını besler. Ayrıntı:
-<a href="../../nasil/segmentleme/">Metni parçalara böl</a>.</p>
+olur. Ayrıntı: <a href="../sinirliliklar/">sınırlılıklar §8</a>.</p>
 <h2 id="neden-none-degil-de-nan">Neden <code>None</code> değil de <code>nan</code><a class="headerlink" href="#neden-none-degil-de-nan" title="Permanent link">&para;</a></h2>
 <p><code>nan</code> bir <code>float</code>'tır. Yani dönen sözlüğün bütün değerleri aynı tiptedir ve
 tablo doğrudan <code>pandas</code>, <code>numpy</code>, R ya da CSV'ye geçer. <code>None</code> koysaydık

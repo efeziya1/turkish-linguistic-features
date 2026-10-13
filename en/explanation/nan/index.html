@@ -1610,28 +1610,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-to-do-in-your-table" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What to do in your table
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-to-avoid-nan" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        How to avoid nan
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#why-nan-and-not-none" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2175,28 +2153,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-to-do-in-your-table" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What to do in your table
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-to-avoid-nan" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        How to avoid nan
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#why-nan-and-not-none" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2297,31 +2253,7 @@ value is not <code>nan</code>, but it says nothing about paragraphs.</p>
 <p>The message carries your own word and sentence counts, so you can tell at a
 glance whether the text really is one paragraph.</p>
 <p>This usually happens when the text lost its line breaks during extraction from
-PDF or EPUB; <a href="../limitations/">limitations §8</a> has the measurement.</p>
-<h2 id="what-to-do-in-your-table">What to do in your table<a class="headerlink" href="#what-to-do-in-your-table" title="Permanent link">&para;</a></h2>
-<p><strong>Do not fill <code>nan</code> with zero.</strong> Zero is a measurement; <code>nan</code> is the
-absence of one. <code>ttr = 0</code> says "no diversity at all"; <code>ttr = nan</code> says
-"I could not measure it". Conflate them and your statistics break.</p>
-<p>A sound approach:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"corpus/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">))</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># columns that were never measurable</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">never</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()]</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># columns with partial gaps</span>
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="n">partial</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()]</span>
-</code></pre></div>
-<p><strong>Drop</strong> the all-<code>nan</code> columns — that feature does not work on your corpus.
-For the partial ones the decision is yours: drop the rows, or drop the
-column.</p>
-<h2 id="how-to-avoid-nan">How to avoid <code>nan</code><a class="headerlink" href="#how-to-avoid-nan" title="Permanent link">&para;</a></h2>
-<p>Keep texts long enough. The most practical way to clear the thresholds is
-segmenting:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">rows</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"corpus/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
-</code></pre></div>
-<p>1000-word segments feed nearly all 181 features. See
-<a href="../../how-to/segmenting/">Split a text into segments</a>.</p>
+PDF or EPUB. Details: <a href="../limitations/">limitations §8</a>.</p>
 <h2 id="why-nan-and-not-none">Why <code>nan</code> and not <code>None</code><a class="headerlink" href="#why-nan-and-not-none" title="Permanent link">&para;</a></h2>
 <p><code>nan</code> is a <code>float</code>. That means every value in the returned dictionary has
 the same type, and the table goes straight into <code>pandas</code>, <code>numpy</code>, R or

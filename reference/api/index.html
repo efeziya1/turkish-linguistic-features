@@ -2372,7 +2372,7 @@ which means "use the calibrated value for <code>lang</code>" (TR 4/17, EN 8/32).
 </tr>
 </tbody>
 </table>
-<p>Catching <code>LinguisticFeaturesError</code> catches these. An invalid argument raises
+<p>Catching <code>LinguisticFeaturesError</code> catches the two errors. An invalid argument raises
 Python's own error instead: <code>ValueError</code> for an unsupported <code>lang</code> or a
 non-positive <code>segment_size</code>, <code>KeyError</code> from <code>describe_feature</code> for an unknown
 key. Errors raised inside spaCy or Zeyrek are not caught either.</p>
