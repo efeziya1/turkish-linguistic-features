@@ -24,7 +24,7 @@ novels, technical writing, transcripts, poetry or children's books. Method:
 
 ### 2. Fifteen citations are secondary
 
-**15 of the 172** cited keys carry `as cited in` — the primary source could not
+**15** citations carry `as cited in` — the primary source could not
 be obtained and the formula was taken from the citing work. For example:
 
 ```text
@@ -45,15 +45,16 @@ Words and sentences are counted with the library's own rules
 ([Concepts](concepts.md#word-and-sentence)).
 `describe_feature(key)["definitions"]["word"]` names the word each feature uses.
 
-Verified combination: spaCy 3.8.16, `en_core_web_sm` 3.8.0,
+Tested versions: spaCy 3.8.16, `en_core_web_sm` 3.8.0,
 `tr_core_news_md` 1.0.
 
 ### 4. Turkish morphology depends on Zeyrek
 
 The 23 features in the `morphological_zeyrek` group and the Turkish lemmas come
-from Zeyrek. The library takes Zeyrek's first analysis, without looking at the
-context. That first analysis can differ slightly between Python processes; for
-reproducible numbers, start Python with `PYTHONHASHSEED=0`.
+from Zeyrek. Zeyrek can return several analyses for a word; the library takes the
+first, without looking at the context. Which one comes first can differ slightly
+each time Python runs; for reproducible numbers, start Python with
+`PYTHONHASHSEED=0`.
 
 ### 5. Two thirds of the candidates are still unverified
 

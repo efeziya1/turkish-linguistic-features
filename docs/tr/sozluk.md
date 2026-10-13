@@ -26,7 +26,7 @@ sayfada iki ad vermemek.
 | **tümce** | sentence | `. ? ! …` ile biten birim; `:` yalnız ardından yeni tümce geliyorsa |
 | **spaCy tokenı** | spaCy token | Modelin metni böldüğü birim; noktalama ayrı tokendır. Bağlılık öznitelikleri bunu sayar |
 | **lemma** | lemma | Sözcüğün sözlük biçimi; Türkçede Zeyrek'ten, İngilizcede spaCy'den |
-| **sözcük türü etiketi** | POS tag | UD'nin 17 etiketinden biri (`NOUN`, `VERB`, `ADJ`…) |
+| **POS etiketi** | POS tag | UD'nin 17 etiketinden biri (`NOUN`, `VERB`, `ADJ`…) |
 | **n-gram** | n-gram | Ardışık sözcüklerden oluşan öbek; `custom_ngrams` ile sayılır |
 | **tip** | type | Metindeki farklı sözcüklerden biri |
 | **token** | token | Tip/token oranında: metindeki sözcük örneklerinden biri |

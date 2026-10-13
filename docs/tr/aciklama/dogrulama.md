@@ -3,8 +3,8 @@
 ## Sorun
 
 Bir kütüphane "Ateşman okunabilirlik formülünü uyguluyorum" diyebilir. Siz
-bunu nasıl kontrol edersiniz? Kaynağı bulup formülü okuyup kodu
-inceleyerek — yani kütüphaneyi kullanmamanız gereken kadar uğraşarak.
+bunu nasıl kontrol edersiniz? Kaynağı bulup formülü okuyarak ve kodu
+inceleyerek. Bu, kullanıcıdan beklenmeyecek kadar uzun bir iş.
 
 Bu kütüphane farklı bir şey yapar: **kaynağın yayımladığı sayıyı** alır,
 aynı girdiyi kendi koduna verir, ikisini yan yana basar.
@@ -12,25 +12,24 @@ aynı girdiyi kendi koduna verir, ikisini yan yana basar.
 Sonuç: [doğrulama raporu](../../dogrulama-raporu.md)
 ([English](../../verification-report.md)).
 
-## İki ayrı şeyi karıştırmayın
+## Doğrulamanın iki katmanı
 
-Bu sayfanın geri kalanı bir şey anlatıyor: raporda kaç satırın kaynağın
-*yayımladığı sayısıyla* karşılaştırıldığı. O başka bir katman. Altındaki
-katmanı da açıkça yazmak gerekiyor, çünkü rapordaki "açık" sayısı kolayca
-yanlış okunuyor.
+### 1. Formül eşdeğerliği
 
-| Katman | Ne garanti eder | Kapsam |
-|---|---|---|
-| **Formül eşdeğerliği** | Kod, kaynaktaki denklemi uyguluyor. Künye sayfa ve denklem numarası verir; testler formülü ve sınır durumlarını sınar. | Künyesi olan 197 öznitelik (Türkçe; 11'i saf tanım, kaynağı yok) |
-| **Kaynak sayısı doğrulaması** | Kaynağın *yayımladığı bir sayı* bulundu ve bizim çıktımızla karşılaştırıldı. | 151 aday rapor satırının 48'i (Türkçe) |
+Künyesi olan bütün özniteliklerin formülü kaynağıyla karşılaştırılarak kontrol
+edildi; kaynak çoğunlukla birincil, 15 künyede ikincildir (`as cited in`).
+Her künye, formülün kaynakta geçtiği sayfayı ve numarasını gösterir (örneğin
+`p.327, eq. (5)`). Testler formülü ve sınır durumlarını sınar.
+Künyesi olmayan 11 öznitelik saf tanımdır; karşılaştırılacak bir kaynakları yoktur.
 
-İkinci katman ek bir çalışmadır, birincinin koşulu değil. Bir öznitelik "🔍
-açık" diye işaretliyse **formülü şüpheli değildir**; karşılaştırılacak
-yayımlanmış bir sayı bulunamamıştır.
+### 2. Kaynak sayısı doğrulaması
 
-Her özniteliğin formülü yazılıdır. Künyesi olmayan 11 öznitelik saf tanımdır
-(tirenin noktalama işaretleri içindeki payı ya da farklı lemma sayısı gibi); bir kaynağa dayanmadıkları
-için kaynakla eşlenecek bir denklemleri de yoktur.
+Birinci katmanın üstüne eklenen ek bir kontroldür: kaynağın yayımladığı bir sayı
+bulunur ve bizim çıktımızla karşılaştırılır. 151 adayın 48'i bu katmanda
+doğrulanmıştır. Bu sayfanın geri kalanı bu katmanı anlatır.
+
+İkinci katman birincinin koşulu değildir. 🔍 açık işaretli bir özniteliğin formülü
+şüpheli değildir; karşılaştırılacak yayımlanmış bir sayı bulunamamıştır.
 
 ## Önce: her öznitelik doğrulanamaz
 
@@ -55,11 +54,10 @@ adayı** kalıyor. Gerçek payda budur.
 | 🔍 **açık** | Kaynak formülü veriyor ama uygulanmış bir örnek vermiyor. Doğrulanabilir, henüz doğrulanmadı. |
 | ❌ **uyuşmazlık** | **Açıklanmamış** fark. **Yayın kapısı: bir tane bile varsa sürüm çıkmaz.** |
 
-Bugünkü durum: **151 adayın 48'i bitmiş** (46 ✅ + 2 🟡), 103'ü 🔍 açık.
+Bugünkü durum: **151 adayın 48'i doğrulanmış** (46 ✅ + 2 🟡), 103'ü 🔍 açık.
 
 Tolerans yayımlanan değerin **%1'i** (göreli). Kaynaklar ara değerleri
-yuvarlayarak bastığı için mutlak eşitlik beklenmez. Göreli tolerans her ölçekte
-aynı şeyi söyler.
+yuvarlayarak bastığı için mutlak eşitlik beklenmez.
 
 **Toleransı aşan fark otomatik olarak ❌ değildir.** Belirleyici olan farkın
 büyüklüğü değil, **nedeninin bilinip bilinmediğidir**. Nedeni ölçülmüş ve
@@ -140,8 +138,8 @@ geçirdik, kesirli faktör **0,4043** çıktı — kaynağın bastığı %40,4 i
 
 **`coleman_liau`** — Makale ölçüyü iki adımda tanımlıyor: önce metnin cloze
 yüzdesi kestiriliyor, sonra o yüzde sınıf düzeyine çevriliyor. Uygulamada bu
-iki adım tek denklemde birleştirilir; literatürde standart olan kullanım da
-budur. İki adımı ayrı ayrı yürütmekle tek denklemi kullanmanın aynı sonucu
+iki adım tek formülde birleştirilir; literatürde standart olan kullanım da
+budur. İki adımı ayrı ayrı yürütmekle tek formülü kullanmanın aynı sonucu
 verdiğini ölçtük: **7,7041** ve **7,7046**. Aradaki 0,0005 kaynağın ara değeri
 yuvarlamasından geliyor.
 
@@ -159,9 +157,9 @@ hesapladığı ARI ve FKGL değerleri var. Yani kaynak hem girdiyi hem cevabı
 basmış — doğrulama için elde olabilecek en iyi malzeme. 18 parçanın hepsini
 boru hattımızdan geçirdik.
 
-**Sapma ne kadar?** Pasaj başına mutlak farkların ortalaması **0,54 ARI
+**Sapma ne kadar?** Parça başına mutlak farkların ortalaması **0,54 ARI
 puanı**. Raporda görünen −0,537 başka bir sayıdır: kaynağın Tablo 1'de
-bastığı ortalama (12,3) ile bizim 18 pasajlık ortalamamız arasındaki fark.
+bastığı ortalama (12,3) ile bizim 18 parçalık ortalamamız arasındaki fark.
 Yayımlanan değere oranı yaklaşık %4,4 (0,537 ÷ 12,3); %1 toleransın çok üstünde, yani ✅ olamıyor.
 
 **Neden ❌ değil?** Çünkü sapmanın nereden geldiğini tahmin etmedik, ölçtük.

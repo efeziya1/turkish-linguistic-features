@@ -70,7 +70,7 @@ oz["atesman"]         # 89.355  (Ateşman 1997 okunabilirlik)
 
 Kaynakçada 56 eser var (iki dil için tek kaynakça).
 
-Künye, formülün kaynağını sayfa ve denklem numarasıyla verir. Doğrulama
+Künye, formülün kaynağını sayfa ve formül numarasıyla verir. Doğrulama
 raporu ayrıca, kaynağın yayımladığı bir sayıyla karşılaştırılabilen satırları
 listeler. İkisinin farkı ve raporun nasıl okunacağı:
 [Doğrulama sistemi](tr/aciklama/dogrulama.md) ·

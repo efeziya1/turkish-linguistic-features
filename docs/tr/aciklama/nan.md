@@ -67,7 +67,7 @@ ortalama" olmaktan çıkar — o yüzden eşik `2 × pencere`dir.
 `zeyrek_derivational_suffix_ratio` metinde hiç türetme eki bulamazsa paydası sıfır
 olur. `parse_depth_mean` tümce ayrıştırılamazsa değer üretemez.
 `verb_dist_mean` metinde en az iki fiil yoksa ölçülemez.
-`punct_…_ratio` paylarının paydası metinde hiç noktalama işareti yoksa sıfır olur.
+Metinde hiç noktalama işareti yoksa `punct_…_ratio` öznitelikleri hesaplanamaz.
 
 ### 3. İsteğe bağlı bir paket kurulu değil
 

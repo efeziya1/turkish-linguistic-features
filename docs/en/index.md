@@ -40,8 +40,8 @@ The library has **eleven** public names. That is all of them:
 | `MissingDependencyWarning` | Warned when an optional package is missing |
 | `ParagraphStructureWarning` | Warned when a text over 1000 words has no paragraph boundary |
 
-Eleven names, 181 features for English (208 for Turkish). You never need to learn a new function to get
-more features — they all come out of `analyze`.
+Every feature, including the phrases you count with `custom_ngrams`, comes out
+of `analyze`.
 
 ## Terms
 

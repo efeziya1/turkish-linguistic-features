@@ -4,8 +4,7 @@
 
 A library can say "I implement the Ateşman readability formula." How would
 you check? By finding the source, reading the formula and inspecting the
-code — that is, by doing enough work that you might as well not use the
-library.
+code. That is more work than a user should have to do.
 
 This library does something else: it takes **the number the source
 published**, gives the same input to its own code, and prints the two side
@@ -14,26 +13,24 @@ by side.
 The result: [verification report](../../verification-report.md)
 ([Turkish](../../dogrulama-raporu.md)).
 
-## Two different things, kept apart
+## The two layers of verification
 
-The rest of this page is about one of them: how many rows have been compared
-against a number the source *published*. That is one layer. The layer beneath
-it needs stating plainly too, because the report's "open" count is easy to
-misread.
+### 1. Formula equivalence
 
-| Layer | What it guarantees | Coverage |
-|---|---|---|
-| **Formula equivalence** | The code implements the equation in the source. The citation gives page and equation number; tests exercise the formula and its edge cases. | The 197 features with a citation (Turkish; the other 11 are plain definitions with no source) |
-| **Source-number verification** | A number the source *published* was found and compared against our output. | 48 of 151 candidate report rows (Turkish) |
+The formula of every feature with a citation was checked against its
+source; the source is mostly primary, secondary in 15 citations (`as cited in`). Each
+citation shows the page and number of the formula in the source (e.g.
+`p.327, eq. (5)`). Tests exercise the formula and its edge cases. The 11 features without a citation are plain definitions; there is no
+source to check them against.
 
-The second layer is additional work, not a precondition for the first. A
-feature marked "🔍 open" does **not** have a questionable formula; no published
-number was found to compare against.
+### 2. Source-number verification
 
-Every feature has its formula written out. The 11 features without a citation
-are plain definitions (the dash's share of punctuation marks or the number of
-distinct lemmas, for example);
-they rest on no source, so there is no source equation to match.
+An extra check on top of the first layer: a number the source published is found and
+compared against our output. 48 of the 151 candidates are verified in this layer.
+The rest of this page is about this layer.
+
+The second layer is not a precondition for the first. A feature marked 🔍 open does
+not have a questionable formula; no published number was found to compare against.
 
 ## First: not every feature can be verified
 
@@ -62,8 +59,7 @@ Where things stand today: **48 of the 151 candidates are done** (46 ✅ +
 2 🟡), 103 are 🔍 open.
 
 The tolerance is **1% of the published value** (relative). Sources print
-rounded intermediate values, so exact equality is not expected. A relative
-tolerance means the same at every scale.
+rounded intermediate values, so exact equality is not expected.
 
 **Exceeding the tolerance does not automatically make a row ❌.** What decides
 is not the size of the difference but **whether its cause is known**. If the
@@ -151,9 +147,9 @@ the same as the source's printed 40.4%.
 
 **`coleman_liau`** — The article defines the measure in two steps: first
 estimate the text's cloze percentage, then convert that percentage to a grade
-level. In practice the two steps are combined into a single equation, and that
+level. In practice the two steps are combined into a single formula, and that
 is the standard use in the literature. We measured that running the two steps
-separately and using the single equation give the same result: **7.7041** and
+separately and using the single formula give the same result: **7.7041** and
 **7.7046**. The 0.0005 between them comes from the source rounding an
 intermediate value.
 

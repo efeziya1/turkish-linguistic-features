@@ -39,8 +39,8 @@ Kütüphanenin **on bir** genel adı var, hepsi bu kadar:
 | `MissingDependencyWarning` | İsteğe bağlı bir paket yoksa |
 | `ParagraphStructureWarning` | 1000 sözcüğü geçen metinde paragraf sınırı bulunamazsa |
 
-On bir ad, 208 öznitelik. Öznitelik eklemek için yeni fonksiyon öğrenmenize
-gerek yok — hepsi `analyze`'dan çıkar.
+Bütün öznitelikler, `custom_ngrams` ile saydığınız öbekler de dahil,
+`analyze`'dan çıkar.
 
 ## Terimler
 
