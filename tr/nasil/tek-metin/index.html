@@ -2208,8 +2208,8 @@ anahtarlarını taşır:</p>
 </code></pre></div>
 <p>Grup seçmek az hız kazandırır. Sürenin çoğu spaCy ve Zeyrek ön işlemesinde
 geçer ve o her durumda bir kez yapılır; grup seçimi yalnız sonraki hesabı
-kısaltır. 1000 sözcüklük bir metinde bütün gruplar yaklaşık 1,2 saniye, yalnız
-<code>readability</code> yaklaşık 0,85 saniye sürer.</p>
+kısaltır. 1000 sözcüklük bir metinde bütün gruplar yaklaşık 1,1 saniye, yalnız
+<code>readability</code> yaklaşık 0,95 saniye sürer.</p>
 <p>Mevcut gruplar ve Türkçede kaç öznitelik içerdikleri:</p>
 <table>
 <thead>
@@ -2238,7 +2238,7 @@ kısaltır. 1000 sözcüklük bir metinde bütün gruplar yaklaşık 1,2 saniye,
 <tr>
 <td><code>morphological</code></td>
 <td>19</td>
-<td>UD morfolojik özellikleri</td>
+<td>UD biçimbilimsel özellikleri</td>
 </tr>
 <tr>
 <td><code>punctuation</code></td>
@@ -2263,7 +2263,7 @@ kısaltır. 1000 sözcüklük bir metinde bütün gruplar yaklaşık 1,2 saniye,
 <tr>
 <td><code>pos</code></td>
 <td>12</td>
-<td>Sözcük türü payları</td>
+<td>POS payları</td>
 </tr>
 <tr>
 <td><code>syntactic</code></td>
@@ -2302,7 +2302,7 @@ verin:</p>
 <ul>
 <li>Sözcükler küçük harfe indirilerek karşılaştırılır. Yazılı biçim aranır,
   lemma değil: <code>eski ev</code> ile <code>eski evi</code> ayrı eşleşmelerdir.</li>
-<li>Büyük harfle yazılmış bir UD sözcük türü etiketi (<code>NOUN</code>, <code>VERB</code>, <code>ADJ</code>…)
+<li>Büyük harfle yazılmış bir UD POS etiketi (<code>NOUN</code>, <code>VERB</code>, <code>ADJ</code>…)
   o etiketi taşıyan herhangi bir sözcükle eşleşir. <code>["ADJ", "NOUN"]</code> bir sıfat
   ve hemen ardından bir isim demektir; <code>yeni bir bina</code> eşleşmez, çünkü arada
   <code>bir</code> var.</li>
@@ -2340,7 +2340,7 @@ kabul ediyorsanız:</p>
 <code>ModelNotFoundError</code> alırsınız — mesajda kurulum komutu yazar.</p>
 <div class="admonition warning">
 <p class="admonition-title">Model değiştirmek sayıları değiştirir</p>
-<p>Tokenlara ayırma, sözcük türü, biçimbirim etiketleri ve bağlılık
+<p>Tokenlara ayırma, POS etiketleri, biçimbilimsel etiketler ve bağlılık
 ayrıştırması modelden gelir. Farklı modelle çıkan tabloyu eskisiyle aynı çalışmada
 karşılaştırmayın.</p>
 </div>

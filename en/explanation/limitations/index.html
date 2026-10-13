@@ -2293,7 +2293,7 @@ and the default word:</p>
 novels, technical writing, transcripts, poetry or children's books. Method:
 <a href="../../../threshold-calibration/">Threshold calibration</a>.</p>
 <h3 id="2-fifteen-citations-are-secondary">2. Fifteen citations are secondary<a class="headerlink" href="#2-fifteen-citations-are-secondary" title="Permanent link">&para;</a></h3>
-<p><strong>15 of the 172</strong> cited keys carry <code>as cited in</code> — the primary source could not
+<p><strong>15</strong> citations carry <code>as cited in</code> — the primary source could not
 be obtained and the formula was taken from the citing work. For example:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Herdan (1960/1964), as cited in Tweedie &amp; Baayen (1998) p.327, eq. (5)
 </code></pre></div>
@@ -2307,13 +2307,14 @@ those numbers change. Turkish lemmas come from Zeyrek (§4).</p>
 <p>Words and sentences are counted with the library's own rules
 (<a href="../concepts/#word-and-sentence">Concepts</a>).
 <code>describe_feature(key)["definitions"]["word"]</code> names the word each feature uses.</p>
-<p>Verified combination: spaCy 3.8.16, <code>en_core_web_sm</code> 3.8.0,
+<p>Tested versions: spaCy 3.8.16, <code>en_core_web_sm</code> 3.8.0,
 <code>tr_core_news_md</code> 1.0.</p>
 <h3 id="4-turkish-morphology-depends-on-zeyrek">4. Turkish morphology depends on Zeyrek<a class="headerlink" href="#4-turkish-morphology-depends-on-zeyrek" title="Permanent link">&para;</a></h3>
 <p>The 23 features in the <code>morphological_zeyrek</code> group and the Turkish lemmas come
-from Zeyrek. The library takes Zeyrek's first analysis, without looking at the
-context. That first analysis can differ slightly between Python processes; for
-reproducible numbers, start Python with <code>PYTHONHASHSEED=0</code>.</p>
+from Zeyrek. Zeyrek can return several analyses for a word; the library takes the
+first, without looking at the context. Which one comes first can differ slightly
+each time Python runs; for reproducible numbers, start Python with
+<code>PYTHONHASHSEED=0</code>.</p>
 <h3 id="5-two-thirds-of-the-candidates-are-still-unverified">5. Two thirds of the candidates are still unverified<a class="headerlink" href="#5-two-thirds-of-the-candidates-are-still-unverified" title="Permanent link">&para;</a></h3>
 <p>Of the <strong>151 verification candidates, 48 are done</strong> (46 ✅ + 2 🟡) and <strong>103 are 🔍
 open</strong>: most sources publish a formula but never a worked numerical example.

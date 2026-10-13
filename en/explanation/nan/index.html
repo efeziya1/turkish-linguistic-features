@@ -2226,7 +2226,7 @@ being a moving average — hence the <code>2 × window</code> threshold.</p>
 <p><code>zeyrek_derivational_suffix_ratio</code> has a zero denominator if the text contains no
 derivational suffixes. <code>parse_depth_mean</code> cannot produce a value if no
 sentence parses. <code>verb_dist_mean</code> cannot be measured unless the text has at least two verbs.
-The <code>punct_…_ratio</code> shares have a zero denominator if the text has no punctuation marks.</p>
+The <code>punct_…_ratio</code> features cannot be computed if the text has no punctuation marks.</p>
 <h3 id="3-an-optional-package-is-missing">3. An optional package is missing<a class="headerlink" href="#3-an-optional-package-is-missing" title="Permanent link">&para;</a></h3>
 <p>Without <code>wordfreq</code>, <code>wordfreq_mean</code> and <code>wordfreq_rare_ratio</code> return <code>nan</code>
 and the library raises a <code>MissingDependencyWarning</code>.</p>

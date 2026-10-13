@@ -1566,13 +1566,41 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#two-different-things-kept-apart" class="md-nav__link">
+  <a href="#the-two-layers-of-verification" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Two different things, kept apart
+        The two layers of verification
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="The two layers of verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-formula-equivalence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Formula equivalence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-source-number-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Source-number verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2097,13 +2125,41 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#two-different-things-kept-apart" class="md-nav__link">
+  <a href="#the-two-layers-of-verification" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Two different things, kept apart
+        The two layers of verification
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="The two layers of verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-formula-equivalence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Formula equivalence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-source-number-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Source-number verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2219,46 +2275,25 @@
 <h2 id="the-problem">The problem<a class="headerlink" href="#the-problem" title="Permanent link">&para;</a></h2>
 <p>A library can say "I implement the Ateşman readability formula." How would
 you check? By finding the source, reading the formula and inspecting the
-code — that is, by doing enough work that you might as well not use the
-library.</p>
+code. That is more work than a user should have to do.</p>
 <p>This library does something else: it takes <strong>the number the source
 published</strong>, gives the same input to its own code, and prints the two side
 by side.</p>
 <p>The result: <a href="../../../verification-report/">verification report</a>
 (<a href="../../../dogrulama-raporu/">Turkish</a>).</p>
-<h2 id="two-different-things-kept-apart">Two different things, kept apart<a class="headerlink" href="#two-different-things-kept-apart" title="Permanent link">&para;</a></h2>
-<p>The rest of this page is about one of them: how many rows have been compared
-against a number the source <em>published</em>. That is one layer. The layer beneath
-it needs stating plainly too, because the report's "open" count is easy to
-misread.</p>
-<table>
-<thead>
-<tr>
-<th>Layer</th>
-<th>What it guarantees</th>
-<th>Coverage</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Formula equivalence</strong></td>
-<td>The code implements the equation in the source. The citation gives page and equation number; tests exercise the formula and its edge cases.</td>
-<td>The 197 features with a citation (Turkish; the other 11 are plain definitions with no source)</td>
-</tr>
-<tr>
-<td><strong>Source-number verification</strong></td>
-<td>A number the source <em>published</em> was found and compared against our output.</td>
-<td>48 of 151 candidate report rows (Turkish)</td>
-</tr>
-</tbody>
-</table>
-<p>The second layer is additional work, not a precondition for the first. A
-feature marked "🔍 open" does <strong>not</strong> have a questionable formula; no published
-number was found to compare against.</p>
-<p>Every feature has its formula written out. The 11 features without a citation
-are plain definitions (the dash's share of punctuation marks or the number of
-distinct lemmas, for example);
-they rest on no source, so there is no source equation to match.</p>
+<h2 id="the-two-layers-of-verification">The two layers of verification<a class="headerlink" href="#the-two-layers-of-verification" title="Permanent link">&para;</a></h2>
+<h3 id="1-formula-equivalence">1. Formula equivalence<a class="headerlink" href="#1-formula-equivalence" title="Permanent link">&para;</a></h3>
+<p>The formula of every feature with a citation was checked against its
+source; the source is mostly primary, secondary in 15 citations (<code>as cited in</code>). Each
+citation shows the page and number of the formula in the source (e.g.
+<code>p.327, eq. (5)</code>). Tests exercise the formula and its edge cases. The 11 features without a citation are plain definitions; there is no
+source to check them against.</p>
+<h3 id="2-source-number-verification">2. Source-number verification<a class="headerlink" href="#2-source-number-verification" title="Permanent link">&para;</a></h3>
+<p>An extra check on top of the first layer: a number the source published is found and
+compared against our output. 48 of the 151 candidates are verified in this layer.
+The rest of this page is about this layer.</p>
+<p>The second layer is not a precondition for the first. A feature marked 🔍 open does
+not have a questionable formula; no published number was found to compare against.</p>
 <h2 id="first-not-every-feature-can-be-verified">First: not every feature can be verified<a class="headerlink" href="#first-not-every-feature-can-be-verified" title="Permanent link">&para;</a></h2>
 <p>This distinction is the most important part of the report. By definition,
 some of the 208 features are <strong>not even candidates</strong> for verification:</p>
@@ -2316,8 +2351,7 @@ some of the 208 features are <strong>not even candidates</strong> for verificati
 <p>Where things stand today: <strong>48 of the 151 candidates are done</strong> (46 ✅ +
 2 🟡), 103 are 🔍 open.</p>
 <p>The tolerance is <strong>1% of the published value</strong> (relative). Sources print
-rounded intermediate values, so exact equality is not expected. A relative
-tolerance means the same at every scale.</p>
+rounded intermediate values, so exact equality is not expected.</p>
 <p><strong>Exceeding the tolerance does not automatically make a row ❌.</strong> What decides
 is not the size of the difference but <strong>whether its cause is known</strong>. If the
 cause has been measured and written down the row is 🟡; if it has not, the row
@@ -2440,9 +2474,9 @@ sequence through the production code and got a fractional factor of <strong>0.40
 the same as the source's printed 40.4%.</p>
 <p><strong><code>coleman_liau</code></strong> — The article defines the measure in two steps: first
 estimate the text's cloze percentage, then convert that percentage to a grade
-level. In practice the two steps are combined into a single equation, and that
+level. In practice the two steps are combined into a single formula, and that
 is the standard use in the literature. We measured that running the two steps
-separately and using the single equation give the same result: <strong>7.7041</strong> and
+separately and using the single formula give the same result: <strong>7.7041</strong> and
 <strong>7.7046</strong>. The 0.0005 between them comes from the source rounding an
 intermediate value.</p>
 <h2 id="what-a-looks-like-the-kincaid-case">What a 🟡 looks like — the Kincaid case<a class="headerlink" href="#what-a-looks-like-the-kincaid-case" title="Permanent link">&para;</a></h2>
