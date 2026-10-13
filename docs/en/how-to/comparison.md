@@ -63,18 +63,7 @@ How to read it:
 - **`long_word_ratio` 0.45 → 0.21.** "investigation", "concordance",
   "determination" are gone.
 - **`ttr` 0.68 → 0.96 but this means nothing.** The second text is shorter,
-  so TTR rose. That is length, not style. This is exactly why TTR should
-  not be read on its own.
-
-## What to watch for
-
-!!! note "If the length changed, read lexical richness with care"
-
-    When an edit shortens a text, lexical richness measures such as `ttr`,
-    `hapax_ratio` and `yule_k` change because of length too; to compare them,
-    bring both texts to the same size ([Split a text into segments](segmenting.md)).
-    In short texts the sentence and readability measures are jumpy as well;
-    SMOG needs at least 30 sentences.
+  so TTR rose. That is length, not style.
 
 ## Many pairs at once
 

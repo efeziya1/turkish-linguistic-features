@@ -28,9 +28,7 @@ corpus/
 !!! note "File names with underscores"
 
     If a file at the root has an underscore in its name, the first part
-    becomes the **label**: `text_1.txt` → label `"text"`, source `"1"`. If
-    you do not want a label, avoid underscores in the name or use the
-    subfolder layout.
+    becomes the **label**: `text_1.txt` → label `"text"`, source `"1"`.
 
 The two layouts can coexist in one folder.
 
@@ -65,8 +63,6 @@ tlf.save_csv(rows, "features.csv")
 print("row count:   ", len(rows))
 print("column count:", len(rows[0]))
 ```
-
-That is the whole chain.
 
 ## What comes out
 
@@ -132,10 +128,7 @@ Output:
 648 ÷ 200 = 3 full segments; the remaining 48 words are dropped under the
 default `min_fill=1.0`.
 
-When comparing labels (author, genre, period), keep the segments the same size
-and check the number of segments per label: the mean of a label with a single
-segment is that text's mean, not the author's. A working example that compares
-sentence-length distributions across labels:
+A working example that compares sentence-length distributions across labels:
 [`examples/05_cumle_ritmi.py`](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/05_cumle_ritmi.py).
 
 !!! note "Segmenting is per file, not across the corpus"

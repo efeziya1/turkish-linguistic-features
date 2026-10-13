@@ -84,13 +84,10 @@ Türkçede 95. yüzdeliğin üstünde kalıyor.
 **Eşikler gazete köşe yazılarıyla kalibre edildi.** Köşe yazısı tek bir tür.
 
 Roman, teknik metin, transkript, şiir, hukuk metni ya da ders kitabında eşiklerin
-uygun olacağı **garanti değildir**. Bu türlerle çalışıyorsanız kendi korpusunuzun yüzdeliklerini hesaplayıp
-`FeatureParams` ile geçirin.
+uygun olacağı **garanti değildir**.
 
 Ayrıca `short_sent_ratio` ve `long_sent_ratio` **iki dilde kıyaslanamaz**: aynı
-isimli sütun iki dilde farklı eşikle ölçülür. "Türkçe metinler daha kısa
-tümceli" gibi bir sonuç çıkarmadan önce bunu göz önüne alın; ölçtüğünüz şey dil
-farkı değil, eşik farkı olabilir. Ortak eşik isterseniz **iki alanı da**
-açıkça verin, örneğin `FeatureParams(short_sent_threshold=5,
+isimli sütun iki dilde farklı eşikle ölçülür. Ortak eşik isterseniz **iki alanı
+da** açıkça verin, örneğin `FeatureParams(short_sent_threshold=5,
 long_sent_threshold=30)`, ve aynı nesneyi iki dile geçirin. Yalnız birini
 verirseniz öteki yine dile göre çözümlenir.

@@ -44,7 +44,7 @@ tlf.describe_feature("mattr")
 |---|---|
 | `description` | One-sentence definition |
 | `formula` | The computation itself, in words |
-| `scale` | `ratio_0_1`, `score`, `count`… — set your plot axis by this |
+| `scale` | `ratio_0_1`, `score`, `count`… |
 | `inputs` | Which preprocessing step it needs |
 | `params` | Which `FeatureParams` field affects it |
 | `requires` | The minimum data needed to produce a number; below it, `nan` |
@@ -61,8 +61,7 @@ In the example above the citation says:
 
 That is: the method is Covington & McFall's, **but the default window size
 is not theirs.** Being able to read that distinction off the citation is
-deliberate. Presenting a number as if it rested on a source, when it does
-not, is worse than giving no source at all.
+deliberate.
 
 Other forms of the same pattern:
 
@@ -92,9 +91,7 @@ literature**; it is a plain definition: `punct_dash_ratio` ("dashes / all punctu
 have a citation, pointing at the scheme (`case_loc_ratio` → UD;
 `zeyrek_case_loc_ratio` → Zeyrek).
 
-**11 of the 208** Turkish keys have no citation: 7 are punctuation and
-capitalisation ratios, and 4 are other plain definitions such as the lemma
-count or the share of vowels.
+**11 of the 208** Turkish keys have no citation.
 
 ## Building a bibliography for your methods section
 

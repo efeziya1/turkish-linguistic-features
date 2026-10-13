@@ -11,7 +11,6 @@ examples/output/
 
 # MkDocs derleme çıktısı — üretilen dosya, depoda durmaz
 site/
-site-offline/
 
 # Yerel çalışma dosyaları — diskte durur, depoya girmez
 _referans/

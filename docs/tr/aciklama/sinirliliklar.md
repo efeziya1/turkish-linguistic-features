@@ -2,7 +2,7 @@
 
 Bu sayfa iki kısımdan oluşur. İlki kütüphanenin nerede zayıf olduğunu anlatır;
 ikincisi kütüphanenin zayıflığı olmayan ama sonuçları yorumlarken bilmeniz
-gereken noktaları. Yöntem bölümü yazarken ikisine de bakın.
+gereken noktaları.
 
 ## Kütüphanenin sınırlılıkları
 
@@ -18,9 +18,8 @@ tümce uzunluğu dağılımının 15. ve 85. yüzdeliğinden türetildi:
 | İngilizce | 52 745 |
 
 Köşe yazısı **tek bir tür**. Roman, teknik metin, transkript, şiir ya da
-çocuk kitabı için genelleneceği **garanti değil.** Kendi türünüzde çalışıyorsanız eşikleri
-kendi korpusunuzdan türetmeyi düşünün —
-[yöntem burada](../../esik-kalibrasyonu.md).
+çocuk kitabı için genelleneceği **garanti değil.** Yöntem:
+[Eşik kalibrasyonu](../../esik-kalibrasyonu.md).
 
 ### 2. On beş künye ikincil kaynaktan
 
@@ -35,9 +34,6 @@ Etkilenen ölçüler arasında `herdan_c`, `herdan_vm`, `honore_r`, `maas_a2`, `
 `dugast_u`, `simpson_d`, `heaps_beta`, `lix`, `cttr`, `summer_s` var. Formüller doğrulandı ama **birincil
 kaynağın kendi ifadesiyle** karşılaştırılmadı.
 
-Yöntem bölümünüzde aktarımı aynen taşıyın; birincil kaynağı okumuş gibi
-göstermeyin.
-
 ### 3. spaCy modeli sonuçların parçası
 
 Sözcük türü, biçimbilim etiketleri, İngilizce lemmalar ve bağlılık
@@ -51,10 +47,6 @@ Sözcük ve tümce kütüphanenin kendi kuralıyla sayılır
 Doğrulanmış kombinasyon: spaCy 3.8.16, `en_core_web_sm` 3.8.0,
 `tr_core_news_md` 1.0.
 
-Türkçe modelin hata sanılabilecek iki tuhaflığı (sürüm numarası çelişkisi ve
-`W094` uyarısı) [öğreticide](../baslangic.md#2-dil-verisini-kurun)
-anlatılıyor; ikisi de zararsız.
-
 ### 4. Türkçe morfoloji Zeyrek'e bağlı
 
 `morphological_zeyrek` grubundaki 23 öznitelik ve Türkçe lemmalar Zeyrek'ten
@@ -64,13 +56,9 @@ sayılar için Python'u `PYTHONHASHSEED=0` ile başlatın.
 
 ### 5. Adayların üçte ikisi hâlâ doğrulanmadı
 
-82 satır doğrulama adayı bile değil (saf tanım, etiket şeması ya da
-bizim türevimiz).
-Kalan **151 adayın 48'i** bitmiş (46 ✅ + 2 🟡), **103'ü 🔍 açık**.
-
-Sebebi [doğrulama sistemi](dogrulama.md) sayfasında: kaynakların çoğu
-formülü yayımlar, o formülün uygulandığı bir sayısal örnek vermez. Bu
-özellikle `lexical` grubunda belirgin — 40 adayın 7'si doğrulanmış.
+**151 doğrulama adayının 48'i** bitmiş (46 ✅ + 2 🟡), **103'ü 🔍 açık**: kaynakların
+çoğu formülü yayımlar, o formülün uygulandığı bir sayısal örnek vermez. Ayrıntı:
+[doğrulama sistemi](dogrulama.md).
 
 ### 6. Paket henüz PyPI'da değil
 

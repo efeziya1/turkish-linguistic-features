@@ -4,8 +4,7 @@
 
 **Öznitelik** (feature), bir metinden çıkarılan tek bir sayıdır. `ttr`,
 `word_len_mean`, `atesman` — her biri bir öznitelik. Adları
-`snake_case`'dir. Sürüm 1.0'a kadar anahtar adları değişebilir; değişen
-adlar sürüm notlarında duyurulur.
+`snake_case`'dir.
 
 Öznitelik üç şeyden biridir:
 
@@ -68,7 +67,7 @@ Bazı anahtarlar tek tek yazılmamıştır, kalıptan üretilir:
 
 ## Ölçek (`scale`)
 
-Her özniteliğin bir ölçeği vardır ve grafik kurarken bu önemlidir:
+Her özniteliğin bir ölçeği vardır:
 
 | Ölçek | Anlamı | Örnek |
 |---|---|---|
@@ -77,9 +76,6 @@ Her özniteliğin bir ölçeği vardır ve grafik kurarken bu önemlidir:
 | `length` | Birimi karakter, sözcük ya da tümce olan ortalama uzunluk | `word_len_mean`, `sent_len_mean` |
 | `nats` | Nat cinsinden entropi (doğal logaritma; kütüphanedeki bütün logaritmalar ln) | `entropy`, `punct_entropy` |
 | `count` | Sayım | `lemma_count` |
-
-`ratio_0_1` olan iki özniteliği aynı eksende çizebilirsiniz; `score` olanı
-onların yanına koymak yanıltır.
 
 ## Sözcük ve tümce
 
@@ -164,14 +160,8 @@ sözcük ve tümce sınırları; her sözcük etiketini kendi tokenından alır
 208 sayı
 ```
 
-Bunun iki sonucu var:
-
-1. **spaCy modeli sonuçların parçasıdır.** Model değişirse tokenlar,
-   sözcük türü, biçimbirim ve bağlılık öznitelikleri değişir. Hangi modeli
-   kullandığınızı yöntem bölümüne yazın.
-2. **Ön işleme bir kez yapılır.** 208 özniteliğin hepsi aynı çözümlemeden
-   beslenir; `groups` ile az öznitelik istemek ön işlemeyi hızlandırmaz,
-   yalnız çıkarım adımını kısaltır.
+**spaCy modeli sonuçların parçasıdır.** Model değişirse tokenlar, sözcük türü,
+biçimbirim ve bağlılık öznitelikleri değişir.
 
 ## `FeatureParams`
 

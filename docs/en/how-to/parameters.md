@@ -80,16 +80,12 @@ An empty tuple, `()`, means the feature depends on no parameter.
 ## Why `mattr_window` is 50
 
 Covington & McFall (2010) recommend **500** for stylometric analysis. The
-default here is 50 — a tenth of that. The reasons:
-
-- The window size is also a **lower bound**: `mattr` requires at least
-  `2 × window` words. At 500, no text under 1000 words could produce a
-  value at all.
+default here is 50 — a tenth of that, because the window size is also a **lower
+bound**: `mattr` requires at least `2 × window` words. At 500, no text under 1000
+words could produce a value at all.
 
 The citation states this distinction openly. If you want 500:
 
 ```python
 p = tlf.FeatureParams(mattr_window=500)
 ```
-
-and make sure your texts are at least 1000 words.

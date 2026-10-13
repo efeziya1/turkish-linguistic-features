@@ -50,17 +50,3 @@ pages.
 | **formula** | Tested by feeding inputs directly to the function |
 | **as cited in** | The primary source could not be obtained; taken from a secondary |
 | **release gate** | A condition that blocks a release if unmet |
-
-## On "stroke"
-
-ARI's input is the number of **strokes**, which is Kincaid's own term: it
-comes from a typewriter with a keystroke counter attached. Appendix B of
-the 1975 report says:
-
-> Letters, symbols, and punctuation marks are included in the count of
-> strokes.
-
-So a stroke is every non-space character. In modern presentations of the
-formula this is usually called "characters". Some implementations count
-only letters and drop punctuation; this one does not, because the source
-says otherwise.

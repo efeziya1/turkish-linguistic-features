@@ -28,8 +28,7 @@ korpus/
 !!! note "Alt çizgili dosya adları"
 
     Kökteki bir dosyanın adında alt çizgi varsa ilk kısım **etiket** olur:
-    `metin_1.txt` → label `"metin"`, source `"1"`. Etiket istemiyorsanız
-    dosya adında alt çizgi kullanmayın ya da alt klasör düzenini seçin.
+    `metin_1.txt` → label `"metin"`, source `"1"`.
 
 İki düzen aynı klasörde birlikte bulunabilir.
 
@@ -64,8 +63,6 @@ tlf.save_csv(satirlar, "oznitelikler.csv")
 print("satır sayısı:", len(satirlar))
 print("sütun sayısı:", len(satirlar[0]))
 ```
-
-Bu kadar. Zincirin tamamı bu.
 
 ## Ne çıkıyor
 
@@ -130,10 +127,7 @@ print(len(butun), len(parcali), [s["segment_id"] for s in parcali])
 
 648 ÷ 200 = 3 tam parça; kalan 48 sözcük varsayılan `min_fill=1.0` ile atılır.
 
-Etiketleri (yazar, tür, dönem) karşılaştırırken parçaları aynı boyda tutun
-ve etiket başına parça sayısına bakın: tek parçalık bir etiketin ortalaması
-yazarın değil o metnin ortalamasıdır. Tümce uzunluğu dağılımını etiketlere
-göre karşılaştıran çalışan örnek:
+Tümce uzunluğu dağılımını etiketlere göre karşılaştıran çalışan örnek:
 [`examples/05_cumle_ritmi.py`](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/05_cumle_ritmi.py).
 
 !!! note "Parçalama dosya dosya yapılır, korpus geneli değil"

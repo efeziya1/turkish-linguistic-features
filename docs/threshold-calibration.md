@@ -87,14 +87,11 @@ lies above the 95th percentile in Turkish.
 **The thresholds were calibrated on newspaper columns.** A column is a single genre.
 
 There is **no guarantee** that the same thresholds suit novels, technical
-writing, transcripts, poetry, legal text or textbooks. If you work with those genres, compute the
-percentiles of your own corpus and pass them through `FeatureParams`.
+writing, transcripts, poetry, legal text or textbooks.
 
 Also, `short_sent_ratio` and `long_sent_ratio` are **not comparable across the two
 languages**: the same-named column is measured with a different threshold in each.
-Before concluding that "Turkish texts have shorter sentences", keep in mind that what
-you measure may be the threshold difference, not a language difference. If you want a
-shared threshold, give **both fields** explicitly, e.g.
+If you want a shared threshold, give **both fields** explicitly, e.g.
 `FeatureParams(short_sent_threshold=5, long_sent_threshold=30)`, and pass the same
 object for both languages. If you give only one, the other is still resolved by
 language.

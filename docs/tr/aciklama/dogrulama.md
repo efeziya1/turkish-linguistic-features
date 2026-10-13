@@ -26,8 +26,7 @@ yanlış okunuyor.
 
 İkinci katman ek bir çalışmadır, birincinin koşulu değil. Bir öznitelik "🔍
 açık" diye işaretliyse **formülü şüpheli değildir**; karşılaştırılacak
-yayımlanmış bir sayı bulunamamıştır. Yule (1944) K'yı tanımlar, bir romanda
-K'nın kaç çıktığını basmaz — basmadığı için bizim K'mız yanlış olmuyor.
+yayımlanmış bir sayı bulunamamıştır.
 
 Her özniteliğin formülü yazılıdır. Künyesi olmayan 11 öznitelik saf tanımdır
 (tirenin noktalama işaretleri içindeki payı ya da farklı lemma sayısı gibi); bir kaynağa dayanmadıkları
@@ -60,8 +59,7 @@ Bugünkü durum: **151 adayın 48'i bitmiş** (46 ✅ + 2 🟡), 103'ü 🔍 aç
 
 Tolerans yayımlanan değerin **%1'i** (göreli). Kaynaklar ara değerleri
 yuvarlayarak bastığı için mutlak eşitlik beklenmez. Göreli tolerans her ölçekte
-aynı şeyi söyler: eskiden sabit 0,05 fark, 0–1 arası oranlarda (`ttr`) çok
-gevşek, yüzlerle ölçülen değerlerde (`curve_length` ≈ 134) çok sıkıydı.
+aynı şeyi söyler.
 
 **Toleransı aşan fark otomatik olarak ❌ değildir.** Belirleyici olan farkın
 büyüklüğü değil, **nedeninin bilinip bilinmediğidir**. Nedeni ölçülmüş ve
@@ -134,9 +132,6 @@ nedeni belli: `ttr` Text 2 için kaynak 0,590 basmış, ama kendi verdiği sayı
 bölünce 121 ÷ 202 = **0,599** çıkıyor. Yayımlanmış sayıda basım hatası var;
 bizim değerimiz aritmetik olarak doğru olan.
 
-Depoda duran şey iki sıklık dağılımı: 119 ve 121 tam sayı. Metinlerin kendisi
-telifli (Orwell) ve depoya girmiyor; sayılardan metin geri kurulamaz.
-
 **`mtld`** — Bu ölçü metni tarayıp TTR 0,72'nin altına her düştüğünde bir
 "faktör" sayar; artan kısım kesirli bir faktör olarak eklenir. McCarthy &
 Jarvis (2010) s.385 tam da o kesri örnekliyor: *".887 forms 40,4% of the range
@@ -178,15 +173,8 @@ miktarı bizimkinin kaç katı olmalıydı? 18 parçanın 17'sinde cevap
 **0,996–1,041 katı** — yani parça başına birkaç karakter. Elle sayımda beklenen
 büyüklük bu.
 
-İki alternatif açıklama da sınandı ve elendi: boşlukları vuruşa katmak sapmayı
-0,54'ten 4,32'ye çıkarıyor (yani bizim boşluksuz sayımımız doğru), metin
-başlıklarını saymak ise 18 parçanın hepsinde sonucu kötüleştiriyor (yani kaynak
-başlıkları saymamış). Bir parça da kendi içinde tutarsız: 2 numaralı parçada
-kaynağın ARI'sının ima ettiği tümce uzunluğu, kendi FKGL'sini tutturmuyor.
-
-FKGL vuruş kullanmaz, sözcük başına heceyi kullanır. Onun sapması tek bir
-parçada toplanıyor: 18 parçanın 15'inde fark 0,6'nın altında, 12 numaralı
-parçada −4,28; iki ortalama arasındaki fark 0,37 sınıf düzeyi.
+Kaynak parça başlıklarını saymamış: başlıkları saymak 18 parçanın hepsinde sonucu
+kötüleştiriyor. FKGL'nin sapması ise tek bir parçadan geliyor (12 numaralı parça).
 
 Parça bazında bütün sayılar — vuruş ve sözcük sayıları dâhil — raporun sonundaki
 ek tabloda duruyor, farkın hangi girdiden geldiği görülebilsin diye.
@@ -203,24 +191,7 @@ rapor ile testler ayrışamaz; rapor bayatsa test düşer.
 Kapsam listesi de kayıt defterinden gelir — bir öznitelik eklenip rapora
 girmemesi mümkün değil.
 
-## Neye güvenmeli
-
-Bir sayıyı çalışmanızda kullanmadan önce raporda satırına bakın:
-
-- **✅** — kaynağın sayısı tutuyor, kullanın.
-- **🟡** — fark var ama nedeni yazılı; nedeni okuyun, sizin kullanımınızı
-  etkiliyor mu karar verin.
-- **🔍 açık** — formül kaynağındaki denklemle eşlenmiş, ama kaynağın
-  yayımladığı bir sayıyla karşılaştırılmamış. Künyeyi verin; "kaynağın kendi
-  sayısıyla doğrulandı" demeyin.
-- **⚪ kaynak yok** — bu kütüphanenin tanımı, çünkü aranacak bir literatür
-  sayısı yok (`punct_dash_ratio` = tire / bütün noktalama işaretleri).
-- **⚫ etiket şeması** — sayının kendisi bizim, kategoriler şemanın.
-  Şemayı kaynak gösterin (UD ya da Zeyrek), ölçüyü değil.
-- **🔧 türev** — formül kaynağın, o formülü bu veriye uygulama kararı bizim.
-- **❌** — böyle bir satır varsa sürüm çıkmamıştır; görürseniz sorun bildirin.
-
-### ⚪ ve 🔧 için tanımı biz veriyoruz
+## ⚪ ve 🔧 için tanımı biz veriyoruz
 
 Bu iki durumda ölçünün tanımını yöntem bölümünüz için sıfırdan yazmanız
 gerekmiyor. Kayıt defteri her öznitelik için alıntılanabilir bir tanım
@@ -244,8 +215,7 @@ tlf.describe_feature("sent_len_entropy")["formula"]
 | `long_sent_ratio` | `long_sent_threshold` sözcükten çok tümce / tümce | eşik değeri — [eşik kalibrasyonu](../../esik-kalibrasyonu.md) |
 | `polysyllabic_word_ratio` | 3+ heceli sözcük / hecelenebilir sözcük | çok heceli tanımı — McLaughlin (1969) s.641 |
 
-Tek kural künyeyi doğru kurmak: formülün kaynağını verin, ölçünün kendisini
-kaynağa mal etmeyin.
+Formülün kaynağını verin, ama ölçüyü o kaynağın ölçüsü gibi göstermeyin.
 
 - ✗ "Shannon (1948) `sent_len_entropy` ölçüsü"
 - ✓ "Shannon (1948) entropisinin tümce uzunluğu dağılımına uygulanması

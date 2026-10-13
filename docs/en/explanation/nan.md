@@ -80,36 +80,14 @@ oz = tlf.analyze(text, lang="en", warn=False)
 ```
 
 `warn=False` silences the warning only; the feature is still `nan`. The same
-flag also silences the paragraph warning described below.
+flag also silences `ParagraphStructureWarning`.
 
 ## Not `nan`, but misleading: paragraphs
 
-Paragraph boundaries are found from blank lines; a single line break does
-not count. If your text has no blank lines, the whole text counts as one
-paragraph and `para_len_mean` becomes the word count of the entire text: the
-value is not `nan`, but it says nothing about paragraphs.
-
-If a text longer than 1000 words yields no boundary at all, a
-`ParagraphStructureWarning` is raised:
-
-```python
-import warnings
-with warnings.catch_warnings(record=True) as caught:
-    warnings.simplefilter("always")
-    feats = tlf.analyze(book_text, lang="en")
-print(caught[0].message)
-```
-
-```text
-No paragraph boundary found: the text contains no blank line, so all 52521
-words and 7347 sentences were counted as a single paragraph. ...
-```
-
-The message carries your own word and sentence counts, so you can tell at a
-glance whether the text really is one paragraph.
-
-This usually happens when the text lost its line breaks during extraction from
-PDF or EPUB. Details: [limitations §8](limitations.md).
+Paragraph boundaries are found from blank lines. If your text has no blank lines,
+the whole text counts as one paragraph and `para_len_mean` becomes the word count
+of the entire text: the value is not `nan`, but it says nothing about paragraphs.
+Details: [limitations §8](limitations.md).
 
 ## Why `nan` and not `None`
 

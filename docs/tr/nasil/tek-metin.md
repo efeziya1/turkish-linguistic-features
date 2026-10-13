@@ -149,7 +149,7 @@ Varsayılanlar `tr_core_news_md` ve `en_core_web_sm`. Model kurulu değilse
 
     Tokenlara ayırma, sözcük türü, biçimbirim etiketleri ve bağlılık
     ayrıştırması modelden gelir. Farklı modelle çıkan tabloyu eskisiyle aynı çalışmada
-    karşılaştırmayın. Hangi modeli kullandığınızı yöntem bölümüne yazın.
+    karşılaştırmayın.
 
 ## Tam imza
 

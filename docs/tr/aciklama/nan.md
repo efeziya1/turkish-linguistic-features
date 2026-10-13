@@ -14,16 +14,16 @@ olmazdı.
 Üç sözcüklük bir metinde:
 
 ```python
-kisa = tlf.analyze("Kısa bir cümle.", lang="tr")
+kisa = tlf.analyze("Kısa bir tümce.", lang="tr")
 nan_olan = [k for k, v in kisa.items() if isinstance(v, float) and v != v]
 len(kisa), len(nan_olan)
 ```
 
 ```text
-(208, 37)
+(208, 36)
 ```
 
-208 öznitelikten **37'si** `nan`. Örnekler:
+208 öznitelikten **36'sı** `nan`. Örnekler:
 
 ```text
 ['aspect_imp_ratio', 'aspect_perf_ratio', 'aspect_prog_ratio', 'dugast_u',
@@ -79,35 +79,14 @@ oz = tlf.analyze(metin, lang="tr", warn=False)
 ```
 
 `warn=False` yalnız uyarıyı susturur; öznitelik yine `nan` kalır. Aynı bayrak
-aşağıdaki paragraf uyarısını da susturur.
+`ParagraphStructureWarning`'ı da susturur.
 
 ## `nan` dönmeyen ama yanıltan durum: paragraf
 
-Paragraf sınırı boş satırla bulunur, tek satır sonu saymaz. Metninizde boş
-satır yoksa metnin tamamı tek paragraf sayılır ve `para_len_mean` bütün
-metnin sözcük sayısına eşitlenir: değer `nan` olmaz ama paragraf hakkında
-bir şey söylemez.
-
-1000 sözcüğü geçen metinde hiç sınır bulunamazsa `ParagraphStructureWarning`
-basılır:
-
-```python
-import warnings
-with warnings.catch_warnings(record=True) as kayit:
-    warnings.simplefilter("always")
-    oz = tlf.analyze(kitap_metni, lang="tr")
-print(kayit[0].message)
-```
-
-```text
-No paragraph boundary found: the text contains no blank line, so all 52521
-words and 7347 sentences were counted as a single paragraph. ...
-```
-
-Uyarı metinleri İngilizcedir — öznitelik anahtarları ve künyeler de öyle.
-
-Bu genellikle metnin PDF/EPUB'dan çıkarılırken satır sonlarını kaybetmesinden
-olur. Ayrıntı: [sınırlılıklar §8](sinirliliklar.md).
+Paragraf sınırı boş satırla bulunur. Metinde boş satır yoksa metnin tamamı tek
+paragraf sayılır ve `para_len_mean` bütün metnin sözcük sayısına eşitlenir: değer
+`nan` olmaz ama paragraf hakkında bir şey söylemez. Ayrıntı:
+[sınırlılıklar §8](sinirliliklar.md).
 
 ## Neden `None` değil de `nan`
 

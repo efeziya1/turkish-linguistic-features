@@ -150,8 +150,7 @@ install command.
 
     Tokenisation, part-of-speech tags, morphological tags and the
     dependency parse all come from the model. Do not compare a table produced with one model
-    against a table produced with another. State which model you used in
-    your methods section.
+    against a table produced with another.
 
 ## Full signature
 

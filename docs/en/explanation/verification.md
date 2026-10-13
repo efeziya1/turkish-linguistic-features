@@ -28,8 +28,7 @@ misread.
 
 The second layer is additional work, not a precondition for the first. A
 feature marked "🔍 open" does **not** have a questionable formula; no published
-number was found to compare against. Yule (1944) defines K but never prints
-what K comes to in a novel — his not printing it does not make our K wrong.
+number was found to compare against.
 
 Every feature has its formula written out. The 11 features without a citation
 are plain definitions (the dash's share of punctuation marks or the number of
@@ -64,9 +63,7 @@ Where things stand today: **48 of the 151 candidates are done** (46 ✅ +
 
 The tolerance is **1% of the published value** (relative). Sources print
 rounded intermediate values, so exact equality is not expected. A relative
-tolerance means the same at every scale: the old fixed 0.05 was far too loose
-for ratios between 0 and 1 (`ttr`) and far too tight for values in the
-hundreds (`curve_length` ≈ 134).
+tolerance means the same at every scale.
 
 **Exceeding the tolerance does not automatically make a row ❌.** What decides
 is not the size of the difference but **whether its cause is known**. If the
@@ -145,10 +142,6 @@ on Text 2 the source printed 0.590, but dividing the numbers it
 supplies itself gives 121 ÷ 202 = **0.599**. The published figure has a typo;
 ours is the arithmetically correct value.
 
-What the repository stores is two frequency distributions: 119 and 121 plain
-integers. The texts themselves are under copyright (Orwell) and are not stored;
-no text can be reconstructed from the numbers.
-
 **`mtld`** — The measure sweeps the text and counts a "factor" each time TTR
 drops below 0.72; the leftover stretch is added as a fractional factor.
 McCarthy & Jarvis (2010) p.385 work through exactly that fraction: *".887 forms
@@ -192,16 +185,8 @@ times our stroke count would the source's own number require? In 17 of the 18
 passages the answer is **0.996–1.041 times** — a handful of characters per
 passage. That is the size you expect from hand counting.
 
-Two alternative explanations were tested and ruled out: counting spaces as
-strokes pushes the deviation from 0.54 to 4.32 (so our space-excluding count is
-the right one), and counting the passage headings makes the result worse in all
-18 (so the source did not count them). One passage is also internally
-inconsistent: in passage 2 the sentence length implied by the source's ARI does
-not reproduce its own FKGL.
-
-FKGL does not use strokes; it uses syllables per word. Its deviation sits in a
-single passage: in 15 of the 18 the difference is below 0.6, passage 12 is off
-by −4.28, and the two means differ by 0.37 grade levels.
+The source did not count the passage headings: counting them makes the result worse
+in all 18. FKGL's deviation comes from a single passage (passage 12).
 
 Every number per passage — stroke and word counts included — sits in the
 appendix at the end of the report, so you can see which input a difference came
@@ -221,25 +206,7 @@ fails.
 The coverage list comes from the registry, so a feature cannot be added
 and quietly left out of the report.
 
-## What to trust
-
-Before you put a number in your work, look up its row:
-
-- **✅** — the source's number matches. Use it.
-- **🟡** — there is a difference but the reason is written down. Read the
-  reason and decide whether it affects your use.
-- **🔍 open** — the formula is matched to the equation in its source, but has
-  not been compared against a number the source published. Give the citation;
-  do not say "verified against the source's own number".
-- **⚪ no source** — the library's own definition, because there is no number in
-  the literature to look for (`punct_dash_ratio` = dashes / all punctuation marks).
-- **⚫ tag scheme** — the number is ours, the categories are the scheme's.
-  Cite the scheme (UD or Zeyrek), not a measure.
-- **🔧 derivative** — the formula is the source's; the decision to apply that
-  formula to this data is ours.
-- **❌** — if one exists, no release was made. If you see one, file an issue.
-
-### For ⚪ and 🔧 we supply the definition
+## For ⚪ and 🔧 we supply the definition
 
 In these two cases you do not have to write the measure's definition from
 scratch for your methods section. The registry keeps a citable definition for
@@ -263,8 +230,8 @@ Five examples:
 | `long_sent_ratio` | sentences with more than `long_sent_threshold` words / sentences | the threshold value — [threshold calibration](../../threshold-calibration.md) |
 | `polysyllabic_word_ratio` | 3+ syllable words / syllabifiable words | the definition of polysyllabic — McLaughlin (1969) p.641 |
 
-The one requirement is getting the attribution right: cite the source of the
-formula, but do not attribute the measure itself to that source.
+Cite the source of the formula, but do not present the measure as that source's
+own.
 
 - ✗ "the Shannon (1948) `sent_len_entropy` measure"
 - ✓ "Shannon (1948) entropy applied to the distribution of sentence lengths

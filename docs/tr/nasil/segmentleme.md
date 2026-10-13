@@ -59,15 +59,6 @@ Artık 75 sözcük, yani parçanın %75'i: `1.0` eşiğinin altında, `0.5`'in
     sözcük gider. Korpusunuzda kısa dosyalar varsa hiç parça
     üretmeyebilirler.
 
-    Bunu bilerek kullanın. Şüpheliyseniz önce sayın:
-
-    ```python
-    for yol in dosyalar:
-        n = len(tlf.segment_text(yol.read_text(encoding="utf-8"),
-                                 segment_size=1000, lang="tr"))
-        print(yol.name, n)
-    ```
-
 ## Karakterle bölmek
 
 ```python
@@ -76,7 +67,7 @@ tlf.segment_text(metin, segment_size=5000, unit="char", lang="tr")
 
 `unit="char"` ham karakter sayar; sözcük kuralı devreye girmez, dolayısıyla
 `lang` anlamsızlaşır. Sözcük sınırına saygı göstermez — parça bir sözcüğün
-ortasında bitebilir. Yalnız kaba bir bölme yeterliyse kullanın.
+ortasında bitebilir.
 
 ## Korpusta doğrudan kullanın
 

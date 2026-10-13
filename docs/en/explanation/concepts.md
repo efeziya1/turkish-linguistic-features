@@ -4,8 +4,6 @@
 
 A **feature** is a single number extracted from a text. `ttr`,
 `word_len_mean`, `atesman` — each is one feature. Names are `snake_case`.
-Until version 1.0 a key may be renamed; renamed keys are announced in the
-release notes.
 
 A feature is one of three things:
 
@@ -71,7 +69,7 @@ letter.
 
 ## Scale
 
-Every feature has a scale, and it matters when you plot:
+Every feature has a scale:
 
 | Scale | Meaning | Example |
 |---|---|---|
@@ -80,9 +78,6 @@ Every feature has a scale, and it matters when you plot:
 | `length` | A mean length in characters, words or sentences | `word_len_mean`, `sent_len_mean` |
 | `nats` | Entropy in nats (natural logarithm; every logarithm in the library is ln) | `entropy`, `punct_entropy` |
 | `count` | A count | `lemma_count` |
-
-Two `ratio_0_1` features can share an axis; putting a `score` next to them
-misleads.
 
 ## Word and sentence
 
@@ -166,14 +161,8 @@ word and sentence boundaries; each word takes its tags from its own token
 208 numbers
 ```
 
-Two consequences:
-
-1. **The spaCy model is part of the result.** Change the model and the
-   tokens, POS, morphological and dependency features change with it.
-   State which model you used in your methods section.
-2. **Preprocessing runs once.** All 208 features draw on the same analysis,
-   so asking for fewer `groups` does not speed up preprocessing — it only
-   shortens the extraction step.
+**The spaCy model is part of the result.** Change the model and the tokens, POS,
+morphological and dependency features change with it.
 
 ## `FeatureParams`
 
