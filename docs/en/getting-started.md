@@ -8,17 +8,9 @@ Time: about 15 minutes, most of it downloading models.
 
 ## 1. Install the library
 
-The package is not on PyPI yet. Clone the repository and install it in
-editable mode:
-
 ```bash
-git clone https://github.com/efeziya1/turkish-linguistic-features.git
-cd turkish-linguistic-features
-pip install -e .
+pip install turkish-linguistic-features
 ```
-
-`-e` (editable) means the installed package tracks the repository, so
-`git pull` is enough to update it.
 
 ## 2. Install the language data
 

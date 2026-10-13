@@ -7,11 +7,11 @@ Extracts 208 quantitative linguistic features from Turkish text and 181 from
 English. Every feature has its formula written out; 197 of the Turkish features
 and 170 of the English ones cite a source in the literature, and the rest are
 plain definitions (such as the dash's share of punctuation marks). The
-[verification report](docs/verification-report.md) shows which ones have been
+[verification report](https://efeziya1.github.io/turkish-linguistic-features/verification-report/) shows which ones have been
 checked against a number their source published. Documentation:
 https://efeziya1.github.io/turkish-linguistic-features/
 
-**Status: early development (0.x).** Not on PyPI yet. Changes: [CHANGELOG](CHANGELOG.md).
+**Status: early development (0.x).** Changes: [CHANGELOG](https://github.com/efeziya1/turkish-linguistic-features/blob/main/CHANGELOG.md).
 
 ```python
 import turkish_linguistic_features as tlf
@@ -35,12 +35,8 @@ guides, feature reference and limitations, in **Turkish and English**.
 
 ## Install
 
-From a clone:
-
 ```bash
-git clone https://github.com/efeziya1/turkish-linguistic-features.git
-cd turkish-linguistic-features
-pip install -e .
+pip install turkish-linguistic-features
 ```
 
 ### Language data
@@ -68,7 +64,7 @@ command to run.
 Verified with spaCy 3.8.16, `en_core_web_sm` 3.8.0 and `tr_core_news_md` 1.0.
 The Turkish wheel says `1.0` in its filename but `3.4.2` in its metadata, and
 loading it prints a `W094` warning; both are harmless
-([details](docs/en/getting-started.md)).
+([details](https://efeziya1.github.io/turkish-linguistic-features/en/getting-started/)).
 
 ## The whole API
 
@@ -90,7 +86,7 @@ tlf.FeatureParams(mattr_window=100)              # metric constants
 # tlf.MissingDependencyWarning  tlf.ParagraphStructureWarning
 ```
 
-Full signatures: [docs/reference/api.md](docs/reference/api.md).
+Full signatures: [Public API](https://efeziya1.github.io/turkish-linguistic-features/reference/api/).
 
 ## Development
 

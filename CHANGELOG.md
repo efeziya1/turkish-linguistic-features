@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [0.2.0] - 2026-10-13
 
 This release renames and removes feature keys; tables built with 0.1.0 will not line up
 column for column. Keys: Turkish 208 (the same number, not the same keys), English 180 → 181. Cited features: Turkish
@@ -8,6 +8,8 @@ column for column. Keys: Turkish 208 (the same number, not the same keys), Engli
 
 ### Added
 
+- The package is on PyPI: `pip install turkish-linguistic-features`. The language data
+  is still installed separately.
 - Nine counts. `lexical`: `word_count` (words by the library's word), `type_count` (V),
   `hapax_count` (V1, words occurring once) and `dislegomena_count` (V2, twice); `sentence`:
   `sent_count`; `paragraph`: `para_count`; `phonetic`: `syllable_count`; `punctuation`:
