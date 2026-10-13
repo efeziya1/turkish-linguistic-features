@@ -51,8 +51,8 @@ len(oz)     # 45
 
 Picking groups saves little time. Most of it goes to the spaCy and Zeyrek
 preprocessing, which runs once whatever you ask for; groups only shorten the
-calculation after it. On a 1000-word text all groups take about 1.2 seconds,
-`readability` alone about 0.85 seconds.
+calculation after it. On a 1000-word text all groups take about 1.1 seconds,
+`readability` alone about 0.95 seconds.
 
 The groups, with their Turkish feature counts:
 

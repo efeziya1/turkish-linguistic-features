@@ -92,7 +92,7 @@ Zeyrek).
 
 Türkçedeki 208 anahtarın **11'inin** künyesi yoktur.
 
-## Yöntem bölümüne yazarken
+## Kaynakçayı oluşturmak
 
 ```python
 kullandiklarim = ["mattr", "atesman", "sent_len_mean"]
