@@ -145,12 +145,12 @@ column for column. Keys: Turkish 208 (the same number, not the same keys), Engli
   of the `morphological_zeyrek` features; `’` and `‘` are turned into `'` first.
 - The minimum spaCy version is 3.8 (`spacy>=3.8,<4`, was 3.5): both language models need it.
 - The install hint for a missing optional package names the package itself
-  (`pip install 'wordfreq>=3.0'`), not an extra of a package not yet on PyPI.
+  (`pip install 'wordfreq>=3.0'`), not an extra of this package.
 - Registry and documentation texts: three descriptions ran words together, the parameter
   guide showed `params` as a list (it is a tuple), the `analyze` docstring example gave 3.5
   for a mean of 3.0, four bibliography entries had Turkish fragments.
-- The limitations page explains how Zeyrek orders its analyses and that the first one can
-  depend on `PYTHONHASHSEED` (200 of 8,215 words on the TOMA set).
+- The limitations page says that Zeyrek's first analysis can differ between Python runs and
+  that `PYTHONHASHSEED=0` makes the numbers reproducible.
 
 ## [0.1.0] - 2026-09-28
 
