@@ -14,7 +14,7 @@ oz = tlf.analyze(metin, lang="tr", params=p)
 
 `FeatureParams` bir dataclass'tır; vermediğiniz alanlar varsayılanda kalır.
 Tümce eşiklerinin varsayılanı sabit bir sayı değil, dilin kalibre edilmiş
-değeridir — [aşağıda](#tumce-esikleri-dile-gore-cozumlenir).
+değeridir — [aşağıda](#tumce-esikleri-dile-gore-uygulanr).
 
 Çıktı (`short_sent_ratio`, `long_sent_ratio`):
 
@@ -49,7 +49,7 @@ Aynı metin, farklı eşik, farklı sayı. Üç tümcenin biri 12 sözcüğü ge
 | `long_sent_threshold` | TR **17** · EN **32** | `long_sent_ratio` |
 | `max_parse_depth` | 20 | `parse_depth_mean` |
 
-## Tümce eşikleri dile göre çözümlenir
+## Tümce eşikleri dile göre uygulanır
 
 Tablodaki tek sayı olmayan iki alan bunlar. Sebep tipolojik: Türkçe tümceler
 İngilizce tümcelerden kısa, aynı eşik iki dile uymuyor.

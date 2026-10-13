@@ -23,8 +23,7 @@ Köşe yazısı **tek bir tür**. Roman, teknik metin, transkript, şiir ya da
 
 ### 2. On beş künye ikincil kaynaktan
 
-Künyesi olan 172 anahtarın **15'i** `as cited in` ile işaretlidir — birincil kaynağa
-ulaşılamadı, formül aktaran kaynaktan alındı. Örnek:
+**15** künye `as cited in` ile işaretlidir — birincil kaynağa ulaşılamadı, formül aktaran kaynaktan alındı. Örnek:
 
 ```text
 Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)
@@ -36,7 +35,7 @@ kaynağın kendi ifadesiyle** karşılaştırılmadı.
 
 ### 3. spaCy modeli sonuçların parçası
 
-Sözcük türü, biçimbilim etiketleri, İngilizce lemmalar ve bağlılık
+POS etiketleri, biçimbilimsel etiketler, İngilizce lemmalar ve bağlılık
 öznitelikleri (ayrıştırıcının kendi tümceleriyle) modelden gelir. Model
 değişirse bu sayılar değişir. Türkçe lemmalar Zeyrek'ten gelir (§4).
 
@@ -44,19 +43,20 @@ Sözcük ve tümce kütüphanenin kendi kuralıyla sayılır
 ([Kavramlar](kavramlar.md#sozcuk-ve-tumce)). Hangi özniteliğin hangi sözcüğü kullandığını
 `describe_feature(key)["definitions"]["word"]` söyler.
 
-Doğrulanmış kombinasyon: spaCy 3.8.16, `en_core_web_sm` 3.8.0,
+Sınanan sürümler: spaCy 3.8.16, `en_core_web_sm` 3.8.0,
 `tr_core_news_md` 1.0.
 
 ### 4. Türkçe morfoloji Zeyrek'e bağlı
 
 `morphological_zeyrek` grubundaki 23 öznitelik ve Türkçe lemmalar Zeyrek'ten
-gelir. Kütüphane, bağlama bakmadan Zeyrek'in ilk çözümlemesini alır. Bu ilk
-çözümleme Python sürecine göre az da olsa değişebilir; tekrar üretilebilir
-sayılar için Python'u `PYTHONHASHSEED=0` ile başlatın.
+gelir. Zeyrek bir sözcük için birden çok çözümleme döndürebilir; kütüphane bağlama
+bakmadan ilkini alır. Hangisinin ilk geldiği Python'un her çalıştırılışında az da
+olsa değişebilir; tekrar üretilebilir sayılar için Python'u `PYTHONHASHSEED=0` ile
+başlatın.
 
 ### 5. Adayların üçte ikisi hâlâ doğrulanmadı
 
-**151 doğrulama adayının 48'i** bitmiş (46 ✅ + 2 🟡), **103'ü 🔍 açık**: kaynakların
+**151 doğrulama adayının 48'i** doğrulanmış (46 ✅ + 2 🟡), **103'ü 🔍 açık**: kaynakların
 çoğu formülü yayımlar, o formülün uygulandığı bir sayısal örnek vermez. Ayrıntı:
 [doğrulama sistemi](dogrulama.md).
 
@@ -104,6 +104,6 @@ Sayıdan sonraki nokta, ardından sözcük ya da virgül geliyorsa sıra sayıs�
 
 Okunuşu metinden belirlenemeyen biçimler tahmin edilmez, hece sayımından
 **atlanır**: tek başına birim harfi (`m` metre de olabilir dakika da),
-okunuşu bağlama göre değişen semboller (`/`, `#`, `*`), listede olmayan ünsüz
-küçük harfli kısaltmalar. Bu yüzden sembol ve kısaltma yoğun bir metinde hece
+okunuşu bağlama göre değişen semboller (`/`, `#`, `*`), listede olmayan, ünlü
+içermeyen küçük harfli kısaltmalar. Bu yüzden sembol ve kısaltma yoğun bir metinde hece
 sayısı, protokole göre elle yapılan sayımdan biraz düşük çıkar.

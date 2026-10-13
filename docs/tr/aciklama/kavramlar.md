@@ -20,7 +20,7 @@
 
 ## Anahtar adları
 
-Ad, özniteliğin ne ölçtüğünü okunur kılacak biçimde kurulur:
+Ad, özniteliğin ne ölçtüğünü söyler:
 
 | Ad | Anlamı | Örnek |
 |---|---|---|
@@ -29,7 +29,7 @@ Ad, özniteliğin ne ölçtüğünü okunur kılacak biçimde kurulur:
 | `…_count` | Sayım | `word_count`, `sent_count`, `lemma_count` |
 | Literatürdeki adı | Adı yerleşik ölçü; `_ratio` almaz | `ttr`, `mattr`, `yule_k`, `posddev` |
 
-Biçimbirim öznitelikleri iki çözümleyiciden gelir. spaCy'nin UD
+Biçimbilimsel öznitelikler iki çözümleyiciden gelir. spaCy'nin UD
 etiketlerinden gelenler öneksizdir (`case_loc_ratio`), Zeyrek'ten gelenler
 `zeyrek_` ile başlar (`zeyrek_case_loc_ratio`). İkisi aynı sayıyı vermez:
 `case_loc_ratio` durum etiketi taşıyan sözcükler içinde bulunma durumunun
@@ -103,8 +103,8 @@ Bağlılık grubu dışındaki her öznitelik bu sözcüğü sayar.
 
 Tümceyi bitirenler:
 
-- **`.` `?` `!` `…`** — her zaman. `...` ile `…` aynı işarettir. Art arda gelen
-  işaretler (`?!`, `."`) iki değil tek tümce bitirir.
+- **`.` `?` `!` `…`** — her zaman. `...` ile `…` aynı işarettir. `?!` gibi art
+  arda gelen işaretler tek tümce bitirir.
 - **`:`** — yalnız ardından yeni bir tümce başlıyorsa: büyük harf, tırnak, tire ya da
   açılış parantezi. Ardından küçük harfli bir sözcük ya da sayı gelen iki nokta (liste,
   açıklama, `10:30`) tümce bitirmez.
@@ -138,7 +138,7 @@ ortalamayı boş yere aşağı çekmesin diye hiç harf içermeyen tümceyi saym
 
 ### Sözcüğün etiketi
 
-Sözcük türü, biçimbirim etiketi ve lemma sözcüğün içindeki ilk tokendan gelir.
+POS etiketi, biçimbilimsel etiket ve lemma sözcüğün içindeki ilk tokendan gelir.
 Türkçe lemma Zeyrek'in sözlük maddesidir, İngilizce lemma spaCy'nin.
 
 Bir özniteliğin hangi kuralı kullandığını
@@ -151,7 +151,7 @@ Bir özniteliğin hangi kuralı kullandığını
 ```text
 ham metin
    ↓  spaCy (tr_core_news_md / en_core_web_sm)
-token · sözcük türü · biçimbirim etiketi · bağlılık ağacı · İngilizce lemma
+token · POS etiketi · biçimbilimsel etiket · bağlılık ağacı · İngilizce lemma
    ↓  Zeyrek (yalnız Türkçe)
 ek çözümlemesi · Türkçe lemma
    ↓  kütüphanenin kuralları
@@ -160,8 +160,8 @@ sözcük ve tümce sınırları; her sözcük etiketini kendi tokenından alır
 208 sayı
 ```
 
-**spaCy modeli sonuçların parçasıdır.** Model değişirse tokenlar, sözcük türü,
-biçimbirim ve bağlılık öznitelikleri değişir.
+**spaCy modeli sonuçların parçasıdır.** Model değişirse tokenlar, POS,
+biçimbilimsel ve bağlılık öznitelikleri değişir.
 
 ## `FeatureParams`
 

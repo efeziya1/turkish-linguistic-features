@@ -12,7 +12,7 @@ alınmadı, gazete köşe yazılarında, varsayılan tümce kuralı ve varsayıl
 | **Türkçe** | 4 | 17 |
 | **İngilizce** | 8 | 32 |
 
-Eşikler `analyze(lang=...)` çağrısında dile göre çözümlenir. Kendi eşiğinizi
+Eşikler `analyze(lang=...)` çağrısında dile göre uygulanır. Kendi eşiğinizi
 `FeatureParams` ile verirseniz o kazanır; vermediğiniz alan yukarıdaki
 değerinde kalır ([ayrıntı](tr/nasil/parametreler.md)).
 
@@ -66,18 +66,8 @@ tümcenin taşıdığı bilgiyi yüklenebiliyor. Yüzeysel sözcük sayısı iki
 
 ## Ateşman (1997) ile karşılaştırma
 
-Ateşman (1997), s.74'te formülün kalibrasyon uçlarını veriyor: en kolay metin
-ortalama **4** sözcüklük tümce, en zor metin **30**.
-
-Türkçe `short_sent_threshold=4` kalibrasyondan gelir. Ateşman'ın "en kolay
-metin" değeriyle örtüşmesi yalnız bir nottur: o sayı bir metnin ortalamasıdır,
-eşik değildir, bu yüzden kaynak olarak gösterilmez, 30 için geçerli olan
-gerekçenin aynısı. Ateşman s.73'teki Türkçe normu
-(ortalama tümce 9-10 sözcük) da korpusun medyanıyla (9,0) tutuyor.
-
-Ateşman'ın 30'u `long` için **kullanılmadı**: o sayı en zor metnin ortalaması,
-tek bir tümcenin "uzun" sayılma eşiği değil. Eşik olarak kullanıldığında
-Türkçede 95. yüzdeliğin üstünde kalıyor.
+Ateşman (1997, s.73) Türkçede ortalama tümce uzunluğunu 9-10 sözcük olarak veriyor;
+korpusun medyanı (9,0) bununla tutuyor.
 
 ## Kapsam sınırı
 
@@ -90,4 +80,4 @@ Ayrıca `short_sent_ratio` ve `long_sent_ratio` **iki dilde kıyaslanamaz**: ayn
 isimli sütun iki dilde farklı eşikle ölçülür. Ortak eşik isterseniz **iki alanı
 da** açıkça verin, örneğin `FeatureParams(short_sent_threshold=5,
 long_sent_threshold=30)`, ve aynı nesneyi iki dile geçirin. Yalnız birini
-verirseniz öteki yine dile göre çözümlenir.
+verirseniz öteki yine dile göre uygulanır.

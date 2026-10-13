@@ -106,7 +106,7 @@ Every feature except the dependency group counts this word.
 A sentence ends at:
 
 - **`.` `?` `!` `…`** — always. `...` and `…` are the same mark. Marks in a row
-  (`?!`, `."`) end one sentence, not two.
+  such as `?!` end one sentence.
 - **`:`** — only when what follows starts like a new sentence: a capital letter, a
   quote, a dash or an opening bracket. A colon followed by a lowercase word or a number
   (a list, an explanation, `10:30`) does not end a sentence.

@@ -66,7 +66,7 @@ Aynı kalıbın başka biçimleri:
 
 - `"Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)"`
   — **birincil kaynağa ulaşılamadı**, formül aktaran kaynaktan alındı.
-  Künyesi olan 172 anahtarın **15'i** böyledir ve hepsi `as cited in` ile işaretlidir.
+  **15** künye böyledir ve hepsi `as cited in` ile işaretlidir.
 - `"McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form of
   SMOG's input, not the source's own measure"` — ölçü kaynaktan türetilmiş
   ama kaynağın kendi ölçüsü değil.

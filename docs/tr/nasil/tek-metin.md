@@ -59,12 +59,12 @@ Mevcut gruplar ve Türkçede kaç öznitelik içerdikleri:
 | `lexical` | 38 | Sözcüksel zenginlik, sıklık |
 | `chars` | 29 | Harf sıklık vektörü: Türkçe alfabenin her harfi için bir anahtar (İngilizcede 26; `q`, `w`, `x` yalnız orada) |
 | `morphological_zeyrek` | 23 | Zeyrek ek çözümlemesi (yalnız TR) |
-| `morphological` | 19 | UD morfolojik özellikleri |
+| `morphological` | 19 | UD biçimbilimsel özellikleri |
 | `punctuation` | 20 | Noktalama türlerinin payı, noktalama yoğunluğu, büyük harf |
 | `syntactic_dep` | 16 | Bağlılık ayrıştırması |
 | `phonetic` | 14 | Hece, ünlü, ses örüntüsü |
 | `frequency_structure` | 13 | Zipf, h-noktası, tematik yoğunlaşma |
-| `pos` | 12 | Sözcük türü payları |
+| `pos` | 12 | POS payları |
 | `syntactic` | 7 | Tümce yapısı |
 | `sentence` | 7 | Tümce uzunluğu dağılımı |
 | `readability` | 7 | Okunabilirlik formülleri |
@@ -90,7 +90,7 @@ Her öbek bir anahtar olur; değeri metindeki eşleşme sayısıdır.
 
 - Sözcükler küçük harfe indirilerek karşılaştırılır. Yazılı biçim aranır,
   lemma değil: `eski ev` ile `eski evi` ayrı eşleşmelerdir.
-- Büyük harfle yazılmış bir UD sözcük türü etiketi (`NOUN`, `VERB`, `ADJ`…)
+- Büyük harfle yazılmış bir UD POS etiketi (`NOUN`, `VERB`, `ADJ`…)
   o etiketi taşıyan herhangi bir sözcükle eşleşir. `["ADJ", "NOUN"]` bir sıfat
   ve hemen ardından bir isim demektir; `yeni bir bina` eşleşmez, çünkü arada
   `bir` var.
@@ -147,7 +147,7 @@ Varsayılanlar `tr_core_news_md` ve `en_core_web_sm`. Model kurulu değilse
 
 !!! warning "Model değiştirmek sayıları değiştirir"
 
-    Tokenlara ayırma, sözcük türü, biçimbirim etiketleri ve bağlılık
+    Tokenlara ayırma, POS etiketleri, biçimbilimsel etiketler ve bağlılık
     ayrıştırması modelden gelir. Farklı modelle çıkan tabloyu eskisiyle aynı çalışmada
     karşılaştırmayın.
 
