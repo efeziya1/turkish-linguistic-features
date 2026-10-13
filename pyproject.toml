@@ -56,6 +56,11 @@ all = ["pandas>=1.5", "wordfreq>=3.0"]
 [tool.hatch.version]
 path = "turkish_linguistic_features/__init__.py"
 
+# Kaynak paketi (sdist) .gitignore'a uyar ama yerel dışlamaları (.git/info/exclude)
+# görmez: yerelde derlenince .claude/ gibi klasörler pakete girerdi (2026-10-13).
+[tool.hatch.build.targets.sdist]
+exclude = [".claude", "plan", "_referans", "site", "site-offline", "dist", ".venv"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 # Why: console-script pytest.exe repo kokunu sys.path'e koymaz; tests/ icindeki

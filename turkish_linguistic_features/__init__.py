@@ -28,7 +28,7 @@ from .features import describe_feature
 from .file_loader import save_csv, segment_text
 from .params import FeatureParams
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 # Genel API — on bir adın hepsi burada.
 __all__ = [

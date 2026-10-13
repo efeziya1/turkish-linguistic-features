@@ -62,10 +62,9 @@ Of the **151 verification candidates, 48 are done** (46 ✅ + 2 🟡) and **103 
 open**: most sources publish a formula but never a worked numerical example.
 Details: [The verification system](verification.md).
 
-### 6. The package is not on PyPI yet
+### 6. Early development (0.x)
 
-Early development (0.x). You install from a clone. Until 1.0, key
-names and the public API may change; changes are announced in the release
+Until 1.0, key names and the public API may change; changes are announced in the release
 notes.
 
 ## Things to know when using it

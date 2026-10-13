@@ -8,16 +8,9 @@ Süre: yaklaşık 15 dakika, çoğu model indirmekle geçer.
 
 ## 1. Kütüphaneyi kurun
 
-Paket henüz PyPI'da değil. Depoyu klonlayın ve paketi depodan kurun:
-
 ```bash
-git clone https://github.com/efeziya1/turkish-linguistic-features.git
-cd turkish-linguistic-features
-pip install -e .
+pip install turkish-linguistic-features
 ```
-
-`-e` seçeneği paketi kopyalamaz, depodaki dosyalara bağlar. Bu yüzden bir kez
-kurmanız yeter: depoyu `git pull` ile güncellediğinizde kurulu paket de güncellenir.
 
 ## 2. Dil verisini kurun
 

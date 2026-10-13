@@ -1,0 +1,44 @@
+# Yayın: GitHub'da bir release yayımlanınca paketi derleyip PyPI'a yükler.
+# Actions sekmesinden elle çalıştırılırsa ("Run workflow") TestPyPI'a yükler — deneme için.
+#
+# Token ya da şifre kullanmaz: PyPI'ın "trusted publishing" özelliği (OIDC). PyPI'da
+# (ve TestPyPI'da) proje ayarlarına bir kez şu yayıncı tanımlanır:
+#   sahip: efeziya1 · depo: turkish-linguistic-features · iş akışı: publish.yml
+#   ortam: pypi (TestPyPI için: testpypi)
+# Sürüm numarası turkish_linguistic_features/__init__.py'deki __version__'dan gelir;
+# PyPI aynı numarayı ikinci kez kabul etmez.
+
+name: Publish
+
+on:
+  release:
+    types: [published]                    # release taslağı değil, yayımlanınca
+  workflow_dispatch:                      # elle: TestPyPI'a deneme yüklemesi
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    # Elle çalıştırılınca testpypi, release'te pypi ortamı.
+    environment: ${{ github.event_name == 'release' && 'pypi' || 'testpypi' }}
+    permissions:
+      id-token: write                     # trusted publishing için kimlik belirteci
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Build
+        run: |
+          pip install build
+          python -m build                 # dist/ altına sdist ve wheel
+      - name: Publish to TestPyPI
+        if: github.event_name != 'release'
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+      - name: Publish to PyPI
+        if: github.event_name == 'release'
+        uses: pypa/gh-action-pypi-publish@release/v1

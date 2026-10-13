@@ -60,10 +60,9 @@ başlatın.
 çoğu formülü yayımlar, o formülün uygulandığı bir sayısal örnek vermez. Ayrıntı:
 [doğrulama sistemi](dogrulama.md).
 
-### 6. Paket henüz PyPI'da değil
+### 6. Erken geliştirme aşaması (0.x)
 
-Erken geliştirme aşamasında (0.x). Kurulum klondan yapılır. 1.0'a kadar anahtar
-adları ve genel API değişebilir; değişiklikler sürüm notlarında duyurulur.
+1.0'a kadar anahtar adları ve genel API değişebilir; değişiklikler sürüm notlarında duyurulur.
 
 ## Kullanırken bilmeniz gerekenler
 
