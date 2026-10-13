@@ -4,7 +4,7 @@
 ``{"name", "source", "description"}``. ``source`` kuralı kimin koyduğunu söyler (``tlf``,
 ``spacy``, ``zeyrek``, ``textstat``, ``wordfreq``), ``description`` tek cümleyle nasıl
 hesaplandığını. Dile göre
-değişen terimde (``syllable``) ``describe_feature(key, lang="tr")`` o dilin kaydını, ``lang``
+değişen terimde (``syllable``, ``type``) ``describe_feature(key, lang="tr")`` o dilin kaydını, ``lang``
 verilmezse ``{"tr": ..., "en": ...}`` döndürür. Formülün kullanmadığı terim sözlükte yoktur.
 
 Bu dosya yalnız **eşlemeyi** tutar (hangi öznitelik hangi tanım adını kullanıyor); her adın anlamı
@@ -28,7 +28,7 @@ __all__ = ["TERMS", "TERM_VALUES", "LANGUAGE_NAMES", "PER_LANGUAGE", "ONLY_LANGU
            "GROUP_SENTENCE", "FEATURE_SENTENCE", "GROUP_WORD", "FEATURE_WORD"]
 
 TERM_VALUES: dict[str, frozenset[str]] = {
-    "sentence": frozenset({"default", "kincaid", "cetinkaya", "spacy_parser", "regex_paragraph"}),
+    "sentence": frozenset({"default", "kincaid", "cetinkaya", "spacy_parser"}),
     "word": frozenset({
         "space_unit", "space_unit_with_symbols", "pos_token", "zeyrek_analysed_word",
     }),
@@ -131,7 +131,7 @@ def _hepsi(deger: str, anahtarlar: tuple[str, ...]) -> dict[str, str | None]:
 GROUP_SENTENCE: dict[str, str | None] = {"sentence": "default", "syntactic_dep": "spacy_parser",
                                           "custom_ngrams": "default"}
 FEATURE_SENTENCE: dict[str, str | None] = {
-    "sents_per_para_mean": "regex_paragraph",
+    "sents_per_para_mean": "default",
     "question_sent_ratio": "default", "posdiv": "default",
     "sent_syllable_mean": "default",
     "atesman": "default", "bezirci_yilmaz": "default", "cetinkaya_uzun": "cetinkaya",
@@ -232,7 +232,7 @@ def _kayit(terim: str, ad: str) -> dict[str, object]:
 def definitions_of(key: str, grup: str, lang: str | None = None) -> dict[str, dict]:
     """Özniteliğin formülünün kullandığı terimler; her biri ``{name, source, description}``.
 
-    Dile göre değişen terimde (``syllable``) ``lang`` verilmişse o dilin kaydı, verilmemişse
+    Dile göre değişen terimde (``syllable``, ``type``) ``lang`` verilmişse o dilin kaydı, verilmemişse
     ``{"tr": kayıt, "en": kayıt}`` döner; yalnız tek dilde üretilen öznitelikte (``ONLY_LANGUAGE``,
     ör. ``atesman``) o dilin kaydı. ``None`` olan terimler atılır.
     """

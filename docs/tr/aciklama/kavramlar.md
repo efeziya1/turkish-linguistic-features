@@ -38,6 +38,10 @@ payıdır, `zeyrek_case_loc_ratio` çözümlenen bütün sözcükler içinde. Ze
 ayrıca -DI ve -mIş geçmişini ayırır (`zeyrek_tense_past_def_ratio`,
 `zeyrek_tense_past_nar_ratio`); spaCy'de ikisi tek `tense_past_ratio`'dur.
 
+On `punct_…_ratio` anahtarı (`punct_comma_ratio`, `punct_dash_ratio` …) her işaret
+türünün bütün noktalama işaretleri içindeki payıdır; toplamları 1 eder. Metinde ne
+kadar noktalama olduğunu `punct_char_ratio` söyler (noktalama işaretleri / karakterler).
+
 ## Grup
 
 Öznitelikler 13 gruba ayrılır (`custom_ngrams` verirseniz oluşan `ngram_*`
@@ -175,9 +179,7 @@ Pencere boyları, eşikler ve örneklem sayıları burada durur. Ayrıntı:
 [Eşikleri değiştir](../nasil/parametreler.md).
 
 Tümce eşikleri (`short_sent_threshold`, `long_sent_threshold`) **dile göre
-kalibre edilmiştir** (TR 4/17, EN 8/32) ve alan alan çözümlenir: verdiğiniz
-alan kazanır, vermediğiniz alan kalibre değerinde kalır. Yani
-`FeatureParams(mattr_window=100)` tümce eşiklerini değiştirmez.
+kalibre edilmiştir** (TR 4/17, EN 8/32).
 
 ## Kayıt defteri (registry)
 

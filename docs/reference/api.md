@@ -119,6 +119,10 @@ Files must be UTF-8 (a leading BOM is ignored). Otherwise
 `LinguisticFeaturesError` is raised before any analysis, naming every file
 that could not be decoded.
 
+If analysing a segment raises `ValueError`, the run stops at that segment. The
+message names its `label`, `source` and `segment_id`; the original error is
+its `__cause__`.
+
 See: [TR](../tr/nasil/korpus.md) · [EN](../en/how-to/corpus.md)
 
 ---
@@ -183,7 +187,7 @@ not a named measure from the literature.
 `letter`, `type`…): for each, `{"name": ..., "source": ..., "description": ...}` — the
 rule tlf counts it with, who defines that rule (`tlf`, `spacy`, `zeyrek`,
 `textstat`, `wordfreq`) and, in one sentence, how it is counted. A term the formula does not use is absent.
-Where the definition differs by language (`syllable`), `describe_feature(key, lang="tr")` returns
+Where the definition differs by language (`syllable`, `type`), `describe_feature(key, lang="tr")` returns
 that language's entry; without `lang` you get `{"tr": ..., "en": ...}`.
 
 Dynamic keys (`char_a_ratio`, `ngram_*_count`) are accepted; for them `formula` and
@@ -203,9 +207,6 @@ sample counts. Eighteen fields; the full table is in
 
     `short_sent_threshold` and `long_sent_threshold` default to `None`,
     which means "use the calibrated value for `lang`" (TR 4/17, EN 8/32).
-    They are resolved field by field: a field you set wins, a field you leave
-    out stays calibrated. Setting an unrelated field such as `mattr_window`
-    does not touch the sentence thresholds.
 
 ---
 
@@ -218,7 +219,7 @@ sample counts. Eighteen fields; the full table is in
 | `MissingDependencyWarning` | The optional `wordfreq` package is missing; the two `wordfreq_*` features return `nan` |
 | `ParagraphStructureWarning` | A text over 1000 words has no blank-line paragraph boundary; the three `paragraph` features (`para_count`, `para_len_mean`, `sents_per_para_mean`) describe the whole text as one paragraph |
 
-Catching `LinguisticFeaturesError` catches these. An invalid argument raises
+Catching `LinguisticFeaturesError` catches the two errors. An invalid argument raises
 Python's own error instead: `ValueError` for an unsupported `lang` or a
 non-positive `segment_size`, `KeyError` from `describe_feature` for an unknown
 key. Errors raised inside spaCy or Zeyrek are not caught either.

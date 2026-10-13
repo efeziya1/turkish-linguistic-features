@@ -103,7 +103,7 @@ DURUMLAR: dict[str, tuple[tuple, tuple]] = {
     "syntactic.activity_ratio": (([],), (POS_EV,)),
     "syntactic.sent_len_char_mean": (([],), ([["ev"]],)),
     "syntactic.lexical_density": (([],), (POS_EV,)),
-    "syntactic.paragraph_stats": (("",), ("ev",)),
+    "syntactic.paragraph_stats": (("", []), ("ev", [["ev"]])),
     "syntactic.pos_distribution_stats": (([], []), (POS_EV, [["ev"]])),
     "syntactic.pos_ratios": (([],), (POS_EV,)),
     "syntactic.pronoun_ratio": (([],), (POS_EV,)),

@@ -246,6 +246,18 @@ def test_sayimlar_elle():
     assert yalniz["type_count"] == 0.0 and yalniz["syllable_count"] == 0.0
 
 
+def test_paragraf_basina_cumle_varsayilan_kural():
+    """``sents_per_para_mean`` = ``sent_count`` / ``para_count`` (2026-10-13, Efe): "Dr." cümle
+    bitirmez; ``[.!?…]`` sayımı burada 3 cümle, 1.5 verirdi."""
+    metin = "Dr. Ali geldi.\n\nSonra gitti."
+    tok = ["Dr.", "Ali", "geldi", ".", "Sonra", "gitti", "."]
+    pos = [(t, "PUNCT" if t == "." else "NOUN") for t in tok]
+    oz = _extract_features(raw_text=metin, surface_tokens=tok,
+                           lemma_tokens=["dr.", "ali", "gel", "sonra", "git"], pos_data=pos,
+                           lang="tr", groups=["sentence", "paragraph"])
+    assert (oz["sent_count"], oz["para_count"], oz["sents_per_para_mean"]) == (2.0, 2.0, 1.0)
+
+
 def test_bos_metinde_olculebilen_yok():
     """Boş metinde hiçbir öznitelik ölçülemez → hepsi NaN (K4)."""
     olculen = {k: v for k, v in _extract_features(**BOS_GIRDI).items()

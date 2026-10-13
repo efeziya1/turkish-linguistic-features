@@ -77,7 +77,8 @@ column for column. Keys: Turkish 208 (the same number, not the same keys), Engli
 - **One sentence rule.** `. ? ! …` end a sentence; `:` only when what follows starts like a new
   sentence (capital letter, quote, dash or opening bracket). The `sentence` group,
   `question_sent_ratio`, `posdiv` and `sent_syllable_mean` use it instead of spaCy's parser
-  sentences. The readability formulas use the same conditional colon (Kincaid's rule too);
+  sentences. `sents_per_para_mean` is now `sent_count` / `para_count`; it counted runs of
+  `.!?…` in each paragraph, so `Dr.` ended a sentence. The readability formulas use the same conditional colon (Kincaid's rule too);
   the Çetinkaya rule keeps its source's unconditional `:`, and `syntactic_dep` keeps the
   parser.
 - **Sentence-length thresholds** are calibrated on newspaper columns with the rules above

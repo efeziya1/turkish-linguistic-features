@@ -16,7 +16,7 @@ with what `describe_feature()` returns.
 | Key | The `dict` key `analyze()` returns |
 | Description | One-sentence definition |
 | Formula | The computation, in words |
-| Requires | Minimum data needed; below it the feature returns `nan`. A "word" is any token that is not punctuation or a symbol |
+| Requires | Minimum data needed; below it the feature returns `nan`. A "word" is the library's default word ([Concepts](../en/explanation/concepts.md#word)) |
 | Source | Short citation. `—` means it is not a named measure from the literature |
 
 Whether a feature's number has been checked against the number its source
@@ -130,7 +130,7 @@ published is a separate question — see the
 |---|---|---|---|---|
 | `para_count` | number of paragraphs | `paragraphs (blank line = boundary)` | at least 1 paragraph | Zheng et al. (2006) Table 3, p.385, no. 248 "Total number of paragraphs" |
 | `para_len_mean` | mean paragraph length | `mean words per paragraph (blank line = boundary)` | at least 1 paragraph | Zheng et al. (2006) Table 3, p.385, no. 251 "Number of words per paragraph" |
-| `sents_per_para_mean` | mean sentences per paragraph | `mean count of [.!?…]+ per paragraph (at least 1)` | at least 1 paragraph | Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph" |
+| `sents_per_para_mean` | mean sentences per paragraph | `sentences / paragraphs (sent_count / para_count)` | at least 1 sentence with a letter | Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph" |
 
 ## `pos` — Part-of-speech ratios
 

@@ -49,7 +49,7 @@ Artık 75 sözcük, yani parçanın %75'i: `1.0` eşiğinin altında, `0.5`'in
 | `min_fill` | Anlamı |
 |---|---|
 | `1.0` (varsayılan) | Yalnız tam parçalar. En temiz karşılaştırma. |
-| `0.5` | Yarısından çok dolu son parçayı da tut. |
+| `0.5` | En az yarısı dolu son parçayı da tut. |
 | `0.0` | Ne kalırsa tut. **Uzunluk karşılaştırmasını bozar.** |
 
 !!! warning "Atılan veri sessizce atılır"

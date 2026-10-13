@@ -204,9 +204,14 @@ def test_sent_len_entropy_elle():
 # ── paragraf ──────────────────────────────────────────────────────────
 
 
+def _cumleler(metin: str) -> list[list[str]]:
+    """Noktayla biten düz cümleler → cümle başına kelimeler (yalnız bu testlerin metinleri için)."""
+    return [c.split() for c in metin.split(".") if c.strip()]
+
+
 def test_paragraf_elle():
     """3 ve 2 kelime, 1'er cümle, 5 kelimede 2 paragraf."""
-    sonuc = paragraph_stats("Bir iki üç.\n\nDört beş.")
+    sonuc = paragraph_stats("Bir iki üç.\n\nDört beş.", [["Bir", "iki", "üç"], ["Dört", "beş"]])
     assert sonuc == {
         "para_count": 2.0,
         "para_len_mean": 2.5,
@@ -215,34 +220,42 @@ def test_paragraf_elle():
 
 
 def test_tek_paragraf():
-    sonuc = paragraph_stats("Bir iki üç. Dört.")
+    sonuc = paragraph_stats("Bir iki üç. Dört.", [["Bir", "iki", "üç"], ["Dört"]])
     assert sonuc["para_len_mean"] == 4.0 and sonuc["sents_per_para_mean"] == 2.0
 
 
 def test_paragraf_bos_satirla_bolunur():
     metin = "Birinci paragraf.\n\nİkinci paragraf. İki cümle."
-    assert paragraph_stats(metin)["sents_per_para_mean"] == 1.5
+    cumleler = [["Birinci", "paragraf"], ["İkinci", "paragraf"], ["İki", "cümle"]]
+    assert paragraph_stats(metin, cumleler)["sents_per_para_mean"] == 1.5
 
 
 def test_tek_satir_sonu_paragraf_saymaz():
     """Bilinen sınırlama — belgeleyici test."""
-    tek = paragraph_stats("Birinci satır.\nİkinci satır.")
-    cift = paragraph_stats("Birinci satır.\n\nİkinci satır.")
+    cumleler = [["Birinci", "satır"], ["İkinci", "satır"]]
+    tek = paragraph_stats("Birinci satır.\nİkinci satır.", cumleler)
+    cift = paragraph_stats("Birinci satır.\n\nİkinci satır.", cumleler)
     assert tek["sents_per_para_mean"] == 2.0
     assert cift["sents_per_para_mean"] == 1.0
 
 
-def test_noktalamasiz_paragraf_bir_cumle_sayilir():
-    assert paragraph_stats("Noktalama olmayan bir paragraf")["sents_per_para_mean"] == 1.0
+def test_paragraf_basina_cumle_sent_count_bolu_para_count():
+    """Paragraf başına cümle = verilen cümleler / paragraflar (2026-10-13, Efe); metindeki
+    işaretler sayılmaz. Paragraf sınırını aşan cümle bir kez sayılır."""
+    metin = "Başlık\n\nDr. Ali geldi. Sonra gitti."
+    cumleler = [["Başlık", "Dr.", "Ali", "geldi"], ["Sonra", "gitti"]]
+    assert paragraph_stats(metin, cumleler)["sents_per_para_mean"] == 1.0
 
 
-def test_ucnokta_tek_cumle_sonu():
-    assert paragraph_stats("Bekledi... Sonra gitti.")["sents_per_para_mean"] == 2.0
+def test_harfli_cumle_yoksa_paragraf_basina_cumle_nan():
+    """Harfsiz cümle ``sent_count``'taki gibi sayılmaz; paragraf var, cümle yok → NaN."""
+    sonuc = paragraph_stats("1999.", [["1999"]])
+    assert sonuc["para_count"] == 1.0 and _nan(sonuc["sents_per_para_mean"])
 
 
 def test_paragraf_windows_satir_sonu():
     """\\r\\n de \\n gibi bölünmeli."""
-    assert paragraph_stats("A.\n\nB.") == paragraph_stats("A.\r\n\r\nB.")
+    assert paragraph_stats("A.\n\nB.", [["A"], ["B"]]) == paragraph_stats("A.\r\n\r\nB.", [["A"], ["B"]])
 
 
 # ── paragraf sınırı yok: uyar, sayıyı değiştirme (2026-09-24, Efe) ────
@@ -257,7 +270,7 @@ def test_uzun_metin_paragraf_sinirsizsa_uyarir():
     """
     metin = " ".join(f"Cümle {i}." for i in range(600))      # 1200 kelime
     with pytest.warns(ParagraphStructureWarning, match="No paragraph boundary found"):
-        sonuc = paragraph_stats(metin)
+        sonuc = paragraph_stats(metin, _cumleler(metin))
     # Karar (2026-09-24, Efe): sayılar değişmez, yalnız görünür kılınır.
     assert sonuc["para_len_mean"] == 1200.0
 
@@ -266,7 +279,7 @@ def test_uyari_mesaji_kullanicinin_sayisini_verir():
     """Mesaj İngilizce ve kullanıcının kendi sayılarını taşır (2026-09-24, Efe)."""
     metin = " ".join(f"Cümle {i}." for i in range(600))
     with pytest.warns(ParagraphStructureWarning) as kayit:
-        paragraph_stats(metin)
+        paragraph_stats(metin, _cumleler(metin))
     mesaj = str(kayit[0].message)
     assert "1200 words" in mesaj and "600 sentences" in mesaj
 
@@ -276,7 +289,7 @@ def test_paragrafli_uzun_metin_uyarmaz():
     metin = "\n\n".join(" ".join(f"Cümle {i}." for i in range(50)) for _ in range(12))
     with warnings.catch_warnings():
         warnings.simplefilter("error", ParagraphStructureWarning)
-        assert paragraph_stats(metin)["para_len_mean"] == 100.0
+        assert paragraph_stats(metin, _cumleler(metin))["para_len_mean"] == 100.0
 
 
 def test_kisa_tek_paragraf_uyarmaz():
@@ -287,9 +300,10 @@ def test_kisa_tek_paragraf_uyarmaz():
     """
     with warnings.catch_warnings():
         warnings.simplefilter("error", ParagraphStructureWarning)
-        assert paragraph_stats("Bu bir deneme metnidir. İkinci cümle.")["para_len_mean"] == 6.0
-        assert paragraph_stats("Tek bir cümle var.")["para_len_mean"] == 4.0
-        assert _nan(paragraph_stats("")["para_len_mean"])
+        metin = "Bu bir deneme metnidir. İkinci cümle."
+        assert paragraph_stats(metin, _cumleler(metin))["para_len_mean"] == 6.0
+        assert paragraph_stats("Tek bir cümle var.", [["Tek", "bir", "cümle", "var"]])["para_len_mean"] == 4.0
+        assert _nan(paragraph_stats("", [])["para_len_mean"])
 
 
 # ── cümle uzunluğu: payda kelime, token değil ─────────────────────────
@@ -339,7 +353,7 @@ def test_bos_girdiler_hepsi_nan():
     for sonuc in (pos_ratios([]), verb_distance_stats([]), activity_ratio([]),
                   lexical_density([]), pos_distribution_stats([], []), sentence_stats([]),
                   sentence_distribution_stats([], 5, 30), sent_len_char_mean([]),
-                  sent_len_entropy([]), paragraph_stats(""), paragraph_stats("  \n\n ")):
+                  sent_len_entropy([]), paragraph_stats("", []), paragraph_stats("  \n\n ", [])):
         assert _hepsi_nan(sonuc)
 
 

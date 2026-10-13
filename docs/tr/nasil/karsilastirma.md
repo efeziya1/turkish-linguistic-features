@@ -69,8 +69,7 @@ Okunuşu:
     Düzenleme metni kısalttıysa `ttr`, `hapax_ratio`, `yule_k` gibi sözcüksel
     zenginlik ölçüleri uzunluk yüzünden de değişir; bunları karşılaştırmak için
     iki metni aynı boya getirin ([Metni parçalara böl](segmentleme.md)). Kısa
-    metinde tümce ve okunabilirlik ölçüleri de oynaktır; SMOG en az 30 tümce
-    ister.
+    metinde tümce ve okunabilirlik ölçüleri de oynaktır.
 
 ## Birden çok çifti karşılaştırmak
 

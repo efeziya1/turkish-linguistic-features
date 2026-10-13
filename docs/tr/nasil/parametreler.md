@@ -61,28 +61,7 @@ Tablodaki tek sayı olmayan iki alan bunlar. Sebep tipolojik: Türkçe tümceler
 
 Değerler gazete köşe yazılarında, varsayılan tümce kuralı ve varsayılan
 sözcükle ölçülen tümce uzunluğu dağılımının 15. ve 85. yüzdeliğinden
-türetildi (TR: 162 yazar / 197.990 tümce; EN: 30 yazar / 52.745 tümce). Yöntem: [Eşik kalibrasyonu](../../esik-kalibrasyonu.md).
-
-**Çözümleme alan alandır.** Verdiğiniz alan sizin sayınızı, vermediğiniz alan
-dilin kalibre edilmiş değerini kullanır. Yani ilgisiz bir alanı değiştirmek
-tümce eşiklerini bozmaz:
-
-```python
-metin = ("Kapı açıldı. Sabah erkenden yola çıktık. Köyün girişindeki "
-         "yaşlı çınarın altında oturan adam, uzun yıllar önce bu yollardan "
-         "geçen kervanları, pazar günlerini ve kaybolan komşularını anlattı.")
-p = tlf.FeatureParams(mattr_window=100)       # eşiklere dokunulmadı
-oz = tlf.analyze(metin, lang="tr", params=p)  # eşikler hâlâ TR 4/17
-```
-
-Çıktı — tümcelerin sözcük sayıları 2, 4 ve 20:
-
-```text
-params=None                       short=0.333333   long=0.333333
-FeatureParams(mattr_window=100)   short=0.333333   long=0.333333
-```
-
-İki satır aynı, çünkü `mattr_window` tümce eşikleriyle ilgisiz.
+türetildi (TR: 197.990 tümce; EN: 52.745 tümce). Yöntem: [Eşik kalibrasyonu](../../esik-kalibrasyonu.md).
 
 ## Hangi öznitelik hangi parametreden etkilenir
 
@@ -111,5 +90,4 @@ Künye bu ayrımı açıkça yazar. 500 istiyorsanız:
 p = tlf.FeatureParams(mattr_window=500)
 ```
 
-ve metinlerinizin en az 1000 sözcük olduğundan emin olun. Tümce eşiklerini
-elle taşımanız gerekmiyor; kalibre edilmiş değerlerinde kalırlar.
+ve metinlerinizin en az 1000 sözcük olduğundan emin olun.

@@ -62,31 +62,8 @@ threshold cannot serve both.
 
 They were derived from the 15th and 85th percentiles of the sentence-length
 distribution in newspaper columns, measured with the default sentence rule and
-the default word (Turkish: 162 columnists / 197,990 sentences; English: 30
-columnists / 52,745 sentences). Method:
+the default word (Turkish: 197,990 sentences; English: 52,745 sentences). Method:
 [Threshold calibration](../../threshold-calibration.md).
-
-**Resolution is per field.** A field you set uses your number; a field you
-leave out keeps the calibrated value for the language. Changing an unrelated
-field therefore does not disturb the thresholds:
-
-```python
-text = ("Kapı açıldı. Sabah erkenden yola çıktık. Köyün girişindeki "
-        "yaşlı çınarın altında oturan adam, uzun yıllar önce bu yollardan "
-        "geçen kervanları, pazar günlerini ve kaybolan komşularını anlattı.")
-p = tlf.FeatureParams(mattr_window=100)         # thresholds untouched
-feats = tlf.analyze(text, lang="tr", params=p)  # still TR 4/17
-```
-
-Output — sentences of 2, 4 and 20 words:
-
-```text
-params=None                       short=0.333333   long=0.333333
-FeatureParams(mattr_window=100)   short=0.333333   long=0.333333
-```
-
-The two rows match, because `mattr_window` has nothing to do with sentence
-thresholds.
 
 ## Which feature depends on which parameter
 
@@ -115,5 +92,4 @@ The citation states this distinction openly. If you want 500:
 p = tlf.FeatureParams(mattr_window=500)
 ```
 
-and make sure your texts are at least 1000 words. You do not need to carry the
-sentence thresholds over by hand; they stay at their calibrated values.
+and make sure your texts are at least 1000 words.

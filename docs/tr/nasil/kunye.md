@@ -50,7 +50,7 @@ tlf.describe_feature("mattr")
 | `requires` | Sayı üretmesi için gereken en az veri; sağlanmazsa `nan` |
 | `citation` | **Kısa işaretçi** — yöntem bölümünde parantez içi |
 | `references` | **Tam bibliyografik kayıt** — kaynakçaya kopyalanacak olan |
-| `definitions` | `formula`daki terimlerin ne demek olduğu ve tanımın nereden geldiği: her terim için `{"name", "source" (kuralı kim koyuyor: tlf, spacy, zeyrek, textstat, wordfreq), "description" (tek tümce: nasıl sayıldığı)}`; yalnız o formülün kullandığı terimler; dile göre değişen terimde (`syllable`) `describe_feature(key, lang="tr")` dili seçer |
+| `definitions` | `formula`daki terimlerin ne demek olduğu ve tanımın nereden geldiği: her terim için `{"name", "source" (kuralı kim koyuyor: tlf, spacy, zeyrek, textstat, wordfreq), "description" (tek tümce: nasıl sayıldığı)}`; yalnız o formülün kullandığı terimler; dile göre değişen terimde (`syllable`, `type`) `describe_feature(key, lang="tr")` dili seçer |
 
 ## Künye ne bilmediğimizi de söyler
 
@@ -67,7 +67,7 @@ Aynı kalıbın başka biçimleri:
 
 - `"Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)"`
   — **birincil kaynağa ulaşılamadı**, formül aktaran kaynaktan alındı.
-  172 künyenin **15'i** böyledir ve hepsi `as cited in` ile işaretlidir.
+  Künyesi olan 172 anahtarın **15'i** böyledir ve hepsi `as cited in` ile işaretlidir.
 - `"McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form of
   SMOG's input, not the source's own measure"` — ölçü kaynaktan türetilmiş
   ama kaynağın kendi ölçüsü değil.

@@ -444,7 +444,7 @@ def test_definitions_formulde_gecen_terim_kayitli(anahtar):
 @pytest.mark.parametrize("anahtar, beklenen", [
     ("sent_len_mean", {"sentence": "default", "word": "space_unit"}),
     ("arc_len_mean", {"sentence": "spacy_parser", "word": "pos_token", "dependency": "spacy_head"}),
-    ("sents_per_para_mean", {"sentence": "regex_paragraph", "paragraph": "blank_line"}),
+    ("sents_per_para_mean", {"sentence": "default", "paragraph": "blank_line"}),
     ("cetinkaya_uzun", {"sentence": "cetinkaya", "word": "space_unit_with_symbols",
                         "syllable": "vowel_count"}),
     ("ari", {"sentence": "default", "word": "space_unit_with_symbols",

@@ -49,7 +49,7 @@ above `0.5`.
 | `min_fill` | Meaning |
 |---|---|
 | `1.0` (default) | Full segments only. The cleanest comparison. |
-| `0.5` | Also keep a last segment that is more than half full. |
+| `0.5` | Also keep a last segment that is at least half full. |
 | `0.0` | Keep whatever is left. **Breaks length comparability.** |
 
 !!! warning "Discarded data is discarded silently"

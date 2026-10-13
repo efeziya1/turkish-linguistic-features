@@ -319,7 +319,7 @@ def _extract_features(
 
     # ── paragraph (3) ─────────────────────────────────────────────────
     if istiyor("paragraph"):
-        feats.update(paragraph_stats(raw_text, lang))
+        feats.update(paragraph_stats(raw_text, cumle_kelimeleri, lang))
 
     # ── pos (12) ──────────────────────────────────────────────────────
     if istiyor("pos"):
