@@ -61,7 +61,7 @@ Tablodaki tek sayı olmayan iki alan bunlar. Sebep tipolojik: Türkçe tümceler
 
 Değerler gazete köşe yazılarında, varsayılan tümce kuralı ve varsayılan
 sözcükle ölçülen tümce uzunluğu dağılımının 15. ve 85. yüzdeliğinden
-türetildi (TR: 162 yazar / 197.990 tümce; EN: 30 yazar / 52.745 tümce). Yöntem: [Eşik kalibrasyonu](../../esik-kalibrasyonu.md).
+türetildi (TR: 197.990 tümce; EN: 52.745 tümce). Yöntem: [Eşik kalibrasyonu](../../esik-kalibrasyonu.md).
 
 ## Hangi öznitelik hangi parametreden etkilenir
 

@@ -62,8 +62,7 @@ threshold cannot serve both.
 
 They were derived from the 15th and 85th percentiles of the sentence-length
 distribution in newspaper columns, measured with the default sentence rule and
-the default word (Turkish: 162 columnists / 197,990 sentences; English: 30
-columnists / 52,745 sentences). Method:
+the default word (Turkish: 197,990 sentences; English: 52,745 sentences). Method:
 [Threshold calibration](../../threshold-calibration.md).
 
 ## Which feature depends on which parameter
