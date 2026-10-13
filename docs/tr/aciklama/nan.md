@@ -107,42 +107,7 @@ words and 7347 sentences were counted as a single paragraph. ...
 Uyarı metinleri İngilizcedir — öznitelik anahtarları ve künyeler de öyle.
 
 Bu genellikle metnin PDF/EPUB'dan çıkarılırken satır sonlarını kaybetmesinden
-olur; [sınırlılıklar §8](sinirliliklar.md) ölçümü veriyor.
-
-## Tabloda ne yapmalı
-
-**`nan`'ı sıfırla doldurmayın.** Sıfır bir ölçümdür, `nan` ölçüm
-yokluğudur. `ttr = 0` "hiç çeşitlilik yok" demektir; `ttr = nan` "ölçemedim"
-demektir. İkisini karıştırırsanız istatistiğiniz bozulur.
-
-Sağlam yol:
-
-```python
-import pandas as pd
-df = pd.DataFrame(tlf.analyze_corpus("korpus/", lang="tr"))
-
-# hangi sütunlar hiç ölçülememiş
-bos = df.columns[df.isna().all()]
-
-# hangi sütunlarda kısmen eksik var
-kismi = df.columns[df.isna().any() & ~df.isna().all()]
-```
-
-Hepsi `nan` olan sütunları **düşürün** — o öznitelik sizin korpusunuzda
-çalışmıyor. Kısmen eksik olanlarda ise kararı siz verin: satırları mı
-atacaksınız, o sütunu mu?
-
-## `nan`'dan kaçınmanın yolu
-
-Metinleri yeterince uzun tutun. Eşikleri aşmak için en pratik yol
-parçalama:
-
-```python
-satirlar = tlf.analyze_corpus("korpus/", lang="tr", segment_size=1000)
-```
-
-1000 sözcüklük parçalar 208 özniteliğin neredeyse tamamını besler. Ayrıntı:
-[Metni parçalara böl](../nasil/segmentleme.md).
+olur. Ayrıntı: [sınırlılıklar §8](sinirliliklar.md).
 
 ## Neden `None` değil de `nan`
 

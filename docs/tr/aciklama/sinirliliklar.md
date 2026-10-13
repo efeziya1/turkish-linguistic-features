@@ -12,10 +12,10 @@ gereken noktaları. Yöntem bölümü yazarken ikisine de bakın.
 köşe yazılarında, varsayılan tümce kuralı ve varsayılan sözcükle ölçülen
 tümce uzunluğu dağılımının 15. ve 85. yüzdeliğinden türetildi:
 
-| Dil | Yazar | Tümce |
-|---|---|---|
-| Türkçe | 162 | 197 990 |
-| İngilizce | 30 | 52 745 |
+| Dil | Tümce |
+|---|---|
+| Türkçe | 197 990 |
+| İngilizce | 52 745 |
 
 Köşe yazısı **tek bir tür**. Roman, teknik metin, transkript, şiir ya da
 çocuk kitabı için genelleneceği **garanti değil.** Kendi türünüzde çalışıyorsanız eşikleri
@@ -24,7 +24,7 @@ kendi korpusunuzdan türetmeyi düşünün —
 
 ### 2. On beş künye ikincil kaynaktan
 
-172 künyenin **15'i** `as cited in` ile işaretlidir — birincil kaynağa
+Künyesi olan 172 anahtarın **15'i** `as cited in` ile işaretlidir — birincil kaynağa
 ulaşılamadı, formül aktaran kaynaktan alındı. Örnek:
 
 ```text
@@ -45,13 +45,7 @@ Sözcük türü, biçimbilim etiketleri, İngilizce lemmalar ve bağlılık
 değişirse bu sayılar değişir. Türkçe lemmalar Zeyrek'ten gelir (§4).
 
 Sözcük ve tümce kütüphanenin kendi kuralıyla sayılır
-([Kavramlar](kavramlar.md#sozcuk-ve-tumce)). Sözcük başına etiket isteyen
-öznitelikler (sözcük türü, lemma, biçimbilim) etiketi sözcüğün içindeki ilk
-sözcük tokenından alır: model `Türk-Amerikan`'ı ya da İngilizce
-`it's`'i birden çok tokena böler, sözcük ilk parçanın etiketini taşır
-(`Türk`, `it`). Bu, Türkçe köşe yazılarında sözcüklerin %0,3'ünde,
-İngilizcelerde %2,7'sinde olur. Bağlılık öznitelikleri modelin tokenlarını
-sayar. Hangi özniteliğin hangi sözcüğü kullandığını
+([Kavramlar](kavramlar.md#sozcuk-ve-tumce)). Hangi özniteliğin hangi sözcüğü kullandığını
 `describe_feature(key)["definitions"]["word"]` söyler.
 
 Doğrulanmış kombinasyon: spaCy 3.8.16, `en_core_web_sm` 3.8.0,
@@ -64,24 +58,11 @@ anlatılıyor; ikisi de zararsız.
 ### 4. Türkçe morfoloji Zeyrek'e bağlı
 
 `morphological_zeyrek` grubundaki 23 öznitelik ve Türkçe lemmalar Zeyrek'ten
-gelir — Zemberek morfotaktiğinin Python aktarımı. Zeyrek'in çözümleyemediği bir
-sözcük Zeyrek özniteliklerinden düşer; lemması kesme işaretinden önceki kısmı
-olur (`Pittsburgh'tan` → `pittsburgh`).
+gelir. Kütüphane, bağlama bakmadan Zeyrek'in ilk çözümlemesini alır. Bu ilk
+çözümleme Python sürecine göre az da olsa değişebilir; tekrar üretilebilir
+sayılar için Python'u `PYTHONHASHSEED=0` ile başlatın.
 
-Zeyrek bir **çözümleyicidir, belirsizlik gidericisi değildir**: aynı yüzey
-biçimi için birden çok çözümleme dönebilir ve bağlama bakarak doğrusunu
-seçmez. Kütüphane bağlama bakmadan **ilk** çözümlemeyi alır.
-
-Zeyrek çözümlemeleri ek geçişi sayısına göre sıralar, en azı önce gelir;
-eşitlikte sıra, Python'un iç bir kümesinin dolaşım sırasında kalır ve bu sıra
-`PYTHONHASHSEED`'e bağlıdır. TOMA veri setinde (57 metin, 8.215 farklı
-sözcük) sözcüklerin %58,2'sinin birden çok çözümlemesi var ve **200 sözcüğün
-(%2,4)** ilk çözümlemesi 0–3 tohumları arasında değişti. Yani aynı metnin
-Zeyrek öznitelikleri Python süreçleri arasında az da olsa farklı çıkabilir.
-Tekrar üretilebilir sayılar için tohumu Python başlamadan sabitleyin, örneğin
-`PYTHONHASHSEED=0`.
-
-### 5. Adayların yarısı hâlâ doğrulanmadı
+### 5. Adayların üçte ikisi hâlâ doğrulanmadı
 
 82 satır doğrulama adayı bile değil (saf tanım, etiket şeması ya da
 bizim türevimiz).
@@ -112,36 +93,15 @@ tanımlarıdır. Künyeleri bunu açıkça yazar:
 - `polysyllabic_word_ratio` — SMOG'un girdisinin oran biçimi. McLaughlin'in
   kendi ölçüsü değil.
 
-Bunları kullanmakta sakınca yok. Tek koşul, künyeyi doğru kurmak: formülün
-kaynağını verin, ölçünün kendisini kaynağa mal etmeyin. Yöntem bölümünüzde:
-
-- ✗ "Shannon (1948) `sent_len_entropy` ölçüsü"
-- ✓ "Shannon (1948) entropisinin tümce uzunluğu dağılımına uygulanması
-  (turkish-linguistic-features'ın tanımı)"
-
-Sebep basit: Shannon entropiyi tanımladı, tümce uzunluklarına
-uygulamadı. Birinci yazım okuyucuya, kaynakta aranınca bulunacak bir ölçü
-olduğunu ima ediyor.
+Bunları kullanmakta sakınca yok; formülün kaynağını verin, ama ölçüyü o
+kaynağın ölçüsü gibi göstermeyin.
 
 ### 8. Paragraf öznitelikleri girdinin biçimlendirmesine bağlı
 
-`paragraph` grubunun üç özniteliği (`para_count`, `para_len_mean`,
-`sents_per_para_mean`) paragraf sınırını **boş satırdan** bulur. Tek satır
-sonu paragraf saymaz — aksi hâlde satır satır sarılmış bir metinde her satır
-paragraf olurdu.
-
-Sonuç: metninizde boş satır yoksa metnin tamamı tek paragraf sayılır.
-`para_count` 1 olur, `para_len_mean` bütün metnin sözcük sayısına eşitlenir.
-Kütüphane bunu düzeltemez — silinmiş paragraf sınırı geri getirilemez.
-
-Bu, PDF ve EPUB'dan çıkarılmış metinlerde **yaygındır**: paragraflar arasındaki
-boş satırlar çıkarım sırasında kaybolur. Değer `nan` olmadığı için bunu
-sayılardan fark etmezsiniz; uyarı aşağıda.
-
-1000 sözcüğü geçen bir metinde hiç paragraf sınırı bulunamazsa
-`ParagraphStructureWarning` basılır. Uyarıyı görürseniz iki yol var: kaynak
-metni paragrafları boş satırla ayrılmış hâlde yeniden çıkarın, ya da
-`groups` ile `paragraph` grubunu dışarıda bırakın.
+`paragraph` grubunun üç özniteliği paragraf sınırını boş satırdan bulur; tek
+satır sonu paragraf saymaz. Metinde boş satır yoksa metnin tamamı tek paragraf
+sayılır; bu, PDF ve EPUB'dan çıkarılan metinlerde sık olur. 1000 sözcüğü geçen
+bir metinde hiç paragraf sınırı yoksa `ParagraphStructureWarning` basılır.
 
 ### 9. Hece sayımında okunuşla sayılanlar ve atlananlar
 

@@ -57,12 +57,6 @@ olması"). Burada kastedilen şey **ölçülmüş bir değişkendir** ve
 istatistiksel modele girer. Türkçe nicel dilbilim ve makine öğrenmesi
 yazınında bunun yerleşik karşılığı "öznitelik"tir.
 
-## Neden "sözcük" ve "tümce"
-
-Gündelik dilde "kelime" ve "cümle" de kullanılır; Türkçe dilbilim yazınında yerleşik
-terimler "sözcük" ve "tümce"dir. Doküman boyunca bu ikisi kullanılır; bu seçim "sözcük
-türü" (POS) gibi yerleşik terimlerle de uyumludur.
-
 ## Neden "künye" ve "kaynakça kaydı" ayrı
 
 İngilizcede ikisi de citation/reference diye geçebiliyor ve karışıyor.

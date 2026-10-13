@@ -58,7 +58,7 @@ def analyze_corpus(path: str | Path, lang: str = "tr",
         ``"tr"`` ya da ``"en"``. Hem parçalamaya hem analize geçer.
     segment_size
         ``None`` (varsayılan) **bölmez**: her dosya tek satır olur,
-        ``segment_id`` hep ``0``. Sayı verilirse parça başına token
+        ``segment_id`` hep ``0``. Sayı verilirse parça başına kelime
         (``unit="word"``) ya da karakter (``"char"``).
 
         Parçalama **kaynak başına**: dosyalar birbirine eklenmez, her dosya

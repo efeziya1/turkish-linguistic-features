@@ -33,6 +33,9 @@ pip install https://huggingface.co/turkish-nlp-suite/tr_core_news_md/resolve/mai
 # dictionary for syllable counts (1 MB)
 python -m spacy download en_core_web_sm
 python -m nltk.downloader cmudict
+
+# Optional — for the two wordfreq_* features
+pip install 'wordfreq>=3.0'
 ```
 
 !!! note "Two things about the Turkish model that look like bugs"

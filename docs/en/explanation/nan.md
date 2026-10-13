@@ -109,42 +109,7 @@ The message carries your own word and sentence counts, so you can tell at a
 glance whether the text really is one paragraph.
 
 This usually happens when the text lost its line breaks during extraction from
-PDF or EPUB; [limitations §8](limitations.md) has the measurement.
-
-## What to do in your table
-
-**Do not fill `nan` with zero.** Zero is a measurement; `nan` is the
-absence of one. `ttr = 0` says "no diversity at all"; `ttr = nan` says
-"I could not measure it". Conflate them and your statistics break.
-
-A sound approach:
-
-```python
-import pandas as pd
-df = pd.DataFrame(tlf.analyze_corpus("corpus/", lang="en"))
-
-# columns that were never measurable
-never = df.columns[df.isna().all()]
-
-# columns with partial gaps
-partial = df.columns[df.isna().any() & ~df.isna().all()]
-```
-
-**Drop** the all-`nan` columns — that feature does not work on your corpus.
-For the partial ones the decision is yours: drop the rows, or drop the
-column.
-
-## How to avoid `nan`
-
-Keep texts long enough. The most practical way to clear the thresholds is
-segmenting:
-
-```python
-rows = tlf.analyze_corpus("corpus/", lang="en", segment_size=1000)
-```
-
-1000-word segments feed nearly all 181 features. See
-[Split a text into segments](../how-to/segmenting.md).
+PDF or EPUB. Details: [limitations §8](limitations.md).
 
 ## Why `nan` and not `None`
 

@@ -33,6 +33,9 @@ pip install https://huggingface.co/turkish-nlp-suite/tr_core_news_md/resolve/mai
 # telaffuz sözlüğü (1 MB)
 python -m spacy download en_core_web_sm
 python -m nltk.downloader cmudict
+
+# İsteğe bağlı — iki wordfreq_* özniteliği için
+pip install 'wordfreq>=3.0'
 ```
 
 !!! note "Türkçe modelde hata sanacağınız iki şey"

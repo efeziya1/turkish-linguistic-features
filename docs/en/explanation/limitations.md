@@ -14,10 +14,10 @@ were derived from the 15th and 85th percentiles of the sentence-length
 distribution in newspaper columns, measured with the default sentence rule
 and the default word:
 
-| Language | Columnists | Sentences |
-|---|---|---|
-| Turkish | 162 | 197,990 |
-| English | 30 | 52,745 |
+| Language | Sentences |
+|---|---|
+| Turkish | 197,990 |
+| English | 52,745 |
 
 A column is a **single genre**. There is **no guarantee** the thresholds suit
 novels, technical writing, transcripts, poetry or children's books. If you work
@@ -26,7 +26,7 @@ in another genre, consider deriving the thresholds from your own corpus —
 
 ### 2. Fifteen citations are secondary
 
-**15 of 172** citations carry `as cited in` — the primary source could not
+**15 of the 172** cited keys carry `as cited in` — the primary source could not
 be obtained and the formula was taken from the citing work. For example:
 
 ```text
@@ -47,11 +47,7 @@ POS tags, morphological tags, English lemmas and the dependency features
 those numbers change. Turkish lemmas come from Zeyrek (§4).
 
 Words and sentences are counted with the library's own rules
-([Concepts](concepts.md#word-and-sentence)). Features that need a label per word
-(POS, lemma, morphology) take it from the first word token inside the word: the model splits `Türk-Amerikan` or English `it's` into several tokens,
-and the word carries the first part's label (`Türk`, `it`). This happens to
-0.3% of the words in Turkish newspaper columns and 2.7% in English ones. The
-dependency features count the model's tokens.
+([Concepts](concepts.md#word-and-sentence)).
 `describe_feature(key)["definitions"]["word"]` names the word each feature uses.
 
 Verified combination: spaCy 3.8.16, `en_core_web_sm` 3.8.0,
@@ -64,24 +60,12 @@ harmless.
 
 ### 4. Turkish morphology depends on Zeyrek
 
-The 23 features in the `morphological_zeyrek` group and the Turkish lemmas
-come from Zeyrek, a Python port of Zemberek's morphotactics. A word Zeyrek
-cannot analyse drops out of the Zeyrek features; its lemma is the part before
-its apostrophe (`Pittsburgh'tan` → `pittsburgh`).
+The 23 features in the `morphological_zeyrek` group and the Turkish lemmas come
+from Zeyrek. The library takes Zeyrek's first analysis, without looking at the
+context. That first analysis can differ slightly between Python processes; for
+reproducible numbers, start Python with `PYTHONHASHSEED=0`.
 
-Zeyrek is an **analyser, not a disambiguator**: it can return several
-analyses for the same surface form and does not pick the right one from
-context. The library takes the **first** analysis, with no context.
-
-Zeyrek orders the analyses by the number of suffix transitions, fewest first;
-ties keep the iteration order of an internal Python set, which depends on
-`PYTHONHASHSEED`. On the TOMA set (57 texts, 8,215 distinct words) 58.2% of
-the words have more than one analysis, and for **200 words (2.4%)** the first
-analysis changed across hash seeds 0–3. The Zeyrek features of the same text
-can therefore differ slightly between Python processes. For reproducible
-numbers, fix the seed before Python starts, e.g. `PYTHONHASHSEED=0`.
-
-### 5. Half the candidates are still unverified
+### 5. Two thirds of the candidates are still unverified
 
 82 rows are not verification candidates at all (plain definitions, tag
 schemes, or our own derivations). Of the remaining **151 candidates, 48 are done** (46 ✅ + 2 🟡)
@@ -114,38 +98,16 @@ this library made. Their citations say so plainly:
 - `polysyllabic_word_ratio` — the ratio form of SMOG's input. Not a measure
   McLaughlin himself defines.
 
-There is nothing wrong with using them. The one requirement is getting the
-attribution right: cite the source of the formula, but do not attribute the
-measure itself to that source. In your methods section:
-
-- ✗ "the Shannon (1948) `sent_len_entropy` measure"
-- ✓ "Shannon (1948) entropy applied to the distribution of sentence lengths
-  (as defined by turkish-linguistic-features)"
-
-The reason is simple: Shannon defined the entropy; he did not apply it to
-sentence lengths. The first wording implies a measure the reader could look up
-in the source and find.
+There is nothing wrong with using them; cite the source of the formula, but do
+not present the measure as that source's own.
 
 ### 8. Paragraph features depend on how the input is formatted
 
-The three `paragraph` features (`para_count`, `para_len_mean`,
-`sents_per_para_mean`) find paragraph boundaries from **blank lines**. A
-single line break does not count as one — otherwise every line of a
-hard-wrapped text would be a paragraph.
-
-The consequence: if your text has no blank lines, the whole text counts as one
-paragraph: `para_count` is 1 and `para_len_mean` becomes the word count of the entire text. The
-library cannot fix this — a boundary that was deleted
-cannot be recovered.
-
-This is **common** in text extracted from PDF and EPUB: blank lines between
-paragraphs are lost during extraction. The value is not `nan`, so the numbers
-will not show it; the warning below does.
-
-If a text longer than 1000 words yields no paragraph boundary at all, a
-`ParagraphStructureWarning` is raised. If you see it you have two options:
-re-extract the source text with paragraphs separated by blank lines, or leave
-the `paragraph` group out via `groups`.
+The three `paragraph` features find paragraph boundaries from blank lines; a
+single line break does not count. If the text has no blank lines, the whole
+text counts as one paragraph; this is common in text extracted from PDF and
+EPUB. If a text longer than 1000 words has no paragraph boundary at all, a
+`ParagraphStructureWarning` is raised.
 
 ### 9. What the syllable count reads aloud, and what it skips
 
