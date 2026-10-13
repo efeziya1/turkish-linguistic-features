@@ -23,8 +23,6 @@ DEFINITION_INFO: dict[tuple[str, str], tuple[str, str]] = {
         ". ? ! : ( ) … all end a sentence, ':' without condition (Çetinkaya & Uzun 2010)."),
     ("sentence", "spacy_parser"): ("spacy",
         "Sentence boundaries predicted by the spaCy model's dependency parser; tlf does not change them."),
-    ("sentence", "regex_paragraph"): ("tlf",
-        "Number of runs of [.!?…] in the paragraph (at least 1); a plain regular expression."),
     # ── word ──
     ("word", "space_unit"): ("tlf",
         "Whitespace-separated piece of the raw text with edge punctuation stripped, containing a "

@@ -51,6 +51,9 @@ ne ölçüyorsanız o.
 Dosyalar **UTF-8** olmalı. UTF-8 olmayan dosya varsa analiz başlamadan hata
 verilir ve okunamayan dosyaların hepsi adıyla listelenir.
 
+Bir parçanın analizi `ValueError` verirse çalışma orada durur. Hata o
+parçanın `label`, `source` ve `segment_id` değerini söyler.
+
 ## İki çağrı
 
 ```python

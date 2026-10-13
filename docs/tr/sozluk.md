@@ -33,9 +33,9 @@ sayfada iki ad vermemek.
 | **tip/token oranı** | type-token ratio (TTR) | Tip sayısı / token sayısı |
 | **hapax** | hapax legomenon | Metinde bir kez geçen sözcük |
 | **vuruş** | stroke / character | Boşluk dışı her karakter (ARI'nin girdisi) |
-| **pencere** | window | Kayan hesapta bir seferde bakılan sözcük sayısı |
+| **pencere** | window | Bir seferde ölçülen ardışık birimlerden oluşan öbek |
 | **eşik** | threshold | Bir sınıflamayı başlatan sınır değer |
-| **yüzdelik** | percentile | Dağılımda altında verinin %n'inin kaldığı değer |
+| **yüzdelik** | percentile | n. yüzdelik: değerlerin %n'i ona eşit ya da ondan küçük |
 | **kalibrasyon** | calibration | Bir eşiği veriden türetme işlemi |
 
 ## Doğrulama terimleri

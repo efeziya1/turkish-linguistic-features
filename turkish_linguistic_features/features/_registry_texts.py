@@ -318,7 +318,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     # ── paragraph ───────────────────────────────────────────────
     'para_count': 'paragraphs (blank line = boundary)',
     'para_len_mean': 'mean words per paragraph (blank line = boundary)',
-    'sents_per_para_mean': 'mean count of [.!?…]+ per paragraph (at least 1)',
+    'sents_per_para_mean': 'sentences / paragraphs (sent_count / para_count)',
     # ── pos ─────────────────────────────────────────────────────
     'pos_noun_ratio': 'tag count / words',
     'pos_propn_ratio': 'tag count / words',
@@ -531,7 +531,7 @@ FEATURE_REQUIRES: dict[str, str] = {
     # ── paragraph ───────────────────────────────────────────────
     'para_count': 'at least 1 paragraph',
     'para_len_mean': 'at least 1 paragraph',
-    'sents_per_para_mean': 'at least 1 paragraph',
+    'sents_per_para_mean': 'at least 1 sentence with a letter',
     # ── pos ─────────────────────────────────────────────────────
     'pos_noun_ratio': 'at least 1 word',
     'pos_propn_ratio': 'at least 1 word',
@@ -1270,4 +1270,3 @@ BIBLIOGRAPHY: dict[str, str] = {
         'Üniversitesi, Sosyal Bilimler Enstitüsü. Advisor: Leylâ Uzun. 252 pp. '
         'hdl:20.500.12812/519962',
 }
-

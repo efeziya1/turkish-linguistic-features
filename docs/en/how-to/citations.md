@@ -50,7 +50,7 @@ tlf.describe_feature("mattr")
 | `requires` | The minimum data needed to produce a number; below it, `nan` |
 | `citation` | **Short pointer** — the parenthetical in your methods section |
 | `references` | **Full bibliographic record** — what goes in your bibliography |
-| `definitions` | What the terms in `formula` mean and where the definition comes from: for each term `{"name", "source" (who defines the rule: tlf, spacy, zeyrek, textstat, wordfreq), "description" (one sentence: how it is counted)}`; only the terms that formula uses; `describe_feature(key, lang="tr")` picks the language for terms that differ by language (`syllable`) |
+| `definitions` | What the terms in `formula` mean and where the definition comes from: for each term `{"name", "source" (who defines the rule: tlf, spacy, zeyrek, textstat, wordfreq), "description" (one sentence: how it is counted)}`; only the terms that formula uses; `describe_feature(key, lang="tr")` picks the language for terms that differ by language (`syllable`, `type`) |
 
 ## The citation also tells you what we do not know
 

@@ -34,9 +34,9 @@ pages.
 | **type-token ratio (TTR)** | Number of types ÷ number of tokens |
 | **hapax legomenon** | A word occurring exactly once in the text |
 | **stroke** | Every non-space character — the input to ARI |
-| **window** | The number of words examined at a time in a rolling computation |
+| **window** | A run of consecutive units measured at a time |
 | **threshold** | The boundary value that triggers a classification |
-| **percentile** | The value below which n% of the distribution falls |
+| **percentile** | nth percentile: n% of the values are equal to it or smaller |
 | **calibration** | Deriving a threshold from data rather than picking it |
 
 ## Verification terms

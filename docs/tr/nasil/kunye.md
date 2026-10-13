@@ -50,7 +50,7 @@ tlf.describe_feature("mattr")
 | `requires` | Sayı üretmesi için gereken en az veri; sağlanmazsa `nan` |
 | `citation` | **Kısa işaretçi** — yöntem bölümünde parantez içi |
 | `references` | **Tam bibliyografik kayıt** — kaynakçaya kopyalanacak olan |
-| `definitions` | `formula`daki terimlerin ne demek olduğu ve tanımın nereden geldiği: her terim için `{"name", "source" (kuralı kim koyuyor: tlf, spacy, zeyrek, textstat, wordfreq), "description" (tek tümce: nasıl sayıldığı)}`; yalnız o formülün kullandığı terimler; dile göre değişen terimde (`syllable`) `describe_feature(key, lang="tr")` dili seçer |
+| `definitions` | `formula`daki terimlerin ne demek olduğu ve tanımın nereden geldiği: her terim için `{"name", "source" (kuralı kim koyuyor: tlf, spacy, zeyrek, textstat, wordfreq), "description" (tek tümce: nasıl sayıldığı)}`; yalnız o formülün kullandığı terimler; dile göre değişen terimde (`syllable`, `type`) `describe_feature(key, lang="tr")` dili seçer |
 
 ## Künye ne bilmediğimizi de söyler
 

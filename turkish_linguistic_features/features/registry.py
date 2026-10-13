@@ -383,7 +383,7 @@ def describe_feature(key: str, lang: str | None = None) -> dict:
         grup düzeyindeki genel ifadedir.
     lang : str, optional
         ``"tr"`` ya da ``"en"``. Yalnız ``definitions``'ı etkiler: dile göre değişen
-        terimlerin (``syllable``) tek dilli kaydını seçer.
+        terimlerin (``syllable``, ``type``) tek dilli kaydını seçer.
 
     Returns
     -------
@@ -395,8 +395,8 @@ def describe_feature(key: str, lang: str | None = None) -> dict:
         kullandığı terimlerin (``sentence``, ``word``, ``syllable``…) tlf'deki tanımı,
         kuralı kimin koyduğu (``tlf``, ``spacy``, ``zeyrek``, ``textstat``,
         ``wordfreq``) ve tek cümleyle nasıl hesaplandığı. Formülde olmayan terim sözlükte
-        yoktur. Dile göre değişen terimde (``syllable``) ``lang`` verilirse o dilin kaydı, verilmezse
-        ``{"tr": kayıt, "en": kayıt}`` döner; yalnız tek dilde üretilen öznitelikte
+        yoktur. Dile göre değişen terimde (``syllable``, ``type``) ``lang`` verilirse o dilin
+        kaydı, verilmezse ``{"tr": kayıt, "en": kayıt}`` döner; yalnız tek dilde üretilen öznitelikte
         (``atesman`` yalnız Türkçe, ``flesch_reading_ease`` yalnız İngilizce) o dilin kaydı. Adların anlamı
         ``_registry_definition_texts.py``'de.
         ``citation`` kısa işaretçidir, ``references`` ise onda adı geçen

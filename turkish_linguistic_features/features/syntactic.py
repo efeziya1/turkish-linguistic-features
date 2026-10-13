@@ -41,7 +41,6 @@ _PARA_SPLIT = re.compile(r"\n[ \t]*\n")   # boş satır = paragraf sınırı
 # metinleri 7-24 kelime, paragrafı silinmiş bir roman dosyası 52.521 — araya
 # konan her eşik ikisini ayırıyor, bu yüzden yeni bir sayı uydurulmadı.
 _PARA_UYARI_KELIME = 1000
-_SENT_END = re.compile(r"[.!?…]+")        # cümle sonu işareti
 
 
 def _entropy_nats(sayimlar: Counter) -> float:
@@ -270,19 +269,27 @@ def sent_len_entropy(cumleler: list[list[str]]) -> dict[str, float]:
 # ── paragraf ──────────────────────────────────────────────────────────
 
 
-def paragraph_stats(raw_text: str, lang: str = "tr") -> dict[str, float]:
+def paragraph_stats(raw_text: str, cumleler: list[list[str]],
+                    lang: str = "tr") -> dict[str, float]:
     """Paragraf sayısı, paragraf uzunluğu ve paragraf başına cümle.
 
     Üç kural: paragraf = boş satır (tek satır sonu saymaz); paragraf başına
     kelime = varsayılan kelime birimi (``readability.kelime_birimleri``: boşlukla
     ayrılan birim, kenar noktalaması atılır, yalnız noktalamadan oluşan birim
-    sayılmaz; 2026-10-06, Efe); paragraf başına cümle = ``[.!?…]+`` sayımı, hiç
-    yoksa 1. ``\\r\\n`` önce ``\\n``'e çevrilir — aksi halde Windows'ta yazılmış
-    korpus farklı bölünür.
+    sayılmaz; 2026-10-06, Efe); paragraf başına cümle = ``sent_count`` /
+    ``para_count``. ``\\r\\n`` önce ``\\n``'e çevrilir — aksi halde Windows'ta
+    yazılmış korpus farklı bölünür.
+
+    ``cumleler`` ``sentence_stats``'ın aldığı listedir: varsayılan kuralla cümleler,
+    cümle başına kelime birimleri. ``[.!?…]+`` sayımının yerini aldı (2026-10-13, Efe):
+    kısaltma noktası ve koşullu ``:`` öbür cümle özniteliklerindeki gibi sayılsın.
+    Cümle paragraflara bölünmez; paragraf sınırını aşan cümle (noktasız başlık ve
+    sonraki cümle) ``sent_count``'taki gibi bir kez sayılır.
 
     ``para_len_mean`` ile ``sent_len_mean`` aynı kelime tanımını kullanır.
 
-    Paragraf yoksa hepsi NaN. CV'ler 2026-10-07'de kaldırıldı (Efe).
+    Paragraf yoksa hepsi NaN; harfli cümle yoksa ``sents_per_para_mean`` NaN.
+    CV'ler 2026-10-07'de kaldırıldı (Efe).
 
     Çok cümleli bir metin tek paragraf çıkıyorsa ``ParagraphStructureWarning``
     basılır — sayılar değişmez (2026-09-24, Efe). Girdide paragraf sınırı
@@ -295,14 +302,15 @@ def paragraph_stats(raw_text: str, lang: str = "tr") -> dict[str, float]:
                 "sents_per_para_mean": math.nan}
     # K11 istisnası: yerel sayım — paragrafı token akışına hizalamak ikinci geçiş ister
     kelime = np.array([len(kelime_birimleri(p, lang)[0]) for p in paras], dtype=np.float64)
-    cumle = np.array([max(len(_SENT_END.findall(p)), 1) for p in paras], dtype=np.float64)
+    cumle_sayisi = len(_cumle_kelimeleri(cumleler))
     if len(paras) == 1 and kelime[0] > _PARA_UYARI_KELIME:
         from .._warnings import uyar_paragraf_yok
-        uyar_paragraf_yok(int(cumle[0]), int(kelime[0]))
+        uyar_paragraf_yok(cumle_sayisi, int(kelime[0]))
     return {
         "para_count": float(len(paras)),
         "para_len_mean": round(float(kelime.mean()), 4),
-        "sents_per_para_mean": round(float(cumle.mean()), 4),
+        "sents_per_para_mean": (round(cumle_sayisi / len(paras), 4) if cumle_sayisi
+                                else math.nan),
     }
 
 

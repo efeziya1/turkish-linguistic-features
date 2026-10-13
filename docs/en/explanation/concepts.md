@@ -38,6 +38,10 @@ tags have no prefix (`case_loc_ratio`); those from Zeyrek start with `zeyrek_`
 the -DI past from the -mIş past (`zeyrek_tense_past_def_ratio`,
 `zeyrek_tense_past_nar_ratio`); in spaCy both are `tense_past_ratio`.
 
+The ten `punct_…_ratio` keys (`punct_comma_ratio`, `punct_dash_ratio` …) are each
+mark type's share of all punctuation marks, so together they add up to 1. How much
+punctuation a text has is `punct_char_ratio` (punctuation marks / characters).
+
 ## Group
 
 Features are organised into 13 groups (14 with the `ngram_*` keys created when
@@ -177,9 +181,7 @@ Window sizes, thresholds and sample counts live here. Details:
 [Change the thresholds](../how-to/parameters.md).
 
 The sentence thresholds (`short_sent_threshold`, `long_sent_threshold`) are
-**calibrated per language** (TR 4/17, EN 8/32) and resolved field by field:
-a field you set wins, a field you leave out stays calibrated. So
-`FeatureParams(mattr_window=100)` does not change the sentence thresholds.
+**calibrated per language** (TR 4/17, EN 8/32).
 
 ## The registry
 

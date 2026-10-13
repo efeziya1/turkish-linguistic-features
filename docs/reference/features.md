@@ -130,7 +130,7 @@ published is a separate question — see the
 |---|---|---|---|---|
 | `para_count` | number of paragraphs | `paragraphs (blank line = boundary)` | at least 1 paragraph | Zheng et al. (2006) Table 3, p.385, no. 248 "Total number of paragraphs" |
 | `para_len_mean` | mean paragraph length | `mean words per paragraph (blank line = boundary)` | at least 1 paragraph | Zheng et al. (2006) Table 3, p.385, no. 251 "Number of words per paragraph" |
-| `sents_per_para_mean` | mean sentences per paragraph | `mean count of [.!?…]+ per paragraph (at least 1)` | at least 1 paragraph | Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph" |
+| `sents_per_para_mean` | mean sentences per paragraph | `sentences / paragraphs (sent_count / para_count)` | at least 1 sentence with a letter | Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph" |
 
 ## `pos` — Part-of-speech ratios
 

@@ -68,6 +68,7 @@ being a moving average — hence the `2 × window` threshold.
 `zeyrek_derivational_suffix_ratio` has a zero denominator if the text contains no
 derivational suffixes. `parse_depth_mean` cannot produce a value if no
 sentence parses. `verb_dist_mean` cannot be measured unless the text has at least two verbs.
+The `punct_…_ratio` shares have a zero denominator if the text has no punctuation marks.
 
 ### 3. An optional package is missing
 
