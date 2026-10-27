@@ -71,7 +71,7 @@ row count:    3
 column count: 211
 ```
 
-One row per file. 211 columns = 208 features plus three identity columns:
+One row per file. 217 columns = 214 features plus three identity columns:
 
 ```text
 label=author_a  source=text1     segment_id=0  ttr=1.0

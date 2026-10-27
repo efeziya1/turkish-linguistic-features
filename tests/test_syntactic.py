@@ -26,7 +26,6 @@ from turkish_linguistic_features.vocab import (
     LEXICAL_POS,
     NOUN_POS,
     POS_TAGS,
-    THEMATIC_POS,
 )
 
 
@@ -51,7 +50,7 @@ def test_vocab_sozlesme_sabitleri():
     assert len(POS_TAGS) == 12 and "PRON" not in POS_TAGS and "PUNCT" not in POS_TAGS
     assert NOUN_POS == ("NOUN", "PROPN")
     assert LEXICAL_POS == ("NOUN", "PROPN", "VERB", "ADJ", "ADV")   # Ure 1971, Lu 2012
-    assert THEMATIC_POS == ("NOUN", "PROPN", "VERB", "ADJ")         # QUITA, zarf yok
+    assert not hasattr(vocab, "THEMATIC_POS")                        # tek tanım: LEXICAL_POS
     assert not hasattr(vocab, "AUTOSEMANTIC_POS")
     assert not hasattr(vocab, "DEP_RELATIONS")                       # dep_* çıktı
     assert len(vocab.SENT_FINAL_POS) == 13

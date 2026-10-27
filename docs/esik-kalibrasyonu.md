@@ -20,13 +20,17 @@ değerinde kalır ([ayrıntı](tr/nasil/parametreler.md)).
 
 | | Türkçe | İngilizce |
 |---|---|---|
-| Kaynak | KEMİK (YTÜ) köşe yazısı korpusları | KEMİK `30Columnists` |
-| Yazar | 162 | 30 |
+| Kaynak | KEMİK (YTÜ) köşe yazısı derlemleri | KEMİK `30Columnists` |
+| Yazar | 137 | 30 |
 | Yazı | 4.321 | 1.485 |
 | Ölçülen sözcük | 2.108.415 | 1.078.588 |
 | **Ölçülen tümce** | **197.990** | **52.745** |
 
-Tam korpus kullanıldı, örnekleme yapılmadı. Metinler paylaşılmaz, yalnız sayılar
+Türkçe yazar sayısı, kümelerdeki yazar klasörü adları büyük-küçük harf, Türkçe harf ve
+boşluk farkları birleştirilerek sayıldı; aynı yazar kümeler arasında farklı yazılmış
+olabiliyor (`canDundar` / `candundar`), ham adlarla sayım 162 verir.
+
+Tam derlem kullanıldı, örnekleme yapılmadı. Metinler paylaşılmaz, yalnız sayılar
 yayımlanır. Tümceler ve sözcükler `sentence` grubunun saydığı gibi, kütüphanenin varsayılan
 tümce kuralı ve varsayılan sözcüğüyle sayıldı; ikisinin örnekli tanımı
 [Kavramlar](tr/aciklama/kavramlar.md#sozcuk-ve-tumce) sayfasında. Bir tümcenin uzunluğu
@@ -53,6 +57,17 @@ eşiği oradan türetmek döngüsel olurdu.
 
 Türkçede 85. yüzdelik sınırda: 17 eşiğinde tümcelerin %15,0'ı, 18'de %12,9'u uzun sayılır.
 
+### Kısa ve uzun tümce
+
+**Kısa tümce** eşikten kısa olandır (`short_sent_threshold`'dan az sözcük), **uzun tümce**
+eşikten uzun olandır (`long_sent_threshold`'dan çok sözcük). Uzunluğu eşiğe eşit tümce
+iki sayıma da girmez.
+
+Gerekçe: tümce uzunlukları tam sayıdır, bu yüzden eşiğin dahil edilip edilmemesi payı
+belirgin biçimde değiştirir. Türkçede eşik dahil edilirse tümcelerin %19,2'si kısa,
+%17,4'ü uzun sayılır; dahil edilmezse %12,2'si kısa, %15,0'ı uzun. İkinci ikili %15'e
+daha yakındır.
+
 ## Neden dile özgü eşik
 
 İki dil için tek bir eşik çifti, örneğin 5 ve 30, iki dilde de yanlış yerde
@@ -67,7 +82,7 @@ tümcenin taşıdığı bilgiyi yüklenebiliyor. Yüzeysel sözcük sayısı iki
 ## Ateşman (1997) ile karşılaştırma
 
 Ateşman (1997, s.73) Türkçede ortalama tümce uzunluğunu 9-10 sözcük olarak veriyor;
-korpusun medyanı (9,0) bununla tutuyor.
+derlemin medyanı (9,0) bununla tutuyor.
 
 ## Kapsam sınırı
 

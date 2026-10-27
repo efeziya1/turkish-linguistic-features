@@ -58,7 +58,7 @@ each time Python runs; for reproducible numbers, start Python with
 
 ### 5. Two thirds of the candidates are still unverified
 
-Of the **151 verification candidates, 48 are done** (46 ✅ + 2 🟡) and **103 are 🔍
+Of the **163 verification candidates, 51 are done** (51 ✅) and **112 are 🔍
 open**: most sources publish a formula but never a worked numerical example.
 Details: [The verification system](verification.md).
 
@@ -73,9 +73,9 @@ These are not shortcomings of the library: they are how the measures
 themselves behave, an input requirement, or an attribution rule. They still
 affect your results.
 
-### 7. Some features are this library's own derivations
+### 7. Tool-specific features
 
-A few features are not named measures from the literature but definitions
+A few features are not literature measures but definitions
 this library made. Their citations say so plainly:
 
 - `punct_entropy`, `sent_len_entropy` — Shannon's formula applied to the
@@ -112,3 +112,23 @@ or minute), symbols whose reading depends on context (`/`, `#`, `*`), and
 unlisted lowercase abbreviations without vowels. In text dense with symbols
 and abbreviations, the syllable count therefore comes out slightly lower than a
 hand count following the protocol.
+
+The measures in the `phonological` group are computed from the letters of the written
+text and from letter lists (vowels, front and back vowels); they do not work with
+phonemes (IPA transcription).
+
+### 10. Heaps β is unreliable on short texts
+
+`heaps_beta` is measured at 20 equally spaced points through the text (Tweedie & Baayen
+1998, p.333), so every text is measured with the same number of points. There is no
+minimum length; the value is computed for every text of 20 words or more, and a text
+shorter than 20 words gives `nan`. The law fits large collections well and is not reliable
+on short texts (Manning et al. 2008, p.81).
+
+### 11. The Kalyoncu formulas approximate hand counts
+
+The `kalyoncu_*` keys reproduce Kalyoncu's (2025) hand counts approximately, with Zeyrek and
+spaCy. Four of Kalyoncu's nine rules (common derivations, onomatopoeia, intensified forms, rare
+senses) and his meaning-based sentence definition are not applied. Verbal suffixes Zeyrek does
+not know and errors in its first analysis change the result. Details:
+[Kalyoncu formulas](kalyoncu.md).

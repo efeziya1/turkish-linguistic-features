@@ -25,27 +25,28 @@ published is a separate question — see the
 
 ## Groups
 
-| Group | Keys | What it covers |
+| Group | Keys | Name |
 |---|---|---|
-| `lexical` | 38 | Lexical richness & frequency |
-| `frequency_structure` | 13 | Frequency structure (h-point family, Popescu & Altmann) |
-| `sentence` | 7 | Sentence statistics |
+| `lexical` | 35 | Lexical richness & frequency |
+| `frequency_structure` | 17 | Frequency structure |
+| `sentence` | 8 | Sentence features |
 | `paragraph` | 3 | Paragraph structure |
-| `pos` | 12 | Part-of-speech ratios |
-| `syntactic` | 7 | Discourse & syntax |
-| `syntactic_dep` | 16 | Dependency tree (distance, depth, sentence-final POS) |
-| `morphological` | 19 | Morphological style (spaCy) |
-| `morphological_zeyrek` | 23 | Morphological style (Zeyrek, TR only) |
-| `phonetic` | 14 | Phonetic patterns |
-| `readability` | 11 | Readability scores |
-| `punctuation` | 20 | Punctuation & digits |
-| `chars` | dynamic | Character frequency vector  [dynamic: one key per letter — TR 29, EN 26] |
-| `custom_ngrams` | dynamic | User-defined n-gram counts  [dynamic: ngram_{...}_count] |
+| `pos` | 17 | Parts of speech |
+| `syntactic` | 16 | Syntactic features |
+| `morphological` | 19 | Morphological features (spaCy) |
+| `morphological_zeyrek` | 23 | Morphological features (Zeyrek) |
+| `phonological` | 14 | Phonological features |
+| `readability` | 20 | Readability |
+| `punctuation` | 20 | Punctuation & orthography |
+| `chars` | dynamic | Character frequencies |
+| `custom_ngrams` | dynamic | User-defined n-grams |
+
+`morphological_zeyrek` is produced for Turkish only.
 
 
 ## `lexical` — Lexical richness & frequency
 
-38 keys.
+35 keys.
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
@@ -56,13 +57,9 @@ published is a separate question — see the
 | `dislegomena_count` | number of words occurring exactly twice (V2) | `V2` | non-empty text (0 when it has no words) | Tweedie & Baayen (1998) p.329, V(2, N) "dis legomena"; Zheng et al. (2006) Table 3, p.385, no. 62 "Hapax dislegomena" ("Frequency of twice-occurring words") |
 | `word_len_mean` | mean word length in characters | `sum(len(w)) / N` | at least 1 word | Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241 |
 | `ttr` | type-token ratio; falls as the text grows | `V / N` | at least 1 word | Malvern et al. (2004); QUITA §6.1.1 |
-| `mattr` | moving-average TTR | `mean TTR of every sliding window of mattr_window words` | at least 100 words (2 x mattr_window) | Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) |
+| `mattr` | moving-average TTR | `mean TTR of every sliding window of mattr_window words` | at least 100 words (2 x mattr_window) | Covington & McFall (2010); default window 50 — C&M recommend a window of 500 (p.97); 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) |
 | `herdan_c` | Herdan's C (LogTTR) | `log(V) / log(N)` | at least 2 words | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) |
 | `sichel_s` | share of types occurring exactly twice | `V2 / V` | at least 1 word | Sichel (1975); formula from Malvern et al. (2004) eq. 3.10 |
-| `zipf_exponent` | Zipf slope | `abs(slope) of least-squares fit log f(r) ~ log r` | at least 10 distinct words | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus |
-| `zipf_r2` | fit quality of the Zipf line | `R² of that fit` | at least 10 distinct words, not all equally frequent | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus |
-| `zipf_mandelbrot_q` | Zipf-Mandelbrot shift | `q minimising the residual of log f ~ log(r + q), grid 0–10 step 0.1` | at least 10 distinct words | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus |
-| `zipf_mandelbrot_s` | Zipf-Mandelbrot slope | `abs(slope) at that q` | at least 10 distinct words | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus |
 | `mtld` | measure of textual lexical diversity | `mean words per factor (TTR drops to mtld_threshold), forward and backward averaged` | at least 100 words (mtld_min_tokens) with some repetition | McCarthy (2005) is the dissertation that introduced the measure — its abstract (p.vii) reads "we introduce and test a new measure of lexical diversity: the measure of textual, lexical diversity (MTLD)"; the body of the dissertation could not be obtained, so no page is given. The procedure implemented follows McCarthy & Jarvis (2010) pp.383–385 |
 | `dugast_u` | Dugast's Uber index | `(ln N)^2 / (ln N - ln V)` | at least 2 words, at least one repeated | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 |
 | `guiraud_r` | Guiraud's root TTR | `V / sqrt(N)` | at least 1 word | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only |
@@ -71,10 +68,10 @@ published is a separate question — see the
 | `maas_a2` | Maas' a²; higher = more repetitive | `(ln N - ln V) / (ln N)^2` | at least 2 words | Maas (1972), as cited in Tweedie & Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella & Capsada (2013) Table 1; all logarithms in this library are natural |
 | `herdan_vm` | Herdan's Vm; higher = more repetitive | `sqrt(sum(f^2) / N^2 - 1 / V)` | at least 1 word | Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18) |
 | `honore_r` | Honoré's R; higher = more words used once, richer vocabulary | `100 * ln N / (1 - V1 / V)` | at least 1 word occurring more than once | Honoré (1979), as cited in Tweedie & Baayen (1998) p.329, eq. (11) |
-| `heaps_beta` | vocabulary growth rate | `least-squares slope of log V ~ log N over prefixes every heaps_step words, not clipped` | at least 300 words (heaps_min_tokens) | Heaps (1978), as cited in Manning et al. (2008) §5.1.1 |
+| `heaps_beta` | vocabulary growth rate | `least-squares slope of log V ~ log N over heaps_points equally spaced prefixes (k * N / heaps_points), not clipped` | at least 20 words (heaps_points); unreliable on short texts | Heaps (1978), as cited in Manning et al. (2008) §5.1.1; the law fits large collections well (p.81, print edition), not short texts; measured at 20 equally spaced points through the text as in Tweedie & Baayen (1998) p.333 |
 | `entropy` | Shannon entropy of word frequencies | `-sum(p * ln p)` | at least 1 word | Shannon (1948), as cited in QUITA §6.1.12 |
 | `yule_k` | Yule's K; higher = more repetitive | `10000 * (sum(f^2) - N) / N^2` | at least 1 word | Yule (1944) p.53, eq. (3.22) |
-| `simpson_d` | chance that two words drawn without replacement are the same type | `sum(f(f-1)) / (N(N-1))` | at least 2 words | Simpson (1949), as cited in Bestgen (2023) |
+| `simpson_d` | chance that two words drawn without replacement are the same type | `sum(f(f-1)) / (N(N-1))` | at least 2 words | Simpson (1949), as cited in Bestgen (2023) p.4 (preprint) |
 | `brunet_w` | Brunet's W | `N^(V^-a), a = brunet_w_a` | at least 1 word | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) |
 | `hapax_ratio` | share of types occurring once | `V1 / V` | at least 1 word | de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of vocabulary words" |
 | `hapax_token_ratio` | share of tokens that occur once | `V1 / N` | at least 1 word | QUITA §6.1.6 |
@@ -85,12 +82,13 @@ published is a separate question — see the
 | `verb_variation` | verb variation VV1 | `distinct verb lemmas / verbs` | at least 1 verb | Lu (2012) Table 2 |
 | `adj_variation` | adjective variation AdjV | `distinct adjective lemmas / lexical words` | at least 1 lexical word | Lu (2012) Table 2 |
 | `adv_variation` | adverb variation AdvV | `distinct adverb lemmas / lexical words` | at least 1 lexical word | Lu (2012) Table 2 |
-| `wordfreq_mean` | how common the lexical words are in general language | `mean wordfreq Zipf score of lexical-word lemmas (unlisted = 0)` | at least 1 lexical word; wordfreq installed | van Heuven et al. (2014) (Zipf scale) |
+| `wordfreq_mean` | how common the lexical words are in general language | `mean wordfreq Zipf score of lexical-word lemmas (unlisted = 0)` | at least 1 lexical word; wordfreq installed | van Heuven et al. (2014) p.1179 (Zipf scale) |
 | `wordfreq_rare_ratio` | share of rare lexical words | `lexical-word lemmas with Zipf score <= 3 / lexical words` | at least 1 lexical word; wordfreq installed | van Heuven et al. (2014) Table 1 (Zipf ≤ 3 = low frequency) |
+| `lexical_density` | share of lexical words | `(NOUN + PROPN + VERB + ADJ + ADV) / all words, PUNCT and SYM excluded` | at least 1 word | Lu (2012) p.192; definition in the broad Hallidayan sense — all open-class words; Lu counts only adverbs derived from adjectives, the tool counts all adverbs |
 
-## `frequency_structure` — Frequency structure (h-point family, Popescu & Altmann)
+## `frequency_structure` — Frequency structure
 
-13 keys.
+17 keys.
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
@@ -105,12 +103,16 @@ published is a separate question — see the
 | `lambda_pa` | length-normalised curve length | `L * ln(N) / N` | at least 1 word | QUITA §6.1.7; Popescu, Čech & Altmann (2011) |
 | `adjusted_modulus` | distance from the h-point to the curve ends | `sqrt((f1/h)^2 + (V/h)^2) / ln(N)` | at least 2 words | QUITA §6.1.13 |
 | `writers_view_alpha` | angle at the h-point, in radians | `arccos of the angle between (1, f1) and (V, 1) seen from (h, h)` | at least 1 word; undefined when the h-point meets a curve end | Popescu, Mačutek & Altmann (2009) eq. 4.5 |
-| `thematic_concentration` | weight of content words above the h-point | `sum(2(h - r') f(r')) / (h(h-1) f1), content words with r' < h` | at least one repeated word | QUITA §6.2.5 |
-| `secondary_thematic_concentration` | weight of content words up to rank 2h | `sum((2h - r') f(r')) / (h(2h-1) f1), r' <= 2h` | at least 1 word | QUITA §6.2.6 |
+| `thematic_concentration` | weight of lexical words above the h-point | `sum(2(h - r') f(r')) / (h(h-1) f1), lexical words with r' < h` | at least one repeated word | QUITA §6.2.5; thematic words = lexical words (NOUN, PROPN, VERB, ADJ, ADV), QUITA pp.50-51 leaves the choice to the researcher |
+| `secondary_thematic_concentration` | weight of lexical words up to rank 2h | `sum((2h - r') f(r')) / (h(2h-1) f1), lexical words with r' <= 2h` | at least 1 word | QUITA §6.2.6; thematic words as in thematic_concentration |
+| `zipf_exponent` | Zipf slope | `abs(slope) of least-squares fit log f(r) ~ log r` | at least 10 distinct words | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus |
+| `zipf_r2` | fit quality of the Zipf line | `R² of that fit` | at least 10 distinct words, not all equally frequent | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus |
+| `zipf_mandelbrot_q` | Zipf-Mandelbrot shift | `q minimising the residual of log f ~ log(r + q), grid 0–10 step 0.1` | at least 10 distinct words | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus |
+| `zipf_mandelbrot_s` | Zipf-Mandelbrot slope | `abs(slope) at that q` | at least 10 distinct words | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus |
 
-## `sentence` — Sentence statistics
+## `sentence` — Sentence features
 
-7 keys.
+8 keys.
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
@@ -120,7 +122,8 @@ published is a separate question — see the
 | `short_sent_ratio` | share of short sentences | `sentences with fewer than short_sent_threshold words / sentences` | at least 1 sentence with a letter | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only |
 | `long_sent_ratio` | share of long sentences | `sentences with more than long_sent_threshold words / sentences` | at least 1 sentence with a letter | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only |
 | `sent_len_median` | median sentence length | `median words per sentence` | at least 1 sentence with a letter | Yule (1939) p.369, median sentence length alongside the mean |
-| `sent_len_entropy` | variety of sentence lengths | `Shannon entropy (nats) of the distribution of words per sentence` | at least 2 sentences with a letter | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision |
+| `sent_len_entropy` | variety of sentence lengths | `Shannon entropy (nats) of the distribution of words per sentence` | at least 2 sentences with a letter | Shannon (1948) Theorem 2 — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision |
+| `question_sent_ratio` | share of sentences ending in "?" | `sentences whose final mark contains "?" / sentences` | at least 1 sentence | — |
 
 ## `paragraph` — Paragraph structure
 
@@ -132,9 +135,9 @@ published is a separate question — see the
 | `para_len_mean` | mean paragraph length | `mean words per paragraph (blank line = boundary)` | at least 1 paragraph | Zheng et al. (2006) Table 3, p.385, no. 251 "Number of words per paragraph" |
 | `sents_per_para_mean` | mean sentences per paragraph | `sentences / paragraphs (sent_count / para_count)` | at least 1 sentence with a letter | Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph" |
 
-## `pos` — Part-of-speech ratios
+## `pos` — Parts of speech
 
-12 keys.
+17 keys.
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
@@ -150,22 +153,13 @@ published is a separate question — see the
 | `pos_sconj_ratio` | share of SCONJ words | `tag count / words` | at least 1 word | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
 | `pos_num_ratio` | share of NUM words | `tag count / words` | at least 1 word | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
 | `pos_intj_ratio` | share of INTJ words | `tag count / words` | at least 1 word | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
-
-## `syntactic` — Discourse & syntax
-
-7 keys.
-
-| Key | Description | Formula | Requires | Source |
-|---|---|---|---|---|
-| `question_sent_ratio` | share of sentences ending in "?" | `sentences whose final mark contains "?" / sentences` | at least 1 sentence | — |
 | `pronoun_ratio` | share of pronoun words | `PRON / words` | at least 1 word | Deutsch, Jasbi & Shieber (2020) Table 6 "pronouns per word", listed among existing features; original source not traced |
 | `verb_dist_mean` | mean word gap between consecutive verbs | `mean difference of VERB positions` | at least 2 verbs | QUITA §6.2.1 |
 | `activity_ratio` | activity Q | `VERB / (VERB + ADJ)` | at least 1 verb or adjective | QUITA §6.2.2 |
-| `lexical_density` | share of lexical words | `(NOUN + PROPN + VERB + ADJ + ADV) / all words, PUNCT and SYM excluded` | at least 1 word | Lu (2012); definition in the broad Hallidayan sense — all open-class words |
 | `posddev` | how uneven the POS distribution is | `population std of the 12 pos_*_ratio shares` | at least 1 word | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 12 UD tags |
 | `posdiv` | how much sentences differ from the document in POS make-up | `mean over sentences of KL(sentence POS ‖ document POS), nats` | at least 1 word | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits |
 
-## `syntactic_dep` — Dependency tree (distance, depth, sentence-final POS)
+## `syntactic` — Syntactic features
 
 16 keys.
 
@@ -188,7 +182,7 @@ published is a separate question — see the
 | `sentfinal_pron_ratio` | share of sentences ending in a PRON | `sentences ending in that tag / sentences` | at least 1 sentence with a word | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
 | `sentfinal_other_ratio` | share of sentences ending in any other tag | `sentences ending in a tag outside the 13 / sentences` | at least 1 sentence with a word | de Marneffe et al. (2021) Table 1 (UPOS tag set) |
 
-## `morphological` — Morphological style (spaCy)
+## `morphological` — Morphological features (spaCy)
 
 19 keys.
 
@@ -214,7 +208,7 @@ published is a separate question — see the
 | `number_plur_ratio` | share of words tagged Number=Plur | `words with Number=X / words with any Number` | at least 1 word with a Number tag | de Marneffe et al. (2021) Table 2 (universal morphological features) |
 | `voice_pass_ratio` | share of passive verbs | `VERB with Voice=Pass / VERB` | at least 1 verb | de Marneffe et al. (2021) Table 2 (universal morphological features) |
 
-## `morphological_zeyrek` — Morphological style (Zeyrek, TR only)
+## `morphological_zeyrek` — Morphological features (Zeyrek)
 
 23 keys.
 
@@ -224,7 +218,7 @@ published is a separate question — see the
 | `zeyrek_suffix_char_length_ratio` | share of word letters in suffixes | `suffix letters / word letters` | at least 1 analysed word | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) |
 | `zeyrek_suffix_bigram_entropy` | variety of suffix sequences | `Shannon entropy (nats) of within-word visible suffix pairs` | at least 1 word with 2 visible suffixes | Shannon (1948) — the entropy formula; Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) |
 | `zeyrek_derivational_suffix_ratio` | share of derivational suffixes | `derivational / visible suffixes` | at least 1 visible suffix | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) |
-| `zeyrek_verb_suffix_diversity` | suffix variety on verbs | `mean distinct visible suffix tags per verb_suffix_window-verb chunk` | at least 50 verbs (verb_suffix_window) | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) |
+| `zeyrek_verb_suffix_diversity` | suffix variety on verbs | `mean distinct visible suffix tags over verb_suffix_num_samples random samples of verb_suffix_window verbs (no repeats within a sample)` | at least 10 verbs (verb_suffix_window) | Brezina & Pallotti (2019) p.107 (MC10: 10-verb samples; the authors call 10 arbitrary and give MC5 for short texts) and p.108 (100 random samples); only the within-sample variety is measured (close to MC10a, no between-sample component); suffixes from Zeyrek (a Python port of Zemberek's morphotactics), tag set from Akın & Akın (2007) |
 | `zeyrek_tense_past_def_ratio` | share of verbs in the definite past (-DI) | `verbs whose last tense tag is X / verbs` | at least 1 verb | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) |
 | `zeyrek_tense_past_nar_ratio` | share of verbs in the reported past (-mIş) | `verbs whose last tense tag is X / verbs` | at least 1 verb | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) |
 | `zeyrek_tense_present_ratio` | share of verbs in the present | `verbs whose last tense tag is X / verbs` | at least 1 verb | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) |
@@ -244,7 +238,7 @@ published is a separate question — see the
 | `zeyrek_modal_necessity_ratio` | share of necessity verbs | `verbs with Neces / verbs` | at least 1 verb | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) |
 | `zeyrek_question_particle_ratio` | share of question particles | `words with root Ques / analysed words` | at least 1 analysed word | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) |
 
-## `phonetic` — Phonetic patterns
+## `phonological` — Phonological features
 
 14 keys.
 
@@ -265,9 +259,9 @@ published is a separate question — see the
 | `syllable_6plus_ratio` | share of words with 6 or more syllables | `words with 6 or more syllables / syllabifiable words` | at least 1 syllabifiable word | Bezirci & Yılmaz (2010) Table 1-c |
 | `sent_syllable_mean` | syllables per sentence | `mean syllables per sentence` | at least 1 sentence with a syllabifiable word | — |
 
-## `readability` — Readability scores
+## `readability` — Readability
 
-11 keys.
+20 keys.
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
@@ -277,13 +271,22 @@ published is a separate question — see the
 | `flesch_reading_ease` | Flesch Reading Ease (EN) | `206.835 - 1.015 * words/sentence - 84.6 * syllables/word` | at least 1 syllabifiable word | Flesch (1948) Formula A; coefficient .846, unit = syllables per 100 words |
 | `flesch_kincaid_grade` | Flesch-Kincaid grade (EN) | `0.39 * words/sentence + 11.8 * syllables/word - 15.59` | at least 1 syllabifiable word | Kincaid et al. (1975) p.14, Table 3, "New" |
 | `smog` | SMOG grade (EN) | `3.1291 + 1.0430 * sqrt(polysyllables * 30 / sentences)` | at least 30 sentences | McLaughlin (1969) p.643, Table 1, eq. (d); p = polysyllabic words in a 30-sentence sample |
-| `ari` | Automated Readability Index | `4.71 * strokes/word + 0.5 * words/sentence - 21.43` | at least 1 word | Smith & Senter (1967) p.8, AMRL-TR-66-220; reproduced verbatim in Kincaid et al. (1975) p.14, Table 3 ("Old") |
-| `coleman_liau` | Coleman-Liau index | `0.0588 * letters per 100 words - 0.296 * sentences per 100 words - 15.8` | at least 1 word | Coleman & Liau (1975) p.284; the formula is a composition of two equations, it does not appear in this form in the article |
-| `lix` | Björnsson's LIX | `words/sentence + 100 * long words/words, long = 7+ letters` | at least 1 word | Björnsson (1968), as cited in Anderson (1983) p.490; long word = 7+ letters |
+| `ari` | Automated Readability Index (EN) | `4.71 * strokes/word + 0.5 * words/sentence - 21.43` | at least 1 word | Smith & Senter (1967) p.8, AMRL-TR-66-220; reproduced verbatim in Kincaid et al. (1975) p.14, Table 3 ("Old") |
+| `coleman_liau` | Coleman-Liau index (EN) | `0.0588 * letters per 100 words - 0.296 * sentences per 100 words - 15.8` | at least 1 word | Coleman & Liau (1975) p.284; the formula is a composition of two equations, it does not appear in this form in the article |
+| `lix` | Björnsson's LIX (EN) | `words/sentence + 100 * long words/words, long = 7+ letters` | at least 1 word | Björnsson (1968), as cited in Anderson (1983) p.490; long word = 7+ letters |
 | `polysyllabic_word_ratio` | share of 3+ syllable words (EN) | `3+ syllable words / syllabifiable words` | at least 1 syllabifiable word | McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form of SMOG's input, not the source's own measure |
-| `long_word_ratio` | share of 7+ letter words | `long words / words` | at least 1 word | Anderson (1983); long word = 7+ letters |
+| `long_word_ratio` | share of 7+ letter words | `long words / words` | at least 1 word | Anderson (1983) p.491; long word = 7+ letters |
+| `kalyoncu_kl` | share of words not in Kalyoncu's familiarity word list (%) | `100 * words not in the list / words; a word is in the list if its form, stem or stem + -mak/-mek is, circumflexes ignored; PROPN and numbers count as in the list` | at least 1 word; Zeyrek | Kalyoncu (2025) p.71-72, nine counting rules; word list Appendix 1, pp.129-160; rules 3, 5, 6 and 8 are not applied |
+| `kalyoncu_ttr` | Kalyoncu TTR: share of stems occurring once (%) | `100 * stems occurring once / words; texts longer than kalyoncu_ttr_window: mean over moving windows (step 1)` | at least 1 word; Zeyrek | Kalyoncu (2025) p.73; not the type-token ratio but the share of stems occurring once |
+| `kalyoncu_kco` | share of complex sentences (%) | `100 * sentences with a verbal or with 2+ verbs / sentences` | at least 1 sentence with a letter; Zeyrek | Kalyoncu (2025) p.73; "judgement" counted as verb or verbal, as in his CYargi (p.73) |
+| `kalyoncu_yco` | verbals per sentence, times 10 | `10 * verbals / sentences` | at least 1 sentence with a letter; Zeyrek | Kalyoncu (2025) p.74 |
+| `kalyoncu_ocu` | words per sentence, numbers counted as read aloud | `words / sentences; a number counts as the words it is read as` | at least 1 sentence with a letter | Kalyoncu (2025) p.77; numbers read aloud, p.xiii |
+| `kalyoncu_k1` | Kalyoncu text difficulty, formula 1; higher = harder | `-29.829 + 0.508 KL + 1.191 TTR + 0.733 KCO - 0.66 OCU` | all four components | Kalyoncu (2025) p.97, Table 31; grade levels p.102 |
+| `kalyoncu_k2` | Kalyoncu text difficulty, formula 2; higher = harder | `25.457 + 0.877 KL + 0.668 TTR + 0.333 OCU` | all three components | Kalyoncu (2025) p.98, Table 32; grade levels p.103 |
+| `kalyoncu_k3` | Kalyoncu text difficulty, formula 3; higher = harder | `25.153 + 0.834 KL + 0.686 TTR + 0.226 YCO` | all three components | Kalyoncu (2025) p.99, Table 33; grade levels p.104 |
+| `kalyoncu_k4` | Kalyoncu text difficulty, formula 4; higher = harder | `43.368 + 1.008 KL + 0.624 OCU` | both components | Kalyoncu (2025) p.99, Table 34; grade levels p.105 |
 
-## `punctuation` — Punctuation & digits
+## `punctuation` — Punctuation & orthography
 
 20 keys.
 
@@ -303,14 +306,14 @@ published is a separate question — see the
 | `punct_quote_ratio` | share of quotation marks among all marks | `marks of this type / all marks` | at least 1 punctuation mark | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks |
 | `punct_question_ratio` | share of question marks among all marks | `marks of this type / all marks` | at least 1 punctuation mark | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks |
 | `punct_char_ratio` | share of punctuation marks among characters | `marks / characters` | non-empty text | de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C" |
-| `punct_entropy` | variety of punctuation types | `Shannon entropy (nats) of the 10 mark types` | at least 1 punctuation mark | Shannon (1948) — the entropy formula; applying it to the distribution of punctuation types is this library's own decision |
+| `punct_entropy` | variety of punctuation types | `Shannon entropy (nats) of the 10 mark types` | at least 1 punctuation mark | Shannon (1948) Theorem 2 — the entropy formula; applying it to the distribution of punctuation types is this library's own decision |
 | `consecutive_punct_ratio` | share of marks directly next to another mark | `adjacent marks / marks` | at least 1 punctuation mark | — |
 | `whitespace_ratio` | share of whitespace characters | `whitespace / characters` | non-empty text | de Vel et al. (2001) Table 2, p.60 "Total number of white-space characters/C" |
 | `punct_variety` | number of punctuation types used (0–10) | `distinct mark types` | non-empty text | — |
 | `uppercase_ratio` | share of capitalised words | `words whose first letter is upper case / words with a letter` | at least 1 word with a letter | — |
 | `all_caps_word_ratio` | share of all-caps words | `words with 2+ letters, all upper case / words with a letter` | at least 1 word with a letter | — |
 
-## `chars` — Character frequency vector  [dynamic: one key per letter — TR 29, EN 26]
+## `chars` — Character frequencies
 
 Dynamic group: keys are generated with the prefix `char_`. The description, formula and requirement below are stated at the group level, not per key.
 
@@ -319,7 +322,7 @@ Dynamic group: keys are generated with the prefix `char_`. The description, form
 | `char_…` | share of that letter among alphabet letters | `letter count / alphabet letters` | at least 1 alphabet letter | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters |
 
 
-## `custom_ngrams` — User-defined n-gram counts  [dynamic: ngram_{...}_count]
+## `custom_ngrams` — User-defined n-grams
 
 Dynamic group: keys are generated with the prefix `ngram_`. The description, formula and requirement below are stated at the group level, not per key.
 
@@ -328,7 +331,7 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 
 ## Bibliography
 
-56 works. Every citation above names at least one of these verbatim, and every entry here is named by at least one citation — both directions are tested.
+58 works. Every citation above names at least one of these verbatim, and every entry here is named by at least one citation — both directions are tested.
 
 **Akın & Akın (2007)**
 :   Akın, A. A., & Akın, M. D. (2007). Zemberek, an open source NLP framework for Turkic Languages. 8 pp. Source code: github.com/ahmetaa/zemberek-nlp. (The document does not state a place of publication.)
@@ -347,6 +350,9 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 
 **Björnsson (1968)**
 :   Björnsson, C. H. (1968). Läsbarhet. Stockholm: Bokförlaget Liber. (Book.) The record was verified from three secondary reference lists: Anderson (1983), Çetinkaya (2010), Falkenjack et al. (2013). The primary source could not be obtained.
+
+**Brezina & Pallotti (2019)**
+:   Brezina, V., & Pallotti, G. (2019). Morphological complexity in written L2 texts. Second Language Research, 35(1), 99–119. DOI 10.1177/0267658316643125
 
 **Brunet (1978)**
 :   Brunet, E. (1978). Vocabulaire de Jean Giraudoux: structure et évolution. Genève: Slatkine. (Book.) The record was verified from the reference list of Popescu, Čech & Altmann (2011). The primary source could not be obtained.
@@ -395,6 +401,9 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 
 **Johnson (1944)**
 :   Johnson, W. (1944). Studies in language behavior: I. A program of research. Psychological Monographs, 56(2), 1–15. DOI 10.1037/h0093508
+
+**Kalyoncu (2025)**
+:   Kalyoncu, M. R. (2025). Türkçe için yeni bir okunabilirlik formülü [Master's thesis, Ondokuz Mayıs University]. Samsun. The word list (Appendix 1) is distributed with the package's data and is not covered by its MIT licence.
 
 **Kincaid et al. (1975)**
 :   Kincaid, J. P., Fishburne, R. P., Rogers, R. L., & Chissom, B. S. (1975). Derivation of new readability formulas for Navy enlisted personnel. Research Branch Report 8-75. Millington, TN: Naval Air Station Memphis. DOI 10.21236/ADA006655
@@ -463,7 +472,7 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 :   Somers, H. H. (1966). Statistical methods in literary analysis. In J. Leeds (Ed.), The Computer and Literary Style (pp. 128–140). Kent, OH: Kent State University Press. The record was verified from the reference list of Torruella & Capsada (2013). The primary source could not be obtained.
 
 **This library's threshold calibration**
-:   This library's own measurement, not a published source. short_sent_threshold and long_sent_threshold were derived from the 15th and 85th percentiles of the sentence-length distribution of newspaper columns under the default sentence and word rules: TR 162 columnists / 4,321 articles / 197,990 sentences, EN 30 columnists / 1,485 articles / 52,745 sentences. Method and raw percentile table: docs/threshold-calibration.md.
+:   This library's own measurement, not a published source. short_sent_threshold and long_sent_threshold were derived from the 15th and 85th percentiles of the sentence-length distribution of newspaper columns under the default sentence and word rules: TR 137 columnists / 4,321 articles / 197,990 sentences, EN 30 columnists / 1,485 articles / 52,745 sentences. Method and raw percentile table: docs/threshold-calibration.md.
 
 **Torruella & Capsada (2013)**
 :   Torruella, J., & Capsada, R. (2013). Lexical statistics and tipological structures: A measure of lexical richness. Procedia - Social and Behavioral Sciences, 95, 447–454. DOI 10.1016/j.sbspro.2013.10.668

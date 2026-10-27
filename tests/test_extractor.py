@@ -57,8 +57,8 @@ BOS_GIRDI = dict(raw_text="", surface_tokens=[], lemma_tokens=[], pos_data=[],
                  sentences_as_tokens=[], morpheme_lists=[], morph_tags=[], lang="tr")
 
 # Sözleşme §6'dan türetilmiş beklenti — koddan ölçülmedi.
-# TR taban 208; `dep_data` verilmediği için `syntactic_dep` (16) atlanır.
-TR_DEP_SIZ = 208 - 16
+# TR taban 214; `dep_data` verilmediği için `syntactic` (16) atlanır.
+TR_DEP_SIZ = 214 - 16
 EN_DEP_SIZ = 181 - 16
 
 
@@ -75,12 +75,12 @@ def test_uretilen_anahtarlar_registryle_birebir_ayni():
                 if k not in kayitli and not k.startswith(onekler)}
     assert not kayitsiz, f"Registry'de olmayan anahtarlar üretildi: {sorted(kayitsiz)}"
 
-    # `syntactic_dep` hariç (dep_data yok); `morphological_zeyrek` DAHİL (lang="tr", K11).
+    # `syntactic` hariç (dep_data yok); `morphological_zeyrek` DAHİL (lang="tr", K11).
     # İngilizceye özgü okunabilirlik anahtarları da Türkçede üretilmez.
     beklenen = (kayitli
-                - set(STATIC_GROUP_KEYS["syntactic_dep"])
+                - set(STATIC_GROUP_KEYS["syntactic"])
                 - {"flesch_reading_ease", "flesch_kincaid_grade", "smog",
-                   "polysyllabic_word_ratio"})
+                   "polysyllabic_word_ratio", "ari", "coleman_liau", "lix"})
     eksik = beklenen - uretilen
     assert not eksik, f"Registry'de kayıtlı ama üretilmeyen anahtarlar: {sorted(eksik)}"
 
@@ -128,14 +128,14 @@ def test_ingilizcede_zeyrek_grubu_hic_uretilmez():
 
 @pytest.mark.cmudict            # İngilizce hece sayımı
 def test_okunabilirlik_dile_gore_ayriliyor():
-    """TR'de 3 Türkçe formül, EN'de 4 İngilizce formül; karşı tarafta hiç yok."""
+    """TR'de 3 Türkçe formül, EN'de 7 İngilizce formül; karşı tarafta hiç yok (ilke D)."""
     tr = _extract_features(**ORNEK_GIRDI)
     en = _extract_features(**{**ORNEK_GIRDI, "lang": "en"})
     assert {"bezirci_yilmaz", "atesman", "cetinkaya_uzun"} <= set(tr)
     assert not {"bezirci_yilmaz", "atesman", "cetinkaya_uzun"} & set(en)
     assert {"flesch_reading_ease", "flesch_kincaid_grade", "smog",
-            "polysyllabic_word_ratio"} <= set(en)
-    assert not {"flesch_reading_ease", "smog"} & set(tr)
+            "polysyllabic_word_ratio", "ari", "coleman_liau", "lix"} <= set(en)
+    assert not {"flesch_reading_ease", "smog", "ari", "coleman_liau", "lix"} & set(tr)
 
 
 @pytest.mark.cmudict            # İngilizce hece sayımı
@@ -171,22 +171,29 @@ def test_bilinmeyen_grup_hata_verir():
         _extract_features(**ORNEK_GIRDI, groups=["olmayan_grup"])
 
 
+@pytest.mark.parametrize("eski", ["phonetic", "syntactic_dep"])
+def test_eski_grup_adlari_tutulmaz(eski):
+    """0.3.0 (2026-10-26, Efe): `phonetic` → `phonological`, `syntactic_dep` → `syntactic`."""
+    with pytest.raises(ValueError, match="Unknown group"):
+        _extract_features(**ORNEK_GIRDI, groups=[eski])
+
+
 def test_girdi_yoksa_grup_sessizce_atlanir():
-    """`dep_data` verilmedi → `syntactic_dep` hiç üretilmez, hata da yok."""
+    """`dep_data` verilmedi → `syntactic` hiç üretilmez, hata da yok."""
     feats = _extract_features(**ORNEK_GIRDI)
-    assert not (set(STATIC_GROUP_KEYS["syntactic_dep"]) & set(feats))
+    assert not (set(STATIC_GROUP_KEYS["syntactic"]) & set(feats))
 
 
 def test_hizalanmasi_gereken_uc_alan_yoksa_grup_atlanir():
     """`morph_tags` ve `morpheme_lists` de `pos_data` ile hizalı olmak zorunda.
 
-    Verilmemişlerse grup `syntactic_dep` gibi sessizce atlanır — `ValueError`
+    Verilmemişlerse grup `syntactic` gibi sessizce atlanır — `ValueError`
     fırlatmak yerine. `analyze()` yolunda üçü de dolu gelir (T21).
     """
     eksik = {k: v for k, v in ORNEK_GIRDI.items()
              if k not in ("morph_tags", "morpheme_lists")}
     feats = _extract_features(**eksik)
-    for grup in ("morphological", "morphological_zeyrek", "syntactic_dep"):
+    for grup in ("morphological", "morphological_zeyrek", "syntactic"):
         assert not (set(STATIC_GROUP_KEYS[grup]) & set(feats)), grup
     assert len(feats) == TR_DEP_SIZ - 19 - 23
 
@@ -236,13 +243,13 @@ def test_sayimlar_elle():
     pos = [(t, "PUNCT" if t in ",." else "NOUN") for t in tok]
     oz = _extract_features(raw_text=metin, surface_tokens=tok,
                            lemma_tokens=["ev", "ev", "kedi", "ev", "yok"], pos_data=pos,
-                           lang="tr", groups=["lexical", "paragraph", "phonetic", "punctuation"])
+                           lang="tr", groups=["lexical", "paragraph", "phonological", "punctuation"])
     assert (oz["word_count"], oz["type_count"], oz["hapax_count"], oz["dislegomena_count"]) == (
         5.0, 3.0, 2.0, 0.0)
     assert oz["para_count"] == 2.0 and oz["syllable_count"] == 6.0 and oz["punct_count"] == 3.0
     yalniz = _extract_features(raw_text="...", surface_tokens=["..."], lemma_tokens=[],
                                pos_data=[("...", "PUNCT")], lang="tr",
-                               groups=["lexical", "phonetic"])
+                               groups=["lexical", "phonological"])
     assert yalniz["type_count"] == 0.0 and yalniz["syllable_count"] == 0.0
 
 
@@ -301,7 +308,7 @@ def test_etiket_gruplari_varsayilan_kelimeyi_sayar():
     tok = ["E", "-", "posta", "geldi", "."]
     pos = [("E", "NOUN"), ("-", "PUNCT"), ("posta", "NOUN"), ("geldi", "VERB"), (".", "PUNCT")]
     oz = _extract_features(raw_text=metin, surface_tokens=tok, lemma_tokens=["e", "posta", "gel"],
-                           pos_data=pos, lang="tr", groups=["pos", "syntactic", "punctuation"])
+                           pos_data=pos, lang="tr", groups=["pos", "lexical", "punctuation"])
     assert oz["pos_noun_ratio"] == 0.5 and oz["pos_verb_ratio"] == 0.5
     assert "pos_punct" not in oz
     assert oz["lexical_density"] == 1.0

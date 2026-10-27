@@ -41,13 +41,21 @@ Aynı metin, farklı eşik, farklı sayı. Üç tümcenin biri 12 sözcüğü ge
 | `vocd_num_runs` | 3 | `vocd_d` |
 | `vocd_min_tokens` | 50 | `vocd_d` |
 | `vocd_random_seed` | 42 | `vocd_d` |
-| `heaps_min_tokens` | 300 | `heaps_beta` |
-| `heaps_step` | 50 | `heaps_beta` |
+| `heaps_points` | 20 | `heaps_beta` |
 | `brunet_w_a` | 0.172 | `brunet_w` |
-| `verb_suffix_window` | 50 | `zeyrek_verb_suffix_diversity` |
+| `verb_suffix_window` | 10 | `zeyrek_verb_suffix_diversity` |
+| `verb_suffix_num_samples` | 100 | `zeyrek_verb_suffix_diversity` |
+| `verb_suffix_random_seed` | 42 | `zeyrek_verb_suffix_diversity` |
+| `kalyoncu_ttr_window` | 500 | `kalyoncu_ttr`, `kalyoncu_k1`–`kalyoncu_k3` |
 | `short_sent_threshold` | TR **4** · EN **8** | `short_sent_ratio` |
 | `long_sent_threshold` | TR **17** · EN **32** | `long_sent_ratio` |
 | `max_parse_depth` | 20 | `parse_depth_mean` |
+
+`zeyrek_verb_suffix_diversity` metnin fiillerinden 100 rastgele örneklem çeker; her örneklem
+10 fiildir, örneklem içinde fiil tekrarlanmaz. Sonuç, örneklemlerde görünen farklı ek
+türü sayısının ortalamasıdır (Brezina ve Pallotti 2019, s.107-108: MC10). Kütüphane yalnız
+örneklem içi çeşitliliği ölçer; MC10'un örneklemler arası bileşeni yoktur, ölçü MC10a'ya
+yakındır.
 
 ## Tümce eşikleri dile göre uygulanır
 

@@ -7,15 +7,15 @@ A **feature** is a single number extracted from a text. `ttr`,
 
 A feature is one of three things:
 
-1. **A named measure from the literature** — `mattr`, `yule_k`,
+1. **A literature measure** — `mattr`, `yule_k`,
    `flesch_reading_ease`. These have citations.
-2. **A category of an external tag scheme** — `pos_noun_ratio` (UD),
+2. **A tag ratio**: a category of an external tag scheme — `pos_noun_ratio` (UD),
    `zeyrek_case_loc_ratio` (Zeyrek). The citation points at the scheme, not at the
    measure.
 3. **A plain definition** — `punct_dash_ratio` ("dashes / all punctuation marks"). No citation,
-   because it is not a named measure that could be attributed.
+   because it is not a literature measure that could be attributed.
 
-Of 208 keys, 197 have a citation and 11 do not.
+Of 214 keys, 203 have a citation and 11 do not.
 
 ## Key names
 
@@ -42,7 +42,7 @@ punctuation a text has is `punct_char_ratio` (punctuation marks / characters).
 
 ## Group
 
-Features are organised into 13 groups (14 with the `ngram_*` keys created when
+Features are organised into 12 groups (13 with the `ngram_*` keys created when
 you pass `custom_ngrams`). A group is both an organising device
 and a selection device:
 
@@ -99,7 +99,7 @@ contains at least one letter or digit**; otherwise it is not counted.
 | `This — is a test ...` | `This`, `is`, `a`, `test` — `—` and `...` on their own are not words |
 | `3. kat` · `Sonuç 3.` | Turkish only: `3.` is one word (an ordinal) when a word or a comma follows it; at the end of a sentence it is `3` |
 
-Every feature except the dependency group counts this word.
+Every feature except the `syntactic` group counts this word.
 
 ### Sentence
 
@@ -135,13 +135,23 @@ Two kinds of feature do not use this rule:
 
 - some **readability formulas** follow the counting their own source prescribes:
   Çetinkaya-Uzun also ends a sentence at `:` and at brackets, the Flesch formulas at `;`;
-- the **dependency group** (`syntactic_dep`) uses spaCy's tokens and its parser's
+- the **syntactic features** (`syntactic`) use spaCy's tokens and its parser's
   sentences.
 
 ### A word's tags
 
 The part of speech, morphological tags and lemma come from the first token inside the
-word. Turkish lemmas are Zeyrek's dictionary entry, English lemmas spaCy's.
+word that is not punctuation. A double quote (`"` `“` `”` `«` `»`) is always punctuation
+here, whatever tag the model gave it. Turkish lemmas are Zeyrek's dictionary entry, English
+lemmas spaCy's.
+
+### Content word
+
+A content word is a word tagged `NOUN`, `PROPN`, `VERB`, `ADJ` or `ADV`
+(`lexical_density`, the part-of-speech variation measures, thematic concentration, the
+frequency measures). Lu (2012, p.192) counts only the adverbs derived from adjectives; the
+tool counts all adverbs, because the part-of-speech tagger does not tell adverb types apart
+and that distinction would need a word list or a morpheme-based rule.
 
 `describe_feature(key)["definitions"]` names the rule each feature uses.
 
@@ -158,7 +168,7 @@ suffix analysis · Turkish lemmas
    ↓  the library's own rules
 word and sentence boundaries; each word takes its tags from its own token
    ↓  feature extractors
-208 numbers
+214 numbers
 ```
 
 **The spaCy model is part of the result.** Change the model and the tokens, POS,

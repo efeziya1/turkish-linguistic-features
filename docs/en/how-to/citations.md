@@ -16,12 +16,12 @@ tlf.describe_feature("mattr")
  'description': 'moving-average TTR',
  'formula': 'mean TTR of every sliding window of mattr_window words',
  'scale': 'ratio_0_1',
- 'inputs': ('raw_text', 'surface_tokens', 'lemma_tokens', 'pos_data'),
+ 'inputs': ('raw_text',),
  'params': ('mattr_window',),
  'requires': 'at least 100 words (2 x mattr_window)',
  'citation': 'Covington & McFall (2010); default window 50 — C&M recommend a window of '
-             '500; 50 is used here so that texts of 100+ words can be measured (mattr '
-             'needs 2 × window)',
+             '500 (p.97); 50 is used here so that texts of 100+ words can be measured '
+             '(mattr needs 2 × window)',
  'references': ('Covington, M. A., & McFall, J. D. (2010). Cutting the Gordian knot: '
                 'The moving-average type–token ratio (MATTR). Journal of Quantitative '
                 'Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098',),
@@ -56,7 +56,7 @@ tlf.describe_feature("mattr")
 
 In the example above the citation says:
 
-> default window 50 — C&M recommend a window of 500; 50 is used here so
+> default window 50 — C&M recommend a window of 500 (p.97); 50 is used here so
 > that texts of 100+ words can be measured (mattr needs 2 × window)
 
 That is: the method is Covington & McFall's, **but the default window size
@@ -84,14 +84,14 @@ d["citation"], d["references"]
 (None, ())
 ```
 
-A `citation` of `None` means the key is **not a named measure from the
-literature**; it is a plain definition: `punct_dash_ratio` ("dashes / all punctuation marks"),
+A `citation` of `None` means the key is **not a literature
+measure**; it is a plain definition: `punct_dash_ratio` ("dashes / all punctuation marks"),
 `uppercase_ratio` ("share of words that start with a capital"),
 `lemma_count` ("number of distinct lemmas"). Keys that count the categories of an external tag scheme do
 have a citation, pointing at the scheme (`case_loc_ratio` → UD;
 `zeyrek_case_loc_ratio` → Zeyrek).
 
-**11 of the 208** Turkish keys have no citation.
+**11 of the 214** Turkish keys have no citation.
 
 ## Building a bibliography for your methods section
 
@@ -107,7 +107,7 @@ for r in sorted(refs):
 ```
 
 This gives you the bibliography for the features **you actually used**, not
-all 56 works.
+all 58 works.
 
 ## Does the number actually match?
 

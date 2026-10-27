@@ -19,7 +19,7 @@ Emin değilseniz öğreticiden başlayın: kurulumdan ilk tabloya kadar götür�
 import turkish_linguistic_features as tlf
 
 oz = tlf.analyze("Renksiz yeşil fikirler öfkeyle uyur.", lang="tr")
-len(oz)               # 208
+len(oz)               # 214
 oz["word_len_mean"]   # 6.2
 ```
 
@@ -35,7 +35,7 @@ Kütüphanenin **on bir** genel adı var, hepsi bu kadar:
 | `describe_feature` | Bir özniteliğin tanımını, formülünü, ölçeğini, hesaplanması için gereken en az veriyi ve künyesini verir |
 | `FeatureParams` | Eşikleri ve pencere boylarını taşıyan ayar nesnesi |
 | `LinguisticFeaturesError` | Kütüphanenin kendi hatalarının atası |
-| `ModelNotFoundError` | Gereken dil verisi kurulu değilse: spaCy modeli ya da İngilizce hece sayımı için NLTK `cmudict` |
+| `ModelNotFoundError` | Gereken dil verisi kurulu değilse: spaCy modeli ya da İngilizce seslem sayımı için NLTK `cmudict` |
 | `MissingDependencyWarning` | İsteğe bağlı bir paket yoksa |
 | `ParagraphStructureWarning` | 1000 sözcüğü geçen metinde paragraf sınırı bulunamazsa |
 

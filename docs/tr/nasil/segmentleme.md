@@ -56,7 +56,7 @@ Artık 75 sözcük, yani parçanın %75'i: `1.0` eşiğinin altında, `0.5`'in
 
     Kütüphane kaç parça attığını size söylemez. `min_fill=1.0` ile 1400
     sözcüklük bir dosyadan `segment_size=1000` ile **tek** parça çıkar; kalan 400
-    sözcük gider. Korpusunuzda kısa dosyalar varsa hiç parça
+    sözcük gider. Derleminizde kısa dosyalar varsa hiç parça
     üretmeyebilirler.
 
 ## Karakterle bölmek
@@ -69,12 +69,12 @@ tlf.segment_text(metin, segment_size=5000, unit="char", lang="tr")
 `lang` anlamsızlaşır. Sözcük sınırına saygı göstermez — parça bir sözcüğün
 ortasında bitebilir.
 
-## Korpusta doğrudan kullanın
+## Derlemde doğrudan kullanın
 
 Tek tek bölüp `analyze` çağırmanıza gerek yok:
 
 ```python
-satirlar = tlf.analyze_corpus("korpus/", lang="tr", segment_size=1000)
+satirlar = tlf.analyze_corpus("derlem/", lang="tr", segment_size=1000)
 ```
 
 ## Tam imza

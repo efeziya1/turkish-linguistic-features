@@ -1,7 +1,8 @@
 """Sözcüksel temel: frekans tablosu ve klasik kelime zenginliği ölçütleri.
 
-Bu modül 36 öznitelik anahtarı üretir (`lexical` grubunun 38'inden; kalan
-``lemma_count`` ve ``word_count`` ``extractor``'da sayılır):
+Bu modül 36 öznitelik anahtarı üretir (`lexical` grubunun 35'inden 32'si ve
+``frequency_structure`` grubunun dört Zipf ölçüsü; ``lemma_count`` ve ``word_count``
+``extractor``'da sayılır, ``lexical_density`` ``syntactic.py``'de):
 
 - T04 (10): ``ttr`` · ``entropy`` · ``yule_k`` · ``simpson_d`` · ``brunet_w`` ·
   ``hapax_ratio`` · ``hapax_token_ratio`` · ``word_len_mean`` ·
@@ -11,7 +12,8 @@ Bu modül 36 öznitelik anahtarı üretir (`lexical` grubunun 38'inden; kalan
   ``verb_variation`` · ``adj_variation`` · ``adv_variation``
 - T06 (3): ``vocd_d`` · ``hdd`` · ``msttr``
 - T07 (6): ``zipf_exponent`` · ``zipf_r2`` · ``zipf_mandelbrot_q`` ·
-  ``zipf_mandelbrot_s`` · ``wordfreq_mean`` · ``wordfreq_rare_ratio``
+  ``zipf_mandelbrot_s`` (2026-10-26'dan beri ``frequency_structure`` grubunda) ·
+  ``wordfreq_mean`` · ``wordfreq_rare_ratio``
 - 2026-10-06 (4): ``cttr`` · ``summer_s`` · ``maas_a2`` · ``herdan_vm``
 - 2026-10-08 (4): ``honore_r`` · ``type_count`` · ``hapax_count`` ·
   ``dislegomena_count``
@@ -217,15 +219,17 @@ def rare_word_metrics(tokens: list[str]) -> dict[str, float]:
     return {"sichel_s": round(V2 / V, 6)}
 
 
-def heaps_beta(tokens: list[str], min_tokens: int = 300,
-               step: int = 50) -> dict[str, float]:
+def heaps_beta(tokens: list[str], points: int = 20) -> dict[str, float]:
     """Heaps yasası ``V = K·N^β``; ``log V ~ β·log N`` regresyonunun eğimi.
 
     Metin uzadıkça kelime dağarcığının ne hızla büyüdüğünü ölçer.
 
-    Ölçülemediği iki durumda NaN: metin ``min_tokens``'tan kısa, ya da
-    5'ten az regresyon noktası düşüyor. ``0.0`` gerçek sıfır eğimdir (hep
-    aynı kelime).
+    Ölçüm noktaları metin boyunca ``points`` (20) eşit nokta: ``⌊k·N/points⌋``,
+    k = 1…points (Tweedie & Baayen 1998 s.333; 2026-10-27, Efe). Her metin aynı
+    sayıda noktayla ölçülür, metin uzunluğundan bağımsız. En az uzunluk sınırı yok
+    (alanyazında sayı yok); ``points``'ten kısa metinde noktalar çakışacağı için NaN.
+    Yasa büyük derlemlerde iyi uyar, kısa metinlerde güvenilir değildir (Manning
+    vd. 2008 s.81). ``0.0`` gerçek sıfır eğimdir (hep aynı kelime).
 
     β kırpılmaz (2026-09-17, Efe): tip sayısı hiç azalmadığı için eğim eksi
     olamaz, ama tekrarla başlayıp açılan metinde 1'i aşabilir ve olduğu gibi
@@ -234,21 +238,16 @@ def heaps_beta(tokens: list[str], min_tokens: int = 300,
     Raises
     ------
     ValueError
-        ``step <= 0`` ya da ``min_tokens < 0``. Negatif ``step`` eskiden sessizce
-        NaN veriyordu; parametre hatası ölçülemeyen metinle karışmasın.
+        ``points < 2``: iki noktadan az regresyon olmaz; parametre hatası ölçülemeyen
+        metinle karışmasın.
     """
-    if step <= 0:
-        raise ValueError(f"step must be positive: {step}")
-    if min_tokens < 0:
-        raise ValueError(f"min_tokens must be non-negative: {min_tokens}")
+    if points < 2:
+        raise ValueError(f"points must be at least 2: {points}")
     N = len(tokens)
-    if N < min_tokens:
-        return {"heaps_beta": math.nan}     # kısa metinde uydurma yapma
+    if N < points:
+        return {"heaps_beta": math.nan}     # noktalar çakışır, eğim ölçülmez
 
-    # Kontrol noktaları eskisi gibi: step, 2·step, … ≤ N.
-    nt = list(range(step, N + 1, step))
-    if len(nt) < 5:                          # 5 noktadan az → regresyon güvenilmez
-        return {"heaps_beta": math.nan}
+    nt = [k * N // points for k in range(1, points + 1)]
 
     # Tek geçiş, O(N): küme bir kez kurulup token'lar sırayla eklenir. Eskiden
     # her noktada `set(tokens[:kesim])` baştan kuruluyordu — O(N²/step);

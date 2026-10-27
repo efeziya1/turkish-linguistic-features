@@ -41,7 +41,7 @@ Extracts every feature from one text. Returns a flat `dict`; values are
 | Parameter | Meaning |
 |---|---|
 | `text` | The text to analyse |
-| `lang` | `"tr"` (default) or `"en"`. Anything else raises `ValueError`. Changes the feature set (208 vs 181) |
+| `lang` | `"tr"` (default) or `"en"`. Anything else raises `ValueError`. Changes the feature set (214 vs 181) |
 | `model` | spaCy model name. Defaults: `tr_core_news_md`, `en_core_web_sm` |
 | `groups` | Restrict to these groups; `None` means all |
 | `params` | Thresholds and window sizes. **`None` selects language-calibrated values** |
@@ -50,7 +50,7 @@ Extracts every feature from one text. Returns a flat `dict`; values are
 | `warn` | `False` silences `MissingDependencyWarning` and `ParagraphStructureWarning`; does not change the result |
 
 Raises `ModelNotFoundError` if the spaCy model is not installed, or — for
-English, when `phonetic` or `readability` is requested — if NLTK's `cmudict`
+English, when `phonological` or `readability` is requested — if NLTK's `cmudict`
 corpus is not. The check runs before any model is loaded.
 
 See: [TR](../tr/nasil/tek-metin.md) · [EN](../en/how-to/single-text.md)
@@ -181,7 +181,7 @@ inputs · params · requires · citation · references · definitions
 
 `citation` is the short pointer; `references` holds the full bibliographic
 records to copy into a bibliography. `citation is None` means the key is
-not a named measure from the literature.
+not a literature measure.
 
 `definitions` explains the terms the `formula` uses (`sentence`, `word`, `syllable`,
 `letter`, `type`…): for each, `{"name": ..., "source": ..., "description": ...}` — the

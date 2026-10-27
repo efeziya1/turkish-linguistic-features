@@ -223,17 +223,18 @@ def test_tc_sadece_otosemantik_sayar():
     assert thematic_concentration(items, hepsi_islev, h=3.0)["thematic_concentration"] == 0.0
 
 
-def test_tc_konu_kelimesi_zarf_saymaz_ozel_isim_sayar():
-    """THEMATIC_POS = NOUN, PROPN, VERB, ADJ (QUITA s. 50; 2026-09-16, Efe).
+def test_tc_iceriksel_sozcuk_lexical_density_ile_ayni_tanim():
+    """Tematik sözcük = ``LEXICAL_POS`` (tek tanım, 2026-10-15, Efe; QUITA s.50-51).
 
-    ev (ADV) r'=2 sayılmaz → 0; aynı kelime PROPN olunca 16/60.
+    ev r'=2: PROPN ve ADV sayılır → 16/60; AUX sayılmaz → 0.
     """
     items = [("ve", 10), ("ev", 8), ("yol", 5)]
-    zarf = [("ve", "CCONJ"), ("ev", "ADV"), ("yol", "CCONJ")]
-    ozel = [("ve", "CCONJ"), ("ev", "PROPN"), ("yol", "CCONJ")]
-    assert thematic_concentration(items, zarf, h=3.0)["thematic_concentration"] == 0.0
-    tc = thematic_concentration(items, ozel, h=3.0)["thematic_concentration"]
-    assert abs(tc - 16 / 60) < 1e-6
+    for etiket in ("PROPN", "ADV"):
+        pos = [("ve", "CCONJ"), ("ev", etiket), ("yol", "CCONJ")]
+        tc = thematic_concentration(items, pos, h=3.0)["thematic_concentration"]
+        assert abs(tc - 16 / 60) < 1e-6
+    yardimci = [("ve", "CCONJ"), ("ev", "AUX"), ("yol", "CCONJ")]
+    assert thematic_concentration(items, yardimci, h=3.0)["thematic_concentration"] == 0.0
 
 
 def test_tc_esit_frekansta_ortalama_rank():

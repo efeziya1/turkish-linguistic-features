@@ -1,4 +1,4 @@
-"""Öznitelik registry — 183 statik anahtarın tek doğruluk kaynağı (T19).
+"""Öznitelik registry — 192 statik anahtarın tek doğruluk kaynağı (T19).
 
 ``describe_feature(key)`` bir anahtar hakkında bilinen her şeyi tek çağrıda
 döndürür: ne ölçtüğü, nasıl hesaplandığı, hangi ölçekte olduğu, hangi
@@ -6,10 +6,10 @@ döndürür: ne ölçtüğü, nasıl hesaplandığı, hangi ölçekte olduğu, h
 kadar metin gerektirdiği ve künyesi. Kullanıcı üç ayrı sözlüğe bakmak zorunda
 kalmasın diye tek giriş noktası budur.
 
-Taban şema **TR 208 · EN 181**: 183 statik anahtardan dile özgü olanlar + dile
+Taban şema **TR 214 · EN 181**: 192 statik anahtardan dile özgü olanlar + dile
 göre 26–29 ``char_*``.
 ``custom_ngrams`` istenmedikçe anahtar üretmez, bu yüzden toplama girmez.
-14 grup = 12 statik + 2 dinamik.
+13 grup = 11 statik + 2 dinamik.
 
 Metin tabloları ``_registry_texts.py``'de — orası veri, burası yapı ve mantık
 (2026-09-18, Efe).
@@ -36,21 +36,22 @@ __all__ = ["describe_feature"]
 
 # ── gruplar ───────────────────────────────────────────────────────────
 
+# Görünen ad (2026-10-26, Efe): anahtar ve ad aynı kavramı aynı sözcük türüyle söyler; açıklayıcı
+# parantez yok (yalnız spaCy/Zeyrek ayrımı). Türkçe adlar Türkçe belgelerde.
 GROUP_LABELS: dict[str, str] = {
     "lexical": "Lexical richness & frequency",
-    "frequency_structure": "Frequency structure (h-point family, Popescu & Altmann)",
-    "sentence": "Sentence statistics",
+    "frequency_structure": "Frequency structure",
+    "sentence": "Sentence features",
     "paragraph": "Paragraph structure",
-    "pos": "Part-of-speech ratios",
-    "syntactic": "Discourse & syntax",
-    "syntactic_dep": "Dependency tree (distance, depth, sentence-final POS)",
-    "morphological": "Morphological style (spaCy)",
-    "morphological_zeyrek": "Morphological style (Zeyrek, TR only)",
-    "phonetic": "Phonetic patterns",
-    "readability": "Readability scores",
-    "punctuation": "Punctuation & digits",
-    "chars": "Character frequency vector  [dynamic: one key per letter — TR 29, EN 26]",
-    "custom_ngrams": "User-defined n-gram counts  [dynamic: ngram_{...}_count]",
+    "pos": "Parts of speech",
+    "syntactic": "Syntactic features",
+    "morphological": "Morphological features (spaCy)",
+    "morphological_zeyrek": "Morphological features (Zeyrek)",
+    "phonological": "Phonological features",
+    "readability": "Readability",
+    "punctuation": "Punctuation & orthography",
+    "chars": "Character frequencies",
+    "custom_ngrams": "User-defined n-grams",
 }
 
 # Anahtar sayısı sabit olmayan, önekle eşleşen gruplar. ``pos_bigrams`` üçüncü
@@ -67,23 +68,22 @@ STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
     "lexical": (
         'lemma_count', 'word_count', 'type_count', 'hapax_count', 'dislegomena_count',
         'word_len_mean', 'ttr', 'mattr', 'herdan_c', 'sichel_s',
-        'zipf_exponent', 'zipf_r2',
-        'zipf_mandelbrot_q',
-        'zipf_mandelbrot_s', 'mtld', 'dugast_u', 'guiraud_r', 'cttr', 'summer_s', 'maas_a2',
+        'mtld', 'dugast_u', 'guiraud_r', 'cttr', 'summer_s', 'maas_a2',
         'herdan_vm', 'honore_r', 'heaps_beta',
         'entropy', 'yule_k', 'simpson_d', 'brunet_w', 'hapax_ratio', 'hapax_token_ratio',
         'vocd_d', 'hdd', 'msttr', 'noun_variation', 'verb_variation', 'adj_variation',
-        'adv_variation', 'wordfreq_mean', 'wordfreq_rare_ratio',
+        'adv_variation', 'wordfreq_mean', 'wordfreq_rare_ratio', 'lexical_density',
     ),
     "frequency_structure": (
         'h_point', 'vocab_richness_r1', 'vocab_richness_r4', 'repeat_rate', 'rr_mcintosh',
         'gini_coef', 'curve_length', 'curve_length_r', 'lambda_pa', 'adjusted_modulus',
         'writers_view_alpha', 'thematic_concentration', 'secondary_thematic_concentration',
+        'zipf_exponent', 'zipf_r2', 'zipf_mandelbrot_q', 'zipf_mandelbrot_s',
     ),
     "sentence": (
         'sent_len_mean', 'sent_count', 'sent_len_char_mean', 'short_sent_ratio',
         'long_sent_ratio', 'sent_len_median',
-        'sent_len_entropy',
+        'sent_len_entropy', 'question_sent_ratio',
     ),
     "paragraph": (
         'para_count', 'para_len_mean', 'sents_per_para_mean',
@@ -92,12 +92,9 @@ STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
         'pos_noun_ratio', 'pos_propn_ratio', 'pos_verb_ratio', 'pos_adj_ratio', 'pos_adv_ratio',
         'pos_det_ratio', 'pos_adp_ratio',
         'pos_aux_ratio', 'pos_cconj_ratio', 'pos_sconj_ratio', 'pos_num_ratio', 'pos_intj_ratio',
+        'pronoun_ratio', 'verb_dist_mean', 'activity_ratio', 'posddev', 'posdiv',
     ),
     "syntactic": (
-        'question_sent_ratio', 'pronoun_ratio', 'verb_dist_mean',
-        'activity_ratio', 'lexical_density', 'posddev', 'posdiv',
-    ),
-    "syntactic_dep": (
         'arc_len_mean', 'parse_depth_mean', 'sentfinal_noun_ratio', 'sentfinal_propn_ratio',
         'sentfinal_verb_ratio', 'sentfinal_adj_ratio', 'sentfinal_adv_ratio', 'sentfinal_det_ratio',
         'sentfinal_adp_ratio',
@@ -122,7 +119,7 @@ STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
         'zeyrek_causative_suffix_ratio', 'zeyrek_modal_possibility_ratio',
         'zeyrek_modal_necessity_ratio', 'zeyrek_question_particle_ratio',
     ),
-    "phonetic": (
+    "phonological": (
         'vowel_ratio', 'front_vowel_ratio', 'back_vowel_ratio',
         'harmony_fronting_ratio', 'harmony_rounding_ratio',
         'syllable_count', 'syllable_mean', 'syllable_1_ratio', 'syllable_2_ratio',
@@ -133,6 +130,8 @@ STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
         'bezirci_yilmaz', 'atesman', 'cetinkaya_uzun', 'flesch_reading_ease',
         'flesch_kincaid_grade', 'smog', 'ari', 'coleman_liau', 'lix',
         'polysyllabic_word_ratio', 'long_word_ratio',
+        'kalyoncu_kl', 'kalyoncu_ttr', 'kalyoncu_kco', 'kalyoncu_yco', 'kalyoncu_ocu',
+        'kalyoncu_k1', 'kalyoncu_k2', 'kalyoncu_k3', 'kalyoncu_k4',
     ),
     "punctuation": (
         'char_count', 'digit_ratio', 'punct_count', 'punct_comma_ratio', 'punct_period_ratio',
@@ -144,28 +143,69 @@ STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
     ),
 }
 
-# Grubun fonksiyonlarının **gerçekten** okuduğu ``ProcessedText`` alanları,
-# fazlası değil. Kaydın var olması yetmez, doğru olması gerekir:
-# ``frequency_structure`` (2026-08-25) ve ``syntactic`` (2026-08-26) iki kez
-# eksik kaydedildi ve ikisi de "kaydı var mı" testinden geçiyordu.
+# Özniteliğin **gerçekten** okuduğu ``ProcessedText`` alanları, fazlası değil.
+# Kaydın var olması yetmez, doğru olması gerekir: ``frequency_structure``
+# (2026-08-25) ve eski ``syntactic`` grubu (2026-08-26) iki kez eksik kaydedildi ve ikisi de
+# "kaydı var mı" testinden geçiyordu. Kayıt öznitelik başına (2026-10-15, Efe):
+# grup düzeyinde ``mattr`` kullanmadığı ``pos_data`` ve ``lemma_tokens``'ı gösteriyordu.
+#
+# Kelime ham metinden sayılır (``raw_text``); cümle ``surface_tokens``'tan bölünür;
+# etiket ve lemma kelimenin içindeki tokendan alınır, token ham metinde aranarak
+# kelimeye bağlanır (``raw_text`` + ``surface_tokens`` + ``pos_data``, lemma için
+# ``lemma_tokens``; 2026-10-07, Efe).
+_METIN = ("raw_text",)
+_CUMLE = ("raw_text", "surface_tokens")
+_ETIKET = ("raw_text", "surface_tokens", "pos_data")
+_LEMMA = ("raw_text", "surface_tokens", "lemma_tokens", "pos_data")
+
+# Grubun varsayılanı — 13'ünün hepsi burada olmak zorunda.
 GROUP_INPUTS: dict[str, tuple[str, ...]] = {
-    # Kelime ham metinden sayılır, etiketi konumla tokendan alınır (2026-10-07, Efe):
-    # etiket isteyen grup `raw_text` + `surface_tokens` + `pos_data` + `lemma_tokens` okur.
-    "lexical": ("raw_text", "surface_tokens", "lemma_tokens", "pos_data"),
-    "frequency_structure": ("raw_text", "surface_tokens", "lemma_tokens", "pos_data"),
-    "sentence": ("raw_text", "surface_tokens"),
-    "paragraph": ("raw_text",),
-    "pos": ("raw_text", "surface_tokens", "lemma_tokens", "pos_data"),
-    "syntactic": ("raw_text", "surface_tokens", "lemma_tokens", "pos_data"),
-    "syntactic_dep": ("dep_data",),
-    "morphological": ("raw_text", "surface_tokens", "lemma_tokens", "pos_data", "morph_tags"),
-    "morphological_zeyrek": ("raw_text", "surface_tokens", "lemma_tokens", "pos_data",
-                             "morpheme_lists"),
-    "phonetic": ("raw_text", "surface_tokens"),
-    "readability": ("raw_text", "surface_tokens"),
-    "punctuation": ("raw_text", "surface_tokens"),
-    "chars": ("raw_text",),
-    "custom_ngrams": ("raw_text", "surface_tokens", "lemma_tokens", "pos_data"),
+    "lexical": _METIN,
+    "frequency_structure": _LEMMA,
+    "sentence": _CUMLE,
+    "paragraph": _METIN,
+    "pos": _ETIKET,
+    "syntactic": ("dep_data",),
+    "morphological": ("raw_text", "surface_tokens", "pos_data", "morph_tags"),
+    "morphological_zeyrek": ("raw_text", "surface_tokens", "pos_data", "morpheme_lists"),
+    "phonological": _METIN,
+    "readability": _CUMLE,
+    "punctuation": _METIN,
+    "chars": _METIN,
+    "custom_ngrams": _LEMMA,
+}
+
+# YALNIZCA grup varsayılanından sapanlar (``FEATURE_SCALES`` gibi).
+FEATURE_INPUTS: dict[str, tuple[str, ...]] = {
+    # lexical: etiket ya da lemma okuyanlar
+    "lemma_count": _LEMMA,
+    "noun_variation": _LEMMA,
+    "verb_variation": _LEMMA,
+    "adj_variation": _LEMMA,
+    "adv_variation": _LEMMA,
+    "wordfreq_mean": _LEMMA,
+    "wordfreq_rare_ratio": _LEMMA,
+    "lexical_density": _ETIKET,
+    # frequency_structure: Zipf ölçüleri sözcük biçimi sıklığından (lemma değil)
+    "zipf_exponent": _METIN,
+    "zipf_r2": _METIN,
+    "zipf_mandelbrot_q": _METIN,
+    "zipf_mandelbrot_s": _METIN,
+    # sentence: karakter uzunluğu tokenlardan; soru işaretine bakan noktalamaya bakar, kelimeye değil
+    "sent_len_char_mean": ("surface_tokens",),
+    "question_sent_ratio": ("surface_tokens",),
+    # paragraph: cümle sayısı
+    "sents_per_para_mean": _CUMLE,
+    # morphological: lemma okur, biçimbilim etiketi okumaz
+    "surface_per_lemma": _LEMMA,
+    # phonological: cümle başına
+    "sent_syllable_mean": _CUMLE,
+    # readability: cümle saymayanlar; Kalyoncu (2025) Zeyrek gövdesi ve PROPN okur
+    "polysyllabic_word_ratio": _METIN,
+    "long_word_ratio": _METIN,
+    **dict.fromkeys(("kalyoncu_kl", "kalyoncu_ttr", "kalyoncu_kco", "kalyoncu_yco",
+                     "kalyoncu_ocu", "kalyoncu_k1", "kalyoncu_k2", "kalyoncu_k3",
+                     "kalyoncu_k4"), _LEMMA + ("morpheme_lists",)),
 }
 
 
@@ -177,7 +217,7 @@ SCALES: frozenset[str] = frozenset({
     "ratio_0_1", "nats", "length", "count", "score",
 })
 
-# Her grubun varsayılanı — 14'ünün hepsi burada olmak zorunda.
+# Her grubun varsayılanı — 13'ünün hepsi burada olmak zorunda.
 GROUP_SCALES: dict[str, str] = {
     "lexical": "ratio_0_1",
     "frequency_structure": "ratio_0_1",
@@ -185,10 +225,9 @@ GROUP_SCALES: dict[str, str] = {
     "paragraph": "length",
     "pos": "ratio_0_1",
     "syntactic": "ratio_0_1",
-    "syntactic_dep": "ratio_0_1",
     "morphological": "ratio_0_1",
     "morphological_zeyrek": "ratio_0_1",
-    "phonetic": "ratio_0_1",
+    "phonological": "ratio_0_1",
     "readability": "score",
     "punctuation": "ratio_0_1",
     "chars": "ratio_0_1",
@@ -228,11 +267,11 @@ FEATURE_SCALES: dict[str, str] = {
     "honore_r": "score",
     "vocd_d": "score",
     "heaps_beta": "score",            # kırpılmıyor, 1'i aşabilir (2026-09-17)
+    "wordfreq_mean": "score",
+    # frequency_structure
     "zipf_exponent": "score",
     "zipf_mandelbrot_q": "score",
     "zipf_mandelbrot_s": "score",
-    "wordfreq_mean": "score",
-    # frequency_structure
     "h_point": "score",
     "curve_length": "score",
     "lambda_pa": "score",
@@ -246,10 +285,10 @@ FEATURE_SCALES: dict[str, str] = {
     "long_sent_ratio": "ratio_0_1",
     "sent_len_entropy": "nats",
     # paragraph
-    # syntactic
+    # pos
     "verb_dist_mean": "length",
     "posdiv": "nats",
-    # syntactic_dep
+    # syntactic
     "arc_len_mean": "length",
     "parse_depth_mean": "length",
     # morphological
@@ -258,12 +297,13 @@ FEATURE_SCALES: dict[str, str] = {
     "zeyrek_agglutination_depth": "length",
     "zeyrek_suffix_bigram_entropy": "nats",
     "zeyrek_verb_suffix_diversity": "count",
-    # phonetic
+    # phonological
     "syllable_mean": "length",
     "sent_syllable_mean": "length",
     # readability (grup varsayılanı score)
     "polysyllabic_word_ratio": "ratio_0_1",
     "long_word_ratio": "ratio_0_1",
+    "kalyoncu_ocu": "length",
     # punctuation
     "punct_entropy": "nats",
     "punct_variety": "count",
@@ -282,11 +322,14 @@ FEATURE_PARAMS: dict[str, tuple[str, ...]] = {
     "vocd_d": ("vocd_sample_min", "vocd_sample_max", "vocd_num_samples",
                "vocd_num_runs", "vocd_min_tokens", "vocd_random_seed"),
     "brunet_w": ("brunet_w_a",),
-    "heaps_beta": ("heaps_min_tokens", "heaps_step"),
-    "zeyrek_verb_suffix_diversity": ("verb_suffix_window",),
+    "heaps_beta": ("heaps_points",),
+    "zeyrek_verb_suffix_diversity": ("verb_suffix_window", "verb_suffix_num_samples",
+                                     "verb_suffix_random_seed"),
     "short_sent_ratio": ("short_sent_threshold",),
     "long_sent_ratio": ("long_sent_threshold",),
     "parse_depth_mean": ("max_parse_depth",),
+    **dict.fromkeys(("kalyoncu_ttr", "kalyoncu_k1", "kalyoncu_k2", "kalyoncu_k3"),
+                    ("kalyoncu_ttr_window",)),
 }
 
 
@@ -436,7 +479,7 @@ def describe_feature(key: str, lang: str | None = None) -> dict:
         # "oran değil" diye yorumlardı. `description` ve `formula` açıklayıcı,
         # `scale` makine tarafından okunuyor.
         "scale": FEATURE_SCALES.get(key) or GROUP_SCALES[grup],
-        "inputs": GROUP_INPUTS[grup],
+        "inputs": FEATURE_INPUTS.get(key) or GROUP_INPUTS[grup],
         "params": FEATURE_PARAMS.get(key, ()),
         "requires": FEATURE_REQUIRES.get(key) or FEATURE_REQUIRES[grup],
         "citation": _citation(key),

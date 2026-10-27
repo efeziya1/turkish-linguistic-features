@@ -23,10 +23,14 @@ leave out keeps the value above ([details](en/how-to/parameters.md)).
 | | Turkish | English |
 |---|---|---|
 | Source | KEMİK (YTÜ) column corpora | KEMİK `30Columnists` |
-| Columnists | 162 | 30 |
+| Columnists | 137 | 30 |
 | Articles | 4,321 | 1,485 |
 | Words measured | 2,108,415 | 1,078,588 |
 | **Sentences measured** | **197,990** | **52,745** |
+
+The Turkish columnists were counted after merging case, Turkish letters and spacing in the
+corpora's author folder names; the same author can be spelled differently across corpora
+(`canDundar` / `candundar`), and the raw names give 162.
 
 The full corpora were used, with no sampling. The texts are not distributed; only the numbers are published.
 Sentences and words were counted exactly as the `sentence` group counts them, with the
@@ -54,6 +58,17 @@ requires a threshold, and deriving the threshold from it would be circular.
 | 95th | 25.0 | 43.0 |
 
 In Turkish the 85th percentile sits on the boundary: at 17, 15.0% of sentences count as long; at 18, 12.9%.
+
+### Short and long sentences
+
+A **short sentence** is shorter than the threshold (fewer words than `short_sent_threshold`); a
+**long sentence** is longer than the threshold (more words than `long_sent_threshold`). A
+sentence whose length equals the threshold is in neither count.
+
+Why: sentence lengths are whole numbers, so whether the threshold itself is included changes
+the share noticeably. In Turkish, including it would count 19.2% of sentences as short and
+17.4% as long; excluding it gives 12.2% short and 15.0% long. The second pair is closer to
+15%.
 
 ## Why a language-specific threshold
 

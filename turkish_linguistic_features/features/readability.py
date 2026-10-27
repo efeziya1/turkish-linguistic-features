@@ -1,11 +1,19 @@
-"""Okunabilirlik formülleri — ``readability`` grubu (TR 7 · EN 8).
+"""Okunabilirlik formülleri — ``readability`` grubu (TR 13 · EN 8).
 
-- Türkçe: ``atesman`` · ``cetinkaya_uzun`` · ``bezirci_yilmaz``
+- Türkçe: ``atesman`` · ``cetinkaya_uzun`` · ``bezirci_yilmaz``; Kalyoncu (2025) K1–K4 ve
+  bileşenleri (9) ayrı modülde, ``kalyoncu``
 - İngilizce: ``flesch_reading_ease`` · ``flesch_kincaid_grade`` · ``smog`` ·
-  ``polysyllabic_word_ratio`` (Türkçe eşiği belirlenene kadar yalnız EN)
-- İki dilde: ``ari`` · ``coleman_liau`` · ``lix`` · ``long_word_ratio``
+  ``polysyllabic_word_ratio`` (Türkçe eşiği belirlenene kadar yalnız EN) ·
+  ``ari`` · ``coleman_liau`` · ``lix``
+- İki dilde: ``long_word_ratio``
 
 Dil ayrımı T20'nin birleştiricisinde yapılır (2026-09-15, Efe).
+
+**Okunabilirlik formülü yalnız kurulduğu dilde hesaplanır (ilke D; 2026-10-15, Efe).**
+Formül bir okur kitlesinin anlamasını kestiren modeldir; kitle değişince sonucun
+karşılığı kalmaz. ARI, Coleman-Liau ve LIX İngilizce için kuruldu (LIX'in İngilizce
+normları Anderson 1983'te), Türkçede hesaplanmaz. Betimleyici ölçü (``long_word_ratio``)
+metnin özelliğini verir, iki dilde kalır.
 
 **Sayım kuralları kaynaklara göre (2026-09-17, Efe).** Bu grup kütüphanenin
 spaCy kelimesini ve spaCy cümlesini kullanmaz; her formül kendi birincil
@@ -185,12 +193,17 @@ def _yeni_cumle_basliyor(sonraki: list[str]) -> bool:
 
     İlk token büyük harfle başlıyorsa ya da bir tırnak, tire, açılış parantezi ise evet; küçük harf
     ya da rakamla başlıyorsa hayır; metin bitiyorsa evet (son cümle zaten ayrı sayılır).
+
+    İşaret sözcüğe bitişikse de ilk karaktere bakılır (2026-10-26, Efe): spaCy ``: -Bence``'yi
+    ``-Bence`` diye tek token tutar; belgedeki kurala göre tire cümle bitirir.
     """
     if not sonraki:
         return True
     ilk = sonraki[0]
+    if ilk[0] in _YENI_CUMLE_ACILIS:
+        return True
     if _isaret_mi(ilk):
-        return ilk[0] in _YENI_CUMLE_ACILIS
+        return False
     return ilk[0].isupper()
 
 
@@ -360,7 +373,7 @@ def english_readability_formulas(raw_text: str, surface_tokens: list[str]) -> di
 def general_readability_formulas(
     raw_text: str, surface_tokens: list[str], lang: str,
 ) -> dict[str, float]:
-    """ARI (Smith & Senter 1967), Coleman-Liau (1975), LIX (Björnsson 1968).
+    """ARI (Smith & Senter 1967), Coleman-Liau (1975), LIX (Björnsson 1968); yalnız İngilizce.
 
     - ari = 4.71·(vuruş/kelime) + 0.5·(kelime/cümle) − 21.43 — vuruş = boşluk
       dışı her karakter, sembol kelime sayılır (Kincaid ve ark. 1975 s.14, s.33)
@@ -371,16 +384,22 @@ def general_readability_formulas(
 
     Cümle sayan üçünde (ARI, Coleman-Liau, LIX) cümle varsayılan kuraldan: ``. ? ! …``
     her zaman, ``:`` yalnız ardından yeni cümle başlıyorsa.
+
+    Türkçede (``lang="tr"``) yalnız ``long_word_ratio`` döner: üç formül yalnız kurulduğu
+    dilde hesaplanır (ilke D, modül başı).
     """
     kelimeler, semboller = kelime_birimleri(raw_text, lang)
     cumle = _sayim(surface_tokens, "varsayilan", lang)
-    sonuc = {"ari": math.nan, "coleman_liau": math.nan, "lix": math.nan,
-             "long_word_ratio": math.nan}
+    sonuc = {"long_word_ratio": math.nan}
+    if lang == "en":
+        sonuc.update({"ari": math.nan, "coleman_liau": math.nan, "lix": math.nan})
     if not kelimeler:
         return sonuc
 
     uzun = sum(1 for k in kelimeler if _harf_sayisi(k) >= _UZUN_KELIME_HARF)
     sonuc["long_word_ratio"] = round(uzun / len(kelimeler), 5)
+    if lang != "en":
+        return sonuc
     harf = sum(_harf_sayisi(k) for k in kelimeler)
     sonuc["coleman_liau"] = round(
         0.0588 * 100 * harf / len(kelimeler) - 0.296 * 100 * cumle / len(kelimeler) - 15.8, 4)

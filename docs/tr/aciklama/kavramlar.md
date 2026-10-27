@@ -8,15 +8,15 @@
 
 Öznitelik üç şeyden biridir:
 
-1. **Literatürde adı olan bir ölçü** — `mattr`, `yule_k`, `flesch_reading_ease`.
+1. **Alanyazın ölçüsü** — `mattr`, `yule_k`, `flesch_reading_ease`.
    Bunların künyesi vardır.
-2. **Bir dış etiket şemasının kategorisi** — `pos_noun_ratio` (UD),
+2. **Etiket oranı**: bir dış etiket şemasının kategorisi — `pos_noun_ratio` (UD),
    `zeyrek_case_loc_ratio` (Zeyrek). Künyesi şemaya bağlıdır, ölçünün kendisine
    değil.
-3. **Saf tanım** — `punct_dash_ratio` ("tire / bütün noktalama işaretleri"). Künyesi yoktur,
-   çünkü kaynak gösterilecek adlandırılmış bir ölçü değildir.
+3. **Yalın tanım** — `punct_dash_ratio` ("tire / bütün noktalama işaretleri"). Künyesi yoktur,
+   çünkü kaynak gösterilecek bir alanyazın ölçüsü değildir.
 
-208 anahtarın 197'sinin künyesi vardır, 11'inin yoktur.
+214 anahtarın 203'ünün künyesi vardır, 11'inin yoktur.
 
 ## Anahtar adları
 
@@ -27,7 +27,7 @@ Ad, özniteliğin ne ölçtüğünü söyler:
 | `…_ratio` | 0 ile 1 arası pay | `hapax_ratio`, `pos_noun_ratio` |
 | `…_mean`, `…_median` | Ortalama, medyan | `sent_len_mean`, `sent_len_median` |
 | `…_count` | Sayım | `word_count`, `sent_count`, `lemma_count` |
-| Literatürdeki adı | Adı yerleşik ölçü; `_ratio` almaz | `ttr`, `mattr`, `yule_k`, `posddev` |
+| Alanyazındaki adı | Adı yerleşik ölçü; `_ratio` almaz | `ttr`, `mattr`, `yule_k`, `posddev` |
 
 Biçimbilimsel öznitelikler iki çözümleyiciden gelir. spaCy'nin UD
 etiketlerinden gelenler öneksizdir (`case_loc_ratio`), Zeyrek'ten gelenler
@@ -43,7 +43,7 @@ kadar noktalama olduğunu `punct_char_ratio` söyler (noktalama işaretleri / ka
 
 ## Grup
 
-Öznitelikler 13 gruba ayrılır (`custom_ngrams` verirseniz oluşan `ngram_*`
+Öznitelikler 12 gruba ayrılır (`custom_ngrams` verirseniz oluşan `ngram_*`
 anahtarlarıyla 14). Grup, hem düzenleme hem de seçim aracıdır:
 
 ```python
@@ -80,8 +80,8 @@ Her özniteliğin bir ölçeği vardır:
 ## Sözcük ve tümce
 
 Öznitelikler sözcüğü ve tümceyi kütüphanenin kendi kuralıyla sayar, modelin
-tokenıyla değil. Bunlar **varsayılan sözcük** ve **varsayılan tümcedir**; bu adları
-kullanan öbür sayfalar buraya gönderir.
+türcesiyle değil. Bunlar **varsayılan sözcük** ve **varsayılan tümcedir**; bu adları
+kullanan diğer sayfalar buraya gönderir.
 
 ### Sözcük
 
@@ -97,7 +97,7 @@ içeriyorsa sözcüktür**; içermiyorsa sayılmaz.
 | `Bu — bir deneme ...` | `Bu`, `bir`, `deneme` — tek başına duran `—` ve `...` sözcük değil |
 | `3. kat` · `Sonuç 3.` | Yalnız Türkçede: ardından sözcük ya da virgül gelen `3.` tek sözcüktür (sıra sayısı); tümce sonunda `3` olur |
 
-Bağlılık grubu dışındaki her öznitelik bu sözcüğü sayar.
+`syntactic` grubu dışındaki her öznitelik bu sözcüğü sayar.
 
 ### Tümce
 
@@ -133,35 +133,45 @@ ortalamayı boş yere aşağı çekmesin diye hiç harf içermeyen tümceyi saym
 
 - bazı **okunabilirlik formülleri** kendi kaynaklarının sayım kuralını izler:
   Çetinkaya-Uzun `:` ve parantezde de tümce bitirir, Flesch formülleri `;`'de;
-- **bağlılık grubu** (`syntactic_dep`) spaCy'nin tokenlarını ve ayrıştırıcısının
+- **sözdizimsel öznitelikler** (`syntactic`) spaCy'nin türcelerini ve ayrıştırıcısının
   tümcelerini kullanır.
 
 ### Sözcüğün etiketi
 
-POS etiketi, biçimbilimsel etiket ve lemma sözcüğün içindeki ilk tokendan gelir.
-Türkçe lemma Zeyrek'in sözlük maddesidir, İngilizce lemma spaCy'nin.
+POS etiketi, biçimbilimsel etiket ve sözlükbirim sözcüğün içindeki noktalama olmayan ilk
+türceden gelir. Çift tırnak (`"` `“` `”` `«` `»`) modelin verdiği etiketten bağımsız olarak
+burada hep noktalama sayılır.
+Türkçe sözlükbirim Zeyrek'in sözlük maddesidir, İngilizce sözlükbirim spaCy'nin.
+
+### İçeriksel sözcük
+
+İçeriksel sözcük POS etiketi `NOUN`, `PROPN`, `VERB`, `ADJ` ya da `ADV` olan sözcüktür
+(`lexical_density`, sözcük türü çeşitliliği, tematik yoğunlaşma, sıklık ölçüleri). Lu
+(2012, s.192) belirteçlerden yalnız sıfattan türeyenleri sayar; araç bütün belirteçleri
+sayar, çünkü sözcük türü etiketleyicisi belirteçlerin türünü ayırmaz ve bu ayrım bir
+sözcük listesi ya da biçimbirime dayalı bir kural gerektirir.
 
 Bir özniteliğin hangi kuralı kullandığını
 `describe_feature(anahtar)["definitions"]` söyler.
 
-## Boru hattı
+## Çözümleme hattı
 
 `analyze` çağırdığınızda sırayla şunlar olur:
 
 ```text
 ham metin
    ↓  spaCy (tr_core_news_md / en_core_web_sm)
-token · POS etiketi · biçimbilimsel etiket · bağlılık ağacı · İngilizce lemma
+türce · POS etiketi · biçimbilimsel etiket · bağımlılık ağacı · İngilizce sözlükbirim
    ↓  Zeyrek (yalnız Türkçe)
-ek çözümlemesi · Türkçe lemma
+biçimbirim çözümlemesi · Türkçe sözlükbirim
    ↓  kütüphanenin kuralları
-sözcük ve tümce sınırları; her sözcük etiketini kendi tokenından alır
+sözcük ve tümce sınırları; her sözcük etiketini kendi türcesinden alır
    ↓  öznitelik çıkarıcıları
-208 sayı
+214 sayı
 ```
 
-**spaCy modeli sonuçların parçasıdır.** Model değişirse tokenlar, POS,
-biçimbilimsel ve bağlılık öznitelikleri değişir.
+**spaCy modeli sonuçların parçasıdır.** Model değişirse türceler, POS,
+biçimbilimsel ve bağımlılık öznitelikleri değişir.
 
 ## `FeatureParams`
 
@@ -171,12 +181,12 @@ Pencere boyları, eşikler ve örneklem sayıları burada durur. Ayrıntı:
 Tümce eşikleri (`short_sent_threshold`, `long_sent_threshold`) **dile göre
 kalibre edilmiştir** (TR 4/17, EN 8/32).
 
-## Kayıt defteri (registry)
+## Öznitelik dizini (registry)
 
 Öznitelik adları, tanımları, formülleri, gereksinimleri ve künyeleri tek
 bir yerde durur. `describe_feature`, [başvuru bölümü](../../reference/index.md)
 ve [doğrulama raporu](../../dogrulama-raporu.md) aynı kaynaktan okur; bu yüzden
 üçü birbiriyle hep aynıdır.
 
-Kayıt defteri **İngilizcedir**. Tanımlar, formüller ve künyeler tek dilde
+Öznitelik dizini **İngilizcedir**. Tanımlar, formüller ve künyeler tek dilde
 tutulur ki kaynakla karşılaştırırken araya çeviri katmanı girmesin.

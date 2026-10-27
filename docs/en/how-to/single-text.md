@@ -17,11 +17,11 @@ number.
 tr = tlf.analyze(tr_text, lang="tr")
 en = tlf.analyze(en_text, lang="en")
 
-len(tr)   # 208
+len(tr)   # 214
 len(en)   # 181
 ```
 
-The 27-feature difference breaks down as:
+The 33-feature difference breaks down as:
 
 - **+23** Zeyrek suffix analysis: the `morphological_zeyrek` group (suffix
   chain, case markers, mood and tense; every key starts with `zeyrek_`) —
@@ -30,23 +30,25 @@ The 27-feature difference breaks down as:
   a property of Turkish; not produced for English.
 - **+3** letters: the Turkish alphabet has 29, English 26 (`ç ğ ı ö ş ü`
   only in Turkish, `q w x` only in English).
-- **−1** readability: 3 Turkish-only features (the Ateşman, Çetinkaya-Uzun and
-  Bezirci-Yılmaz formulas), 4 English-only features (the Flesch, Flesch-Kincaid
-  and SMOG formulas and the polysyllabic word ratio); the shared ones exist in
-  both.
+- **+5** readability: 12 Turkish-only features (the Ateşman, Çetinkaya-Uzun and
+  Bezirci-Yılmaz formulas; [Kalyoncu's](../explanation/kalyoncu.md) four formulas and five
+  components), 7 English-only features (the Flesch, Flesch-Kincaid,
+  SMOG, ARI, Coleman-Liau and LIX formulas and the polysyllabic word ratio); the
+  shared `long_word_ratio` exists in both. A readability formula is computed only
+  in the language it was built for.
 
-The `phonetic` group has 14 features in Turkish and 12 in English.
+The `phonological` group has 14 features in Turkish and 12 in English.
 
 `lang` accepts only `"tr"` and `"en"`. Anything else raises `ValueError`.
 
 ## Ask for specific groups
 
-If you do not need all 208 features, pick groups; the output then carries
+If you do not need all 214 features, pick groups; the output then carries
 only those groups' keys:
 
 ```python
 oz = tlf.analyze(text, lang="tr", groups=["readability", "lexical"])
-len(oz)     # 45
+len(oz)     # 48
 ```
 
 Picking groups saves little time. Most of it goes to the spaCy and Zeyrek
@@ -56,21 +58,23 @@ calculation after it. On a 1000-word text all groups take about 1.1 seconds,
 
 The groups, with their Turkish feature counts:
 
-| Group | Features | Contents |
+| Group | Name | Features |
 |---|---|---|
-| `lexical` | 38 | Lexical richness, frequency |
-| `chars` | 29 | Letter frequency vector: one key per letter of the Turkish alphabet (26 in English; `q`, `w`, `x` only there) |
-| `morphological_zeyrek` | 23 | Zeyrek suffix analysis (Turkish only) |
-| `morphological` | 19 | UD morphological features |
-| `punctuation` | 20 | Each mark type's share, punctuation density, capitalisation |
-| `syntactic_dep` | 16 | Dependency parse |
-| `phonetic` | 14 | Syllables, vowels, sound patterns |
-| `frequency_structure` | 13 | Zipf, h-point, thematic concentration |
-| `pos` | 12 | Part-of-speech shares |
-| `syntactic` | 7 | Sentence structure |
-| `sentence` | 7 | Sentence-length distribution |
-| `readability` | 7 | Readability formulas |
-| `paragraph` | 3 | Paragraph structure |
+| `lexical` | Lexical richness & frequency | 35 |
+| `chars` | Character frequencies | 29 |
+| `morphological_zeyrek` | Morphological features (Zeyrek) | 23 |
+| `punctuation` | Punctuation & orthography | 20 |
+| `morphological` | Morphological features (spaCy) | 19 |
+| `frequency_structure` | Frequency structure | 17 |
+| `pos` | Parts of speech | 17 |
+| `syntactic` | Syntactic features | 16 |
+| `phonological` | Phonological features | 14 |
+| `sentence` | Sentence features | 8 |
+| `readability` | Readability | 13 |
+| `paragraph` | Paragraph structure | 3 |
+
+`chars` counts letters only: one key per letter of the Turkish alphabet (26 in English;
+`q`, `w`, `x` only there). `morphological_zeyrek` is produced for Turkish only.
 
 `describe_feature(key)["group"]` tells you where a given feature lives.
 

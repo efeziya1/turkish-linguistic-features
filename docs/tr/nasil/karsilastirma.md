@@ -2,7 +2,7 @@
 
 Aynı metnin iki hâlini ölçmek — düzenleme öncesi/sonrası, çeviri/asıl,
 taslak/son — kütüphanenin en doğrudan kullanımıdır. Karşılaştırma adildir
-çünkü **aynı metin**, aynı boru hattından iki kez geçer.
+çünkü **aynı metin**, aynı çözümleme hattından iki kez geçer.
 
 ## Yöntem
 
@@ -56,7 +56,7 @@ Okunuşu:
 - **Ateşman 16,8 → 58,9.** Ateşman'ın bantlarına göre 16,8 "çok zor", 58,9 "orta".
   42 puanlık sıçramanın çoğu tümce uzunluğundan geliyor, çünkü formülde
   sözcük/tümce terimi var.
-- **Hece ortalaması 3,36 → 3,05.** "değerlendirilmesi" gibi uzun türetmeler
+- **Seslem ortalaması 3,36 → 3,05.** "değerlendirilmesi" gibi uzun türetmeler
   gitti.
 - **`ttr` 0,89 → 1,00 ama bu anlamlı değil.** İkinci metin kısaldığı için
   TTR yükseldi; üslup değişikliğinin değil uzunluğun sonucu.

@@ -26,7 +26,7 @@ source to check them against.
 ### 2. Source-number verification
 
 An extra check on top of the first layer: a number the source published is found and
-compared against our output. 48 of the 151 candidates are verified in this layer.
+compared against our output. 51 of the 163 candidates are verified in this layer.
 The rest of this page is about this layer.
 
 The second layer is not a precondition for the first. A feature marked 🔍 open does
@@ -35,28 +35,30 @@ not have a questionable formula; no published number was found to compare agains
 ## First: not every feature can be verified
 
 This distinction is the most important part of the report. By definition,
-some of the 208 features are **not even candidates** for verification:
+some of the 214 features are **not even candidates** for verification:
 
 | | Why not a candidate |
 |---|---|
-| ⚪ **no source** | A plain definition. `punct_dash_ratio` means "dashes / all punctuation marks"; there is no number in the literature to look for. |
-| ⚫ **tag scheme** | Not a measure but a count of an external scheme's categories. `pos_noun_ratio` → UD, `zeyrek_case_loc_ratio` → Zeyrek. **A scheme defines categories; it does not publish measurements** — de Marneffe's paper does not print "case_loc_ratio = 0.07", and could not. |
-| 🔧 **derivative** | The formula is from a source, **the application is ours**. `sent_len_entropy` is Shannon's entropy, but applying it to sentence lengths is ours; `long_sent_ratio`'s threshold comes from our own calibration. Nobody has published these measures — testing them against our own calibration would be reading our own answer sheet. |
+| ⚪ **plain definition** | No source. `punct_dash_ratio` means "dashes / all punctuation marks"; there is no number in the literature to look for. |
+| ⚫ **tag ratio** | Not a measure but a count of an external scheme's categories. `pos_noun_ratio` → UD, `zeyrek_case_loc_ratio` → Zeyrek. **A scheme defines categories; it does not publish measurements** — de Marneffe's paper does not print "case_loc_ratio = 0.07", and could not. |
+| 🔧 **tool-specific** | The formula is from a source, **the application is ours**. `sent_len_entropy` is Shannon's entropy, but applying it to sentence lengths is ours. Nobody has published this measure. |
+| 📐 **calibrated** | The threshold comes from our own calibration: `long_sent_ratio`. Testing it against our own calibration would be reading our own answer sheet. |
 
-On the Turkish side **82 rows** are one of these three. That leaves
-**151 verification candidates**. That is the real denominator.
+On the Turkish side **81 features** are one of these four. The remaining 133 features
+have **163 verification candidate rows** in the report (a feature can be compared with
+more than one example from its source). That is the real denominator.
 
 ## The four statuses a candidate can have
 
 | | Meaning |
 |---|---|
-| ✅ **exact** | Within tolerance of the number the source published. If the cause of a small difference is known, it is noted under the row. |
+| ✅ **match** | Within tolerance of the number the source published. If the cause of a small difference is known, it is noted under the row. |
 | 🟡 **documented deviation** | The difference is **beyond the tolerance** and **the reason is written down** — the source rounded an intermediate value, the source's own numbers were produced by hand, and so on. |
 | 🔍 **open** | The source gives the formula but never applies it to anything. Verifiable, not yet verified. |
 | ❌ **mismatch** | An **unexplained** difference. **Release gate: a single one blocks a release.** |
 
-Where things stand today: **48 of the 151 candidates are done** (46 ✅ +
-2 🟡), 103 are 🔍 open.
+Where things stand today: **51 of the 163 candidates are done** (51 ✅),
+112 are 🔍 open.
 
 The tolerance is **1% of the published value** (relative). Sources print
 rounded intermediate values, so exact equality is not expected.
@@ -65,6 +67,11 @@ rounded intermediate values, so exact equality is not expected.
 is not the size of the difference but **whether its cause is known**. If the
 cause has been measured and written down the row is 🟡; if it has not, the row
 is ❌ and no release is made.
+
+**Exception: the source's arithmetic.** If the number the source printed
+contradicts the arithmetic of the inputs the source itself gives, and our value
+gives the correct arithmetic, the comparison counts as ✅; the reason is noted
+under it.
 
 This is not an escape hatch. A reason cannot be a guess along the lines of
 "it is probably rounding"; it has to be a measurement showing where the
@@ -84,7 +91,7 @@ step leading to it is correct.
 and its coefficients, not the pipeline. It is what is available when the
 source published no text.
 
-## Why 103 rows are still 🔍 open
+## Why 112 rows are still 🔍 open
 
 The source published the formula but never applied it to a text and printed
 the result. In quantitative linguistics this is **ordinary**. Yule (1944)
@@ -99,10 +106,10 @@ Which groups are verified follows from their genre, not from chance:
 
 | Group | ✅ | 🟡 | 🔍 |
 |---|---|---|---|
-| `frequency_structure` | 22 | 0 | 2 |
-| `readability` | 13 | 1 | 2 |
-| `lexical` | 6 | 1 | 33 |
-| `phonetic` | 0 | 0 | 12 |
+| `frequency_structure` | 22 | 0 | 6 |
+| `readability` | 17 | 0 | 1 |
+| `lexical` | 7 | 0 | 30 |
+| `phonological` | 0 | 0 | 12 |
 
 Readability formulas are **practical instruments** — their authors publish
 the formula together with a worked example, because the point is for someone
@@ -132,11 +139,11 @@ value is converted to nats (× ln 2) before the comparison.
 
 Twenty-seven of the twenty-eight comparisons fall within tolerance (the
 largest relative difference is under 0.1%, and most deviate by zero). The
-remaining one deviates by 0.009, which is 1.5% of the published value; it is
-outside the 1% tolerance, so the row is 🟡, and the cause is plain: for `ttr`
-on Text 2 the source printed 0.590, but dividing the numbers it
-supplies itself gives 121 ÷ 202 = **0.599**. The published figure has a typo;
-ours is the arithmetically correct value.
+remaining one deviates by 0.009, which is 1.5% of the published value: for `ttr`
+on Text 2 the source printed 0.59, but dividing the numbers it supplies itself
+gives 121 ÷ 202 = **0.599**. The source truncated the result instead of rounding
+it (rounded to two decimals it is 0.60). Ours is the arithmetically correct
+value, so this comparison is ✅ too (the arithmetic exception, above).
 
 **`mtld`** — The measure sweeps the text and counts a "factor" each time TTR
 drops below 0.72; the leftover stretch is added as a fractional factor.
@@ -156,8 +163,7 @@ intermediate value.
 ## What a 🟡 looks like — the Kincaid case
 
 In the English report two readability features, `ari` and
-`flesch_kincaid_grade`, sit at 🟡. `ari` is also in the Turkish schema and is
-🟡 there on the same comparison; `flesch_kincaid_grade` is English-only. Three
+`flesch_kincaid_grade`, sit at 🟡. Both are computed for English only. Three
 questions explain it.
 
 **What was compared?** The source for both measures is a 1975 US Navy technical
@@ -202,9 +208,9 @@ fails.
 The coverage list comes from the registry, so a feature cannot be added
 and quietly left out of the report.
 
-## For ⚪ and 🔧 we supply the definition
+## For ⚪, 🔧 and 📐 we supply the definition
 
-In these two cases you do not have to write the measure's definition from
+In these cases you do not have to write the measure's definition from
 scratch for your methods section. The registry keeps a citable definition for
 every feature:
 

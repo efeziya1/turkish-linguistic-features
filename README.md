@@ -3,8 +3,8 @@
 [![CI](https://github.com/efeziya1/turkish-linguistic-features/actions/workflows/ci.yml/badge.svg)](https://github.com/efeziya1/turkish-linguistic-features/actions/workflows/ci.yml)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23009540.svg)](https://doi.org/10.5281/zenodo.23009540)
 
-Extracts 208 quantitative linguistic features from Turkish text and 181 from
-English. Every feature has its formula written out; 197 of the Turkish features
+Extracts 214 quantitative linguistic features from Turkish text and 181 from
+English. Every feature has its formula written out; 203 of the Turkish features
 and 170 of the English ones cite a source in the literature, and the rest are
 plain definitions (such as the dash's share of punctuation marks). The
 [verification report](https://efeziya1.github.io/turkish-linguistic-features/verification-report/) shows which ones have been
@@ -71,7 +71,7 @@ loading it prints a `W094` warning; both are harmless
 Eleven public names:
 
 ```python
-tlf.analyze(text, lang="tr")                     # 208 features (TR) / 181 (EN)
+tlf.analyze(text, lang="tr")                     # 214 features (TR) / 181 (EN)
 tlf.analyze(text, groups=["readability"])        # one group only
 tlf.analyze_corpus("corpus/")                    # one row per file
 tlf.analyze_corpus("corpus/", segment_size=1000) # or split into chunks
@@ -100,4 +100,5 @@ python scripts/generate_feature_reference.py    # regenerate the feature referen
 
 ## License
 
-MIT — see `LICENSE`.
+MIT — see `LICENSE`. The word list `turkish_linguistic_features/data/kalyoncu_2025_ek1.txt`
+is not covered by the MIT licence; its source is Kalyoncu (2025).

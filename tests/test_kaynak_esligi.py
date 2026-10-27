@@ -110,6 +110,20 @@ def test_sapma_satirlarinin_gerekcesi_var(lang):
     assert not gerekcesiz, f"gerekçesiz sapma: {gerekcesiz}"
 
 
+def test_aritmetik_istisnasi_quita_ttr():
+    """Kaynak 121/202'yi 0,59 basmış (kesme); bizim 0,599 doğru aritmetik → ✅ (2026-10-19, Efe).
+
+    İstisna yalnız gerekçe yazılıysa ve bizim değer kaynağın kendi aritmetiğini veriyorsa işler.
+    """
+    from scripts.generate_verification_report import BIREBIR, rapor_satirlari
+    ttr = [s for s in rapor_satirlari("tr") if s["anahtar"] == "ttr" and s["beklenen"] == 0.59]
+    assert len(ttr) == 1
+    s = ttr[0]
+    assert s["durum"] == BIREBIR and s["gerekce"]
+    assert not math.isclose(s["bizim"], s["beklenen"], rel_tol=0.01)   # tolerans dışı
+    assert s["bizim"] == pytest.approx(121 / 202, abs=1e-3)
+
+
 def test_rapor_guncel():
     """Üretilen rapor commit'lenmiş dosyayla aynı olmalı — iki dilde de.
 
@@ -126,23 +140,27 @@ def test_rapor_guncel():
         )
 
 
-def test_turev_kunyeleri_isaretli():
-    """🔧 listesi elle tutuluyor — künyeler hâlâ "bu bizim" demeli.
+def test_araca_ozgu_ve_kalibre_kunyeleri_isaretli():
+    """🔧 ve 📐 listeleri elle tutuluyor — künyeler hâlâ "bu bizim" demeli.
 
     Sınıflandırma künye metninden regex'le çıkarılmıyor (düz yazı, bir
     sözcük değişince sessizce kayar). Bunun bedeli listenin künyeden
     ayrışabilmesi; bu test onu yakalar.
     """
-    from scripts.generate_verification_report import TUREV_ANAHTARLARI
+    from scripts.generate_verification_report import (
+        ARACA_OZGU_ANAHTARLARI,
+        KALIBRE_ANAHTARLARI,
+    )
     from turkish_linguistic_features.features._registry_texts import (
         FEATURE_CITATIONS,
     )
     IZLER = ("this library's own", "threshold calibration",
              "not the source's own")
-    for anahtar in TUREV_ANAHTARLARI:
+    assert not ARACA_OZGU_ANAHTARLARI & KALIBRE_ANAHTARLARI
+    for anahtar in ARACA_OZGU_ANAHTARLARI | KALIBRE_ANAHTARLARI:
         kunye = FEATURE_CITATIONS[anahtar]
         assert any(iz in kunye for iz in IZLER), (
-            f"{anahtar} 🔧 diye işaretli ama künyesi bunu söylemiyor: {kunye}"
+            f"{anahtar} 🔧/📐 diye işaretli ama künyesi bunu söylemiyor: {kunye}"
         )
 
 

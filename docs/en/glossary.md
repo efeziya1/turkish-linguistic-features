@@ -10,7 +10,7 @@ pages.
 |---|---|
 | **feature** | A single number extracted from a text (`ttr`, `atesman`) |
 | **key** | A feature's name; the `dict` key in the returned mapping |
-| **group** | One of the 13 sets features belong to (`lexical`, `readability`…; 14 with `custom_ngrams`) |
+| **group** | One of the 12 sets features belong to (`lexical`, `readability`…; 13 with `custom_ngrams`) |
 | **citation** | The short source pointer — the parenthetical in a methods section |
 | **reference** | The full bibliographic record — what goes in a bibliography |
 | **registry** | The single place all feature metadata lives |
@@ -43,7 +43,12 @@ pages.
 
 | Term | Meaning |
 |---|---|
-| **exact** | Within tolerance of the source's number (✅) |
+| **literature measure** | A measure with a name in the literature; it has a citation |
+| **tag ratio** | The share of one category of an external tag scheme |
+| **plain definition** | A definition without a source |
+| **tool-specific** | Formula from a source, application by this library |
+| **calibrated** | Threshold from this library's own calibration |
+| **match** | Within tolerance of the source's number (✅) |
 | **documented deviation** | A difference whose reason is written down (🟡) |
 | **mismatch** | An unexplained difference (❌) |
 | **end-to-end** | Tested by pushing the source's own text through the pipeline |

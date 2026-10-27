@@ -16,35 +16,38 @@ Dönen şey düz bir `dict`: anahtar öznitelik adı, değer sayı.
 tr = tlf.analyze(tr_metin, lang="tr")
 en = tlf.analyze(en_metin, lang="en")
 
-len(tr)   # 208
+len(tr)   # 214
 len(en)   # 181
 ```
 
-Aradaki 27'nin dökümü:
+Aradaki 33'ün dökümü:
 
-- **+23** Zeyrek ek çözümlemesi: `morphological_zeyrek` grubu (ek zinciri,
+- **+23** Zeyrek biçimbirim çözümlemesi: `morphological_zeyrek` grubu (ek zinciri,
   durum ekleri, kip ve zaman; anahtarların hepsi `zeyrek_` ile başlar) — yalnız
   Türkçe.
-- **+2** ünlü uyumu (`harmony_fronting_ratio`, `harmony_rounding_ratio`) —
+- **+2** büyük ve küçük ünlü uyumu (`harmony_fronting_ratio`, `harmony_rounding_ratio`) —
   Türkçenin özelliği; İngilizcede üretilmez.
 - **+3** harf: Türkçe alfabe 29 harf, İngilizce 26 (`ç ğ ı ö ş ü` yalnız
   Türkçede, `q w x` yalnız İngilizcede).
-- **−1** okunabilirlik: Türkçeye özgü 3 öznitelik (Ateşman, Çetinkaya-Uzun ve
-  Bezirci-Yılmaz formülleri), İngilizceye özgü 4 öznitelik (Flesch, Flesch-Kincaid
-  ve SMOG formülleri ile çok heceli sözcük oranı); ortak olanlar iki dilde de var.
+- **+5** okunabilirlik: Türkçeye özgü 12 öznitelik (Ateşman, Çetinkaya-Uzun ve
+  Bezirci-Yılmaz formülleri; [Kalyoncu'nun](../aciklama/kalyoncu.md) dört formülü ve beş
+  bileşeni), İngilizceye özgü 7 öznitelik (Flesch, Flesch-Kincaid,
+  SMOG, ARI, Coleman-Liau ve LIX formülleri ile çok seslemli sözcük oranı); ortak olan
+  `long_word_ratio` iki dilde de var. Okunabilirlik formülü yalnız kurulduğu dilde
+  hesaplanır.
 
-`phonetic` grubu Türkçede 14, İngilizcede 12 öznitelik içerir.
+`phonological` grubu Türkçede 14, İngilizcede 12 öznitelik içerir.
 
 `lang` yalnız `"tr"` ve `"en"` alır. Başka bir değer `ValueError` verir.
 
 ## Yalnız bazı grupları isteyin
 
-208 özniteliğin hepsine ihtiyacınız yoksa grup seçin; çıktı yalnız o grupların
+214 özniteliğin hepsine ihtiyacınız yoksa grup seçin; çıktı yalnız o grupların
 anahtarlarını taşır:
 
 ```python
 oz = tlf.analyze(metin, lang="tr", groups=["readability", "lexical"])
-len(oz)     # 45
+len(oz)     # 48
 ```
 
 Grup seçmek az hız kazandırır. Sürenin çoğu spaCy ve Zeyrek ön işlemesinde
@@ -54,21 +57,23 @@ kısaltır. 1000 sözcüklük bir metinde bütün gruplar yaklaşık 1,1 saniye,
 
 Mevcut gruplar ve Türkçede kaç öznitelik içerdikleri:
 
-| Grup | Öznitelik | İçerik |
+| Grup | Ad | Öznitelik |
 |---|---|---|
-| `lexical` | 38 | Sözcüksel zenginlik, sıklık |
-| `chars` | 29 | Harf sıklık vektörü: Türkçe alfabenin her harfi için bir anahtar (İngilizcede 26; `q`, `w`, `x` yalnız orada) |
-| `morphological_zeyrek` | 23 | Zeyrek ek çözümlemesi (yalnız TR) |
-| `morphological` | 19 | UD biçimbilimsel özellikleri |
-| `punctuation` | 20 | Noktalama türlerinin payı, noktalama yoğunluğu, büyük harf |
-| `syntactic_dep` | 16 | Bağlılık ayrıştırması |
-| `phonetic` | 14 | Hece, ünlü, ses örüntüsü |
-| `frequency_structure` | 13 | Zipf, h-noktası, tematik yoğunlaşma |
-| `pos` | 12 | POS payları |
-| `syntactic` | 7 | Tümce yapısı |
-| `sentence` | 7 | Tümce uzunluğu dağılımı |
-| `readability` | 7 | Okunabilirlik formülleri |
-| `paragraph` | 3 | Paragraf yapısı |
+| `lexical` | Sözcüksel zenginlik ve sıklık | 35 |
+| `chars` | Karakter sıklıkları | 29 |
+| `morphological_zeyrek` | Biçimbilimsel öznitelikler (Zeyrek) | 23 |
+| `punctuation` | Noktalama ve yazım | 20 |
+| `morphological` | Biçimbilimsel öznitelikler (spaCy) | 19 |
+| `frequency_structure` | Sıklık yapısı | 17 |
+| `pos` | Sözcük türleri | 17 |
+| `syntactic` | Sözdizimsel öznitelikler | 16 |
+| `phonological` | Sesbilimsel öznitelikler | 14 |
+| `sentence` | Tümce öznitelikleri | 8 |
+| `readability` | Okunabilirlik | 13 |
+| `paragraph` | Paragraf yapısı | 3 |
+
+`chars` yalnız harfleri sayar: Türkçe alfabenin her harfi için bir anahtar (İngilizcede 26;
+`q`, `w`, `x` yalnız orada). `morphological_zeyrek` yalnız Türkçede üretilir.
 
 Bir özniteliğin hangi grupta olduğunu `describe_feature(anahtar)["group"]`
 söyler.
@@ -89,7 +94,7 @@ oz["ngram_ADJ_NOUN_count"]    # 3.0
 Her öbek bir anahtar olur; değeri metindeki eşleşme sayısıdır.
 
 - Sözcükler küçük harfe indirilerek karşılaştırılır. Yazılı biçim aranır,
-  lemma değil: `eski ev` ile `eski evi` ayrı eşleşmelerdir.
+  sözlükbirim değil: `eski ev` ile `eski evi` ayrı eşleşmelerdir.
 - Büyük harfle yazılmış bir UD POS etiketi (`NOUN`, `VERB`, `ADJ`…)
   o etiketi taşıyan herhangi bir sözcükle eşleşir. `["ADJ", "NOUN"]` bir sıfat
   ve hemen ardından bir isim demektir; `yeni bir bina` eşleşmez, çünkü arada
@@ -147,7 +152,7 @@ Varsayılanlar `tr_core_news_md` ve `en_core_web_sm`. Model kurulu değilse
 
 !!! warning "Model değiştirmek sayıları değiştirir"
 
-    Tokenlara ayırma, POS etiketleri, biçimbilimsel etiketler ve bağlılık
+    Türceleme, POS etiketleri, biçimbilimsel etiketler ve bağımlılık
     ayrıştırması modelden gelir. Farklı modelle çıkan tabloyu eskisiyle aynı çalışmada
     karşılaştırmayın.
 

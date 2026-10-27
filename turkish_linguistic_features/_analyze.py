@@ -49,7 +49,7 @@ def _get_preprocessor(lang: str, model: str | None) -> Preprocessor:
 
 
 # İngilizce hece sayan gruplar; yalnız bunlar istenince cmudict gerekir.
-_HECE_GRUPLARI = frozenset({"phonetic", "readability"})
+_HECE_GRUPLARI = frozenset({"phonological", "readability"})
 
 
 def _dil_verisini_denetle(lang: str, groups: list[str] | None) -> None:
@@ -100,7 +100,7 @@ def analyze(text: str, lang: str = "tr", model: str | None = None,
     Returns
     -------
     dict[str, float]
-        Öznitelik anahtarı → değer. Taban şema Türkçede 208, İngilizcede 181
+        Öznitelik anahtarı → değer. Taban şema Türkçede 205, İngilizcede 181
         anahtar; ``custom_ngrams`` verilirse üstüne sütun eklenir.
 
     Raises

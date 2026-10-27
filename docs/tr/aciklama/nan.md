@@ -20,10 +20,10 @@ len(kisa), len(nan_olan)
 ```
 
 ```text
-(208, 36)
+(214, 36)
 ```
 
-208 öznitelikten **36'sı** `nan`. Örnekler:
+214 öznitelikten **36'sı** `nan`. Örnekler:
 
 ```text
 ['aspect_imp_ratio', 'aspect_perf_ratio', 'aspect_prog_ratio', 'dugast_u',

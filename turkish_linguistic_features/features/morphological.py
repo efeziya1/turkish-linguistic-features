@@ -20,6 +20,7 @@ T15 kararları (2026-09-17, Efe):
 from __future__ import annotations
 
 import math
+import random
 from collections import Counter
 
 from ..alfabe import _kucuk_harf
@@ -220,18 +221,23 @@ def zeyrek_derivational_suffix_ratio(morpheme_lists: list[list[Morpheme]],
 
 def zeyrek_verb_suffix_diversity(morpheme_lists: list[list[Morpheme]], pos_data: list[tuple[str, str]],
                           params: FeatureParams = DEFAULT_PARAMS) -> dict[str, float]:
-    """Sabit boy fiil parçalarında farklı görünen ek türü sayısının ortalaması.
+    """Rastgele fiil örneklemlerinde farklı görünen ek türü sayısının ortalaması.
 
-    Fiiller ``params.verb_suffix_window``'luk ardışık parçalara bölünür, sondaki
-    eksik parça atılır (MSTTR mantığı: metin uzunluğundan bağımsız). Tam parça
-    yoksa NaN.
+    Brezina ve Pallotti (2019) s.107-108 (2026-10-26, Efe): metnin fiillerinden
+    ``params.verb_suffix_num_samples`` (100) örneklem çekilir, her biri
+    ``params.verb_suffix_window`` (10) fiil, örneklem içinde tekrar yok; her örneklemde
+    görünen farklı ek türleri sayılır, sonuç örneklemlerin ortalamasıdır. Yalnız örneklem
+    içi çeşitlilik ölçülür (MC10a'ya yakın; MC10'un örneklemler arası bileşeni yok).
+    Tohum ``params.verb_suffix_random_seed``; aynı metin hep aynı sonucu verir. Fiil
+    sayısı örneklem boyundan azsa NaN.
     """
     fiiller = _fiiller(_kelime_morfemleri(morpheme_lists, pos_data))
-    boy = params.verb_suffix_window
-    parcalar = [fiiller[i:i + boy] for i in range(0, len(fiiller) - boy + 1, boy)] if boy > 0 else []
-    if not parcalar:
+    boy, n = params.verb_suffix_window, params.verb_suffix_num_samples
+    if boy <= 0 or n <= 0 or len(fiiller) < boy:
         return {"zeyrek_verb_suffix_diversity": math.nan}
-    turler = [len({e[0] for m in p for e in _gorunen_ekler(m)}) for p in parcalar]
+    rng = random.Random(params.verb_suffix_random_seed)
+    turler = [len({e[0] for m in rng.sample(fiiller, boy) for e in _gorunen_ekler(m)})
+              for _ in range(n)]
     return {"zeyrek_verb_suffix_diversity": round(sum(turler) / len(turler), 5)}
 
 

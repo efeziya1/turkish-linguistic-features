@@ -1,6 +1,8 @@
 """Frekans yapısı: Popescu & Altmann'ın h-point ailesi — QUITA bataryası.
 
-Bu modül ``frequency_structure`` grubunun 13 anahtarını üretir:
+Bu modül ``frequency_structure`` grubunun 17 anahtarından 13'ünü üretir (dört Zipf ölçüsü
+``lexical.py``'de; 2026-10-26'da sıra–sıklık eğrisine baktıkları için bu gruba taşındı,
+değerleri sözcük biçimi sıklığından hesaplanmaya devam eder):
 ``h_point`` · ``vocab_richness_r1`` · ``vocab_richness_r4`` · ``repeat_rate`` ·
 ``rr_mcintosh`` · ``gini_coef`` · ``curve_length`` · ``curve_length_r`` ·
 ``lambda_pa`` · ``adjusted_modulus`` · ``writers_view_alpha`` ·
@@ -10,7 +12,7 @@ Girdi ``rank_word_freq_table()`` (``lexical.py``) çıktısıdır: ``freqs`` aza
 sıralı, ``N`` toplam token, ``V`` tekil tip, ``items`` ``(kelime, frekans)``.
 Rank 1 en sık kelimedir.
 
-**Birim: lemma (2026-09-16, Efe).** Bütün grup lemma sıklıklarından hesaplanır
+**Birim: lemma (2026-09-16, Efe).** Bu modülün 13 ölçüsü lemma sıklıklarından hesaplanır
 — TC h-point'i kullandığı için birim grup içinde tek olmalı. Kaynak: Čech,
 Popescu & Altmann (2012) "lemmatization is a more adequately focused approach
 eliminating the effect of synthetic morphology"; Čech, Garabík & Altmann
@@ -34,7 +36,7 @@ Kaynak arşivi ve doğrulanmış fikstürler: ``tlf-kaynaklar/00-INDEKS.md``.
 K4 (2026-09-16, Efe): ölçülemeyen değer ``math.nan`` — boş girdi ya da payda
 sıfır (V = 1'de McIntosh, N ≤ 1'de A, tek noktalı eğride R, h ≤ 1'de TC,
 noktaya inen üçgende α). Girdi olarak gelen NaN (``h``, ``RR``, ``L``) NaN
-olarak yayılır. TC'de h-point üstünde konu kelimesi yoksa 0.0 gerçek sıfırdır.
+olarak yayılır. TC'de h-point üstünde içeriksel sözcük yoksa 0.0 gerçek sıfırdır.
 """
 
 from __future__ import annotations
@@ -45,7 +47,7 @@ from collections import Counter
 import numpy as np
 
 from ..alfabe import _kucuk_harf
-from ..vocab import THEMATIC_POS
+from ..vocab import LEXICAL_POS
 
 
 def h_point(freqs: np.ndarray) -> float:
@@ -260,19 +262,20 @@ def _tematik_toplam(items: list[tuple[str, int]], pos_data: list[tuple[str, str]
     pos = _pos_haritasi(pos_data, lang)
     return sum((ust_sinir - r) * f
                for (kelime, f), r in zip(items, _ortalama_ranklar(items), strict=False)
-               if r < ust_sinir and pos.get(_kucuk_harf(kelime, lang)) in THEMATIC_POS)
+               if r < ust_sinir and pos.get(_kucuk_harf(kelime, lang)) in LEXICAL_POS)
 
 
 def thematic_concentration(items: list[tuple[str, int]], pos_data: list[tuple[str, str]],
                            h: float, lang: str = "tr") -> dict[str, float]:
-    """``TC = Σ 2(h − r')·f(r') / (h(h−1)·f₁)`` — h-point üstündeki içerik kelimeleri.
+    """``TC = Σ 2(h − r')·f(r') / (h(h−1)·f₁)`` — h-point üstündeki içeriksel sözcükler.
 
-    ``r'`` konu kelimesinin (``THEMATIC_POS``: isim, özel isim, fiil, sıfat) ortalama rankı, yalnız
-    ``r' < h``. ``f₁`` en sık kelimenin frekansı (işlev kelimesi olsa bile).
-    Tek konulu metin konu isimlerini h-point üstüne taşır → TC büyür.
+    ``r'`` içeriksel sözcüğün (``LEXICAL_POS``, ``lexical_density`` ile tek tanım; QUITA
+    s.50-51 seçimi araştırmacıya bırakır) ortalama rankı, yalnız ``r' < h``. ``f₁`` en sık
+    kelimenin frekansı (işlev kelimesi olsa bile). Tek konulu metin konu isimlerini h-point
+    üstüne taşır → TC büyür.
 
     Boş girdi ya da ``h ≤ 1`` (payda ``h(h−1)`` sıfır) → NaN. h-point üstünde
-    konu kelimesi yoksa TC gerçekten 0.
+    içeriksel sözcük yoksa TC gerçekten 0.
     """
     if not items or not h > 1:
         return {"thematic_concentration": math.nan}

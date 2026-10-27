@@ -7,24 +7,25 @@
 
 Bu rapor her özniteliğin ürettiği sayıyı, dayandığı kaynağın **yayımladığı
 sayıyla** karşılaştırır. Amaç basit: bir sayıyı çalışmanızda kullanmadan önce
-onun literatürdeki değeri tuttuğunu görebilmeniz.
+onun alanyazındaki değeri tuttuğunu görebilmeniz.
 
 ## Durumlar ne anlama geliyor
 
 | | Anlamı |
 |---|---|
-| ✅ **birebir** | Kaynağın yayımladığı sayıyla tolerans içinde aynı. Küçük bir farkın nedeni biliniyorsa satırın altında not olarak yazılır. |
-| 🟡 **belgelenmiş sapma** | Fark **toleransın dışında** ve **nedeni yazılı**. Kaynağın ara değerleri yuvarlaması, ya da kaynağın sayılarının elle üretilmiş olması gibi. Sapmanın sonuca etkisi satırda anlatılır. |
+| ✅ **örtüşen** | Kaynağın yayımladığı sayıyla tolerans içinde aynı. Küçük bir farkın nedeni biliniyorsa karşılaştırmanın altında not olarak yazılır. |
+| 🟡 **belgelenmiş sapma** | Fark **toleransın dışında** ve **nedeni yazılı**. Kaynağın ara değerleri yuvarlaması, ya da kaynağın sayılarının elle üretilmiş olması gibi. Sapmanın sonuca etkisi karşılaştırmada anlatılır. |
 | 🔍 **açık** | Kaynak formülü veriyor ama uygulanmış bir örnek vermiyor. Doğrulanabilir, henüz doğrulanmadı; formül ve sınır durumları kendi test dosyalarında sınanıyor. |
 | ❌ **uyuşmazlık** | **Açıklanmamış** fark. **Yayın kapısı:** bir tane bile varsa sürüm çıkmaz. |
 
-Aşağıdaki üç durum **doğrulama adayı değildir** — aranacak bir sayı yoktur:
+Aşağıdaki dört durum **doğrulama adayı değildir** — aranacak bir sayı yoktur:
 
 | | Anlamı |
 |---|---|
-| ⚪ **kaynak yok** | Adlandırılmış bir literatür ölçüsü değil; saf tanım (`punct_dash_ratio`, `uppercase_ratio`). |
-| ⚫ **etiket şeması** | Bir ölçü değil, dış bir şemanın kategorisini sayıyor (`pos_noun_ratio` → UD; `zeyrek_case_loc_ratio` → Zeyrek). Şema kategori tanımlar, ölçüm yayımlamaz. |
-| 🔧 **türev** | Formül bir kaynaktan, **uygulaması bu kütüphaneden**. `sent_len_entropy` Shannon'ın entropisidir ama tümce uzunluklarına uygulanması bizim; `long_sent_ratio`'nun eşiği kendi kalibrasyonumuzdan gelir. Kimse bu ölçüyü yayımlamadı, dolayısıyla karşılaştırılacak sayı da yok. Kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
+| ⚪ **yalın tanım** | Alanyazın ölçüsü değil; kaynağı olmayan tanım (`punct_dash_ratio`, `uppercase_ratio`). |
+| ⚫ **etiket oranı** | Bir ölçü değil, dış bir şemanın kategorisini sayıyor (`pos_noun_ratio` → UD; `zeyrek_case_loc_ratio` → Zeyrek). Şema kategori tanımlar, ölçüm yayımlamaz. |
+| 🔧 **araca özgü** | Formül bir kaynaktan, **uygulaması bu kütüphaneden**. `sent_len_entropy` Shannon'ın entropisidir ama tümce uzunluklarına uygulanması bizim. Kimse bu ölçüyü yayımlamadı, dolayısıyla karşılaştırılacak sayı da yok. |
+| 📐 **kalibre edilmiş** | Eşik bu kütüphanenin kalibrasyonundan gelir (`short_sent_ratio`, `long_sent_ratio`). Kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
 
 Tolerans yayımlanan değerin **%1'i** (göreli). Kaynaklar ara değerleri
 yuvarlayarak bastığı için mutlak eşitlik beklenmiyor; göreli tolerans her
@@ -32,16 +33,20 @@ yuvarlayarak bastığı için mutlak eşitlik beklenmiyor; göreli tolerans her
 
 **Toleransı aşan fark otomatik olarak ❌ değildir.** Belirleyici olan farkın
 büyüklüğü değil, **nedeninin bilinip bilinmediğidir**: nedeni ölçülmüş ve
-yazılmışsa satır 🟡, yazılmamışsa ❌ olur. Gerekçe bir mazeret değil, farkın
-nereden geldiğinin kanıtıdır — ilgili satırın altında okuyabilirsiniz.
+yazılmışsa karşılaştırma 🟡, yazılmamışsa ❌ olur. Gerekçe bir mazeret değil, farkın
+nereden geldiğinin kanıtıdır — ilgili karşılaştırmanın altında okuyabilirsiniz.
+
+**İstisna: kaynağın aritmetiği.** Kaynağın bastığı sayı, kaynağın kendi verdiği
+girdilerle aritmetik olarak çelişiyorsa ve bizim değer doğru aritmetiği veriyorsa
+karşılaştırma ✅ sayılır; neden altında not olarak yazılır.
 
 ## Kanıtın iki türü
 
-**Uçtan uca** satırlar kaynağın **metnini** boru hattından geçirir — yani
-tokenizasyon, heceleme ve tümce bölme de sınanır. Bunlar en güçlü kanıt.
+**Uçtan uca** karşılaştırmalar kaynağın **metnini** çözümleme hattından geçirir — yani
+türceleme, seslem sayımı ve tümce bölme de sınanır. Bunlar en güçlü kanıt.
 
-**Formül** satırları fonksiyona girdileri doğrudan verir (örneğin "hece/sözcük
-2,2 ve sözcük/tümce 4"). Formülü ve katsayıları doğrular, boru hattını
+**Formül** karşılaştırmaları fonksiyona girdileri doğrudan verir (örneğin "seslem/sözcük
+2,2 ve sözcük/tümce 4"). Formülü ve katsayıları doğrular, çözümleme hattını
 doğrulamaz. Kaynak bir metin yayımlamamışsa elde olan budur.
 
 Bu rapor **testlerden üretilir** — `tests/test_kaynak_esligi.py` ile aynı
@@ -49,26 +54,26 @@ karşılaştırma tablosunu okur, yani ikisi ayrışamaz. Diğer bilinen-değer
 testleri kendi dosyalarında duruyor.
 
 
-## Türkçe — 208 anahtar, 233 satır
+## Türkçe — 214 anahtar, 244 satır
 
 Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
-**Doğrulama adayı — 151 satır**
+**Doğrulama adayı — 163 satır**
 
 | Durum | Satır sayısı |
 |---|---|
-| ✅ birebir | 46 |
-| 🟡 belgelenmiş sapma | 2 |
-| 🔍 açık — kaynakta sayısal örnek yok | 103 |
+| ✅ örtüşen | 51 |
+| 🔍 açık — kaynakta sayısal örnek yok | 112 |
 
 
-**Doğrulama adayı olmayan — 82 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
+**Doğrulama adayı olmayan — 81 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
 
 | Durum | Satır sayısı |
 |---|---|
-| ⚪ kaynak yok — saf tanım | 11 |
-| ⚫ etiket şeması — ölçü değil | 67 |
-| 🔧 türev — uygulaması bu kütüphaneye ait | 4 |
+| ⚪ yalın tanım — kaynak yok | 11 |
+| ⚫ etiket oranı — ölçü değil | 66 |
+| 🔧 araca özgü — uygulaması bu kütüphaneye ait | 2 |
+| 📐 kalibre edilmiş — eşiği bu kütüphanenin kalibrasyonundan | 2 |
 
 ### Sayısal karşılaştırması olanlar
 
@@ -77,7 +82,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26); kaynak bit ile 6,438043 → × ln 2 | formül | 4.463 | 4.463 | +0.000 | ✅ |
 | `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26); kaynak bit ile 6,395099 → × ln 2 | formül | 4.433 | 4.433 | +0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formül | 0.665 | 0.665 | -0.000 | ✅ |
-| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; kaynak 0.590 basmış (baskı hatası) | formül | 0.590 | 0.599 | +0.009 | 🟡 |
+| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; kaynak 0.59 basmış (yuvarlamak yerine kesmiş) | formül | 0.590 | 0.599 | +0.009 | ✅ |
 | `hapax_token_ratio` | QUITA §6.1.6 | Text 1 · 98/179 | formül | 0.547 | 0.547 | +0.000 | ✅ |
 | `hapax_token_ratio` | QUITA §6.1.6 | Text 2 · 92/202 | formül | 0.455 | 0.455 | +0.000 | ✅ |
 | `mtld` | McCarthy & Jarvis (2010) p.385 | kısmi faktör · TTR .887 → 40.4% | formül | 0.404 | 0.404 | +0.000 | ✅ |
@@ -108,14 +113,17 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `arc_len_mean` | Jing & Liu (2015) p.164 | Figure 3 · 'Mr. Nixon was to…' | formül | 1.167 | 1.167 | +0.000 | ✅ |
 | `arc_len_mean` | Liu (2008) eq. (1) | 'I actually live in Beijing' · 5/4 | formül | 1.250 | 1.250 | +0.000 | ✅ |
 | `parse_depth_mean` | Jing & Liu (2015) p.164 | Figure 3 · MHD = 12/6 | formül | 2.000 | 2.000 | +0.000 | ✅ |
-| `ari` | Kincaid et al. (1975) p.8, Table 1 | Appendix A · 18 passages, mean | uçtan uca | 12.300 | 11.763 | -0.537 | 🟡 |
-| `coleman_liau` | Coleman & Liau (1975) p.284 | iki denklemin bileşimi · 13 sözcük, 2 tümce | formül | 7.704 | 7.705 | +0.000 | ✅ |
-| `coleman_liau` | Coleman & Liau (1975) p.284, Table 1 | cloze 40.4% → 12. sınıf | formül | 12.000 | 11.994 | -0.006 | ✅ |
+| `atesman` | Ateşman (1997) | Kalyoncu & Memiş (2024) Table 9 · Text 1 | uçtan uca | 35.946 | 35.920 | -0.026 | ✅ |
 | `atesman` | Ateşman (1997) | Kalyoncu & Memiş (2024) Table 9 · Text 2 | uçtan uca | 23.094 | 23.094 | -0.000 | ✅ |
-| `atesman` | Ateşman (1997) p.74 | kalibrasyon: en kolay metin | formül | 100.000 | 100.000 | -0.000 | ✅ |
-| `atesman` | Ateşman (1997) p.74 | kalibrasyon: en zor metin | formül | 0.000 | 0.000 | +0.000 | ✅ |
+| `atesman` | Ateşman (1997) | Kalyoncu & Memiş (2024) Table 9 · Text 3 | uçtan uca | 41.393 | 41.365 | -0.028 | ✅ |
+| `atesman` | Ateşman (1997) p.74 | Ateşman'ın formülü hesapladığı en kolay metin | formül | 100.000 | 100.000 | -0.000 | ✅ |
+| `atesman` | Ateşman (1997) p.74 | Ateşman'ın formülü hesapladığı en zor metin | formül | 0.000 | 0.000 | +0.000 | ✅ |
+| `cetinkaya_uzun` | Çetinkaya (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 1 | uçtan uca | 27.953 | 27.938 | -0.015 | ✅ |
 | `cetinkaya_uzun` | Çetinkaya (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 2 | uçtan uca | 23.084 | 23.084 | -0.000 | ✅ |
+| `cetinkaya_uzun` | Çetinkaya (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 3 | uçtan uca | 26.403 | 26.385 | -0.018 | ✅ |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 1 | uçtan uca | 24.621 | 24.596 | -0.025 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 2 | uçtan uca | 30.423 | 30.392 | -0.031 | ✅ |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 3 | uçtan uca | 18.387 | 18.370 | -0.018 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 5 | E7 3.03 · OKS 7 | formül | 4.610 | 4.605 | -0.005 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 5 | E7 8.3 · OKS 10 | formül | 9.110 | 9.110 | +0.000 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 5 | E7 18.82 · OKS 14 | formül | 16.230 | 16.232 | +0.002 | ✅ |
@@ -123,30 +131,28 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | en zor metnin H değerleri | formül | 18.820 | 18.815 | -0.005 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | ortalama H değerleri | formül | 8.300 | 8.341 | +0.041 | ✅ |
 
-**`ttr` sapması:** Kaynağın kendi sayıları (V=121, N=202) 121/202 = 0,599 verir; basılan 0,590 bu aritmetikle tutmuyor (baskı hatası). Bizim değer aritmetiğe uyuyor; fark yayımlanan değerin %1,5'i.
+**`ttr` notu:** Kaynağın kendi sayıları (V=121, N=202) 121/202 = 0,599 verir; kaynak bu sonucu yuvarlamak yerine kesmiş ve 0,59 basmış (iki ondalığa yuvarlanmışı 0,60). Bizim değer aritmetiğe uyuyor; fark yayımlanan değerin %1,5'i ve toleransı yalnız bu nedenle aşıyor. Aritmetik istisnasıyla örtüşen sayılır.
 
-**`ari` sapması:** Kaynağın sayıları 1975'te daktiloya takılı mekanik bir sayaçla **elle** üretildi (Ek B, ARI talimatı). 18 pasajın 17'sinde, kaynağın ARI'sını verecek vuruş sayısı bizim saydığımızın 0,996-1,041 katı — yani birkaç karakterlik fark. Pasaj 2 aykırı (oran 1,145) ve kaynağın kendi iki sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/sözcük 6,270 gerektiriyor, metnin gerçek değeri 5,475; üstelik o ARI'nın ima ettiği sözcük/tümce FKGL'yi 18,70 yapıyor, oysa Tablo 2 16,7 basmış. Bizim vuruş tanımımız ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten 4,32'ye çıkarıyor, yani boşluksuz sayım doğru.
+**`bezirci_yilmaz` notu:** Makale H6 ara değerini yuvarlamış; fark 0,031 ve iki değer de aynı okunabilirlik sınıfına düşüyor (akademik, 16+).
 
-**`bezirci_yilmaz` sapması:** Makale H6 ara değerini yuvarlamış; fark 0,031 ve iki değer de aynı okunabilirlik sınıfına düşüyor (akademik, 16+).
-
-**`bezirci_yilmaz` sapması:** Makale H6 ortalamasını 0,07 basmış, ama 8,30'u veren değer ~0,0684. 26,25 katsayısı bu yuvarlamayı 0,041'e büyütüyor; katsayıların kendisi doğru.
+**`bezirci_yilmaz` notu:** Makale H6 ortalamasını 0,07 basmış, ama 8,30'u veren değer ~0,0684. 26,25 katsayısı bu yuvarlamayı 0,041'e büyütüyor; katsayıların kendisi doğru.
 
 ### 🔍 Açık — doğrulanabilir, henüz doğrulanmadı
 
-103 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
+112 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu öznitelikler **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
 | `word_count` | de Vel (2000) Table 2, attribute 1 "Total number of words"; Zheng et al. (2006) Table 3, p.385, no. 54 "Total number of words (M)" | 🔍 |
 | `word_len_mean` | Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241 | 🔍 |
 | `yule_k` | Yule (1944) p.53, eq. (3.22) | 🔍 |
-| `simpson_d` | Simpson (1949), as cited in Bestgen (2023) | 🔍 |
+| `simpson_d` | Simpson (1949), as cited in Bestgen (2023) p.4 (preprint) | 🔍 |
 | `type_count` | Tweedie & Baayen (1998) p.325, the vocabulary size V(N); Zheng et al. (2006) Table 3, p.385, no. 60 "Total different words/M", here not divided by M | 🔍 |
 | `hapax_count` | Tweedie & Baayen (1998) p.325, V(1, N) "the number of hapax legomena"; Zheng et al. (2006) Table 3, p.385, no. 61 "Hapax legomena" ("Frequency of once-occurring words") | 🔍 |
 | `dislegomena_count` | Tweedie & Baayen (1998) p.329, V(2, N) "dis legomena"; Zheng et al. (2006) Table 3, p.385, no. 62 "Hapax dislegomena" ("Frequency of twice-occurring words") | 🔍 |
 | `brunet_w` | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) | 🔍 |
 | `hapax_ratio` | de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of vocabulary words" | 🔍 |
-| `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
+| `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500 (p.97); 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
 | `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) | 🔍 |
 | `dugast_u` | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 | 🔍 |
 | `guiraud_r` | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only | 🔍 |
@@ -155,23 +161,24 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `maas_a2` | Maas (1972), as cited in Tweedie & Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella & Capsada (2013) Table 1; all logarithms in this library are natural | 🔍 |
 | `herdan_vm` | Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18) | 🔍 |
 | `honore_r` | Honoré (1979), as cited in Tweedie & Baayen (1998) p.329, eq. (11) | 🔍 |
-| `heaps_beta` | Heaps (1978), as cited in Manning et al. (2008) §5.1.1 | 🔍 |
+| `heaps_beta` | Heaps (1978), as cited in Manning et al. (2008) §5.1.1; the law fits large collections well (p.81, print edition), not short texts; measured at 20 equally spaced points through the text as in Tweedie & Baayen (1998) p.333 | 🔍 |
 | `sichel_s` | Sichel (1975); formula from Malvern et al. (2004) eq. 3.10 | 🔍 |
 | `noun_variation` | Lu (2012) Table 2 | 🔍 |
 | `verb_variation` | Lu (2012) Table 2 | 🔍 |
 | `adj_variation` | Lu (2012) Table 2 | 🔍 |
 | `adv_variation` | Lu (2012) Table 2 | 🔍 |
-| `zipf_exponent` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
-| `zipf_r2` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
-| `zipf_mandelbrot_q` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
-| `zipf_mandelbrot_s` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
-| `wordfreq_mean` | van Heuven et al. (2014) (Zipf scale) | 🔍 |
+| `wordfreq_mean` | van Heuven et al. (2014) p.1179 (Zipf scale) | 🔍 |
 | `wordfreq_rare_ratio` | van Heuven et al. (2014) Table 1 (Zipf ≤ 3 = low frequency) | 🔍 |
 | `vocd_d` | Malvern et al. (2004) pp.56–57; procedure from McCarthy & Jarvis (2010) p.383 | 🔍 |
 | `hdd` | McCarthy & Jarvis (2007), as cited in McCarthy & Jarvis (2010) p.383 | 🔍 |
 | `msttr` | Johnson (1944), as cited in Malvern et al. (2004) p.25 and McCarthy & Jarvis (2010) p.385 | 🔍 |
-| `thematic_concentration` | QUITA §6.2.5 | 🔍 |
-| `secondary_thematic_concentration` | QUITA §6.2.6 | 🔍 |
+| `lexical_density` | Lu (2012) p.192; definition in the broad Hallidayan sense — all open-class words; Lu counts only adverbs derived from adjectives, the tool counts all adverbs | 🔍 |
+| `zipf_exponent` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
+| `zipf_r2` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
+| `zipf_mandelbrot_q` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
+| `zipf_mandelbrot_s` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
+| `thematic_concentration` | QUITA §6.2.5; thematic words = lexical words (NOUN, PROPN, VERB, ADJ, ADV), QUITA pp.50-51 leaves the choice to the researcher | 🔍 |
+| `secondary_thematic_concentration` | QUITA §6.2.6; thematic words as in thematic_concentration | 🔍 |
 | `sent_len_mean` | Flesch (1948) p.223, element (1) "Average Sentence Length in Words" | 🔍 |
 | `sent_len_median` | Yule (1939) p.369, median sentence length alongside the mean | 🔍 |
 | `sent_count` | de Vel (2000) Table 2, attribute 3 "Number of sentences"; Zheng et al. (2006) Table 3, p.385, no. 247 "Total number of sentences" | 🔍 |
@@ -181,10 +188,10 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `sents_per_para_mean` | Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph" | 🔍 |
 | `pronoun_ratio` | Deutsch, Jasbi & Shieber (2020) Table 6 "pronouns per word", listed among existing features; original source not traced | 🔍 |
 | `verb_dist_mean` | QUITA §6.2.1 | 🔍 |
-| `lexical_density` | Lu (2012); definition in the broad Hallidayan sense — all open-class words | 🔍 |
 | `posddev` | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 12 UD tags | 🔍 |
 | `posdiv` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits | 🔍 |
 | `zeyrek_suffix_bigram_entropy` | Shannon (1948) — the entropy formula; Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | 🔍 |
+| `zeyrek_verb_suffix_diversity` | Brezina & Pallotti (2019) p.107 (MC10: 10-verb samples; the authors call 10 arbitrary and give MC5 for short texts) and p.108 (100 random samples); only the within-sample variety is measured (close to MC10a, no between-sample component); suffixes from Zeyrek (a Python port of Zemberek's morphotactics), tag set from Akın & Akın (2007) | 🔍 |
 | `front_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `back_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `harmony_fronting_ratio` | Göksel & Kerslake (2005) §3.1 (fronting harmony); exceptions §3.4 — the measure counts them as disharmonic | 🔍 |
@@ -197,8 +204,16 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `syllable_4_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_5_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_6plus_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
-| `lix` | Björnsson (1968), as cited in Anderson (1983) p.490; long word = 7+ letters | 🔍 |
-| `long_word_ratio` | Anderson (1983); long word = 7+ letters | 🔍 |
+| `long_word_ratio` | Anderson (1983) p.491; long word = 7+ letters | 🔍 |
+| `kalyoncu_kl` | Kalyoncu (2025) p.71-72, nine counting rules; word list Appendix 1, pp.129-160; rules 3, 5, 6 and 8 are not applied | 🔍 |
+| `kalyoncu_ttr` | Kalyoncu (2025) p.73; not the type-token ratio but the share of stems occurring once | 🔍 |
+| `kalyoncu_kco` | Kalyoncu (2025) p.73; "judgement" counted as verb or verbal, as in his CYargi (p.73) | 🔍 |
+| `kalyoncu_yco` | Kalyoncu (2025) p.74 | 🔍 |
+| `kalyoncu_ocu` | Kalyoncu (2025) p.77; numbers read aloud, p.xiii | 🔍 |
+| `kalyoncu_k1` | Kalyoncu (2025) p.97, Table 31; grade levels p.102 | 🔍 |
+| `kalyoncu_k2` | Kalyoncu (2025) p.98, Table 32; grade levels p.103 | 🔍 |
+| `kalyoncu_k3` | Kalyoncu (2025) p.99, Table 33; grade levels p.104 | 🔍 |
+| `kalyoncu_k4` | Kalyoncu (2025) p.99, Table 34; grade levels p.105 | 🔍 |
 | `char_count` | de Vel (2000) Table 2, attribute 8 "Number of characters"; Zheng et al. (2006) Table 3, p.385, no. 1 "Total number of characters (C)" | 🔍 |
 | `digit_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; here digits anywhere in the text | 🔍 |
 | `punct_count` | de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C", here not divided by C | 🔍 |
@@ -243,14 +258,15 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 ### Doğrulama adayı olmayanlar
 
-82 anahtar. ⚪ olanlar saf tanım (`punct_dash_ratio`, `uppercase_ratio`) — adlandırılmış bir literatür ölçüsü değil. ⚫ olanlar bir ölçü değil, dış bir etiket şemasının kategorisini sayıyor; şema kategori tanımlar, ölçüm yayımlamaz. 🔧 olanların formülü bir kaynaktan gelir ama uygulaması bu kütüphaneye aittir. Üçünde de aranacak bir sayı yok.
+81 anahtar. ⚪ olanlar yalın tanım (`punct_dash_ratio`, `uppercase_ratio`): alanyazın ölçüsü değil. ⚫ olanlar bir ölçü değil, dış bir etiket şemasının kategorisini sayıyor; şema kategori tanımlar, ölçüm yayımlamaz. 🔧 araca özgü olanların formülü bir kaynaktan gelir ama uygulaması bu kütüphaneye aittir; 📐 kalibre edilmiş olanların eşiği bu kütüphanenin kalibrasyonundan gelir. Hiçbirinde aranacak bir sayı yok.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
 | `lemma_count` | — | ⚪ |
-| `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only | 🔧 |
-| `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only | 🔧 |
-| `sent_len_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision | 🔧 |
+| `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only | 📐 |
+| `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only | 📐 |
+| `sent_len_entropy` | Shannon (1948) Theorem 2 — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision | 🔧 |
+| `question_sent_ratio` | — | ⚪ |
 | `pos_noun_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_propn_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_verb_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
@@ -263,7 +279,6 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `pos_sconj_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_num_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_aux_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `question_sent_ratio` | — | ⚪ |
 | `sentfinal_noun_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `sentfinal_propn_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `sentfinal_verb_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
@@ -318,13 +333,12 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `zeyrek_conditional_suffix_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
 | `zeyrek_causative_suffix_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
 | `zeyrek_question_particle_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `zeyrek_verb_suffix_diversity` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
 | `vowel_ratio` | — | ⚪ |
 | `sent_syllable_mean` | — | ⚪ |
 | `punct_dash_ratio` | — | ⚪ |
 | `punct_ellipsis_ratio` | — | ⚪ |
 | `punct_paren_ratio` | — | ⚪ |
-| `punct_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of punctuation types is this library's own decision | 🔧 |
+| `punct_entropy` | Shannon (1948) Theorem 2 — the entropy formula; applying it to the distribution of punctuation types is this library's own decision | 🔧 |
 | `consecutive_punct_ratio` | — | ⚪ |
 | `punct_variety` | — | ⚪ |
 | `uppercase_ratio` | — | ⚪ |
@@ -338,8 +352,8 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 | Durum | Satır sayısı |
 |---|---|
-| ✅ birebir | 35 |
-| 🟡 belgelenmiş sapma | 3 |
+| ✅ örtüşen | 36 |
+| 🟡 belgelenmiş sapma | 2 |
 | 🔍 açık — kaynakta sayısal örnek yok | 99 |
 
 
@@ -347,9 +361,10 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 | Durum | Satır sayısı |
 |---|---|
-| ⚪ kaynak yok — saf tanım | 11 |
-| ⚫ etiket şeması — ölçü değil | 45 |
-| 🔧 türev — uygulaması bu kütüphaneye ait | 5 |
+| ⚪ yalın tanım — kaynak yok | 11 |
+| ⚫ etiket oranı — ölçü değil | 45 |
+| 🔧 araca özgü — uygulaması bu kütüphaneye ait | 3 |
+| 📐 kalibre edilmiş — eşiği bu kütüphanenin kalibrasyonundan | 2 |
 
 ### Sayısal karşılaştırması olanlar
 
@@ -358,7 +373,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26); kaynak bit ile 6,438043 → × ln 2 | formül | 4.463 | 4.463 | +0.000 | ✅ |
 | `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26); kaynak bit ile 6,395099 → × ln 2 | formül | 4.433 | 4.433 | +0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formül | 0.665 | 0.665 | -0.000 | ✅ |
-| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; kaynak 0.590 basmış (baskı hatası) | formül | 0.590 | 0.599 | +0.009 | 🟡 |
+| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; kaynak 0.59 basmış (yuvarlamak yerine kesmiş) | formül | 0.590 | 0.599 | +0.009 | ✅ |
 | `hapax_token_ratio` | QUITA §6.1.6 | Text 1 · 98/179 | formül | 0.547 | 0.547 | +0.000 | ✅ |
 | `hapax_token_ratio` | QUITA §6.1.6 | Text 2 · 92/202 | formül | 0.455 | 0.455 | +0.000 | ✅ |
 | `mtld` | McCarthy & Jarvis (2010) p.385 | kısmi faktör · TTR .887 → 40.4% | formül | 0.404 | 0.404 | +0.000 | ✅ |
@@ -394,7 +409,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `coleman_liau` | Coleman & Liau (1975) p.284, Table 1 | cloze 40.4% → 12. sınıf | formül | 12.000 | 11.994 | -0.006 | ✅ |
 | `flesch_kincaid_grade` | Kincaid et al. (1975) p.12, Table 2 | Appendix A · 18 passages, mean | uçtan uca | 10.700 | 10.326 | -0.374 | 🟡 |
 
-**`ttr` sapması:** Kaynağın kendi sayıları (V=121, N=202) 121/202 = 0,599 verir; basılan 0,590 bu aritmetikle tutmuyor (baskı hatası). Bizim değer aritmetiğe uyuyor; fark yayımlanan değerin %1,5'i.
+**`ttr` notu:** Kaynağın kendi sayıları (V=121, N=202) 121/202 = 0,599 verir; kaynak bu sonucu yuvarlamak yerine kesmiş ve 0,59 basmış (iki ondalığa yuvarlanmışı 0,60). Bizim değer aritmetiğe uyuyor; fark yayımlanan değerin %1,5'i ve toleransı yalnız bu nedenle aşıyor. Aritmetik istisnasıyla örtüşen sayılır.
 
 **`ari` sapması:** Kaynağın sayıları 1975'te daktiloya takılı mekanik bir sayaçla **elle** üretildi (Ek B, ARI talimatı). 18 pasajın 17'sinde, kaynağın ARI'sını verecek vuruş sayısı bizim saydığımızın 0,996-1,041 katı — yani birkaç karakterlik fark. Pasaj 2 aykırı (oran 1,145) ve kaynağın kendi iki sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/sözcük 6,270 gerektiriyor, metnin gerçek değeri 5,475; üstelik o ARI'nın ima ettiği sözcük/tümce FKGL'yi 18,70 yapıyor, oysa Tablo 2 16,7 basmış. Bizim vuruş tanımımız ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten 4,32'ye çıkarıyor, yani boşluksuz sayım doğru.
 
@@ -402,20 +417,20 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 ### 🔍 Açık — doğrulanabilir, henüz doğrulanmadı
 
-99 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu satırlar **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
+99 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu öznitelikler **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
 | `word_count` | de Vel (2000) Table 2, attribute 1 "Total number of words"; Zheng et al. (2006) Table 3, p.385, no. 54 "Total number of words (M)" | 🔍 |
 | `word_len_mean` | Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241 | 🔍 |
 | `yule_k` | Yule (1944) p.53, eq. (3.22) | 🔍 |
-| `simpson_d` | Simpson (1949), as cited in Bestgen (2023) | 🔍 |
+| `simpson_d` | Simpson (1949), as cited in Bestgen (2023) p.4 (preprint) | 🔍 |
 | `type_count` | Tweedie & Baayen (1998) p.325, the vocabulary size V(N); Zheng et al. (2006) Table 3, p.385, no. 60 "Total different words/M", here not divided by M | 🔍 |
 | `hapax_count` | Tweedie & Baayen (1998) p.325, V(1, N) "the number of hapax legomena"; Zheng et al. (2006) Table 3, p.385, no. 61 "Hapax legomena" ("Frequency of once-occurring words") | 🔍 |
 | `dislegomena_count` | Tweedie & Baayen (1998) p.329, V(2, N) "dis legomena"; Zheng et al. (2006) Table 3, p.385, no. 62 "Hapax dislegomena" ("Frequency of twice-occurring words") | 🔍 |
 | `brunet_w` | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) | 🔍 |
 | `hapax_ratio` | de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of vocabulary words" | 🔍 |
-| `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
+| `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500 (p.97); 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
 | `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) | 🔍 |
 | `dugast_u` | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 | 🔍 |
 | `guiraud_r` | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only | 🔍 |
@@ -424,23 +439,24 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `maas_a2` | Maas (1972), as cited in Tweedie & Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella & Capsada (2013) Table 1; all logarithms in this library are natural | 🔍 |
 | `herdan_vm` | Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18) | 🔍 |
 | `honore_r` | Honoré (1979), as cited in Tweedie & Baayen (1998) p.329, eq. (11) | 🔍 |
-| `heaps_beta` | Heaps (1978), as cited in Manning et al. (2008) §5.1.1 | 🔍 |
+| `heaps_beta` | Heaps (1978), as cited in Manning et al. (2008) §5.1.1; the law fits large collections well (p.81, print edition), not short texts; measured at 20 equally spaced points through the text as in Tweedie & Baayen (1998) p.333 | 🔍 |
 | `sichel_s` | Sichel (1975); formula from Malvern et al. (2004) eq. 3.10 | 🔍 |
 | `noun_variation` | Lu (2012) Table 2 | 🔍 |
 | `verb_variation` | Lu (2012) Table 2 | 🔍 |
 | `adj_variation` | Lu (2012) Table 2 | 🔍 |
 | `adv_variation` | Lu (2012) Table 2 | 🔍 |
-| `zipf_exponent` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
-| `zipf_r2` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
-| `zipf_mandelbrot_q` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
-| `zipf_mandelbrot_s` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
-| `wordfreq_mean` | van Heuven et al. (2014) (Zipf scale) | 🔍 |
+| `wordfreq_mean` | van Heuven et al. (2014) p.1179 (Zipf scale) | 🔍 |
 | `wordfreq_rare_ratio` | van Heuven et al. (2014) Table 1 (Zipf ≤ 3 = low frequency) | 🔍 |
 | `vocd_d` | Malvern et al. (2004) pp.56–57; procedure from McCarthy & Jarvis (2010) p.383 | 🔍 |
 | `hdd` | McCarthy & Jarvis (2007), as cited in McCarthy & Jarvis (2010) p.383 | 🔍 |
 | `msttr` | Johnson (1944), as cited in Malvern et al. (2004) p.25 and McCarthy & Jarvis (2010) p.385 | 🔍 |
-| `thematic_concentration` | QUITA §6.2.5 | 🔍 |
-| `secondary_thematic_concentration` | QUITA §6.2.6 | 🔍 |
+| `lexical_density` | Lu (2012) p.192; definition in the broad Hallidayan sense — all open-class words; Lu counts only adverbs derived from adjectives, the tool counts all adverbs | 🔍 |
+| `zipf_exponent` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
+| `zipf_r2` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
+| `zipf_mandelbrot_q` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
+| `zipf_mandelbrot_s` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
+| `thematic_concentration` | QUITA §6.2.5; thematic words = lexical words (NOUN, PROPN, VERB, ADJ, ADV), QUITA pp.50-51 leaves the choice to the researcher | 🔍 |
+| `secondary_thematic_concentration` | QUITA §6.2.6; thematic words as in thematic_concentration | 🔍 |
 | `sent_len_mean` | Flesch (1948) p.223, element (1) "Average Sentence Length in Words" | 🔍 |
 | `sent_len_median` | Yule (1939) p.369, median sentence length alongside the mean | 🔍 |
 | `sent_count` | de Vel (2000) Table 2, attribute 3 "Number of sentences"; Zheng et al. (2006) Table 3, p.385, no. 247 "Total number of sentences" | 🔍 |
@@ -450,7 +466,6 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `sents_per_para_mean` | Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph" | 🔍 |
 | `pronoun_ratio` | Deutsch, Jasbi & Shieber (2020) Table 6 "pronouns per word", listed among existing features; original source not traced | 🔍 |
 | `verb_dist_mean` | QUITA §6.2.1 | 🔍 |
-| `lexical_density` | Lu (2012); definition in the broad Hallidayan sense — all open-class words | 🔍 |
 | `posddev` | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 12 UD tags | 🔍 |
 | `posdiv` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits | 🔍 |
 | `front_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
@@ -463,8 +478,8 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `syllable_4_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_5_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_6plus_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
+| `long_word_ratio` | Anderson (1983) p.491; long word = 7+ letters | 🔍 |
 | `lix` | Björnsson (1968), as cited in Anderson (1983) p.490; long word = 7+ letters | 🔍 |
-| `long_word_ratio` | Anderson (1983); long word = 7+ letters | 🔍 |
 | `flesch_reading_ease` | Flesch (1948) Formula A; coefficient .846, unit = syllables per 100 words | 🔍 |
 | `smog` | McLaughlin (1969) p.643, Table 1, eq. (d); p = polysyllabic words in a 30-sentence sample | 🔍 |
 | `char_count` | de Vel (2000) Table 2, attribute 8 "Number of characters"; Zheng et al. (2006) Table 3, p.385, no. 1 "Total number of characters (C)" | 🔍 |
@@ -508,14 +523,15 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 ### Doğrulama adayı olmayanlar
 
-61 anahtar. ⚪ olanlar saf tanım (`punct_dash_ratio`, `uppercase_ratio`) — adlandırılmış bir literatür ölçüsü değil. ⚫ olanlar bir ölçü değil, dış bir etiket şemasının kategorisini sayıyor; şema kategori tanımlar, ölçüm yayımlamaz. 🔧 olanların formülü bir kaynaktan gelir ama uygulaması bu kütüphaneye aittir. Üçünde de aranacak bir sayı yok.
+61 anahtar. ⚪ olanlar yalın tanım (`punct_dash_ratio`, `uppercase_ratio`): alanyazın ölçüsü değil. ⚫ olanlar bir ölçü değil, dış bir etiket şemasının kategorisini sayıyor; şema kategori tanımlar, ölçüm yayımlamaz. 🔧 araca özgü olanların formülü bir kaynaktan gelir ama uygulaması bu kütüphaneye aittir; 📐 kalibre edilmiş olanların eşiği bu kütüphanenin kalibrasyonundan gelir. Hiçbirinde aranacak bir sayı yok.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
 | `lemma_count` | — | ⚪ |
-| `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only | 🔧 |
-| `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only | 🔧 |
-| `sent_len_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision | 🔧 |
+| `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only | 📐 |
+| `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only | 📐 |
+| `sent_len_entropy` | Shannon (1948) Theorem 2 — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision | 🔧 |
+| `question_sent_ratio` | — | ⚪ |
 | `pos_noun_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_propn_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_verb_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
@@ -528,7 +544,6 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `pos_sconj_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_num_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_aux_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `question_sent_ratio` | — | ⚪ |
 | `sentfinal_noun_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `sentfinal_propn_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `sentfinal_verb_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
@@ -568,15 +583,15 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `punct_dash_ratio` | — | ⚪ |
 | `punct_ellipsis_ratio` | — | ⚪ |
 | `punct_paren_ratio` | — | ⚪ |
-| `punct_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of punctuation types is this library's own decision | 🔧 |
+| `punct_entropy` | Shannon (1948) Theorem 2 — the entropy formula; applying it to the distribution of punctuation types is this library's own decision | 🔧 |
 | `consecutive_punct_ratio` | — | ⚪ |
 | `punct_variety` | — | ⚪ |
 | `uppercase_ratio` | — | ⚪ |
 | `all_caps_word_ratio` | — | ⚪ |
 
-## Heceleme — 10/10
+## Seslemlere ayırma — 10/10
 
-Heceleme sekiz `syllable_*` anahtarını ve üç Türkçe okunabilirlik formülünü birden besliyor. Aşağıdaki karşılaştırma **sayıyı değil bölütlemeyi** sınıyor: yanlış yerden bölünmüş bir sözcük doğru sayıda hece verebilir, sayı karşılaştırması onu yakalamaz.
+Seslemlere ayırma sekiz `syllable_*` anahtarını ve üç Türkçe okunabilirlik formülünü birden besliyor. Aşağıdaki karşılaştırma **sayıyı değil bölütlemeyi** sınıyor: yanlış yerden bölünmüş bir sözcük doğru sayıda seslem verebilir, sayı karşılaştırması onu yakalamaz.
 
 Kaynak: TDK, "Hece Yapısı ve Satır Sonunda Kelimelerin Bölünmesi" (tdk.gov.tr, 2019).
 
@@ -595,7 +610,7 @@ Kaynak: TDK, "Hece Yapısı ve Satır Sonunda Kelimelerin Bölünmesi" (tdk.gov.
 
 ## Ek — Kincaid Ek A, pasaj bazında
 
-Ana tablodaki iki 🟡 satırın (`ari`, `flesch_kincaid_grade`) dayandığı 18 karşılaştırma. Ara değerler (vuruş, sözcük) burada duruyor ki fark çıktığında hangi girdiden geldiği görülebilsin.
+Ana tablodaki iki 🟡 karşılaştırmanın (`ari`, `flesch_kincaid_grade`) dayandığı 18 karşılaştırma. Ara değerler (vuruş, sözcük) burada duruyor ki fark çıktığında hangi girdiden geldiği görülebilsin.
 
 **FRE bandı** sütunu ayrı bir kontrol: Tablo 1'in Flesch sütunu 0-100 puanı değil, Flesch'in kendi sınıf bandını basıyor (`8-9` = FRE 60-70 gibi). Bizim FRE'miz bandın içine düşüyor mu, ona bakıyor.
 

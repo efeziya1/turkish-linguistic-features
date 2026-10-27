@@ -63,12 +63,12 @@ def _satir(anahtar: str) -> str:
 def uret() -> str:
     p = [BASLIK]
 
-    p.append("## Groups\n\n| Group | Keys | What it covers |\n|---|---|---|\n")
+    p.append("## Groups\n\n| Group | Keys | Name |\n|---|---|---|\n")
     for g, etiket in GROUP_LABELS.items():
         n = len(STATIC_GROUP_KEYS.get(g, ()))
         sayi = "dynamic" if g in DYNAMIC_PREFIXES else str(n)
         p.append(f"| `{g}` | {sayi} | {etiket} |\n")
-    p.append("\n")
+    p.append("\n`morphological_zeyrek` is produced for Turkish only.\n\n")
 
     for g, etiket in GROUP_LABELS.items():
         anahtarlar = STATIC_GROUP_KEYS.get(g, ())

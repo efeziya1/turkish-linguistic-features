@@ -16,12 +16,12 @@ tlf.describe_feature("mattr")
  'description': 'moving-average TTR',
  'formula': 'mean TTR of every sliding window of mattr_window words',
  'scale': 'ratio_0_1',
- 'inputs': ('raw_text', 'surface_tokens', 'lemma_tokens', 'pos_data'),
+ 'inputs': ('raw_text',),
  'params': ('mattr_window',),
  'requires': 'at least 100 words (2 x mattr_window)',
  'citation': 'Covington & McFall (2010); default window 50 — C&M recommend a window of '
-             '500; 50 is used here so that texts of 100+ words can be measured (mattr '
-             'needs 2 × window)',
+             '500 (p.97); 50 is used here so that texts of 100+ words can be measured '
+             '(mattr needs 2 × window)',
  'references': ('Covington, M. A., & McFall, J. D. (2010). Cutting the Gordian knot: '
                 'The moving-average type–token ratio (MATTR). Journal of Quantitative '
                 'Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098',),
@@ -56,7 +56,7 @@ tlf.describe_feature("mattr")
 
 Yukarıdaki örnekte künye şunu yazıyor:
 
-> default window 50 — C&M recommend a window of 500; 50 is used here so
+> default window 50 — C&M recommend a window of 500 (p.97); 50 is used here so
 > that texts of 100+ words can be measured (mattr needs 2 × window)
 
 Yani: yöntem Covington & McFall'ın, **ama varsayılan pencere boyu onlardan
@@ -82,15 +82,15 @@ d["citation"], d["references"]
 (None, ())
 ```
 
-`citation` `None` ise o anahtar **adlandırılmış bir literatür ölçüsü
-değildir,** saf bir tanımdır: `punct_dash_ratio` ("tire / bütün noktalama işaretleri"),
+`citation` `None` ise o anahtar **bir alanyazın ölçüsü
+değildir,** yalın bir tanımdır: `punct_dash_ratio` ("tire / bütün noktalama işaretleri"),
 `uppercase_ratio` ("büyük harfle başlayan sözcüklerin payı"), `lemma_count`
-("farklı lemma sayısı").
+("farklı sözlükbirim sayısı").
 Bir dış etiket şemasının kategorisini sayan anahtarların künyesi ise `None`
 değildir, şemayı gösterir (`case_loc_ratio` → UD; `zeyrek_case_loc_ratio` →
 Zeyrek).
 
-Türkçedeki 208 anahtarın **11'inin** künyesi yoktur.
+Türkçedeki 214 anahtarın **11'inin** künyesi yoktur.
 
 ## Kaynakçayı oluşturmak
 
@@ -105,7 +105,7 @@ for r in sorted(kaynaklar):
     print(r)
 ```
 
-Bu size yalnız **kullandığınız** özniteliklerin kaynakçasını verir — 56
+Bu size yalnız **kullandığınız** özniteliklerin kaynakçasını verir — 58
 eserin tamamını değil.
 
 ## Sayı gerçekten tutuyor mu

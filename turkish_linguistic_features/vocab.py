@@ -33,14 +33,12 @@ NON_WORD_POS: tuple[str, ...] = ("PUNCT", "SYM")
 NOUN_POS: tuple[str, ...] = ("NOUN", "PROPN")
 
 # Sözcüksel (anlamlı) kelime — Ure (1971) lexical_density, Lu (2012) N_lex.
-# Lu yalnız sıfattan türemiş zarfları sayıyor (-ly); Türkçeye aktarılamadığı
-# için bütün ADV. Bu kümenin DIŞINDAKİ her POS işlev sayılır.
+# Lu yalnız sıfattan türemiş zarfları sayıyor (-ly); bütün ADV sayılır, çünkü
+# etiketleyici zarf türünü ayırmıyor (#4 kaldırıldı, 2026-10-27, Efe). Bu kümenin
+# DIŞINDAKİ her POS işlev sayılır.
+# Tematik yoğunlaşma da bu tanımı kullanır (tek tanım, 2026-10-15, Efe): QUITA
+# (Kubát vd. 2014, s.50-51) tematik sözcük seçimini araştırmacıya bırakıyor.
 LEXICAL_POS: tuple[str, ...] = ("NOUN", "PROPN", "VERB", "ADJ", "ADV")
-
-# Konu kelimesi — thematic_concentration / STC. QUITA kılavuzu s. 50: "We
-# usually consider nouns, verbs and adjectives to be thematic words";
-# Popescu ve ark. (2009) da zarf saymıyor.
-THEMATIC_POS: tuple[str, ...] = ("NOUN", "PROPN", "VERB", "ADJ")
 
 # Görünüş etiketleri — aspect_*_ratio için UD Aspect değerleri.
 ASPECT_TAGS: tuple[str, ...] = ("Perf", "Imp", "Prog")

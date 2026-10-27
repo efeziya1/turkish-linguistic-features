@@ -27,6 +27,24 @@ def test_kenar_noktalamasi_ve_sira_sayisi():
     assert word_token_indices(metin, tok, pos, "tr") == [1, 3, 4]
 
 
+def test_bitisik_cift_tirnak_etiketinden_bagimsiz_noktalama():
+    """spaCy açılış tırnağını NOUN etiketleyebiliyor; sözcük türünü tırnaktan almaz (2026-10-26)."""
+    metin = 'Herkes "büyük" bir «ev» “gördü”'
+    tok = ["Herkes", '"', "büyük", '"', "bir", "«", "ev", "»", "“", "gördü", "”"]
+    pos = [("Herkes", "PRON"), ('"', "NOUN"), ("büyük", "ADJ"), ('"', "PUNCT"), ("bir", "DET"),
+           ("«", "ADJ"), ("ev", "NOUN"), ("»", "PUNCT"), ("“", "NOUN"), ("gördü", "VERB"),
+           ("”", "PUNCT")]
+    assert word_token_indices(metin, tok, pos, "tr") == [0, 2, 4, 6, 9]
+
+
+def test_kesme_isareti_kapsam_disi():
+    """Kesme ve tek tırnak (``'`` ``’``) düzeltmenin dışında: etiketine bakılır."""
+    metin = "'Ev"
+    tok = ["'", "Ev"]
+    pos = [("'", "NOUN"), ("Ev", "NOUN")]
+    assert word_token_indices(metin, tok, pos, "tr") == [0]
+
+
 def test_word_view_kelime_duzeyi_listeler():
     metin = "E-posta geldi."
     tok = ["E", "-", "posta", "geldi", "."]
