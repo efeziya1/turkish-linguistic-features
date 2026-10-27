@@ -23,7 +23,8 @@ Turkish 197 → 203, English 170. Groups: 13 → 12 (13 with
   numerator; and the stem, verbal and complex-sentence counts use the first Zeyrek analysis
   whose type matches spaCy's word class (the first analysis if none does). KL rests on expert
   judgement (rules 3, 5, 8 are not applied), so it is not expected to match the expert values
-  exactly. `ProcessedText` gains `morpheme_alternatives` (all Zeyrek analyses per token).
+  exactly. The stem stops at the first inflectional suffix (`oradaki` → `ora`, not `oraki`).
+  `ProcessedText` gains `morpheme_alternatives` (all Zeyrek analyses per token).
 - The word list (Kalyoncu 2025, Appendix 1, 4,600 words) ships as
   `turkish_linguistic_features/data/kalyoncu_2025_ek1.txt`. It is not covered by the MIT
   licence.

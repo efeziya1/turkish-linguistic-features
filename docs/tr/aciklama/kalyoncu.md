@@ -48,10 +48,11 @@ tümce kuralı uzmanın sayımından toplam 41 tümce (yaklaşık %2) farklıdı
 aynıdır.
 
 **Gövde** Zeyrek'in sözlükbirimine türetme eklerinin eklenmesiyle bulunur: `kitapçılar` →
-`kitapçı`, `öğretmenliği` → `öğretmenlik`. Çekim ekleri atılır. Ettirgen ve edilgen ekleri,
+`kitapçı`, `öğretmenliği` → `öğretmenlik`. İlk çekim ekinden sonra gövdeye hiçbir biçimbirim
+eklenmez: `oradaki` → `ora`, `karşısındaki` → `karşı`. Ettirgen ve edilgen ekleri,
 fiilimsi ekleri, birleşik fiil ekleri (-ebil, -iver, -eyaz, -akal, -akoy, -adur, -egel) ve ek
 fiil de gövdeye girmez: `küçültülmek` → `küçül`, `gelebildi` → `gel`, `evdeydi` → `ev`.
-Zeyrek birden çok çözümleme verirse ilki alınır.
+Zeyrek birden çok çözümleme verirse seçim "Çözümleme seçimi"ndeki gibidir.
 
 ## KL: listeyle karşılaştırma
 

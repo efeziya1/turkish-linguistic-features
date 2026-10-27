@@ -102,6 +102,24 @@ def test_govde(m, lemma, kelime, beklenen):
     assert govde(m, lemma, kelime) == beklenen
 
 
+ORADAKI = (("Noun", "ora", False), ("A3sg", "", False), ("Loc", "da", False),
+           ("Rel", "ki", True), ("Adj", "", False))
+YAKASINDAKI = (("Noun", "yaka", False), ("A3sg", "", False), ("P3sg", "sı", False),
+               ("Loc", "nda", False), ("Rel", "ki", True), ("Adj", "", False))
+EVLERDEKI = (("Noun", "ev", False), ("A3pl", "ler", False), ("Loc", "de", False),
+             ("Rel", "ki", True), ("Adj", "", False))
+
+
+@pytest.mark.parametrize(("m", "lemma", "kelime", "beklenen"), [
+    (ORADAKI, "ora", "oradaki", "ora"),                   # çekimden sonraki -ki gövdeye girmez
+    (YAKASINDAKI, "yaka", "yakasındaki", "yaka"),
+    (EVLERDEKI, "ev", "evlerdeki", "ev"),
+    (KITAPCILAR, "kitap", "kitapçılar", "kitapçı"),       # yüzeyi boş A3sg çekim sayılmaz
+])
+def test_govde_ilk_cekimden_sonra_biter(m, lemma, kelime, beklenen):
+    assert govde(m, lemma, kelime)[0] == beklenen
+
+
 def test_fiilimsi_ek_eylemli_ad_sayilmaz():
     assert fiilimsi_mi(OKUYARAK)
     assert fiilimsi_mi(OKURKEN)

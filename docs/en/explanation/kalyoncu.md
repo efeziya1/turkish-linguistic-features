@@ -48,10 +48,11 @@ automatically. On TOMA's 57 texts the tool's sentence rule differs from the expe
 sentences in total (about 2%) and matches exactly in 37 texts.
 
 The **stem** is Zeyrek's lemma plus derivational suffixes: `kitapçılar` → `kitapçı`,
-`öğretmenliği` → `öğretmenlik`. Inflectional suffixes are dropped. Causative and passive
+`öğretmenliği` → `öğretmenlik`. Nothing is added to the stem after the first inflectional
+suffix: `oradaki` → `ora`, `karşısındaki` → `karşı`. Causative and passive
 suffixes, verbal suffixes, compound-verb suffixes (-ebil, -iver, -eyaz, -akal, -akoy, -adur,
 -egel) and the copula are not part of the stem either: `küçültülmek` → `küçül`, `gelebildi` →
-`gel`, `evdeydi` → `ev`. If Zeyrek gives several analyses, the first is used.
+`gel`, `evdeydi` → `ev`. If Zeyrek gives several analyses, the choice follows "Choosing the analysis".
 
 ## KL: matching against the list
 

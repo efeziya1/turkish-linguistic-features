@@ -10,7 +10,8 @@ sınıf düzeyi tabloları s.101–105. Kararlar 2026-10-27 (Efe, S1–S10):
 - **Tümce:** aracın varsayılan tümcesi; harf içermeyen tümce sayılmaz, sözcükleri sayılır.
   Kalyoncu'nun anlama dayalı tümce tanımı (s.xii) uygulanmaz.
 - **Gövde:** Zeyrek sözlükbirimi + yapım ekleri. Çekim ekleri, ettirgen/edilgen (7. kural),
-  fiilimsi (4. kural), birleşik fiil ekleri ve ek eylem gövdeye girmez; ilk atılan ekte durulur.
+  fiilimsi (4. kural), birleşik fiil ekleri ve ek eylem gövdeye girmez; ilk çekim ekinden sonra
+  gelen hiçbir biçimbirim de girmez (``oradaki`` → ``ora``, Rel -ki). İlk atılan ekte durulur.
   Belirsizlikte Zeyrek'in ilk çözümlemesi. Çözümlenemeyen sözcükte gövde küçük harfli sözcük.
 - **KL:** listede olmayan sözcük / sözcük × 100. Sözcük şu üç biçimden biri listedeyse liste
   içidir: küçük harfli kendisi, gövdesi, fiilse gövde + -mak/-mek (yumuşamış son ünsüz
@@ -155,8 +156,9 @@ def _mastar(govde: str) -> str:
 def govde(morfemler: Any, lemma: str, kelime: str) -> tuple[str, bool]:
     """Sözcüğün gövdesi ve gövdenin fiil olup olmadığı (S3, 2026-10-27, Efe).
 
-    Gövde = Zeyrek sözlükbirimi + yapım ekleri; çekim ekleri atlanır, çatı, birleşik fiil, ek
-    eylem ve fiilimsi eklerinde durulur. Çözümlenemeyen sözcükte küçük harfli sözcük.
+    Gövde = Zeyrek sözlükbirimi + yapım ekleri; ilk çekim ekinde (yüzeyde görünen), çatı,
+    birleşik fiil, ek eylem ve fiilimsi eklerinde durulur. Çözümlenemeyen sözcükte küçük harfli
+    sözcük.
     """
     if not morfemler or morfemler[0][0] == "Unk":
         return _kucuk_harf(kelime, "tr"), False
@@ -167,6 +169,8 @@ def govde(morfemler: Any, lemma: str, kelime: str) -> tuple[str, bool]:
             tur = etiket
             continue
         if not turetim:
+            if yuzey:
+                break          # ilk çekim biçimbiriminden sonra gövdeye bir şey eklenmez
             continue
         if etiket in _GOVDE_DISI:
             break
