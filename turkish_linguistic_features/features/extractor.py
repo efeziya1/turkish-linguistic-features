@@ -176,6 +176,7 @@ def _extract_features(
     groups: list[str] | None = None,
     params: FeatureParams | None = None,
     dep_data: Any = None,
+    morpheme_alternatives: list[list[Any]] | None = None,
 ) -> dict[str, float]:
     """Registry'de kayıtlı öznitelikleri üretir.
 
@@ -238,7 +239,7 @@ def _extract_features(
     # sayar; etiket kelimenin içindeki ilk kelime tokenından gelir (`word_alignment`).
     # Yalnız `syntactic` spaCy tokenında ve ayrıştırıcı cümlesinde kalır.
     wv = word_view(raw_text, kelimeler, surface_tokens, pos_data, lemma_tokens,
-                   morph_tags, morpheme_lists, cumleler, lang)
+                   morph_tags, morpheme_lists, cumleler, lang, morpheme_alternatives)
     # Dile göre küçük harf: `str.lower()` Türkçede "I"yı "i" yapar, "İ"ye
     # birleşik nokta (U+0307) ekler — ttr ve kelime uzunluğu kayardı.
     kucuk_kelimeler = [_kucuk_harf(tok, lang) for tok in kelimeler]
@@ -373,7 +374,7 @@ def _extract_features(
             # Kalyoncu (2025) K1–K4 Zeyrek ister; girdi yoksa ölçülemez (K4), anahtar yine üretilir.
             if wv.morphemes is not None:
                 feats.update(kalyoncu_features(wv.words, wv.pos, wv.lemmas, wv.morphemes,
-                                               wv.sentences, params))
+                                               wv.sentences, params, wv.alternatives))
             else:
                 feats.update(dict.fromkeys(KALYONCU_KEYS, math.nan))
         else:

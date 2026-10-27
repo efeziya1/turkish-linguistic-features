@@ -129,6 +129,10 @@ on short texts (Manning et al. 2008, p.81).
 
 The `kalyoncu_*` keys reproduce Kalyoncu's (2025) hand counts approximately, with Zeyrek and
 spaCy. Four of Kalyoncu's nine rules (common derivations, onomatopoeia, intensified forms, rare
-senses) and his meaning-based sentence definition are not applied. Verbal suffixes Zeyrek does
-not know and errors in its first analysis change the result. Details:
+senses) and his meaning-based sentence definition are not applied. KL rests on expert judgement
+(rules 3, 5, 8), so it is not expected to match the expert values exactly. Numbers written in
+words count as in the list; a capitalised word not at the start of a sentence counts as a proper
+noun; stems and verbals are counted from the Zeyrek analysis that matches spaCy's class (these
+three rules apply in the `kalyoncu_*` keys only). Verbal suffixes Zeyrek does not know and
+errors in the selected analysis change the result. Details:
 [Kalyoncu formulas](kalyoncu.md).

@@ -86,12 +86,15 @@ class WordView:
     morph: list[tuple[str, str]] | None
     morphemes: list[Any] | None
     sentences: list[list[str]]
+    # Zeyrek'in tüm çözümlemeleri, sözcük başına; yoksa ``None`` (Kalyoncu çözümleme seçimi).
+    alternatives: list[Any] | None = None
 
 
 def word_view(raw_text: str, words: list[str], surface_tokens: list[str],
               pos_data: list[tuple[str, str]], lemma_tokens: list[str],
               morph_tags: list[tuple[str, str]] | None, morpheme_lists: list[Any] | None,
-              sentences: list[list[str]], lang: str) -> WordView:
+              sentences: list[list[str]], lang: str,
+              morpheme_alternatives: list[Any] | None = None) -> WordView:
     """Per-word POS, lemma, morphology and Zeyrek morphemes, plus words per rule sentence.
 
     ``lemma_tokens`` is aligned with the word tokens of ``pos_data`` (punctuation and
@@ -127,6 +130,7 @@ def word_view(raw_text: str, words: list[str], surface_tokens: list[str],
     lemmas: list[str] = []
     morph: list[tuple[str, str]] = []
     morphemes: list[Any] = []
+    alternatives: list[Any] = []
     groups: dict[int, list[str]] = {}
     last_sent = 0
     for w, i in zip(words, idx, strict=True):
@@ -135,6 +139,7 @@ def word_view(raw_text: str, words: list[str], surface_tokens: list[str],
             lemmas.append(_kucuk_harf(w, lang))
             morph.append((w, ""))
             morphemes.append(((_UNANALYSED, w, False),))
+            alternatives.append(())
         else:
             pos.append((w, pos_data[i][1]))
             lemmas.append(lemma_of[i])
@@ -142,6 +147,8 @@ def word_view(raw_text: str, words: list[str], surface_tokens: list[str],
                 morph.append((w, morph_tags[i][1]))
             if morpheme_lists:
                 morphemes.append(morpheme_lists[i])
+                if morpheme_alternatives:
+                    alternatives.append(morpheme_alternatives[i])
             if i < len(sent_of):
                 last_sent = sent_of[i]
         groups.setdefault(last_sent, []).append(w)
@@ -156,4 +163,5 @@ def word_view(raw_text: str, words: list[str], surface_tokens: list[str],
         morphemes=morphemes if morpheme_lists is not None and (morpheme_lists or not pos_data)
         else None,
         sentences=[groups[s] for s in sorted(groups)],
+        alternatives=alternatives if morpheme_alternatives and morpheme_lists else None,
     )

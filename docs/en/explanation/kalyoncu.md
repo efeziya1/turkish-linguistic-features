@@ -67,7 +67,7 @@ Kalyoncu's nine rules (p.71–72):
 
 | Rule | In the tool |
 |---|---|
-| 1. Proper nouns do not count as outside the list | applied: spaCy's `PROPN` tag; stays in the denominator, not in the numerator |
+| 1. Proper nouns do not count as outside the list | applied: a word tagged `PROPN`, or capitalised and not at the start of a sentence; stays in the denominator, not in the numerator |
 | 2. An inflected form counts as the list word | applied: the stem |
 | 3. Common derivations do not count as outside the list | **not applied**: which suffixes count as common is not stated |
 | 4. List verbs used as verbals | applied: Zeyrek's verbal tags |
@@ -75,7 +75,39 @@ Kalyoncu's nine rules (p.71–72):
 | 6. Intensified forms (`büsbüyük`) | **not applied** |
 | 7. Causative and passive forms | applied: Zeyrek's voice tags |
 | 8. A list word used in a rare sense counts as outside the list | **not applied**: needs reading the context |
-| 9. Numbers do not count as outside the list | applied: number words from the reading count as in the list |
+| 9. Numbers do not count as outside the list | applied: numbers written in digits and in words count as in the list |
+
+### Proper nouns
+
+A proper noun is a word spaCy tags `PROPN`, or a word that starts with a capital letter and is
+not at the start of a sentence. Forms with an apostrophe are included (`İstanbul'da`,
+`İstanbul’da`). A name at the start of a sentence is a proper noun only if tagged `PROPN`.
+Reason: the spaCy Turkish model does not tag `Derya`, `İstanbul'da`, `Almanya'da` or `Hassan'ı`
+as `PROPN`, and Turkish spelling capitalises proper nouns. This rule applies in the
+`kalyoncu_*` keys only.
+
+### Numbers written in words
+
+Kalyoncu's rule 9 does not tell digits from words (p.72). `iki`, `otuz` and `dokuz` are in the
+list too, and so are their inflected (`ikisi`), ordinal (`üçüncü`) and distributive (`beşer`)
+forms. A word is a number if:
+
+- spaCy tagged it `NUM`;
+- the root of the selected Zeyrek analysis is a number (`Num`);
+- spaCy tagged it noun, adjective, adverb or `X`, and the root of one of its Zeyrek analyses is
+  a number (spaCy can tag `beşer` as a noun).
+
+A pronoun, verb or proper-noun tag decides: `onun` and `ona` are not "on". A number word counts
+as a word in the word count and in TTR like any other word.
+
+### Choosing the analysis
+
+Zeyrek can give several analyses for a word. In the `kalyoncu_*` keys the first analysis whose
+type matches spaCy's word class is taken: `PRON` pronoun, `NOUN` and `PROPN` noun, `VERB` and
+`AUX` verb, `ADJ` adjective, `ADV` adverb, `NUM` number. If none matches, the first analysis is
+taken. The stem, the verbal and the complex-sentence counts (TTR, KCO, YCO) come from the
+selected analysis. Example: for `onun` spaCy says `PRON`, so the pronoun analysis is taken, not
+Zeyrek's first one, the verb "onmak". The rest of the tool keeps the "first analysis" rule.
 
 ## Verbals and complex sentences
 
@@ -120,7 +152,7 @@ TOMA (Kalyoncu et al. 2026) is a desktop program that computes K1–K4 automatic
 
 - TOMA also removes circumflexes in KL (p.298); here the two agree.
 - TOMA leaves words made only of digits out of KL (p.298). The tool reads them aloud and counts
-  them as in the list.
+  them as in the list; it counts numbers written in words as in the list too.
 - TOMA computes KCO and YCO with Stanza dependency parsing; the tool uses Zeyrek.
 - TOMA does not say which tool splits sentences for the main counts.
 
@@ -128,8 +160,15 @@ TOMA (Kalyoncu et al. 2026) is a desktop program that computes K1–K4 automatic
 
 These values approximate Kalyoncu's hand counts.
 
+- KL rests on expert judgement: rules 3, 5 and 8 are not applied. KL is therefore not expected
+  to match the expert values exactly; the tool counts more words as outside the list than the
+  expert does.
+- Proper nouns follow the capital letter: a name at the start of a sentence that is not tagged
+  `PROPN` can count as outside the list; any other capitalised word in mid-sentence (a title,
+  an emphasis) counts as a proper noun.
 - Suffixes Zeyrek does not know (-alı, -ası, -casına, -maksızın) cannot be counted as verbals.
-- If Zeyrek's first analysis is wrong, so is the result: `okuma` is analysed as "ok-um-a", not
+- If the selected Zeyrek analysis is wrong, so is the result (the first one when none matches
+  spaCy's class): `okuma` is analysed as "ok-um-a", not
   as an infinitive; the participle in `okunur kitap` counts as a finite verb.
 - For a word Zeyrek cannot analyse, the stem is the word itself lowercased; foreign words and
   misspellings count as a separate stem in each form.

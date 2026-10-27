@@ -13,6 +13,9 @@ from turkish_linguistic_features.features.kalyoncu import (
     kalyoncu_features,
     kalyoncu_list,
     okunus_sozcukleri,
+    ozel_ad_mi,
+    sayi_mi,
+    cozumleme_sec,
 )
 from turkish_linguistic_features.features.registry import STATIC_GROUP_KEYS, describe_feature
 from turkish_linguistic_features.params import FeatureParams
@@ -206,3 +209,78 @@ def test_kayit_yalniz_turkce_ve_readability_grubunda():
     for k in KALYONCU_KEYS:
         assert describe_feature(k)["citation"].startswith("Kalyoncu (2025) p.")
     assert describe_feature("kalyoncu_ttr")["params"] == ("kalyoncu_ttr_window",)
+
+
+# ── 0.3.0 düzeltmeleri: yazıyla sayı, özel ad, çözümleme seçimi ──────
+
+IKI = (("Num", "iki", False), ("A3sg", "", False))
+IKISI = (("Num", "iki", False), ("A3sg", "", False), ("P3pl", "si", False), ("Noun", "", False))
+UCUNCU = (("Num", "üç", False), ("Ord", "üncü", True), ("Adj", "", False))
+BESER = (("Num", "beş", False), ("Distrib", "er", True), ("Adv", "", False))
+BESER_AD = (("Noun", "beşer", False), ("A3sg", "", False))
+ON_SAYI = (("Num", "on", False), ("A3sg", "", False), ("Gen", "un", False), ("Noun", "", False))
+ONUN_ZAMIR = (("Pron", "o", False), ("A3sg", "", False), ("Gen", "nun", False))
+XQZT_FIIL = (("Verb", "xqzt", False), ("Imp", "", False), ("A2sg", "", False))
+XQZT_AD = (("Noun", "xqzt", False), ("A3sg", "", False))
+
+
+@pytest.mark.parametrize(("etiket", "m", "alt", "beklenen"), [
+    ("NUM", IKI, (), True),                             # spaCy NUM
+    ("NUM", IKISI, (), True),                           # çekimli
+    ("ADJ", UCUNCU, (), True),                          # sıra: seçilen çözümlemenin kökü Num
+    ("NOUN", BESER_AD, ((BESER, "beş"),), True),        # üleştirme, spaCy ad dese de
+    ("PRON", ONUN_ZAMIR, ((ON_SAYI, "on"),), False),    # onun ≠ on
+    ("VERB", GELDI, ((ON_SAYI, "on"),), False),
+    ("NOUN", EV, (), False),
+])
+def test_sayi_mi_yazili_sayi(etiket, m, alt, beklenen):
+    assert sayi_mi(etiket, m, alt) is beklenen
+
+
+def test_kl_yazili_sayi_paya_girmez_paydada_kalir():
+    """"xqzt" liste dışı; "iki", "ikisi", "üçüncü", "beşer" sayı: payda 5, pay 1."""
+    girdi = _girdi([("iki", "NUM", "iki", IKI), ("ikisi", "NUM", "iki", IKISI),
+                    ("üçüncü", "ADJ", "üç", UCUNCU), ("beşer", "ADV", "beş", BESER),
+                    ("xqzt", "NOUN", "xqzt", XQZT_AD)])
+    assert kalyoncu_features(*girdi)["kalyoncu_kl"] == 20.0
+
+
+@pytest.mark.parametrize(("sozcuk", "etiket", "tumce_basi", "beklenen"), [
+    ("Derya", "NOUN", False, True),            # büyük harf, tümce başında değil
+    ("İstanbul'da", "NOUN", False, True),      # düz kesme
+    ("İstanbul’da", "NOUN", False, True),      # eğri kesme
+    ("Hassan'ı", "X", False, True),
+    ("Derya", "NOUN", True, False),            # tümce başı: yalnız PROPN'e kalır
+    ("Derya", "PROPN", True, True),
+    ("kitap", "NOUN", False, False),
+    ("ankara'da", "NOUN", False, False),
+])
+def test_ozel_ad_mi(sozcuk, etiket, tumce_basi, beklenen):
+    assert ozel_ad_mi(sozcuk, etiket, tumce_basi) is beklenen
+
+
+def test_kl_buyuk_harfli_ad_paya_girmez_tumce_basindaki_girer():
+    """"Ben Derya'yı gördüm": Derya'yı özel ad (pay dışı). "Xqzt geldi" tümce başı: pay içi."""
+    girdi = _girdi(
+        [("Ben", "PRON", "ben", (("Pron", "ben", False), ("A1sg", "", False))),
+         ("Derya'yı", "NOUN", "Derya", AHMET), ("geldi", "VERB", "gel", GELDI)],
+        [("Xqzt", "NOUN", "xqzt", XQZT_AD), ("geldi", "VERB", "gel", GELDI)],
+    )
+    assert kalyoncu_features(*girdi)["kalyoncu_kl"] == 20.0     # 1 / 5
+
+
+def test_cozumleme_secimi_spacy_turune_uyan_ilk_cozumleme():
+    alt = ((XQZT_FIIL, "xqzt"), (XQZT_AD, "xqzt"))
+    assert cozumleme_sec("NOUN", XQZT_FIIL, "xqzt", alt)[0] == XQZT_AD     # uyan ilk
+    assert cozumleme_sec("VERB", XQZT_FIIL, "xqzt", alt)[0] == XQZT_FIIL
+    assert cozumleme_sec("ADJ", XQZT_FIIL, "xqzt", alt)[0] == XQZT_FIIL    # uyan yok: ilk
+    assert cozumleme_sec("NOUN", XQZT_FIIL, "xqzt", ())[0] == XQZT_FIIL    # çözümleme yok
+
+
+def test_secilen_cozumleme_govdeyi_ve_tumce_sayimini_belirler():
+    """Zeyrek ilk çözümlemesi fiil; spaCy ad der: ad seçilir, fiil sayılmaz, KCO değişir."""
+    cumle = [("geldi", "VERB", "gel", GELDI), ("xqzt", "NOUN", "xqzt", XQZT_FIIL)]
+    girdi = _girdi(cumle)
+    assert kalyoncu_features(*girdi)["kalyoncu_kco"] == 100.0              # iki fiil
+    alt = [(), ((XQZT_FIIL, "xqzt"), (XQZT_AD, "xqzt"))]
+    assert kalyoncu_features(*girdi, alternatives=alt)["kalyoncu_kco"] == 0.0

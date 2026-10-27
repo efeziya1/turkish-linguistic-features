@@ -98,6 +98,7 @@ def test_processed_text_to_dict_anahtarlari():
     assert set(d) == {
         "raw_text", "surface_tokens", "lemma_tokens", "pos_data",
         "sentences_as_tokens", "morpheme_lists", "morph_tags", "lang", "dep_data",
+        "morpheme_alternatives",
     }
     assert isinstance(d["surface_tokens"], list)   # dışarıda liste
     assert d["dep_data"] is None

@@ -16,7 +16,14 @@ Turkish 197 → 203, English 170. Groups: 13 → 12 (13 with
   sentences), `kalyoncu_yco` (verbals per sentence) and `kalyoncu_ocu` (words per sentence).
   Numbers count as the words they are read as (`1968` = 5 words), in these keys only. Four of
   Kalyoncu's nine word-list rules and his meaning-based sentence definition are not applied;
-  see the Kalyoncu formulas page. The values approximate Kalyoncu's hand counts.
+  see the Kalyoncu formulas page. The values approximate Kalyoncu's hand counts. In these keys
+  only: numbers written in words (`iki`, `ikisi`, `üçüncü`, `beşer`) count as in the list
+  (rule 9 does not tell digits from words); a word tagged `PROPN`, or capitalised and not at
+  the start of a sentence (`İstanbul'da`, `İstanbul’da`), is a proper noun and stays out of the
+  numerator; and the stem, verbal and complex-sentence counts use the first Zeyrek analysis
+  whose type matches spaCy's word class (the first analysis if none does). KL rests on expert
+  judgement (rules 3, 5, 8 are not applied), so it is not expected to match the expert values
+  exactly. `ProcessedText` gains `morpheme_alternatives` (all Zeyrek analyses per token).
 - The word list (Kalyoncu 2025, Appendix 1, 4,600 words) ships as
   `turkish_linguistic_features/data/kalyoncu_2025_ek1.txt`. It is not covered by the MIT
   licence.

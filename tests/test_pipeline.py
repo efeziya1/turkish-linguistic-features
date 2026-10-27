@@ -87,6 +87,10 @@ def test_morfem_listesi_tokenlarla_hizali():
     pt = Preprocessor(lang="tr").process("Kitaplarımızda gelmedim yazıyordu.")
     assert len(pt.morpheme_lists) == len(pt.surface_tokens)
     assert any(ms for ms in pt.morpheme_lists)
+    # Kalyoncu çözümleme seçimi: tüm çözümlemeler hizalı, ilki morfem listesiyle aynı.
+    assert len(pt.morpheme_alternatives) == len(pt.surface_tokens)
+    for ms, alt in zip(pt.morpheme_lists, pt.morpheme_alternatives, strict=True):
+        assert alt[0][0] == ms
 
 
 @tr_model
@@ -133,6 +137,7 @@ def test_ingilizcede_morfem_listesi_bos():
     """Zeyrek İngilizce çözümlemiyor — grup hiç üretilmemeli (K11)."""
     pt = Preprocessor(lang="en").process("This is a test sentence.")
     assert pt.morpheme_lists == ()
+    assert pt.morpheme_alternatives == ()
 
 
 @en_model

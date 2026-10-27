@@ -448,7 +448,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'long_word_ratio': 'long words / words',
     'kalyoncu_kl':
         '100 * words not in the list / words; a word is in the list if its form, stem or '
-        'stem + -mak/-mek is, circumflexes ignored; PROPN and numbers count as in the list',
+        'stem + -mak/-mek is, circumflexes ignored; proper nouns and numbers count as in the list',
     'kalyoncu_ttr':
         '100 * stems occurring once / words; texts longer than kalyoncu_ttr_window: mean over '
         'moving windows (step 1)',

@@ -34,6 +34,7 @@ if TYPE_CHECKING:
     from spacy.language import Language
 
 Morpheme = tuple[str, str, bool]
+Analysis = tuple[tuple[Morpheme, ...], str]       # (morfemler, sözlükbirim)
 
 # Zeyrek yalnız düz kesmeyi (') tanıyor; kıvrık kesmeler ona çevrilir.
 _KESME_DUZ = str.maketrans({"’": "'", "‘": "'"})
@@ -168,7 +169,8 @@ class ZeyrekBackend:
             # native uzantıların doğru sırada yüklendiğini garanti etmek.
             self._nlp = spacy.blank("tr")
 
-    def _cozumle_ham(self, word: str) -> tuple[tuple[Morpheme, ...], str | None]:
+    def _cozumle_ham(self, word: str) -> tuple[tuple[Morpheme, ...], str | None,
+                                               tuple[Analysis, ...]]:
         self._ensure_loaded()
         analyzer = self._analyzer
         assert analyzer is not None                    # _ensure_loaded doldurdu
@@ -177,15 +179,19 @@ class ZeyrekBackend:
             # Boş demet DEĞİL, tek elemanlı: `zeyrek_agglutination_depth` kelime
             # başına morfem sayıyor. Kök etiketi `Unk` — T16 çözümsüz kelimeyi
             # paydadan bu etiketle çıkarıyor (`_KELIME_DISI_KOK`).
-            return (("Unk", word, False),), None
+            return (("Unk", word, False),), None, ()
 
         # Belirsizlikte ilk çözümleme alınır; bağlam kullanılmıyor. Bu bir
         # sınırlama ve sınırlılıklar §4'te yazılı. Zeyrek eşit adaylar
         # arasında kararlı bir sıralama da tanımlamıyor (ölçüldü, 2026-09-18),
-        # yani o kelimelerde seçim keyfî.
-        ilk = cozumlemeler[0]
-        morfemler = tuple((m.id_, yuzey, bool(m.derivational)) for m, yuzey in ilk.morphemes)
-        return morfemler, _dictionary_lemma(ilk.dict_item.lemma, ilk.dict_item.primary_pos.value)
+        # yani o kelimelerde seçim keyfî. Tüm çözümlemeler yalnız Kalyoncu
+        # anahtarları için de saklanır (``analyze_alternatives``).
+        tumu = tuple(
+            (tuple((m.id_, yuzey, bool(m.derivational)) for m, yuzey in c.morphemes),
+             _dictionary_lemma(c.dict_item.lemma, c.dict_item.primary_pos.value))
+            for c in cozumlemeler
+        )
+        return tumu[0][0], tumu[0][1], tumu
 
     def analyze_word(self, word: str) -> tuple[Morpheme, ...]:
         """Kelimenin morfem üçlüleri: ``(etiket, yüzey_ek, türetimsel_mi)``.
@@ -205,6 +211,14 @@ class ZeyrekBackend:
         özniteliklerinden düşüyordu (TOMA'nın 11 metninde sözcüklerin %0,9'u).
         """
         return self._cozumle(word.translate(_KESME_DUZ))[0]
+
+    def analyze_alternatives(self, word: str) -> tuple[Analysis, ...]:
+        """Zeyrek'in tüm çözümlemeleri, kendi sırasıyla: ``(morfemler, sözlükbirim)``.
+
+        Çözümlenemeyen kelimede boş demet. Yalnız Kalyoncu anahtarları kullanır
+        (çözümleme seçimi); öteki öznitelikler ilk çözümlemede kalır.
+        """
+        return self._cozumle(word.translate(_KESME_DUZ))[2]
 
     def lemma(self, word: str) -> str:
         """Turkish lemma of a word: the dictionary entry of Zeyrek's first analysis.

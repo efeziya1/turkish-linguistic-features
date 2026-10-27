@@ -67,7 +67,7 @@ Kalyoncu'nun dokuz kuralı (s.71–72):
 
 | Kural | Araçta |
 |---|---|
-| 1. Özel adlar liste dışı sayılmaz | uygulanır: spaCy'nin `PROPN` etiketi; paydada kalır, paya girmez |
+| 1. Özel adlar liste dışı sayılmaz | uygulanır: `PROPN` ya da tümce başında olmayıp büyük harfle başlayan sözcük; paydada kalır, paya girmez |
 | 2. Çekimli biçim listedeki sözcük sayılır | uygulanır: gövde |
 | 3. Yaygın türetme ekli türevler liste dışı sayılmaz | **uygulanmaz**: hangi eklerin yaygın sayıldığı belirtilmemiş |
 | 4. Fiilimsi olarak kullanılan liste fiilleri | uygulanır: Zeyrek'in fiilimsi etiketleri |
@@ -75,7 +75,38 @@ Kalyoncu'nun dokuz kuralı (s.71–72):
 | 6. Pekiştirilmiş biçimler (`büsbüyük`) | **uygulanmaz** |
 | 7. Ettirgen ve edilgen biçimler | uygulanır: Zeyrek'in çatı etiketleri |
 | 8. Uzak anlamda kullanılan liste sözcüğü liste dışıdır | **uygulanmaz**: bağlam yorumu gerektirir |
-| 9. Sayılar liste dışı sayılmaz | uygulanır: okunuşla açılan sayı sözcükleri liste içi |
+| 9. Sayılar liste dışı sayılmaz | uygulanır: rakamla ve yazıyla yazılan sayılar liste içi |
+
+### Özel ad
+
+Özel ad, spaCy'nin `PROPN` dediği sözcük ya da tümce başında olmayıp büyük harfle başlayan
+sözcüktür. Kesmeli biçimler de girer (`İstanbul'da`, `İstanbul’da`). Tümce başındaki ad yalnız
+`PROPN` ise özel ad sayılır. Gerekçe: spaCy Türkçe modeli `Derya`, `İstanbul'da`, `Almanya'da`,
+`Hassan'ı` sözcüklerini `PROPN` etiketlemiyor; Türkçe yazımda özel adlar büyük harfle yazılır.
+Bu kural yalnız `kalyoncu_*` anahtarlarında geçerlidir.
+
+### Yazıyla yazılan sayı
+
+Kalyoncu'nun 9. kuralı rakam ile yazıyı ayırmaz (s.72). `iki`, `otuz`, `dokuz` da liste
+içidir; çekimli (`ikisi`), sıra (`üçüncü`) ve üleştirme (`beşer`) biçimleri de. Bir sözcük
+şunlardan biriyse sayıdır:
+
+- spaCy `NUM` dedi;
+- seçilen Zeyrek çözümlemesinin kökü sayıdır (`Num`);
+- spaCy ad, sıfat, belirteç ya da `X` dedi ve Zeyrek çözümlemelerinden birinin kökü sayıdır
+  (`beşer` spaCy'de ad çıkabiliyor).
+
+Zamir, eylem ya da özel ad etiketi bağlayıcıdır: `onun`, `ona` "on" sayılmaz. Sayı sözcüğü
+sözcük sayısında ve TTR'de her sözcük gibi sayılır.
+
+### Çözümleme seçimi
+
+Zeyrek bir sözcük için birden çok çözümleme verebilir. `kalyoncu_*` anahtarlarında Zeyrek'in
+çözümlemeleri arasından türü spaCy'nin sözcük türüne uyan ilki alınır: `PRON` zamir, `NOUN` ve
+`PROPN` ad, `VERB` ve `AUX` eylem, `ADJ` sıfat, `ADV` belirteç, `NUM` sayı. Uyan yoksa ilk
+çözümleme alınır. Gövde, fiilimsi ve karmaşık tümce sayımı (TTR, KCO, YCO) bu çözümlemeden
+yapılır. Örnek: `onun` için spaCy `PRON` der; Zeyrek'in ilk verdiği "onmak" eylemi yerine
+zamir çözümlemesi alınır. Aracın geri kalanında "ilk çözümleme" kuralı değişmez.
 
 ## Fiilimsi ve karmaşık tümce
 
@@ -118,7 +149,7 @@ TOMA (Kalyoncu vd. 2026) K1–K4'ü otomatik hesaplayan masaüstü programıdır
 
 - KL'de şapkayı TOMA da siler (s.298); bu konuda aynıdır.
 - TOMA KL'de salt rakamdan oluşan sözcükleri hesap dışı bırakır (s.298). Araç onları
-  okunuşla açar ve liste içi sayar.
+  okunuşla açar ve liste içi sayar; yazıyla yazılan sayıları da liste içi sayar.
 - TOMA KCO ve YCO'yu Stanza bağımlılık çözümlemesiyle hesaplar; araç Zeyrek'le hesaplar.
 - TOMA ana sayımlarda tümceyi hangi araçla böldüğünü yazmaz.
 
@@ -126,8 +157,13 @@ TOMA (Kalyoncu vd. 2026) K1–K4'ü otomatik hesaplayan masaüstü programıdır
 
 Bu değerler Kalyoncu'nun elle yaptığı sayımın yaklaşığıdır.
 
+- KL uzman yargısına dayanır: 3., 5. ve 8. kurallar uygulanmıyor. Bu yüzden KL'nin uzman
+  değerleriyle tam örtüşmesi beklenmez; araç, uzmandan fazla sözcüğü liste dışı sayar.
+- Özel ad büyük harfe bakar: tümce başındaki ad `PROPN` değilse liste dışı sayılabilir; ortada
+  büyük harfle yazılan öteki sözcük (başlık, vurgu) özel ad sayılır.
 - Zeyrek'in tanımadığı ekler (-alı, -ası, -casına, -maksızın) fiilimsi sayılamaz.
-- Zeyrek'in ilk çözümlemesi yanlışsa sonuç da yanlış olur: `okuma` isim-fiil değil "ok-um-a"
+- Zeyrek'in seçilen çözümlemesi yanlışsa sonuç da yanlış olur (spaCy türüne uyan çözümleme
+  yoksa ilk çözümleme): `okuma` isim-fiil değil "ok-um-a"
   diye çözümlenir; `okunur kitap`'taki sıfat-fiil çekimli fiil sayılır.
 - Zeyrek'in çözümleyemediği sözcükte gövde küçük harfli sözcüğün kendisidir; yabancı sözcük ve
   yazım hatası her biçimiyle ayrı gövde sayılır.
