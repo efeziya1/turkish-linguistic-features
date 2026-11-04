@@ -20,6 +20,7 @@ import math
 from pathlib import Path
 
 import turkish_linguistic_features as tlf
+from turkish_linguistic_features.features.lexical import brunet_w
 
 # Kapsam ölçülürken kullanılan örnek metinler. İçerikleri önemsiz —
 # yalnız taban şemanın bütün anahtarlarını üretmeye yarıyorlar.
@@ -610,6 +611,24 @@ KARSILASTIRMALAR: dict[str, list[Karsilastirma]] = {
                       _iki("cloze 40.4% → 12. sınıf", "cloze 40.4% → grade 12"), 12.0,
                       lambda: _cl_sinif(40.4), tur=FORMUL),
     ],
+    # s.65 tablosunun b'li sütunu, varsayılan a ve b ile (2026-11-04, Efe). V ≤ 20 olan beş
+    # satır kaynakta "sans objet": karşılaştırma değil.
+    "brunet_w": [
+        Karsilastirma("Brunet (1978) p.65", f"{duzey} · N={N}, V={V}", beklenen,
+                      (lambda N=N, V=V: brunet_w(N, V)["brunet_w"]), tur=FORMUL)
+        for duzey, N, V, beklenen in (
+            ("phrase longue", 30, 28, 10.79),
+            ("phrase longue", 42, 35, 10.44),
+            ("phrase longue", 84, 60, 10.48),
+            ("phrase longue", 132, 90, 10.50),
+            ("phrase longue", 161, 108, 10.51),
+            ("chapitre", 1096, 500, 11.25),
+            ("chapitre", 2734, 1000, 11.25),
+            ("chapitre", 7564, 2000, 11.25),
+            ("texte", 58325, 5000, 12.65),
+            ("corpus", 311215, 10000, 13.40),
+        )
+    ],
 }
 
 
@@ -955,8 +974,11 @@ _METIN = {
         "kalan_basligi": "\n### 🔍 Açık — doğrulanabilir, henüz doğrulanmadı\n\n",
         "kalan_ozet": "{n} anahtar. Kaynak formülü yayımlamış ama o formülün "
                       "uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde "
-                      "bu olağandır: Yule (1944) K'yı tanımlar, bir romanda "
-                      "K'nın kaç çıktığını basmaz. Bu öznitelikler **test "
+                      "bu olağandır. `yule_k` başka bir durumdur: Yule (1944) K "
+                      "değerlerini basar, ama bunları tek bir sözcük sınıfının, "
+                      "çoğunlukla adların, sözlükbirimleriyle hesaplar. Araç bütün "
+                      "sözcüklerin yüzey biçimini saydığı için aynı girdiyle "
+                      "karşılaştırılamaz. Bu öznitelikler **test "
                       "edilmiyor demek değildir** — formül ve sınır durumları "
                       "kendi test dosyalarında sınanıyor; burada takip edilen "
                       "yalnız *kaynağın sayısıyla* karşılaştırma.\n\n",
@@ -1016,9 +1038,11 @@ _METIN = {
         "kalan_basligi": "\n### 🔍 Open — verifiable, not yet verified\n\n",
         "kalan_ozet": "{n} keys. The source published the formula but never "
                       "applied it to anything and printed the result. In "
-                      "quantitative linguistics this is ordinary: Yule (1944) "
-                      "defines K; he does not print what K comes to for a "
-                      "particular novel. These rows are **not untested** — "
+                      "quantitative linguistics this is ordinary. `yule_k` is a "
+                      "different case: Yule (1944) prints K values, but computes "
+                      "them on the lemmas of a single word class, mostly nouns. The "
+                      "tool counts the surface forms of all words, so the two cannot "
+                      "be compared on the same input. These rows are **not untested** — "
                       "their formulas and edge cases are tested in their own "
                       "test files. What is tracked here is only the comparison "
                       "*against the source's number*.\n\n",

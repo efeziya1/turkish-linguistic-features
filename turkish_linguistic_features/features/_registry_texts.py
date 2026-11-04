@@ -283,7 +283,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'entropy': '-sum(p * ln p)',
     'yule_k': '10000 * (sum(f^2) - N) / N^2',
     'simpson_d': 'sum(f(f-1)) / (N(N-1))',
-    'brunet_w': 'N^(V^-a), a = brunet_w_a',
+    'brunet_w': 'N^((V-b)^-a), a = brunet_w_a, b = brunet_w_b',
     'hapax_ratio': 'V1 / V',
     'hapax_token_ratio': 'V1 / N',
     'vocd_d':
@@ -513,7 +513,7 @@ FEATURE_REQUIRES: dict[str, str] = {
     'entropy': 'at least 1 word',
     'yule_k': 'at least 1 word',
     'simpson_d': 'at least 2 words',
-    'brunet_w': 'at least 1 word',
+    'brunet_w': 'more than brunet_w_b distinct words (21 by default)',
     'hapax_ratio': 'at least 1 word',
     'hapax_token_ratio': 'at least 1 word',
     'vocd_d': 'at least 50 words (vocd_min_tokens, vocd_sample_max)',
@@ -709,8 +709,12 @@ FEATURE_CITATIONS: dict[str, str] = {
         '50 is used here so that texts of 100+ words can be measured (mattr needs '
         '2 × window)',
     'herdan_c':
-        'Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)',
-    'sichel_s': 'Sichel (1975); formula from Malvern et al. (2004) eq. 3.10',
+        'Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5); Herdan (1964) '
+        'pp.73–74 counts the inflected forms of a word as one word, this library counts surface '
+        'forms',
+    'sichel_s':
+        'Tweedie & Baayen (1998) p.329, eq. (12); they cite Sichel (1975), but the ratio does not '
+        'appear in that article',
     'mtld':
         'McCarthy (2005) is the dissertation that introduced the measure — its '
         'abstract (p.vii) reads "we introduce and test a new measure of lexical '
@@ -764,9 +768,14 @@ FEATURE_CITATIONS: dict[str, str] = {
     'sent_len_entropy':
         'Shannon (1948) Theorem 2 — the entropy formula; applying it to the distribution of '
         "sentence lengths is this library's own decision",
-    'yule_k': 'Yule (1944) p.53, eq. (3.22)',
+    'yule_k':
+        'Yule (1944) p.53, eq. (3.22); Yule counts one word class, mostly nouns (p.3), with the '
+        'inflected forms of a word as one entry (p.33), this library counts surface forms of all '
+        'words',
     'simpson_d': 'Simpson (1949), as cited in Bestgen (2023) p.4 (preprint)',
-    'brunet_w': 'Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10)',
+    'brunet_w':
+        'Brunet (1978) p.65 (with b), p.49 (b = 0); Brunet counts V in lemmas (p.53), this '
+        'library in surface forms',
     'hapax_token_ratio': 'QUITA §6.1.6',
     'vocd_d':
         'Malvern et al. (2004) pp.56–57; procedure from McCarthy & Jarvis (2010) p.383',
@@ -1136,9 +1145,8 @@ BIBLIOGRAPHY: dict[str, str] = {
         'Brezina, V., & Pallotti, G. (2019). Morphological complexity in written L2 texts. '
         'Second Language Research, 35(1), 99–119. DOI 10.1177/0267658316643125',
     'Brunet (1978)':
-        'Brunet, E. (1978). Vocabulaire de Jean Giraudoux: structure et évolution. '
-        'Genève: Slatkine. (Book.) The record was verified from the reference list of '
-        'Popescu, Čech & Altmann (2011). The primary source could not be obtained.',
+        'Brunet, E. (1978). Le vocabulaire de Jean Giraudoux: Structure et évolution. '
+        'Genève: Slatkine.',
     'Carroll (1964)':
         'Carroll, J. B. (1964). Language and Thought. Englewood Cliffs, NJ: Prentice-Hall. '
         'The record was verified from the reference list of Torruella & Capsada (2013). The '

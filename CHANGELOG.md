@@ -42,6 +42,18 @@ Turkish 197 → 203, English 170. Groups: 13 → 12 (13 with
 
 ### Changed
 
+- **`brunet_w` follows Brunet (1978), read in the original.** The formula is the one Brunet
+  calls more exact, `N^((V-b)^-a)` (p.65), with the new parameter `brunet_w_b` (default 20; `0`
+  gives the form without `b`, p.49). `V ≤ b` gives `nan`, so a text needs more than 20 distinct
+  words. `a` stays 0.172 (p.49). Values change. The citation now names the primary source, so
+  secondary citations go from 15 to 14 (Turkish 14 → 13). The verification report compares the
+  default against the ten rows of Brunet's p.65 table, formula rows with `V > 20`.
+- **One counting rule for diversity measures.** They count surface forms; this is the library's
+  design decision, and `*_variation` and `lemma_count` remain the exceptions. Where the source
+  counts otherwise the citation says so: `brunet_w`, `herdan_c`, `yule_k`. Values of `herdan_c`
+  and `yule_k` do not change.
+- **`sichel_s` citation** is now Tweedie & Baayen (1998) p.329, eq. (12); the ratio does not
+  appear in Sichel (1975). The value does not change.
 - **Group names.** `phonetic` is now `phonological` and `syntactic_dep` is now `syntactic`;
   the old names are not kept and raise `ValueError`. The 0.2.0 `syntactic` group is gone and
   its seven features moved by content: `pronoun_ratio`, `verb_dist_mean`, `activity_ratio`,
@@ -83,7 +95,7 @@ Turkish 197 → 203, English 170. Groups: 13 → 12 (13 with
   calibrated; the ✅ status is "match" (was "exact"). QUITA's `ttr` on Text 2 (printed 0.59,
   its own counts give 121/202 = 0.599: the source truncated instead of rounding) is ✅ under the arithmetic rule. The two Ateşman
   formula rows are labelled as the easiest and hardest texts Ateşman used to derive the
-  formula. Turkish report: 51 ✅ + 0 🟡; English: 36 ✅ + 2 🟡; no ❌.
+  formula. Turkish report: 61 ✅ + 0 🟡; English: 46 ✅ + 2 🟡; no ❌.
 - **Citations** give the place in the source for `mattr` (p. 97), `lexical_density`
   (p. 192), `punct_entropy` and `sent_len_entropy` (Shannon 1948, Theorem 2),
   `long_word_ratio` (p. 491), `wordfreq_mean` (p. 1179) and `simpson_d` (Bestgen 2023,

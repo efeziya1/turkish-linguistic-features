@@ -58,8 +58,8 @@ published is a separate question — see the
 | `word_len_mean` | mean word length in characters | `sum(len(w)) / N` | at least 1 word | Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241 |
 | `ttr` | type-token ratio; falls as the text grows | `V / N` | at least 1 word | Malvern et al. (2004); QUITA §6.1.1 |
 | `mattr` | moving-average TTR | `mean TTR of every sliding window of mattr_window words` | at least 100 words (2 x mattr_window) | Covington & McFall (2010); default window 50 — C&M recommend a window of 500 (p.97); 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) |
-| `herdan_c` | Herdan's C (LogTTR) | `log(V) / log(N)` | at least 2 words | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) |
-| `sichel_s` | share of types occurring exactly twice | `V2 / V` | at least 1 word | Sichel (1975); formula from Malvern et al. (2004) eq. 3.10 |
+| `herdan_c` | Herdan's C (LogTTR) | `log(V) / log(N)` | at least 2 words | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5); Herdan (1964) pp.73–74 counts the inflected forms of a word as one word, this library counts surface forms |
+| `sichel_s` | share of types occurring exactly twice | `V2 / V` | at least 1 word | Tweedie & Baayen (1998) p.329, eq. (12); they cite Sichel (1975), but the ratio does not appear in that article |
 | `mtld` | measure of textual lexical diversity | `mean words per factor (TTR drops to mtld_threshold), forward and backward averaged` | at least 100 words (mtld_min_tokens) with some repetition | McCarthy (2005) is the dissertation that introduced the measure — its abstract (p.vii) reads "we introduce and test a new measure of lexical diversity: the measure of textual, lexical diversity (MTLD)"; the body of the dissertation could not be obtained, so no page is given. The procedure implemented follows McCarthy & Jarvis (2010) pp.383–385 |
 | `dugast_u` | Dugast's Uber index | `(ln N)^2 / (ln N - ln V)` | at least 2 words, at least one repeated | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 |
 | `guiraud_r` | Guiraud's root TTR | `V / sqrt(N)` | at least 1 word | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only |
@@ -70,9 +70,9 @@ published is a separate question — see the
 | `honore_r` | Honoré's R; higher = more words used once, richer vocabulary | `100 * ln N / (1 - V1 / V)` | at least 1 word occurring more than once | Honoré (1979), as cited in Tweedie & Baayen (1998) p.329, eq. (11) |
 | `heaps_beta` | vocabulary growth rate | `least-squares slope of log V ~ log N over heaps_points equally spaced prefixes (k * N / heaps_points), not clipped` | at least 20 words (heaps_points); unreliable on short texts | Heaps (1978), as cited in Manning et al. (2008) §5.1.1; the law fits large collections well (p.81, print edition), not short texts; measured at 20 equally spaced points through the text as in Tweedie & Baayen (1998) p.333 |
 | `entropy` | Shannon entropy of word frequencies | `-sum(p * ln p)` | at least 1 word | Shannon (1948), as cited in QUITA §6.1.12 |
-| `yule_k` | Yule's K; higher = more repetitive | `10000 * (sum(f^2) - N) / N^2` | at least 1 word | Yule (1944) p.53, eq. (3.22) |
+| `yule_k` | Yule's K; higher = more repetitive | `10000 * (sum(f^2) - N) / N^2` | at least 1 word | Yule (1944) p.53, eq. (3.22); Yule counts one word class, mostly nouns (p.3), with the inflected forms of a word as one entry (p.33), this library counts surface forms of all words |
 | `simpson_d` | chance that two words drawn without replacement are the same type | `sum(f(f-1)) / (N(N-1))` | at least 2 words | Simpson (1949), as cited in Bestgen (2023) p.4 (preprint) |
-| `brunet_w` | Brunet's W | `N^(V^-a), a = brunet_w_a` | at least 1 word | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) |
+| `brunet_w` | Brunet's W | `N^((V-b)^-a), a = brunet_w_a, b = brunet_w_b` | more than brunet_w_b distinct words (21 by default) | Brunet (1978) p.65 (with b), p.49 (b = 0); Brunet counts V in lemmas (p.53), this library in surface forms |
 | `hapax_ratio` | share of types occurring once | `V1 / V` | at least 1 word | de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of vocabulary words" |
 | `hapax_token_ratio` | share of tokens that occur once | `V1 / N` | at least 1 word | QUITA §6.1.6 |
 | `vocd_d` | voc-D | `D fitted to mean TTR of random samples of vocd_sample_min–vocd_sample_max words, vocd_num_runs runs averaged` | at least 50 words (vocd_min_tokens, vocd_sample_max) | Malvern et al. (2004) pp.56–57; procedure from McCarthy & Jarvis (2010) p.383 |
@@ -355,7 +355,7 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 :   Brezina, V., & Pallotti, G. (2019). Morphological complexity in written L2 texts. Second Language Research, 35(1), 99–119. DOI 10.1177/0267658316643125
 
 **Brunet (1978)**
-:   Brunet, E. (1978). Vocabulaire de Jean Giraudoux: structure et évolution. Genève: Slatkine. (Book.) The record was verified from the reference list of Popescu, Čech & Altmann (2011). The primary source could not be obtained.
+:   Brunet, E. (1978). Le vocabulaire de Jean Giraudoux: Structure et évolution. Genève: Slatkine.
 
 **Carroll (1964)**
 :   Carroll, J. B. (1964). Language and Thought. Englewood Cliffs, NJ: Prentice-Hall. The record was verified from the reference list of Torruella & Capsada (2013). The primary source could not be obtained.

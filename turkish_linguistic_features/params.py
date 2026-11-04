@@ -29,11 +29,11 @@ class FeatureParams:
     # Heaps β ölçüm noktası sayısı: metin boyunca eşit aralıklı (Tweedie & Baayen 1998 s.333;
     # 2026-10-27, Efe). En az uzunluk sınırı yok; bundan kısa metinde NaN.
     heaps_points: int = 20
-    # Brunet's W üs sabiti. Kademe C — Tweedie & Baayen (1998),
-    # Computers and the Humanities 32(5):323-352, denklem (10).
-    # Bazı ikincil kaynaklar 0.165 veriyor; tartışmalı olduğu için
-    # gizlenmiyor, buradan değiştirilebiliyor.
+    # Brunet's W sabitleri. Kademe A — Brunet (1978): a s. 49, b s. 65.
+    # Bazı ikincil kaynaklar a için 0.165 veriyor; aslı 0,172 der.
+    # b = 0, b'siz biçimi verir (s. 49); V ≤ b iken değer NaN (2026-11-04, Efe).
     brunet_w_a: float = 0.172
+    brunet_w_b: int = 20
     # biçimbilim — zeyrek_verb_suffix_diversity: örneklem boyu (fiil), örneklem sayısı ve tohum.
     # Brezina & Pallotti (2019) s.107: MC10, 10 fiillik örneklem (yazarlar 10'un keyfi olduğunu,
     # kısa metin için 5'i de belirtir); s.108: 100 rastgele örneklem (2026-10-26, Efe).

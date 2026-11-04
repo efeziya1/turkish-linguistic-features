@@ -54,16 +54,16 @@ karşılaştırma tablosunu okur, yani ikisi ayrışamaz. Diğer bilinen-değer
 testleri kendi dosyalarında duruyor.
 
 
-## Türkçe — 214 anahtar, 244 satır
+## Türkçe — 214 anahtar, 253 satır
 
 Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
-**Doğrulama adayı — 163 satır**
+**Doğrulama adayı — 172 satır**
 
 | Durum | Satır sayısı |
 |---|---|
-| ✅ örtüşen | 51 |
-| 🔍 açık — kaynakta sayısal örnek yok | 112 |
+| ✅ örtüşen | 61 |
+| 🔍 açık — kaynakta sayısal örnek yok | 111 |
 
 
 **Doğrulama adayı olmayan — 81 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
@@ -83,6 +83,16 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26); kaynak bit ile 6,395099 → × ln 2 | formül | 4.433 | 4.433 | +0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formül | 0.665 | 0.665 | -0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; kaynak 0.59 basmış (yuvarlamak yerine kesmiş) | formül | 0.590 | 0.599 | +0.009 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=30, V=28 | formül | 10.790 | 10.789 | -0.001 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=42, V=35 | formül | 10.440 | 10.443 | +0.003 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=84, V=60 | formül | 10.480 | 10.478 | -0.002 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=132, V=90 | formül | 10.500 | 10.499 | -0.001 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=161, V=108 | formül | 10.510 | 10.512 | +0.002 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | chapitre · N=1096, V=500 | formül | 11.250 | 11.251 | +0.001 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | chapitre · N=2734, V=1000 | formül | 11.250 | 11.250 | -0.000 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | chapitre · N=7564, V=2000 | formül | 11.250 | 11.250 | +0.000 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | texte · N=58325, V=5000 | formül | 12.650 | 12.650 | +0.000 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | corpus · N=311215, V=10000 | formül | 13.400 | 13.400 | +0.000 | ✅ |
 | `hapax_token_ratio` | QUITA §6.1.6 | Text 1 · 98/179 | formül | 0.547 | 0.547 | +0.000 | ✅ |
 | `hapax_token_ratio` | QUITA §6.1.6 | Text 2 · 92/202 | formül | 0.455 | 0.455 | +0.000 | ✅ |
 | `mtld` | McCarthy & Jarvis (2010) p.385 | kısmi faktör · TTR .887 → 40.4% | formül | 0.404 | 0.404 | +0.000 | ✅ |
@@ -139,21 +149,20 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 ### 🔍 Açık — doğrulanabilir, henüz doğrulanmadı
 
-112 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu öznitelikler **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
+111 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır. `yule_k` başka bir durumdur: Yule (1944) K değerlerini basar, ama bunları tek bir sözcük sınıfının, çoğunlukla adların, sözlükbirimleriyle hesaplar. Araç bütün sözcüklerin yüzey biçimini saydığı için aynı girdiyle karşılaştırılamaz. Bu öznitelikler **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
 | `word_count` | de Vel (2000) Table 2, attribute 1 "Total number of words"; Zheng et al. (2006) Table 3, p.385, no. 54 "Total number of words (M)" | 🔍 |
 | `word_len_mean` | Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241 | 🔍 |
-| `yule_k` | Yule (1944) p.53, eq. (3.22) | 🔍 |
+| `yule_k` | Yule (1944) p.53, eq. (3.22); Yule counts one word class, mostly nouns (p.3), with the inflected forms of a word as one entry (p.33), this library counts surface forms of all words | 🔍 |
 | `simpson_d` | Simpson (1949), as cited in Bestgen (2023) p.4 (preprint) | 🔍 |
 | `type_count` | Tweedie & Baayen (1998) p.325, the vocabulary size V(N); Zheng et al. (2006) Table 3, p.385, no. 60 "Total different words/M", here not divided by M | 🔍 |
 | `hapax_count` | Tweedie & Baayen (1998) p.325, V(1, N) "the number of hapax legomena"; Zheng et al. (2006) Table 3, p.385, no. 61 "Hapax legomena" ("Frequency of once-occurring words") | 🔍 |
 | `dislegomena_count` | Tweedie & Baayen (1998) p.329, V(2, N) "dis legomena"; Zheng et al. (2006) Table 3, p.385, no. 62 "Hapax dislegomena" ("Frequency of twice-occurring words") | 🔍 |
-| `brunet_w` | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) | 🔍 |
 | `hapax_ratio` | de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of vocabulary words" | 🔍 |
 | `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500 (p.97); 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
-| `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) | 🔍 |
+| `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5); Herdan (1964) pp.73–74 counts the inflected forms of a word as one word, this library counts surface forms | 🔍 |
 | `dugast_u` | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 | 🔍 |
 | `guiraud_r` | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only | 🔍 |
 | `cttr` | Carroll (1964), as cited in Torruella & Capsada (2013) p.448 | 🔍 |
@@ -162,7 +171,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `herdan_vm` | Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18) | 🔍 |
 | `honore_r` | Honoré (1979), as cited in Tweedie & Baayen (1998) p.329, eq. (11) | 🔍 |
 | `heaps_beta` | Heaps (1978), as cited in Manning et al. (2008) §5.1.1; the law fits large collections well (p.81, print edition), not short texts; measured at 20 equally spaced points through the text as in Tweedie & Baayen (1998) p.333 | 🔍 |
-| `sichel_s` | Sichel (1975); formula from Malvern et al. (2004) eq. 3.10 | 🔍 |
+| `sichel_s` | Tweedie & Baayen (1998) p.329, eq. (12); they cite Sichel (1975), but the ratio does not appear in that article | 🔍 |
 | `noun_variation` | Lu (2012) Table 2 | 🔍 |
 | `verb_variation` | Lu (2012) Table 2 | 🔍 |
 | `adj_variation` | Lu (2012) Table 2 | 🔍 |
@@ -344,17 +353,17 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `uppercase_ratio` | — | ⚪ |
 | `all_caps_word_ratio` | — | ⚪ |
 
-## İngilizce — 181 anahtar, 198 satır
+## İngilizce — 181 anahtar, 207 satır
 
 Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
-**Doğrulama adayı — 137 satır**
+**Doğrulama adayı — 146 satır**
 
 | Durum | Satır sayısı |
 |---|---|
-| ✅ örtüşen | 36 |
+| ✅ örtüşen | 46 |
 | 🟡 belgelenmiş sapma | 2 |
-| 🔍 açık — kaynakta sayısal örnek yok | 99 |
+| 🔍 açık — kaynakta sayısal örnek yok | 98 |
 
 
 **Doğrulama adayı olmayan — 61 satır.** Bunlarda aranacak yayımlanmış bir sayı yoktur.
@@ -374,6 +383,16 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26); kaynak bit ile 6,395099 → × ln 2 | formül | 4.433 | 4.433 | +0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formül | 0.665 | 0.665 | -0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; kaynak 0.59 basmış (yuvarlamak yerine kesmiş) | formül | 0.590 | 0.599 | +0.009 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=30, V=28 | formül | 10.790 | 10.789 | -0.001 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=42, V=35 | formül | 10.440 | 10.443 | +0.003 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=84, V=60 | formül | 10.480 | 10.478 | -0.002 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=132, V=90 | formül | 10.500 | 10.499 | -0.001 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=161, V=108 | formül | 10.510 | 10.512 | +0.002 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | chapitre · N=1096, V=500 | formül | 11.250 | 11.251 | +0.001 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | chapitre · N=2734, V=1000 | formül | 11.250 | 11.250 | -0.000 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | chapitre · N=7564, V=2000 | formül | 11.250 | 11.250 | +0.000 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | texte · N=58325, V=5000 | formül | 12.650 | 12.650 | +0.000 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | corpus · N=311215, V=10000 | formül | 13.400 | 13.400 | +0.000 | ✅ |
 | `hapax_token_ratio` | QUITA §6.1.6 | Text 1 · 98/179 | formül | 0.547 | 0.547 | +0.000 | ✅ |
 | `hapax_token_ratio` | QUITA §6.1.6 | Text 2 · 92/202 | formül | 0.455 | 0.455 | +0.000 | ✅ |
 | `mtld` | McCarthy & Jarvis (2010) p.385 | kısmi faktör · TTR .887 → 40.4% | formül | 0.404 | 0.404 | +0.000 | ✅ |
@@ -417,21 +436,20 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 
 ### 🔍 Açık — doğrulanabilir, henüz doğrulanmadı
 
-99 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır: Yule (1944) K'yı tanımlar, bir romanda K'nın kaç çıktığını basmaz. Bu öznitelikler **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
+98 anahtar. Kaynak formülü yayımlamış ama o formülün uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde bu olağandır. `yule_k` başka bir durumdur: Yule (1944) K değerlerini basar, ama bunları tek bir sözcük sınıfının, çoğunlukla adların, sözlükbirimleriyle hesaplar. Araç bütün sözcüklerin yüzey biçimini saydığı için aynı girdiyle karşılaştırılamaz. Bu öznitelikler **test edilmiyor demek değildir** — formül ve sınır durumları kendi test dosyalarında sınanıyor; burada takip edilen yalnız *kaynağın sayısıyla* karşılaştırma.
 
 | Anahtar | Kaynak | Durum |
 |---|---|---|
 | `word_count` | de Vel (2000) Table 2, attribute 1 "Total number of words"; Zheng et al. (2006) Table 3, p.385, no. 54 "Total number of words (M)" | 🔍 |
 | `word_len_mean` | Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241 | 🔍 |
-| `yule_k` | Yule (1944) p.53, eq. (3.22) | 🔍 |
+| `yule_k` | Yule (1944) p.53, eq. (3.22); Yule counts one word class, mostly nouns (p.3), with the inflected forms of a word as one entry (p.33), this library counts surface forms of all words | 🔍 |
 | `simpson_d` | Simpson (1949), as cited in Bestgen (2023) p.4 (preprint) | 🔍 |
 | `type_count` | Tweedie & Baayen (1998) p.325, the vocabulary size V(N); Zheng et al. (2006) Table 3, p.385, no. 60 "Total different words/M", here not divided by M | 🔍 |
 | `hapax_count` | Tweedie & Baayen (1998) p.325, V(1, N) "the number of hapax legomena"; Zheng et al. (2006) Table 3, p.385, no. 61 "Hapax legomena" ("Frequency of once-occurring words") | 🔍 |
 | `dislegomena_count` | Tweedie & Baayen (1998) p.329, V(2, N) "dis legomena"; Zheng et al. (2006) Table 3, p.385, no. 62 "Hapax dislegomena" ("Frequency of twice-occurring words") | 🔍 |
-| `brunet_w` | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) | 🔍 |
 | `hapax_ratio` | de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of vocabulary words" | 🔍 |
 | `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500 (p.97); 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
-| `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) | 🔍 |
+| `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5); Herdan (1964) pp.73–74 counts the inflected forms of a word as one word, this library counts surface forms | 🔍 |
 | `dugast_u` | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 | 🔍 |
 | `guiraud_r` | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only | 🔍 |
 | `cttr` | Carroll (1964), as cited in Torruella & Capsada (2013) p.448 | 🔍 |
@@ -440,7 +458,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `herdan_vm` | Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18) | 🔍 |
 | `honore_r` | Honoré (1979), as cited in Tweedie & Baayen (1998) p.329, eq. (11) | 🔍 |
 | `heaps_beta` | Heaps (1978), as cited in Manning et al. (2008) §5.1.1; the law fits large collections well (p.81, print edition), not short texts; measured at 20 equally spaced points through the text as in Tweedie & Baayen (1998) p.333 | 🔍 |
-| `sichel_s` | Sichel (1975); formula from Malvern et al. (2004) eq. 3.10 | 🔍 |
+| `sichel_s` | Tweedie & Baayen (1998) p.329, eq. (12); they cite Sichel (1975), but the ratio does not appear in that article | 🔍 |
 | `noun_variation` | Lu (2012) Table 2 | 🔍 |
 | `verb_variation` | Lu (2012) Table 2 | 🔍 |
 | `adj_variation` | Lu (2012) Table 2 | 🔍 |

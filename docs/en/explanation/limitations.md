@@ -22,16 +22,16 @@ A column is a **single genre**. There is **no guarantee** the thresholds suit
 novels, technical writing, transcripts, poetry or children's books. Method:
 [Threshold calibration](../../threshold-calibration.md).
 
-### 2. Fifteen citations are secondary
+### 2. Fourteen citations are secondary
 
-**15** citations carry `as cited in` — the primary source could not
+**14** citations carry `as cited in` — the primary source could not
 be obtained and the formula was taken from the citing work. For example:
 
 ```text
 Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)
 ```
 
-Affected measures include `herdan_c`, `herdan_vm`, `honore_r`, `maas_a2`, `brunet_w`,
+Affected measures include `herdan_c`, `herdan_vm`, `honore_r`, `maas_a2`,
 `dugast_u`, `simpson_d`, `heaps_beta`, `lix`, `cttr` and `summer_s`. The formulas were verified, but not
 against the **primary source's own wording**.
 
@@ -58,7 +58,7 @@ each time Python runs; for reproducible numbers, start Python with
 
 ### 5. Two thirds of the candidates are still unverified
 
-Of the **163 verification candidates, 51 are done** (51 ✅) and **112 are 🔍
+Of the **172 verification candidates, 61 are done** (61 ✅) and **111 are 🔍
 open**: most sources publish a formula but never a worked numerical example.
 Details: [The verification system](verification.md).
 

@@ -116,6 +116,25 @@ def test_taban_anahtar_sayisi_en():
     assert len(_extract_features(**{**ORNEK_GIRDI, "lang": "en"})) == EN_DEP_SIZ
 
 
+def test_brunet_v_yuzey_bicim():
+    """30 lemma, 60 yüzey biçim, 60 sözcük: V 60, N 60 (2026-11-04, Efe)."""
+    from turkish_linguistic_features.features.lexical import brunet_w
+
+    kokler = [f"k{'a' * i}" for i in range(1, 31)]
+    sozcukler = [s for k in kokler for s in (k, k + "lar")]
+    girdi = dict(
+        raw_text=" ".join(sozcukler),
+        surface_tokens=sozcukler,
+        lemma_tokens=[k for k in kokler for _ in range(2)],
+        pos_data=[(s, "NOUN") for s in sozcukler],
+    )
+    feats = _extract_features(**girdi, groups=["lexical"])
+    assert feats["type_count"] == 60
+    assert feats["lemma_count"] == 30
+    assert feats["brunet_w"] == brunet_w(60, 60)["brunet_w"]
+    assert feats["brunet_w"] != brunet_w(60, 30)["brunet_w"]
+
+
 # ── dil ve grup davranışı ─────────────────────────────────────────────
 
 

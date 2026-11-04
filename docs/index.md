@@ -64,8 +64,8 @@ oz["atesman"]         # 89.355  (Ateşman 1997 okunabilirlik)
 | Öznitelik | 214 | 181 |
 | Künyesi olan öznitelik | 203 | 170 |
 | Künyesi olmayan, yalın tanım | 11 | 11 |
-| Doğrulama adayı rapor satırı | 163 | 137 |
-| — örtüşen (✅) | 51 | 36 |
+| Doğrulama adayı rapor satırı | 172 | 146 |
+| — örtüşen (✅) | 61 | 46 |
 | — tolerans dışında, nedeni açıklanmış (🟡) | 0 | 2 |
 
 Kaynakçada 58 eser var (iki dil için tek kaynakça).

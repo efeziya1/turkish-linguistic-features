@@ -21,10 +21,10 @@ Bu modül 36 öznitelik anahtarı üretir (`lexical` grubunun 35'inden 32'si ve
 Bütün fonksiyonlar saftır: girdi token listesi, çıktı sayı. NLP modeli
 gerekmez — tokenizasyonu çağıran taraf yapmıştır.
 
-**Kelime birimi (2026-09-15, Efe):** çeşitlilik ölçüleri küçük harfli,
-noktalamasız **yüzey biçimleri** sayar — klasik literatürün (McCarthy &
-Jarvis 2010, Covington & McFall 2010, Tweedie & Baayen 1998) birimi.
-Listeyi T20 hazırlar. İstisnalar: ``*_variation`` lemma sayar (Lu 2012),
+**Kelime birimi (2026-11-04, Efe):** çeşitlilik ölçülerinde tek sayım kuralı
+var: küçük harfli, noktalamasız **yüzey biçimler** sayılır; bu aracın tasarım
+kararıdır. Kaynağı başka birim kullanan ölçülerde fark künyede yazılır. Listeyi
+T20 hazırlar. İstisnalar: ``*_variation`` lemma sayar (Lu 2012),
 ``lemma_count`` adı gereği lemma.
 
 **K4 (2026-09-16, Efe):** ``0.0`` yalnız "ölçüldü ve sıfır çıktı" demektir.
@@ -45,20 +45,18 @@ import numpy as np
 from ..alfabe import _kucuk_harf
 from ..vocab import LEXICAL_POS, NON_WORD_POS, NOUN_POS
 
-# Brunet's W üs sabiti — Kademe C.
+# Brunet's W sabitleri — Kademe A, birincil kaynak okundu (2026-11-04, Efe):
+#   Brunet, E. (1978). Le vocabulaire de Jean Giraudoux: Structure et évolution.
+#   Genève: Slatkine.
 #
-# Kaynak OKUNDU: Tweedie, F. J. & Baayen, R. H. (1998), "How Variable May
-# a Constant be? Measures of Lexical Richness in Perspective", Computers
-# and the Humanities 32(5): 323-352, denklem (10), s. 328. Bağımsız ikinci
-# kaynak: zipfR (CRAN, Evert & Baroni) aynı değeri kullanıyor.
+# a = 0,172: s. 49. b = 20: s. 65; Brunet b'li biçimi "daha doğru" sayar ve
+# uygulamaların çoğunda onu kullanır. s. 49'un sayıları b'sizdir. Brunet V'yi
+# lemma olarak sayar (s. 53); araç yüzey biçim sayar (2026-11-04, Efe).
 #
-# Birincil kaynak (Kademe A) çevrimiçi yok ve okunmadı:
-#   Brunet, E. Vocabulaire de Jean Giraudoux: Structure et Évolution.
-#   Genève: Slatkine, 1978.
-#
-# Bazı ikincil kaynaklar 0.165 veriyor. Tartışmalı olduğu için sabit
-# gizlenmiyor: `FeatureParams.brunet_w_a` ile değiştirilebilir.
+# Bazı ikincil kaynaklar a için 0.165 veriyor; aslı 0,172 der. İki sabit de
+# `FeatureParams.brunet_w_a` ve `brunet_w_b` ile değiştirilebilir.
 _BRUNET_A = 0.172
+_BRUNET_B = 20
 
 
 def rank_word_freq_table(tokens: list[str],
@@ -133,8 +131,8 @@ def simpsons_d(freqs: np.ndarray) -> float:
     return round(float(np.sum(f * (f - 1)) / (N * (N - 1))), 6)
 
 
-def brunet_w(N: int, V: int, a: float = _BRUNET_A) -> dict[str, float]:
-    """Brunet's W = ``N^(V^−a)``; ``N`` toplam token, ``V`` tekil tip.
+def brunet_w(N: int, V: int, a: float = _BRUNET_A, b: int = _BRUNET_B) -> dict[str, float]:
+    """Brunet's W = ``N^((V−b)^−a)``; ``N`` toplam token, ``V`` tekil tip (Brunet 1978 s. 65).
 
     Parameters
     ----------
@@ -143,18 +141,20 @@ def brunet_w(N: int, V: int, a: float = _BRUNET_A) -> dict[str, float]:
     V : int
         Tekil tip sayısı.
     a : float
-        Üs sabiti; varsayılan 0.172 (``FeatureParams.brunet_w_a``).
-        Bazı ikincil kaynaklar 0.165 veriyor — fark çıktıda %8–16.
-        Kademe C, gerekçe ``_BRUNET_A`` yorumunda.
+        Üs sabiti; varsayılan 0.172 (``FeatureParams.brunet_w_a``). Bazı ikincil
+        kaynaklar 0.165 veriyor; aslı 0,172 der (s. 49).
+    b : int
+        Düzeltme; varsayılan 20 (``FeatureParams.brunet_w_b``, s. 65). ``b = 0``
+        b'siz biçimdir, ``N^(V^−a)`` (s. 49).
 
     Notes
     -----
-    Sabitten bağımsız olarak formülün şekli şunu garanti eder: V arttıkça
-    üs küçülür ve W küçülür; V = 1 iken üs 1 olur ve W = N çıkar.
+    ``V ≤ b`` iken taban pozitif olmaz → NaN; ``N = 0`` da NaN. V arttıkça üs
+    küçülür ve W küçülür; ``V − b = 1`` iken üs 1 olur ve W = N çıkar.
     """
-    if N == 0 or V == 0:
+    if N == 0 or V <= b:
         return {"brunet_w": math.nan}
-    return {"brunet_w": round(float(N ** (V ** -a)), 4)}
+    return {"brunet_w": round(float(N ** ((V - b) ** -a)), 4)}
 
 
 def _sikliktaki_tip(items: list, f: int) -> int:

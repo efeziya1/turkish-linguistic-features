@@ -321,7 +321,7 @@ FEATURE_PARAMS: dict[str, tuple[str, ...]] = {
     "msttr": ("msttr_segment_size",),
     "vocd_d": ("vocd_sample_min", "vocd_sample_max", "vocd_num_samples",
                "vocd_num_runs", "vocd_min_tokens", "vocd_random_seed"),
-    "brunet_w": ("brunet_w_a",),
+    "brunet_w": ("brunet_w_a", "brunet_w_b"),
     "heaps_beta": ("heaps_points",),
     "zeyrek_verb_suffix_diversity": ("verb_suffix_window", "verb_suffix_num_samples",
                                      "verb_suffix_random_seed"),
@@ -339,8 +339,8 @@ UNVERIFIED_CONSTANTS: frozenset[str] = frozenset({
     # K12 Kademe D — sabiti birincil kaynağa karşı doğrulanmamış anahtarlar.
     # Bir sabit doğrulandığında buradan SİLİNİR; listeye eklemek serbest,
     # silmek için birincil kaynak ya da çapraz uygulama testi şart.
-    # 2026-09-12: `brunet_w` buradan SİLİNDİ — Kademe C'ye yükseldi
-    # (Tweedie & Baayen 1998 denk. 10 okundu + zipfR çapraz kontrolü).
+    # 2026-09-12: `brunet_w` buradan SİLİNDİ; 2026-11-04'te birincil kaynak
+    # okundu (Brunet 1978), Kademe A.
     # Liste şu an boş; yeni Kademe D sabiti çıkarsa buraya yazılır.
 })
 
@@ -365,7 +365,7 @@ def _references(kunye: str | None) -> tuple[str, ...]:
 def _citation(key: str) -> str | None:
     """Künye — sabiti doğrulanmamışsa bunu açıkça söyler.
 
-    K10'un uzantısı: neyi bilmediğimizi de söyleriz. Kullanıcı ``brunet_w``'yi
+    K10'un uzantısı: neyi bilmediğimizi de söyleriz. Kullanıcı böyle bir anahtarı
     çalışmasında kullanacaksa, sabitinin doğrulanmadığını **bilerek** kullansın.
     Uyarı ayrı bir alana değil künyenin sonuna yazılıyor, çünkü zarar
     alıntılama anında oluşuyor: ek, yöntem bölümüne kopyalanacak dizenin

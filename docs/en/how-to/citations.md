@@ -67,7 +67,7 @@ Other forms of the same pattern:
 
 - `"Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)"`
   — **the primary source could not be obtained**; the formula was taken
-  from the citing work. **15** citations are like this, and all of them
+  from the citing work. **14** citations are like this, and all of them
   carry `as cited in`.
 - `"McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form
   of SMOG's input, not the source's own measure"` — derived from the

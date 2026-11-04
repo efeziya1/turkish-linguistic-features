@@ -143,6 +143,12 @@ türceden gelir. Çift tırnak (`"` `“` `”` `«` `»`) modelin verdiği etik
 burada hep noktalama sayılır.
 Türkçe sözlükbirim Zeyrek'in sözlük maddesidir, İngilizce sözlükbirim spaCy'nin.
 
+### Çeşitlilik ölçülerinin sayım birimi
+
+Çeşitlilik ölçüleri yüzey biçim sayar: `kitap` ile `kitaplar` iki ayrı tiptir. Bu, aracın
+tasarım kararıdır. İstisnalar `*_variation` ve `lemma_count`. Kaynağı başka birim kullanan
+ölçülerde (`brunet_w`, `herdan_c`, `yule_k`) fark künyede yazılıdır.
+
 ### İçeriksel sözcük
 
 İçeriksel sözcük POS etiketi `NOUN`, `PROPN`, `VERB`, `ADJ` ya da `ADV` olan sözcüktür

@@ -126,10 +126,10 @@ print(len(kisa), len(nan_olan))
 ```
 
 ```text
-214 36
+214 37
 ```
 
-Üç sözcüklük bir metinde 214 öznitelikten **36'sı** `nan` döner. Bu bir hata
+Üç sözcüklük bir metinde 214 öznitelikten **37'si** `nan` döner. Bu bir hata
 değildir. Ayrıntı: **[NaN ne demek](aciklama/nan.md)**.
 
 ## 6. Bir özniteliğin kaynağını görün

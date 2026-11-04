@@ -71,14 +71,15 @@ def test_kalibre_esikler_tek_kaynaktan():
 
 
 def test_brunet_sabiti_parametre_olarak_gorunur():
-    """Tartışmalı sabitler gizlenmez, `FeatureParams`'ta görünür.
+    """Sabitler gizlenmez, `FeatureParams`'ta görünür.
 
-    0.172 = Tweedie & Baayen (1998), Computers and the Humanities
-    32(5):323-352, denklem (10). Bazı ikincil kaynaklar 0.165 veriyor;
-    kullanıcı istediğine geçebilsin diye ayarlanabilir (K10).
+    Brunet (1978): a = 0,172 (s. 49), b = 20 (s. 65). Bazı ikincil kaynaklar
+    a için 0.165 veriyor; kullanıcı istediğine geçebilsin diye ayarlanabilir (K10).
     """
     assert DEFAULT_PARAMS.brunet_w_a == 0.172
     assert FeatureParams(brunet_w_a=0.165).brunet_w_a == 0.165
+    assert DEFAULT_PARAMS.brunet_w_b == 20
+    assert FeatureParams(brunet_w_b=0).brunet_w_b == 0
 
 
 def test_bilinmeyen_dil_notr_yedege_duser():

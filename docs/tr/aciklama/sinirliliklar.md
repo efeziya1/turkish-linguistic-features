@@ -21,15 +21,15 @@ Köşe yazısı **tek bir tür**. Roman, teknik metin, transkript, şiir ya da
 çocuk kitabı için genelleneceği **garanti değil.** Yöntem:
 [Eşik kalibrasyonu](../../esik-kalibrasyonu.md).
 
-### 2. On beş künye ikincil kaynaktan
+### 2. On dört künye ikincil kaynaktan
 
-**15** künye `as cited in` ile işaretlidir — birincil kaynağa ulaşılamadı, formül aktaran kaynaktan alındı. Örnek:
+**14** künye `as cited in` ile işaretlidir — birincil kaynağa ulaşılamadı, formül aktaran kaynaktan alındı. Örnek:
 
 ```text
 Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)
 ```
 
-Etkilenen ölçüler arasında `herdan_c`, `herdan_vm`, `honore_r`, `maas_a2`, `brunet_w`,
+Etkilenen ölçüler arasında `herdan_c`, `herdan_vm`, `honore_r`, `maas_a2`,
 `dugast_u`, `simpson_d`, `heaps_beta`, `lix`, `cttr`, `summer_s` var. Formüller doğrulandı ama **birincil
 kaynağın kendi ifadesiyle** karşılaştırılmadı.
 
@@ -56,7 +56,7 @@ başlatın.
 
 ### 5. Adayların üçte ikisi hâlâ doğrulanmadı
 
-**163 doğrulama adayının 51'i** doğrulanmış (51 ✅), **112'si 🔍 açık**: kaynakların
+**172 doğrulama adayının 61'i** doğrulanmış (61 ✅), **111'i 🔍 açık**: kaynakların
 çoğu formülü yayımlar, o formülün uygulandığı bir sayısal örnek vermez. Ayrıntı:
 [doğrulama sistemi](dogrulama.md).
 

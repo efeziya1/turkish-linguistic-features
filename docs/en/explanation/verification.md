@@ -18,7 +18,7 @@ The result: [verification report](../../verification-report.md)
 ### 1. Formula equivalence
 
 The formula of every feature with a citation was checked against its
-source; the source is mostly primary, secondary in 15 citations (`as cited in`). Each
+source; the source is mostly primary, secondary in 14 citations (`as cited in`). Each
 citation shows the page and number of the formula in the source (e.g.
 `p.327, eq. (5)`). Tests exercise the formula and its edge cases. The 11 features without a citation are plain definitions; there is no
 source to check them against.
@@ -26,7 +26,7 @@ source to check them against.
 ### 2. Source-number verification
 
 An extra check on top of the first layer: a number the source published is found and
-compared against our output. 51 of the 163 candidates are verified in this layer.
+compared against our output. 61 of the 172 candidates are verified in this layer.
 The rest of this page is about this layer.
 
 The second layer is not a precondition for the first. A feature marked 🔍 open does
@@ -45,7 +45,7 @@ some of the 214 features are **not even candidates** for verification:
 | 📐 **calibrated** | The threshold comes from our own calibration: `long_sent_ratio`. Testing it against our own calibration would be reading our own answer sheet. |
 
 On the Turkish side **81 features** are one of these four. The remaining 133 features
-have **163 verification candidate rows** in the report (a feature can be compared with
+have **172 verification candidate rows** in the report (a feature can be compared with
 more than one example from its source). That is the real denominator.
 
 ## The four statuses a candidate can have
@@ -57,8 +57,8 @@ more than one example from its source). That is the real denominator.
 | 🔍 **open** | The source gives the formula but never applies it to anything. Verifiable, not yet verified. |
 | ❌ **mismatch** | An **unexplained** difference. **Release gate: a single one blocks a release.** |
 
-Where things stand today: **51 of the 163 candidates are done** (51 ✅),
-112 are 🔍 open.
+Where things stand today: **61 of the 172 candidates are done** (61 ✅),
+111 are 🔍 open.
 
 The tolerance is **1% of the published value** (relative). Sources print
 rounded intermediate values, so exact equality is not expected.
@@ -91,12 +91,15 @@ step leading to it is correct.
 and its coefficients, not the pipeline. It is what is available when the
 source published no text.
 
-## Why 112 rows are still 🔍 open
+## Why 111 rows are still 🔍 open
 
 The source published the formula but never applied it to a text and printed
-the result. In quantitative linguistics this is **ordinary**. Yule (1944)
-defines K; he does not print what K comes to for a particular novel. With no
-such number there is nothing to compare against.
+the result. In quantitative linguistics this is **ordinary**. With no such
+number there is nothing to compare against.
+
+`yule_k` is a different case. Yule (1944) prints K values, but computes them on the lemmas of
+a single word class, mostly nouns. The tool counts the surface forms of all words, so the two
+cannot be compared on the same input.
 
 **This does not mean those rows are untested.** Their formulas and edge
 cases are tested in their own test files. The report tracks only the

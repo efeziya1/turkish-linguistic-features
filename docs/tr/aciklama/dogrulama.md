@@ -17,7 +17,7 @@ Sonuç: [doğrulama raporu](../../dogrulama-raporu.md)
 ### 1. Formül eşdeğerliği
 
 Künyesi olan bütün özniteliklerin formülü kaynağıyla karşılaştırılarak kontrol
-edildi; kaynak çoğunlukla birincil, 15 künyede ikincildir (aktaran).
+edildi; kaynak çoğunlukla birincil, 14 künyede ikincildir (aktaran).
 Her künye, formülün kaynakta geçtiği sayfayı ve numarasını gösterir (örneğin
 `p.327, eq. (5)`). Testler formülü ve sınır durumlarını sınar.
 Künyesi olmayan 11 öznitelik yalın tanımdır; karşılaştırılacak bir kaynakları yoktur.
@@ -25,7 +25,7 @@ Künyesi olmayan 11 öznitelik yalın tanımdır; karşılaştırılacak bir kay
 ### 2. Kaynak sayısı doğrulaması
 
 Birinci katmanın üstüne eklenen ek bir kontroldür: kaynağın yayımladığı bir sayı
-bulunur ve bizim çıktımızla karşılaştırılır. 163 adayın 51'i bu katmanda
+bulunur ve bizim çıktımızla karşılaştırılır. 172 adayın 61'i bu katmanda
 doğrulanmıştır. Bu sayfanın geri kalanı bu katmanı anlatır.
 
 İkinci katman birincinin koşulu değildir. 🔍 açık işaretli bir özniteliğin formülü
@@ -44,7 +44,7 @@ Bu ayrım raporun en önemli parçası. 214 özniteliğin bir kısmı, tanımı 
 | 📐 **kalibre edilmiş** | Eşik kendi kalibrasyonumuzdan gelir: `long_sent_ratio`. Kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
 
 Türkçe tarafında **81 öznitelik** bu dördünden biri. Kalan 133 özniteliğin raporda
-**163 doğrulama adayı satırı** var (bir öznitelik birden çok kaynak örneğiyle
+**172 doğrulama adayı satırı** var (bir öznitelik birden çok kaynak örneğiyle
 karşılaştırılabilir). Gerçek payda budur.
 
 ## Adayların dört durumu
@@ -56,7 +56,7 @@ karşılaştırılabilir). Gerçek payda budur.
 | 🔍 **açık** | Kaynak formülü veriyor ama uygulanmış bir örnek vermiyor. Doğrulanabilir, henüz doğrulanmadı. |
 | ❌ **uyuşmazlık** | **Açıklanmamış** fark. **Yayın kapısı: bir tane bile varsa sürüm çıkmaz.** |
 
-Bugünkü durum: **163 adayın 51'i doğrulanmış** (51 ✅), 112'si 🔍 açık.
+Bugünkü durum: **172 adayın 61'i doğrulanmış** (61 ✅), 111'i 🔍 açık.
 
 Tolerans yayımlanan değerin **%1'i** (göreli). Kaynaklar ara değerleri
 yuvarlayarak bastığı için mutlak eşitlik beklenmez.
@@ -85,12 +85,15 @@ sayı tutuyorsa yalnız formül değil, ona giden bütün adımlar doğrudur.
 ve sözcük/tümce 4". Formülü ve katsayıları doğrular, çözümleme hattını
 doğrulamaz. Kaynak bir metin yayımlamamışsa elde olan budur.
 
-## Neden 112 öznitelik hâlâ 🔍 açık
+## Neden 111 satır hâlâ 🔍 açık
 
 Kaynak formülü yayımlamış ama o formülü bir metne uygulayıp sonucu basmamış.
-Bu, nicel dilbilim alanyazınında **olağandır**. Yule (1944) K'yı tanımlar,
-bir romanda K'nın kaç çıktığını basmaz. Böyle bir sayı olmayınca
+Bu, nicel dilbilim alanyazınında **olağandır**. Böyle bir sayı olmayınca
 karşılaştıracak bir şey de olmaz.
+
+`yule_k` başka bir durumdur. Yule (1944) K değerlerini basar, ama bunları tek bir sözcük
+sınıfının, çoğunlukla adların, sözlükbirimleriyle hesaplar. Araç bütün sözcüklerin yüzey
+biçimini saydığı için aynı girdiyle karşılaştırılamaz.
 
 **Bu öznitelikler test edilmiyor demek değildir.** Formül ve sınır durumları
 kendi test dosyalarında sınanır. Rapor yalnız *kaynağın sayısıyla*

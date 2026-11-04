@@ -145,6 +145,12 @@ word that is not punctuation. A double quote (`"` `“` `”` `«` `»`) is alwa
 here, whatever tag the model gave it. Turkish lemmas are Zeyrek's dictionary entry, English
 lemmas spaCy's.
 
+### Counting unit of the diversity measures
+
+Diversity measures count surface forms: `book` and `books` are two types. This is the tool's
+design decision. The exceptions are `*_variation` and `lemma_count`. Where the source counts
+in another unit (`brunet_w`, `herdan_c`, `yule_k`), the citation says so.
+
 ### Content word
 
 A content word is a word tagged `NOUN`, `PROPN`, `VERB`, `ADJ` or `ADV`

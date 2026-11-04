@@ -264,7 +264,7 @@ def _extract_features(
         # V, V1, V2 sayımları: boş metin ölçülemez (K4), `word_count` gibi.
         feats.update({k: (v if raw_text.strip() else math.nan)
                       for k, v in type_counts(items).items()})
-        feats.update(brunet_w(N, V, params.brunet_w_a))
+        feats.update(brunet_w(N, V, params.brunet_w_a, params.brunet_w_b))
         feats.update(hapax_ratio(items))
         feats.update(hapax_token_ratio(items))
         feats.update(advanced_lexical_richness(kucuk_kelimeler, params.mattr_window))

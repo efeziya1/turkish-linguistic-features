@@ -59,16 +59,16 @@ table as `tests/test_kaynak_esligi.py`, so the two cannot drift apart. The
 other known-value tests live in their own files.
 
 
-## Turkish — 214 keys, 244 rows
+## Turkish — 214 keys, 253 rows
 
 A key may have more than one worked example in its source; each one is its own row.
 
-**Verification candidates — 163 rows**
+**Verification candidates — 172 rows**
 
 | Status | Rows |
 |---|---|
-| ✅ match | 51 |
-| 🔍 open — no worked example in source | 112 |
+| ✅ match | 61 |
+| 🔍 open — no worked example in source | 111 |
 
 
 **Not verification candidates — 81 rows.** There is no published number to look for in these.
@@ -88,6 +88,16 @@ A key may have more than one worked example in its source; each one is its own r
 | `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26); source 6.395099 in bits → × ln 2 | formula | 4.433 | 4.433 | +0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formula | 0.665 | 0.665 | -0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; source printed 0.59 (truncated, not rounded) | formula | 0.590 | 0.599 | +0.009 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=30, V=28 | formula | 10.790 | 10.789 | -0.001 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=42, V=35 | formula | 10.440 | 10.443 | +0.003 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=84, V=60 | formula | 10.480 | 10.478 | -0.002 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=132, V=90 | formula | 10.500 | 10.499 | -0.001 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=161, V=108 | formula | 10.510 | 10.512 | +0.002 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | chapitre · N=1096, V=500 | formula | 11.250 | 11.251 | +0.001 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | chapitre · N=2734, V=1000 | formula | 11.250 | 11.250 | -0.000 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | chapitre · N=7564, V=2000 | formula | 11.250 | 11.250 | +0.000 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | texte · N=58325, V=5000 | formula | 12.650 | 12.650 | +0.000 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | corpus · N=311215, V=10000 | formula | 13.400 | 13.400 | +0.000 | ✅ |
 | `hapax_token_ratio` | QUITA §6.1.6 | Text 1 · 98/179 | formula | 0.547 | 0.547 | +0.000 | ✅ |
 | `hapax_token_ratio` | QUITA §6.1.6 | Text 2 · 92/202 | formula | 0.455 | 0.455 | +0.000 | ✅ |
 | `mtld` | McCarthy & Jarvis (2010) p.385 | partial factor · TTR .887 → 40.4% | formula | 0.404 | 0.404 | +0.000 | ✅ |
@@ -144,21 +154,20 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### 🔍 Open — verifiable, not yet verified
 
-112 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
+111 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary. `yule_k` is a different case: Yule (1944) prints K values, but computes them on the lemmas of a single word class, mostly nouns. The tool counts the surface forms of all words, so the two cannot be compared on the same input. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
 
 | Key | Source | Status |
 |---|---|---|
 | `word_count` | de Vel (2000) Table 2, attribute 1 "Total number of words"; Zheng et al. (2006) Table 3, p.385, no. 54 "Total number of words (M)" | 🔍 |
 | `word_len_mean` | Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241 | 🔍 |
-| `yule_k` | Yule (1944) p.53, eq. (3.22) | 🔍 |
+| `yule_k` | Yule (1944) p.53, eq. (3.22); Yule counts one word class, mostly nouns (p.3), with the inflected forms of a word as one entry (p.33), this library counts surface forms of all words | 🔍 |
 | `simpson_d` | Simpson (1949), as cited in Bestgen (2023) p.4 (preprint) | 🔍 |
 | `type_count` | Tweedie & Baayen (1998) p.325, the vocabulary size V(N); Zheng et al. (2006) Table 3, p.385, no. 60 "Total different words/M", here not divided by M | 🔍 |
 | `hapax_count` | Tweedie & Baayen (1998) p.325, V(1, N) "the number of hapax legomena"; Zheng et al. (2006) Table 3, p.385, no. 61 "Hapax legomena" ("Frequency of once-occurring words") | 🔍 |
 | `dislegomena_count` | Tweedie & Baayen (1998) p.329, V(2, N) "dis legomena"; Zheng et al. (2006) Table 3, p.385, no. 62 "Hapax dislegomena" ("Frequency of twice-occurring words") | 🔍 |
-| `brunet_w` | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) | 🔍 |
 | `hapax_ratio` | de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of vocabulary words" | 🔍 |
 | `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500 (p.97); 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
-| `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) | 🔍 |
+| `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5); Herdan (1964) pp.73–74 counts the inflected forms of a word as one word, this library counts surface forms | 🔍 |
 | `dugast_u` | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 | 🔍 |
 | `guiraud_r` | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only | 🔍 |
 | `cttr` | Carroll (1964), as cited in Torruella & Capsada (2013) p.448 | 🔍 |
@@ -167,7 +176,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `herdan_vm` | Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18) | 🔍 |
 | `honore_r` | Honoré (1979), as cited in Tweedie & Baayen (1998) p.329, eq. (11) | 🔍 |
 | `heaps_beta` | Heaps (1978), as cited in Manning et al. (2008) §5.1.1; the law fits large collections well (p.81, print edition), not short texts; measured at 20 equally spaced points through the text as in Tweedie & Baayen (1998) p.333 | 🔍 |
-| `sichel_s` | Sichel (1975); formula from Malvern et al. (2004) eq. 3.10 | 🔍 |
+| `sichel_s` | Tweedie & Baayen (1998) p.329, eq. (12); they cite Sichel (1975), but the ratio does not appear in that article | 🔍 |
 | `noun_variation` | Lu (2012) Table 2 | 🔍 |
 | `verb_variation` | Lu (2012) Table 2 | 🔍 |
 | `adj_variation` | Lu (2012) Table 2 | 🔍 |
@@ -349,17 +358,17 @@ A key may have more than one worked example in its source; each one is its own r
 | `uppercase_ratio` | — | ⚪ |
 | `all_caps_word_ratio` | — | ⚪ |
 
-## English — 181 keys, 198 rows
+## English — 181 keys, 207 rows
 
 A key may have more than one worked example in its source; each one is its own row.
 
-**Verification candidates — 137 rows**
+**Verification candidates — 146 rows**
 
 | Status | Rows |
 |---|---|
-| ✅ match | 36 |
+| ✅ match | 46 |
 | 🟡 documented deviation | 2 |
-| 🔍 open — no worked example in source | 99 |
+| 🔍 open — no worked example in source | 98 |
 
 
 **Not verification candidates — 61 rows.** There is no published number to look for in these.
@@ -379,6 +388,16 @@ A key may have more than one worked example in its source; each one is its own r
 | `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26); source 6.395099 in bits → × ln 2 | formula | 4.433 | 4.433 | +0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formula | 0.665 | 0.665 | -0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; source printed 0.59 (truncated, not rounded) | formula | 0.590 | 0.599 | +0.009 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=30, V=28 | formula | 10.790 | 10.789 | -0.001 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=42, V=35 | formula | 10.440 | 10.443 | +0.003 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=84, V=60 | formula | 10.480 | 10.478 | -0.002 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=132, V=90 | formula | 10.500 | 10.499 | -0.001 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=161, V=108 | formula | 10.510 | 10.512 | +0.002 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | chapitre · N=1096, V=500 | formula | 11.250 | 11.251 | +0.001 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | chapitre · N=2734, V=1000 | formula | 11.250 | 11.250 | -0.000 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | chapitre · N=7564, V=2000 | formula | 11.250 | 11.250 | +0.000 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | texte · N=58325, V=5000 | formula | 12.650 | 12.650 | +0.000 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | corpus · N=311215, V=10000 | formula | 13.400 | 13.400 | +0.000 | ✅ |
 | `hapax_token_ratio` | QUITA §6.1.6 | Text 1 · 98/179 | formula | 0.547 | 0.547 | +0.000 | ✅ |
 | `hapax_token_ratio` | QUITA §6.1.6 | Text 2 · 92/202 | formula | 0.455 | 0.455 | +0.000 | ✅ |
 | `mtld` | McCarthy & Jarvis (2010) p.385 | partial factor · TTR .887 → 40.4% | formula | 0.404 | 0.404 | +0.000 | ✅ |
@@ -422,21 +441,20 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### 🔍 Open — verifiable, not yet verified
 
-99 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
+98 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary. `yule_k` is a different case: Yule (1944) prints K values, but computes them on the lemmas of a single word class, mostly nouns. The tool counts the surface forms of all words, so the two cannot be compared on the same input. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
 
 | Key | Source | Status |
 |---|---|---|
 | `word_count` | de Vel (2000) Table 2, attribute 1 "Total number of words"; Zheng et al. (2006) Table 3, p.385, no. 54 "Total number of words (M)" | 🔍 |
 | `word_len_mean` | Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241 | 🔍 |
-| `yule_k` | Yule (1944) p.53, eq. (3.22) | 🔍 |
+| `yule_k` | Yule (1944) p.53, eq. (3.22); Yule counts one word class, mostly nouns (p.3), with the inflected forms of a word as one entry (p.33), this library counts surface forms of all words | 🔍 |
 | `simpson_d` | Simpson (1949), as cited in Bestgen (2023) p.4 (preprint) | 🔍 |
 | `type_count` | Tweedie & Baayen (1998) p.325, the vocabulary size V(N); Zheng et al. (2006) Table 3, p.385, no. 60 "Total different words/M", here not divided by M | 🔍 |
 | `hapax_count` | Tweedie & Baayen (1998) p.325, V(1, N) "the number of hapax legomena"; Zheng et al. (2006) Table 3, p.385, no. 61 "Hapax legomena" ("Frequency of once-occurring words") | 🔍 |
 | `dislegomena_count` | Tweedie & Baayen (1998) p.329, V(2, N) "dis legomena"; Zheng et al. (2006) Table 3, p.385, no. 62 "Hapax dislegomena" ("Frequency of twice-occurring words") | 🔍 |
-| `brunet_w` | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) | 🔍 |
 | `hapax_ratio` | de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of vocabulary words" | 🔍 |
 | `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500 (p.97); 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
-| `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) | 🔍 |
+| `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5); Herdan (1964) pp.73–74 counts the inflected forms of a word as one word, this library counts surface forms | 🔍 |
 | `dugast_u` | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 | 🔍 |
 | `guiraud_r` | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only | 🔍 |
 | `cttr` | Carroll (1964), as cited in Torruella & Capsada (2013) p.448 | 🔍 |
@@ -445,7 +463,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `herdan_vm` | Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18) | 🔍 |
 | `honore_r` | Honoré (1979), as cited in Tweedie & Baayen (1998) p.329, eq. (11) | 🔍 |
 | `heaps_beta` | Heaps (1978), as cited in Manning et al. (2008) §5.1.1; the law fits large collections well (p.81, print edition), not short texts; measured at 20 equally spaced points through the text as in Tweedie & Baayen (1998) p.333 | 🔍 |
-| `sichel_s` | Sichel (1975); formula from Malvern et al. (2004) eq. 3.10 | 🔍 |
+| `sichel_s` | Tweedie & Baayen (1998) p.329, eq. (12); they cite Sichel (1975), but the ratio does not appear in that article | 🔍 |
 | `noun_variation` | Lu (2012) Table 2 | 🔍 |
 | `verb_variation` | Lu (2012) Table 2 | 🔍 |
 | `adj_variation` | Lu (2012) Table 2 | 🔍 |

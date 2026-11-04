@@ -43,6 +43,7 @@ sentences is over 12 words; none is over 17.
 | `vocd_random_seed` | 42 | `vocd_d` |
 | `heaps_points` | 20 | `heaps_beta` |
 | `brunet_w_a` | 0.172 | `brunet_w` |
+| `brunet_w_b` | 20 | `brunet_w` |
 | `verb_suffix_window` | 10 | `zeyrek_verb_suffix_diversity` |
 | `verb_suffix_num_samples` | 100 | `zeyrek_verb_suffix_diversity` |
 | `verb_suffix_random_seed` | 42 | `zeyrek_verb_suffix_diversity` |

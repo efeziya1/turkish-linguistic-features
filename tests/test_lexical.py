@@ -99,50 +99,54 @@ def test_simpson_d_elle_hesap():
 
 
 def test_brunet_w_sekli():
-    """🔴 Bu test formülün ŞEKLİNİ donduruyor, SABİTİNİ değil.
+    """🔴 Bu test formülün ŞEKLİNİ donduruyor; sabitlerden bağımsız iki özellik:
 
-    Sabit **Kademe D** (birincil kaynağa karşı doğrulanmamış).
-    Bu yüzden sabitten bağımsız, formülün cebirinden çıkan iki özellik
-    ölçülüyor:
-      1. W = N^(V^−a)  →  V arttıkça üs küçülür  →  W küçülür
-      2. V = 1 iken üs = 1  →  W = N   (a'dan bağımsız, her a için doğru)
+      1. W = N^((V−b)^−a)  →  V arttıkça üs küçülür  →  W küçülür
+      2. V − b = 1 iken üs = 1  →  W = N   (her a ve b için doğru)
     """
     assert brunet_w(1000, 100)["brunet_w"] > brunet_w(1000, 200)["brunet_w"]
-    assert abs(brunet_w(1000, 1)["brunet_w"] - 1000) < 1e-6
+    assert abs(brunet_w(1000, 21)["brunet_w"] - 1000) < 1e-6
+    assert abs(brunet_w(1000, 1, b=0)["brunet_w"] - 1000) < 1e-6
 
 
-def test_brunet_w_varsayilan_sabit_tweedie_baayen():
-    """Kademe C: sabit 0.172. Kaynak OKUNDU, plandan alınmadı.
-
-    Tweedie, F. J. & Baayen, R. H. (1998), "How Variable May a Constant be?
-    Measures of Lexical Richness in Perspective", *Computers and the
-    Humanities* 32(5): 323-352, **denklem (10)**, s. 328:
-
-        "Finally, in 1978, Brunet introduced a parametric expression
-         W = N^(V(N)^-a), where a is usually set to -0.172"
-
-    Makaledeki eksi işareti notasyon kayması: `a = -0.172` ile `V^-a`
-    birleşince W ≈ 2.6e8 çıkıyor. Etkin üs `V^(-0.172)` okuması
-    literatürün bildirdiği 10 ≤ W ≤ 20 aralığını veriyor; `zipfR` (CRAN)
-    de böyle uyguluyor. İkinci bağımsız kaynak olduğu için Kademe C.
-
-    Birincil kaynak (Kademe A) hâlâ okunmadı ve çevrimiçi yok:
-    Brunet, E. *Vocabulaire de Jean Giraudoux: Structure et Évolution.*
-    Genève: Slatkine, 1978.
-    """
+def test_brunet_w_varsayilan_sabitler():
+    """Kademe A, Brunet (1978): a = 0,172 (s. 49), b = 20 (s. 65)."""
     assert DEFAULT_PARAMS.brunet_w_a == 0.172
-    assert brunet_w(1000, 400)["brunet_w"] == 11.7612
+    assert DEFAULT_PARAMS.brunet_w_b == 20
+    assert brunet_w(1000, 400)["brunet_w"] == round(1000 ** (380 ** -0.172), 4)
+
+
+def test_brunet_w_b_sifirda_bsiz_bicim():
+    assert brunet_w(1000, 400, b=0)["brunet_w"] == 11.7612
+
+
+@pytest.mark.parametrize(("N", "V", "kaynak"), [
+    (49697, 5820, 11.41),    # Bella
+    (28497, 2967, 13.37),    # Electre
+])
+def test_brunet_w_s49_ornekleri(N, V, kaynak):
+    """Brunet (1978) s. 49'un iki işlenmiş örneği ``b = 0`` ile."""
+    assert brunet_w(N, V, b=0)["brunet_w"] == pytest.approx(kaynak, abs=0.005)
+
+
+def test_brunet_w_v_b_den_buyuk_olmali():
+    """``V ≤ b`` → NaN: taban pozitif değil; s. 65 tablosunda da "sans objet"."""
+    assert _nan(brunet_w(20, 20)["brunet_w"])
+    assert _nan(brunet_w(5, 5)["brunet_w"])
+    assert _nan(brunet_w(100, 3, b=5)["brunet_w"])
+    assert not _nan(brunet_w(100, 21)["brunet_w"])
+    assert not _nan(brunet_w(100, 6, b=5)["brunet_w"])
 
 
 def test_brunet_w_sabiti_ayarlanabilir():
-    """Sabit tartışmalı olduğu için `FeatureParams`'ta görünür ve değiştirilebilir.
+    """Sabit `FeatureParams`'ta görünür ve değiştirilebilir.
 
     Bazı ikincil kaynaklar 0.165 veriyor (ör. metricgate.com — kaynakça
-    bölümü yok). Kullanıcı o değere geçebilsin diye parametre; kütüphane
-    ölçer, kullanıcı adına karar vermez (K10).
+    bölümü yok); aslı 0,172 der. Kullanıcı o değere geçebilsin diye parametre;
+    kütüphane ölçer, kullanıcı adına karar vermez (K10).
     """
-    varsayilan = brunet_w(1000, 400)["brunet_w"]
-    eski_deger = brunet_w(1000, 400, a=0.165)["brunet_w"]
+    varsayilan = brunet_w(1000, 400, b=0)["brunet_w"]
+    eski_deger = brunet_w(1000, 400, a=0.165, b=0)["brunet_w"]
     assert eski_deger == 13.0708
     assert eski_deger > varsayilan            # 0.165 sistematik olarak yüksek
     assert abs(eski_deger - varsayilan) / varsayilan > 0.10   # fark %10'un üstünde
@@ -304,7 +308,8 @@ def test_tek_elemanli_girdiler_cokmez():
     assert shannon_entropy(freqs) == 0.0
     assert yules_k(freqs) == 0.0          # N = 1: 10000·(1 − 1)/1 = 0, tanımlı
     assert _nan(simpsons_d(freqs))        # N(N−1) = 0 → tanımsız
-    assert brunet_w(1, 1)["brunet_w"] == 1.0
+    assert _nan(brunet_w(1, 1)["brunet_w"])   # V ≤ b
+    assert brunet_w(1, 1, b=0)["brunet_w"] == 1.0
     assert hapax_ratio(items)["hapax_ratio"] == 1.0
     assert hapax_token_ratio(items)["hapax_token_ratio"] == 1.0
     assert type_counts(items)["hapax_count"] == 1.0
