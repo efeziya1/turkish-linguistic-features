@@ -10,12 +10,8 @@ authors:
   - given-names: "Efe Ziya"
     family-names: "Okul"
 version: "0.3.0"
-date-released: 2026-10-27
+date-released: 2026-11-06
 doi: 10.5281/zenodo.23009540
-identifiers:
-  - type: doi
-    value: 10.5281/zenodo.23347459
-    description: "Version 0.2.0"
 license: MIT
 repository-code: "https://github.com/efeziya1/turkish-linguistic-features"
 keywords:

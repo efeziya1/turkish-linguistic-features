@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.3.0] - 2026-10-27
+## [0.3.0] - 2026-11-06
 
 This release renames and regroups feature groups, removes three Turkish keys and adds
 Kalyoncu's (2025) four readability formulas; code that selects groups by name or expects
