@@ -87,8 +87,8 @@ def analyze(text: str, lang: str = "tr", model: str | None = None,
     params
         Metrik sabitleri. ``None`` ise ``DEFAULT_PARAMS``.
     custom_ngrams
-        Kendi sözcük ya da etiket öbekleriniz → ``ngram_{...}_count`` sütunları. Taban şemayı
-        **genişletir**; taban bir tavan değildir.
+        Kendi sözcük, lemma (``EV``) ya da etiket öbekleriniz → ``ngram_{...}_count``
+        sütunları. Taban şemayı **genişletir**; taban bir tavan değildir.
     show_progress
         Uzun metin parçalanırken ilerleme yazdırılsın mı. Varsayılan
         ``False`` — kütüphane kendiliğinden ekrana yazmaz.
@@ -135,8 +135,9 @@ def ngram_matches(text: str, phrase: list[str], lang: str = "tr",
 
     Eşleştirme ``analyze(..., custom_ngrams=[phrase])`` ile aynıdır: sözcükler küçük harfe
     indirilir, BÜYÜK harfle yazılmış bir UD etiketi (``NOUN``, ``VERB`` …) o etiketi taşıyan
-    herhangi bir sözcükle eşleşir ve eşleşme tümce sınırını aşmaz. Değerlerin toplamı o
-    öbeğin ``ngram_{...}_count`` değeridir.
+    herhangi bir sözcükle, tamamı BÜYÜK harfle yazılmış öteki bir öge (``EV``) lemması ``ev``
+    olan herhangi bir sözcükle (``eve``, ``evdeki``) eşleşir ve eşleşme tümce sınırını aşmaz.
+    Değerlerin toplamı o öbeğin ``ngram_{...}_count`` değeridir.
 
     Returns
     -------
@@ -153,6 +154,8 @@ def ngram_matches(text: str, phrase: list[str], lang: str = "tr",
     --------
     >>> ngram_matches("Eski ev yıkıldı. Büyük bahçe kaldı.", ["ADJ", "NOUN"])  # doctest: +SKIP
     {'eski ev': 1, 'büyük bahçe': 1}
+    >>> ngram_matches("Eve gittim. Evden çıktık.", ["EV", "VERB"])  # doctest: +SKIP
+    {'eve gittim': 1, 'evden çıktık': 1}
     """
     from .features.syntactic import word_ngram_matches
 

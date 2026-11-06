@@ -8,6 +8,7 @@ import pytest
 from turkish_linguistic_features.features.kalyoncu import (
     KALYONCU_KEYS,
     _bir_kez_oran,
+    cozumleme_sec,
     fiilimsi_mi,
     govde,
     kalyoncu_features,
@@ -15,7 +16,6 @@ from turkish_linguistic_features.features.kalyoncu import (
     okunus_sozcukleri,
     ozel_ad_mi,
     sayi_mi,
-    cozumleme_sec,
 )
 from turkish_linguistic_features.features.registry import STATIC_GROUP_KEYS, describe_feature
 from turkish_linguistic_features.params import FeatureParams

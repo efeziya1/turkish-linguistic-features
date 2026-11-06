@@ -179,7 +179,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `wordfreq_mean` | van Heuven et al. (2014) p.1179 (Zipf scale) | 🔍 |
 | `wordfreq_rare_ratio` | van Heuven et al. (2014) Table 1 (Zipf ≤ 3 = low frequency) | 🔍 |
 | `vocd_d` | Malvern et al. (2004) pp.56–57; procedure from McCarthy & Jarvis (2010) p.383 | 🔍 |
-| `hdd` | McCarthy & Jarvis (2007), as cited in McCarthy & Jarvis (2010) p.383 | 🔍 |
+| `hdd` | McCarthy & Jarvis (2007) pp.465–466 (ATTR-42, p.472); the name HD-D and the 42-word sample from McCarthy & Jarvis (2010) p.383, which reports the sum of probabilities (0–42), this library divides it by 42 | 🔍 |
 | `msttr` | Johnson (1944), as cited in Malvern et al. (2004) p.25 and McCarthy & Jarvis (2010) p.385 | 🔍 |
 | `lexical_density` | Lu (2012) p.192; definition in the broad Hallidayan sense — all open-class words; Lu counts only adverbs derived from adjectives, the tool counts all adverbs | 🔍 |
 | `zipf_exponent` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
@@ -466,7 +466,7 @@ Bir anahtarın birden çok kaynak örneği olabilir; her biri ayrı satır.
 | `wordfreq_mean` | van Heuven et al. (2014) p.1179 (Zipf scale) | 🔍 |
 | `wordfreq_rare_ratio` | van Heuven et al. (2014) Table 1 (Zipf ≤ 3 = low frequency) | 🔍 |
 | `vocd_d` | Malvern et al. (2004) pp.56–57; procedure from McCarthy & Jarvis (2010) p.383 | 🔍 |
-| `hdd` | McCarthy & Jarvis (2007), as cited in McCarthy & Jarvis (2010) p.383 | 🔍 |
+| `hdd` | McCarthy & Jarvis (2007) pp.465–466 (ATTR-42, p.472); the name HD-D and the 42-word sample from McCarthy & Jarvis (2010) p.383, which reports the sum of probabilities (0–42), this library divides it by 42 | 🔍 |
 | `msttr` | Johnson (1944), as cited in Malvern et al. (2004) p.25 and McCarthy & Jarvis (2010) p.385 | 🔍 |
 | `lexical_density` | Lu (2012) p.192; definition in the broad Hallidayan sense — all open-class words; Lu counts only adverbs derived from adjectives, the tool counts all adverbs | 🔍 |
 | `zipf_exponent` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |

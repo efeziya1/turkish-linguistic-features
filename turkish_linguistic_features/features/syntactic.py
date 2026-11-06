@@ -25,6 +25,7 @@ from __future__ import annotations
 import math
 import re
 from collections import Counter
+from collections.abc import Sequence
 
 import numpy as np
 
@@ -356,7 +357,7 @@ def pronoun_ratio(pos_data: list[tuple[str, str]]) -> dict[str, float]:
 
 
 def word_ngram_counts(
-    sentences: list[list[tuple[str, str]]], ngrams: list[list[str]], lang: str = "tr",
+    sentences: Sequence[Sequence[tuple[str, ...]]], ngrams: list[list[str]], lang: str = "tr",
 ) -> dict[str, float]:
     """Kullanıcı tanımlı n-gramların metindeki sayısı → ``ngram_{...}_count``.
 
@@ -367,15 +368,20 @@ def word_ngram_counts(
 
     - Değer **düz sayımdır**, oran değil; isteyen kelime sayısına böler.
     - Öbekteki büyük harfli bir UD etiketi (``NOUN``, ``VERB`` …, ``UPOS_TAGS``)
-      o etiketli herhangi bir kelimeyle eşleşir; geri kalan her öge kelimedir
-      ve dile göre küçük harfe inen yazılı biçimle eşleşir (lemma değil).
+      o etiketli herhangi bir kelimeyle eşleşir; tamamı büyük harfle yazılmış, en az
+      iki harfli öteki bir öge (``EV``) lemması o olan her kelimeyle eşleşir (``eve``,
+      ``evdeki``, ``evlerimizden``; 2026-11-06, hocanın önerisi); geri kalan her öge
+      kelimedir ve dile göre küçük harfe inen yazılı biçimle eşleşir.
       ``["ADJ", "NOUN"]`` = bir sıfat ve hemen ardından bir isim.
+      Lemma ``lemma_tokens``'takiyle aynıdır: Türkçede Zeyrek'in ilk çözümlemesi,
+      İngilizcede spaCy; fiilde mastar eki yok (``GİT``). Etiket adıyla aynı yazılan
+      bir lemma (``PART``) etikettir.
     - Arama cümle içindedir: öbek cümle sınırını aşmaz.
     - Üst üste binen eşleşmeler sayılır: ``ha ha ha`` içinde ``ha ha`` = 2.
-    - Anahtarda kelimeler küçük harf, etiketler büyük harf kalır:
-      ``ngram_ne_var_ki_count``, ``ngram_ADJ_NOUN_count``.
+    - Anahtarda kelimeler küçük harf, etiketler ve lemmalar büyük harf kalır:
+      ``ngram_ne_var_ki_count``, ``ngram_ADJ_NOUN_count``, ``ngram_EV_VERB_count``.
 
-    ``sentences`` her cümlenin ``(kelime, etiket)`` listesidir (``WordView``).
+    ``sentences`` her cümlenin ``(kelime, etiket, lemma)`` listesidir (``WordView``).
     Boş öbek → ``ValueError``. ``custom_ngrams`` verilmezse **boş sözlük**
     döner — bu grup taban şemanın parçası değildir.
     """
@@ -386,7 +392,7 @@ def word_ngram_counts(
     return sonuc
 
 
-def word_ngram_matches(sentences: list[list[tuple[str, str]]], phrase: list[str],
+def word_ngram_matches(sentences: Sequence[Sequence[tuple[str, ...]]], phrase: list[str],
                        lang: str = "tr") -> dict[str, int]:
     """Bir öbeğin eşleşmeleri ve sıklıkları → ``{"eski ev": 2, …}``.
 
@@ -399,19 +405,55 @@ def word_ngram_matches(sentences: list[list[tuple[str, str]]], phrase: list[str]
     return dict(sayim.most_common())
 
 
-def _ngram_eslesmeleri(sentences: list[list[tuple[str, str]]], obek: list[str],
+# Öbek ögesinin karşılaştırıldığı alan: 0 yazılı biçim, 1 etiket, 2 lemma.
+_KELIME, _ETIKET, _LEMMA_ALANI = 0, 1, 2
+
+
+def _ngram_kucuk(metin: str, lang: str) -> str:
+    """N-gram karşılaştırması için küçük harf: ``İzmir`` her dilde ``izmir`` olur.
+
+    İngilizce ``str.lower()`` ``İ``yi ``i`` + birleşen nokta (U+0307) yapıyor; ``izmir``
+    ögesi ``İzmir``i yakalamıyordu (2026-11-06, Efe). Nokta yalnız burada atılıyor;
+    ``_kucuk_harf``'ı kullanan öteki öznitelikler değişmez.
+    """
+    return _kucuk_harf(metin, lang).replace("i̇", "i")
+
+
+def _obek_ogesi(oge: str, lang: str) -> tuple[str, int, str]:
+    """Öbek ögesi → ``(aranan, alan, anahtardaki_yazım)``.
+
+    ``NOUN`` gibi bir UD etiketi etiketle; tamamı büyük harfle yazılmış, en az iki harfli
+    öteki ögeler (``EV``, ``GİT``) lemmayla; geri kalan her şey küçük harfe inen yazılı
+    biçimle karşılaştırılır. Tek harfli öge (``I``, ``O``) kelimedir. Lemma ve etiket
+    anahtarda yazıldığı gibi büyük harf kalır.
+    """
+    if oge in UPOS_TAGS:
+        return oge, _ETIKET, oge
+    if oge.isupper() and sum(ch.isalpha() for ch in oge) >= 2:
+        return _ngram_kucuk(oge, lang), _LEMMA_ALANI, oge
+    kelime = _ngram_kucuk(oge, lang)
+    return kelime, _KELIME, kelime
+
+
+def _ngram_eslesmeleri(sentences: Sequence[Sequence[tuple[str, ...]]], obek: list[str],
                        lang: str) -> tuple[str, list[tuple[str, ...]]]:
-    """Öbeğin anahtarı ve metin sırasıyla eşleşen kelime dizileri (küçük harf)."""
+    """Öbeğin anahtarı ve metin sırasıyla eşleşen kelime dizileri (küçük harf).
+
+    Cümle ögeleri ``(kelime, etiket)`` ya da ``(kelime, etiket, lemma)``; lemma yoksa
+    küçük harfli kelime lemma sayılır.
+    """
     if not obek:
         raise ValueError("custom_ngrams contains an empty phrase")
-    aranan = [(o, True) if o in UPOS_TAGS else (_kucuk_harf(o, lang), False) for o in obek]
+    aranan = [_obek_ogesi(o, lang) for o in obek]
     n = len(aranan)
-    anahtar = "ngram_" + "_".join(o for o, _ in aranan) + "_count"
+    anahtar = "ngram_" + "_".join(yazim for _, _, yazim in aranan) + "_count"
     eslesmeler: list[tuple[str, ...]] = []
     for cumle in sentences:
-        c = [(_kucuk_harf(k, lang), p) for k, p in cumle]
+        c = []
+        for t in cumle:
+            kelime = _ngram_kucuk(t[0], lang)
+            c.append((kelime, t[1], _ngram_kucuk(t[2], lang) if len(t) > 2 else kelime))
         for i in range(len(c) - n + 1):
-            if all((c[i + j][1] if etiket else c[i + j][0]) == o
-                   for j, (o, etiket) in enumerate(aranan)):
-                eslesmeler.append(tuple(k for k, _ in c[i:i + n]))
+            if all(c[i + j][alan] == o for j, (o, alan, _) in enumerate(aranan)):
+                eslesmeler.append(tuple(t[0] for t in c[i:i + n]))
     return anahtar, eslesmeler

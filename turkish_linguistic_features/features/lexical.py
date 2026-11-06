@@ -581,7 +581,8 @@ def vocd_d(tokens: list[str], sample_min: int = 35, sample_max: int = 50,
 
 
 def hdd(tokens: list[str], sample_size: int = 42) -> dict[str, float]:
-    """HD-D (McCarthy & Jarvis 2007; 2010 s. 383): 42'lik örneklemin beklenen TTR'si.
+    """HD-D: 42'lik örneklemin beklenen TTR'si, McCarthy & Jarvis (2007) s. 465–466'daki
+    ATTR-42 (s. 472). HD-D adı ve 42 sayısı McCarthy & Jarvis (2010) s. 383'ten (dipnot 3).
 
     Her tip için hipergeometrik dağılımdan "örneklemde en az bir kez görülme"
     olasılığı ``1 − C(N−f, n)/C(N, n)``; olasılıklar toplanıp ``n``'e bölünür

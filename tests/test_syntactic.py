@@ -438,7 +438,7 @@ def test_ngram_kucuk_harfli_etiket_adi_kelimedir():
 
 
 def test_ngram_kullanici_obegi_de_kucuk_harfe_iner():
-    sonuc = word_ngram_counts([_c("ırmak", "İzmir")], [["Irmak"], ["İZMİR"]])
+    sonuc = word_ngram_counts([_c("ırmak", "İzmir")], [["Irmak"], ["İzmir"]])
     assert sonuc == {"ngram_ırmak_count": 1.0, "ngram_izmir_count": 1.0}
 
 
@@ -446,6 +446,12 @@ def test_ngram_ingilizcede_i_noktasiz_olmaz():
     sonuc = word_ngram_counts([_c("I", "think")], [["I", "think"]], lang="en")
     assert sonuc == {"ngram_i_think_count": 1.0}
 
+
+def test_ngram_kucuk_harfli_oge_buyuk_harfli_bicimi_yakalar():
+    """``izmir`` ``İzmir``i yakalar; İngilizcede de (U+0307 atılır, 2026-11-06, Efe)."""
+    for lang in ("tr", "en"):
+        sonuc = word_ngram_counts([_c("İzmir", "izmir", "İZMİR")], [["izmir"]], lang=lang)
+        assert sonuc == {"ngram_izmir_count": 3.0}, lang
 
 def test_ngram_metinden_uzun_obek_sifir():
     assert word_ngram_counts([_c("tek")], [["iki", "kelime"]]) == {"ngram_iki_kelime_count": 0.0}
@@ -473,6 +479,52 @@ def test_ngram_eslesmeleri_toplami_sayima_esit():
 
 def test_ngram_eslesmesi_yoksa_bos():
     assert word_ngram_matches([_c("tek")], ["iki", "kelime"]) == {}
+
+
+def _l(*ogeler: str) -> list[tuple[str, str, str]]:
+    """Lemmalı cümle: ``kelime/ETİKET/lemma``."""
+    return [tuple(o.split("/")) for o in ogeler]
+
+
+def test_ngram_lemma_ogesi_tum_bicimlerle_eslesir():
+    """``EV`` eve, evdeki, evlerimizden'le eşleşir (2026-11-06, hocanın önerisi)."""
+    cumleler = [_l("Eve/NOUN/ev", "gittim/VERB/git"), _l("evdeki/NOUN/ev", "kedi/NOUN/kedi"),
+                _l("evlerimizden/NOUN/ev", "çıktık/VERB/çık")]
+    sonuc = word_ngram_counts(cumleler, [["EV", "VERB"], ["EV"]])
+    assert sonuc == {"ngram_EV_VERB_count": 2.0, "ngram_EV_count": 3.0}
+    assert word_ngram_matches(cumleler, ["EV", "VERB"]) == {"eve gittim": 1,
+                                                            "evlerimizden çıktık": 1}
+
+
+def test_ngram_lemma_kelime_ve_etiketle_karisir():
+    cumleler = [_l("eski/ADJ/eski", "evi/NOUN/ev", "gördüm/VERB/gör"),
+                _l("eski/ADJ/eski", "eve/NOUN/ev", "gittim/VERB/git")]
+    sonuc = word_ngram_counts(cumleler, [["eski", "EV", "GİT"], ["ADJ", "EV"]])
+    assert sonuc == {"ngram_eski_EV_GİT_count": 1.0, "ngram_ADJ_EV_count": 2.0}
+
+
+def test_ngram_lemma_turkce_buyuk_harf_kuraliyla_iner():
+    """``İZMİR`` → ``izmir``, ``IRMAK`` → ``ırmak`` (Türkçe küçük harf)."""
+    cumleler = [_l("İzmir'e/PROPN/izmir", "ırmağa/NOUN/ırmak")]
+    sonuc = word_ngram_counts(cumleler, [["İZMİR", "IRMAK"]])
+    assert sonuc == {"ngram_İZMİR_IRMAK_count": 1.0}
+
+
+def test_ngram_tek_harfli_buyuk_oge_kelimedir():
+    """``I`` lemma araması olmaz; etiket adı (``PART``) etikettir."""
+    cumleler = [_l("I/PRON/i", "think/VERB/think"), _l("to/PART/to", "go/VERB/go")]
+    sonuc = word_ngram_counts(cumleler, [["I"], ["PART", "GO"]], lang="en")
+    assert sonuc == {"ngram_i_count": 1.0, "ngram_PART_GO_count": 1.0}
+
+
+def test_ngram_yazili_bicim_lemmayla_eslesmez():
+    """Küçük harfli öge yazılı biçimdir: ``ev`` ``eve``yle eşleşmez."""
+    cumleler = [_l("eve/NOUN/ev", "gittim/VERB/git")]
+    assert word_ngram_counts(cumleler, [["ev"]]) == {"ngram_ev_count": 0.0}
+
+
+def test_ngram_lemmasiz_cumlede_lemma_kelimedir():
+    assert word_ngram_counts([_c("ev", "eve")], [["EV"]]) == {"ngram_EV_count": 1.0}
 
 
 def test_bos_girdiler():

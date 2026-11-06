@@ -76,7 +76,7 @@ published is a separate question — see the
 | `hapax_ratio` | share of types occurring once | `V1 / V` | at least 1 word | de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of vocabulary words" |
 | `hapax_token_ratio` | share of tokens that occur once | `V1 / N` | at least 1 word | QUITA §6.1.6 |
 | `vocd_d` | voc-D | `D fitted to mean TTR of random samples of vocd_sample_min–vocd_sample_max words, vocd_num_runs runs averaged` | at least 50 words (vocd_min_tokens, vocd_sample_max) | Malvern et al. (2004) pp.56–57; procedure from McCarthy & Jarvis (2010) p.383 |
-| `hdd` | HD-D | `expected TTR of a hdd_sample_size-word sample (hypergeometric)` | at least 42 words (hdd_sample_size) | McCarthy & Jarvis (2007), as cited in McCarthy & Jarvis (2010) p.383 |
+| `hdd` | HD-D | `expected TTR of a hdd_sample_size-word sample (hypergeometric)` | at least 42 words (hdd_sample_size) | McCarthy & Jarvis (2007) pp.465–466 (ATTR-42, p.472); the name HD-D and the 42-word sample from McCarthy & Jarvis (2010) p.383, which reports the sum of probabilities (0–42), this library divides it by 42 |
 | `msttr` | mean segmental TTR | `mean TTR of full msttr_segment_size-word segments` | at least 100 words (msttr_segment_size) | Johnson (1944), as cited in Malvern et al. (2004) p.25 and McCarthy & Jarvis (2010) p.385 |
 | `noun_variation` | noun variation NV | `distinct noun lemmas / lexical words` | at least 1 lexical word (NOUN, PROPN, VERB, ADJ, ADV) | Lu (2012) Table 2 |
 | `verb_variation` | verb variation VV1 | `distinct verb lemmas / verbs` | at least 1 verb | Lu (2012) Table 2 |
@@ -472,7 +472,7 @@ Created only when you pass `custom_ngrams` to `analyze()`.
 :   Somers, H. H. (1966). Statistical methods in literary analysis. In J. Leeds (Ed.), The Computer and Literary Style (pp. 128–140). Kent, OH: Kent State University Press. The record was verified from the reference list of Torruella & Capsada (2013). The primary source could not be obtained.
 
 **This library's threshold calibration**
-:   This library's own measurement, not a published source. short_sent_threshold and long_sent_threshold were derived from the 15th and 85th percentiles of the sentence-length distribution of newspaper columns under the default sentence and word rules: TR 137 columnists / 4,321 articles / 197,990 sentences, EN 30 columnists / 1,485 articles / 52,745 sentences. Method and raw percentile table: docs/threshold-calibration.md.
+:   This library's own measurement, not a published source. short_sent_threshold and long_sent_threshold were derived from the 15th and 85th percentiles of the sentence-length distribution of newspaper columns under the default sentence and word rules: TR 137 columnists / 4,321 articles / 198,225 sentences, EN 30 columnists / 1,485 articles / 52,745 sentences. Method and raw percentile table: docs/threshold-calibration.md.
 
 **Torruella & Capsada (2013)**
 :   Torruella, J., & Capsada, R. (2013). Lexical statistics and tipological structures: A measure of lexical richness. Procedia - Social and Behavioral Sciences, 95, 447–454. DOI 10.1016/j.sbspro.2013.10.668

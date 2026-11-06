@@ -251,7 +251,7 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     # ── chars (dinamik grup) ───────────────────────────────────────
     'chars': 'share of that letter among alphabet letters',
     # ── custom_ngrams (dinamik grup) ───────────────────────────────
-    'custom_ngrams': 'count of a user-supplied word or POS-tag sequence within sentences',
+    'custom_ngrams': 'count of a user-supplied sequence of words, lemmas or POS tags within sentences',
 }
 
 # Anahtar → NASIL hesaplandığı. Anahtarın kendi satırı yoksa describe_feature
@@ -485,7 +485,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     # ── custom_ngrams (dinamik grup) ───────────────────────────────
     'custom_ngrams':
         'matches inside sentences; overlapping matches counted; UPPERCASE UD tags match any word '
-        'with that tag',
+        'with that tag; other all-caps items (EV) match any word with that lemma',
 }
 
 # Anahtar → ölçüm şartı. Sağlanmazsa değer NaN (K4).
@@ -779,7 +779,10 @@ FEATURE_CITATIONS: dict[str, str] = {
     'hapax_token_ratio': 'QUITA §6.1.6',
     'vocd_d':
         'Malvern et al. (2004) pp.56–57; procedure from McCarthy & Jarvis (2010) p.383',
-    'hdd': 'McCarthy & Jarvis (2007), as cited in McCarthy & Jarvis (2010) p.383',
+    'hdd':
+        'McCarthy & Jarvis (2007) pp.465–466 (ATTR-42, p.472); the name HD-D and the 42-word '
+        'sample from McCarthy & Jarvis (2010) p.383, which reports the sum of probabilities '
+        '(0–42), this library divides it by 42',
     'msttr':
         'Johnson (1944), as cited in Malvern et al. (2004) p.25 and McCarthy & Jarvis '
         '(2010) p.385',
@@ -1122,7 +1125,7 @@ BIBLIOGRAPHY: dict[str, str] = {
         "This library's own measurement, not a published source. short_sent_threshold "
         'and long_sent_threshold were derived from the 15th and 85th percentiles of '
         'the sentence-length distribution of newspaper columns under the default sentence '
-        'and word rules: TR 137 columnists / 4,321 articles / 197,990 sentences, EN 30 columnists / '
+        'and word rules: TR 137 columnists / 4,321 articles / 198,225 sentences, EN 30 columnists / '
         '1,485 articles / 52,745 sentences. Method and raw percentile '
         'table: docs/threshold-calibration.md.',
     'Ateşman (1997)':

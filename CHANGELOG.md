@@ -33,6 +33,13 @@ Turkish 197 → 203, English 170. Groups: 13 → 12 (13 with
 - `FeatureParams.verb_suffix_num_samples` (100) and `FeatureParams.verb_suffix_random_seed`
   (42, the same as `vocd_random_seed`) for `zeyrek_verb_suffix_diversity`.
 - `FeatureParams.heaps_points` (20): the number of measurement points for `heaps_beta`.
+- **Lemma items in `custom_ngrams` and `ngram_matches`.** An item written in capitals that is
+  not a UD tag matches any word with that lemma: `["EV", "VERB"]` matches `eve gittim` and
+  `evden çıktık` (key `ngram_EV_VERB_count`). Words, lemmas and tags can be mixed in one phrase
+  (`["eski", "EV"]`, `["ADJ", "EV"]`). The lemma is the library's own: Zeyrek's first analysis
+  in Turkish, spaCy in English; verbs without the infinitive suffix (`GİT`, `GO`). An item
+  needs at least two letters to be a lemma (`I` stays a word), and a UD tag name is always a
+  tag (`PART`). Lowercase items match the written form, as before.
 - The verification report has a rule for a source's own arithmetic: when the number a source
   printed contradicts the arithmetic of the inputs it gives, and the library's value gives the
   correct arithmetic, the comparison counts as ✅ with the reason written under it.
@@ -52,6 +59,19 @@ Turkish 197 → 203, English 170. Groups: 13 → 12 (13 with
   design decision, and `*_variation` and `lemma_count` remain the exceptions. Where the source
   counts otherwise the citation says so: `brunet_w`, `herdan_c`, `yule_k`. Values of `herdan_c`
   and `yule_k` do not change.
+- **`custom_ngrams`: an item in capitals is a lemma** (see Added). In 0.2.0 `İZMİR` matched
+  the written form `izmir`; it now matches words with the lemma `izmir` (`İzmir'e` too).
+  Write `izmir` for the written form.
+- **`custom_ngrams` in English: `izmir` matches `İzmir`.** Python lowercases `İ` to `i` plus a
+  combining dot, so the two did not match. The dot is dropped in n-gram matching only; other
+  English features still lowercase as before.
+- **`hdd` citation** names both primary sources: the computation is McCarthy & Jarvis's
+  (2007, pp. 465-466) ATTR-42; the name HD-D and the 42-word sample come from McCarthy &
+  Jarvis (2010, p. 383), who report the sum of probabilities (0-42), which the library divides
+  by 42. It was a secondary citation, so secondary citations go from 14 to 13 (Turkish 13 → 12).
+  The value does not change.
+- **Threshold calibration re-measured with 0.3.0:** Turkish columns now give 198,225 sentences
+  (was 197,990) under 0.3.0's sentence rule; the thresholds (TR 4/17, EN 8/32) do not change.
 - **`sichel_s` citation** is now Tweedie & Baayen (1998) p.329, eq. (12); the ratio does not
   appear in Sichel (1975). The value does not change.
 - **Group names.** `phonetic` is now `phonological` and `syntactic_dep` is now `syntactic`;

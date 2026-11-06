@@ -143,18 +143,20 @@ def _lemma_pos(lemma_tokens: list[str],
     return list(zip(lemma_tokens, _hizala(lemma_tokens, pos_data), strict=False))
 
 
-def _etiketli_cumleler(wv: WordView) -> list[list[tuple[str, str]]]:
-    """Kelime + etiket, cümle cümle: n-gram öbeği cümle sınırını aşmaz (2026-10-08, Efe)."""
+def _etiketli_cumleler(wv: WordView) -> list[list[tuple[str, str, str]]]:
+    """Kelime + etiket + lemma, cümle cümle: n-gram öbeği cümle sınırını aşmaz (2026-10-08, Efe)."""
     etiketli, i = [], 0
     for cumle in wv.sentences:
-        etiketli.append(wv.pos[i:i + len(cumle)])
-        i += len(cumle)
+        j = i + len(cumle)
+        etiketli.append([(k, p, lem) for (k, p), lem in
+                         zip(wv.pos[i:j], wv.lemmas[i:j], strict=True)])
+        i = j
     return etiketli
 
 
 def _ngram_cumleleri(raw_text: str, surface_tokens: list[str], lemma_tokens: list[str],
                      pos_data: list[tuple[str, str]], lang: str = "tr",
-                     **_: Any) -> list[list[tuple[str, str]]]:
+                     **_: Any) -> list[list[tuple[str, str, str]]]:
     """``ngram_matches`` için: ``_extract_features``'la aynı kelime ve cümleler, etiketli."""
     cumleler = kural_cumleleri(surface_tokens, lang)
     kelimeler = kelime_birimleri(raw_text, lang)[0]
