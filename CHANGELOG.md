@@ -123,6 +123,17 @@ Turkish 197 → 203, English 170. Groups: 13 → 12 (13 with
 - **Turkish documentation** uses the thesis terms: tümce, sözcük, türce, sözlükbirim, seslem,
   derlem, bağımlılık, alanyazın, öznitelik dizini, yalın tanım, etiket oranı, örtüşen,
   çözümleme hattı (was "boru hattı").
+- **Documentation in both languages:** each Turkish page gives a term's English equivalent
+  where it first appears ("türce (İng. *token*)"); the Turkish and English glossaries follow
+  the thesis glossary and the English one gains a Turkish column. "öbek" is now "sözcük
+  dizisi", "kütüphane" mostly "araç", "fiil" "eylem".
+- **New documentation sections:** the five feature types with their counts; the four
+  pipeline stages and how many features depend on spaCy and Zeyrek; the counting rules of
+  the readability formulas; why the colon rule exists; constants taken from sources and not
+  tested on Turkish (MTLD 0.72, HD-D 42, Brunet 0.172); the Turkish model's reported accuracy,
+  split words; why `nan` and not zero; where each sentence threshold
+  falls in the other language; a summary of how much of the tool could be checked against
+  published numbers.
 - The concepts page defines the content word (`NOUN`, `PROPN`, `VERB`, `ADJ`, `ADV`) and
   says how it differs from Lu (2012, p. 192): Lu counts only adverbs derived from adjectives,
   the tool counts all adverbs because the tagger does not tell adverb types apart. The

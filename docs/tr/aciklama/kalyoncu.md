@@ -1,6 +1,6 @@
 # Kalyoncu (2025) formülleri
 
-Kalyoncu (2025) Türkçe için dört okunabilirlik formülü önerir (K1–K4). Formüllerin
+Kalyoncu (2025) Türkçe için dört okunabilirlik formülü (İng. *readability formula*) önerir (K1–K4). Formüllerin
 çıktısı "Metin Zorluğu"dur: **yüksek değer daha zor metin** demektir. Araç dört formülü
 ve beş bileşenini `readability` grubunda verir. Bu anahtarlar yalnız Türkçede üretilir.
 
@@ -29,7 +29,7 @@ Bileşenlerden biri `nan` ise formül de `nan` olur.
 
 ## Sözcük ve tümce
 
-**Sözcük** aracın varsayılan sözcüğüdür, bir farkla: rakam içeren sözcük okunuşuyla açılır ve
+**Sözcük** (İng. *word*) aracın varsayılan sözcüğüdür, bir farkla: rakam içeren sözcük okunuşuyla açılır ve
 okunuşunun sözcük sayısınca sayılır (Kalyoncu s.xiii). `1968` "bin dokuz yüz altmış sekiz"
 olarak 5 sözcüktür, `%50` "yüzde elli" olarak 2 sözcüktür. Kısaltmalar açılmaz. Bu kural yalnız
 Kalyoncu anahtarlarında geçerlidir.
@@ -40,24 +40,24 @@ Bu yüzden `kalyoncu_ocu` aracın `sent_len_mean`'inden farklı olabilir:
 |---|---|---|
 | `Bu bir tümce. 1999. Bitti.` | 5 / 2 = 2,5 | 9 / 2 = 4,5 |
 
-**Tümce** aracın varsayılan tümcesidir ([Kavramlar](kavramlar.md#tumce)); harf içermeyen tümce
+**Tümce** (İng. *sentence*) aracın varsayılan tümcesidir ([Kavramlar](kavramlar.md#tumce)); harf içermeyen tümce
 sayılmaz. Kalyoncu tümceyi anlama göre ayırır: tırnak ya da ara tümce içindeki, kendi anlam
 bütünlüğü olan tümceler ve iki noktadan sonraki söylem ve açıklamalar ayrı tümcedir (s.xii).
 Bu kural **uygulanmaz**; anlam bütünlüğü otomatik sınanamaz. TOMA'nın 57 metninde aracın
 tümce kuralı uzmanın sayımından toplam 41 tümce (yaklaşık %2) farklıdır, 37 metinde birebir
 aynıdır.
 
-**Gövde** Zeyrek'in sözlükbirimine türetme eklerinin eklenmesiyle bulunur: `kitapçılar` →
-`kitapçı`, `öğretmenliği` → `öğretmenlik`. İlk çekim ekinden sonra gövdeye hiçbir biçimbirim
+**Gövde** Zeyrek'in sözlükbirimine (İng. *lemma*) türetme eklerinin eklenmesiyle bulunur: `kitapçılar` →
+`kitapçı`, `öğretmenliği` → `öğretmenlik`. İlk çekim ekinden sonra gövdeye hiçbir biçimbirim (İng. *morpheme*)
 eklenmez: `oradaki` → `ora`, `karşısındaki` → `karşı`. Ettirgen ve edilgen ekleri,
-fiilimsi ekleri, birleşik fiil ekleri (-ebil, -iver, -eyaz, -akal, -akoy, -adur, -egel) ve ek
-fiil de gövdeye girmez: `küçültülmek` → `küçül`, `gelebildi` → `gel`, `evdeydi` → `ev`.
+fiilimsi ekleri, birleşik eylem ekleri (-ebil, -iver, -eyaz, -akal, -akoy, -adur, -egel) ve ek
+eylem de gövdeye girmez: `küçültülmek` → `küçül`, `gelebildi` → `gel`, `evdeydi` → `ev`.
 Zeyrek birden çok çözümleme verirse seçim "Çözümleme seçimi"ndeki gibidir.
 
 ## KL: listeyle karşılaştırma
 
 Liste Kalyoncu'nun bilinirlik temelli sözcük listesidir (Ek-1, s.129–160, 4600 sözcük). Bir
-sözcük şu üç biçimden biri listedeyse **liste içidir**: küçük harfli kendisi, gövdesi, fiilse
+sözcük şu üç biçimden biri listedeyse **liste içidir**: küçük harfli kendisi, gövdesi, eylemse
 gövde + -mak/-mek. Yumuşamış son ünsüz (`öğretmenliğ`) sertleştirilerek de aranır.
 Karşılaştırmada şapka iki tarafta da silinir: metindeki `hikaye` de `hikâye` de listedeki
 maddeyle eşleşir. KL bilinirliğe bakar; şapkasız biçimi başka bir sözcük olan durumlarda
@@ -71,7 +71,7 @@ Kalyoncu'nun dokuz kuralı (s.71–72):
 | 1. Özel adlar liste dışı sayılmaz | uygulanır: `PROPN` ya da tümce başında olmayıp büyük harfle başlayan sözcük; paydada kalır, paya girmez |
 | 2. Çekimli biçim listedeki sözcük sayılır | uygulanır: gövde |
 | 3. Yaygın türetme ekli türevler liste dışı sayılmaz | **uygulanmaz**: hangi eklerin yaygın sayıldığı belirtilmemiş |
-| 4. Fiilimsi olarak kullanılan liste fiilleri | uygulanır: Zeyrek'in fiilimsi etiketleri |
+| 4. Fiilimsi olarak kullanılan liste eylemleri | uygulanır: Zeyrek'in fiilimsi etiketleri |
 | 5. Yansıma sözcükler liste dışı sayılmaz | **uygulanmaz** |
 | 6. Pekiştirilmiş biçimler (`büsbüyük`) | **uygulanmaz** |
 | 7. Ettirgen ve edilgen biçimler | uygulanır: Zeyrek'in çatı etiketleri |
@@ -102,7 +102,7 @@ sözcük sayısında ve TTR'de her sözcük gibi sayılır.
 
 ### Çözümleme seçimi
 
-Zeyrek bir sözcük için birden çok çözümleme verebilir. `kalyoncu_*` anahtarlarında Zeyrek'in
+Zeyrek bir sözcük için birden çok çözümleme verebilir; Zeyrek bağlama bakarak seçim yapmaz (belirsizlik giderme, İng. *disambiguation*). `kalyoncu_*` anahtarlarında Zeyrek'in
 çözümlemeleri arasından türü spaCy'nin sözcük türüne uyan ilki alınır: `PRON` zamir, `NOUN` ve
 `PROPN` ad, `VERB` ve `AUX` eylem, `ADJ` sıfat, `ADV` belirteç, `NUM` sayı. Uyan yoksa ilk
 çözümleme alınır. Gövde, fiilimsi ve karmaşık tümce sayımı (TTR, KCO, YCO) bu çözümlemeden
@@ -115,12 +115,12 @@ zamir çözümlemesi alınır. Aracın geri kalanında "ilk çözümleme" kural�
 -mış, -ar/-maz) ya da zarf-fiil (-ip, -arak, -ınca, -ken, -madan, -dıkça…) etiketi taşıyan
 sözcüktür. Ek fiilli adın -ken'i (`öğrenciyken`) sayılmaz. Bir sözcük en çok bir fiilimsi sayılır.
 
-**Karmaşık tümce** (KCO) en az bir fiilimsi ya da en az iki fiil içeren tümcedir. Kalyoncu
+**Karmaşık tümce** (KCO) en az bir fiilimsi ya da en az iki eylem içeren tümcedir. Kalyoncu
 karmaşık tümceyi "birden fazla yargıya sahip olan, içerisinde fiilimsi barındıran ya da bağlı
 cümle durumunda olan" tümce diye tanımlar (s.73). "Yargı"yı tanımlamaz, ama CYargı
-değişkeninde fiil ve fiilimsi sayısıyla ölçer (s.73); araç da öyle sayar. Fiil, Zeyrek'in son
-türü `Verb` olan sözcüktür (`evdeydi` dahil). Bağlaçla birleşmiş tümcelerin çoğu iki fiil
-içerdiği için yakalanır; ek fiilsiz ad tümceleri (`Hava güzel ama soğuk.`) yakalanmaz.
+değişkeninde fiil ve fiilimsi sayısıyla ölçer (s.73); araç da öyle sayar. Eylem, Zeyrek'in son
+türü `Verb` olan sözcüktür (`evdeydi` dahil). Bağlaçla birleşmiş tümcelerin çoğu iki eylem
+içerdiği için yakalanır; ek eylemsiz ad tümceleri (`Hava güzel ama soğuk.`) yakalanmaz.
 
 ## Sınıf düzeyleri
 
@@ -165,7 +165,7 @@ Bu değerler Kalyoncu'nun elle yaptığı sayımın yaklaşığıdır.
 - Zeyrek'in tanımadığı ekler (-alı, -ası, -casına, -maksızın) fiilimsi sayılamaz.
 - Zeyrek'in seçilen çözümlemesi yanlışsa sonuç da yanlış olur (spaCy türüne uyan çözümleme
   yoksa ilk çözümleme): `okuma` isim-fiil değil "ok-um-a"
-  diye çözümlenir; `okunur kitap`'taki sıfat-fiil çekimli fiil sayılır.
+  diye çözümlenir; `okunur kitap`'taki sıfat-fiil çekimli eylem sayılır.
 - Zeyrek'in çözümleyemediği sözcükte gövde küçük harfli sözcüğün kendisidir; yabancı sözcük ve
   yazım hatası her biçimiyle ayrı gövde sayılır.
 - KCO en yaklaşık bileşendir. TOMA'da da uzman değerinden en çok sapan değişken KCO'dur
@@ -177,4 +177,6 @@ Liste `turkish_linguistic_features/data/kalyoncu_2025_ek1.txt` dosyasında, Kaly
 yazdığı sırayla ve yazımla durur (şapkalı yazımlar dahil). **Paketin MIT lisansının kapsamında
 değildir**; hakları yazarındadır. PDF'in metin katmanı ğ, ş, ı ve baştaki İ/Ş'yi bozduğu için
 her madde sayfa görüntüsüyle karşılaştırıldı. Kaynakta "Çita" noktalı i ile yazılıdır ve öyle
-bırakıldı.
+bırakıldı. Dosya, Kalyoncu'nun tezindeki Ek-1 ile madde madde ve sıra sıra yeniden karşılaştırıldı: 4600
+maddenin hepsi aynıdır; tek fark, kaynaktaki "Kılmak(Namaz)" maddesinin "kılmak" olarak
+yazılmasıdır (dosyanın başındaki notta belirtilir).

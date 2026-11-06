@@ -182,4 +182,6 @@ The list is in `turkish_linguistic_features/data/kalyoncu_2025_ek1.txt`, in Kaly
 and spelling (circumflexes included). **It is not covered by the package's MIT licence**; its
 rights belong to its author. The PDF's text layer corrupts ğ, ş, ı and initial İ/Ş, so every
 entry was checked against the page image. The source spells "Çita" with a dotted i, and it was
-left so.
+left so. The file was compared again, entry by entry and in order, with Appendix 1 of
+Kalyoncu's thesis: all 4,600 entries are the same; the only difference is that the source's
+"Kılmak(Namaz)" is written "kılmak" (noted at the top of the file).

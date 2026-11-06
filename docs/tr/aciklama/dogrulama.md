@@ -2,12 +2,13 @@
 
 ## Sorun
 
-Bir kütüphane "Ateşman okunabilirlik formülünü uyguluyorum" diyebilir. Siz
+Bir araç "Ateşman okunabilirlik formülünü uyguluyorum" diyebilir. Siz
 bunu nasıl kontrol edersiniz? Kaynağı bulup formülü okuyarak ve kodu
 inceleyerek. Bu, kullanıcıdan beklenmeyecek kadar uzun bir iş.
 
-Bu kütüphane farklı bir şey yapar: **kaynağın yayımladığı sayıyı** alır,
-aynı girdiyi kendi koduna verir, ikisini yan yana basar.
+Bu araç farklı bir şey yapar: **kaynağın yayımladığı sayıyı** alır,
+aynı girdiyi kendi koduna verir, ikisini yan yana basar. Bu eşleştirmenin her birine
+karşılaştırma (İng. *comparison*) denir.
 
 Sonuç: [doğrulama raporu](../../dogrulama-raporu.md)
 ([English](../../verification-report.md)).
@@ -17,7 +18,7 @@ Sonuç: [doğrulama raporu](../../dogrulama-raporu.md)
 ### 1. Formül eşdeğerliği
 
 Künyesi olan bütün özniteliklerin formülü kaynağıyla karşılaştırılarak kontrol
-edildi; kaynak çoğunlukla birincil, 14 künyede ikincildir (aktaran).
+edildi; kaynak çoğunlukla birincil, Türkçede 12 künyede ikincildir (aktaran, İng. *as cited in*).
 Her künye, formülün kaynakta geçtiği sayfayı ve numarasını gösterir (örneğin
 `p.327, eq. (5)`). Testler formülü ve sınır durumlarını sınar.
 Künyesi olmayan 11 öznitelik yalın tanımdır; karşılaştırılacak bir kaynakları yoktur.
@@ -38,10 +39,10 @@ Bu ayrım raporun en önemli parçası. 214 özniteliğin bir kısmı, tanımı 
 
 | | Neden aday değil |
 |---|---|
-| ⚪ **yalın tanım** | Kaynağı yoktur. `punct_dash_ratio` "tire / bütün noktalama işaretleri" demektir; alanyazında aranacak bir sayı yoktur. |
-| ⚫ **etiket oranı** | Bir ölçü değil, dış bir şemanın kategorisini sayıyor. `pos_noun_ratio` → UD, `zeyrek_case_loc_ratio` → Zeyrek. **Şema kategori tanımlar, ölçüm yayımlamaz** — de Marneffe'in makalesi "case_loc_ratio = 0,07" diye bir sayı basmaz, basamaz. |
-| 🔧 **araca özgü** | Formül bir kaynaktan, **uygulaması bizden**. `sent_len_entropy` Shannon'ın entropisidir ama tümce uzunluklarına uygulanması bizim. Bu ölçüyü kimse yayımlamadı. |
-| 📐 **kalibre edilmiş** | Eşik kendi kalibrasyonumuzdan gelir: `long_sent_ratio`. Kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
+| ⚪ **yalın tanım** (İng. *plain definition*) | Kaynağı yoktur. `punct_dash_ratio` "tire / bütün noktalama işaretleri" demektir; alanyazında aranacak bir sayı yoktur. |
+| ⚫ **etiket oranı** (İng. *tag ratio*) | Bir ölçü değil, dış bir şemanın kategorisini sayıyor. `pos_noun_ratio` → UD, `zeyrek_case_loc_ratio` → Zeyrek. **Şema kategori tanımlar, ölçüm yayımlamaz** — de Marneffe'in makalesi "case_loc_ratio = 0,07" diye bir sayı basmaz, basamaz. |
+| 🔧 **araca özgü** (İng. *tool-specific*) | Formül bir kaynaktan, **uygulaması bizden**. `sent_len_entropy` Shannon'ın entropisidir ama tümce uzunluklarına uygulanması bizim. Bu ölçüyü kimse yayımlamadı. |
+| 📐 **kalibre edilmiş** (İng. *calibrated*) | Eşik kendi kalibrasyonumuzdan gelir: `long_sent_ratio`. Kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
 
 Türkçe tarafında **81 öznitelik** bu dördünden biri. Kalan 133 özniteliğin raporda
 **172 doğrulama adayı satırı** var (bir öznitelik birden çok kaynak örneğiyle
@@ -51,14 +52,14 @@ karşılaştırılabilir). Gerçek payda budur.
 
 | | Anlamı |
 |---|---|
-| ✅ **örtüşen** | Kaynağın yayımladığı sayıyla tolerans içinde aynı. Küçük bir farkın nedeni biliniyorsa karşılaştırmanın altında not olarak yazılır. |
-| 🟡 **belgelenmiş sapma** | Fark **toleransın dışında** ve **nedeni yazılı** — kaynağın ara değeri yuvarlaması, kaynağın sayılarının elle üretilmiş olması gibi. |
-| 🔍 **açık** | Kaynak formülü veriyor ama uygulanmış bir örnek vermiyor. Doğrulanabilir, henüz doğrulanmadı. |
-| ❌ **uyuşmazlık** | **Açıklanmamış** fark. **Yayın kapısı: bir tane bile varsa sürüm çıkmaz.** |
+| ✅ **örtüşen** (İng. *match*) | Kaynağın yayımladığı sayıyla tolerans içinde aynı. Küçük bir farkın nedeni biliniyorsa karşılaştırmanın altında not olarak yazılır. |
+| 🟡 **belgelenmiş sapma** (İng. *documented deviation*) | Fark **toleransın dışında** ve **nedeni yazılı** — kaynağın ara değeri yuvarlaması, kaynağın sayılarının elle üretilmiş olması gibi. |
+| 🔍 **açık** (İng. *open*) | Kaynak formülü veriyor ama uygulanmış bir örnek vermiyor. Doğrulanabilir, henüz doğrulanmadı. |
+| ❌ **uyuşmazlık** (İng. *mismatch*) | **Açıklanmamış** fark. **Yayın kapısı (İng. *release gate*): bir tane bile varsa sürüm çıkmaz.** |
 
 Bugünkü durum: **172 adayın 61'i doğrulanmış** (61 ✅), 111'i 🔍 açık.
 
-Tolerans yayımlanan değerin **%1'i** (göreli). Kaynaklar ara değerleri
+Tolerans yayımlanan değerin **%1'i** (göreli tolerans, İng. *relative tolerance*). Kaynaklar ara değerleri
 yuvarlayarak bastığı için mutlak eşitlik beklenmez.
 
 **Toleransı aşan fark otomatik olarak ❌ değildir.** Belirleyici olan farkın
@@ -77,11 +78,11 @@ Aşağıdaki Kincaid örneği bunun nasıl göründüğünü anlatıyor.
 
 Bu ayrım önemli ve raporda ayrı sütunda durur.
 
-**Uçtan uca**, kaynağın **kendi metnini** çözümleme hattından geçirir. Yani
+**Uçtan uca karşılaştırma** (İng. *end-to-end comparison*), kaynağın **kendi metnini** çözümleme hattından geçirir. Yani
 türceleme, seslem sayımı ve tümce bölme de sınanır. En güçlü kanıttır: bir
 sayı tutuyorsa yalnız formül değil, ona giden bütün adımlar doğrudur.
 
-**Formül**, fonksiyona girdileri doğrudan verir — örneğin "seslem/sözcük 2,2
+**Formül karşılaştırması** (İng. *formula comparison*), fonksiyona girdileri doğrudan verir — örneğin "seslem/sözcük 2,2
 ve sözcük/tümce 4". Formülü ve katsayıları doğrular, çözümleme hattını
 doğrulamaz. Kaynak bir metin yayımlamamışsa elde olan budur.
 
@@ -129,7 +130,7 @@ göstergelerin tek girdisi olduğu için karşılaştırma doğrudan yapılabili
 | `curve_length` Text 2 | 134,2787 | 134,27870 |
 | `entropy` Text 1 | 6,438043 bit = 4,462511 nat | 4,462512 |
 
-QUITA entropiyi bit cinsinden basıyor. Bu kütüphanedeki bütün logaritmalar doğal logaritma
+QUITA entropiyi bit cinsinden basıyor. Bu araçtaki bütün logaritmalar doğal logaritma
 olduğu için yayımlanan değer karşılaştırmadan önce nata çevriliyor (× ln 2).
 
 Yirmi sekiz karşılaştırmanın yirmi yedisi tolerans içinde (en büyük göreli
@@ -186,6 +187,21 @@ Parça bazında bütün sayılar — vuruş ve sözcük sayıları dâhil — ra
 ek tabloda duruyor, farkın hangi girdiden geldiği görülebilsin diye.
 
 İşte 🟡'nin anlamı bu: *fark var, ölçtük, nereden geldiğini biliyoruz.*
+
+## Kısaca: ne kadarı sınanabildi
+
+Türkçedeki 133 alanyazın ölçüsünün yalnız 21'i kaynağın yayımladığı bir hesaplama örneğiyle
+karşılaştırılabildi; yapılabilen 61 karşılaştırmanın hepsinde araç kaynakla örtüşür. Bu
+özniteliklerden yalnız üçü uçtan uca, yani sözcük, seslem ve tümce sayımıyla birlikte
+sınanabildi. Kaynakların çoğu ölçüyü formülüyle tanımlar, ama formülü bir metne uygulayıp
+sonucunu yayımlamaz.
+
+Raporun dışında, uzman değerlerini içeren bir sınama veri seti (İng. *test dataset*) de
+kullanıldı: TOMA programı için yayımlanan 57 metin (Kalyoncu vd. 2026). Bu veri setinde
+aracın sözcük ve seslem sayıları uzman değerleriyle neredeyse tamamen, tümce sayıları ve
+Türkçe okunabilirlik formülleri metinlerin çoğunda örtüşür. İnsan yargısına dayanan
+değişkenlerde (Kalyoncu'nun KL ve KCO'su) araç uzman değerlerini üretmez
+([Kalyoncu formülleri](kalyoncu.md)).
 
 ## Rapor testlerden üretilir
 

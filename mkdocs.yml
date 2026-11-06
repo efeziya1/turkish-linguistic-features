@@ -65,7 +65,7 @@ nav:
       - Nasıl yapılır:
           - tr/nasil/index.md
           - Tek metni analiz et: tr/nasil/tek-metin.md
-          - Korpusu CSV'ye çıkar: tr/nasil/korpus.md
+          - Derlemi CSV'ye çıkar: tr/nasil/korpus.md
           - Metni parçalara böl: tr/nasil/segmentleme.md
           - İki sürümü karşılaştır: tr/nasil/karsilastirma.md
           - Bir özniteliğin kaynağını bul: tr/nasil/kunye.md

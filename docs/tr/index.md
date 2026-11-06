@@ -1,11 +1,11 @@
-# Türkçe dokümantasyon
+# Türkçe belgeler
 
 Bu bölüm dört parçaya ayrılır. Hangisine gideceğiniz, şu an ne yapmak
 istediğinize bağlı.
 
 | Ne yapmak istiyorsunuz | Nereye gidin |
 |---|---|
-| Kütüphaneyi hiç kullanmadım, baştan sona anlatın | **[Öğretici](baslangic.md)** |
+| Aracı hiç kullanmadım, baştan sona anlatın | **[Öğretici](baslangic.md)** |
 | Belirli bir işi yapmam lazım | **[Nasıl yapılır](nasil/index.md)** |
 | Bir özniteliğin ne olduğunu arıyorum | **[Başvuru](../reference/index.md)** (İngilizce) |
 | Neden böyle çalıştığını anlamak istiyorum | **[Açıklama](aciklama/index.md)** |
@@ -23,26 +23,27 @@ len(oz)               # 214
 oz["word_len_mean"]   # 6.2
 ```
 
-Kütüphanenin **on bir** genel adı var, hepsi bu kadar:
+Aracın Python'dan çağrılan **on bir** adı var, hepsi bu kadar:
 
 | Ad | Ne yapar |
 |---|---|
-| `analyze` | Bir metinden bütün öznitelikleri çıkarır |
+| `analyze` | Bir metinden bütün öznitelikleri (İng. *features*) çıkarır |
 | `analyze_corpus` | Bir klasördeki her metin için `analyze` çalıştırır |
-| `ngram_matches` | Verdiğiniz bir sözcük ya da POS etiketi dizisinin (`["ADJ", "NOUN"]` gibi) metinde neyle eşleştiğini, sıklıklarıyla gösterir |
-| `segment_text` | Metni sabit büyüklükte parçalara böler |
+| `ngram_matches` | Verdiğiniz bir sözcük dizisinin (İng. *n-gram*) metinde neyle eşleştiğini, sıklıklarıyla gösterir; dizi sözcüklerden, sözlükbirimlerden ya da sözcük türü etiketlerinden (`["EV", "VERB"]`, `["ADJ", "NOUN"]` gibi) oluşabilir |
+| `segment_text` | Metni eşit büyüklükte parçalara böler |
 | `save_csv` | Çıkan satırları CSV'ye yazar |
 | `describe_feature` | Bir özniteliğin tanımını, formülünü, ölçeğini, hesaplanması için gereken en az veriyi ve künyesini verir |
 | `FeatureParams` | Eşikleri ve pencere boylarını taşıyan ayar nesnesi |
-| `LinguisticFeaturesError` | Kütüphanenin kendi hatalarının atası |
+| `LinguisticFeaturesError` | Aracın kendi hatalarının atası |
 | `ModelNotFoundError` | Gereken dil verisi kurulu değilse: spaCy modeli ya da İngilizce seslem sayımı için NLTK `cmudict` |
 | `MissingDependencyWarning` | İsteğe bağlı bir paket yoksa |
 | `ParagraphStructureWarning` | 1000 sözcüğü geçen metinde paragraf sınırı bulunamazsa |
 
-Bütün öznitelikler, `custom_ngrams` ile saydığınız öbekler de dahil,
+Bütün öznitelikler, `custom_ngrams` ile saydığınız sözcük dizileri de dahil,
 `analyze`'dan çıkar.
 
 ## Terimler
 
-Doküman boyunca sabit karşılıklar kullanılıyor. Emin olmadığınız bir sözcük
-görürseniz: **[terim sözlüğü](sozluk.md)**.
+Belgelerdeki terimler, aracın anlatıldığı tezdeki terimlerle aynıdır. Bir terim bir sayfada
+ilk geçtiğinde İngilizcesi yanında verilir: türce (İng. *token*), derlem (İng. *corpus*).
+Hepsi tek yerde: **[terim sözlüğü](sozluk.md)**.

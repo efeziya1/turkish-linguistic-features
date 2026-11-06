@@ -1,6 +1,9 @@
 # Derlemi CSV'ye çıkar
 
-## Dizin düzeni
+Derlem (İng. *corpus*), birlikte çözümlenecek metinlerinizdir. Bu sayfa bir derlemi tek
+seferde öznitelik tablosuna çevirmeyi anlatır.
+
+## Klasör düzeni
 
 `analyze_corpus` üç düzeni kendiliğinden tanır. Her satır bir `label`
 (etiket) ve bir `source` (kaynak) taşır.
@@ -44,7 +47,7 @@ başlıkları şu adlardan biri olmalı (ilk eşleşen kullanılır):
 Kaynak sütunu yoksa dosyanın adı kullanılır. `.tsv` uzantılı dosya sekmeyle
 ayrılmış okunur.
 
-Etiket yazar olmak zorunda değil — dönem, tür, sınıf düzeyi, deney kolu,
+Etiket yazar olmak zorunda değil: dönem, tür, sınıf düzeyi, deney kolu,
 ne ölçüyorsanız o.
 
 Dosyalar **UTF-8** olmalı. UTF-8 olmayan dosya varsa analiz başlamadan hata
@@ -71,7 +74,7 @@ satır sayısı: 3
 sütun sayısı: 217
 ```
 
-Her dosya bir satır. 217 sütun = 214 öznitelik + üç kimlik sütunu:
+Her dosya bir satır. 217 sütun = 214 öznitelik (İng. *feature*) + üç kimlik sütunu:
 
 ```text
 label=yazar_a  source=metin1     segment_id=0  ttr=1.0
@@ -130,7 +133,7 @@ print(len(butun), len(parcali), [s["segment_id"] for s in parcali])
 Tümce uzunluğu dağılımını etiketlere göre karşılaştıran çalışan örnek:
 [`examples/05_cumle_ritmi.py`](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/05_cumle_ritmi.py).
 
-!!! note "Parçalama dosya dosya yapılır, derlem geneli değil"
+!!! note "Parçalama dosya dosya yapılır, derlemin bütününe değil"
 
     `segment_size=1000`, **her dosyayı ayrı ayrı** 1000'lik parçalara
     böler. Bütün dosyaları birleştirip baştan sona 1000'er kesmez.
@@ -159,5 +162,5 @@ analyze_corpus(
 ) -> list[dict[str, object]]
 ```
 
-`groups`, `params`, `model`, `custom_ngrams`, `warn` — hepsi `analyze` ile aynı
+`groups`, `params`, `model`, `custom_ngrams`, `warn`: hepsi `analyze` ile aynı
 anlamda ve her parçaya uygulanır. `custom_ngrams` sayıları parça başınadır.

@@ -63,12 +63,17 @@ That is: the method is Covington & McFall's, **but the default window size
 is not theirs.** Being able to read that distinction off the citation is
 deliberate.
 
+A citation gives not only the source but **where** in it the formula is: 179 of the 203
+Turkish citations give a page, table, equation or section number (`p.97`, `eq. (5)`). So
+you can find the formula in its source and compare it with the tool's implementation.
+
 Other forms of the same pattern:
 
 - `"Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)"`
   — **the primary source could not be obtained**; the formula was taken
-  from the citing work. **14** citations are like this, and all of them
-  carry `as cited in`.
+  from the citing work. **13** citations are like this across both languages (12 in
+  Turkish; the thirteenth is LIX, computed for English only), and all of them carry
+  `as cited in`.
 - `"McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form
   of SMOG's input, not the source's own measure"` — derived from the
   source, but not a measure the source itself defines.

@@ -24,7 +24,7 @@ oz["atesman"]         # 89.355  (Ateşman 1997 okunabilirlik)
 
 ---
 
-## Dokümantasyon · Documentation
+## Belgeler · Documentation
 
 <div class="grid cards" markdown>
 
@@ -38,7 +38,7 @@ oz["atesman"]         # 89.355  (Ateşman 1997 okunabilirlik)
 
 - **[Başvuru · Reference →](reference/index.md)**
 
-    214 özniteliğin tam listesi ve genel API (İngilizce).
+    214 özniteliğin tam listesi ve Python'dan çağrılan adlar (İngilizce).
 
 - **[Doğrulama · Verification →](dogrulama-raporu.md)**
 
@@ -49,7 +49,7 @@ oz["atesman"]         # 89.355  (Ateşman 1997 okunabilirlik)
 
 ---
 
-## Bu kütüphane ne yapmaz
+## Bu araç ne yapmaz
 
 - **Anlam çıkarmaz.** Duygu, konu, niyet ölçmez. Ölçtüğü şey biçimdir:
   uzunluk, çeşitlilik, dağılım, yapı.

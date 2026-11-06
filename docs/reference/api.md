@@ -45,7 +45,7 @@ Extracts every feature from one text. Returns a flat `dict`; values are
 | `model` | spaCy model name. Defaults: `tr_core_news_md`, `en_core_web_sm` |
 | `groups` | Restrict to these groups; `None` means all |
 | `params` | Thresholds and window sizes. **`None` selects language-calibrated values** |
-| `custom_ngrams` | Word sequences to count, one key `ngram_{...}_count` each. An UPPERCASE UD tag (`NOUN`, `VERB` …) in a phrase matches any word with that tag; matches stay inside a sentence. See `ngram_matches` for what matched |
+| `custom_ngrams` | Word sequences to count, one key `ngram_{...}_count` each. In a phrase, a UD tag (`NOUN`, `VERB` …) matches any word with that tag; any other all-uppercase item of 2+ letters (`EV`, `GO`) matches any word with that lemma; anything else matches the lowercased written form. Matches stay inside a sentence. See `ngram_matches` for what matched |
 | `show_progress` | Print progress to stdout |
 | `warn` | `False` silences `MissingDependencyWarning` and `ParagraphStructureWarning`; does not change the result |
 
@@ -69,8 +69,14 @@ ngram_matches(
 ```
 
 What one `custom_ngrams` phrase matched in a text, most frequent first. The
-matching is the same as in `analyze`, so the values add up to the phrase's
+matching is the same as in `analyze` (words, lemmas and UD tags; see the
+`custom_ngrams` row above), so the values add up to the phrase's
 `ngram_{...}_count`.
+
+```python
+tlf.ngram_matches("Eve gittim. Evden çıktık. Evdeki kedi uyudu.", ["EV", "VERB"])
+# {'eve gittim': 1, 'evden çıktık': 1}
+```
 
 ```python
 tlf.ngram_matches("Eski ev yıkıldı. Büyük bahçe kaldı.", ["ADJ", "NOUN"])

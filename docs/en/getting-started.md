@@ -30,6 +30,8 @@ python -m nltk.downloader cmudict
 pip install 'wordfreq>=3.0'
 ```
 
+Zeyrek (the Turkish morphological analyser) is installed automatically with the tool.
+
 !!! note "Two things about the Turkish model that look like bugs"
 
     **The wheel disagrees with itself.** The filename says version `1.0`,

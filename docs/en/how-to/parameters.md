@@ -1,6 +1,7 @@
 # Change the thresholds
 
-Window sizes, thresholds and sample counts live in `FeatureParams`.
+Window sizes, thresholds and sample counts live in `FeatureParams`. These are the
+parameters; the tool has 21, and you can change all of them.
 
 ## Usage
 
@@ -55,14 +56,29 @@ sentences is over 12 words; none is over 17.
 `zeyrek_verb_suffix_diversity` draws 100 random samples from the text's verbs; each sample
 has 10 verbs, with no verb repeated within a sample. The result is the mean number of
 distinct suffix types seen in the samples (Brezina & Pallotti 2019, pp.107-108: MC10). The
-library measures only the within-sample variety; MC10's between-sample component is left
+tool measures only the within-sample variety; MC10's between-sample component is left
 out, so the measure is close to MC10a.
+
+## Constants taken from sources were not tested on Turkish
+
+Some values in the table are the source's own constants: MTLD's 0.72 threshold
+(McCarthy & Jarvis 2010, p.385), HD-D's 42-word sample (p.383) and the 0.172 of Brunet's
+measure (Brunet 1978, p.49). These numbers were set on English or French texts and have
+not been tested on Turkish texts. It cannot be said that they do not carry over to Turkish,
+but it has not been shown that they do.
+
+For readability formulas, how this problem is handled is known: Ateşman (1997,
+pp.73–74) kept the structure of the Flesch formula when applying it to Turkish and
+recomputed its coefficients from Turkish texts. In this tool, the sentence thresholds were
+likewise measured separately for each language (below). To try a constant on your own
+corpus, change it with the fields above.
 
 ## The sentence thresholds resolve per language
 
 These are the only two fields in the table without a single value. The reason
 is typological: Turkish sentences are shorter than English ones, so one
-threshold cannot serve both.
+threshold cannot serve both. The Turkish long-sentence threshold of 17 words counts 54% of
+sentences in English columns as long; in its own language the share is 15%.
 
 | Language | short | long |
 |---|---|---|
@@ -71,7 +87,7 @@ threshold cannot serve both.
 
 They were derived from the 15th and 85th percentiles of the sentence-length
 distribution in newspaper columns, measured with the default sentence rule and
-the default word (Turkish: 197,990 sentences; English: 52,745 sentences). Method:
+the default word (Turkish: 198,225 sentences; English: 52,745 sentences). Method:
 [Threshold calibration](../../threshold-calibration.md).
 
 ## Which feature depends on which parameter

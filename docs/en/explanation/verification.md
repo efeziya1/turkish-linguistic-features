@@ -18,7 +18,7 @@ The result: [verification report](../../verification-report.md)
 ### 1. Formula equivalence
 
 The formula of every feature with a citation was checked against its
-source; the source is mostly primary, secondary in 14 citations (`as cited in`). Each
+source; the source is mostly primary, secondary in 12 Turkish citations (`as cited in`). Each
 citation shows the page and number of the formula in the source (e.g.
 `p.327, eq. (5)`). Tests exercise the formula and its edge cases. The 11 features without a citation are plain definitions; there is no
 source to check them against.
@@ -199,6 +199,21 @@ from.
 
 That is what 🟡 means: *there is a difference, we measured it, and we know
 where it comes from.*
+
+## In short: how much could be checked
+
+Only 21 of the 133 Turkish literature measures could be compared with a worked example
+their source published; in all 61 comparisons that could be made, the tool matches the
+source. Only three of these features could be tested end to end, that is, together with
+word, syllable and sentence counting. Most sources define a measure by its formula but do
+not apply it to a text and publish the result.
+
+Outside the report, a test dataset with expert values was also used: the 57 texts
+published for the TOMA program (Kalyoncu et al. 2026). On this dataset the tool's word and
+syllable counts agree with the expert values almost completely, and its sentence counts and
+Turkish readability formulas agree on most texts. For variables that rest on human
+judgement (Kalyoncu's KL and KCO) the tool does not reproduce the expert values
+([Kalyoncu formulas](kalyoncu.md)).
 
 ## The report is generated from the tests
 

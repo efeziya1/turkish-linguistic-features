@@ -67,13 +67,14 @@ being a moving average — hence the `2 × window` threshold.
 
 `zeyrek_derivational_suffix_ratio` has a zero denominator if the text contains no
 derivational suffixes. `parse_depth_mean` cannot produce a value if no
-sentence parses. `verb_dist_mean` cannot be measured unless the text has at least two verbs.
+sentence parses. `verb_dist_mean` cannot be measured unless the text has at least two verbs. In a text
+with no verbs, the tense and aspect shares of verbs cannot be computed.
 The `punct_…_ratio` features cannot be computed if the text has no punctuation marks.
 
 ### 3. An optional package is missing
 
 Without `wordfreq`, `wordfreq_mean` and `wordfreq_rare_ratio` return `nan`
-and the library raises a `MissingDependencyWarning`.
+and the tool raises a `MissingDependencyWarning`.
 
 ```python
 oz = tlf.analyze(text, lang="en", warn=False)
@@ -87,7 +88,13 @@ flag also silences `ParagraphStructureWarning`.
 Paragraph boundaries are found from blank lines. If your text has no blank lines,
 the whole text counts as one paragraph and `para_len_mean` becomes the word count
 of the entire text: the value is not `nan`, but it says nothing about paragraphs.
-Details: [limitations §8](limitations.md).
+Details: [Limitations, paragraph features](limitations.md).
+
+## Why not zero
+
+A value that cannot be computed is not filled with zero, because zero is a real value: a
+text with no pronouns has a pronoun share of 0, and that tells you something about the
+text. Showing an uncomputable value as zero would mix the two cases up.
 
 ## Why `nan` and not `None`
 
