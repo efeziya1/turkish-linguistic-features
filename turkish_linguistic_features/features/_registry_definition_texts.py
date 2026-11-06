@@ -33,6 +33,8 @@ DEFINITION_INFO: dict[tuple[str, str], tuple[str, str]] = {
         "A spaCy token whose POS tag is not PUNCT or SYM; numbers count."),
     ("word", "zeyrek_analysed_word"): ("zeyrek",
         "A space_unit that Zeyrek can analyse; the first analysis is used."),
+    ("word", "space_unit_numbers_read"): ("tlf",
+        "space_unit, but a word with digits counts as the words it is read as (1968 = 5)."),
     # ── type ──
     ("type", "lowercase_surface"): ("tlf",
         "The word string lowercased by language (Turkish I→ı, İ→i); inflected forms are separate types."),
@@ -85,12 +87,21 @@ DEFINITION_INFO: dict[tuple[str, str], tuple[str, str]] = {
     ("verb", "zeyrek_final_type_verb"): ("zeyrek",
         "A word whose last type in Zeyrek's analysis is Verb."),
     ("lexical_word", "noun_propn_verb_adj_adv"): ("tlf",
-        "A word tagged NOUN, PROPN, VERB, ADJ or ADV by spaCy."),
-    ("content_word", "noun_propn_verb_adj"): ("tlf",
-        "A word tagged NOUN, PROPN, VERB or ADJ by spaCy."),
+        "A word tagged NOUN, PROPN, VERB, ADJ or ADV by spaCy; all adverbs, not only Lu's "
+        "(2012) adjective-derived ones."),
     # ── suffix ──
     ("suffix", "zeyrek_visible_suffix"): ("zeyrek",
         "A suffix in Zeyrek's analysis with a non-empty surface string."),
+    # ── Kalyoncu (2025) ──
+    ("stem", "zeyrek_lemma_derivations"): ("tlf",
+        "Zeyrek's lemma plus derivational suffixes; stops at voice, compound-verb, copula or "
+        "verbal suffixes; unanalysed words lowercased."),
+    ("verbal", "zeyrek_verbal_tag"): ("tlf",
+        "A word whose Zeyrek analysis has an infinitive, participle or converb tag; noun + -ken "
+        "excluded."),
+    ("list_word", "kalyoncu_list"): ("tlf",
+        "A word whose form, stem or stem + -mak/-mek is in Kalyoncu's (2025) 4,600-word list, "
+        "circumflexes ignored."),
     # ── model outputs used directly ──
     ("pos_tag", "spacy_upos"): ("spacy",
         "The universal POS tag the spaCy model gives the word's first non-punctuation token."),

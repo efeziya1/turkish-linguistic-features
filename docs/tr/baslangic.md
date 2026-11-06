@@ -6,7 +6,9 @@ tablosuyla bitirir. Dallanma yok; seçenekleri
 
 Süre: yaklaşık 15 dakika, çoğu model indirmekle geçer.
 
-## 1. Kütüphaneyi kurun
+## 1. Aracı kurun
+
+Araç bir Python kütüphanesi olarak dağıtılır:
 
 ```bash
 pip install turkish-linguistic-features
@@ -22,7 +24,7 @@ Kullandığınız dilin verisini bir kez kurun:
 # defterinde yok, bu yüzden wheel doğrudan kurulur:
 pip install https://huggingface.co/turkish-nlp-suite/tr_core_news_md/resolve/main/tr_core_news_md-1.0-py3-none-any.whl
 
-# İngilizce — iki parça: spaCy modeli (12 MB) ve hece sayımı için CMU
+# İngilizce — iki parça: spaCy modeli (12 MB) ve seslem sayımı için CMU
 # telaffuz sözlüğü (1 MB)
 python -m spacy download en_core_web_sm
 python -m nltk.downloader cmudict
@@ -30,6 +32,8 @@ python -m nltk.downloader cmudict
 # İsteğe bağlı — iki wordfreq_* özniteliği için
 pip install 'wordfreq>=3.0'
 ```
+
+Zeyrek (Türkçe biçimbirim çözümleyicisi) araçla birlikte kendiliğinden kurulur.
 
 !!! note "Türkçe modelde hata sanacağınız iki şey"
 
@@ -63,7 +67,7 @@ print(len(oz))
 ```
 
 ```text
-208
+214
 ```
 
 Metnin ilk tümcesi Chomsky'nin *Syntactic Structures* (1957) kitabından.
@@ -71,12 +75,12 @@ Metnin ilk tümcesi Chomsky'nin *Syntactic Structures* (1957) kitabından.
 `lang` verilmezse varsayılan `"tr"`'dir; İngilizce metin için `lang="en"`
 yazmanız gerekir.
 
-`analyze` **düz bir sözlük** döndürür: anahtarlar öznitelik adları, değerler
-sayılar. İç içe yapı yok, sınıf yok, `pandas` zorunluluğu yok.
+`analyze` **düz bir sözlük** döndürür: anahtarlar öznitelik (İng. *feature*) adları,
+değerler sayılar. İç içe yapı yok, sınıf yok, `pandas` zorunluluğu yok.
 
 ## 4. Çıktıyı okuyun
 
-208 sayıya birden bakmanın anlamı yok. Birkaçına bakalım:
+214 sayıya birden bakmanın anlamı yok. Birkaçına bakalım:
 
 ```python
 for k in ("ttr", "word_len_mean", "sent_len_mean",
@@ -97,12 +101,12 @@ Bunlar ne anlatıyor:
 
 | Anahtar | Değer | Okunuşu |
 |---|---|---|
-| `ttr` | 0.96 | Tip/token oranı. 25 sözcüğün 24'ü farklı; yalnız `bu` iki kez geçiyor. Kısa metinde TTR 1'e yakındır, metin uzadıkça düşer. |
+| `ttr` | 0.96 | Tür/türce oranı (İng. *type-token ratio*). 25 sözcüğün 24'ü farklı; yalnız `bu` iki kez geçiyor. Kısa metinde TTR 1'e yakındır, metin uzadıkça düşer. |
 | `word_len_mean` | 6.04 | Sözcük başına 6,04 karakter. |
 | `sent_len_mean` | 8.3333 | Tümce başına 8,33 sözcük. |
-| `syllable_mean` | 2.48 | Sözcük başına 2,48 hece. |
+| `syllable_mean` | 2.48 | Sözcük başına 2,48 seslem (İng. *syllable*). |
 | `atesman` | 77.441 | Ateşman (1997) okunabilirlik puanı. Olağan düzyazı 0–100 arasına düşer, ama bu bir sınır değildir. 70–89 "kolay" bandı. |
-| `entropy` | 3.163424 | Sözcük dağılımının Shannon entropisi, nat (doğal logaritma). |
+| `entropy` | 3.163424 | Sözcük dağılımının Shannon entropisi, nat cinsinden (doğal logaritma). |
 
 ## 5. Neden bazı değerler `nan`?
 
@@ -114,8 +118,8 @@ print(oz["mattr"])
 nan
 ```
 
-Metin 25 sözcük; `mattr` en az 100 sözcük ister. Kütüphane eksik veriyle
-sayı **uydurmaz**, `nan` döndürür.
+Metin 25 sözcük; `mattr` en az 100 sözcük ister. Araç eksik veriyle
+sayı **uydurmaz**, `nan` (İng. *not a number*, "sayı değil") döndürür.
 
 Ne kadarı `nan` olur, bakalım:
 
@@ -126,10 +130,10 @@ print(len(kisa), len(nan_olan))
 ```
 
 ```text
-208 36
+214 37
 ```
 
-Üç sözcüklük bir metinde 208 öznitelikten **36'sı** `nan` döner. Bu bir hata
+Üç sözcüklük bir metinde 214 öznitelikten **37'si** `nan` döner. Bu bir hata
 değildir. Ayrıntı: **[NaN ne demek](aciklama/nan.md)**.
 
 ## 6. Bir özniteliğin kaynağını görün
@@ -143,22 +147,22 @@ print(d["references"][0])
 ```
 
 ```text
-Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window)
+Covington & McFall (2010); default window 50 — C&M recommend a window of 500 (p.97); 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window)
 Covington, M. A., & McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098
 ```
 
-`references` alanı kaynakçanıza kopyalayacağınız şeydir. `citation`
-kısa işaretçidir ve **ne bilmediğimizi de söyler** — yukarıdaki örnekte
-varsayılan pencere boyunun kaynaktan gelmediğini açıkça yazıyor. Sözlükteki öbür
-alanlar (formül, ölçek, gereken en az veri…): [Bir özniteliğin kaynağını
+`references` (kaynakça kaydı, İng. *reference*) kaynakçanıza kopyalayacağınız şeydir.
+`citation` (künye, İng. *citation*) kısa gösterimdir ve **ne bilmediğimizi de söyler**:
+yukarıdaki örnekte varsayılan pencere boyunun kaynaktan gelmediğini açıkça yazıyor.
+Sözlükteki öbür alanlar (formül, ölçek, gereken en az veri…): [Bir özniteliğin kaynağını
 bul](nasil/kunye.md).
 
-## 7. Bir korpusu tabloya çevirin
+## 7. Bir derlemi tabloya çevirin
 
-Tek metin nadiren yeterlidir. Dizin yapınız şöyle olsun:
+Tek metin nadiren yeterlidir. Derleminizin (İng. *corpus*) klasör yapısı şöyle olsun:
 
 ```text
-korpus/
+derlem/
   yazar_a/
     metin1.txt
     metin2.txt
@@ -167,7 +171,7 @@ korpus/
 ```
 
 ```python
-satirlar = tlf.analyze_corpus("korpus/", lang="tr")
+satirlar = tlf.analyze_corpus("derlem/", lang="tr")
 tlf.save_csv(satirlar, "oznitelikler.csv")
 print("satır sayısı:", len(satirlar))
 print("sütun sayısı:", len(satirlar[0]))
@@ -175,10 +179,10 @@ print("sütun sayısı:", len(satirlar[0]))
 
 ```text
 satır sayısı: 3
-sütun sayısı: 211
+sütun sayısı: 217
 ```
 
-Her dosya bir satır olur. 211 sütun = 208 öznitelik + üç kimlik sütunu:
+Her dosya bir satır olur. 217 sütun = 214 öznitelik + üç kimlik sütunu:
 
 ```text
 label=yazar_a  source=metin1     segment_id=0

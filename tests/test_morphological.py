@@ -295,17 +295,38 @@ def test_ek_bigram_entropisi():
     assert math.isnan(suffix_ngrams(*_z(EV))["zeyrek_suffix_bigram_entropy"])
 
 
-def test_fiil_eki_cesitliligi_parcali():
-    """S7: 2'şer fiil; {Neg,Past,A1sg,Prog1}=4, {Neg,Past,A1sg}=3 → 3.5; artık atılır."""
-    params = FeatureParams(verb_suffix_window=2)
+def test_fiil_eki_cesitliligi_butun_fiiller_tek_ornekleme_sigarsa():
+    """Örneklem boyu fiil sayısına eşitse her örneklem bütün fiillerdir: {Neg,Past,A1sg,Prog1}=4."""
+    params = FeatureParams(verb_suffix_window=5)
     sonuc = zeyrek_verb_suffix_diversity(
         *_z(GELMEDIM, EV, GIDIYORDUM, GELMEDIM, GELMEDIM, GIDIYORDUM), params)
-    assert sonuc["zeyrek_verb_suffix_diversity"] == 3.5
+    assert sonuc["zeyrek_verb_suffix_diversity"] == 4.0
 
 
-def test_fiil_eki_cesitliligi_kisa_metin_nan():
-    assert FeatureParams().verb_suffix_window == 50
+def test_fiil_eki_cesitliligi_rastgele_ornekleme_ortalamasi():
+    """Brezina & Pallotti (2019) s.108: tekrarsız rastgele örneklemlerin ortalaması; tohum sabit.
+
+    2'li örneklemde ya iki GELMEDIM (3 tür) ya da GIDIYORDUM'lu bir çift (4 tür) çıkar.
+    """
+    params = FeatureParams(verb_suffix_window=2, verb_suffix_num_samples=50)
+    girdi = _z(GELMEDIM, GIDIYORDUM, GELMEDIM, GELMEDIM, GIDIYORDUM)
+    sonuc = zeyrek_verb_suffix_diversity(*girdi, params)["zeyrek_verb_suffix_diversity"]
+    assert 3.0 < sonuc < 4.0
+    assert zeyrek_verb_suffix_diversity(*girdi, params)["zeyrek_verb_suffix_diversity"] == sonuc
+    baska = FeatureParams(verb_suffix_window=2, verb_suffix_num_samples=50, verb_suffix_random_seed=7)
+    assert 3.0 < zeyrek_verb_suffix_diversity(*girdi, baska)["zeyrek_verb_suffix_diversity"] < 4.0
+
+
+def test_fiil_eki_cesitliligi_varsayilanlar_ve_kisa_metin_nan():
+    """Varsayılan 10 fiil, 100 örneklem, vocd ile aynı tohum (2026-10-26, Efe)."""
+    p = FeatureParams()
+    assert (p.verb_suffix_window, p.verb_suffix_num_samples) == (10, 100)
+    assert p.verb_suffix_random_seed == p.vocd_random_seed
     assert math.isnan(zeyrek_verb_suffix_diversity(*_z(GELMEDIM))["zeyrek_verb_suffix_diversity"])
+    dokuz = _z(*([GELMEDIM] * 9))
+    assert math.isnan(zeyrek_verb_suffix_diversity(*dokuz)["zeyrek_verb_suffix_diversity"])
+    on = _z(*([GELMEDIM] * 10))
+    assert zeyrek_verb_suffix_diversity(*on)["zeyrek_verb_suffix_diversity"] == 3.0
 
 
 def test_zeyrek_morfoloji_23_anahtar():

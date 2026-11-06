@@ -20,6 +20,15 @@ def test_basit_kelime_cozumleme():
 
 
 
+def test_tum_cozumlemeler_ilki_analyze_word_ile_ayni():
+    b = ZeyrekBackend()
+    alt = b.analyze_alternatives("yüz")
+    assert len(alt) > 1                          # organ / sayı / fiil
+    assert alt[0][0] == b.analyze_word("yüz")
+    assert {a[0][0][0] for a in alt} >= {"Noun", "Num"}
+    assert b.analyze_alternatives("xqztlk") == ()
+
+
 def test_kivrik_kesme_duz_kesme_gibi_cozumlenir():
     """``’`` ve ``‘`` düz ``'``'ye çevrilir; yoksa özel ad çözümsüz kalıyordu (2026-10-06)."""
     b = ZeyrekBackend()

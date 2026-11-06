@@ -18,6 +18,7 @@ from turkish_linguistic_features.features.registry import (
     FEATURE_CITATIONS,
     FEATURE_DESCRIPTIONS,
     FEATURE_FORMULAS,
+    FEATURE_INPUTS,
     FEATURE_PARAMS,
     FEATURE_REQUIRES,
     FEATURE_SCALES,
@@ -39,15 +40,15 @@ TUM_STATIK = [k for ks in STATIC_GROUP_KEYS.values() for k in ks]
 
 
 def test_grup_sayilari():
-    """12 statik + 2 dinamik = 14 grup (sözleşme §3)."""
-    assert len(STATIC_GROUP_KEYS) == 12
+    """11 statik + 2 dinamik = 13 grup (`syntactic` 2026-10-26'da dağıtıldı)."""
+    assert len(STATIC_GROUP_KEYS) == 11
     assert len(DYNAMIC_PREFIXES) == 2
-    assert len(GROUP_LABELS) == 14
+    assert len(GROUP_LABELS) == 13
 
 
 def test_statik_anahtar_sayisi():
-    """Statik anahtar sayısı (TR 208, EN 181 dinamikle)."""
-    assert len(TUM_STATIK) == 183
+    """Statik anahtar sayısı (TR 214, EN 181 dinamikle)."""
+    assert len(TUM_STATIK) == 192
 
 
 def test_anahtarlar_gruplar_arasi_tekrarlanmaz():
@@ -94,7 +95,7 @@ def test_her_grubun_inputs_kaydi_var():
 
 def test_get_group_statik():
     assert get_group("mattr") == "lexical"
-    assert get_group("arc_len_mean") == "syntactic_dep"
+    assert get_group("arc_len_mean") == "syntactic"
 
 
 def test_get_group_dinamik():
@@ -137,7 +138,7 @@ def test_kullanici_ngrami_registryde_kayitli():
 
 def test_cumle_sonu_anahtarlari_vocab_ile_uyumlu():
     from turkish_linguistic_features.vocab import SENT_FINAL_POS
-    son = [k for k in STATIC_GROUP_KEYS["syntactic_dep"] if k.startswith("sentfinal_")]
+    son = [k for k in STATIC_GROUP_KEYS["syntactic"] if k.startswith("sentfinal_")]
     assert len(son) == len(SENT_FINAL_POS) + 1 == 14   # + sentfinal_other_ratio
 
 
@@ -155,7 +156,7 @@ def test_describe_statik_anahtar():
     d = describe_feature("mattr")
     assert d["group"] == "lexical"
     assert d["params"] == ("mattr_window",)
-    assert "lemma_tokens" in d["inputs"]
+    assert d["inputs"] == ("raw_text",)      # öznitelik başına: pos_data, lemma_tokens okumaz
     assert d["citation"] is not None
     assert d["scale"] == "ratio_0_1"
 
@@ -187,7 +188,7 @@ def test_describe_bilinmeyen_anahtar():
 
 
 def test_her_statik_anahtar_describe_edilebiliyor():
-    """183 statik anahtarın hiçbiri boş alan döndürmemeli."""
+    """192 statik anahtarın hiçbiri boş alan döndürmemeli."""
     for k in TUM_STATIK:
         d = describe_feature(k)
         assert d["description"], f"{k}: açıklama boş"
@@ -214,6 +215,15 @@ def test_feature_scales_grup_varsayiliyla_ayni_deger_icermez():
         assert v != GROUP_SCALES[get_group(k)], (
             f"{k} zaten grup varsayılanı ({v}) — FEATURE_SCALES'ten sil"
         )
+
+
+def test_feature_inputs_grup_varsayiliyla_ayni_deger_icermez():
+    """Çift kayıt yasak — biri güncellenip diğeri unutulur."""
+    for k, v in FEATURE_INPUTS.items():
+        assert v != GROUP_INPUTS[get_group(k)], (
+            f"{k} zaten grup varsayılanı ({v}) — FEATURE_INPUTS'tan sil"
+        )
+        assert k in TUM_STATIK, f"{k} registry'de kayıtlı değil"
 
 
 def test_feature_scales_anahtarlari_registryde_kayitli():
@@ -274,19 +284,21 @@ def test_dogrulanmamis_sabit_kunyeye_yaziliyor():
 def test_inputs_kaydi_gercekten_okunan_alanlari_iceriyor():
     """🔴 Kaydın VAR olması yetmez, DOĞRU olması gerekir.
 
-    ``frequency_structure`` (2026-08-25) ve ``syntactic`` (2026-08-26) iki kez
+    ``frequency_structure`` (2026-08-25) ve eski ``syntactic`` grubu (2026-08-26) iki kez
     eksik kaydedildi; ikisi de "kaydı var mı" testinden geçiyordu.
     """
     bilinen = {
-        "activity_ratio":          "pos_data",   # syntactic grubu
+        "activity_ratio":          "pos_data",   # pos grubu (eski syntactic)
         "lexical_density":         "pos_data",
         "posdiv":              "pos_data",
         "noun_variation":          "pos_data",   # lexical grubu
+        "lemma_count":             "lemma_tokens",
+        "sent_count":              "surface_tokens",  # cümle tokenlardan bölünür
         "thematic_concentration":  "pos_data",   # frequency_structure grubu
     }
     for anahtar, beklenen in bilinen.items():
         assert beklenen in describe_feature(anahtar)["inputs"], (
-            f"{anahtar} {beklenen} okuyor ama GROUP_INPUTS söylemiyor"
+            f"{anahtar} {beklenen} okuyor ama inputs kaydı söylemiyor"
         )
 
 

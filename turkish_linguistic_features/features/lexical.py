@@ -1,7 +1,8 @@
 """Sözcüksel temel: frekans tablosu ve klasik kelime zenginliği ölçütleri.
 
-Bu modül 36 öznitelik anahtarı üretir (`lexical` grubunun 38'inden; kalan
-``lemma_count`` ve ``word_count`` ``extractor``'da sayılır):
+Bu modül 36 öznitelik anahtarı üretir (`lexical` grubunun 35'inden 32'si ve
+``frequency_structure`` grubunun dört Zipf ölçüsü; ``lemma_count`` ve ``word_count``
+``extractor``'da sayılır, ``lexical_density`` ``syntactic.py``'de):
 
 - T04 (10): ``ttr`` · ``entropy`` · ``yule_k`` · ``simpson_d`` · ``brunet_w`` ·
   ``hapax_ratio`` · ``hapax_token_ratio`` · ``word_len_mean`` ·
@@ -11,7 +12,8 @@ Bu modül 36 öznitelik anahtarı üretir (`lexical` grubunun 38'inden; kalan
   ``verb_variation`` · ``adj_variation`` · ``adv_variation``
 - T06 (3): ``vocd_d`` · ``hdd`` · ``msttr``
 - T07 (6): ``zipf_exponent`` · ``zipf_r2`` · ``zipf_mandelbrot_q`` ·
-  ``zipf_mandelbrot_s`` · ``wordfreq_mean`` · ``wordfreq_rare_ratio``
+  ``zipf_mandelbrot_s`` (2026-10-26'dan beri ``frequency_structure`` grubunda) ·
+  ``wordfreq_mean`` · ``wordfreq_rare_ratio``
 - 2026-10-06 (4): ``cttr`` · ``summer_s`` · ``maas_a2`` · ``herdan_vm``
 - 2026-10-08 (4): ``honore_r`` · ``type_count`` · ``hapax_count`` ·
   ``dislegomena_count``
@@ -19,10 +21,10 @@ Bu modül 36 öznitelik anahtarı üretir (`lexical` grubunun 38'inden; kalan
 Bütün fonksiyonlar saftır: girdi token listesi, çıktı sayı. NLP modeli
 gerekmez — tokenizasyonu çağıran taraf yapmıştır.
 
-**Kelime birimi (2026-09-15, Efe):** çeşitlilik ölçüleri küçük harfli,
-noktalamasız **yüzey biçimleri** sayar — klasik literatürün (McCarthy &
-Jarvis 2010, Covington & McFall 2010, Tweedie & Baayen 1998) birimi.
-Listeyi T20 hazırlar. İstisnalar: ``*_variation`` lemma sayar (Lu 2012),
+**Kelime birimi (2026-11-04, Efe):** çeşitlilik ölçülerinde tek sayım kuralı
+var: küçük harfli, noktalamasız **yüzey biçimler** sayılır; bu aracın tasarım
+kararıdır. Kaynağı başka birim kullanan ölçülerde fark künyede yazılır. Listeyi
+T20 hazırlar. İstisnalar: ``*_variation`` lemma sayar (Lu 2012),
 ``lemma_count`` adı gereği lemma.
 
 **K4 (2026-09-16, Efe):** ``0.0`` yalnız "ölçüldü ve sıfır çıktı" demektir.
@@ -43,20 +45,18 @@ import numpy as np
 from ..alfabe import _kucuk_harf
 from ..vocab import LEXICAL_POS, NON_WORD_POS, NOUN_POS
 
-# Brunet's W üs sabiti — Kademe C.
+# Brunet's W sabitleri — Kademe A, birincil kaynak okundu (2026-11-04, Efe):
+#   Brunet, E. (1978). Le vocabulaire de Jean Giraudoux: Structure et évolution.
+#   Genève: Slatkine.
 #
-# Kaynak OKUNDU: Tweedie, F. J. & Baayen, R. H. (1998), "How Variable May
-# a Constant be? Measures of Lexical Richness in Perspective", Computers
-# and the Humanities 32(5): 323-352, denklem (10), s. 328. Bağımsız ikinci
-# kaynak: zipfR (CRAN, Evert & Baroni) aynı değeri kullanıyor.
+# a = 0,172: s. 49. b = 20: s. 65; Brunet b'li biçimi "daha doğru" sayar ve
+# uygulamaların çoğunda onu kullanır. s. 49'un sayıları b'sizdir. Brunet V'yi
+# lemma olarak sayar (s. 53); araç yüzey biçim sayar (2026-11-04, Efe).
 #
-# Birincil kaynak (Kademe A) çevrimiçi yok ve okunmadı:
-#   Brunet, E. Vocabulaire de Jean Giraudoux: Structure et Évolution.
-#   Genève: Slatkine, 1978.
-#
-# Bazı ikincil kaynaklar 0.165 veriyor. Tartışmalı olduğu için sabit
-# gizlenmiyor: `FeatureParams.brunet_w_a` ile değiştirilebilir.
+# Bazı ikincil kaynaklar a için 0.165 veriyor; aslı 0,172 der. İki sabit de
+# `FeatureParams.brunet_w_a` ve `brunet_w_b` ile değiştirilebilir.
 _BRUNET_A = 0.172
+_BRUNET_B = 20
 
 
 def rank_word_freq_table(tokens: list[str],
@@ -131,8 +131,8 @@ def simpsons_d(freqs: np.ndarray) -> float:
     return round(float(np.sum(f * (f - 1)) / (N * (N - 1))), 6)
 
 
-def brunet_w(N: int, V: int, a: float = _BRUNET_A) -> dict[str, float]:
-    """Brunet's W = ``N^(V^−a)``; ``N`` toplam token, ``V`` tekil tip.
+def brunet_w(N: int, V: int, a: float = _BRUNET_A, b: int = _BRUNET_B) -> dict[str, float]:
+    """Brunet's W = ``N^((V−b)^−a)``; ``N`` toplam token, ``V`` tekil tip (Brunet 1978 s. 65).
 
     Parameters
     ----------
@@ -141,18 +141,20 @@ def brunet_w(N: int, V: int, a: float = _BRUNET_A) -> dict[str, float]:
     V : int
         Tekil tip sayısı.
     a : float
-        Üs sabiti; varsayılan 0.172 (``FeatureParams.brunet_w_a``).
-        Bazı ikincil kaynaklar 0.165 veriyor — fark çıktıda %8–16.
-        Kademe C, gerekçe ``_BRUNET_A`` yorumunda.
+        Üs sabiti; varsayılan 0.172 (``FeatureParams.brunet_w_a``). Bazı ikincil
+        kaynaklar 0.165 veriyor; aslı 0,172 der (s. 49).
+    b : int
+        Düzeltme; varsayılan 20 (``FeatureParams.brunet_w_b``, s. 65). ``b = 0``
+        b'siz biçimdir, ``N^(V^−a)`` (s. 49).
 
     Notes
     -----
-    Sabitten bağımsız olarak formülün şekli şunu garanti eder: V arttıkça
-    üs küçülür ve W küçülür; V = 1 iken üs 1 olur ve W = N çıkar.
+    ``V ≤ b`` iken taban pozitif olmaz → NaN; ``N = 0`` da NaN. V arttıkça üs
+    küçülür ve W küçülür; ``V − b = 1`` iken üs 1 olur ve W = N çıkar.
     """
-    if N == 0 or V == 0:
+    if N == 0 or V <= b:
         return {"brunet_w": math.nan}
-    return {"brunet_w": round(float(N ** (V ** -a)), 4)}
+    return {"brunet_w": round(float(N ** ((V - b) ** -a)), 4)}
 
 
 def _sikliktaki_tip(items: list, f: int) -> int:
@@ -217,15 +219,17 @@ def rare_word_metrics(tokens: list[str]) -> dict[str, float]:
     return {"sichel_s": round(V2 / V, 6)}
 
 
-def heaps_beta(tokens: list[str], min_tokens: int = 300,
-               step: int = 50) -> dict[str, float]:
+def heaps_beta(tokens: list[str], points: int = 20) -> dict[str, float]:
     """Heaps yasası ``V = K·N^β``; ``log V ~ β·log N`` regresyonunun eğimi.
 
     Metin uzadıkça kelime dağarcığının ne hızla büyüdüğünü ölçer.
 
-    Ölçülemediği iki durumda NaN: metin ``min_tokens``'tan kısa, ya da
-    5'ten az regresyon noktası düşüyor. ``0.0`` gerçek sıfır eğimdir (hep
-    aynı kelime).
+    Ölçüm noktaları metin boyunca ``points`` (20) eşit nokta: ``⌊k·N/points⌋``,
+    k = 1…points (Tweedie & Baayen 1998 s.333; 2026-10-27, Efe). Her metin aynı
+    sayıda noktayla ölçülür, metin uzunluğundan bağımsız. En az uzunluk sınırı yok
+    (alanyazında sayı yok); ``points``'ten kısa metinde noktalar çakışacağı için NaN.
+    Yasa büyük derlemlerde iyi uyar, kısa metinlerde güvenilir değildir (Manning
+    vd. 2008 s.81). ``0.0`` gerçek sıfır eğimdir (hep aynı kelime).
 
     β kırpılmaz (2026-09-17, Efe): tip sayısı hiç azalmadığı için eğim eksi
     olamaz, ama tekrarla başlayıp açılan metinde 1'i aşabilir ve olduğu gibi
@@ -234,21 +238,16 @@ def heaps_beta(tokens: list[str], min_tokens: int = 300,
     Raises
     ------
     ValueError
-        ``step <= 0`` ya da ``min_tokens < 0``. Negatif ``step`` eskiden sessizce
-        NaN veriyordu; parametre hatası ölçülemeyen metinle karışmasın.
+        ``points < 2``: iki noktadan az regresyon olmaz; parametre hatası ölçülemeyen
+        metinle karışmasın.
     """
-    if step <= 0:
-        raise ValueError(f"step must be positive: {step}")
-    if min_tokens < 0:
-        raise ValueError(f"min_tokens must be non-negative: {min_tokens}")
+    if points < 2:
+        raise ValueError(f"points must be at least 2: {points}")
     N = len(tokens)
-    if N < min_tokens:
-        return {"heaps_beta": math.nan}     # kısa metinde uydurma yapma
+    if N < points:
+        return {"heaps_beta": math.nan}     # noktalar çakışır, eğim ölçülmez
 
-    # Kontrol noktaları eskisi gibi: step, 2·step, … ≤ N.
-    nt = list(range(step, N + 1, step))
-    if len(nt) < 5:                          # 5 noktadan az → regresyon güvenilmez
-        return {"heaps_beta": math.nan}
+    nt = [k * N // points for k in range(1, points + 1)]
 
     # Tek geçiş, O(N): küme bir kez kurulup token'lar sırayla eklenir. Eskiden
     # her noktada `set(tokens[:kesim])` baştan kuruluyordu — O(N²/step);
@@ -582,7 +581,8 @@ def vocd_d(tokens: list[str], sample_min: int = 35, sample_max: int = 50,
 
 
 def hdd(tokens: list[str], sample_size: int = 42) -> dict[str, float]:
-    """HD-D (McCarthy & Jarvis 2007; 2010 s. 383): 42'lik örneklemin beklenen TTR'si.
+    """HD-D: 42'lik örneklemin beklenen TTR'si, McCarthy & Jarvis (2007) s. 465–466'daki
+    ATTR-42 (s. 472). HD-D adı ve 42 sayısı McCarthy & Jarvis (2010) s. 383'ten (dipnot 3).
 
     Her tip için hipergeometrik dağılımdan "örneklemde en az bir kez görülme"
     olasılığı ``1 − C(N−f, n)/C(N, n)``; olasılıklar toplanıp ``n``'e bölünür

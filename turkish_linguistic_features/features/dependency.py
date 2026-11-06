@@ -1,6 +1,6 @@
 """Bağımlılık ağacı: ortalama mesafe, ortalama derinlik ve cümle sonu türü (T17).
 
-``syntactic_dep`` grubunun 16 anahtarı:
+``syntactic`` grubunun 16 anahtarı:
 
 - ``arc_len_mean`` — ortalama bağımlılık mesafesi (MDD2)
 - ``parse_depth_mean`` — ortalama hiyerarşik mesafe (MHD2)
@@ -58,7 +58,7 @@ def _ortalama(degerler: list[float]) -> float:
 
 def dependency_features(dep_data: Sequence[Sequence[DepToken]],
                         params: FeatureParams = DEFAULT_PARAMS) -> dict[str, float]:
-    """``syntactic_dep`` grubunun 16 anahtarı; girdi cümle başına token dizisi."""
+    """``syntactic`` grubunun 16 anahtarı; girdi cümle başına token dizisi."""
     mdd: list[float] = []
     mhd: list[float] = []
     sonlar: Counter[str] = Counter()

@@ -99,50 +99,54 @@ def test_simpson_d_elle_hesap():
 
 
 def test_brunet_w_sekli():
-    """🔴 Bu test formülün ŞEKLİNİ donduruyor, SABİTİNİ değil.
+    """🔴 Bu test formülün ŞEKLİNİ donduruyor; sabitlerden bağımsız iki özellik:
 
-    Sabit **Kademe D** (birincil kaynağa karşı doğrulanmamış).
-    Bu yüzden sabitten bağımsız, formülün cebirinden çıkan iki özellik
-    ölçülüyor:
-      1. W = N^(V^−a)  →  V arttıkça üs küçülür  →  W küçülür
-      2. V = 1 iken üs = 1  →  W = N   (a'dan bağımsız, her a için doğru)
+      1. W = N^((V−b)^−a)  →  V arttıkça üs küçülür  →  W küçülür
+      2. V − b = 1 iken üs = 1  →  W = N   (her a ve b için doğru)
     """
     assert brunet_w(1000, 100)["brunet_w"] > brunet_w(1000, 200)["brunet_w"]
-    assert abs(brunet_w(1000, 1)["brunet_w"] - 1000) < 1e-6
+    assert abs(brunet_w(1000, 21)["brunet_w"] - 1000) < 1e-6
+    assert abs(brunet_w(1000, 1, b=0)["brunet_w"] - 1000) < 1e-6
 
 
-def test_brunet_w_varsayilan_sabit_tweedie_baayen():
-    """Kademe C: sabit 0.172. Kaynak OKUNDU, plandan alınmadı.
-
-    Tweedie, F. J. & Baayen, R. H. (1998), "How Variable May a Constant be?
-    Measures of Lexical Richness in Perspective", *Computers and the
-    Humanities* 32(5): 323-352, **denklem (10)**, s. 328:
-
-        "Finally, in 1978, Brunet introduced a parametric expression
-         W = N^(V(N)^-a), where a is usually set to -0.172"
-
-    Makaledeki eksi işareti notasyon kayması: `a = -0.172` ile `V^-a`
-    birleşince W ≈ 2.6e8 çıkıyor. Etkin üs `V^(-0.172)` okuması
-    literatürün bildirdiği 10 ≤ W ≤ 20 aralığını veriyor; `zipfR` (CRAN)
-    de böyle uyguluyor. İkinci bağımsız kaynak olduğu için Kademe C.
-
-    Birincil kaynak (Kademe A) hâlâ okunmadı ve çevrimiçi yok:
-    Brunet, E. *Vocabulaire de Jean Giraudoux: Structure et Évolution.*
-    Genève: Slatkine, 1978.
-    """
+def test_brunet_w_varsayilan_sabitler():
+    """Kademe A, Brunet (1978): a = 0,172 (s. 49), b = 20 (s. 65)."""
     assert DEFAULT_PARAMS.brunet_w_a == 0.172
-    assert brunet_w(1000, 400)["brunet_w"] == 11.7612
+    assert DEFAULT_PARAMS.brunet_w_b == 20
+    assert brunet_w(1000, 400)["brunet_w"] == round(1000 ** (380 ** -0.172), 4)
+
+
+def test_brunet_w_b_sifirda_bsiz_bicim():
+    assert brunet_w(1000, 400, b=0)["brunet_w"] == 11.7612
+
+
+@pytest.mark.parametrize(("N", "V", "kaynak"), [
+    (49697, 5820, 11.41),    # Bella
+    (28497, 2967, 13.37),    # Electre
+])
+def test_brunet_w_s49_ornekleri(N, V, kaynak):
+    """Brunet (1978) s. 49'un iki işlenmiş örneği ``b = 0`` ile."""
+    assert brunet_w(N, V, b=0)["brunet_w"] == pytest.approx(kaynak, abs=0.005)
+
+
+def test_brunet_w_v_b_den_buyuk_olmali():
+    """``V ≤ b`` → NaN: taban pozitif değil; s. 65 tablosunda da "sans objet"."""
+    assert _nan(brunet_w(20, 20)["brunet_w"])
+    assert _nan(brunet_w(5, 5)["brunet_w"])
+    assert _nan(brunet_w(100, 3, b=5)["brunet_w"])
+    assert not _nan(brunet_w(100, 21)["brunet_w"])
+    assert not _nan(brunet_w(100, 6, b=5)["brunet_w"])
 
 
 def test_brunet_w_sabiti_ayarlanabilir():
-    """Sabit tartışmalı olduğu için `FeatureParams`'ta görünür ve değiştirilebilir.
+    """Sabit `FeatureParams`'ta görünür ve değiştirilebilir.
 
     Bazı ikincil kaynaklar 0.165 veriyor (ör. metricgate.com — kaynakça
-    bölümü yok). Kullanıcı o değere geçebilsin diye parametre; kütüphane
-    ölçer, kullanıcı adına karar vermez (K10).
+    bölümü yok); aslı 0,172 der. Kullanıcı o değere geçebilsin diye parametre;
+    kütüphane ölçer, kullanıcı adına karar vermez (K10).
     """
-    varsayilan = brunet_w(1000, 400)["brunet_w"]
-    eski_deger = brunet_w(1000, 400, a=0.165)["brunet_w"]
+    varsayilan = brunet_w(1000, 400, b=0)["brunet_w"]
+    eski_deger = brunet_w(1000, 400, a=0.165, b=0)["brunet_w"]
     assert eski_deger == 13.0708
     assert eski_deger > varsayilan            # 0.165 sistematik olarak yüksek
     assert abs(eski_deger - varsayilan) / varsayilan > 0.10   # fark %10'un üstünde
@@ -217,8 +221,9 @@ def test_sichel_s_elle_hesap():
 
 
 def test_heaps_beta_kisa_metinde_nan():
-    """300 token altında uydurma yapmaz — NaN 'ölçülemedi' demek (K4, 2026-09-16)."""
-    assert _nan(heaps_beta(["a"] * 299)["heaps_beta"])
+    """20 noktadan az sözcükte noktalar çakışır → NaN (K4); en az uzunluk sınırı yok (2026-10-27)."""
+    assert _nan(heaps_beta(["a"] * 19)["heaps_beta"])
+    assert heaps_beta([f"w{i}" for i in range(20)])["heaps_beta"] == 1.0
 
 
 def test_heaps_beta_hepsi_tekil_ise_bir():
@@ -234,56 +239,48 @@ def test_heaps_beta_hepsi_ayni_ise_sifir():
 def test_heaps_beta_kirpilmaz():
     """Tekrarla başlayıp açılan metinde eğim 1'i aşar; olduğu gibi yazılır (2026-09-17, Efe)."""
     tokens = ["ve"] * 300 + [f"k{i}" for i in range(300)]
-    assert heaps_beta(tokens)["heaps_beta"] == pytest.approx(2.829, abs=1e-3)
+    assert heaps_beta(tokens)["heaps_beta"] == pytest.approx(2.4791, abs=1e-4)
 
 
-def _heaps_beta_eski(tokens, min_tokens=300, step=50):
-    """O(N²/step) özgün uygulama — tek geçişli sürümün referansı (değiştirme)."""
+def _heaps_beta_dogrudan(tokens, points=20):
+    """Tanımın düz uygulaması: ⌊k·N/points⌋ noktalarında ``len(set(...))`` (değiştirme)."""
     N = len(tokens)
-    if N < min_tokens:
+    if N < points:
         return {"heaps_beta": math.nan}
-    nt, vt = [], []
-    for kesim in range(step, N + 1, step):
-        nt.append(kesim)
-        vt.append(len(set(tokens[:kesim])))
-    if len(nt) < 5:
-        return {"heaps_beta": math.nan}
+    nt = [k * N // points for k in range(1, points + 1)]
+    vt = [len(set(tokens[:n])) for n in nt]
     beta = float(np.polyfit(np.log(nt), np.log(vt), 1)[0])
     return {"heaps_beta": round(beta, 4) + 0.0}
 
 
-def test_heaps_beta_tek_gecis_eskisiyle_birebir():
-    """Tek geçişli sayım, eski ``len(set(tokens[:kesim]))`` ile BİREBİR aynı sonucu verir.
-
-    Uzunluk, sözlük büyüklüğü, ``min_tokens`` ve ``step`` rastgele; NaN
-    dalları (kısa metin, 5'ten az nokta) da kapsanıyor. Geçersiz parametre
-    (``step <= 0``, ``min_tokens < 0``) artık hata verir, ayrı sınanıyor.
-    """
+def test_heaps_beta_tek_gecis_dogrudan_tanimla_ayni():
+    """Tek geçişli sayım, noktalarda baştan kurulan kümeyle BİREBİR aynı sonucu verir."""
     rng = random.Random(20260927)
     for _ in range(300):
-        n = rng.choice([0, 1, 7, 249, 300, 301, 551, rng.randint(0, 3000)])
+        n = rng.choice([0, 1, 7, 19, 20, 21, 301, rng.randint(0, 3000)])
         sozluk = rng.choice([1, 2, 10, 200, 5000])
         tokens = [f"w{rng.randrange(sozluk)}" for _ in range(n)]
-        min_tokens = rng.choice([0, 1, 50, 300, rng.randint(0, 800)])
-        step = rng.choice([1, 3, 50, 97, rng.randint(1, 400)])
-        yeni = heaps_beta(tokens, min_tokens, step)["heaps_beta"]
-        eski = _heaps_beta_eski(tokens, min_tokens, step)["heaps_beta"]
-        assert (_nan(yeni) and _nan(eski)) or yeni == eski, (n, sozluk, min_tokens, step)
+        points = rng.choice([2, 5, 20, rng.randint(2, 60)])
+        yeni = heaps_beta(tokens, points)["heaps_beta"]
+        dogrudan = _heaps_beta_dogrudan(tokens, points)["heaps_beta"]
+        assert (_nan(yeni) and _nan(dogrudan)) or yeni == dogrudan, (n, sozluk, points)
 
 
-@pytest.mark.parametrize("min_tokens, step, mesaj", [
-    (300, 0, "step must be positive"),
-    (300, -5, "step must be positive"),
-    (-1, 50, "min_tokens must be non-negative"),
-])
-def test_heaps_beta_gecersiz_parametre_hata(min_tokens, step, mesaj):
-    """Diğer pencere/parça parametreleri gibi (mattr, msttr)."""
-    with pytest.raises(ValueError, match=mesaj):
-        heaps_beta(["a"] * 400, min_tokens, step)
+def test_heaps_beta_noktalar_esit_aralikli():
+    """Tweedie & Baayen (1998) s.333: 20 eşit parça; varsayılan heaps_points = 20."""
+    from turkish_linguistic_features.params import FeatureParams
+    assert FeatureParams().heaps_points == 20
+    # 40 sözcük, 20 nokta: her 2 sözcükte bir; ilk 20 sözcük tekil, sonra tekrar.
+    tokens = [f"w{i}" for i in range(20)] + ["w0"] * 20
+    beklenen = _heaps_beta_dogrudan(tokens, 20)["heaps_beta"]
+    assert heaps_beta(tokens)["heaps_beta"] == beklenen
 
 
-def test_heaps_beta_min_tokens_sifir_gecerli():
-    assert heaps_beta([f"w{i}" for i in range(300)], 0, 50)["heaps_beta"] == 1.0
+@pytest.mark.parametrize("points", [1, 0, -5])
+def test_heaps_beta_gecersiz_parametre_hata(points):
+    """Diğer pencere/parça parametreleri gibi (mattr, msttr): iki noktadan az regresyon olmaz."""
+    with pytest.raises(ValueError, match="points must be at least 2"):
+        heaps_beta(["a"] * 400, points)
 
 
 # ── kenar durumlar (Faz 1 zorunlu 3 testin 2'si ve 3'ü) ───────────────
@@ -311,7 +308,8 @@ def test_tek_elemanli_girdiler_cokmez():
     assert shannon_entropy(freqs) == 0.0
     assert yules_k(freqs) == 0.0          # N = 1: 10000·(1 − 1)/1 = 0, tanımlı
     assert _nan(simpsons_d(freqs))        # N(N−1) = 0 → tanımsız
-    assert brunet_w(1, 1)["brunet_w"] == 1.0
+    assert _nan(brunet_w(1, 1)["brunet_w"])   # V ≤ b
+    assert brunet_w(1, 1, b=0)["brunet_w"] == 1.0
     assert hapax_ratio(items)["hapax_ratio"] == 1.0
     assert hapax_token_ratio(items)["hapax_token_ratio"] == 1.0
     assert type_counts(items)["hapax_count"] == 1.0

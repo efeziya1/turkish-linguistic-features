@@ -14,19 +14,20 @@ value in the literature.
 
 | | Meaning |
 |---|---|
-| ✅ **exact** | Within tolerance of the number the source published. If the cause of a small difference is known, it is noted under the row. |
+| ✅ **match** | Within tolerance of the number the source published. If the cause of a small difference is known, it is noted under the row. |
 | 🟡 **documented deviation** | The difference is **beyond the tolerance** and **the reason is written down** — the source rounded an intermediate value, or the source's own numbers were produced by hand, and so on. The effect of the deviation is explained in the row. |
 | 🔍 **open** | The source gives the formula but no applied example. Verifiable, not yet verified; the formula and its edge cases are tested in their own test files. |
 | ❌ **mismatch** | An **unexplained** difference. **Release gate:** a single one blocks a release. |
 
-The three statuses below are **not verification candidates** — there is no
+The four statuses below are **not verification candidates** — there is no
 number to look for:
 
 | | Meaning |
 |---|---|
-| ⚪ **no source** | Not a named measure from the literature; a plain definition (`punct_dash_ratio`, `uppercase_ratio`). |
-| ⚫ **tag scheme** | Not a measure but a count of an external scheme's categories (`pos_noun_ratio` → UD; `zeyrek_case_loc_ratio` → Zeyrek). A scheme defines categories; it does not publish measurements. |
-| 🔧 **derivative** | The formula comes from a source, **the application is this library's**. `sent_len_entropy` is Shannon's entropy, but applying it to sentence lengths is ours; `long_sent_ratio`'s threshold comes from our own calibration. Nobody has published this measure, so there is no number to compare against. Testing it against our own calibration would be reading our own answer sheet. |
+| ⚪ **plain definition** | Not a literature measure; a definition without a source (`punct_dash_ratio`, `uppercase_ratio`). |
+| ⚫ **tag ratio** | Not a measure but a count of an external scheme's categories (`pos_noun_ratio` → UD; `zeyrek_case_loc_ratio` → Zeyrek). A scheme defines categories; it does not publish measurements. |
+| 🔧 **tool-specific** | The formula comes from a source, **the application is this library's**. `sent_len_entropy` is Shannon's entropy, but applying it to sentence lengths is ours. Nobody has published this measure, so there is no number to compare against. |
+| 📐 **calibrated** | The threshold comes from this library's own calibration (`short_sent_ratio`, `long_sent_ratio`). Testing it against our own calibration would be reading our own answer sheet. |
 
 The tolerance is **1% relative** to the published value. Sources print rounded
 intermediate values, so exact equality is not expected; a relative tolerance
@@ -37,6 +38,10 @@ is not the size of the difference but **whether its cause is known**: if the
 cause has been measured and written down the row is 🟡, and if it has not the
 row is ❌. A reason is not an excuse — it is evidence of where the difference
 came from, and you can read it under the row.
+
+**Exception: the source's arithmetic.** If the number the source printed
+contradicts the arithmetic of the inputs the source itself gives, and our value
+gives the correct arithmetic, the row counts as ✅; the reason is noted under it.
 
 ## Two kinds of evidence
 
@@ -54,26 +59,26 @@ table as `tests/test_kaynak_esligi.py`, so the two cannot drift apart. The
 other known-value tests live in their own files.
 
 
-## Turkish — 208 keys, 233 rows
+## Turkish — 214 keys, 253 rows
 
 A key may have more than one worked example in its source; each one is its own row.
 
-**Verification candidates — 151 rows**
+**Verification candidates — 172 rows**
 
 | Status | Rows |
 |---|---|
-| ✅ exact | 46 |
-| 🟡 documented deviation | 2 |
-| 🔍 open — no worked example in source | 103 |
+| ✅ match | 61 |
+| 🔍 open — no worked example in source | 111 |
 
 
-**Not verification candidates — 82 rows.** There is no published number to look for in these.
+**Not verification candidates — 81 rows.** There is no published number to look for in these.
 
 | Status | Rows |
 |---|---|
-| ⚪ no source — plain definition | 11 |
-| ⚫ tag scheme — not a measure | 67 |
-| 🔧 derivative — the application is this library's | 4 |
+| ⚪ plain definition — no source | 11 |
+| ⚫ tag ratio — not a measure | 66 |
+| 🔧 tool-specific — the application is this library's | 2 |
+| 📐 calibrated — threshold from this library's calibration | 2 |
 
 ### Keys with a numeric comparison
 
@@ -82,7 +87,17 @@ A key may have more than one worked example in its source; each one is its own r
 | `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26); source 6.438043 in bits → × ln 2 | formula | 4.463 | 4.463 | +0.000 | ✅ |
 | `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26); source 6.395099 in bits → × ln 2 | formula | 4.433 | 4.433 | +0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formula | 0.665 | 0.665 | -0.000 | ✅ |
-| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; source printed 0.590 (typo) | formula | 0.590 | 0.599 | +0.009 | 🟡 |
+| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; source printed 0.59 (truncated, not rounded) | formula | 0.590 | 0.599 | +0.009 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=30, V=28 | formula | 10.790 | 10.789 | -0.001 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=42, V=35 | formula | 10.440 | 10.443 | +0.003 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=84, V=60 | formula | 10.480 | 10.478 | -0.002 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=132, V=90 | formula | 10.500 | 10.499 | -0.001 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=161, V=108 | formula | 10.510 | 10.512 | +0.002 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | chapitre · N=1096, V=500 | formula | 11.250 | 11.251 | +0.001 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | chapitre · N=2734, V=1000 | formula | 11.250 | 11.250 | -0.000 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | chapitre · N=7564, V=2000 | formula | 11.250 | 11.250 | +0.000 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | texte · N=58325, V=5000 | formula | 12.650 | 12.650 | +0.000 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | corpus · N=311215, V=10000 | formula | 13.400 | 13.400 | +0.000 | ✅ |
 | `hapax_token_ratio` | QUITA §6.1.6 | Text 1 · 98/179 | formula | 0.547 | 0.547 | +0.000 | ✅ |
 | `hapax_token_ratio` | QUITA §6.1.6 | Text 2 · 92/202 | formula | 0.455 | 0.455 | +0.000 | ✅ |
 | `mtld` | McCarthy & Jarvis (2010) p.385 | partial factor · TTR .887 → 40.4% | formula | 0.404 | 0.404 | +0.000 | ✅ |
@@ -113,14 +128,17 @@ A key may have more than one worked example in its source; each one is its own r
 | `arc_len_mean` | Jing & Liu (2015) p.164 | Figure 3 · 'Mr. Nixon was to…' | formula | 1.167 | 1.167 | +0.000 | ✅ |
 | `arc_len_mean` | Liu (2008) eq. (1) | 'I actually live in Beijing' · 5/4 | formula | 1.250 | 1.250 | +0.000 | ✅ |
 | `parse_depth_mean` | Jing & Liu (2015) p.164 | Figure 3 · MHD = 12/6 | formula | 2.000 | 2.000 | +0.000 | ✅ |
-| `ari` | Kincaid et al. (1975) p.8, Table 1 | Appendix A · 18 passages, mean | end-to-end | 12.300 | 11.763 | -0.537 | 🟡 |
-| `coleman_liau` | Coleman & Liau (1975) p.284 | composition of the two equations · 13 words, 2 sentences | formula | 7.704 | 7.705 | +0.000 | ✅ |
-| `coleman_liau` | Coleman & Liau (1975) p.284, Table 1 | cloze 40.4% → grade 12 | formula | 12.000 | 11.994 | -0.006 | ✅ |
+| `atesman` | Ateşman (1997) | Kalyoncu & Memiş (2024) Table 9 · Text 1 | end-to-end | 35.946 | 35.920 | -0.026 | ✅ |
 | `atesman` | Ateşman (1997) | Kalyoncu & Memiş (2024) Table 9 · Text 2 | end-to-end | 23.094 | 23.094 | -0.000 | ✅ |
-| `atesman` | Ateşman (1997) p.74 | calibration: easiest text | formula | 100.000 | 100.000 | -0.000 | ✅ |
-| `atesman` | Ateşman (1997) p.74 | calibration: hardest text | formula | 0.000 | 0.000 | +0.000 | ✅ |
+| `atesman` | Ateşman (1997) | Kalyoncu & Memiş (2024) Table 9 · Text 3 | end-to-end | 41.393 | 41.365 | -0.028 | ✅ |
+| `atesman` | Ateşman (1997) p.74 | easiest text used by Ateşman to derive the formula | formula | 100.000 | 100.000 | -0.000 | ✅ |
+| `atesman` | Ateşman (1997) p.74 | hardest text used by Ateşman to derive the formula | formula | 0.000 | 0.000 | +0.000 | ✅ |
+| `cetinkaya_uzun` | Çetinkaya (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 1 | end-to-end | 27.953 | 27.938 | -0.015 | ✅ |
 | `cetinkaya_uzun` | Çetinkaya (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 2 | end-to-end | 23.084 | 23.084 | -0.000 | ✅ |
+| `cetinkaya_uzun` | Çetinkaya (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 3 | end-to-end | 26.403 | 26.385 | -0.018 | ✅ |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 1 | end-to-end | 24.621 | 24.596 | -0.025 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 2 | end-to-end | 30.423 | 30.392 | -0.031 | ✅ |
+| `bezirci_yilmaz` | Bezirci & Yılmaz (2010) | Kalyoncu & Memiş (2024) Table 9 · Text 3 | end-to-end | 18.387 | 18.370 | -0.018 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 5 | E7 3.03 · OKS 7 | formula | 4.610 | 4.605 | -0.005 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 5 | E7 8.3 · OKS 10 | formula | 9.110 | 9.110 | +0.000 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 5 | E7 18.82 · OKS 14 | formula | 16.230 | 16.232 | +0.002 | ✅ |
@@ -128,31 +146,28 @@ A key may have more than one worked example in its source; each one is its own r
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | H values of the hardest text | formula | 18.820 | 18.815 | -0.005 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | mean H values | formula | 8.300 | 8.341 | +0.041 | ✅ |
 
-**`ttr` deviation:** The source's own counts (V=121, N=202) give 121/202 = 0.599; the printed 0.590 does not match that arithmetic (typo). Our value follows the arithmetic; the difference is 1.5% of the published value.
+**`ttr` note:** The source's own counts (V=121, N=202) give 121/202 = 0.599; the source truncated that result instead of rounding it and printed 0.59 (rounded to two decimals it is 0.60). Our value follows the arithmetic; the difference is 1.5% of the published value and exceeds the tolerance for this reason alone. Counted as a match under the arithmetic exception.
 
-**`ari` deviation:** The source's numbers were produced **by hand** in 1975 with a mechanical counter attached to a typewriter (Appendix B, ARI instructions). In 17 of the 18 passages, the stroke count that would yield the source's ARI is 0.996-1.041 times ours — a difference of a few characters. Passage 2 is an outlier (ratio 1.145), and there the source's own two numbers contradict each other: Table 1's ARI of 20.3 requires 6.270 strokes per word, while the text's actual value is 5.475; moreover, the words per sentence implied by that ARI give an FKGL of 18.70, whereas Table 2 printed 16.7. Our stroke definition was tested separately: counting spaces raises the difference from 0.54 to 4.32, so counting without spaces is correct.
+**`bezirci_yilmaz` note:** The paper rounded its H6 intermediate value; the difference is 0.031 and both values fall in the same readability class (academic, 16+).
 
-**`bezirci_yilmaz` deviation:** The paper rounded its H6 intermediate value; the difference is 0.031 and both values fall in the same readability class (academic, 16+).
-
-**`bezirci_yilmaz` deviation:** The paper prints the H6 mean as 0.07, but the value that yields 8.30 is ~0.0684. The coefficient 26.25 inflates that rounding to 0.041; the coefficients themselves are correct.
+**`bezirci_yilmaz` note:** The paper prints the H6 mean as 0.07, but the value that yields 8.30 is ~0.0684. The coefficient 26.25 inflates that rounding to 0.041; the coefficients themselves are correct.
 
 ### 🔍 Open — verifiable, not yet verified
 
-103 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
+111 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary. `yule_k` is a different case: Yule (1944) prints K values, but computes them on the lemmas of a single word class, mostly nouns. The tool counts the surface forms of all words, so the two cannot be compared on the same input. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
 
 | Key | Source | Status |
 |---|---|---|
 | `word_count` | de Vel (2000) Table 2, attribute 1 "Total number of words"; Zheng et al. (2006) Table 3, p.385, no. 54 "Total number of words (M)" | 🔍 |
 | `word_len_mean` | Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241 | 🔍 |
-| `yule_k` | Yule (1944) p.53, eq. (3.22) | 🔍 |
-| `simpson_d` | Simpson (1949), as cited in Bestgen (2023) | 🔍 |
+| `yule_k` | Yule (1944) p.53, eq. (3.22); Yule counts one word class, mostly nouns (p.3), with the inflected forms of a word as one entry (p.33), this library counts surface forms of all words | 🔍 |
+| `simpson_d` | Simpson (1949), as cited in Bestgen (2023) p.4 (preprint) | 🔍 |
 | `type_count` | Tweedie & Baayen (1998) p.325, the vocabulary size V(N); Zheng et al. (2006) Table 3, p.385, no. 60 "Total different words/M", here not divided by M | 🔍 |
 | `hapax_count` | Tweedie & Baayen (1998) p.325, V(1, N) "the number of hapax legomena"; Zheng et al. (2006) Table 3, p.385, no. 61 "Hapax legomena" ("Frequency of once-occurring words") | 🔍 |
 | `dislegomena_count` | Tweedie & Baayen (1998) p.329, V(2, N) "dis legomena"; Zheng et al. (2006) Table 3, p.385, no. 62 "Hapax dislegomena" ("Frequency of twice-occurring words") | 🔍 |
-| `brunet_w` | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) | 🔍 |
 | `hapax_ratio` | de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of vocabulary words" | 🔍 |
-| `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
-| `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) | 🔍 |
+| `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500 (p.97); 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
+| `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5); Herdan (1964) pp.73–74 counts the inflected forms of a word as one word, this library counts surface forms | 🔍 |
 | `dugast_u` | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 | 🔍 |
 | `guiraud_r` | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only | 🔍 |
 | `cttr` | Carroll (1964), as cited in Torruella & Capsada (2013) p.448 | 🔍 |
@@ -160,23 +175,24 @@ A key may have more than one worked example in its source; each one is its own r
 | `maas_a2` | Maas (1972), as cited in Tweedie & Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella & Capsada (2013) Table 1; all logarithms in this library are natural | 🔍 |
 | `herdan_vm` | Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18) | 🔍 |
 | `honore_r` | Honoré (1979), as cited in Tweedie & Baayen (1998) p.329, eq. (11) | 🔍 |
-| `heaps_beta` | Heaps (1978), as cited in Manning et al. (2008) §5.1.1 | 🔍 |
-| `sichel_s` | Sichel (1975); formula from Malvern et al. (2004) eq. 3.10 | 🔍 |
+| `heaps_beta` | Heaps (1978), as cited in Manning et al. (2008) §5.1.1; the law fits large collections well (p.81, print edition), not short texts; measured at 20 equally spaced points through the text as in Tweedie & Baayen (1998) p.333 | 🔍 |
+| `sichel_s` | Tweedie & Baayen (1998) p.329, eq. (12); they cite Sichel (1975), but the ratio does not appear in that article | 🔍 |
 | `noun_variation` | Lu (2012) Table 2 | 🔍 |
 | `verb_variation` | Lu (2012) Table 2 | 🔍 |
 | `adj_variation` | Lu (2012) Table 2 | 🔍 |
 | `adv_variation` | Lu (2012) Table 2 | 🔍 |
+| `wordfreq_mean` | van Heuven et al. (2014) p.1179 (Zipf scale) | 🔍 |
+| `wordfreq_rare_ratio` | van Heuven et al. (2014) Table 1 (Zipf ≤ 3 = low frequency) | 🔍 |
+| `vocd_d` | Malvern et al. (2004) pp.56–57; procedure from McCarthy & Jarvis (2010) p.383 | 🔍 |
+| `hdd` | McCarthy & Jarvis (2007) pp.465–466 (ATTR-42, p.472); the name HD-D and the 42-word sample from McCarthy & Jarvis (2010) p.383, which reports the sum of probabilities (0–42), this library divides it by 42 | 🔍 |
+| `msttr` | Johnson (1944), as cited in Malvern et al. (2004) p.25 and McCarthy & Jarvis (2010) p.385 | 🔍 |
+| `lexical_density` | Lu (2012) p.192; definition in the broad Hallidayan sense — all open-class words; Lu counts only adverbs derived from adjectives, the tool counts all adverbs | 🔍 |
 | `zipf_exponent` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
 | `zipf_r2` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
 | `zipf_mandelbrot_q` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
 | `zipf_mandelbrot_s` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
-| `wordfreq_mean` | van Heuven et al. (2014) (Zipf scale) | 🔍 |
-| `wordfreq_rare_ratio` | van Heuven et al. (2014) Table 1 (Zipf ≤ 3 = low frequency) | 🔍 |
-| `vocd_d` | Malvern et al. (2004) pp.56–57; procedure from McCarthy & Jarvis (2010) p.383 | 🔍 |
-| `hdd` | McCarthy & Jarvis (2007), as cited in McCarthy & Jarvis (2010) p.383 | 🔍 |
-| `msttr` | Johnson (1944), as cited in Malvern et al. (2004) p.25 and McCarthy & Jarvis (2010) p.385 | 🔍 |
-| `thematic_concentration` | QUITA §6.2.5 | 🔍 |
-| `secondary_thematic_concentration` | QUITA §6.2.6 | 🔍 |
+| `thematic_concentration` | QUITA §6.2.5; thematic words = lexical words (NOUN, PROPN, VERB, ADJ, ADV), QUITA pp.50-51 leaves the choice to the researcher | 🔍 |
+| `secondary_thematic_concentration` | QUITA §6.2.6; thematic words as in thematic_concentration | 🔍 |
 | `sent_len_mean` | Flesch (1948) p.223, element (1) "Average Sentence Length in Words" | 🔍 |
 | `sent_len_median` | Yule (1939) p.369, median sentence length alongside the mean | 🔍 |
 | `sent_count` | de Vel (2000) Table 2, attribute 3 "Number of sentences"; Zheng et al. (2006) Table 3, p.385, no. 247 "Total number of sentences" | 🔍 |
@@ -186,10 +202,10 @@ A key may have more than one worked example in its source; each one is its own r
 | `sents_per_para_mean` | Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph" | 🔍 |
 | `pronoun_ratio` | Deutsch, Jasbi & Shieber (2020) Table 6 "pronouns per word", listed among existing features; original source not traced | 🔍 |
 | `verb_dist_mean` | QUITA §6.2.1 | 🔍 |
-| `lexical_density` | Lu (2012); definition in the broad Hallidayan sense — all open-class words | 🔍 |
 | `posddev` | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 12 UD tags | 🔍 |
 | `posdiv` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits | 🔍 |
 | `zeyrek_suffix_bigram_entropy` | Shannon (1948) — the entropy formula; Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | 🔍 |
+| `zeyrek_verb_suffix_diversity` | Brezina & Pallotti (2019) p.107 (MC10: 10-verb samples; the authors call 10 arbitrary and give MC5 for short texts) and p.108 (100 random samples); only the within-sample variety is measured (close to MC10a, no between-sample component); suffixes from Zeyrek (a Python port of Zemberek's morphotactics), tag set from Akın & Akın (2007) | 🔍 |
 | `front_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `back_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `harmony_fronting_ratio` | Göksel & Kerslake (2005) §3.1 (fronting harmony); exceptions §3.4 — the measure counts them as disharmonic | 🔍 |
@@ -202,8 +218,16 @@ A key may have more than one worked example in its source; each one is its own r
 | `syllable_4_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_5_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_6plus_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
-| `lix` | Björnsson (1968), as cited in Anderson (1983) p.490; long word = 7+ letters | 🔍 |
-| `long_word_ratio` | Anderson (1983); long word = 7+ letters | 🔍 |
+| `long_word_ratio` | Anderson (1983) p.491; long word = 7+ letters | 🔍 |
+| `kalyoncu_kl` | Kalyoncu (2025) p.71-72, nine counting rules; word list Appendix 1, pp.129-160; rules 3, 5, 6 and 8 are not applied | 🔍 |
+| `kalyoncu_ttr` | Kalyoncu (2025) p.73; not the type-token ratio but the share of stems occurring once | 🔍 |
+| `kalyoncu_kco` | Kalyoncu (2025) p.73; "judgement" counted as verb or verbal, as in his CYargi (p.73) | 🔍 |
+| `kalyoncu_yco` | Kalyoncu (2025) p.74 | 🔍 |
+| `kalyoncu_ocu` | Kalyoncu (2025) p.77; numbers read aloud, p.xiii | 🔍 |
+| `kalyoncu_k1` | Kalyoncu (2025) p.97, Table 31; grade levels p.102 | 🔍 |
+| `kalyoncu_k2` | Kalyoncu (2025) p.98, Table 32; grade levels p.103 | 🔍 |
+| `kalyoncu_k3` | Kalyoncu (2025) p.99, Table 33; grade levels p.104 | 🔍 |
+| `kalyoncu_k4` | Kalyoncu (2025) p.99, Table 34; grade levels p.105 | 🔍 |
 | `char_count` | de Vel (2000) Table 2, attribute 8 "Number of characters"; Zheng et al. (2006) Table 3, p.385, no. 1 "Total number of characters (C)" | 🔍 |
 | `digit_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of digit characters in words/C"; here digits anywhere in the text | 🔍 |
 | `punct_count` | de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C", here not divided by C | 🔍 |
@@ -248,14 +272,15 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### Not verification candidates
 
-82 keys. The ⚪ ones are plain definitions (`punct_dash_ratio`, `uppercase_ratio`) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.
+81 keys. The ⚪ ones are plain definitions (`punct_dash_ratio`, `uppercase_ratio`) — not literature measures. The ⚫ ones are tag ratios: not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 tool-specific ones take their formula from a source but their application is this library's; the 📐 calibrated ones take their threshold from this library's calibration. None of them has a number to look for.
 
 | Key | Source | Status |
 |---|---|---|
 | `lemma_count` | — | ⚪ |
-| `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only | 🔧 |
-| `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only | 🔧 |
-| `sent_len_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision | 🔧 |
+| `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only | 📐 |
+| `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only | 📐 |
+| `sent_len_entropy` | Shannon (1948) Theorem 2 — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision | 🔧 |
+| `question_sent_ratio` | — | ⚪ |
 | `pos_noun_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_propn_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_verb_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
@@ -268,7 +293,6 @@ A key may have more than one worked example in its source; each one is its own r
 | `pos_sconj_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_num_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_aux_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `question_sent_ratio` | — | ⚪ |
 | `sentfinal_noun_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `sentfinal_propn_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `sentfinal_verb_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
@@ -323,38 +347,38 @@ A key may have more than one worked example in its source; each one is its own r
 | `zeyrek_conditional_suffix_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
 | `zeyrek_causative_suffix_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
 | `zeyrek_question_particle_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `zeyrek_verb_suffix_diversity` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
 | `vowel_ratio` | — | ⚪ |
 | `sent_syllable_mean` | — | ⚪ |
 | `punct_dash_ratio` | — | ⚪ |
 | `punct_ellipsis_ratio` | — | ⚪ |
 | `punct_paren_ratio` | — | ⚪ |
-| `punct_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of punctuation types is this library's own decision | 🔧 |
+| `punct_entropy` | Shannon (1948) Theorem 2 — the entropy formula; applying it to the distribution of punctuation types is this library's own decision | 🔧 |
 | `consecutive_punct_ratio` | — | ⚪ |
 | `punct_variety` | — | ⚪ |
 | `uppercase_ratio` | — | ⚪ |
 | `all_caps_word_ratio` | — | ⚪ |
 
-## English — 181 keys, 198 rows
+## English — 181 keys, 207 rows
 
 A key may have more than one worked example in its source; each one is its own row.
 
-**Verification candidates — 137 rows**
+**Verification candidates — 146 rows**
 
 | Status | Rows |
 |---|---|
-| ✅ exact | 35 |
-| 🟡 documented deviation | 3 |
-| 🔍 open — no worked example in source | 99 |
+| ✅ match | 46 |
+| 🟡 documented deviation | 2 |
+| 🔍 open — no worked example in source | 98 |
 
 
 **Not verification candidates — 61 rows.** There is no published number to look for in these.
 
 | Status | Rows |
 |---|---|
-| ⚪ no source — plain definition | 11 |
-| ⚫ tag scheme — not a measure | 45 |
-| 🔧 derivative — the application is this library's | 5 |
+| ⚪ plain definition — no source | 11 |
+| ⚫ tag ratio — not a measure | 45 |
+| 🔧 tool-specific — the application is this library's | 3 |
+| 📐 calibrated — threshold from this library's calibration | 2 |
 
 ### Keys with a numeric comparison
 
@@ -363,7 +387,17 @@ A key may have more than one worked example in its source; each one is its own r
 | `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26); source 6.438043 in bits → × ln 2 | formula | 4.463 | 4.463 | +0.000 | ✅ |
 | `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26); source 6.395099 in bits → × ln 2 | formula | 4.433 | 4.433 | +0.000 | ✅ |
 | `ttr` | QUITA §6.1.1 | Text 1 · V/N = 119/179 | formula | 0.665 | 0.665 | -0.000 | ✅ |
-| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; source printed 0.590 (typo) | formula | 0.590 | 0.599 | +0.009 | 🟡 |
+| `ttr` | QUITA §6.1.1 | Text 2 · V/N = 121/202 = 0.599; source printed 0.59 (truncated, not rounded) | formula | 0.590 | 0.599 | +0.009 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=30, V=28 | formula | 10.790 | 10.789 | -0.001 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=42, V=35 | formula | 10.440 | 10.443 | +0.003 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=84, V=60 | formula | 10.480 | 10.478 | -0.002 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=132, V=90 | formula | 10.500 | 10.499 | -0.001 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | phrase longue · N=161, V=108 | formula | 10.510 | 10.512 | +0.002 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | chapitre · N=1096, V=500 | formula | 11.250 | 11.251 | +0.001 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | chapitre · N=2734, V=1000 | formula | 11.250 | 11.250 | -0.000 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | chapitre · N=7564, V=2000 | formula | 11.250 | 11.250 | +0.000 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | texte · N=58325, V=5000 | formula | 12.650 | 12.650 | +0.000 | ✅ |
+| `brunet_w` | Brunet (1978) p.65 | corpus · N=311215, V=10000 | formula | 13.400 | 13.400 | +0.000 | ✅ |
 | `hapax_token_ratio` | QUITA §6.1.6 | Text 1 · 98/179 | formula | 0.547 | 0.547 | +0.000 | ✅ |
 | `hapax_token_ratio` | QUITA §6.1.6 | Text 2 · 92/202 | formula | 0.455 | 0.455 | +0.000 | ✅ |
 | `mtld` | McCarthy & Jarvis (2010) p.385 | partial factor · TTR .887 → 40.4% | formula | 0.404 | 0.404 | +0.000 | ✅ |
@@ -399,7 +433,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `coleman_liau` | Coleman & Liau (1975) p.284, Table 1 | cloze 40.4% → grade 12 | formula | 12.000 | 11.994 | -0.006 | ✅ |
 | `flesch_kincaid_grade` | Kincaid et al. (1975) p.12, Table 2 | Appendix A · 18 passages, mean | end-to-end | 10.700 | 10.326 | -0.374 | 🟡 |
 
-**`ttr` deviation:** The source's own counts (V=121, N=202) give 121/202 = 0.599; the printed 0.590 does not match that arithmetic (typo). Our value follows the arithmetic; the difference is 1.5% of the published value.
+**`ttr` note:** The source's own counts (V=121, N=202) give 121/202 = 0.599; the source truncated that result instead of rounding it and printed 0.59 (rounded to two decimals it is 0.60). Our value follows the arithmetic; the difference is 1.5% of the published value and exceeds the tolerance for this reason alone. Counted as a match under the arithmetic exception.
 
 **`ari` deviation:** The source's numbers were produced **by hand** in 1975 with a mechanical counter attached to a typewriter (Appendix B, ARI instructions). In 17 of the 18 passages, the stroke count that would yield the source's ARI is 0.996-1.041 times ours — a difference of a few characters. Passage 2 is an outlier (ratio 1.145), and there the source's own two numbers contradict each other: Table 1's ARI of 20.3 requires 6.270 strokes per word, while the text's actual value is 5.475; moreover, the words per sentence implied by that ARI give an FKGL of 18.70, whereas Table 2 printed 16.7. Our stroke definition was tested separately: counting spaces raises the difference from 0.54 to 4.32, so counting without spaces is correct.
 
@@ -407,21 +441,20 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### 🔍 Open — verifiable, not yet verified
 
-99 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary: Yule (1944) defines K; he does not print what K comes to for a particular novel. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
+98 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary. `yule_k` is a different case: Yule (1944) prints K values, but computes them on the lemmas of a single word class, mostly nouns. The tool counts the surface forms of all words, so the two cannot be compared on the same input. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
 
 | Key | Source | Status |
 |---|---|---|
 | `word_count` | de Vel (2000) Table 2, attribute 1 "Total number of words"; Zheng et al. (2006) Table 3, p.385, no. 54 "Total number of words (M)" | 🔍 |
 | `word_len_mean` | Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241 | 🔍 |
-| `yule_k` | Yule (1944) p.53, eq. (3.22) | 🔍 |
-| `simpson_d` | Simpson (1949), as cited in Bestgen (2023) | 🔍 |
+| `yule_k` | Yule (1944) p.53, eq. (3.22); Yule counts one word class, mostly nouns (p.3), with the inflected forms of a word as one entry (p.33), this library counts surface forms of all words | 🔍 |
+| `simpson_d` | Simpson (1949), as cited in Bestgen (2023) p.4 (preprint) | 🔍 |
 | `type_count` | Tweedie & Baayen (1998) p.325, the vocabulary size V(N); Zheng et al. (2006) Table 3, p.385, no. 60 "Total different words/M", here not divided by M | 🔍 |
 | `hapax_count` | Tweedie & Baayen (1998) p.325, V(1, N) "the number of hapax legomena"; Zheng et al. (2006) Table 3, p.385, no. 61 "Hapax legomena" ("Frequency of once-occurring words") | 🔍 |
 | `dislegomena_count` | Tweedie & Baayen (1998) p.329, V(2, N) "dis legomena"; Zheng et al. (2006) Table 3, p.385, no. 62 "Hapax dislegomena" ("Frequency of twice-occurring words") | 🔍 |
-| `brunet_w` | Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10) | 🔍 |
 | `hapax_ratio` | de Vel (2000) Table 2, attribute 14 "Ratio of words used once to total number of vocabulary words" | 🔍 |
-| `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500; 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
-| `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5) | 🔍 |
+| `mattr` | Covington & McFall (2010); default window 50 — C&M recommend a window of 500 (p.97); 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window) | 🔍 |
+| `herdan_c` | Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5); Herdan (1964) pp.73–74 counts the inflected forms of a word as one word, this library counts surface forms | 🔍 |
 | `dugast_u` | Dugast (1978), as cited in Malvern et al. (2004) eq. 2.7 | 🔍 |
 | `guiraud_r` | Guiraud (1954) p.53, alternative form (all word types), as cited in Daller (2010); his actual law is V/√(2N), content words only | 🔍 |
 | `cttr` | Carroll (1964), as cited in Torruella & Capsada (2013) p.448 | 🔍 |
@@ -429,23 +462,24 @@ A key may have more than one worked example in its source; each one is its own r
 | `maas_a2` | Maas (1972), as cited in Tweedie & Baayen (1998) p.327, eq. (7); natural logarithm, which reproduces the values in Torruella & Capsada (2013) Table 1; all logarithms in this library are natural | 🔍 |
 | `herdan_vm` | Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18) | 🔍 |
 | `honore_r` | Honoré (1979), as cited in Tweedie & Baayen (1998) p.329, eq. (11) | 🔍 |
-| `heaps_beta` | Heaps (1978), as cited in Manning et al. (2008) §5.1.1 | 🔍 |
-| `sichel_s` | Sichel (1975); formula from Malvern et al. (2004) eq. 3.10 | 🔍 |
+| `heaps_beta` | Heaps (1978), as cited in Manning et al. (2008) §5.1.1; the law fits large collections well (p.81, print edition), not short texts; measured at 20 equally spaced points through the text as in Tweedie & Baayen (1998) p.333 | 🔍 |
+| `sichel_s` | Tweedie & Baayen (1998) p.329, eq. (12); they cite Sichel (1975), but the ratio does not appear in that article | 🔍 |
 | `noun_variation` | Lu (2012) Table 2 | 🔍 |
 | `verb_variation` | Lu (2012) Table 2 | 🔍 |
 | `adj_variation` | Lu (2012) Table 2 | 🔍 |
 | `adv_variation` | Lu (2012) Table 2 | 🔍 |
+| `wordfreq_mean` | van Heuven et al. (2014) p.1179 (Zipf scale) | 🔍 |
+| `wordfreq_rare_ratio` | van Heuven et al. (2014) Table 1 (Zipf ≤ 3 = low frequency) | 🔍 |
+| `vocd_d` | Malvern et al. (2004) pp.56–57; procedure from McCarthy & Jarvis (2010) p.383 | 🔍 |
+| `hdd` | McCarthy & Jarvis (2007) pp.465–466 (ATTR-42, p.472); the name HD-D and the 42-word sample from McCarthy & Jarvis (2010) p.383, which reports the sum of probabilities (0–42), this library divides it by 42 | 🔍 |
+| `msttr` | Johnson (1944), as cited in Malvern et al. (2004) p.25 and McCarthy & Jarvis (2010) p.385 | 🔍 |
+| `lexical_density` | Lu (2012) p.192; definition in the broad Hallidayan sense — all open-class words; Lu counts only adverbs derived from adjectives, the tool counts all adverbs | 🔍 |
 | `zipf_exponent` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
 | `zipf_r2` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
 | `zipf_mandelbrot_q` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
 | `zipf_mandelbrot_s` | Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) from the same corpus | 🔍 |
-| `wordfreq_mean` | van Heuven et al. (2014) (Zipf scale) | 🔍 |
-| `wordfreq_rare_ratio` | van Heuven et al. (2014) Table 1 (Zipf ≤ 3 = low frequency) | 🔍 |
-| `vocd_d` | Malvern et al. (2004) pp.56–57; procedure from McCarthy & Jarvis (2010) p.383 | 🔍 |
-| `hdd` | McCarthy & Jarvis (2007), as cited in McCarthy & Jarvis (2010) p.383 | 🔍 |
-| `msttr` | Johnson (1944), as cited in Malvern et al. (2004) p.25 and McCarthy & Jarvis (2010) p.385 | 🔍 |
-| `thematic_concentration` | QUITA §6.2.5 | 🔍 |
-| `secondary_thematic_concentration` | QUITA §6.2.6 | 🔍 |
+| `thematic_concentration` | QUITA §6.2.5; thematic words = lexical words (NOUN, PROPN, VERB, ADJ, ADV), QUITA pp.50-51 leaves the choice to the researcher | 🔍 |
+| `secondary_thematic_concentration` | QUITA §6.2.6; thematic words as in thematic_concentration | 🔍 |
 | `sent_len_mean` | Flesch (1948) p.223, element (1) "Average Sentence Length in Words" | 🔍 |
 | `sent_len_median` | Yule (1939) p.369, median sentence length alongside the mean | 🔍 |
 | `sent_count` | de Vel (2000) Table 2, attribute 3 "Number of sentences"; Zheng et al. (2006) Table 3, p.385, no. 247 "Total number of sentences" | 🔍 |
@@ -455,7 +489,6 @@ A key may have more than one worked example in its source; each one is its own r
 | `sents_per_para_mean` | Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph" | 🔍 |
 | `pronoun_ratio` | Deutsch, Jasbi & Shieber (2020) Table 6 "pronouns per word", listed among existing features; original source not traced | 🔍 |
 | `verb_dist_mean` | QUITA §6.2.1 | 🔍 |
-| `lexical_density` | Lu (2012); definition in the broad Hallidayan sense — all open-class words | 🔍 |
 | `posddev` | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 12 UD tags | 🔍 |
 | `posdiv` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits | 🔍 |
 | `front_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
@@ -468,8 +501,8 @@ A key may have more than one worked example in its source; each one is its own r
 | `syllable_4_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_5_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
 | `syllable_6plus_ratio` | Bezirci & Yılmaz (2010) Table 1-c | 🔍 |
+| `long_word_ratio` | Anderson (1983) p.491; long word = 7+ letters | 🔍 |
 | `lix` | Björnsson (1968), as cited in Anderson (1983) p.490; long word = 7+ letters | 🔍 |
-| `long_word_ratio` | Anderson (1983); long word = 7+ letters | 🔍 |
 | `flesch_reading_ease` | Flesch (1948) Formula A; coefficient .846, unit = syllables per 100 words | 🔍 |
 | `smog` | McLaughlin (1969) p.643, Table 1, eq. (d); p = polysyllabic words in a 30-sentence sample | 🔍 |
 | `char_count` | de Vel (2000) Table 2, attribute 8 "Number of characters"; Zheng et al. (2006) Table 3, p.385, no. 1 "Total number of characters (C)" | 🔍 |
@@ -513,14 +546,15 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### Not verification candidates
 
-61 keys. The ⚪ ones are plain definitions (`punct_dash_ratio`, `uppercase_ratio`) — not named measures from the literature. The ⚫ ones are not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 ones take their formula from a source but their application is this library's. None of the three has a number to look for.
+61 keys. The ⚪ ones are plain definitions (`punct_dash_ratio`, `uppercase_ratio`) — not literature measures. The ⚫ ones are tag ratios: not measures at all but counts of an external tag scheme's categories; a scheme defines categories, it does not publish measurements. The 🔧 tool-specific ones take their formula from a source but their application is this library's; the 📐 calibrated ones take their threshold from this library's calibration. None of them has a number to look for.
 
 | Key | Source | Status |
 |---|---|---|
 | `lemma_count` | — | ⚪ |
-| `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only | 🔧 |
-| `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only | 🔧 |
-| `sent_len_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision | 🔧 |
+| `short_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only | 📐 |
+| `long_sent_ratio` | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only | 📐 |
+| `sent_len_entropy` | Shannon (1948) Theorem 2 — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision | 🔧 |
+| `question_sent_ratio` | — | ⚪ |
 | `pos_noun_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_propn_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_verb_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
@@ -533,7 +567,6 @@ A key may have more than one worked example in its source; each one is its own r
 | `pos_sconj_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_num_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `pos_aux_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
-| `question_sent_ratio` | — | ⚪ |
 | `sentfinal_noun_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `sentfinal_propn_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
 | `sentfinal_verb_ratio` | de Marneffe et al. (2021) Table 1 (UPOS tag set) | ⚫ |
@@ -573,7 +606,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `punct_dash_ratio` | — | ⚪ |
 | `punct_ellipsis_ratio` | — | ⚪ |
 | `punct_paren_ratio` | — | ⚪ |
-| `punct_entropy` | Shannon (1948) — the entropy formula; applying it to the distribution of punctuation types is this library's own decision | 🔧 |
+| `punct_entropy` | Shannon (1948) Theorem 2 — the entropy formula; applying it to the distribution of punctuation types is this library's own decision | 🔧 |
 | `consecutive_punct_ratio` | — | ⚪ |
 | `punct_variety` | — | ⚪ |
 | `uppercase_ratio` | — | ⚪ |

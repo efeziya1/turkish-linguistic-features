@@ -1,4 +1,4 @@
-"""Registry metin tabloları — 183 statik anahtarın açıklaması, formülü,
+"""Registry metin tabloları — 192 statik anahtarın açıklaması, formülü,
 ölçüm şartı ve künyesi.
 
 Bu dosya **veridir**, mantık içermez. ``registry.py``'den ayrı durmasının
@@ -56,10 +56,6 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'mattr': 'moving-average TTR',
     'herdan_c': "Herdan's C (LogTTR)",
     'sichel_s': 'share of types occurring exactly twice',
-    'zipf_exponent': 'Zipf slope',
-    'zipf_r2': 'fit quality of the Zipf line',
-    'zipf_mandelbrot_q': 'Zipf-Mandelbrot shift',
-    'zipf_mandelbrot_s': 'Zipf-Mandelbrot slope',
     'mtld': 'measure of textual lexical diversity',
     'dugast_u': "Dugast's Uber index",
     'guiraud_r': "Guiraud's root TTR",
@@ -84,6 +80,7 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'adv_variation': 'adverb variation AdvV',
     'wordfreq_mean': 'how common the lexical words are in general language',
     'wordfreq_rare_ratio': 'share of rare lexical words',
+    'lexical_density': 'share of lexical words',
     # ── frequency_structure ─────────────────────────────────────
     'h_point': 'rank where frequency equals rank',
     'vocab_richness_r1': 'share of the text below the h-point',
@@ -96,8 +93,12 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'lambda_pa': 'length-normalised curve length',
     'adjusted_modulus': 'distance from the h-point to the curve ends',
     'writers_view_alpha': 'angle at the h-point, in radians',
-    'thematic_concentration': 'weight of content words above the h-point',
-    'secondary_thematic_concentration': 'weight of content words up to rank 2h',
+    'thematic_concentration': 'weight of lexical words above the h-point',
+    'secondary_thematic_concentration': 'weight of lexical words up to rank 2h',
+    'zipf_exponent': 'Zipf slope',
+    'zipf_r2': 'fit quality of the Zipf line',
+    'zipf_mandelbrot_q': 'Zipf-Mandelbrot shift',
+    'zipf_mandelbrot_s': 'Zipf-Mandelbrot slope',
     # ── sentence ────────────────────────────────────────────────
     'sent_len_mean': 'mean sentence length in words',
     'sent_count': 'number of sentences',
@@ -106,6 +107,7 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'long_sent_ratio': 'share of long sentences',
     'sent_len_median': 'median sentence length',
     'sent_len_entropy': 'variety of sentence lengths',
+    'question_sent_ratio': 'share of sentences ending in "?"',
     # ── paragraph ───────────────────────────────────────────────
     'para_count': 'number of paragraphs',
     'para_len_mean': 'mean paragraph length',
@@ -123,15 +125,12 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'pos_sconj_ratio': 'share of SCONJ words',
     'pos_num_ratio': 'share of NUM words',
     'pos_intj_ratio': 'share of INTJ words',
-    # ── syntactic ───────────────────────────────────────────────
-    'question_sent_ratio': 'share of sentences ending in "?"',
     'pronoun_ratio': 'share of pronoun words',
     'verb_dist_mean': 'mean word gap between consecutive verbs',
     'activity_ratio': 'activity Q',
-    'lexical_density': 'share of lexical words',
     'posddev': 'how uneven the POS distribution is',
     'posdiv': 'how much sentences differ from the document in POS make-up',
-    # ── syntactic_dep ───────────────────────────────────────────
+    # ── syntactic ───────────────────────────────────────────
     'arc_len_mean': 'mean dependency distance (MDD2)',
     'parse_depth_mean': 'mean hierarchical distance (MHD2)',
     'sentfinal_noun_ratio': 'share of sentences ending in a NOUN',
@@ -192,7 +191,7 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'zeyrek_modal_possibility_ratio': 'share of ability verbs',
     'zeyrek_modal_necessity_ratio': 'share of necessity verbs',
     'zeyrek_question_particle_ratio': 'share of question particles',
-    # ── phonetic ────────────────────────────────────────────────
+    # ── phonological ────────────────────────────────────────────────
     'vowel_ratio': 'share of vowels',
     'front_vowel_ratio': 'share of front vowels',
     'back_vowel_ratio': 'share of back vowels',
@@ -214,11 +213,20 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'flesch_reading_ease': 'Flesch Reading Ease (EN)',
     'flesch_kincaid_grade': 'Flesch-Kincaid grade (EN)',
     'smog': 'SMOG grade (EN)',
-    'ari': 'Automated Readability Index',
-    'coleman_liau': 'Coleman-Liau index',
-    'lix': "Björnsson's LIX",
+    'ari': 'Automated Readability Index (EN)',
+    'coleman_liau': 'Coleman-Liau index (EN)',
+    'lix': "Björnsson's LIX (EN)",
     'polysyllabic_word_ratio': 'share of 3+ syllable words (EN)',
     'long_word_ratio': 'share of 7+ letter words',
+    'kalyoncu_kl': "share of words not in Kalyoncu's familiarity word list (%)",
+    'kalyoncu_ttr': 'Kalyoncu TTR: share of stems occurring once (%)',
+    'kalyoncu_kco': 'share of complex sentences (%)',
+    'kalyoncu_yco': 'verbals per sentence, times 10',
+    'kalyoncu_ocu': 'words per sentence, numbers counted as read aloud',
+    'kalyoncu_k1': 'Kalyoncu text difficulty, formula 1; higher = harder',
+    'kalyoncu_k2': 'Kalyoncu text difficulty, formula 2; higher = harder',
+    'kalyoncu_k3': 'Kalyoncu text difficulty, formula 3; higher = harder',
+    'kalyoncu_k4': 'Kalyoncu text difficulty, formula 4; higher = harder',
     # ── punctuation ─────────────────────────────────────────────
     'digit_ratio': 'share of digit characters',
     'punct_comma_ratio': 'share of comma marks among all marks',
@@ -243,12 +251,12 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     # ── chars (dinamik grup) ───────────────────────────────────────
     'chars': 'share of that letter among alphabet letters',
     # ── custom_ngrams (dinamik grup) ───────────────────────────────
-    'custom_ngrams': 'count of a user-supplied word or POS-tag sequence within sentences',
+    'custom_ngrams': 'count of a user-supplied sequence of words, lemmas or POS tags within sentences',
 }
 
 # Anahtar → NASIL hesaplandığı. Anahtarın kendi satırı yoksa describe_feature
 # grup adındaki satıra düşer; bu yalnız dinamik gruplarda (chars, custom_ngrams)
-# var, 183 statik anahtarın hepsinin kendi satırı var.
+# var, 192 statik anahtarın hepsinin kendi satırı var.
 FEATURE_FORMULAS: dict[str, str] = {
     # ── lexical ─────────────────────────────────────────────────
     'lemma_count': 'V over lemmas',
@@ -261,10 +269,6 @@ FEATURE_FORMULAS: dict[str, str] = {
     'mattr': 'mean TTR of every sliding window of mattr_window words',
     'herdan_c': 'log(V) / log(N)',
     'sichel_s': 'V2 / V',
-    'zipf_exponent': 'abs(slope) of least-squares fit log f(r) ~ log r',
-    'zipf_r2': 'R² of that fit',
-    'zipf_mandelbrot_q': 'q minimising the residual of log f ~ log(r + q), grid 0–10 step 0.1',
-    'zipf_mandelbrot_s': 'abs(slope) at that q',
     'mtld': 'mean words per factor (TTR drops to mtld_threshold), forward and backward averaged',
     'dugast_u': '(ln N)^2 / (ln N - ln V)',
     'guiraud_r': 'V / sqrt(N)',
@@ -274,12 +278,12 @@ FEATURE_FORMULAS: dict[str, str] = {
     'herdan_vm': 'sqrt(sum(f^2) / N^2 - 1 / V)',
     'honore_r': '100 * ln N / (1 - V1 / V)',
     'heaps_beta':
-        'least-squares slope of log V ~ log N over prefixes every heaps_step words, not '
-        'clipped',
+        'least-squares slope of log V ~ log N over heaps_points equally spaced prefixes '
+        '(k * N / heaps_points), not clipped',
     'entropy': '-sum(p * ln p)',
     'yule_k': '10000 * (sum(f^2) - N) / N^2',
     'simpson_d': 'sum(f(f-1)) / (N(N-1))',
-    'brunet_w': 'N^(V^-a), a = brunet_w_a',
+    'brunet_w': 'N^((V-b)^-a), a = brunet_w_a, b = brunet_w_b',
     'hapax_ratio': 'V1 / V',
     'hapax_token_ratio': 'V1 / N',
     'vocd_d':
@@ -293,6 +297,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'adv_variation': 'distinct adverb lemmas / lexical words',
     'wordfreq_mean': 'mean wordfreq Zipf score of lexical-word lemmas (unlisted = 0)',
     'wordfreq_rare_ratio': 'lexical-word lemmas with Zipf score <= 3 / lexical words',
+    'lexical_density': '(NOUN + PROPN + VERB + ADJ + ADV) / all words, PUNCT and SYM excluded',
     # ── frequency_structure ─────────────────────────────────────
     'h_point': 'r with f(r) = r, interpolated otherwise',
     'vocab_richness_r1': '1 - (F(h) - h^2 / (2N))',
@@ -305,8 +310,13 @@ FEATURE_FORMULAS: dict[str, str] = {
     'lambda_pa': 'L * ln(N) / N',
     'adjusted_modulus': 'sqrt((f1/h)^2 + (V/h)^2) / ln(N)',
     'writers_view_alpha': 'arccos of the angle between (1, f1) and (V, 1) seen from (h, h)',
-    'thematic_concentration': "sum(2(h - r') f(r')) / (h(h-1) f1), content words with r' < h",
-    'secondary_thematic_concentration': "sum((2h - r') f(r')) / (h(2h-1) f1), r' <= 2h",
+    'thematic_concentration': "sum(2(h - r') f(r')) / (h(h-1) f1), lexical words with r' < h",
+    'secondary_thematic_concentration': "sum((2h - r') f(r')) / (h(2h-1) f1), lexical words "
+                                        "with r' <= 2h",
+    'zipf_exponent': 'abs(slope) of least-squares fit log f(r) ~ log r',
+    'zipf_r2': 'R² of that fit',
+    'zipf_mandelbrot_q': 'q minimising the residual of log f ~ log(r + q), grid 0–10 step 0.1',
+    'zipf_mandelbrot_s': 'abs(slope) at that q',
     # ── sentence ────────────────────────────────────────────────
     'sent_len_mean': 'mean words per sentence',
     'sent_count': 'sentences',
@@ -315,6 +325,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'long_sent_ratio': 'sentences with more than long_sent_threshold words / sentences',
     'sent_len_median': 'median words per sentence',
     'sent_len_entropy': 'Shannon entropy (nats) of the distribution of words per sentence',
+    'question_sent_ratio': 'sentences whose final mark contains "?" / sentences',
     # ── paragraph ───────────────────────────────────────────────
     'para_count': 'paragraphs (blank line = boundary)',
     'para_len_mean': 'mean words per paragraph (blank line = boundary)',
@@ -332,15 +343,12 @@ FEATURE_FORMULAS: dict[str, str] = {
     'pos_sconj_ratio': 'tag count / words',
     'pos_num_ratio': 'tag count / words',
     'pos_intj_ratio': 'tag count / words',
-    # ── syntactic ───────────────────────────────────────────────
-    'question_sent_ratio': 'sentences whose final mark contains "?" / sentences',
     'pronoun_ratio': 'PRON / words',
     'verb_dist_mean': 'mean difference of VERB positions',
     'activity_ratio': 'VERB / (VERB + ADJ)',
-    'lexical_density': '(NOUN + PROPN + VERB + ADJ + ADV) / all words, PUNCT and SYM excluded',
     'posddev': 'population std of the 12 pos_*_ratio shares',
     'posdiv': 'mean over sentences of KL(sentence POS ‖ document POS), nats',
-    # ── syntactic_dep ───────────────────────────────────────────
+    # ── syntactic ───────────────────────────────────────────
     'arc_len_mean':
         'mean over sentences of mean abs(word position - head position), punctuation removed, '
         'root excluded',
@@ -384,7 +392,9 @@ FEATURE_FORMULAS: dict[str, str] = {
     'zeyrek_suffix_char_length_ratio': 'suffix letters / word letters',
     'zeyrek_suffix_bigram_entropy': 'Shannon entropy (nats) of within-word visible suffix pairs',
     'zeyrek_derivational_suffix_ratio': 'derivational / visible suffixes',
-    'zeyrek_verb_suffix_diversity': 'mean distinct visible suffix tags per verb_suffix_window-verb chunk',
+    'zeyrek_verb_suffix_diversity':
+        'mean distinct visible suffix tags over verb_suffix_num_samples random samples of '
+        'verb_suffix_window verbs (no repeats within a sample)',
     'zeyrek_tense_past_def_ratio': 'verbs whose last tense tag is X / verbs',
     'zeyrek_tense_past_nar_ratio': 'verbs whose last tense tag is X / verbs',
     'zeyrek_tense_present_ratio': 'verbs whose last tense tag is X / verbs',
@@ -403,7 +413,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'zeyrek_modal_possibility_ratio': 'verbs with Able or Unable / verbs',
     'zeyrek_modal_necessity_ratio': 'verbs with Neces / verbs',
     'zeyrek_question_particle_ratio': 'words with root Ques / analysed words',
-    # ── phonetic ────────────────────────────────────────────────
+    # ── phonological ────────────────────────────────────────────────
     'vowel_ratio': 'vowels / alphabet letters',
     'front_vowel_ratio': 'front vowels / alphabet letters',
     'back_vowel_ratio': 'back vowels / alphabet letters',
@@ -436,6 +446,19 @@ FEATURE_FORMULAS: dict[str, str] = {
     'lix': 'words/sentence + 100 * long words/words, long = 7+ letters',
     'polysyllabic_word_ratio': '3+ syllable words / syllabifiable words',
     'long_word_ratio': 'long words / words',
+    'kalyoncu_kl':
+        '100 * words not in the list / words; a word is in the list if its form, stem or '
+        'stem + -mak/-mek is, circumflexes ignored; proper nouns and numbers count as in the list',
+    'kalyoncu_ttr':
+        '100 * stems occurring once / words; texts longer than kalyoncu_ttr_window: mean over '
+        'moving windows (step 1)',
+    'kalyoncu_kco': '100 * sentences with a verbal or with 2+ verbs / sentences',
+    'kalyoncu_yco': '10 * verbals / sentences',
+    'kalyoncu_ocu': 'words / sentences; a number counts as the words it is read as',
+    'kalyoncu_k1': '-29.829 + 0.508 KL + 1.191 TTR + 0.733 KCO - 0.66 OCU',
+    'kalyoncu_k2': '25.457 + 0.877 KL + 0.668 TTR + 0.333 OCU',
+    'kalyoncu_k3': '25.153 + 0.834 KL + 0.686 TTR + 0.226 YCO',
+    'kalyoncu_k4': '43.368 + 1.008 KL + 0.624 OCU',
     # ── punctuation ─────────────────────────────────────────────
     'digit_ratio': 'digits / characters',
     'punct_comma_ratio': 'marks of this type / all marks',
@@ -462,7 +485,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     # ── custom_ngrams (dinamik grup) ───────────────────────────────
     'custom_ngrams':
         'matches inside sentences; overlapping matches counted; UPPERCASE UD tags match any word '
-        'with that tag',
+        'with that tag; other all-caps items (EV) match any word with that lemma',
 }
 
 # Anahtar → ölçüm şartı. Sağlanmazsa değer NaN (K4).
@@ -478,10 +501,6 @@ FEATURE_REQUIRES: dict[str, str] = {
     'mattr': 'at least 100 words (2 x mattr_window)',
     'herdan_c': 'at least 2 words',
     'sichel_s': 'at least 1 word',
-    'zipf_exponent': 'at least 10 distinct words',
-    'zipf_r2': 'at least 10 distinct words, not all equally frequent',
-    'zipf_mandelbrot_q': 'at least 10 distinct words',
-    'zipf_mandelbrot_s': 'at least 10 distinct words',
     'mtld': 'at least 100 words (mtld_min_tokens) with some repetition',
     'dugast_u': 'at least 2 words, at least one repeated',
     'guiraud_r': 'at least 1 word',
@@ -490,11 +509,11 @@ FEATURE_REQUIRES: dict[str, str] = {
     'maas_a2': 'at least 2 words',
     'herdan_vm': 'at least 1 word',
     'honore_r': 'at least 1 word occurring more than once',
-    'heaps_beta': 'at least 300 words (heaps_min_tokens)',
+    'heaps_beta': 'at least 20 words (heaps_points); unreliable on short texts',
     'entropy': 'at least 1 word',
     'yule_k': 'at least 1 word',
     'simpson_d': 'at least 2 words',
-    'brunet_w': 'at least 1 word',
+    'brunet_w': 'more than brunet_w_b distinct words (21 by default)',
     'hapax_ratio': 'at least 1 word',
     'hapax_token_ratio': 'at least 1 word',
     'vocd_d': 'at least 50 words (vocd_min_tokens, vocd_sample_max)',
@@ -506,6 +525,7 @@ FEATURE_REQUIRES: dict[str, str] = {
     'adv_variation': 'at least 1 lexical word',
     'wordfreq_mean': 'at least 1 lexical word; wordfreq installed',
     'wordfreq_rare_ratio': 'at least 1 lexical word; wordfreq installed',
+    'lexical_density': 'at least 1 word',
     # ── frequency_structure ─────────────────────────────────────
     'h_point': 'at least 1 word',
     'vocab_richness_r1': 'at least 1 word',
@@ -520,6 +540,10 @@ FEATURE_REQUIRES: dict[str, str] = {
     'writers_view_alpha': 'at least 1 word; undefined when the h-point meets a curve end',
     'thematic_concentration': 'at least one repeated word',
     'secondary_thematic_concentration': 'at least 1 word',
+    'zipf_exponent': 'at least 10 distinct words',
+    'zipf_r2': 'at least 10 distinct words, not all equally frequent',
+    'zipf_mandelbrot_q': 'at least 10 distinct words',
+    'zipf_mandelbrot_s': 'at least 10 distinct words',
     # ── sentence ────────────────────────────────────────────────
     'sent_len_mean': 'at least 1 sentence with a letter',
     'sent_count': 'at least 1 sentence with a letter',
@@ -528,6 +552,7 @@ FEATURE_REQUIRES: dict[str, str] = {
     'long_sent_ratio': 'at least 1 sentence with a letter',
     'sent_len_median': 'at least 1 sentence with a letter',
     'sent_len_entropy': 'at least 2 sentences with a letter',
+    'question_sent_ratio': 'at least 1 sentence',
     # ── paragraph ───────────────────────────────────────────────
     'para_count': 'at least 1 paragraph',
     'para_len_mean': 'at least 1 paragraph',
@@ -545,15 +570,12 @@ FEATURE_REQUIRES: dict[str, str] = {
     'pos_sconj_ratio': 'at least 1 word',
     'pos_num_ratio': 'at least 1 word',
     'pos_intj_ratio': 'at least 1 word',
-    # ── syntactic ───────────────────────────────────────────────
-    'question_sent_ratio': 'at least 1 sentence',
     'pronoun_ratio': 'at least 1 word',
     'verb_dist_mean': 'at least 2 verbs',
     'activity_ratio': 'at least 1 verb or adjective',
-    'lexical_density': 'at least 1 word',
     'posddev': 'at least 1 word',
     'posdiv': 'at least 1 word',
-    # ── syntactic_dep ───────────────────────────────────────────
+    # ── syntactic ───────────────────────────────────────────
     'arc_len_mean': 'at least 1 sentence with 2 words',
     'parse_depth_mean': 'at least 1 sentence with 2 words',
     'sentfinal_noun_ratio': 'at least 1 sentence with a word',
@@ -595,7 +617,7 @@ FEATURE_REQUIRES: dict[str, str] = {
     'zeyrek_suffix_char_length_ratio': 'at least 1 analysed word',
     'zeyrek_suffix_bigram_entropy': 'at least 1 word with 2 visible suffixes',
     'zeyrek_derivational_suffix_ratio': 'at least 1 visible suffix',
-    'zeyrek_verb_suffix_diversity': 'at least 50 verbs (verb_suffix_window)',
+    'zeyrek_verb_suffix_diversity': 'at least 10 verbs (verb_suffix_window)',
     'zeyrek_tense_past_def_ratio': 'at least 1 verb',
     'zeyrek_tense_past_nar_ratio': 'at least 1 verb',
     'zeyrek_tense_present_ratio': 'at least 1 verb',
@@ -614,7 +636,7 @@ FEATURE_REQUIRES: dict[str, str] = {
     'zeyrek_modal_possibility_ratio': 'at least 1 verb',
     'zeyrek_modal_necessity_ratio': 'at least 1 verb',
     'zeyrek_question_particle_ratio': 'at least 1 analysed word',
-    # ── phonetic ────────────────────────────────────────────────
+    # ── phonological ────────────────────────────────────────────────
     'vowel_ratio': 'at least 1 alphabet letter',
     'front_vowel_ratio': 'at least 1 alphabet letter',
     'back_vowel_ratio': 'at least 1 alphabet letter',
@@ -641,6 +663,15 @@ FEATURE_REQUIRES: dict[str, str] = {
     'lix': 'at least 1 word',
     'polysyllabic_word_ratio': 'at least 1 syllabifiable word',
     'long_word_ratio': 'at least 1 word',
+    'kalyoncu_kl': 'at least 1 word; Zeyrek',
+    'kalyoncu_ttr': 'at least 1 word; Zeyrek',
+    'kalyoncu_kco': 'at least 1 sentence with a letter; Zeyrek',
+    'kalyoncu_yco': 'at least 1 sentence with a letter; Zeyrek',
+    'kalyoncu_ocu': 'at least 1 sentence with a letter',
+    'kalyoncu_k1': 'all four components',
+    'kalyoncu_k2': 'all three components',
+    'kalyoncu_k3': 'all three components',
+    'kalyoncu_k4': 'both components',
     # ── punctuation ─────────────────────────────────────────────
     'digit_ratio': 'non-empty text',
     'punct_comma_ratio': 'at least 1 punctuation mark',
@@ -674,24 +705,16 @@ FEATURE_CITATIONS: dict[str, str] = {
     # ── lexical ─────────────────────────────────────────────
     'ttr': 'Malvern et al. (2004); QUITA §6.1.1',
     'mattr':
-        'Covington & McFall (2010); default window 50 — C&M recommend a window of 500; '
+        'Covington & McFall (2010); default window 50 — C&M recommend a window of 500 (p.97); '
         '50 is used here so that texts of 100+ words can be measured (mattr needs '
         '2 × window)',
     'herdan_c':
-        'Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)',
-    'sichel_s': 'Sichel (1975); formula from Malvern et al. (2004) eq. 3.10',
-    'zipf_exponent':
-        'Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) '
-        'from the same corpus',
-    'zipf_r2':
-        'Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) '
-        'from the same corpus',
-    'zipf_mandelbrot_q':
-        'Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) '
-        'from the same corpus',
-    'zipf_mandelbrot_s':
-        'Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) '
-        'from the same corpus',
+        'Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5); Herdan (1964) '
+        'pp.73–74 counts the inflected forms of a word as one word, this library counts surface '
+        'forms',
+    'sichel_s':
+        'Tweedie & Baayen (1998) p.329, eq. (12); they cite Sichel (1975), but the ratio does not '
+        'appear in that article',
     'mtld':
         'McCarthy (2005) is the dissertation that introduced the measure — its '
         'abstract (p.vii) reads "we introduce and test a new measure of lexical '
@@ -713,14 +736,17 @@ FEATURE_CITATIONS: dict[str, str] = {
         'this library are natural',
     'herdan_vm': 'Herdan (1955), as cited in Tweedie & Baayen (1998) p.330, eq. (18)',
     'honore_r': 'Honoré (1979), as cited in Tweedie & Baayen (1998) p.329, eq. (11)',
-    'heaps_beta': 'Heaps (1978), as cited in Manning et al. (2008) §5.1.1',
+    'heaps_beta':
+        'Heaps (1978), as cited in Manning et al. (2008) §5.1.1; the law fits large '
+        'collections well (p.81, print edition), not short texts; measured at 20 equally '
+        'spaced points through the text as in Tweedie & Baayen (1998) p.333',
     # Shannon entropisi beş anahtarda kullanılıyor. Formülün kaynağı hepsinde
     # aynı (Shannon 1948); ayrıldıkları yer formülün NEYE uygulandığı. Künye
     # bunu tek tek söylüyor — "Shannon (1948)" deyip bırakmak, dağılımın
     # seçimini de Shannon'a mal ederdi (2026-09-23, Efe).
     'entropy': 'Shannon (1948), as cited in QUITA §6.1.12',
     'punct_entropy':
-        'Shannon (1948) — the entropy formula; applying it to the distribution of '
+        'Shannon (1948) Theorem 2 — the entropy formula; applying it to the distribution of '
         "punctuation types is this library's own decision",
     # Flesch (1948) p.223, element (1); earlier use: Sherman (1888), Yule (1939) — not read,
     # so not cited (K10, 2026-10-07, Efe).
@@ -740,15 +766,23 @@ FEATURE_CITATIONS: dict[str, str] = {
         'threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a '
         'threshold it would almost never fire). Calibrated on newspaper columns only',
     'sent_len_entropy':
-        'Shannon (1948) — the entropy formula; applying it to the distribution of '
+        'Shannon (1948) Theorem 2 — the entropy formula; applying it to the distribution of '
         "sentence lengths is this library's own decision",
-    'yule_k': 'Yule (1944) p.53, eq. (3.22)',
-    'simpson_d': 'Simpson (1949), as cited in Bestgen (2023)',
-    'brunet_w': 'Brunet (1978), as cited in Tweedie & Baayen (1998) p.328, eq. (10)',
+    'yule_k':
+        'Yule (1944) p.53, eq. (3.22); Yule counts one word class, mostly nouns (p.3), with the '
+        'inflected forms of a word as one entry (p.33), this library counts surface forms of all '
+        'words',
+    'simpson_d': 'Simpson (1949), as cited in Bestgen (2023) p.4 (preprint)',
+    'brunet_w':
+        'Brunet (1978) p.65 (with b), p.49 (b = 0); Brunet counts V in lemmas (p.53), this '
+        'library in surface forms',
     'hapax_token_ratio': 'QUITA §6.1.6',
     'vocd_d':
         'Malvern et al. (2004) pp.56–57; procedure from McCarthy & Jarvis (2010) p.383',
-    'hdd': 'McCarthy & Jarvis (2007), as cited in McCarthy & Jarvis (2010) p.383',
+    'hdd':
+        'McCarthy & Jarvis (2007) pp.465–466 (ATTR-42, p.472); the name HD-D and the 42-word '
+        'sample from McCarthy & Jarvis (2010) p.383, which reports the sum of probabilities '
+        '(0–42), this library divides it by 42',
     'msttr':
         'Johnson (1944), as cited in Malvern et al. (2004) p.25 and McCarthy & Jarvis '
         '(2010) p.385',
@@ -756,9 +790,12 @@ FEATURE_CITATIONS: dict[str, str] = {
     'verb_variation': 'Lu (2012) Table 2',
     'adj_variation': 'Lu (2012) Table 2',
     'adv_variation': 'Lu (2012) Table 2',
-    'wordfreq_mean': 'van Heuven et al. (2014) (Zipf scale)',
+    'wordfreq_mean': 'van Heuven et al. (2014) p.1179 (Zipf scale)',
     'wordfreq_rare_ratio':
         'van Heuven et al. (2014) Table 1 (Zipf ≤ 3 = low frequency)',
+    'lexical_density':
+        'Lu (2012) p.192; definition in the broad Hallidayan sense — all open-class words; '
+        'Lu counts only adverbs derived from adjectives, the tool counts all adverbs',
     # ── frequency_structure ─────────────────────────────────
     'h_point': 'QUITA §6.1.2; Popescu & Altmann (2006)',
     'vocab_richness_r1': 'Popescu et al. (2009) eq. 3.8',
@@ -771,8 +808,21 @@ FEATURE_CITATIONS: dict[str, str] = {
     'lambda_pa': 'QUITA §6.1.7; Popescu, Čech & Altmann (2011)',
     'adjusted_modulus': 'QUITA §6.1.13',
     'writers_view_alpha': 'Popescu, Mačutek & Altmann (2009) eq. 4.5',
-    'thematic_concentration': 'QUITA §6.2.5',
-    'secondary_thematic_concentration': 'QUITA §6.2.6',
+    'thematic_concentration': 'QUITA §6.2.5; thematic words = lexical words (NOUN, PROPN, VERB, ADJ, '
+                              'ADV), QUITA pp.50-51 leaves the choice to the researcher',
+    'secondary_thematic_concentration': 'QUITA §6.2.6; thematic words as in thematic_concentration',
+    'zipf_exponent':
+        'Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) '
+        'from the same corpus',
+    'zipf_r2':
+        'Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) '
+        'from the same corpus',
+    'zipf_mandelbrot_q':
+        'Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) '
+        'from the same corpus',
+    'zipf_mandelbrot_s':
+        'Piantadosi (2014) eq. (2); the same source criticises estimating r and f(r) '
+        'from the same corpus',
     # ── pos ─────────────────────────────────────────────────
     'pos_noun_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
     'pos_propn_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
@@ -786,18 +836,15 @@ FEATURE_CITATIONS: dict[str, str] = {
     'pos_sconj_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
     'pos_num_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
     'pos_intj_ratio': 'de Marneffe et al. (2021) Table 1 (UPOS tag set)',
-    # ── syntactic ───────────────────────────────────────────
     'verb_dist_mean': 'QUITA §6.2.1',
     'activity_ratio': 'QUITA §6.2.2',
-    'lexical_density':
-        'Lu (2012); definition in the broad Hallidayan sense — all open-class words',
     'posddev':
         'Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over '
         'ratios, 12 UD tags',
     'posdiv':
         'Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the '
         'source uses bits',
-    # ── syntactic_dep ───────────────────────────────────────
+    # ── syntactic ───────────────────────────────────────
     'arc_len_mean':
         'Liu (2008) eq. (1); text level from Jing & Liu (2015) p.164, eq. (3) (MDD2)',
     'parse_depth_mean': 'Jing & Liu (2015) p.164, eq. (2) and (4) (MHD2)',
@@ -868,8 +915,11 @@ FEATURE_CITATIONS: dict[str, str] = {
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
     'zeyrek_verb_suffix_diversity':
-        "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
-        '(2007)',
+        'Brezina & Pallotti (2019) p.107 (MC10: 10-verb samples; the authors call 10 '
+        'arbitrary and give MC5 for short texts) and p.108 (100 random samples); only the '
+        'within-sample variety is measured (close to MC10a, no between-sample component); '
+        "suffixes from Zeyrek (a Python port of Zemberek's morphotactics), tag set from "
+        'Akın & Akın (2007)',
     'zeyrek_tense_past_def_ratio':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
@@ -924,7 +974,7 @@ FEATURE_CITATIONS: dict[str, str] = {
     'zeyrek_question_particle_ratio':
         "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    # ── phonetic ────────────────────────────────────────────
+    # ── phonological ────────────────────────────────────────────
     'front_vowel_ratio':
         'Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back)',
     'back_vowel_ratio': 'Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back)',
@@ -967,7 +1017,20 @@ FEATURE_CITATIONS: dict[str, str] = {
         'it does not appear in this form in the article',
     'lix':
         'Björnsson (1968), as cited in Anderson (1983) p.490; long word = 7+ letters',
-    'long_word_ratio': 'Anderson (1983); long word = 7+ letters',
+    'long_word_ratio': 'Anderson (1983) p.491; long word = 7+ letters',
+    'kalyoncu_kl':
+        'Kalyoncu (2025) p.71-72, nine counting rules; word list Appendix 1, pp.129-160; '
+        'rules 3, 5, 6 and 8 are not applied',
+    'kalyoncu_ttr': 'Kalyoncu (2025) p.73; not the type-token ratio but the share of stems '
+                    'occurring once',
+    'kalyoncu_kco': 'Kalyoncu (2025) p.73; "judgement" counted as verb or verbal, as in his '
+                    'CYargi (p.73)',
+    'kalyoncu_yco': 'Kalyoncu (2025) p.74',
+    'kalyoncu_ocu': 'Kalyoncu (2025) p.77; numbers read aloud, p.xiii',
+    'kalyoncu_k1': 'Kalyoncu (2025) p.97, Table 31; grade levels p.102',
+    'kalyoncu_k2': 'Kalyoncu (2025) p.98, Table 32; grade levels p.103',
+    'kalyoncu_k3': 'Kalyoncu (2025) p.99, Table 33; grade levels p.104',
+    'kalyoncu_k4': 'Kalyoncu (2025) p.99, Table 34; grade levels p.105',
     # ── 2026-10-07 citation search (Efe): primary sources read in tlf-kaynaklar ──
     # Dynamic group: every char_* key takes this citation (registry._citation).
     'chars':
@@ -1062,7 +1125,7 @@ BIBLIOGRAPHY: dict[str, str] = {
         "This library's own measurement, not a published source. short_sent_threshold "
         'and long_sent_threshold were derived from the 15th and 85th percentiles of '
         'the sentence-length distribution of newspaper columns under the default sentence '
-        'and word rules: TR 162 columnists / 4,321 articles / 197,990 sentences, EN 30 columnists / '
+        'and word rules: TR 137 columnists / 4,321 articles / 198,225 sentences, EN 30 columnists / '
         '1,485 articles / 52,745 sentences. Method and raw percentile '
         'table: docs/threshold-calibration.md.',
     'Ateşman (1997)':
@@ -1081,10 +1144,12 @@ BIBLIOGRAPHY: dict[str, str] = {
         'record was verified from three secondary reference lists: Anderson (1983), '
         'Çetinkaya (2010), Falkenjack et al. (2013). The primary source could not be '
         'obtained.',
+    'Brezina & Pallotti (2019)':
+        'Brezina, V., & Pallotti, G. (2019). Morphological complexity in written L2 texts. '
+        'Second Language Research, 35(1), 99–119. DOI 10.1177/0267658316643125',
     'Brunet (1978)':
-        'Brunet, E. (1978). Vocabulaire de Jean Giraudoux: structure et évolution. '
-        'Genève: Slatkine. (Book.) The record was verified from the reference list of '
-        'Popescu, Čech & Altmann (2011). The primary source could not be obtained.',
+        'Brunet, E. (1978). Le vocabulaire de Jean Giraudoux: Structure et évolution. '
+        'Genève: Slatkine.',
     'Carroll (1964)':
         'Carroll, J. B. (1964). Language and Thought. Englewood Cliffs, NJ: Prentice-Hall. '
         'The record was verified from the reference list of Torruella & Capsada (2013). The '
@@ -1151,6 +1216,10 @@ BIBLIOGRAPHY: dict[str, str] = {
     'Johnson (1944)':
         'Johnson, W. (1944). Studies in language behavior: I. A program of '
         'research. Psychological Monographs, 56(2), 1–15. DOI 10.1037/h0093508',
+    'Kalyoncu (2025)':
+        "Kalyoncu, M. R. (2025). Türkçe için yeni bir okunabilirlik formülü [Master's thesis, "
+        'Ondokuz Mayıs University]. Samsun. The word list (Appendix 1) is distributed with the '
+        "package's data and is not covered by its MIT licence.",
     'Kincaid et al. (1975)':
         'Kincaid, J. P., Fishburne, R. P., Rogers, R. L., & Chissom, B. S. (1975). '
         'Derivation of new readability formulas for Navy enlisted personnel. '

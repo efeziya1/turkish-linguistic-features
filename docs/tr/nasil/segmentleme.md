@@ -2,11 +2,11 @@
 
 ## Neden gerekli
 
-Sözcüksel zenginlik öznitelikleri **metin uzunluğuna duyarlıdır.** TTR uzun
-metinde mutlaka düşer, `hapax_ratio` düşer, `yule_k` oynar. 50 000 sözcüklük
-bir romanla 800 sözcüklük bir köşe yazısını aynı tabloda karşılaştırırsanız
+Sözcüksel zenginlik (İng. *lexical richness*) öznitelikleri **metin uzunluğundan
+etkilenir.** TTR uzun metinde mutlaka düşer, `hapax_ratio` düşer, `yule_k` oynar. 50 000
+sözcüklük bir romanla 800 sözcüklük bir köşe yazısını aynı tabloda karşılaştırırsanız
 ölçtüğünüz şey üslup değil, uzunluk olur. `mattr`, `mtld` ve `vocd_d` TTR'den
-daha az duyarlıdır ama bağımsız değildir
+daha az etkilenir ama uzunluktan bağımsız değildir
 ([ölçüm örneği](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/09_uzunluk_duyarliligi.py)).
 
 Çözüm: hepsini aynı boya getirin.
@@ -17,7 +17,7 @@ parcalar = tlf.segment_text(metin, segment_size=1000, lang="tr")
 
 ## Parça boyu sözcükle ölçülür
 
-`segment_size`, `analyze`'ın saydığı sözcüğü sayar: boşlukla ayrılan, kenar
+`segment_size`, `analyze`'ın saydığı sözcüğü (İng. *word*) sayar: boşlukla ayrılan, kenar
 noktalaması atılan, harf ya da rakam içeren birim. Noktalama sözcük değildir
 ([tam tanım](../aciklama/kavramlar.md#sozcuk)).
 [Öğreticideki](../baslangic.md) 25 sözcüklük `metin` ile:
@@ -29,7 +29,7 @@ len(parcalar)                                  # 3
 [len(p.split()) for p in parcalar]             # [100, 100, 100]
 ```
 
-375 sözcük ÷ 100 = 3 tam parça, artan 75 sözcük atılır. Her parça
+375 sözcük ÷ 100 = 3 tam parça (İng. *segment*), artan 75 sözcük atılır. Her parça
 `analyze`'da tam 100 sözcük eder; `mattr` gibi "en az 100 sözcük" isteyen bir
 ölçüye yeter.
 
@@ -54,9 +54,9 @@ Artık 75 sözcük, yani parçanın %75'i: `1.0` eşiğinin altında, `0.5`'in
 
 !!! warning "Atılan veri sessizce atılır"
 
-    Kütüphane kaç parça attığını size söylemez. `min_fill=1.0` ile 1400
+    Araç kaç parça attığını size söylemez. `min_fill=1.0` ile 1400
     sözcüklük bir dosyadan `segment_size=1000` ile **tek** parça çıkar; kalan 400
-    sözcük gider. Korpusunuzda kısa dosyalar varsa hiç parça
+    sözcük gider. Derleminizde kısa dosyalar varsa hiç parça
     üretmeyebilirler.
 
 ## Karakterle bölmek
@@ -66,15 +66,15 @@ tlf.segment_text(metin, segment_size=5000, unit="char", lang="tr")
 ```
 
 `unit="char"` ham karakter sayar; sözcük kuralı devreye girmez, dolayısıyla
-`lang` anlamsızlaşır. Sözcük sınırına saygı göstermez — parça bir sözcüğün
+`lang` anlamsızlaşır. Sözcük sınırına bakmaz: Parça bir sözcüğün
 ortasında bitebilir.
 
-## Korpusta doğrudan kullanın
+## Derlemde doğrudan kullanın
 
 Tek tek bölüp `analyze` çağırmanıza gerek yok:
 
 ```python
-satirlar = tlf.analyze_corpus("korpus/", lang="tr", segment_size=1000)
+satirlar = tlf.analyze_corpus("derlem/", lang="tr", segment_size=1000)
 ```
 
 ## Tam imza
@@ -93,5 +93,5 @@ segment_text(
 neredeyse aynıdır; fark sıra sayısındadır (Türkçede `3. kat`'taki `3.` tek
 sözcük), yani İngilizce bir metinde parça sınırları nadiren kayar.
 
-Parça içeriği **ham metin dilimidir** — yeniden birleştirilmiş sözcük listesi
+Parça içeriği **ham metin dilimidir**, yeniden birleştirilmiş sözcük listesi
 değil. Yani noktalama, boşluk ve satır sonları olduğu gibi kalır.

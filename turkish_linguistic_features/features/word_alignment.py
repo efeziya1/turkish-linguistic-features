@@ -1,12 +1,18 @@
 """One word definition for the whole library (2026-10-07, Efe).
 
-Every group except ``syntactic_dep`` counts the default word (``kelime_birimleri``:
+Every group except ``syntactic`` counts the default word (``kelime_birimleri``:
 whitespace unit, edge punctuation stripped). Groups that need a tag per word (POS,
 morphology, lemma, Zeyrek morphemes) take it from the model token the word holds:
 the first token inside the word's whitespace chunk that is not punctuation or a
 symbol. A word split into several tokens (TR ``Türk-Amerikan``, ``4-5``; EN ``it's``,
 ``don't``) therefore gets its first part's tag. Measured: 0.31 % of Turkish and
 2.66 % of English words are split (300 columns each).
+
+A double-quote token (``"`` ``“`` ``”`` ``«`` ``»``) is punctuation here whatever its tag
+(2026-10-26, Efe): spaCy sometimes tags an opening quote NOUN or ADJ (``Herkes "büyük"
+bir…`` → ``"``/NOUN), and the word would take its tag from the quote. Only this matching
+changes; apostrophes and single quotes (``'`` ``’``, as in ``Türkiye'nin``) are not covered,
+and punctuation counts read the raw text, not the tags.
 
 Pure computation on ready-made lists (K3). Tokens that cannot be found in the raw
 text in order mean the inputs are not aligned: preprocessing error → ``ValueError`` (K4).
@@ -24,6 +30,11 @@ from .readability import word_units
 __all__ = ["WordView", "word_token_indices", "word_view"]
 
 _UNANALYSED = "Unk"
+_DOUBLE_QUOTES = frozenset('"“”«»')
+
+
+def _is_double_quote(token: str) -> bool:
+    return bool(token) and all(c in _DOUBLE_QUOTES for c in token)
 
 
 def word_token_indices(raw_text: str, surface_tokens: list[str],
@@ -57,7 +68,8 @@ def word_token_indices(raw_text: str, surface_tokens: list[str],
         found = None
         k = t
         while k < len(starts) and starts[k] < chunk_end:
-            if found is None and pos_data[k][1] not in NON_WORD_POS:
+            if (found is None and pos_data[k][1] not in NON_WORD_POS
+                    and not _is_double_quote(surface_tokens[k])):
                 found = k
             k += 1
         out.append(found)
@@ -74,12 +86,15 @@ class WordView:
     morph: list[tuple[str, str]] | None
     morphemes: list[Any] | None
     sentences: list[list[str]]
+    # Zeyrek'in tüm çözümlemeleri, sözcük başına; yoksa ``None`` (Kalyoncu çözümleme seçimi).
+    alternatives: list[Any] | None = None
 
 
 def word_view(raw_text: str, words: list[str], surface_tokens: list[str],
               pos_data: list[tuple[str, str]], lemma_tokens: list[str],
               morph_tags: list[tuple[str, str]] | None, morpheme_lists: list[Any] | None,
-              sentences: list[list[str]], lang: str) -> WordView:
+              sentences: list[list[str]], lang: str,
+              morpheme_alternatives: list[Any] | None = None) -> WordView:
     """Per-word POS, lemma, morphology and Zeyrek morphemes, plus words per rule sentence.
 
     ``lemma_tokens`` is aligned with the word tokens of ``pos_data`` (punctuation and
@@ -115,6 +130,7 @@ def word_view(raw_text: str, words: list[str], surface_tokens: list[str],
     lemmas: list[str] = []
     morph: list[tuple[str, str]] = []
     morphemes: list[Any] = []
+    alternatives: list[Any] = []
     groups: dict[int, list[str]] = {}
     last_sent = 0
     for w, i in zip(words, idx, strict=True):
@@ -123,6 +139,7 @@ def word_view(raw_text: str, words: list[str], surface_tokens: list[str],
             lemmas.append(_kucuk_harf(w, lang))
             morph.append((w, ""))
             morphemes.append(((_UNANALYSED, w, False),))
+            alternatives.append(())
         else:
             pos.append((w, pos_data[i][1]))
             lemmas.append(lemma_of[i])
@@ -130,6 +147,8 @@ def word_view(raw_text: str, words: list[str], surface_tokens: list[str],
                 morph.append((w, morph_tags[i][1]))
             if morpheme_lists:
                 morphemes.append(morpheme_lists[i])
+                if morpheme_alternatives:
+                    alternatives.append(morpheme_alternatives[i])
             if i < len(sent_of):
                 last_sent = sent_of[i]
         groups.setdefault(last_sent, []).append(w)
@@ -144,4 +163,5 @@ def word_view(raw_text: str, words: list[str], surface_tokens: list[str],
         morphemes=morphemes if morpheme_lists is not None and (morpheme_lists or not pos_data)
         else None,
         sentences=[groups[s] for s in sorted(groups)],
+        alternatives=alternatives if morpheme_alternatives and morpheme_lists else None,
     )

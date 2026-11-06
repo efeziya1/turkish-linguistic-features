@@ -140,6 +140,8 @@ def test_uc_nokta_iki_yazimda_ayni_sayilir(lang, kume):
     ("tr", "Bir şey fark ettim: Hava çok soğuk.", 2),        # büyük harf
     ("tr", "Şunları aldım: elma, armut.", 1),                # küçük harf: liste
     ("tr", "Saat 10:30 oldu. Gittik.", 2),                   # rakamlar arası: sınır değil
+    ("tr", "Ayşe şöyle dedi: -Bence gitmeliyiz.", 2),        # bitişik konuşma çizgisi (2026-10-26)
+    ("tr", "Ayşe şöyle dedi: - Bence gitmeliyiz.", 2),       # ayrık çizgi: zaten bitiriyordu
     ("en", "They won: we lost.", 1),
     ("en", "He said: \"Go home.\" Then left.", 3),
     ("en", "Items: apples, oranges.", 1),
@@ -323,19 +325,19 @@ def test_cok_heceli_kelime_orani():
 def test_ari_vurus_bosluk_disi_her_karakter():
     """Kincaid s.33: harf + sembol + noktalama; kelime = boşluk tuşu."""
     metin = "Ali, kitabı okudu."
-    sonuc = general_readability_formulas(metin, _tok(metin, "tr"), "tr")
+    sonuc = general_readability_formulas(metin, _tok(metin, "en"), "en")
     assert sonuc["ari"] == pytest.approx(4.71 * 16 / 3 + 0.5 * 3 / 1 - 21.43, abs=1e-3)
 
 
 def test_ari_sembolu_kelime_sayar():
     metin = "Fiyat % arttı."
-    sonuc = general_readability_formulas(metin, _tok(metin, "tr"), "tr")
+    sonuc = general_readability_formulas(metin, _tok(metin, "en"), "en")
     assert sonuc["ari"] == pytest.approx(4.71 * 12 / 3 + 0.5 * 3 / 1 - 21.43, abs=1e-3)
 
 
 def test_coleman_liau_yalniz_harf():
     metin = "Ali, kitabı okudu."
-    sonuc = general_readability_formulas(metin, _tok(metin, "tr"), "tr")
+    sonuc = general_readability_formulas(metin, _tok(metin, "en"), "en")
     L, S = 100 * 14 / 3, 100 * 1 / 3
     assert sonuc["coleman_liau"] == pytest.approx(0.0588 * L - 0.296 * S - 15.8, abs=1e-3)
 
@@ -350,8 +352,16 @@ def test_coleman_liau_iki_denklemin_birlesimi():
 def test_lix_ve_uzun_kelime():
     """Anderson 1983: uzun kelime = yedi veya daha fazla harf."""
     metin = "Uzunkelime kısa. A b c."
-    sonuc = general_readability_formulas(metin, _tok(metin, "tr"), "tr")
+    sonuc = general_readability_formulas(metin, _tok(metin, "en"), "en")
     assert sonuc["lix"] == pytest.approx(5 / 2 + 100 * 1 / 5)
+    assert sonuc["long_word_ratio"] == pytest.approx(1 / 5)
+
+
+def test_turkcede_yalniz_kuruldugu_dilin_formulleri():
+    """İlke D (2026-10-15, Efe): ARI, Coleman-Liau, LIX İngilizce için kuruldu, Türkçede yok."""
+    metin = "Uzunkelime kısa. A b c."
+    sonuc = general_readability_formulas(metin, _tok(metin, "tr"), "tr")
+    assert set(sonuc) == {"long_word_ratio"}
     assert sonuc["long_word_ratio"] == pytest.approx(1 / 5)
 
 
@@ -367,7 +377,8 @@ def test_uzun_kelime_esigi_ve_harf_sayimi():
 def test_bos_metinde_hepsi_nan():
     for sonuc in (turkish_readability_formulas("", []),
                   english_readability_formulas("", []),
-                  general_readability_formulas("", [], "tr")):
+                  general_readability_formulas("", [], "tr"),
+                  general_readability_formulas("", [], "en")):
         assert all(_nan(v) for v in sonuc.values())
 
 

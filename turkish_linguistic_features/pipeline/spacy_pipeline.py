@@ -21,7 +21,7 @@ import spacy
 from ..alfabe import _kucuk_harf
 from ..exceptions import ModelNotFoundError
 from ..vocab import NON_WORD_POS
-from .preprocess import Morpheme, ProcessedText
+from .preprocess import Analysis, Morpheme, ProcessedText
 
 if TYPE_CHECKING:
     from .zeyrek_backend import ZeyrekBackend
@@ -172,6 +172,13 @@ class Preprocessor:
         zeyrek = self._zeyrek()
         return tuple(zeyrek.analyze_word(tok) for tok in surface_tokens)
 
+    def _morpheme_alternatives(self, surface_tokens: list[str]) -> tuple[tuple[Analysis, ...], ...]:
+        """Token başına Zeyrek'in tüm çözümlemeleri; İngilizcede ``()``."""
+        if self.lang != "tr":
+            return ()
+        zeyrek = self._zeyrek()
+        return tuple(zeyrek.analyze_alternatives(tok) for tok in surface_tokens)
+
     def _zeyrek(self) -> ZeyrekBackend:
         if self._zeyrek_backend is None:
             from .zeyrek_backend import ZeyrekBackend
@@ -220,6 +227,7 @@ class Preprocessor:
             morph_tags=tuple(morph),
             lang=self.lang,
             dep_data=tuple(dep),
+            morpheme_alternatives=self._morpheme_alternatives(surface),
         )
 
     def process(self, text: str, show_progress: bool = False) -> ProcessedText:

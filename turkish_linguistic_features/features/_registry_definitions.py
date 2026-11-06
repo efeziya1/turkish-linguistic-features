@@ -15,8 +15,9 @@ Düzen: terim başına bir grup tablosu (grup varsayılanı, yoksa ``None``) ve 
 
 Terimler: ``sentence``, ``word``, ``type``, ``token``, ``syllable``, ``polysyllable``, ``letter``,
 ``character``, ``long_word``, ``paragraph``, ``mark``, ``noun``, ``verb``, ``lexical_word``,
-``content_word``, ``suffix`` (tlf'nin kendi kuralı), ``pos_tag``, ``morph_feature``, ``dependency``,
-``zipf_score``, ``zeyrek_tag`` (bir kütüphanenin çıktısı doğrudan kullanılır).
+``suffix``, ``stem``, ``verbal``, ``list_word`` (tlf'nin kendi kuralı), ``pos_tag``,
+``morph_feature``, ``dependency``, ``zipf_score``, ``zeyrek_tag`` (bir kütüphanenin çıktısı
+doğrudan kullanılır).
 """
 
 from __future__ import annotations
@@ -31,6 +32,7 @@ TERM_VALUES: dict[str, frozenset[str]] = {
     "sentence": frozenset({"default", "kincaid", "cetinkaya", "spacy_parser"}),
     "word": frozenset({
         "space_unit", "space_unit_with_symbols", "pos_token", "zeyrek_analysed_word",
+        "space_unit_numbers_read",
     }),
     "type": frozenset({"lowercase_surface", "spacy_lemma", "zeyrek_lemma"}),
     "token": frozenset({"spacy_token"}),
@@ -46,8 +48,10 @@ TERM_VALUES: dict[str, frozenset[str]] = {
     "noun": frozenset({"noun_propn"}),
     "verb": frozenset({"verb_only", "zeyrek_final_type_verb"}),
     "lexical_word": frozenset({"noun_propn_verb_adj_adv"}),
-    "content_word": frozenset({"noun_propn_verb_adj"}),
     "suffix": frozenset({"zeyrek_visible_suffix"}),
+    "stem": frozenset({"zeyrek_lemma_derivations"}),
+    "verbal": frozenset({"zeyrek_verbal_tag"}),
+    "list_word": frozenset({"kalyoncu_list"}),
     "pos_tag": frozenset({"spacy_upos"}),
     "morph_feature": frozenset({"spacy_morph"}),
     "dependency": frozenset({"spacy_head"}),
@@ -65,10 +69,13 @@ PER_LANGUAGE = "per_language"
 
 # Yalnız tek dilde üretilen öznitelikler: dile göre değişen terim bu dilin kaydına iner (extractor'daki
 # `turkish_readability_formulas` ve `english_readability_formulas` ayrımı).
+_KALYONCU = ("kalyoncu_kl", "kalyoncu_ttr", "kalyoncu_kco", "kalyoncu_yco", "kalyoncu_ocu",
+             "kalyoncu_k1", "kalyoncu_k2", "kalyoncu_k3", "kalyoncu_k4")
+
 ONLY_LANGUAGE: dict[str, str] = {
-    **dict.fromkeys(("atesman", "bezirci_yilmaz", "cetinkaya_uzun"), "tr"),
+    **dict.fromkeys(("atesman", "bezirci_yilmaz", "cetinkaya_uzun") + _KALYONCU, "tr"),
     **dict.fromkeys(("flesch_reading_ease", "flesch_kincaid_grade", "smog",
-                     "polysyllabic_word_ratio"), "en"),
+                     "polysyllabic_word_ratio", "ari", "coleman_liau", "lix"), "en"),
 }
 SENTENCE_DEFINITIONS = TERM_VALUES["sentence"]
 WORD_DEFINITIONS = TERM_VALUES["word"]
@@ -98,8 +105,7 @@ _POS_TAG_KEYS = (
     "sentfinal_det_ratio", "sentfinal_adp_ratio", "sentfinal_intj_ratio", "sentfinal_cconj_ratio",
     "sentfinal_sconj_ratio",
     "sentfinal_num_ratio", "sentfinal_aux_ratio", "sentfinal_pron_ratio", "sentfinal_other_ratio",
-    "pronoun_ratio", "verb_dist_mean", "activity_ratio",
-    "lexical_density", "posddev", "posdiv", "noun_variation", "verb_variation",
+    "lexical_density", "noun_variation", "verb_variation",
     "adj_variation", "adv_variation", "thematic_concentration",
     "secondary_thematic_concentration", "voice_pass_ratio", "wordfreq_mean", "wordfreq_rare_ratio",
 )
@@ -128,20 +134,22 @@ def _hepsi(deger: str, anahtarlar: tuple[str, ...]) -> dict[str, str | None]:
 
 # ── cümle ─────────────────────────────────────────────────────────────
 
-GROUP_SENTENCE: dict[str, str | None] = {"sentence": "default", "syntactic_dep": "spacy_parser",
+GROUP_SENTENCE: dict[str, str | None] = {"sentence": "default", "syntactic": "spacy_parser",
                                           "custom_ngrams": "default"}
 FEATURE_SENTENCE: dict[str, str | None] = {
     "sents_per_para_mean": "default",
-    "question_sent_ratio": "default", "posdiv": "default",
+    "posdiv": "default",
     "sent_syllable_mean": "default",
     "atesman": "default", "bezirci_yilmaz": "default", "cetinkaya_uzun": "cetinkaya",
     "flesch_reading_ease": "kincaid", "flesch_kincaid_grade": "kincaid", "smog": "default",
     "ari": "default", "coleman_liau": "default", "lix": "default",
+    **dict.fromkeys(("kalyoncu_kco", "kalyoncu_yco", "kalyoncu_ocu", "kalyoncu_k1", "kalyoncu_k2",
+                     "kalyoncu_k3", "kalyoncu_k4"), "default"),
 }
 
 # ── sözcük ────────────────────────────────────────────────────────────
 # Tek sözcük tanımı `space_unit` (2026-10-07, Efe): etiket isteyen öznitelikler de onu sayar,
-# etiket kelimenin ilk kelime tokenından gelir. Yalnız `syntactic_dep` `pos_token`ta kalır;
+# etiket kelimenin ilk kelime tokenından gelir. Yalnız `syntactic` `pos_token`ta kalır;
 # Zeyrek öznitelikleri Zeyrek'in çözümleyebildiği kelimeleri sayar (`zeyrek_analysed_word`).
 
 _LEMMA_POS_LEXICAL = ("lemma_count", "noun_variation", "verb_variation", "adj_variation",
@@ -149,8 +157,8 @@ _LEMMA_POS_LEXICAL = ("lemma_count", "noun_variation", "verb_variation", "adj_va
 
 GROUP_WORD: dict[str, str | None] = {
     "lexical": "space_unit", "frequency_structure": "space_unit", "sentence": "space_unit",
-    "pos": "space_unit", "syntactic": "space_unit", "morphological": "space_unit",
-    "syntactic_dep": "pos_token", "readability": "space_unit", "custom_ngrams": "space_unit",
+    "pos": "space_unit", "morphological": "space_unit",
+    "syntactic": "pos_token", "readability": "space_unit", "custom_ngrams": "space_unit",
 }
 FEATURE_WORD: dict[str, str | None] = {
     "sent_len_char_mean": None,
@@ -162,6 +170,8 @@ FEATURE_WORD: dict[str, str | None] = {
                                          "flesch_kincaid_grade", "ari")),
     **_hepsi("zeyrek_analysed_word", _ZEYREK_WORD),
     "question_sent_ratio": None,
+    # Kalyoncu (2025) s.xiii: rakam okunuşunun sözcükleriyle sayılır (2026-10-27, Efe).
+    **_hepsi("space_unit_numbers_read", _KALYONCU),
 }
 
 # ── öteki terimler: (grup tablosu, öznitelik tablosu) ─────────────────
@@ -174,7 +184,10 @@ TERMS: dict[str, tuple[dict[str, str | None], dict[str, str | None]]] = {
     "word": (GROUP_WORD, FEATURE_WORD),
     "type": (
         {"lexical": "lowercase_surface", "frequency_structure": PER_LANGUAGE},
-        {**_hepsi(PER_LANGUAGE, _TYPE_LEMMA), "word_len_mean": None, "word_count": None},
+        {**_hepsi(PER_LANGUAGE, _TYPE_LEMMA), "word_len_mean": None, "word_count": None,
+         # Zipf ölçüleri frequency_structure'da ama sözcük biçimi sayar (2026-10-26, Efe).
+         **_hepsi("lowercase_surface", ("zipf_exponent", "zipf_r2", "zipf_mandelbrot_q",
+                                        "zipf_mandelbrot_s"))},
     ),
     "token": ({}, {"sent_len_char_mean": "spacy_token"}),
     "syllable": ({}, _hepsi(PER_LANGUAGE, _SYLLABLE_PHONETIC + _SYLLABLE_READABILITY)),
@@ -203,24 +216,30 @@ TERMS: dict[str, tuple[dict[str, str | None], dict[str, str | None]]] = {
     "verb": ({}, {
         **_hepsi("verb_only", ("verb_dist_mean", "activity_ratio", "verb_variation",
                                "voice_pass_ratio")),
-        **_hepsi("zeyrek_final_type_verb", _ZEYREK_VERB),
+        **_hepsi("zeyrek_final_type_verb", _ZEYREK_VERB + ("kalyoncu_kco", "kalyoncu_k1")),
     }),
     "lexical_word": ({}, _hepsi("noun_propn_verb_adj_adv", (
         "lexical_density", "noun_variation", "adj_variation", "adv_variation",
-        "wordfreq_mean", "wordfreq_rare_ratio"))),
-    "content_word": ({}, _hepsi("noun_propn_verb_adj", ("thematic_concentration",
-                                                        "secondary_thematic_concentration"))),
+        "wordfreq_mean", "wordfreq_rare_ratio", "thematic_concentration",
+        "secondary_thematic_concentration"))),
     "suffix": ({}, _hepsi("zeyrek_visible_suffix", (
         "zeyrek_agglutination_depth", "zeyrek_suffix_char_length_ratio", "zeyrek_suffix_bigram_entropy",
         "zeyrek_derivational_suffix_ratio", "zeyrek_verb_suffix_diversity"))),
     "pos_tag": (
         {"pos": "spacy_upos", "custom_ngrams": "spacy_upos"},
-        _hepsi("spacy_upos", _POS_TAG_KEYS),
+        _hepsi("spacy_upos", _POS_TAG_KEYS + ("kalyoncu_kl", "kalyoncu_k1", "kalyoncu_k2",
+                                              "kalyoncu_k3", "kalyoncu_k4")),
     ),
     "morph_feature": ({"morphological": "spacy_morph"}, {"surface_per_lemma": None}),
     "dependency": ({}, _hepsi("spacy_head", ("arc_len_mean", "parse_depth_mean"))),
     "zipf_score": ({}, _hepsi("wordfreq_zipf", ("wordfreq_mean", "wordfreq_rare_ratio"))),
     "zeyrek_tag": ({}, _hepsi("zeyrek_tag", _ZEYREK_TAG_KEYS)),
+    "stem": ({}, _hepsi("zeyrek_lemma_derivations", (
+        "kalyoncu_kl", "kalyoncu_ttr", "kalyoncu_k1", "kalyoncu_k2", "kalyoncu_k3", "kalyoncu_k4"))),
+    "verbal": ({}, _hepsi("zeyrek_verbal_tag", (
+        "kalyoncu_kco", "kalyoncu_yco", "kalyoncu_k1", "kalyoncu_k3"))),
+    "list_word": ({}, _hepsi("kalyoncu_list", (
+        "kalyoncu_kl", "kalyoncu_k1", "kalyoncu_k2", "kalyoncu_k3", "kalyoncu_k4"))),
 }
 
 

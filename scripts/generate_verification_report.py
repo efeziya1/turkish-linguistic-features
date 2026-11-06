@@ -20,6 +20,7 @@ import math
 from pathlib import Path
 
 import turkish_linguistic_features as tlf
+from turkish_linguistic_features.features.lexical import brunet_w
 
 # Kapsam ölçülürken kullanılan örnek metinler. İçerikleri önemsiz —
 # yalnız taban şemanın bütün anahtarlarını üretmeye yarıyorlar.
@@ -86,35 +87,39 @@ METIN_3 = (
 BIREBIR = "birebir"
 SAPMA = "belgelenmis_sapma"
 ACIK = "acik"                       # doğrulanabilir ama kaynakta örnek yok
-KAYNAK_YOK = "kaynak_yok"           # saf tanım — aday değil
-SEMA = "etiket_semasi"              # dış şemanın kategorisi — aday değil
-TUREV = "turev"                     # formül kaynaktan, uygulama bizden
+KAYNAK_YOK = "kaynak_yok"           # yalın tanım — aday değil
+SEMA = "etiket_semasi"              # etiket oranı: dış şemanın kategorisi — aday değil
+ARACA_OZGU = "araca_ozgu"           # formül kaynaktan, uygulama bizden — aday değil
+KALIBRE = "kalibre"                 # eşik kendi kalibrasyonumuzdan — aday değil
 UYUSMAZLIK = "uyusmazlik"
 
 _SIMGE = {BIREBIR: "✅", SAPMA: "🟡", ACIK: "🔍", KAYNAK_YOK: "⚪",
-          SEMA: "⚫", TUREV: "🔧", UYUSMAZLIK: "❌"}
+          SEMA: "⚫", ARACA_OZGU: "🔧", KALIBRE: "📐", UYUSMAZLIK: "❌"}
 
-# Doğrulama ADAYI olan durumlar — gerçek payda bu. Aday olmayanlar (saf
-# tanım, etiket şeması, türev) ayrı sayılır; hepsini tek kovada toplamak
-# raporu olduğundan kötü gösteriyordu (2026-09-24, Efe).
+# Doğrulama ADAYI olan durumlar — gerçek payda bu. Aday olmayanlar (yalın
+# tanım, etiket oranı, araca özgü, kalibre edilmiş) ayrı sayılır; hepsini tek kovada
+# toplamak raporu olduğundan kötü gösteriyordu (2026-09-24, Efe). "Türev" ikiye
+# ayrıldı (2026-10-26, Efe).
 ADAY_DURUMLAR = (BIREBIR, SAPMA, ACIK, UYUSMAZLIK)
-ADAY_OLMAYAN = (KAYNAK_YOK, SEMA, TUREV)
+ADAY_OLMAYAN = (KAYNAK_YOK, SEMA, ARACA_OZGU, KALIBRE)
 
 # Formülü bir kaynaktan gelen ama **uygulaması bu kütüphaneye ait** ölçüler.
 # Karşılaştırılacak yayımlanmış bir sayı yok ve olamaz: ölçüyü biz tanımladık,
 # kimse onu yayımlamadı. ``long_sent_ratio``'yu kendi kalibrasyonumuza karşı
 # sınamak kendi cevabımıza bakıp sınav olmak demekti (2026-09-24, Efe).
 #
-# Liste elle tutulur, künye metninden regex'le çıkarılmaz — künye düz yazıdır
+# Listeler elle tutulur, künye metninden regex'le çıkarılmaz — künye düz yazıdır
 # ve bir sözcük değişince sınıflandırma sessizce kayar.
-# ``test_turev_kunyeleri_isaretli`` her birinin künyesinin bunu hâlâ açıkça
-# söylediğini sınıyor.
-TUREV_ANAHTARLARI = frozenset({
+# ``test_araca_ozgu_ve_kalibre_kunyeleri_isaretli`` her birinin künyesinin bunu hâlâ
+# açıkça söylediğini sınıyor.
+ARACA_OZGU_ANAHTARLARI = frozenset({
     "punct_entropy",            # Shannon'ın formülü, noktalamaya uygulama bizim
     "sent_len_entropy",         # Shannon'ın formülü, cümle uzunluğuna bizim
+    "polysyllabic_word_ratio",  # SMOG'un girdisinin oran biçimi, McLaughlin'in değil
+})
+KALIBRE_ANAHTARLARI = frozenset({
     "short_sent_ratio",         # eşik kendi kalibrasyonumuzdan
     "long_sent_ratio",          # eşik kendi kalibrasyonumuzdan
-    "polysyllabic_word_ratio",  # SMOG'un girdisinin oran biçimi, McLaughlin'in değil
 })
 
 # Bir ÖLÇÜ değil, dış bir ETİKET ŞEMASININ kategorisini sayan öznitelikler.
@@ -140,9 +145,9 @@ _MUTLAK_TABAN = 1e-9
 
 
 # Kanıtın türü. Aradaki fark önemli: uçtan uca karşılaştırma kaynağın
-# **metnini** boru hattından geçirir, yani tokenizasyonu, hecelemeyi ve cümle
+# **metnini** çözümleme hattından geçirir, yani tokenizasyonu, hecelemeyi ve cümle
 # bölmeyi de sınar. Formül karşılaştırması fonksiyona girdileri doğrudan
-# verir — formülü doğrular, boru hattını değil.
+# verir — formülü doğrular, çözümleme hattını değil.
 UCTAN_UCA = "end-to-end"
 FORMUL = "formula"
 
@@ -162,13 +167,16 @@ class Karsilastirma:
 
     def __init__(self, kaynak: str, ornek: str | dict[str, str], beklenen: float,
                  hesapla, gerekce: str | dict[str, str] = "",
-                 tur: str = UCTAN_UCA) -> None:
+                 tur: str = UCTAN_UCA, aritmetik: float | None = None) -> None:
         self.kaynak = kaynak
         self.ornek = ornek
         self.beklenen = beklenen
         self.hesapla = hesapla          # () -> float
         self.gerekce = gerekce          # sapma varsa NEDEN
         self.tur = tur                  # UCTAN_UCA | FORMUL
+        # Kaynağın kendi verdiği girdilerin aritmetik olarak verdiği değer; yalnız kaynağın
+        # bastığı sayı bununla çelişiyorsa yazılır (aritmetik istisnası, 2026-10-19, Efe).
+        self.aritmetik = aritmetik
 
 
 def _kalyoncu_metin(no: int) -> dict[str, float]:
@@ -380,7 +388,7 @@ def _quita_activity(fiil: int, sifat: int) -> float:
 
 
 def _cl_bizim() -> float:
-    """Aynı metin üretim boru hattından geçince çıkan ``coleman_liau``."""
+    """Aynı metin çözümleme hattından geçince çıkan ``coleman_liau``."""
     from turkish_linguistic_features.features.readability import general_readability_formulas
     return general_readability_formulas(
         _CL_METIN, _CL_METIN.split(), "en")["coleman_liau"]
@@ -500,18 +508,34 @@ _KINCAID_GEREKCE_FKGL = _iki(
 # olabilir; hepsi rapora ayrı satır olarak girer.
 KARSILASTIRMALAR: dict[str, list[Karsilastirma]] = {
     "atesman": [
+        # Metin 1 ve 3 (2026-10-27, Efe): testler dokuz değeri zaten sınıyordu, rapor yalnız
+        # Metin 2'yi gösteriyordu.
+        Karsilastirma("Ateşman (1997)", _KM + " · Text 1", 35.946,
+                      lambda: _km(1, "atesman")),
         Karsilastirma("Ateşman (1997)", _KM + " · Text 2", 23.094,
                       lambda: _km(2, "atesman")),
-        Karsilastirma("Ateşman (1997) p.74", _iki("kalibrasyon: en kolay metin", "calibration: easiest text"), 100.0,
+        Karsilastirma("Ateşman (1997)", _KM + " · Text 3", 41.393,
+                      lambda: _km(3, "atesman")),
+        Karsilastirma("Ateşman (1997) p.74",
+                      _iki("Ateşman'ın formülü hesapladığı en kolay metin",
+                           "easiest text used by Ateşman to derive the formula"), 100.0,
                       lambda: _atesman(2.2, 4), tur=FORMUL),
-        Karsilastirma("Ateşman (1997) p.74", _iki("kalibrasyon: en zor metin", "calibration: hardest text"), 0.0,
+        Karsilastirma("Ateşman (1997) p.74",
+                      _iki("Ateşman'ın formülü hesapladığı en zor metin",
+                           "hardest text used by Ateşman to derive the formula"), 0.0,
                       lambda: _atesman(3.0, 30), tur=FORMUL),
     ],
     "cetinkaya_uzun": [
+        Karsilastirma("Çetinkaya (2010)", _KM + " · Text 1", 27.953,
+                      lambda: _km(1, "cetinkaya_uzun")),
         Karsilastirma("Çetinkaya (2010)", _KM + " · Text 2", 23.084,
                       lambda: _km(2, "cetinkaya_uzun")),
+        Karsilastirma("Çetinkaya (2010)", _KM + " · Text 3", 26.403,
+                      lambda: _km(3, "cetinkaya_uzun")),
     ],
     "bezirci_yilmaz": [
+        Karsilastirma("Bezirci & Yılmaz (2010)", _KM + " · Text 1",
+                      math.sqrt(606.202), lambda: _km(1, "bezirci_yilmaz")),
         Karsilastirma("Bezirci & Yılmaz (2010)", _KM + " · Text 2",
                       math.sqrt(925.5625), lambda: _km(2, "bezirci_yilmaz"),
                       _iki("Makale H6 ara değerini yuvarlamış; fark 0,031 ve iki değer de "
@@ -519,6 +543,8 @@ KARSILASTIRMALAR: dict[str, list[Karsilastirma]] = {
                            "The paper rounded its H6 intermediate value; the difference is "
                            "0.031 and both values fall in the same readability class "
                            "(academic, 16+).")),
+        Karsilastirma("Bezirci & Yılmaz (2010)", _KM + " · Text 3",
+                      math.sqrt(338.1), lambda: _km(3, "bezirci_yilmaz")),
         # denk. (9) — karekök adımı. E7 makalenin bastığı ara değer.
         Karsilastirma("Bezirci & Yılmaz (2010) Table 5", "E7 3.03 · OKS 7",
                       4.61, lambda: _bezirci_e9(7, 3.03), tur=FORMUL),
@@ -585,6 +611,24 @@ KARSILASTIRMALAR: dict[str, list[Karsilastirma]] = {
                       _iki("cloze 40.4% → 12. sınıf", "cloze 40.4% → grade 12"), 12.0,
                       lambda: _cl_sinif(40.4), tur=FORMUL),
     ],
+    # s.65 tablosunun b'li sütunu, varsayılan a ve b ile (2026-11-04, Efe). V ≤ 20 olan beş
+    # satır kaynakta "sans objet": karşılaştırma değil.
+    "brunet_w": [
+        Karsilastirma("Brunet (1978) p.65", f"{duzey} · N={N}, V={V}", beklenen,
+                      (lambda N=N, V=V: brunet_w(N, V)["brunet_w"]), tur=FORMUL)
+        for duzey, N, V, beklenen in (
+            ("phrase longue", 30, 28, 10.79),
+            ("phrase longue", 42, 35, 10.44),
+            ("phrase longue", 84, 60, 10.48),
+            ("phrase longue", 132, 90, 10.50),
+            ("phrase longue", 161, 108, 10.51),
+            ("chapitre", 1096, 500, 11.25),
+            ("chapitre", 2734, 1000, 11.25),
+            ("chapitre", 7564, 2000, 11.25),
+            ("texte", 58325, 5000, 12.65),
+            ("corpus", 311215, 10000, 13.40),
+        )
+    ],
 }
 
 
@@ -597,15 +641,14 @@ KARSILASTIRMALAR: dict[str, list[Karsilastirma]] = {
 # anahtar → (bölüm, Text 1 değeri, Text 2 değeri, örnek açıklaması)
 _QUITA_ORNEKLER: dict[str, tuple[str, float, float, str | dict[str, str],
                                  str | dict[str, str]]] = {
-    # Text 2'de kaynak 0,590 basmış ama kendi verdiği sayılar 121/202 = 0,599
-    # veriyor: yayımlanmış değerde basım hatası var, bizimki aritmetik olarak
-    # doğru olan. Sapma (+0,009) yayımlanan değerin %1,5'i, yani %1 toleransın
-    # dışında; nedeni (aşağıdaki _QUITA_T2_GEREKCE) yazılı olduğu için satır 🟡
-    # (2026-09-24 Efe; tolerans göreli yapılınca ✅'den 🟡'ye geçti).
+    # Text 2'de kaynak (s.11) 0,59 basmış ama kendi verdiği sayılar 121/202 = 0,5990
+    # veriyor: kaynak sonucu yuvarlamak yerine kesmiş (yuvarlanmışı 0,60). Fark
+    # yayımlanan değerin %1,5'i, %1 toleransın dışında; bizimki aritmetik olarak doğru
+    # olduğu için aritmetik istisnasıyla ✅ (2026-10-19, Efe; önce 🟡'ydi).
     "ttr": ("§6.1.1", 0.665, 0.59,
             "Text 1 · V/N = 119/179",
-            _iki("Text 2 · V/N = 121/202 = 0.599; kaynak 0.590 basmış (baskı hatası)",
-                 "Text 2 · V/N = 121/202 = 0.599; source printed 0.590 (typo)")),
+            _iki("Text 2 · V/N = 121/202 = 0.599; kaynak 0.59 basmış (yuvarlamak yerine kesmiş)",
+                 "Text 2 · V/N = 121/202 = 0.599; source printed 0.59 (truncated, not rounded)")),
     # Kütüphanenin bütün logaritmaları ln (2026-10-06, Efe). QUITA Λ'yı log₁₀, A'yı log₁₀, entropiyi
     # log₂ (bit) ile basıyor; beklenen değer yayımlanan sayının ln karşılığı: Λ × ln 10, A / ln 10,
     # entropi × ln 2. Formül aynı, yalnız birim çevriliyor.
@@ -652,17 +695,21 @@ _QUITA_ORNEKLER: dict[str, tuple[str, float, float, str | dict[str, str],
                               "Text 2 · M=25.81931678; source 11.19973 in log₁₀ → / ln 10")),
 }
 
-# Text 2 satırında tolerans dışı sapmanın ölçülmüş nedeni.
+# Text 2 karşılaştırmasında tolerans dışı farkın ölçülmüş nedeni.
 _QUITA_T2_GEREKCE: dict[str, dict[str, str]] = {
     "ttr": _iki(
-        "Kaynağın kendi sayıları (V=121, N=202) 121/202 = 0,599 verir; basılan "
-        "0,590 bu aritmetikle tutmuyor (baskı hatası). Bizim değer aritmetiğe "
-        "uyuyor; fark yayımlanan değerin %1,5'i.",
-        "The source's own counts (V=121, N=202) give 121/202 = 0.599; the "
-        "printed 0.590 does not match that arithmetic (typo). Our value "
-        "follows the arithmetic; the difference is 1.5% of the published "
-        "value."),
+        "Kaynağın kendi sayıları (V=121, N=202) 121/202 = 0,599 verir; kaynak bu sonucu "
+        "yuvarlamak yerine kesmiş ve 0,59 basmış (iki ondalığa yuvarlanmışı 0,60). Bizim "
+        "değer aritmetiğe uyuyor; fark yayımlanan değerin %1,5'i ve toleransı yalnız bu "
+        "nedenle aşıyor. Aritmetik istisnasıyla örtüşen sayılır.",
+        "The source's own counts (V=121, N=202) give 121/202 = 0.599; the source "
+        "truncated that result instead of rounding it and printed 0.59 (rounded to two "
+        "decimals it is 0.60). Our value follows the arithmetic; the difference is 1.5% "
+        "of the published value and exceeds the tolerance for this reason alone. Counted "
+        "as a match under the arithmetic exception."),
 }
+# Kaynağın kendi girdilerinin verdiği değer (aritmetik istisnası).
+_QUITA_T2_ARITMETIK: dict[str, float] = {"ttr": 121 / 202}
 
 for _anahtar, (_bolum, _b1, _b2, _o1, _o2) in _QUITA_ORNEKLER.items():
     KARSILASTIRMALAR.setdefault(_anahtar, []).extend([
@@ -671,7 +718,8 @@ for _anahtar, (_bolum, _b1, _b2, _o1, _o2) in _QUITA_ORNEKLER.items():
         Karsilastirma(
             f"QUITA {_bolum}", _o2, _b2,
             (lambda a=_anahtar: _quita(a, _T2)),
-            gerekce=_QUITA_T2_GEREKCE.get(_anahtar, ""), tur=FORMUL),
+            gerekce=_QUITA_T2_GEREKCE.get(_anahtar, ""), tur=FORMUL,
+            aritmetik=_QUITA_T2_ARITMETIK.get(_anahtar)),
     ])
 
 
@@ -723,10 +771,17 @@ def rapor_satirlari(lang: str = "tr") -> list[dict[str, object]]:
             fark = bizim - kars.beklenen
             # Tolerans içi → ✅ (gerekçe varsa yine not olarak basılır):
             # tolerans, kaynağın ara değerleri yuvarlaması için var.
+            # Aritmetik istisnası (2026-10-19, Efe): kaynağın sayısı kendi verdiği
+            # girdilerle aritmetik olarak çelişiyor ve bizim değer doğru aritmetiği
+            # veriyorsa ✅; neden not olarak basılır.
             # Tolerans dışı bir fark NEDENİ YAZILIYSA 🟡, yazılı değilse ❌
             # — ❌ yayın kapısını kapatır.
             if math.isclose(bizim, kars.beklenen, rel_tol=TOLERANS_GORELI,
                             abs_tol=_MUTLAK_TABAN):
+                durum = BIREBIR
+            elif (kars.aritmetik is not None and gerekce
+                  and math.isclose(bizim, kars.aritmetik, rel_tol=TOLERANS_GORELI,
+                                   abs_tol=_MUTLAK_TABAN)):
                 durum = BIREBIR
             elif gerekce:
                 durum = SAPMA
@@ -739,8 +794,10 @@ def rapor_satirlari(lang: str = "tr") -> list[dict[str, object]]:
         if anahtar not in KARSILASTIRMALAR:
             if not kunye:
                 durum = KAYNAK_YOK
-            elif anahtar in TUREV_ANAHTARLARI:
-                durum = TUREV
+            elif anahtar in ARACA_OZGU_ANAHTARLARI:
+                durum = ARACA_OZGU
+            elif anahtar in KALIBRE_ANAHTARLARI:
+                durum = KALIBRE
             elif kunye.startswith(SEMA_ONEKLERI):
                 durum = SEMA
             else:
@@ -762,24 +819,25 @@ _BASLIK = """<!-- ÜRETİLMİŞ DOSYA — elle düzenlemeyin.
 
 Bu rapor her özniteliğin ürettiği sayıyı, dayandığı kaynağın **yayımladığı
 sayıyla** karşılaştırır. Amaç basit: bir sayıyı çalışmanızda kullanmadan önce
-onun literatürdeki değeri tuttuğunu görebilmeniz.
+onun alanyazındaki değeri tuttuğunu görebilmeniz.
 
 ## Durumlar ne anlama geliyor
 
 | | Anlamı |
 |---|---|
-| ✅ **birebir** | Kaynağın yayımladığı sayıyla tolerans içinde aynı. Küçük bir farkın nedeni biliniyorsa satırın altında not olarak yazılır. |
-| 🟡 **belgelenmiş sapma** | Fark **toleransın dışında** ve **nedeni yazılı**. Kaynağın ara değerleri yuvarlaması, ya da kaynağın sayılarının elle üretilmiş olması gibi. Sapmanın sonuca etkisi satırda anlatılır. |
+| ✅ **örtüşen** | Kaynağın yayımladığı sayıyla tolerans içinde aynı. Küçük bir farkın nedeni biliniyorsa karşılaştırmanın altında not olarak yazılır. |
+| 🟡 **belgelenmiş sapma** | Fark **toleransın dışında** ve **nedeni yazılı**. Kaynağın ara değerleri yuvarlaması, ya da kaynağın sayılarının elle üretilmiş olması gibi. Sapmanın sonuca etkisi karşılaştırmada anlatılır. |
 | 🔍 **açık** | Kaynak formülü veriyor ama uygulanmış bir örnek vermiyor. Doğrulanabilir, henüz doğrulanmadı; formül ve sınır durumları kendi test dosyalarında sınanıyor. |
 | ❌ **uyuşmazlık** | **Açıklanmamış** fark. **Yayın kapısı:** bir tane bile varsa sürüm çıkmaz. |
 
-Aşağıdaki üç durum **doğrulama adayı değildir** — aranacak bir sayı yoktur:
+Aşağıdaki dört durum **doğrulama adayı değildir** — aranacak bir sayı yoktur:
 
 | | Anlamı |
 |---|---|
-| ⚪ **kaynak yok** | Adlandırılmış bir literatür ölçüsü değil; saf tanım (`punct_dash_ratio`, `uppercase_ratio`). |
-| ⚫ **etiket şeması** | Bir ölçü değil, dış bir şemanın kategorisini sayıyor (`pos_noun_ratio` → UD; `zeyrek_case_loc_ratio` → Zeyrek). Şema kategori tanımlar, ölçüm yayımlamaz. |
-| 🔧 **türev** | Formül bir kaynaktan, **uygulaması bu kütüphaneden**. `sent_len_entropy` Shannon'ın entropisidir ama tümce uzunluklarına uygulanması bizim; `long_sent_ratio`'nun eşiği kendi kalibrasyonumuzdan gelir. Kimse bu ölçüyü yayımlamadı, dolayısıyla karşılaştırılacak sayı da yok. Kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
+| ⚪ **yalın tanım** | Alanyazın ölçüsü değil; kaynağı olmayan tanım (`punct_dash_ratio`, `uppercase_ratio`). |
+| ⚫ **etiket oranı** | Bir ölçü değil, dış bir şemanın kategorisini sayıyor (`pos_noun_ratio` → UD; `zeyrek_case_loc_ratio` → Zeyrek). Şema kategori tanımlar, ölçüm yayımlamaz. |
+| 🔧 **araca özgü** | Formül bir kaynaktan, **uygulaması bu kütüphaneden**. `sent_len_entropy` Shannon'ın entropisidir ama tümce uzunluklarına uygulanması bizim. Kimse bu ölçüyü yayımlamadı, dolayısıyla karşılaştırılacak sayı da yok. |
+| 📐 **kalibre edilmiş** | Eşik bu kütüphanenin kalibrasyonundan gelir (`short_sent_ratio`, `long_sent_ratio`). Kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
 
 Tolerans yayımlanan değerin **%1'i** (göreli). Kaynaklar ara değerleri
 yuvarlayarak bastığı için mutlak eşitlik beklenmiyor; göreli tolerans her
@@ -787,16 +845,20 @@ yuvarlayarak bastığı için mutlak eşitlik beklenmiyor; göreli tolerans her
 
 **Toleransı aşan fark otomatik olarak ❌ değildir.** Belirleyici olan farkın
 büyüklüğü değil, **nedeninin bilinip bilinmediğidir**: nedeni ölçülmüş ve
-yazılmışsa satır 🟡, yazılmamışsa ❌ olur. Gerekçe bir mazeret değil, farkın
-nereden geldiğinin kanıtıdır — ilgili satırın altında okuyabilirsiniz.
+yazılmışsa karşılaştırma 🟡, yazılmamışsa ❌ olur. Gerekçe bir mazeret değil, farkın
+nereden geldiğinin kanıtıdır — ilgili karşılaştırmanın altında okuyabilirsiniz.
+
+**İstisna: kaynağın aritmetiği.** Kaynağın bastığı sayı, kaynağın kendi verdiği
+girdilerle aritmetik olarak çelişiyorsa ve bizim değer doğru aritmetiği veriyorsa
+karşılaştırma ✅ sayılır; neden altında not olarak yazılır.
 
 ## Kanıtın iki türü
 
-**Uçtan uca** satırlar kaynağın **metnini** boru hattından geçirir — yani
-tokenizasyon, heceleme ve tümce bölme de sınanır. Bunlar en güçlü kanıt.
+**Uçtan uca** karşılaştırmalar kaynağın **metnini** çözümleme hattından geçirir — yani
+türceleme, seslem sayımı ve tümce bölme de sınanır. Bunlar en güçlü kanıt.
 
-**Formül** satırları fonksiyona girdileri doğrudan verir (örneğin "hece/sözcük
-2,2 ve sözcük/tümce 4"). Formülü ve katsayıları doğrular, boru hattını
+**Formül** karşılaştırmaları fonksiyona girdileri doğrudan verir (örneğin "seslem/sözcük
+2,2 ve sözcük/tümce 4"). Formülü ve katsayıları doğrular, çözümleme hattını
 doğrulamaz. Kaynak bir metin yayımlamamışsa elde olan budur.
 
 Bu rapor **testlerden üretilir** — `tests/test_kaynak_esligi.py` ile aynı
@@ -821,19 +883,20 @@ value in the literature.
 
 | | Meaning |
 |---|---|
-| ✅ **exact** | Within tolerance of the number the source published. If the cause of a small difference is known, it is noted under the row. |
+| ✅ **match** | Within tolerance of the number the source published. If the cause of a small difference is known, it is noted under the row. |
 | 🟡 **documented deviation** | The difference is **beyond the tolerance** and **the reason is written down** — the source rounded an intermediate value, or the source's own numbers were produced by hand, and so on. The effect of the deviation is explained in the row. |
 | 🔍 **open** | The source gives the formula but no applied example. Verifiable, not yet verified; the formula and its edge cases are tested in their own test files. |
 | ❌ **mismatch** | An **unexplained** difference. **Release gate:** a single one blocks a release. |
 
-The three statuses below are **not verification candidates** — there is no
+The four statuses below are **not verification candidates** — there is no
 number to look for:
 
 | | Meaning |
 |---|---|
-| ⚪ **no source** | Not a named measure from the literature; a plain definition (`punct_dash_ratio`, `uppercase_ratio`). |
-| ⚫ **tag scheme** | Not a measure but a count of an external scheme's categories (`pos_noun_ratio` → UD; `zeyrek_case_loc_ratio` → Zeyrek). A scheme defines categories; it does not publish measurements. |
-| 🔧 **derivative** | The formula comes from a source, **the application is this library's**. `sent_len_entropy` is Shannon's entropy, but applying it to sentence lengths is ours; `long_sent_ratio`'s threshold comes from our own calibration. Nobody has published this measure, so there is no number to compare against. Testing it against our own calibration would be reading our own answer sheet. |
+| ⚪ **plain definition** | Not a literature measure; a definition without a source (`punct_dash_ratio`, `uppercase_ratio`). |
+| ⚫ **tag ratio** | Not a measure but a count of an external scheme's categories (`pos_noun_ratio` → UD; `zeyrek_case_loc_ratio` → Zeyrek). A scheme defines categories; it does not publish measurements. |
+| 🔧 **tool-specific** | The formula comes from a source, **the application is this library's**. `sent_len_entropy` is Shannon's entropy, but applying it to sentence lengths is ours. Nobody has published this measure, so there is no number to compare against. |
+| 📐 **calibrated** | The threshold comes from this library's own calibration (`short_sent_ratio`, `long_sent_ratio`). Testing it against our own calibration would be reading our own answer sheet. |
 
 The tolerance is **1% relative** to the published value. Sources print rounded
 intermediate values, so exact equality is not expected; a relative tolerance
@@ -844,6 +907,10 @@ is not the size of the difference but **whether its cause is known**: if the
 cause has been measured and written down the row is 🟡, and if it has not the
 row is ❌. A reason is not an excuse — it is evidence of where the difference
 came from, and you can read it under the row.
+
+**Exception: the source's arithmetic.** If the number the source printed
+contradicts the arithmetic of the inputs the source itself gives, and our value
+gives the correct arithmetic, the row counts as ✅; the reason is noted under it.
 
 ## Two kinds of evidence
 
@@ -866,17 +933,19 @@ _BASLIK_DIL = {"tr": _BASLIK, "en": _BASLIK_EN}
 
 # Durum adlarının okunur karşılıkları — özet tablosunda kullanılır.
 _DURUM_ADI = {
-    "tr": {BIREBIR: "birebir", SAPMA: "belgelenmiş sapma",
+    "tr": {BIREBIR: "örtüşen", SAPMA: "belgelenmiş sapma",
            ACIK: "açık — kaynakta sayısal örnek yok",
-           KAYNAK_YOK: "kaynak yok — saf tanım",
-           SEMA: "etiket şeması — ölçü değil",
-           TUREV: "türev — uygulaması bu kütüphaneye ait",
+           KAYNAK_YOK: "yalın tanım — kaynak yok",
+           SEMA: "etiket oranı — ölçü değil",
+           ARACA_OZGU: "araca özgü — uygulaması bu kütüphaneye ait",
+           KALIBRE: "kalibre edilmiş — eşiği bu kütüphanenin kalibrasyonundan",
            UYUSMAZLIK: "uyuşmazlık"},
-    "en": {BIREBIR: "exact", SAPMA: "documented deviation",
+    "en": {BIREBIR: "match", SAPMA: "documented deviation",
            ACIK: "open — no worked example in source",
-           KAYNAK_YOK: "no source — plain definition",
-           SEMA: "tag scheme — not a measure",
-           TUREV: "derivative — the application is this library's",
+           KAYNAK_YOK: "plain definition — no source",
+           SEMA: "tag ratio — not a measure",
+           ARACA_OZGU: "tool-specific — the application is this library's",
+           KALIBRE: "calibrated — threshold from this library's calibration",
            UYUSMAZLIK: "mismatch"},
 }
 
@@ -901,34 +970,39 @@ _METIN = {
         "olculen_sutun": "| Anahtar | Kaynak | Örnek | Kanıt | Beklenen "
                          "| Bizim | Fark | Durum |\n",
         "sapma": "\n**`{anahtar}` sapması:** {gerekce}\n",
+        "not": "\n**`{anahtar}` notu:** {gerekce}\n",
         "kalan_basligi": "\n### 🔍 Açık — doğrulanabilir, henüz doğrulanmadı\n\n",
         "kalan_ozet": "{n} anahtar. Kaynak formülü yayımlamış ama o formülün "
                       "uygulandığı bir sayısal örnek vermemiş. Nicel dilbilimde "
-                      "bu olağandır: Yule (1944) K'yı tanımlar, bir romanda "
-                      "K'nın kaç çıktığını basmaz. Bu satırlar **test "
+                      "bu olağandır. `yule_k` başka bir durumdur: Yule (1944) K "
+                      "değerlerini basar, ama bunları tek bir sözcük sınıfının, "
+                      "çoğunlukla adların, sözlükbirimleriyle hesaplar. Araç bütün "
+                      "sözcüklerin yüzey biçimini saydığı için aynı girdiyle "
+                      "karşılaştırılamaz. Bu öznitelikler **test "
                       "edilmiyor demek değildir** — formül ve sınır durumları "
                       "kendi test dosyalarında sınanıyor; burada takip edilen "
                       "yalnız *kaynağın sayısıyla* karşılaştırma.\n\n",
         "kalan_sutun": "| Anahtar | Kaynak | Durum |\n|---|---|---|\n",
         "disi_basligi": "\n### Doğrulama adayı olmayanlar\n\n",
-        "disi_ozet": "{n} anahtar. ⚪ olanlar saf tanım (`punct_dash_ratio`, "
-                     "`uppercase_ratio`) — adlandırılmış bir literatür ölçüsü değil. "
+        "disi_ozet": "{n} anahtar. ⚪ olanlar yalın tanım (`punct_dash_ratio`, "
+                     "`uppercase_ratio`): alanyazın ölçüsü değil. "
                      "⚫ olanlar bir ölçü değil, dış bir etiket şemasının "
                      "kategorisini sayıyor; şema kategori tanımlar, ölçüm "
-                     "yayımlamaz. 🔧 olanların formülü bir kaynaktan gelir ama "
-                     "uygulaması bu kütüphaneye aittir. Üçünde de aranacak bir "
-                     "sayı yok.\n\n",
-        "hece": "\n## Heceleme — {tam}/{top}\n\n"
-                "Heceleme sekiz `syllable_*` anahtarını ve üç Türkçe "
+                     "yayımlamaz. 🔧 araca özgü olanların formülü bir kaynaktan gelir "
+                     "ama uygulaması bu kütüphaneye aittir; 📐 kalibre edilmiş olanların "
+                     "eşiği bu kütüphanenin kalibrasyonundan gelir. Hiçbirinde aranacak "
+                     "bir sayı yok.\n\n",
+        "hece": "\n## Seslemlere ayırma — {tam}/{top}\n\n"
+                "Seslemlere ayırma sekiz `syllable_*` anahtarını ve üç Türkçe "
                 "okunabilirlik formülünü birden besliyor. Aşağıdaki "
                 "karşılaştırma **sayıyı değil bölütlemeyi** sınıyor: yanlış "
-                "yerden bölünmüş bir sözcük doğru sayıda hece verebilir, sayı "
+                "yerden bölünmüş bir sözcük doğru sayıda seslem verebilir, sayı "
                 "karşılaştırması onu yakalamaz.\n\n"
                 "Kaynak: TDK, \"Hece Yapısı ve Satır Sonunda Kelimelerin "
                 "Bölünmesi\" (tdk.gov.tr, 2019).\n\n"
                 "| Sözcük | TDK | Bizim | Durum |\n|---|---|---|---|\n",
         "kincaid": "\n## Ek — Kincaid Ek A, pasaj bazında\n\n"
-                   "Ana tablodaki iki 🟡 satırın (`ari`, `flesch_kincaid_grade`) "
+                   "Ana tablodaki iki 🟡 karşılaştırmanın (`ari`, `flesch_kincaid_grade`) "
                    "dayandığı 18 karşılaştırma. Ara değerler (vuruş, sözcük) "
                    "burada duruyor ki fark çıktığında hangi girdiden geldiği "
                    "görülebilsin.\n\n"
@@ -960,25 +1034,29 @@ _METIN = {
         "olculen_sutun": "| Key | Source | Example | Evidence | Expected "
                          "| Ours | Diff | Status |\n",
         "sapma": "\n**`{anahtar}` deviation:** {gerekce}\n",
+        "not": "\n**`{anahtar}` note:** {gerekce}\n",
         "kalan_basligi": "\n### 🔍 Open — verifiable, not yet verified\n\n",
         "kalan_ozet": "{n} keys. The source published the formula but never "
                       "applied it to anything and printed the result. In "
-                      "quantitative linguistics this is ordinary: Yule (1944) "
-                      "defines K; he does not print what K comes to for a "
-                      "particular novel. These rows are **not untested** — "
+                      "quantitative linguistics this is ordinary. `yule_k` is a "
+                      "different case: Yule (1944) prints K values, but computes "
+                      "them on the lemmas of a single word class, mostly nouns. The "
+                      "tool counts the surface forms of all words, so the two cannot "
+                      "be compared on the same input. These rows are **not untested** — "
                       "their formulas and edge cases are tested in their own "
                       "test files. What is tracked here is only the comparison "
                       "*against the source's number*.\n\n",
         "kalan_sutun": "| Key | Source | Status |\n|---|---|---|\n",
         "disi_basligi": "\n### Not verification candidates\n\n",
         "disi_ozet": "{n} keys. The ⚪ ones are plain definitions "
-                     "(`punct_dash_ratio`, `uppercase_ratio`) — not named measures from the "
-                     "literature. The ⚫ ones are not measures at all but "
+                     "(`punct_dash_ratio`, `uppercase_ratio`) — not literature "
+                     "measures. The ⚫ ones are tag ratios: not measures at all but "
                      "counts of an external tag scheme's categories; a scheme "
                      "defines categories, it does not publish measurements. "
-                     "The 🔧 ones take their formula from a source but their "
-                     "application is this library's. None of the three has a "
-                     "number to look for.\n\n",
+                     "The 🔧 tool-specific ones take their formula from a source but "
+                     "their application is this library's; the 📐 calibrated ones take "
+                     "their threshold from this library's calibration. None of them has "
+                     "a number to look for.\n\n",
         "hece": "\n## Syllabification — {tam}/{top}\n\n"
                 "Syllabification feeds eight `syllable_*` keys and all three "
                 "Turkish readability formulas at once. The comparison below "
@@ -1089,8 +1167,10 @@ def uret(dil: str = "tr") -> str:
             parcalar.append("| — | — | — | — | — | — | — | — |\n")
         for s in olculen:
             if s["gerekce"]:
-                parcalar.append(m["sapma"].format(anahtar=s["anahtar"],
-                                                  gerekce=_dilde(s["gerekce"], dil)))
+                # Örtüşen karşılaştırmanın gerekçesi sapma değil, nottur.
+                sablon = m["not"] if s["durum"] == BIREBIR else m["sapma"]
+                parcalar.append(sablon.format(anahtar=s["anahtar"],
+                                              gerekce=_dilde(s["gerekce"], dil)))
         # 🔍 açık ve "aday olmayan" ayrı bölümler — tek listede toplamak
         # aranacak sayısı olanla olmayanı karıştırıyordu.
         acik = [s for s in satirlar if s["durum"] == ACIK]

@@ -13,7 +13,7 @@ from turkish_linguistic_features import analyze
 tr_model = pytest.mark.tr_model
 en_model = pytest.mark.en_model
 
-TR_TABAN = 208
+TR_TABAN = 214
 EN_TABAN = 181
 
 
@@ -114,6 +114,16 @@ def test_ngram_matches_analyze_sayimiyla_tutarli():
     sayim = analyze(metin, custom_ngrams=[["kadın", "VERB"]], groups=["custom_ngrams"])
     assert list(eslesme)[0] == "kadın geldi" and eslesme["kadın geldi"] == 2
     assert sum(eslesme.values()) == sayim["ngram_kadın_VERB_count"] == 4
+
+
+@tr_model
+def test_ngram_lemma_turkce_uctan_uca():
+    """``EV`` Zeyrek lemmasıyla eşleşir: eve, evden aynı lemma (hocanın önerisi)."""
+    metin = "Eve gittim. Evden çıktık. Evdeki kedi uyudu."
+    eslesme = tlf.ngram_matches(metin, ["EV", "VERB"])
+    sayim = analyze(metin, custom_ngrams=[["EV", "VERB"]], groups=["custom_ngrams"])
+    assert eslesme == {"eve gittim": 1, "evden çıktık": 1}
+    assert sayim == {"ngram_EV_VERB_count": 2.0}
 
 
 def test_ngram_matches_bos_obek_ve_dil_hatasi():

@@ -1,6 +1,9 @@
-# Korpusu CSV'ye çıkar
+# Derlemi CSV'ye çıkar
 
-## Dizin düzeni
+Derlem (İng. *corpus*), birlikte çözümlenecek metinlerinizdir. Bu sayfa bir derlemi tek
+seferde öznitelik tablosuna çevirmeyi anlatır.
+
+## Klasör düzeni
 
 `analyze_corpus` üç düzeni kendiliğinden tanır. Her satır bir `label`
 (etiket) ve bir `source` (kaynak) taşır.
@@ -8,7 +11,7 @@
 **1. Alt klasör — klasör adı etikettir:**
 
 ```text
-korpus/
+derlem/
   yazar_a/
     metin1.txt      → label "yazar_a", source "metin1"
     metin2.txt
@@ -20,7 +23,7 @@ korpus/
 etikettir:**
 
 ```text
-korpus/
+derlem/
   Roman_Yaban.txt     → label "Roman", source "Yaban"
   notlar.txt          → label "" (alt çizgi yok), source "notlar"
 ```
@@ -32,7 +35,7 @@ korpus/
 
 İki düzen aynı klasörde birlikte bulunabilir.
 
-**3. Tek bir CSV ya da TSV dosyası** — `analyze_corpus("korpus.csv")`. Sütun
+**3. Tek bir CSV ya da TSV dosyası** — `analyze_corpus("derlem.csv")`. Sütun
 başlıkları şu adlardan biri olmalı (ilk eşleşen kullanılır):
 
 | Alan | Kabul edilen başlıklar |
@@ -44,7 +47,7 @@ başlıkları şu adlardan biri olmalı (ilk eşleşen kullanılır):
 Kaynak sütunu yoksa dosyanın adı kullanılır. `.tsv` uzantılı dosya sekmeyle
 ayrılmış okunur.
 
-Etiket yazar olmak zorunda değil — dönem, tür, sınıf düzeyi, deney kolu,
+Etiket yazar olmak zorunda değil: dönem, tür, sınıf düzeyi, deney kolu,
 ne ölçüyorsanız o.
 
 Dosyalar **UTF-8** olmalı. UTF-8 olmayan dosya varsa analiz başlamadan hata
@@ -58,7 +61,7 @@ parçanın `label`, `source` ve `segment_id` değerini söyler.
 ```python
 import turkish_linguistic_features as tlf
 
-satirlar = tlf.analyze_corpus("korpus/", lang="tr")
+satirlar = tlf.analyze_corpus("derlem/", lang="tr")
 tlf.save_csv(satirlar, "oznitelikler.csv")
 print("satır sayısı:", len(satirlar))
 print("sütun sayısı:", len(satirlar[0]))
@@ -68,10 +71,10 @@ print("sütun sayısı:", len(satirlar[0]))
 
 ```text
 satır sayısı: 3
-sütun sayısı: 211
+sütun sayısı: 217
 ```
 
-Her dosya bir satır. 211 sütun = 208 öznitelik + üç kimlik sütunu:
+Her dosya bir satır. 217 sütun = 214 öznitelik (İng. *feature*) + üç kimlik sütunu:
 
 ```text
 label=yazar_a  source=metin1     segment_id=0  ttr=1.0
@@ -93,10 +96,10 @@ label,source,segment_id,lemma_count,word_count,word_len_mean,entropy,yu...
 
 ## İlerlemeyi görün
 
-Korpus büyükse:
+Derlem büyükse:
 
 ```python
-satirlar = tlf.analyze_corpus("korpus/", lang="tr", show_progress=True)
+satirlar = tlf.analyze_corpus("derlem/", lang="tr", show_progress=True)
 ```
 
 ```text
@@ -108,7 +111,7 @@ satirlar = tlf.analyze_corpus("korpus/", lang="tr", show_progress=True)
 ## Dosyaları parçalara bölerek analiz edin
 
 ```python
-satirlar = tlf.analyze_corpus("korpus/", lang="tr", segment_size=1000)
+satirlar = tlf.analyze_corpus("derlem/", lang="tr", segment_size=1000)
 ```
 
 Örneğin 648 sözcüklük tek bir dosya içeren `tek_dosya/` klasöründe:
@@ -130,7 +133,7 @@ print(len(butun), len(parcali), [s["segment_id"] for s in parcali])
 Tümce uzunluğu dağılımını etiketlere göre karşılaştıran çalışan örnek:
 [`examples/05_cumle_ritmi.py`](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/05_cumle_ritmi.py).
 
-!!! note "Parçalama dosya dosya yapılır, korpus geneli değil"
+!!! note "Parçalama dosya dosya yapılır, derlemin bütününe değil"
 
     `segment_size=1000`, **her dosyayı ayrı ayrı** 1000'lik parçalara
     böler. Bütün dosyaları birleştirip baştan sona 1000'er kesmez.
@@ -159,5 +162,5 @@ analyze_corpus(
 ) -> list[dict[str, object]]
 ```
 
-`groups`, `params`, `model`, `custom_ngrams`, `warn` — hepsi `analyze` ile aynı
+`groups`, `params`, `model`, `custom_ngrams`, `warn`: hepsi `analyze` ile aynı
 anlamda ve her parçaya uygulanır. `custom_ngrams` sayıları parça başınadır.

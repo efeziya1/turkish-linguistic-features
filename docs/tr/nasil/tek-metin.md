@@ -8,7 +8,7 @@ import turkish_linguistic_features as tlf
 oz = tlf.analyze(metin, lang="tr")
 ```
 
-Dönen şey düz bir `dict`: anahtar öznitelik adı, değer sayı.
+Dönen şey düz bir `dict`: anahtar öznitelik (İng. *feature*) adı, değer sayı.
 
 ## Dil seçimi öznitelik kümesini değiştirir
 
@@ -16,35 +16,42 @@ Dönen şey düz bir `dict`: anahtar öznitelik adı, değer sayı.
 tr = tlf.analyze(tr_metin, lang="tr")
 en = tlf.analyze(en_metin, lang="en")
 
-len(tr)   # 208
+len(tr)   # 214
 len(en)   # 181
 ```
 
-Aradaki 27'nin dökümü:
+Aradaki 33'ün dökümü:
 
-- **+23** Zeyrek ek çözümlemesi: `morphological_zeyrek` grubu (ek zinciri,
-  durum ekleri, kip ve zaman; anahtarların hepsi `zeyrek_` ile başlar) — yalnız
+- **+23** Zeyrek biçimbirim (İng. *morpheme*) çözümlemesi: `morphological_zeyrek` grubu (ek
+  zinciri, durum ekleri, kip ve zaman; anahtarların hepsi `zeyrek_` ile başlar); yalnız
   Türkçe.
-- **+2** ünlü uyumu (`harmony_fronting_ratio`, `harmony_rounding_ratio`) —
-  Türkçenin özelliği; İngilizcede üretilmez.
+- **+2** büyük ve küçük ünlü uyumu (`harmony_fronting_ratio`, `harmony_rounding_ratio`);
+  Türkçenin özelliği, İngilizcede üretilmez.
 - **+3** harf: Türkçe alfabe 29 harf, İngilizce 26 (`ç ğ ı ö ş ü` yalnız
   Türkçede, `q w x` yalnız İngilizcede).
-- **−1** okunabilirlik: Türkçeye özgü 3 öznitelik (Ateşman, Çetinkaya-Uzun ve
-  Bezirci-Yılmaz formülleri), İngilizceye özgü 4 öznitelik (Flesch, Flesch-Kincaid
-  ve SMOG formülleri ile çok heceli sözcük oranı); ortak olanlar iki dilde de var.
+- **+5** okunabilirlik: Türkçeye özgü 12 öznitelik (Ateşman, Çetinkaya-Uzun ve
+  Bezirci-Yılmaz formülleri; [Kalyoncu'nun](../aciklama/kalyoncu.md) dört formülü ve beş
+  bileşeni), İngilizceye özgü 7 öznitelik (Flesch, Flesch-Kincaid,
+  SMOG, ARI, Coleman-Liau ve LIX formülleri ile çok seslemli sözcük oranı); ortak olan
+  `long_word_ratio` iki dilde de var.
 
-`phonetic` grubu Türkçede 14, İngilizcede 12 öznitelik içerir.
+Okunabilirlik formülü yalnız kurulduğu dilde hesaplanır. Bir formülün katsayıları kurulduğu
+dilin metinlerinden belirlenir; Ateşman (1997) da Flesch formülünü Türkçeye uygularken
+katsayıları Türkçe metinlerden yeniden hesaplamıştır. Bu yüzden Türkçe metinde Flesch,
+İngilizce metinde Ateşman verilmez.
+
+`phonological` grubu Türkçede 14, İngilizcede 12 öznitelik içerir.
 
 `lang` yalnız `"tr"` ve `"en"` alır. Başka bir değer `ValueError` verir.
 
 ## Yalnız bazı grupları isteyin
 
-208 özniteliğin hepsine ihtiyacınız yoksa grup seçin; çıktı yalnız o grupların
+214 özniteliğin hepsine ihtiyacınız yoksa grup seçin; çıktı yalnız o grupların
 anahtarlarını taşır:
 
 ```python
 oz = tlf.analyze(metin, lang="tr", groups=["readability", "lexical"])
-len(oz)     # 45
+len(oz)     # 48
 ```
 
 Grup seçmek az hız kazandırır. Sürenin çoğu spaCy ve Zeyrek ön işlemesinde
@@ -52,31 +59,33 @@ geçer ve o her durumda bir kez yapılır; grup seçimi yalnız sonraki hesabı
 kısaltır. 1000 sözcüklük bir metinde bütün gruplar yaklaşık 1,1 saniye, yalnız
 `readability` yaklaşık 0,95 saniye sürer.
 
-Mevcut gruplar ve Türkçede kaç öznitelik içerdikleri:
+Gruplar ve Türkçede kaç öznitelik içerdikleri:
 
-| Grup | Öznitelik | İçerik |
-|---|---|---|
-| `lexical` | 38 | Sözcüksel zenginlik, sıklık |
-| `chars` | 29 | Harf sıklık vektörü: Türkçe alfabenin her harfi için bir anahtar (İngilizcede 26; `q`, `w`, `x` yalnız orada) |
-| `morphological_zeyrek` | 23 | Zeyrek ek çözümlemesi (yalnız TR) |
-| `morphological` | 19 | UD biçimbilimsel özellikleri |
-| `punctuation` | 20 | Noktalama türlerinin payı, noktalama yoğunluğu, büyük harf |
-| `syntactic_dep` | 16 | Bağlılık ayrıştırması |
-| `phonetic` | 14 | Hece, ünlü, ses örüntüsü |
-| `frequency_structure` | 13 | Zipf, h-noktası, tematik yoğunlaşma |
-| `pos` | 12 | POS payları |
-| `syntactic` | 7 | Tümce yapısı |
-| `sentence` | 7 | Tümce uzunluğu dağılımı |
-| `readability` | 7 | Okunabilirlik formülleri |
-| `paragraph` | 3 | Paragraf yapısı |
+| Grup | Ad | İçerik | Öznitelik |
+|---|---|---|---|
+| `lexical` | Sözcüksel zenginlik ve sıklık | sözcüksel çeşitlilik (İng. *lexical diversity*), sözcük sıklığı ve sözcüksel yoğunluk | 35 |
+| `chars` | Karakter sıklıkları | her harfin oranı | 29 |
+| `morphological_zeyrek` | Biçimbilimsel öznitelikler (Zeyrek) | biçimbirim çözümlemesine dayalı oranlar | 23 |
+| `punctuation` | Noktalama ve yazım | noktalama, büyük harf, rakam | 20 |
+| `morphological` | Biçimbilimsel öznitelikler (spaCy) | durum, zaman, kişi, görünüş, çatı | 19 |
+| `frequency_structure` | Sıklık yapısı | h-noktasına ve Zipf yasasına dayalı sıklık yapısı ölçüleri | 17 |
+| `pos` | Sözcük türleri | sözcük türlerinin (İng. *parts of speech*) oranları ve çeşitliliği | 17 |
+| `syntactic` | Sözdizimsel öznitelikler | bağımlılık uzaklığı, hiyerarşik uzaklık, tümce sonundaki sözcüğün türü | 16 |
+| `phonological` | Sesbilimsel öznitelikler | ünlü dağılımı, ünlü uyumu, seslem sayısı | 14 |
+| `readability` | Okunabilirlik | okunabilirlik formülleri ve bileşenleri | 13 |
+| `sentence` | Tümce öznitelikleri | tümce sayısı, uzunluğu ve soru tümcesi oranı | 8 |
+| `paragraph` | Paragraf yapısı | paragraf sayısı ve uzunluğu | 3 |
+
+`chars` yalnız harfleri sayar: Türkçe alfabenin her harfi için bir anahtar (İngilizcede 26;
+`q`, `w`, `x` yalnız orada). `morphological_zeyrek` yalnız Türkçede üretilir.
 
 Bir özniteliğin hangi grupta olduğunu `describe_feature(anahtar)["group"]`
 söyler.
 
-## Kendi öbeklerinizi sayın
+## Kendi sözcük dizilerinizi sayın
 
 Hazır özniteliklerin dışında aradığınız bir kalıp varsa `custom_ngrams` ile
-verin:
+sözcük dizisi (İng. *n-gram*) olarak verin:
 
 ```python
 metin = ("Eski ev yıkıldı. Yerine yeni bir bina yapıldı, ama büyük bahçe kaldı. "
@@ -86,20 +95,58 @@ oz["ngram_ne_var_ki_count"]   # 1.0
 oz["ngram_ADJ_NOUN_count"]    # 3.0
 ```
 
-Her öbek bir anahtar olur; değeri metindeki eşleşme sayısıdır.
+Her dizi bir anahtar olur; değeri metindeki eşleşme sayısıdır. Dizi tek bir öge de
+olabilir; o zaman o ögenin metinde kaç kez geçtiğini verir.
 
-- Sözcükler küçük harfe indirilerek karşılaştırılır. Yazılı biçim aranır,
-  lemma değil: `eski ev` ile `eski evi` ayrı eşleşmelerdir.
-- Büyük harfle yazılmış bir UD POS etiketi (`NOUN`, `VERB`, `ADJ`…)
-  o etiketi taşıyan herhangi bir sözcükle eşleşir. `["ADJ", "NOUN"]` bir sıfat
-  ve hemen ardından bir isim demektir; `yeni bir bina` eşleşmez, çünkü arada
-  `bir` var.
+### Bir öge neyle eşleşir
+
+Dizideki her öge şu sırayla yorumlanır:
+
+| Öge | Neyle eşleşir | Anahtarda |
+|---|---|---|
+| Sözcük türü etiketi (İng. *POS tag*; `NOUN`, `VERB`, `ADJ`…) | O etiketi taşıyan her sözcük | büyük harf (`NOUN`) |
+| Tamamı büyük harf, en az 2 harf (`EV`, `GİT`, `İZMİR`) | Sözlükbirimi (İng. *lemma*) o olan her sözcük | büyük harf (`EV`) |
+| Geri kalan her şey (`ev`, `izmir`, `I`) | Küçük harfe indirilmiş yazılı biçim | küçük harf (`ev`) |
+
+**Yazılı biçim araması.** Küçük harfle yazdığınız öge sözcüğün yazılı biçimiyle eşleşir:
+`eski ev` ile `eski evi` ayrı eşleşmelerdir. Büyük harfli yazımları da yakalar: `izmir`,
+"İzmir" ve "İZMİR"i bulur, ama çekimli biçimleri ("İzmir'e") bulmaz.
+
+**Sözlükbirim araması.** Çekimli biçimleri de yakalamak için ögeyi tamamen büyük harfle
+yazın; o sözlükbirimi taşıyan her sözcükle eşleşir:
+
+```python
+ornek = "Eve gittim. Evden çıktık. Evdeki kedi uyudu."
+tlf.ngram_matches(ornek, ["EV", "VERB"], lang="tr")
+# {'eve gittim': 1, 'evden çıktık': 1}
+tlf.analyze(ornek, lang="tr", custom_ngrams=[["EV", "VERB"]])["ngram_EV_VERB_count"]   # 2.0
+```
+
+**Sözcük türü etiketi.** `["ADJ", "NOUN"]` bir sıfat ve hemen ardından bir ad demektir;
+`yeni bir bina` eşleşmez, çünkü arada `bir` var.
+
+Ayrıntılar:
+
+- Sözcük, sözlükbirim ve etiket aynı dizide karışabilir: `["eski", "EV", "GİT"]` →
+  `ngram_eski_EV_GİT_count`; `["ADJ", "EV"]`; `["çok", "ADJ"]` (`çok` sözcüğünden hemen
+  sonra bir sıfat).
+- Sözlükbirimin kaynağı aracın geri kalanıyla aynıdır: Türkçede Zeyrek'in ilk çözümlemesi,
+  İngilizcede spaCy.
+- Eylemler mastar eki olmadan yazılır: `GİT`, `GO` (`["GO", "home"]` → "went home",
+  "goes home").
+- Büyük harfli öge Türkçenin kuralıyla küçültülür: `İZMİR` → izmir, `IRMAK` → ırmak.
+  Noktasız `IZMIR` ise ızmır olur.
+- Tek harfli öge sözcük sayılır, sözlükbirim araması yapılmaz (`I`, `O`).
+- Etiket adıyla aynı olan sözlükbirim her zaman etiket sayılır: İngilizce "part"
+  sözlükbirimi `PART` diye aranamaz.
 - Eşleşme tümce sınırını aşmaz: `kaldı. Ne` yan yana sayılmaz.
+
+Diğer notlar:
 - Değer düz sayımdır. Uzunlukları farklı metinleri karşılaştıracaksanız
   `word_count`'a bölün (`oz["ngram_ADJ_NOUN_count"] / oz["word_count"]`) ya
   da metinleri aynı boya getirin (`segment_size`).
 
-Sayı "kaç kez" sorusunu cevaplar. Öbeğin **neyle** eşleştiğini görmek için:
+Sayı "kaç kez" sorusunu cevaplar. Dizinin **neyle** eşleştiğini görmek için:
 
 ```python
 tlf.ngram_matches(metin, ["ADJ", "NOUN"], lang="tr")
@@ -124,10 +171,9 @@ oz = tlf.analyze(metin, lang="tr", show_progress=True)
 
 ## Uyarıları susturun
 
-İsteğe bağlı `wordfreq` paketi kurulu değilse kütüphane
+İsteğe bağlı `wordfreq` paketi kurulu değilse araç
 `MissingDependencyWarning` basar ve ona bağlı iki özniteliği (`wordfreq_*`)
-`nan` bırakır. Bunu bilerek
-kabul ediyorsanız:
+`nan` bırakır. Bunu bilerek kabul ediyorsanız:
 
 ```python
 oz = tlf.analyze(metin, lang="tr", warn=False)
@@ -143,13 +189,13 @@ oz = tlf.analyze(metin, lang="tr", model="tr_core_news_trf")
 ```
 
 Varsayılanlar `tr_core_news_md` ve `en_core_web_sm`. Model kurulu değilse
-`ModelNotFoundError` alırsınız — mesajda kurulum komutu yazar.
+`ModelNotFoundError` alırsınız; mesajda kurulum komutu yazar.
 
 !!! warning "Model değiştirmek sayıları değiştirir"
 
-    Tokenlara ayırma, POS etiketleri, biçimbilimsel etiketler ve bağlılık
-    ayrıştırması modelden gelir. Farklı modelle çıkan tabloyu eskisiyle aynı çalışmada
-    karşılaştırmayın.
+    Türceler (İng. *tokens*), sözcük türü etiketleri, biçimbilimsel etiketler ve
+    bağımlılık çözümlemesi modelden gelir. Farklı modelle çıkan tabloyu eskisiyle aynı
+    çalışmada karşılaştırmayın.
 
 ## Tam imza
 

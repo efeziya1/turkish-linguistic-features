@@ -2,10 +2,10 @@
 
 ## Kısa cevap
 
-`nan`, **"bu metinde bu sayıyı hesaplayamam"** demektir. Hata değildir,
-eksik veri işaretidir.
+`nan` (İng. *not a number*, "sayı değil"), **"bu metinde bu sayıyı hesaplayamam"**
+demektir. Hata değildir, eksik veri işaretidir.
 
-Kütüphane yetersiz veriyle sayı **uydurmaz**. Uydursaydı, tablonuzda
+Araç yetersiz veriyle sayı **uydurmaz**. Uydursaydı, tablonuzda
 gerçek görünen ama anlamsız bir sütun olurdu ve bunu fark etmenin yolu
 olmazdı.
 
@@ -20,10 +20,10 @@ len(kisa), len(nan_olan)
 ```
 
 ```text
-(208, 36)
+(214, 37)
 ```
 
-208 öznitelikten **36'sı** `nan`. Örnekler:
+214 öznitelikten **37'si** `nan`. Örnekler:
 
 ```text
 ['aspect_imp_ratio', 'aspect_perf_ratio', 'aspect_prog_ratio', 'dugast_u',
@@ -53,7 +53,7 @@ tlf.describe_feature("mattr")["requires"]
 'at least 100 words (2 x mattr_window)'
 ```
 
-Buradaki **sözcük** kütüphanenin varsayılan sözcüğüdür
+Buradaki **sözcük** aracın varsayılan sözcüğüdür
 ([Kavramlar](kavramlar.md#sozcuk-ve-tumce)). `segment_text`'in `segment_size` değeri de
 aynı sözcüğü sayar: 100 sözcüklük parça 100 sözcük isteyen bir ölçüye yeter.
 
@@ -66,13 +66,14 @@ ortalama" olmaktan çıkar — o yüzden eşik `2 × pencere`dir.
 
 `zeyrek_derivational_suffix_ratio` metinde hiç türetme eki bulamazsa paydası sıfır
 olur. `parse_depth_mean` tümce ayrıştırılamazsa değer üretemez.
-`verb_dist_mean` metinde en az iki fiil yoksa ölçülemez.
+`verb_dist_mean` metinde en az iki eylem yoksa ölçülemez. Hiç eylem içermeyen bir metinde
+eylemlerin zaman ve görünüş oranları hesaplanamaz.
 Metinde hiç noktalama işareti yoksa `punct_…_ratio` öznitelikleri hesaplanamaz.
 
 ### 3. İsteğe bağlı bir paket kurulu değil
 
 `wordfreq` kurulu değilse `wordfreq_mean` ve `wordfreq_rare_ratio` `nan`
-döner ve kütüphane bir `MissingDependencyWarning` basar.
+döner ve araç bir `MissingDependencyWarning` basar.
 
 ```python
 oz = tlf.analyze(metin, lang="tr", warn=False)
@@ -81,12 +82,18 @@ oz = tlf.analyze(metin, lang="tr", warn=False)
 `warn=False` yalnız uyarıyı susturur; öznitelik yine `nan` kalır. Aynı bayrak
 `ParagraphStructureWarning`'ı da susturur.
 
+## Neden sıfır değil
+
+Hesaplanamayan değer sıfırla doldurulmaz, çünkü sıfır gerçek bir değerdir: Hiç adıl
+içermeyen bir metnin adıl oranı 0'dır ve bu, metin hakkında bir bilgidir. Hesaplanamayan
+değeri sıfırla göstermek bu iki durumu birbirine karıştırırdı.
+
 ## `nan` dönmeyen ama yanıltan durum: paragraf
 
 Paragraf sınırı boş satırla bulunur. Metinde boş satır yoksa metnin tamamı tek
 paragraf sayılır ve `para_len_mean` bütün metnin sözcük sayısına eşitlenir: değer
 `nan` olmaz ama paragraf hakkında bir şey söylemez. Ayrıntı:
-[sınırlılıklar §8](sinirliliklar.md).
+[Sınırlılıklar, paragraf öznitelikleri](sinirliliklar.md).
 
 ## Neden `None` değil de `nan`
 

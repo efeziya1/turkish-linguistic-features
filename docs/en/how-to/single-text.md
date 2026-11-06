@@ -17,11 +17,11 @@ number.
 tr = tlf.analyze(tr_text, lang="tr")
 en = tlf.analyze(en_text, lang="en")
 
-len(tr)   # 208
+len(tr)   # 214
 len(en)   # 181
 ```
 
-The 27-feature difference breaks down as:
+The 33-feature difference breaks down as:
 
 - **+23** Zeyrek suffix analysis: the `morphological_zeyrek` group (suffix
   chain, case markers, mood and tense; every key starts with `zeyrek_`) —
@@ -30,23 +30,29 @@ The 27-feature difference breaks down as:
   a property of Turkish; not produced for English.
 - **+3** letters: the Turkish alphabet has 29, English 26 (`ç ğ ı ö ş ü`
   only in Turkish, `q w x` only in English).
-- **−1** readability: 3 Turkish-only features (the Ateşman, Çetinkaya-Uzun and
-  Bezirci-Yılmaz formulas), 4 English-only features (the Flesch, Flesch-Kincaid
-  and SMOG formulas and the polysyllabic word ratio); the shared ones exist in
-  both.
+- **+5** readability: 12 Turkish-only features (the Ateşman, Çetinkaya-Uzun and
+  Bezirci-Yılmaz formulas; [Kalyoncu's](../explanation/kalyoncu.md) four formulas and five
+  components), 7 English-only features (the Flesch, Flesch-Kincaid,
+  SMOG, ARI, Coleman-Liau and LIX formulas and the polysyllabic word ratio); the
+  shared `long_word_ratio` exists in both.
 
-The `phonetic` group has 14 features in Turkish and 12 in English.
+A readability formula is computed only in the language it was built for. A formula's
+coefficients are set from texts in its own language; Ateşman (1997) likewise recomputed
+the coefficients of the Flesch formula from Turkish texts when applying it to Turkish. So
+Flesch is not given for Turkish text, nor Ateşman for English text.
+
+The `phonological` group has 14 features in Turkish and 12 in English.
 
 `lang` accepts only `"tr"` and `"en"`. Anything else raises `ValueError`.
 
 ## Ask for specific groups
 
-If you do not need all 208 features, pick groups; the output then carries
+If you do not need all 214 features, pick groups; the output then carries
 only those groups' keys:
 
 ```python
 oz = tlf.analyze(text, lang="tr", groups=["readability", "lexical"])
-len(oz)     # 45
+len(oz)     # 48
 ```
 
 Picking groups saves little time. Most of it goes to the spaCy and Zeyrek
@@ -56,21 +62,23 @@ calculation after it. On a 1000-word text all groups take about 1.1 seconds,
 
 The groups, with their Turkish feature counts:
 
-| Group | Features | Contents |
-|---|---|---|
-| `lexical` | 38 | Lexical richness, frequency |
-| `chars` | 29 | Letter frequency vector: one key per letter of the Turkish alphabet (26 in English; `q`, `w`, `x` only there) |
-| `morphological_zeyrek` | 23 | Zeyrek suffix analysis (Turkish only) |
-| `morphological` | 19 | UD morphological features |
-| `punctuation` | 20 | Each mark type's share, punctuation density, capitalisation |
-| `syntactic_dep` | 16 | Dependency parse |
-| `phonetic` | 14 | Syllables, vowels, sound patterns |
-| `frequency_structure` | 13 | Zipf, h-point, thematic concentration |
-| `pos` | 12 | Part-of-speech shares |
-| `syntactic` | 7 | Sentence structure |
-| `sentence` | 7 | Sentence-length distribution |
-| `readability` | 7 | Readability formulas |
-| `paragraph` | 3 | Paragraph structure |
+| Group | Name | Contents | Features |
+|---|---|---|---|
+| `lexical` | Lexical richness & frequency | lexical diversity, word frequency and lexical density | 35 |
+| `chars` | Character frequencies | the share of each letter | 29 |
+| `morphological_zeyrek` | Morphological features (Zeyrek) | ratios from morpheme analysis | 23 |
+| `punctuation` | Punctuation & orthography | punctuation, capitals, digits | 20 |
+| `morphological` | Morphological features (spaCy) | case, tense, person, aspect, voice | 19 |
+| `frequency_structure` | Frequency structure | frequency-structure measures based on the h-point and Zipf's law | 17 |
+| `pos` | Parts of speech | part-of-speech shares and variation | 17 |
+| `syntactic` | Syntactic features | dependency distance, hierarchical distance, part of speech of the sentence-final word | 16 |
+| `phonological` | Phonological features | vowel distribution, vowel harmony, syllable count | 14 |
+| `readability` | Readability | readability formulas and their components | 13 |
+| `sentence` | Sentence features | sentence count, length and question share | 8 |
+| `paragraph` | Paragraph structure | paragraph count and length | 3 |
+
+`chars` counts letters only: one key per letter of the Turkish alphabet (26 in English;
+`q`, `w`, `x` only there). `morphological_zeyrek` is produced for Turkish only.
 
 `describe_feature(key)["group"]` tells you where a given feature lives.
 
@@ -88,13 +96,46 @@ oz["ngram_ADJ_NOUN_count"]     # 4.0
 ```
 
 Each phrase becomes one key; its value is the number of matches in the text.
+A phrase may also be a single item.
 
-- Words are compared lowercased. The written form is matched, not the lemma:
-  `old houses` would not match `old house`.
-- An UPPERCASE UD part-of-speech tag (`NOUN`, `VERB`, `ADJ`…) matches any
-  word carrying that tag. `["ADJ", "NOUN"]` means an adjective followed
-  directly by a noun.
+### What an item matches
+
+Each item in a phrase is read in this order:
+
+| Item | Matches | In the key |
+|---|---|---|
+| UD part-of-speech tag (`NOUN`, `VERB`, `ADJ`…) | Any word carrying that tag | uppercase (`NOUN`) |
+| All uppercase, at least 2 letters (`HOUSE`, `GO`, `EV`) | Any word whose lemma it is | uppercase (`HOUSE`) |
+| Anything else (`house`, `izmir`, `I`) | The lowercased written form | lowercase (`house`) |
+
+**Written form.** A lowercase item matches the written form: `old houses` does not
+match `old house`. It also catches capitalised spellings (`izmir` finds "Izmir" and
+"IZMIR"), but not inflected forms.
+
+**Lemma.** To catch inflected forms too, write the item in all capitals; it matches
+every word carrying that lemma:
+
+```python
+tlf.ngram_matches("He went home. She goes home.", ["GO", "home"], lang="en")
+# {'went home': 1, 'goes home': 1}
+```
+
+**Tag.** `["ADJ", "NOUN"]` means an adjective followed directly by a noun.
+
+Details:
+
+- Words, lemmas and tags can be mixed in one phrase: `["old", "HOUSE"]`, `["ADJ", "HOUSE"]`.
+- The lemma comes from the same place as in the rest of the library: spaCy for English,
+  Zeyrek's first analysis for Turkish.
+- Verbs are written without an infinitive marker: `GO`, Turkish `GİT`.
+- In Turkish, an uppercase item is lowercased by the Turkish rule: `İZMİR` → izmir,
+  `IRMAK` → ırmak; dotless `IZMIR` becomes ızmır.
+- A one-letter item is a word, never a lemma search (`I`, `O`).
+- A lemma that is also a tag name is always read as the tag: the English lemma "part"
+  cannot be searched as `PART`.
 - A match never crosses a sentence boundary: `down. A` is not adjacent.
+
+Other notes:
 - The value is a plain count. To compare texts of different lengths, divide
   by `word_count` (`oz["ngram_ADJ_NOUN_count"] / oz["word_count"]`) or bring
   them to the same size first (`segment_size`).

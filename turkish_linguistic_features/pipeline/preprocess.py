@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 Morpheme = tuple[str, str, bool]      # (etiket, yüzey_ek, türetimsel_mi)
+Analysis = tuple[tuple[Morpheme, ...], str]   # (morfemler, sözlükbirim)
 DepToken = tuple[int, str, str, int]  # (index, pos, deprel, head_index)
 
 # Why bu sıra: etiket POZISYON 0'da. Tüm etiket eşleşmeli öznitelik
@@ -36,6 +37,8 @@ class ProcessedText:
     morph_tags:          tuple[tuple[str, str], ...] = ()
     lang:                str = "tr"
     dep_data:            tuple[tuple[DepToken, ...], ...] | None = None
+    # Token başına Zeyrek'in tüm çözümlemeleri (yalnız Kalyoncu çözümleme seçimi için).
+    morpheme_alternatives: tuple[tuple[Analysis, ...], ...] = ()
 
     def to_dict(self) -> dict:
         """``_extract_features(**processed.to_dict())`` için kwargs döndürür.
@@ -53,4 +56,5 @@ class ProcessedText:
             "morph_tags":          [tuple(m) for m in self.morph_tags],
             "lang":                self.lang,
             "dep_data":            self.dep_data,
+            "morpheme_alternatives": [list(a) for a in self.morpheme_alternatives],
         }

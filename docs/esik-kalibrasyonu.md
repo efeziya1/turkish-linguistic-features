@@ -3,7 +3,7 @@
 `short_sent_threshold` ve `long_sent_threshold` yayımlanmış bir kaynaktan
 alınmadı, gazete köşe yazılarında, varsayılan tümce kuralı ve varsayılan sözcükle ölçülerek seçildi. Bu belge ölçümü kayda geçirir.
 
-**Ölçüm:** 2026-10-06.
+**Ölçüm:** 2026-10-06; sürüm 0.3.0 ile yeniden ölçüldü (2026-11-04). Eşikler değişmedi.
 
 ## Sonuç
 
@@ -20,14 +20,18 @@ değerinde kalır ([ayrıntı](tr/nasil/parametreler.md)).
 
 | | Türkçe | İngilizce |
 |---|---|---|
-| Kaynak | KEMİK (YTÜ) köşe yazısı korpusları | KEMİK `30Columnists` |
-| Yazar | 162 | 30 |
+| Kaynak | KEMİK (YTÜ) köşe yazısı derlemleri | KEMİK `30Columnists` |
+| Yazar | 137 | 30 |
 | Yazı | 4.321 | 1.485 |
 | Ölçülen sözcük | 2.108.415 | 1.078.588 |
-| **Ölçülen tümce** | **197.990** | **52.745** |
+| **Ölçülen tümce** | **198.225** | **52.745** |
 
-Tam korpus kullanıldı, örnekleme yapılmadı. Metinler paylaşılmaz, yalnız sayılar
-yayımlanır. Tümceler ve sözcükler `sentence` grubunun saydığı gibi, kütüphanenin varsayılan
+Türkçe yazar sayısı, kümelerdeki yazar klasörü adları büyük-küçük harf, Türkçe harf ve
+boşluk farkları birleştirilerek sayıldı; aynı yazar kümeler arasında farklı yazılmış
+olabiliyor (`canDundar` / `candundar`), ham adlarla sayım 162 verir.
+
+Tam derlem kullanıldı, örnekleme yapılmadı. Metinler paylaşılmaz, yalnız sayılar
+yayımlanır. Tümceler ve sözcükler `sentence` grubunun saydığı gibi, aracın varsayılan
 tümce kuralı ve varsayılan sözcüğüyle sayıldı; ikisinin örnekli tanımı
 [Kavramlar](tr/aciklama/kavramlar.md#sozcuk-ve-tumce) sayfasında. Bir tümcenin uzunluğu
 içindeki sözcük sayısıdır; hiç harf içermeyen tümce sayılmaz. Yalnız bu uzunluklar gerektiği
@@ -39,19 +43,30 @@ eşiği oradan türetmek döngüsel olurdu.
 
 ### Ham yüzdelik tablosu
 
-| Yüzdelik | TR (n = 197.990) | EN (n = 52.745) |
+| Yüzdelik | TR (n = 198.225) | EN (n = 52.745) |
 |---|---|---|
 | 5. | 2,0 | 5,0 |
 | 10. | 3,0 | 7,0 |
 | **15.** | **4,0** | **8,0** |
 | 25. | 5,0 | 11,0 |
-| 50. (medyan) | 9,0 | 19,0 |
+| 50. (ortanca) | 9,0 | 19,0 |
 | 75. | 14,0 | 27,0 |
 | **85.** | **17,0** | **32,0** |
 | 90. | 20,0 | 36,0 |
 | 95. | 25,0 | 43,0 |
 
-Türkçede 85. yüzdelik sınırda: 17 eşiğinde tümcelerin %15,0'ı, 18'de %12,9'u uzun sayılır.
+Türkçede 85. yüzdelik sınırda: 17 eşiğinde tümcelerin %14,9'u, 18'de %12,9'u uzun sayılır.
+
+### Kısa ve uzun tümce
+
+**Kısa tümce** eşikten kısa olandır (`short_sent_threshold`'dan az sözcük), **uzun tümce**
+eşikten uzun olandır (`long_sent_threshold`'dan çok sözcük). Uzunluğu eşiğe eşit tümce
+iki sayıma da girmez.
+
+Gerekçe: tümce uzunlukları tam sayıdır, bu yüzden eşiğin dahil edilip edilmemesi payı
+belirgin biçimde değiştirir. Türkçede eşik dahil edilirse tümcelerin %19,2'si kısa,
+%17,3'ü uzun sayılır; dahil edilmezse %12,2'si kısa, %14,9'u uzun. İkinci ikili %15'e
+daha yakındır.
 
 ## Neden dile özgü eşik
 
@@ -67,7 +82,25 @@ tümcenin taşıdığı bilgiyi yüklenebiliyor. Yüzeysel sözcük sayısı iki
 ## Ateşman (1997) ile karşılaştırma
 
 Ateşman (1997, s.73) Türkçede ortalama tümce uzunluğunu 9-10 sözcük olarak veriyor;
-korpusun medyanı (9,0) bununla tutuyor.
+derlemin ortancası (9,0) bununla tutuyor; ortalama 10,64 sözcüktür. İngilizce köşe yazılarında
+ortalama 20,45 sözcüktür. Bu, Ateşman'ın Flesch'e dayanarak İngilizce için verdiği 14-15
+sözcükten uzundur, ama Flesch'in (1948, s.230) metin türüne göre verdiği 8-29 sözcük
+aralığının içindedir; fark büyük olasılıkla metin türünden gelir.
+
+## Eşikler öbür dilde nereye düşer
+
+Bir dilin eşiği öbür dilin köşe yazılarına uygulanınca tümcelerin çok farklı bir payını
+ayırır:
+
+| Eşik | Kendi dilinde | Öbür dilde |
+|---|---:|---:|
+| Türkçe kısa (4 sözcükten kısa) | %12,2 | İngilizcede %3,0 |
+| Türkçe uzun (17 sözcükten uzun) | %14,9 | İngilizcede %54,2 |
+| İngilizce kısa (8 sözcükten kısa) | %12,4 | Türkçede %40,9 |
+| İngilizce uzun (32 sözcükten uzun) | %14,7 | Türkçede %1,7 |
+
+Hiçbir eşik öbür dilde kendi dilindeki yüzdeliğe denk gelmez. Yani aynı adı taşıyan
+öznitelik, ortak bir eşikle iki dilde aynı şeyi ölçmez.
 
 ## Kapsam sınırı
 

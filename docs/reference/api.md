@@ -41,16 +41,16 @@ Extracts every feature from one text. Returns a flat `dict`; values are
 | Parameter | Meaning |
 |---|---|
 | `text` | The text to analyse |
-| `lang` | `"tr"` (default) or `"en"`. Anything else raises `ValueError`. Changes the feature set (208 vs 181) |
+| `lang` | `"tr"` (default) or `"en"`. Anything else raises `ValueError`. Changes the feature set (214 vs 181) |
 | `model` | spaCy model name. Defaults: `tr_core_news_md`, `en_core_web_sm` |
 | `groups` | Restrict to these groups; `None` means all |
 | `params` | Thresholds and window sizes. **`None` selects language-calibrated values** |
-| `custom_ngrams` | Word sequences to count, one key `ngram_{...}_count` each. An UPPERCASE UD tag (`NOUN`, `VERB` …) in a phrase matches any word with that tag; matches stay inside a sentence. See `ngram_matches` for what matched |
+| `custom_ngrams` | Word sequences to count, one key `ngram_{...}_count` each. In a phrase, a UD tag (`NOUN`, `VERB` …) matches any word with that tag; any other all-uppercase item of 2+ letters (`EV`, `GO`) matches any word with that lemma; anything else matches the lowercased written form. Matches stay inside a sentence. See `ngram_matches` for what matched |
 | `show_progress` | Print progress to stdout |
 | `warn` | `False` silences `MissingDependencyWarning` and `ParagraphStructureWarning`; does not change the result |
 
 Raises `ModelNotFoundError` if the spaCy model is not installed, or — for
-English, when `phonetic` or `readability` is requested — if NLTK's `cmudict`
+English, when `phonological` or `readability` is requested — if NLTK's `cmudict`
 corpus is not. The check runs before any model is loaded.
 
 See: [TR](../tr/nasil/tek-metin.md) · [EN](../en/how-to/single-text.md)
@@ -69,8 +69,14 @@ ngram_matches(
 ```
 
 What one `custom_ngrams` phrase matched in a text, most frequent first. The
-matching is the same as in `analyze`, so the values add up to the phrase's
+matching is the same as in `analyze` (words, lemmas and UD tags; see the
+`custom_ngrams` row above), so the values add up to the phrase's
 `ngram_{...}_count`.
+
+```python
+tlf.ngram_matches("Eve gittim. Evden çıktık. Evdeki kedi uyudu.", ["EV", "VERB"])
+# {'eve gittim': 1, 'evden çıktık': 1}
+```
 
 ```python
 tlf.ngram_matches("Eski ev yıkıldı. Büyük bahçe kaldı.", ["ADJ", "NOUN"])
@@ -181,7 +187,7 @@ inputs · params · requires · citation · references · definitions
 
 `citation` is the short pointer; `references` holds the full bibliographic
 records to copy into a bibliography. `citation is None` means the key is
-not a named measure from the literature.
+not a literature measure.
 
 `definitions` explains the terms the `formula` uses (`sentence`, `word`, `syllable`,
 `letter`, `type`…): for each, `{"name": ..., "source": ..., "description": ...}` — the
@@ -200,7 +206,7 @@ See: [TR](../tr/nasil/kunye.md) · [EN](../en/how-to/citations.md)
 ## `FeatureParams`
 
 A frozen dataclass (`frozen=True`) holding thresholds, window sizes and
-sample counts. Eighteen fields; the full table is in
+sample counts. Twenty-one fields; the full table is in
 [TR](../tr/nasil/parametreler.md) · [EN](../en/how-to/parameters.md).
 
 !!! note

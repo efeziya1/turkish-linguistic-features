@@ -26,15 +26,23 @@ class FeatureParams:
     vocd_num_runs: int = 3           # tüm işlem 3 tur, D ortalanır · s. 383
     vocd_min_tokens: int = 50
     vocd_random_seed: int = 42
-    heaps_min_tokens: int = 300
-    heaps_step: int = 50
-    # Brunet's W üs sabiti. Kademe C — Tweedie & Baayen (1998),
-    # Computers and the Humanities 32(5):323-352, denklem (10).
-    # Bazı ikincil kaynaklar 0.165 veriyor; tartışmalı olduğu için
-    # gizlenmiyor, buradan değiştirilebiliyor.
+    # Heaps β ölçüm noktası sayısı: metin boyunca eşit aralıklı (Tweedie & Baayen 1998 s.333;
+    # 2026-10-27, Efe). En az uzunluk sınırı yok; bundan kısa metinde NaN.
+    heaps_points: int = 20
+    # Brunet's W sabitleri. Kademe A — Brunet (1978): a s. 49, b s. 65.
+    # Bazı ikincil kaynaklar a için 0.165 veriyor; aslı 0,172 der.
+    # b = 0, b'siz biçimi verir (s. 49); V ≤ b iken değer NaN (2026-11-04, Efe).
     brunet_w_a: float = 0.172
-    # biçimbilim — zeyrek_verb_suffix_diversity parça boyu, fiil sayısı (2026-09-17, Efe)
-    verb_suffix_window: int = 50
+    brunet_w_b: int = 20
+    # biçimbilim — zeyrek_verb_suffix_diversity: örneklem boyu (fiil), örneklem sayısı ve tohum.
+    # Brezina & Pallotti (2019) s.107: MC10, 10 fiillik örneklem (yazarlar 10'un keyfi olduğunu,
+    # kısa metin için 5'i de belirtir); s.108: 100 rastgele örneklem (2026-10-26, Efe).
+    verb_suffix_window: int = 10
+    verb_suffix_num_samples: int = 100
+    verb_suffix_random_seed: int = 42   # vocd_random_seed ile aynı
+    # okunabilirlik — kalyoncu_ttr: bundan uzun metinde kayan pencere (MATTR, adım 1);
+    # Kalyoncu (2025) s.73: 500 sözcük (2026-10-27, Efe).
+    kalyoncu_ttr_window: int = 500
     # Cümle uzunluğu dağılımı. `None` = "dile göre çözümle" (2026-09-24, Efe).
     # Why sentinel: eskiden bu iki alan 5 ve 30 diye sabit yazıyordu ve dile
     # özgü değerler ayrı bir `FeatureParams` nesnesinde tutuluyordu. O düzende
@@ -52,8 +60,9 @@ DEFAULT_PARAMS = FeatureParams()
 
 # Türkçe cümleler İngilizce'den kısa — aynı eşik iki dile uymuyor. Değerler
 # gazete köşe yazılarında, varsayılan cümle kuralı ve varsayılan kelime birimiyle ölçülen cümle
-# uzunluğu dağılımının 15. ve 85. yüzdeliğinden türetildi (2026-10-06; TR: 162 yazar / 4.321 yazı /
-# 197.990 cümle, EN: 30 yazar / 1.485 yazı / 52.745 cümle). Yöntem ve ham yüzdelik tablosu:
+# uzunluğu dağılımının 15. ve 85. yüzdeliğinden türetildi (2026-10-06, 0.3.0 ile yeniden ölçüldü
+# 2026-11-04; TR: 137 yazar / 4.321 yazı / 198.225 cümle, EN: 30 yazar / 1.485 yazı / 52.745
+# cümle). Yöntem ve ham yüzdelik tablosu:
 # `docs/esik-kalibrasyonu.md`.
 SENT_THRESHOLDS_BY_LANG: dict[str, tuple[int, int]] = {
     "tr": (4, 17),

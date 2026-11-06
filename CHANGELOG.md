@@ -1,5 +1,156 @@
 # Changelog
 
+## [0.3.0] - 2026-11-06
+
+This release renames and regroups feature groups, removes three Turkish keys and adds
+Kalyoncu's (2025) four readability formulas; code that selects groups by name or expects
+0.2.0's column set must be updated. Keys: Turkish 208 → 214, English 181. Cited features:
+Turkish 197 → 203, English 170. Groups: 13 → 12 (13 with
+`custom_ngrams`).
+
+### Added
+
+- **Kalyoncu (2025) K1–K4** (Turkish only, `readability` group): `kalyoncu_k1` …
+  `kalyoncu_k4` and their components `kalyoncu_kl` (share of words not in Kalyoncu's word
+  list), `kalyoncu_ttr` (share of stems occurring once), `kalyoncu_kco` (share of complex
+  sentences), `kalyoncu_yco` (verbals per sentence) and `kalyoncu_ocu` (words per sentence).
+  Numbers count as the words they are read as (`1968` = 5 words), in these keys only. Four of
+  Kalyoncu's nine word-list rules and his meaning-based sentence definition are not applied;
+  see the Kalyoncu formulas page. The values approximate Kalyoncu's hand counts. In these keys
+  only: numbers written in words (`iki`, `ikisi`, `üçüncü`, `beşer`) count as in the list
+  (rule 9 does not tell digits from words); a word tagged `PROPN`, or capitalised and not at
+  the start of a sentence (`İstanbul'da`, `İstanbul’da`), is a proper noun and stays out of the
+  numerator; and the stem, verbal and complex-sentence counts use the first Zeyrek analysis
+  whose type matches spaCy's word class (the first analysis if none does). KL rests on expert
+  judgement (rules 3, 5, 8 are not applied), so it is not expected to match the expert values
+  exactly. The stem stops at the first inflectional suffix (`oradaki` → `ora`, not `oraki`).
+  `ProcessedText` gains `morpheme_alternatives` (all Zeyrek analyses per token).
+- The word list (Kalyoncu 2025, Appendix 1, 4,600 words) ships as
+  `turkish_linguistic_features/data/kalyoncu_2025_ek1.txt`. It is not covered by the MIT
+  licence.
+- `FeatureParams.kalyoncu_ttr_window` (500): texts longer than this get a moving-window
+  `kalyoncu_ttr` (Kalyoncu 2025, p. 73).
+- `FeatureParams.verb_suffix_num_samples` (100) and `FeatureParams.verb_suffix_random_seed`
+  (42, the same as `vocd_random_seed`) for `zeyrek_verb_suffix_diversity`.
+- `FeatureParams.heaps_points` (20): the number of measurement points for `heaps_beta`.
+- **Lemma items in `custom_ngrams` and `ngram_matches`.** An item written in capitals that is
+  not a UD tag matches any word with that lemma: `["EV", "VERB"]` matches `eve gittim` and
+  `evden çıktık` (key `ngram_EV_VERB_count`). Words, lemmas and tags can be mixed in one phrase
+  (`["eski", "EV"]`, `["ADJ", "EV"]`). The lemma is the library's own: Zeyrek's first analysis
+  in Turkish, spaCy in English; verbs without the infinitive suffix (`GİT`, `GO`). An item
+  needs at least two letters to be a lemma (`I` stays a word), and a UD tag name is always a
+  tag (`PART`). Lowercase items match the written form, as before.
+- The verification report has a rule for a source's own arithmetic: when the number a source
+  printed contradicts the arithmetic of the inputs it gives, and the library's value gives the
+  correct arithmetic, the comparison counts as ✅ with the reason written under it.
+- Kalyoncu & Memiş (2024) Text 1 and Text 3 are in the verification report: six more
+  end-to-end comparisons for `atesman`, `cetinkaya_uzun` and `bezirci_yilmaz`, all within
+  0.1%. The tests already checked these values.
+
+### Changed
+
+- **`brunet_w` follows Brunet (1978), read in the original.** The formula is the one Brunet
+  calls more exact, `N^((V-b)^-a)` (p.65), with the new parameter `brunet_w_b` (default 20; `0`
+  gives the form without `b`, p.49). `V ≤ b` gives `nan`, so a text needs more than 20 distinct
+  words. `a` stays 0.172 (p.49). Values change. The citation now names the primary source, so
+  secondary citations go from 15 to 14 (Turkish 14 → 13). The verification report compares the
+  default against the ten rows of Brunet's p.65 table, formula rows with `V > 20`.
+- **One counting rule for diversity measures.** They count surface forms; this is the library's
+  design decision, and `*_variation` and `lemma_count` remain the exceptions. Where the source
+  counts otherwise the citation says so: `brunet_w`, `herdan_c`, `yule_k`. Values of `herdan_c`
+  and `yule_k` do not change.
+- **`custom_ngrams`: an item in capitals is a lemma** (see Added). In 0.2.0 `İZMİR` matched
+  the written form `izmir`; it now matches words with the lemma `izmir` (`İzmir'e` too).
+  Write `izmir` for the written form.
+- **`custom_ngrams` in English: `izmir` matches `İzmir`.** Python lowercases `İ` to `i` plus a
+  combining dot, so the two did not match. The dot is dropped in n-gram matching only; other
+  English features still lowercase as before.
+- **`hdd` citation** names both primary sources: the computation is McCarthy & Jarvis's
+  (2007, pp. 465-466) ATTR-42; the name HD-D and the 42-word sample come from McCarthy &
+  Jarvis (2010, p. 383), who report the sum of probabilities (0-42), which the library divides
+  by 42. It was a secondary citation, so secondary citations go from 14 to 13 (Turkish 13 → 12).
+  The value does not change.
+- **Threshold calibration re-measured with 0.3.0:** Turkish columns now give 198,225 sentences
+  (was 197,990) under 0.3.0's sentence rule; the thresholds (TR 4/17, EN 8/32) do not change.
+- **`sichel_s` citation** is now Tweedie & Baayen (1998) p.329, eq. (12); the ratio does not
+  appear in Sichel (1975). The value does not change.
+- **Group names.** `phonetic` is now `phonological` and `syntactic_dep` is now `syntactic`;
+  the old names are not kept and raise `ValueError`. The 0.2.0 `syntactic` group is gone and
+  its seven features moved by content: `pronoun_ratio`, `verb_dist_mean`, `activity_ratio`,
+  `posddev`, `posdiv` → `pos`; `lexical_density` → `lexical`; `question_sent_ratio` →
+  `sentence`. **`groups=["syntactic"]` now returns the dependency features** (dependency
+  distance, hierarchical distance, sentence-final word class). The four Zipf measures
+  (`zipf_exponent`, `zipf_r2`, `zipf_mandelbrot_q`, `zipf_mandelbrot_s`) moved from `lexical`
+  to `frequency_structure`; they are still computed on word forms. Key names and values do
+  not change.
+- **Group labels** (`describe_feature(key)["group_label"]`): Lexical richness & frequency,
+  Frequency structure, Sentence features, Paragraph structure, Parts of speech, Syntactic
+  features, Morphological features (spaCy), Morphological features (Zeyrek), Phonological
+  features, Readability, Punctuation & orthography, Character frequencies, User-defined
+  n-grams.
+- **`describe_feature(key)["inputs"]`** lists the fields that feature reads, not its group's:
+  `mattr` reads `raw_text` only.
+- **`thematic_concentration` and `secondary_thematic_concentration`** count the same lexical
+  words as `lexical_density` (NOUN, PROPN, VERB, ADJ, ADV); they left out ADV. QUITA leaves
+  the choice of thematic words to the researcher (pp. 50-51). Values change.
+- **A double quote is punctuation when a word's tag is chosen.** spaCy sometimes tags an
+  opening quote NOUN or ADJ (`Herkes "büyük" bir…`); the word then took the quote's tag.
+  `"` `“` `”` `«` `»` are now skipped whatever their tag. Apostrophes are not affected, nor
+  are punctuation counts. Part-of-speech shares change slightly.
+- **A colon followed by an attached dash ends a sentence** (`: -Bence`), as the documented
+  rule says; spaCy keeps `-Bence` as one token and the rule looked only at its capital
+  letter. Sentence counts, sentence features and readability scores can change.
+- **`zeyrek_verb_suffix_diversity`** follows Brezina & Pallotti (2019, pp. 107-108): the mean
+  number of distinct suffix types in 100 random samples of 10 verbs (no verb repeated within a
+  sample), instead of consecutive chunks of 50 verbs. It measures only the within-sample
+  variety (close to MC10a). A text needs 10 verbs instead of 50. Values change.
+- **`heaps_beta`** is measured at 20 equally spaced points through the text (Tweedie & Baayen
+  1998, p. 333) instead of every 50 words, with no minimum length; texts shorter than 20 words
+  give `nan` (it needed 300 words). The law fits large collections well and is not reliable on
+  short texts (Manning et al. 2008, p. 81). Values change.
+- **Verification report.** The 🔧 "derivative" class is split into 🔧 tool-specific
+  (`punct_entropy`, `sent_len_entropy`, `polysyllabic_word_ratio`) and 📐 calibrated
+  (`short_sent_ratio`, `long_sent_ratio`). English names of the feature types: literature
+  measure, plain definition (was "no source"), tag ratio (was "tag scheme"), tool-specific,
+  calibrated; the ✅ status is "match" (was "exact"). QUITA's `ttr` on Text 2 (printed 0.59,
+  its own counts give 121/202 = 0.599: the source truncated instead of rounding) is ✅ under the arithmetic rule. The two Ateşman
+  formula rows are labelled as the easiest and hardest texts Ateşman used to derive the
+  formula. Turkish report: 61 ✅ + 0 🟡; English: 46 ✅ + 2 🟡; no ❌.
+- **Citations** give the place in the source for `mattr` (p. 97), `lexical_density`
+  (p. 192), `punct_entropy` and `sent_len_entropy` (Shannon 1948, Theorem 2),
+  `long_word_ratio` (p. 491), `wordfreq_mean` (p. 1179) and `simpson_d` (Bestgen 2023,
+  p. 4 of the preprint). Bibliography 56 → 58 works (Brezina & Pallotti 2019, Kalyoncu 2025).
+- **Turkish documentation** uses the thesis terms: tümce, sözcük, türce, sözlükbirim, seslem,
+  derlem, bağımlılık, alanyazın, öznitelik dizini, yalın tanım, etiket oranı, örtüşen,
+  çözümleme hattı (was "boru hattı").
+- **Documentation in both languages:** each Turkish page gives a term's English equivalent
+  where it first appears ("türce (İng. *token*)"); the Turkish and English glossaries follow
+  the thesis glossary and the English one gains a Turkish column. "öbek" is now "sözcük
+  dizisi", "kütüphane" mostly "araç", "fiil" "eylem".
+- **New documentation sections:** the five feature types with their counts; the four
+  pipeline stages and how many features depend on spaCy and Zeyrek; the counting rules of
+  the readability formulas; why the colon rule exists; constants taken from sources and not
+  tested on Turkish (MTLD 0.72, HD-D 42, Brunet 0.172); the Turkish model's reported accuracy,
+  split words; why `nan` and not zero; where each sentence threshold
+  falls in the other language; a summary of how much of the tool could be checked against
+  published numbers.
+- The concepts page defines the content word (`NOUN`, `PROPN`, `VERB`, `ADJ`, `ADV`) and
+  says how it differs from Lu (2012, p. 192): Lu counts only adverbs derived from adjectives,
+  the tool counts all adverbs because the tagger does not tell adverb types apart. The
+  definition itself is unchanged.
+- The threshold calibration documents say how short and long sentences are counted (shorter
+  / longer than the threshold; a sentence of exactly the threshold is in neither) and why, and
+  give 137 Turkish columnists instead of 162 (the same author was spelled differently across
+  corpora).
+
+### Removed
+
+- `ari`, `coleman_liau` and `lix` from the Turkish feature set: a readability formula is
+  computed only in the language it was built for. They stay in English. `long_word_ratio`, a
+  descriptive measure, stays in both languages.
+- `FeatureParams.heaps_min_tokens` and `FeatureParams.heaps_step` (passing them now raises
+  `TypeError`); `verb_suffix_window` defaults to 10 instead of 50.
+
 ## [0.2.0] - 2026-10-13
 
 This release renames and removes feature keys; tables built with 0.1.0 will not line up

@@ -30,7 +30,7 @@ The library has **eleven** public names. That is all of them:
 |---|---|
 | `analyze` | Extracts every feature from one text |
 | `analyze_corpus` | Runs `analyze` on every text in a folder |
-| `ngram_matches` | Shows what a sequence of words or POS tags you give (such as `["ADJ", "NOUN"]`) matched in a text, with counts |
+| `ngram_matches` | Shows what a sequence of words, lemmas or POS tags you give (such as `["GO", "home"]` or `["ADJ", "NOUN"]`) matched in a text, with counts |
 | `segment_text` | Splits a text into fixed-size segments |
 | `save_csv` | Writes the resulting rows to CSV |
 | `describe_feature` | Gives a feature's definition, formula, scale, the minimum data it needs, and its citation |
@@ -45,5 +45,6 @@ of `analyze`.
 
 ## Terms
 
-The documentation uses fixed terminology. If a word is unclear:
+The documentation uses fixed terminology; the glossary also gives each term's Turkish
+equivalent as used in the Turkish pages and the thesis. If a word is unclear:
 **[glossary](glossary.md)**.
