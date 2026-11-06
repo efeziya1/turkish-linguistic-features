@@ -44,7 +44,7 @@ kadar noktalama olduğunu `punct_char_ratio` söyler (noktalama işaretleri / ka
 ## Grup
 
 Öznitelikler 12 gruba ayrılır (`custom_ngrams` verirseniz oluşan `ngram_*`
-anahtarlarıyla 14). Grup, hem düzenleme hem de seçim aracıdır:
+anahtarlarıyla 13). Grup, hem düzenleme hem de seçim aracıdır:
 
 ```python
 oz = tlf.analyze(metin, lang="tr", groups=["readability", "lexical"])

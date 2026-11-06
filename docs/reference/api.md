@@ -200,7 +200,7 @@ See: [TR](../tr/nasil/kunye.md) · [EN](../en/how-to/citations.md)
 ## `FeatureParams`
 
 A frozen dataclass (`frozen=True`) holding thresholds, window sizes and
-sample counts. Eighteen fields; the full table is in
+sample counts. Twenty-one fields; the full table is in
 [TR](../tr/nasil/parametreler.md) · [EN](../en/how-to/parameters.md).
 
 !!! note

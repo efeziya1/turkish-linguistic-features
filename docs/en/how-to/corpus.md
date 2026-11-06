@@ -68,7 +68,7 @@ print("column count:", len(rows[0]))
 
 ```text
 row count:    3
-column count: 211
+column count: 217
 ```
 
 One row per file. 217 columns = 214 features plus three identity columns:

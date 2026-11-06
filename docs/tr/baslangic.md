@@ -175,7 +175,7 @@ print("sütun sayısı:", len(satirlar[0]))
 
 ```text
 satır sayısı: 3
-sütun sayısı: 211
+sütun sayısı: 217
 ```
 
 Her dosya bir satır olur. 217 sütun = 214 öznitelik + üç kimlik sütunu:
