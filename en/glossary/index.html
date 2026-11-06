@@ -6,14 +6,14 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 181 from English text">
+        <meta name="description" content="Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative linguistic features from Turkish text and 181 from English text">
       
       
       
         <link rel="canonical" href="https://efeziya1.github.io/turkish-linguistic-features/en/glossary/">
       
       
-        <link rel="prev" href="../explanation/limitations/">
+        <link rel="prev" href="../explanation/kalyoncu/">
       
       
         <link rel="next" href="../../reference/">
@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -31,10 +31,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -622,7 +622,7 @@
   <span class="md-ellipsis">
     
   
-    Korpusu CSV'ye çıkar
+    Derlemi CSV'ye çıkar
   
 
     
@@ -767,6 +767,8 @@
       
         
           
+        
+      
         
       
         
@@ -930,6 +932,34 @@
     
   
     Sınırlılıklar
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tr/aciklama/kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formülleri
   
 
     
@@ -1373,6 +1403,8 @@
       
         
       
+        
+      
     
     
     
@@ -1542,6 +1574,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../explanation/kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formulas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1617,10 +1677,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#library-concepts" class="md-nav__link">
+  <a href="#the-tools-concepts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Library concepts
+        The tool's concepts
       
     </span>
   </a>
@@ -1628,10 +1688,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#measurement-terms" class="md-nav__link">
+  <a href="#language-processing" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Measurement terms
+        Language processing
       
     </span>
   </a>
@@ -1639,10 +1699,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#verification-terms" class="md-nav__link">
+  <a href="#measurement" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Verification terms
+        Measurement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verification
       
     </span>
   </a>
@@ -2007,10 +2078,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#library-concepts" class="md-nav__link">
+  <a href="#the-tools-concepts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Library concepts
+        The tool's concepts
       
     </span>
   </a>
@@ -2018,10 +2089,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#measurement-terms" class="md-nav__link">
+  <a href="#language-processing" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Measurement terms
+        Language processing
       
     </span>
   </a>
@@ -2029,10 +2100,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#verification-terms" class="md-nav__link">
+  <a href="#measurement" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Verification terms
+        Measurement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verification
       
     </span>
   </a>
@@ -2060,166 +2142,423 @@
 
 
 <h1 id="glossary">Glossary<a class="headerlink" href="#glossary" title="Permanent link">&para;</a></h1>
-<p>These terms are used consistently throughout the documentation. The point is
-not to be exhaustive but to avoid calling the same thing two names on two
-pages.</p>
-<h2 id="library-concepts">Library concepts<a class="headerlink" href="#library-concepts" title="Permanent link">&para;</a></h2>
+<p>These terms are used consistently throughout the documentation, so that the same thing
+never gets two names on two pages. The Turkish column gives the term used in the Turkish
+documentation and in the thesis that describes the tool.</p>
+<h2 id="the-tools-concepts">The tool's concepts<a class="headerlink" href="#the-tools-concepts" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>Term</th>
+<th>Turkish</th>
 <th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>feature</strong></td>
+<td>öznitelik</td>
 <td>A single number extracted from a text (<code>ttr</code>, <code>atesman</code>)</td>
 </tr>
 <tr>
 <td><strong>key</strong></td>
+<td>anahtar</td>
 <td>A feature's name; the <code>dict</code> key in the returned mapping</td>
 </tr>
 <tr>
 <td><strong>group</strong></td>
-<td>One of the 13 sets features belong to (<code>lexical</code>, <code>readability</code>…; 14 with <code>custom_ngrams</code>)</td>
+<td>grup</td>
+<td>One of the 12 sets features belong to (<code>lexical</code>, <code>readability</code>…; 13 with <code>custom_ngrams</code>)</td>
 </tr>
 <tr>
 <td><strong>citation</strong></td>
-<td>The short source pointer — the parenthetical in a methods section</td>
+<td>künye</td>
+<td>The short source pointer; the parenthetical in a methods section</td>
 </tr>
 <tr>
 <td><strong>reference</strong></td>
-<td>The full bibliographic record — what goes in a bibliography</td>
+<td>kaynakça kaydı</td>
+<td>The full bibliographic record; what goes in a bibliography</td>
 </tr>
 <tr>
 <td><strong>registry</strong></td>
-<td>The single place all feature metadata lives</td>
+<td>öznitelik dizini</td>
+<td>The single place each feature's definition, formula and citation live</td>
 </tr>
 <tr>
 <td><strong>pipeline</strong></td>
-<td>The chain of steps from raw text to numbers</td>
+<td>çözümleme hattı</td>
+<td>The steps from raw text to numbers: spaCy, Zeyrek and the tool's own rules</td>
 </tr>
 <tr>
 <td><strong>scale</strong></td>
+<td>ölçek</td>
 <td>The kind of value: <code>ratio_0_1</code>, <code>score</code>, <code>count</code>…</td>
 </tr>
 <tr>
 <td><strong>segment</strong></td>
+<td>parça</td>
 <td>A slice of text produced by <code>segment_text</code></td>
 </tr>
 <tr>
 <td><strong>label</strong></td>
+<td>etiket</td>
 <td>The folder name in a corpus; author, class or experimental arm</td>
+</tr>
+<tr>
+<td><strong>parameter</strong></td>
+<td>parametre</td>
+<td>A window size, threshold or sample count you can change (<code>FeatureParams</code>)</td>
+</tr>
+<tr>
+<td><strong>constant</strong></td>
+<td>sabit</td>
+<td>A number fixed in a formula: MTLD's 0.72, Brunet's 0.172, the coefficients of a readability formula</td>
+</tr>
+<tr>
+<td><strong>n-gram</strong></td>
+<td>sözcük dizisi</td>
+<td>A sequence of words, lemmas or part-of-speech tags you give; counted with <code>custom_ngrams</code></td>
 </tr>
 </tbody>
 </table>
-<h2 id="measurement-terms">Measurement terms<a class="headerlink" href="#measurement-terms" title="Permanent link">&para;</a></h2>
+<h2 id="language-processing">Language processing<a class="headerlink" href="#language-processing" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>Term</th>
+<th>Turkish</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>token</strong></td>
+<td>türce</td>
+<td>The smallest unit spaCy splits text into; punctuation is a token of its own. In the type-token ratio, each word instance in a text</td>
+</tr>
+<tr>
+<td><strong>type</strong></td>
+<td>tür</td>
+<td>One of the distinct words in a text; <code>house</code> occurring three times is one type</td>
+</tr>
+<tr>
+<td><strong>type-token ratio (TTR)</strong></td>
+<td>tür/türce oranı</td>
+<td>Number of types ÷ number of tokens</td>
+</tr>
+<tr>
+<td><strong>lemma</strong></td>
+<td>sözlükbirim</td>
+<td>A word's dictionary form; from Zeyrek for Turkish, from spaCy for English</td>
+</tr>
+<tr>
+<td><strong>morpheme</strong></td>
+<td>biçimbirim</td>
+<td>A root or suffix in Zeyrek's analysis</td>
+</tr>
+<tr>
+<td><strong>part of speech</strong></td>
+<td>sözcük türü</td>
+<td>Noun, verb, adjective…</td>
+</tr>
+<tr>
+<td><strong>POS tag</strong></td>
+<td>sözcük türü etiketi</td>
+<td>One of the 17 Universal Dependencies part-of-speech tags (<code>NOUN</code>, <code>VERB</code>, <code>ADJ</code>…)</td>
+</tr>
+<tr>
+<td><strong>dependency</strong></td>
+<td>bağımlılık</td>
+<td>The link the parser draws between two words of a sentence</td>
+</tr>
+<tr>
+<td><strong>parser</strong></td>
+<td>ayrıştırıcı</td>
+<td>The component that derives a sentence's dependency structure (spaCy)</td>
+</tr>
+<tr>
+<td><strong>analyzer</strong></td>
+<td>çözümleyici</td>
+<td>The component that splits a word into morphemes; Zeyrek in this tool</td>
+</tr>
+<tr>
+<td><strong>tagger</strong></td>
+<td>etiketleyici</td>
+<td>The component that gives words their part-of-speech tags (spaCy)</td>
+</tr>
+<tr>
+<td><strong>tokenizer</strong></td>
+<td>türceleyici</td>
+<td>The component that splits text into tokens</td>
+</tr>
+<tr>
+<td><strong>disambiguation</strong></td>
+<td>belirsizlik giderme</td>
+<td>Choosing, from several analyses of a word, the one that fits the context; Zeyrek does not do this</td>
+</tr>
+<tr>
+<td><strong>hash seed</strong></td>
+<td>karma tohumu</td>
+<td>Python's internal number that changes on every run; fixed with <code>PYTHONHASHSEED=0</code></td>
+</tr>
+<tr>
+<td><strong>sentence boundary</strong></td>
+<td>tümce sınırı</td>
+<td>Where a sentence ends; found with the tool's own rule</td>
+</tr>
+<tr>
+<td><strong>content word</strong></td>
+<td>içeriksel sözcük</td>
+<td>A noun, proper noun, verb, adjective or adverb</td>
+</tr>
+<tr>
+<td><strong>phoneme</strong></td>
+<td>sesbirim</td>
+<td>A sound unit that distinguishes meaning; the tool works with letters, not phonemes</td>
+</tr>
+<tr>
+<td><strong>syllable</strong></td>
+<td>seslem</td>
+<td>The unit counted by the readability formulas and the syllable features</td>
+</tr>
+<tr>
+<td><strong>transcription</strong></td>
+<td>çevriyazı</td>
+<td>Writing sounds down in a script such as IPA</td>
+</tr>
+</tbody>
+</table>
+<h2 id="measurement">Measurement<a class="headerlink" href="#measurement" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Turkish</th>
 <th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>word</strong></td>
-<td>A whitespace-separated piece with edge punctuation stripped, containing a letter or digit; the word the library counts</td>
+<td>sözcük</td>
+<td>A whitespace-separated piece with edge punctuation stripped, containing a letter or digit; the word the tool counts</td>
 </tr>
 <tr>
 <td><strong>sentence</strong></td>
+<td>tümce</td>
 <td>A unit ending in <code>. ? ! …</code>; <code>:</code> only when a new sentence follows</td>
 </tr>
 <tr>
-<td><strong>spaCy token</strong></td>
-<td>The unit the model splits text into; punctuation is a token of its own. The dependency features count these</td>
+<td><strong>corpus</strong></td>
+<td>derlem</td>
+<td>Texts analysed together</td>
 </tr>
 <tr>
-<td><strong>lemma</strong></td>
-<td>A word's dictionary form; from Zeyrek for Turkish, from spaCy for English</td>
+<td><strong>measure</strong></td>
+<td>ölçü</td>
+<td>A calculation proposed in the literature (MTLD, the Ateşman formula)</td>
 </tr>
 <tr>
-<td><strong>POS tag</strong></td>
-<td>One of the 17 UD part-of-speech tags (<code>NOUN</code>, <code>VERB</code>, <code>ADJ</code>…)</td>
+<td><strong>lexical diversity</strong></td>
+<td>sözcüksel çeşitlilik</td>
+<td>How many different words a text uses (TTR, MATTR, MTLD)</td>
 </tr>
 <tr>
-<td><strong>n-gram</strong></td>
-<td>A sequence of consecutive words; counted with <code>custom_ngrams</code></td>
+<td><strong>lexical richness</strong></td>
+<td>sözcüksel zenginlik</td>
+<td>The breadth of the vocabulary; covers the diversity and frequency measures</td>
 </tr>
 <tr>
-<td><strong>type</strong></td>
-<td>One of the distinct words in a text</td>
+<td><strong>lexical density</strong></td>
+<td>sözcüksel yoğunluk</td>
+<td>The share of content words among all words</td>
 </tr>
 <tr>
-<td><strong>token</strong></td>
-<td>In the type-token ratio: one of the word instances in a text</td>
+<td><strong>syntactic complexity</strong></td>
+<td>sözdizimsel karmaşıklık</td>
+<td>How complex sentence structure is</td>
 </tr>
 <tr>
-<td><strong>type-token ratio (TTR)</strong></td>
-<td>Number of types ÷ number of tokens</td>
+<td><strong>dependency distance</strong></td>
+<td>bağımlılık uzaklığı</td>
+<td>The difference between the positions of two linked words</td>
+</tr>
+<tr>
+<td><strong>hierarchical distance</strong></td>
+<td>hiyerarşik uzaklık</td>
+<td>A word's distance from the root of the dependency tree</td>
+</tr>
+<tr>
+<td><strong>readability</strong></td>
+<td>okunabilirlik</td>
+<td>How easy or hard a text is to read</td>
+</tr>
+<tr>
+<td><strong>readability formula</strong></td>
+<td>okunabilirlik formülü</td>
+<td>A formula that estimates readability from word and sentence properties</td>
+</tr>
+<tr>
+<td><strong>h-point</strong></td>
+<td>h-noktası</td>
+<td>The point in the rank–frequency distribution where rank equals frequency</td>
+</tr>
+<tr>
+<td><strong>rank–frequency</strong></td>
+<td>sıra–sıklık</td>
+<td>The distribution of words ordered by frequency rank</td>
+</tr>
+<tr>
+<td><strong>thematic concentration</strong></td>
+<td>tematik yoğunlaşma</td>
+<td>How much a text concentrates on a few content words</td>
 </tr>
 <tr>
 <td><strong>hapax legomenon</strong></td>
+<td>hapax</td>
 <td>A word occurring exactly once in the text</td>
 </tr>
 <tr>
 <td><strong>stroke</strong></td>
-<td>Every non-space character — the input to ARI</td>
+<td>vuruş</td>
+<td>Every non-space character (the input to ARI)</td>
 </tr>
 <tr>
 <td><strong>window</strong></td>
-<td>A run of consecutive units measured at a time</td>
+<td>pencere</td>
+<td>A run of consecutive words measured at a time</td>
 </tr>
 <tr>
 <td><strong>threshold</strong></td>
+<td>eşik</td>
 <td>The boundary value that triggers a classification</td>
 </tr>
 <tr>
 <td><strong>percentile</strong></td>
+<td>yüzdelik</td>
 <td>nth percentile: n% of the values are equal to it or smaller</td>
 </tr>
 <tr>
+<td><strong>median</strong></td>
+<td>ortanca</td>
+<td>The middle value of ordered values (the 50th percentile)</td>
+</tr>
+<tr>
 <td><strong>calibration</strong></td>
-<td>Deriving a threshold from data rather than picking it</td>
+<td>kalibrasyon</td>
+<td>Setting a threshold by measuring it in a corpus</td>
+</tr>
+<tr>
+<td><strong>not a number (NaN)</strong></td>
+<td>sayı değil</td>
+<td>"This number cannot be computed for this text"</td>
 </tr>
 </tbody>
 </table>
-<h2 id="verification-terms">Verification terms<a class="headerlink" href="#verification-terms" title="Permanent link">&para;</a></h2>
+<h2 id="verification">Verification<a class="headerlink" href="#verification" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>Term</th>
+<th>Turkish</th>
 <th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>exact</strong></td>
+<td><strong>literature</strong></td>
+<td>alanyazın</td>
+<td>The body of publications on a subject</td>
+</tr>
+<tr>
+<td><strong>literature measure</strong></td>
+<td>alanyazın ölçüsü</td>
+<td>A measure with a name in the literature; it has a citation</td>
+</tr>
+<tr>
+<td><strong>tag ratio</strong></td>
+<td>etiket oranı</td>
+<td>The share of one category of an external tag scheme</td>
+</tr>
+<tr>
+<td><strong>plain definition</strong></td>
+<td>yalın tanım</td>
+<td>A definition without a source</td>
+</tr>
+<tr>
+<td><strong>tool-specific</strong></td>
+<td>araca özgü</td>
+<td>Formula from a source; what it is applied to, from this tool</td>
+</tr>
+<tr>
+<td><strong>calibrated</strong></td>
+<td>kalibre edilmiş</td>
+<td>Threshold from this tool's own calibration</td>
+</tr>
+<tr>
+<td><strong>primary source</strong></td>
+<td>birincil kaynak</td>
+<td>The publication that proposed the measure</td>
+</tr>
+<tr>
+<td><strong>secondary source</strong></td>
+<td>ikincil kaynak</td>
+<td>A source that reports the measure from another publication</td>
+</tr>
+<tr>
+<td><strong>as cited in</strong></td>
+<td>aktaran (akt.)</td>
+<td>The primary source could not be obtained; taken from a secondary one</td>
+</tr>
+<tr>
+<td><strong>comparison</strong></td>
+<td>karşılaştırma</td>
+<td>In the report, pairing a feature with a number its source published</td>
+</tr>
+<tr>
+<td><strong>match</strong></td>
+<td>örtüşen</td>
 <td>Within tolerance of the source's number (✅)</td>
 </tr>
 <tr>
 <td><strong>documented deviation</strong></td>
+<td>belgelenmiş sapma</td>
 <td>A difference whose reason is written down (🟡)</td>
 </tr>
 <tr>
+<td><strong>open</strong></td>
+<td>açık</td>
+<td>No number published by the source has been found yet (🔍)</td>
+</tr>
+<tr>
 <td><strong>mismatch</strong></td>
+<td>uyuşmazlık</td>
 <td>An unexplained difference (❌)</td>
 </tr>
 <tr>
-<td><strong>end-to-end</strong></td>
+<td><strong>relative tolerance</strong></td>
+<td>göreli tolerans</td>
+<td>The allowed difference as a share of the published value (1%)</td>
+</tr>
+<tr>
+<td><strong>end-to-end comparison</strong></td>
+<td>uçtan uca karşılaştırma</td>
 <td>Tested by pushing the source's own text through the pipeline</td>
 </tr>
 <tr>
-<td><strong>formula</strong></td>
-<td>Tested by feeding inputs directly to the function</td>
+<td><strong>formula comparison</strong></td>
+<td>formül karşılaştırması</td>
+<td>Tested by feeding inputs directly to the formula</td>
 </tr>
 <tr>
-<td><strong>as cited in</strong></td>
-<td>The primary source could not be obtained; taken from a secondary</td>
+<td><strong>test dataset</strong></td>
+<td>sınama veri seti</td>
+<td>Texts with known values, prepared to test software (the TOMA dataset)</td>
 </tr>
 <tr>
 <td><strong>release gate</strong></td>
+<td>yayın kapısı</td>
 <td>A condition that blocks a release if unmet</td>
 </tr>
 </tbody>
@@ -2283,10 +2622,10 @@ pages.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
       
     
   </body>

@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 181 from English text">
+        <meta name="description" content="Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative linguistic features from Turkish text and 181 from English text">
       
       
       
@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -31,10 +31,10 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -622,7 +622,7 @@
   <span class="md-ellipsis">
     
   
-    Korpusu CSV'ye çıkar
+    Derlemi CSV'ye çıkar
   
 
     
@@ -767,6 +767,8 @@
       
         
           
+        
+      
         
       
         
@@ -930,6 +932,34 @@
     
   
     Sınırlılıklar
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tr/aciklama/kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formülleri
   
 
     
@@ -1375,6 +1405,8 @@
       
         
       
+        
+      
     
     
     
@@ -1610,6 +1642,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#why-not-zero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why not zero
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#why-nan-and-not-none" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1672,6 +1715,34 @@
     
   
     Limitations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formulas
   
 
     
@@ -2153,6 +2224,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#why-not-zero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why not zero
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#why-nan-and-not-none" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2225,11 +2307,12 @@ being a moving average — hence the <code>2 × window</code> threshold.</p>
 <h3 id="2-the-required-structure-is-absent">2. The required structure is absent<a class="headerlink" href="#2-the-required-structure-is-absent" title="Permanent link">&para;</a></h3>
 <p><code>zeyrek_derivational_suffix_ratio</code> has a zero denominator if the text contains no
 derivational suffixes. <code>parse_depth_mean</code> cannot produce a value if no
-sentence parses. <code>verb_dist_mean</code> cannot be measured unless the text has at least two verbs.
+sentence parses. <code>verb_dist_mean</code> cannot be measured unless the text has at least two verbs. In a text
+with no verbs, the tense and aspect shares of verbs cannot be computed.
 The <code>punct_…_ratio</code> features cannot be computed if the text has no punctuation marks.</p>
 <h3 id="3-an-optional-package-is-missing">3. An optional package is missing<a class="headerlink" href="#3-an-optional-package-is-missing" title="Permanent link">&para;</a></h3>
 <p>Without <code>wordfreq</code>, <code>wordfreq_mean</code> and <code>wordfreq_rare_ratio</code> return <code>nan</code>
-and the library raises a <code>MissingDependencyWarning</code>.</p>
+and the tool raises a <code>MissingDependencyWarning</code>.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 <p><code>warn=False</code> silences the warning only; the feature is still <code>nan</code>. The same
@@ -2238,7 +2321,11 @@ flag also silences <code>ParagraphStructureWarning</code>.</p>
 <p>Paragraph boundaries are found from blank lines. If your text has no blank lines,
 the whole text counts as one paragraph and <code>para_len_mean</code> becomes the word count
 of the entire text: the value is not <code>nan</code>, but it says nothing about paragraphs.
-Details: <a href="../limitations/">limitations §8</a>.</p>
+Details: <a href="../limitations/">Limitations, paragraph features</a>.</p>
+<h2 id="why-not-zero">Why not zero<a class="headerlink" href="#why-not-zero" title="Permanent link">&para;</a></h2>
+<p>A value that cannot be computed is not filled with zero, because zero is a real value: a
+text with no pronouns has a pronoun share of 0, and that tells you something about the
+text. Showing an uncomputable value as zero would mix the two cases up.</p>
 <h2 id="why-nan-and-not-none">Why <code>nan</code> and not <code>None</code><a class="headerlink" href="#why-nan-and-not-none" title="Permanent link">&para;</a></h2>
 <p><code>nan</code> is a <code>float</code>. That means every value in the returned dictionary has
 the same type, and the table goes straight into <code>pandas</code>, <code>numpy</code>, R or
@@ -2303,10 +2390,10 @@ in a CSV an empty cell becomes hard to distinguish from a real zero.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.c21346df.min.js"></script>
       
     
   </body>

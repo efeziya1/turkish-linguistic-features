@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 181 from English text">
+        <meta name="description" content="Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative linguistic features from Turkish text and 181 from English text">
       
       
       
@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -31,10 +31,10 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -622,7 +622,7 @@
   <span class="md-ellipsis">
     
   
-    Korpusu CSV'ye çıkar
+    Derlemi CSV'ye çıkar
   
 
     
@@ -767,6 +767,8 @@
       
         
           
+        
+      
         
       
         
@@ -930,6 +932,34 @@
     
   
     Sınırlılıklar
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tr/aciklama/kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formülleri
   
 
     
@@ -1407,6 +1437,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#constants-taken-from-sources-were-not-tested-on-turkish" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constants taken from sources were not tested on Turkish
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#the-sentence-thresholds-resolve-per-language" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1467,6 +1508,8 @@
       
         
           
+        
+      
         
       
         
@@ -1633,6 +1676,34 @@
     
   
     Limitations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../explanation/kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formulas
   
 
     
@@ -2053,6 +2124,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#constants-taken-from-sources-were-not-tested-on-turkish" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constants taken from sources were not tested on Turkish
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#the-sentence-thresholds-resolve-per-language" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2106,7 +2188,8 @@
 
 
 <h1 id="change-the-thresholds">Change the thresholds<a class="headerlink" href="#change-the-thresholds" title="Permanent link">&para;</a></h1>
-<p>Window sizes, thresholds and sample counts live in <code>FeatureParams</code>.</p>
+<p>Window sizes, thresholds and sample counts live in <code>FeatureParams</code>. These are the
+parameters; the tool has 21, and you can change all of them.</p>
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
@@ -2189,13 +2272,8 @@ sentences is over 12 words; none is over 17.</p>
 <td><code>vocd_d</code></td>
 </tr>
 <tr>
-<td><code>heaps_min_tokens</code></td>
-<td>300</td>
-<td><code>heaps_beta</code></td>
-</tr>
-<tr>
-<td><code>heaps_step</code></td>
-<td>50</td>
+<td><code>heaps_points</code></td>
+<td>20</td>
 <td><code>heaps_beta</code></td>
 </tr>
 <tr>
@@ -2204,9 +2282,29 @@ sentences is over 12 words; none is over 17.</p>
 <td><code>brunet_w</code></td>
 </tr>
 <tr>
+<td><code>brunet_w_b</code></td>
+<td>20</td>
+<td><code>brunet_w</code></td>
+</tr>
+<tr>
 <td><code>verb_suffix_window</code></td>
-<td>50</td>
+<td>10</td>
 <td><code>zeyrek_verb_suffix_diversity</code></td>
+</tr>
+<tr>
+<td><code>verb_suffix_num_samples</code></td>
+<td>100</td>
+<td><code>zeyrek_verb_suffix_diversity</code></td>
+</tr>
+<tr>
+<td><code>verb_suffix_random_seed</code></td>
+<td>42</td>
+<td><code>zeyrek_verb_suffix_diversity</code></td>
+</tr>
+<tr>
+<td><code>kalyoncu_ttr_window</code></td>
+<td>500</td>
+<td><code>kalyoncu_ttr</code>, <code>kalyoncu_k1</code>–<code>kalyoncu_k3</code></td>
 </tr>
 <tr>
 <td><code>short_sent_threshold</code></td>
@@ -2225,10 +2323,27 @@ sentences is over 12 words; none is over 17.</p>
 </tr>
 </tbody>
 </table>
+<p><code>zeyrek_verb_suffix_diversity</code> draws 100 random samples from the text's verbs; each sample
+has 10 verbs, with no verb repeated within a sample. The result is the mean number of
+distinct suffix types seen in the samples (Brezina &amp; Pallotti 2019, pp.107-108: MC10). The
+tool measures only the within-sample variety; MC10's between-sample component is left
+out, so the measure is close to MC10a.</p>
+<h2 id="constants-taken-from-sources-were-not-tested-on-turkish">Constants taken from sources were not tested on Turkish<a class="headerlink" href="#constants-taken-from-sources-were-not-tested-on-turkish" title="Permanent link">&para;</a></h2>
+<p>Some values in the table are the source's own constants: MTLD's 0.72 threshold
+(McCarthy &amp; Jarvis 2010, p.385), HD-D's 42-word sample (p.383) and the 0.172 of Brunet's
+measure (Brunet 1978, p.49). These numbers were set on English or French texts and have
+not been tested on Turkish texts. It cannot be said that they do not carry over to Turkish,
+but it has not been shown that they do.</p>
+<p>For readability formulas, how this problem is handled is known: Ateşman (1997,
+pp.73–74) kept the structure of the Flesch formula when applying it to Turkish and
+recomputed its coefficients from Turkish texts. In this tool, the sentence thresholds were
+likewise measured separately for each language (below). To try a constant on your own
+corpus, change it with the fields above.</p>
 <h2 id="the-sentence-thresholds-resolve-per-language">The sentence thresholds resolve per language<a class="headerlink" href="#the-sentence-thresholds-resolve-per-language" title="Permanent link">&para;</a></h2>
 <p>These are the only two fields in the table without a single value. The reason
 is typological: Turkish sentences are shorter than English ones, so one
-threshold cannot serve both.</p>
+threshold cannot serve both. The Turkish long-sentence threshold of 17 words counts 54% of
+sentences in English columns as long; in its own language the share is 15%.</p>
 <table>
 <thead>
 <tr>
@@ -2252,7 +2367,7 @@ threshold cannot serve both.</p>
 </table>
 <p>They were derived from the 15th and 85th percentiles of the sentence-length
 distribution in newspaper columns, measured with the default sentence rule and
-the default word (Turkish: 197,990 sentences; English: 52,745 sentences). Method:
+the default word (Turkish: 198,225 sentences; English: 52,745 sentences). Method:
 <a href="../../../threshold-calibration/">Threshold calibration</a>.</p>
 <h2 id="which-feature-depends-on-which-parameter">Which feature depends on which parameter<a class="headerlink" href="#which-feature-depends-on-which-parameter" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"mattr"</span><span class="p">)[</span><span class="s2">"params"</span><span class="p">]</span>
@@ -2327,10 +2442,10 @@ words could produce a value at all.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.c21346df.min.js"></script>
       
     
   </body>

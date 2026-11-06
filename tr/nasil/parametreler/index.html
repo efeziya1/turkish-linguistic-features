@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 181 from English text">
+        <meta name="description" content="Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative linguistic features from Turkish text and 181 from English text">
       
       
       
@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -31,10 +31,10 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -632,7 +632,7 @@
   <span class="md-ellipsis">
     
   
-    Korpusu CSV'ye çıkar
+    Derlemi CSV'ye çıkar
   
 
     
@@ -819,6 +819,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#kaynaktan-alnan-sabitler-turkcede-snanmad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kaynaktan alınan sabitler Türkçede sınanmadı
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tumce-esikleri-dile-gore-uygulanr" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -879,6 +890,8 @@
       
         
           
+        
+      
         
       
         
@@ -1045,6 +1058,34 @@
     
   
     Sınırlılıklar
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../aciklama/kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formülleri
   
 
     
@@ -1480,6 +1521,8 @@
       
         
       
+        
+      
     
     
     
@@ -1633,6 +1676,34 @@
     
   
     Limitations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../en/explanation/kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formulas
   
 
     
@@ -2053,6 +2124,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#kaynaktan-alnan-sabitler-turkcede-snanmad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kaynaktan alınan sabitler Türkçede sınanmadı
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tumce-esikleri-dile-gore-uygulanr" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2106,7 +2188,9 @@
 
 
 <h1 id="esikleri-degistir">Eşikleri değiştir<a class="headerlink" href="#esikleri-degistir" title="Permanent link">&para;</a></h1>
-<p>Pencere boyları, eşikler ve örneklem sayıları <code>FeatureParams</code> içinde durur.</p>
+<p>Pencere boyları, eşikler (İng. <em>thresholds</em>) ve örneklem sayıları <code>FeatureParams</code> içinde
+durur. Bunlara parametre (İng. <em>parameter</em>) denir; araçta 21 parametre var ve hepsini
+değiştirebilirsiniz.</p>
 <h2 id="kullanm">Kullanım<a class="headerlink" href="#kullanm" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
@@ -2189,13 +2273,8 @@ değeridir — <a href="#tumce-esikleri-dile-gore-uygulanr">aşağıda</a>.</p>
 <td><code>vocd_d</code></td>
 </tr>
 <tr>
-<td><code>heaps_min_tokens</code></td>
-<td>300</td>
-<td><code>heaps_beta</code></td>
-</tr>
-<tr>
-<td><code>heaps_step</code></td>
-<td>50</td>
+<td><code>heaps_points</code></td>
+<td>20</td>
 <td><code>heaps_beta</code></td>
 </tr>
 <tr>
@@ -2204,9 +2283,29 @@ değeridir — <a href="#tumce-esikleri-dile-gore-uygulanr">aşağıda</a>.</p>
 <td><code>brunet_w</code></td>
 </tr>
 <tr>
+<td><code>brunet_w_b</code></td>
+<td>20</td>
+<td><code>brunet_w</code></td>
+</tr>
+<tr>
 <td><code>verb_suffix_window</code></td>
-<td>50</td>
+<td>10</td>
 <td><code>zeyrek_verb_suffix_diversity</code></td>
+</tr>
+<tr>
+<td><code>verb_suffix_num_samples</code></td>
+<td>100</td>
+<td><code>zeyrek_verb_suffix_diversity</code></td>
+</tr>
+<tr>
+<td><code>verb_suffix_random_seed</code></td>
+<td>42</td>
+<td><code>zeyrek_verb_suffix_diversity</code></td>
+</tr>
+<tr>
+<td><code>kalyoncu_ttr_window</code></td>
+<td>500</td>
+<td><code>kalyoncu_ttr</code>, <code>kalyoncu_k1</code>–<code>kalyoncu_k3</code></td>
 </tr>
 <tr>
 <td><code>short_sent_threshold</code></td>
@@ -2225,9 +2324,26 @@ değeridir — <a href="#tumce-esikleri-dile-gore-uygulanr">aşağıda</a>.</p>
 </tr>
 </tbody>
 </table>
+<p><code>zeyrek_verb_suffix_diversity</code> metnin eylemlerinden 100 rastgele örneklem çeker; her örneklem
+10 eylemdir, örneklem içinde eylem tekrarlanmaz. Sonuç, örneklemlerde görünen farklı ek
+türü sayısının ortalamasıdır (Brezina ve Pallotti 2019, s.107-108: MC10). Araç yalnız
+örneklem içi çeşitliliği ölçer; MC10'un örneklemler arası bileşeni yoktur, ölçü MC10a'ya
+yakındır.</p>
+<h2 id="kaynaktan-alnan-sabitler-turkcede-snanmad">Kaynaktan alınan sabitler Türkçede sınanmadı<a class="headerlink" href="#kaynaktan-alnan-sabitler-turkcede-snanmad" title="Permanent link">&para;</a></h2>
+<p>Tablodaki bazı değerler kaynağın kendi sabitidir (İng. <em>constant</em>): MTLD'nin 0,72 eşiği
+(McCarthy ve Jarvis 2010, s.385), HD-D'nin 42 sözcüklük örneklemi (s.383) ve Brunet
+ölçüsünün 0,172 değeri (Brunet 1978, s.49). Bu sayılar İngilizce ya da Fransızca metinlerle
+belirlenmiştir ve Türkçe metinlerle sınanmamıştır. Türkçeye aktarılamayacakları
+söylenemez, ama aktarılabildikleri de gösterilmemiştir.</p>
+<p>Okunabilirlik formüllerinde bu sorunun nasıl çözüldüğü bilinir: Ateşman (1997, s.73–74)
+Flesch formülünü Türkçeye uygularken yapısını korumuş, katsayılarını Türkçe metinlerden
+yeniden hesaplamıştır. Araçta da tümce eşikleri iki dil için ayrı ölçülmüştür (aşağıda).
+Kendi derleminizde bir sabiti denemek isterseniz yukarıdaki alanlarla değiştirebilirsiniz.</p>
 <h2 id="tumce-esikleri-dile-gore-uygulanr">Tümce eşikleri dile göre uygulanır<a class="headerlink" href="#tumce-esikleri-dile-gore-uygulanr" title="Permanent link">&para;</a></h2>
 <p>Tablodaki tek sayı olmayan iki alan bunlar. Sebep tipolojik: Türkçe tümceler
-İngilizce tümcelerden kısa, aynı eşik iki dile uymuyor.</p>
+İngilizce tümcelerden kısa, aynı eşik iki dile uymuyor. Türkçenin 17 sözcüklük uzun tümce
+eşiği İngilizce köşe yazılarında tümcelerin %54'ünü "uzun" sayar; kendi dilinde bu pay
+%15'tir.</p>
 <table>
 <thead>
 <tr>
@@ -2250,8 +2366,8 @@ değeridir — <a href="#tumce-esikleri-dile-gore-uygulanr">aşağıda</a>.</p>
 </tbody>
 </table>
 <p>Değerler gazete köşe yazılarında, varsayılan tümce kuralı ve varsayılan
-sözcükle ölçülen tümce uzunluğu dağılımının 15. ve 85. yüzdeliğinden
-türetildi (TR: 197.990 tümce; EN: 52.745 tümce). Yöntem: <a href="../../../esik-kalibrasyonu/">Eşik kalibrasyonu</a>.</p>
+sözcükle ölçülen tümce uzunluğu dağılımının 15. ve 85. yüzdeliğinden (İng. <em>percentile</em>)
+türetildi (TR: 198.225 tümce; EN: 52.745 tümce). Yöntem: <a href="../../../esik-kalibrasyonu/">Eşik kalibrasyonu</a>.</p>
 <h2 id="hangi-oznitelik-hangi-parametreden-etkilenir">Hangi öznitelik hangi parametreden etkilenir<a class="headerlink" href="#hangi-oznitelik-hangi-parametreden-etkilenir" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"mattr"</span><span class="p">)[</span><span class="s2">"params"</span><span class="p">]</span>
 </code></pre></div>
@@ -2259,7 +2375,7 @@ türetildi (TR: 197.990 tümce; EN: 52.745 tümce). Yöntem: <a href="../../../e
 </code></pre></div>
 <p>Boş demet <code>()</code> dönerse o öznitelik hiçbir parametreye bağlı değildir.</p>
 <h2 id="mattr_window-neden-50"><code>mattr_window</code> neden 50<a class="headerlink" href="#mattr_window-neden-50" title="Permanent link">&para;</a></h2>
-<p>Covington &amp; McFall (2010) üslup analizi için <strong>500</strong> öneriyor. Kütüphanenin
+<p>Covington &amp; McFall (2010) üslup analizi için <strong>500</strong> öneriyor. Aracın
 varsayılanı 50 — onda biri, çünkü pencere boyu aynı zamanda <strong>alt sınırdır</strong>:
 <code>mattr</code> en az <code>2 × window</code> sözcük ister. 500 olsaydı 1000 sözcükten kısa hiçbir
 metin sayı üretemezdi.</p>
@@ -2325,10 +2441,10 @@ metin sayı üretemezdi.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.c21346df.min.js"></script>
       
     
   </body>

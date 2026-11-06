@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 181 from English text">
+        <meta name="description" content="Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative linguistic features from Turkish text and 181 from English text">
       
       
       
@@ -23,18 +23,18 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
-        <title>Türkçe dokümantasyon - turkish-linguistic-features</title>
+        <title>Türkçe belgeler - turkish-linguistic-features</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#turkce-dokumantasyon" class="md-skip">
+        <a href="#turkce-belgeler" class="md-skip">
           Ana içeriğe geç
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Türkçe dokümantasyon
+              Türkçe belgeler
             
           </span>
         </div>
@@ -630,7 +630,7 @@
   <span class="md-ellipsis">
     
   
-    Korpusu CSV'ye çıkar
+    Derlemi CSV'ye çıkar
   
 
     
@@ -775,6 +775,8 @@
       
         
           
+        
+      
         
       
         
@@ -941,6 +943,34 @@
     
   
     Sınırlılıklar
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="aciklama/kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formülleri
   
 
     
@@ -1376,6 +1406,8 @@
       
         
       
+        
+      
     
     
     
@@ -1529,6 +1561,34 @@
     
   
     Limitations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../en/explanation/kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formulas
   
 
     
@@ -1968,7 +2028,7 @@
   
 
 
-<h1 id="turkce-dokumantasyon">Türkçe dokümantasyon<a class="headerlink" href="#turkce-dokumantasyon" title="Permanent link">&para;</a></h1>
+<h1 id="turkce-belgeler">Türkçe belgeler<a class="headerlink" href="#turkce-belgeler" title="Permanent link">&para;</a></h1>
 <p>Bu bölüm dört parçaya ayrılır. Hangisine gideceğiniz, şu an ne yapmak
 istediğinize bağlı.</p>
 <table>
@@ -1980,7 +2040,7 @@ istediğinize bağlı.</p>
 </thead>
 <tbody>
 <tr>
-<td>Kütüphaneyi hiç kullanmadım, baştan sona anlatın</td>
+<td>Aracı hiç kullanmadım, baştan sona anlatın</td>
 <td><strong><a href="baslangic/">Öğretici</a></strong></td>
 </tr>
 <tr>
@@ -2006,10 +2066,10 @@ istediğinize bağlı.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="s2">"Renksiz yeşil fikirler öfkeyle uyur."</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nb">len</span><span class="p">(</span><span class="n">oz</span><span class="p">)</span>               <span class="c1"># 208</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nb">len</span><span class="p">(</span><span class="n">oz</span><span class="p">)</span>               <span class="c1"># 214</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">oz</span><span class="p">[</span><span class="s2">"word_len_mean"</span><span class="p">]</span>   <span class="c1"># 6.2</span>
 </code></pre></div>
-<p>Kütüphanenin <strong>on bir</strong> genel adı var, hepsi bu kadar:</p>
+<p>Aracın Python'dan çağrılan <strong>on bir</strong> adı var, hepsi bu kadar:</p>
 <table>
 <thead>
 <tr>
@@ -2020,7 +2080,7 @@ istediğinize bağlı.</p>
 <tbody>
 <tr>
 <td><code>analyze</code></td>
-<td>Bir metinden bütün öznitelikleri çıkarır</td>
+<td>Bir metinden bütün öznitelikleri (İng. <em>features</em>) çıkarır</td>
 </tr>
 <tr>
 <td><code>analyze_corpus</code></td>
@@ -2028,11 +2088,11 @@ istediğinize bağlı.</p>
 </tr>
 <tr>
 <td><code>ngram_matches</code></td>
-<td>Verdiğiniz bir sözcük ya da POS etiketi dizisinin (<code>["ADJ", "NOUN"]</code> gibi) metinde neyle eşleştiğini, sıklıklarıyla gösterir</td>
+<td>Verdiğiniz bir sözcük dizisinin (İng. <em>n-gram</em>) metinde neyle eşleştiğini, sıklıklarıyla gösterir; dizi sözcüklerden, sözlükbirimlerden ya da sözcük türü etiketlerinden (<code>["EV", "VERB"]</code>, <code>["ADJ", "NOUN"]</code> gibi) oluşabilir</td>
 </tr>
 <tr>
 <td><code>segment_text</code></td>
-<td>Metni sabit büyüklükte parçalara böler</td>
+<td>Metni eşit büyüklükte parçalara böler</td>
 </tr>
 <tr>
 <td><code>save_csv</code></td>
@@ -2048,11 +2108,11 @@ istediğinize bağlı.</p>
 </tr>
 <tr>
 <td><code>LinguisticFeaturesError</code></td>
-<td>Kütüphanenin kendi hatalarının atası</td>
+<td>Aracın kendi hatalarının atası</td>
 </tr>
 <tr>
 <td><code>ModelNotFoundError</code></td>
-<td>Gereken dil verisi kurulu değilse: spaCy modeli ya da İngilizce hece sayımı için NLTK <code>cmudict</code></td>
+<td>Gereken dil verisi kurulu değilse: spaCy modeli ya da İngilizce seslem sayımı için NLTK <code>cmudict</code></td>
 </tr>
 <tr>
 <td><code>MissingDependencyWarning</code></td>
@@ -2064,11 +2124,12 @@ istediğinize bağlı.</p>
 </tr>
 </tbody>
 </table>
-<p>Bütün öznitelikler, <code>custom_ngrams</code> ile saydığınız öbekler de dahil,
+<p>Bütün öznitelikler, <code>custom_ngrams</code> ile saydığınız sözcük dizileri de dahil,
 <code>analyze</code>'dan çıkar.</p>
 <h2 id="terimler">Terimler<a class="headerlink" href="#terimler" title="Permanent link">&para;</a></h2>
-<p>Doküman boyunca sabit karşılıklar kullanılıyor. Emin olmadığınız bir sözcük
-görürseniz: <strong><a href="sozluk/">terim sözlüğü</a></strong>.</p>
+<p>Belgelerdeki terimler, aracın anlatıldığı tezdeki terimlerle aynıdır. Bir terim bir sayfada
+ilk geçtiğinde İngilizcesi yanında verilir: türce (İng. <em>token</em>), derlem (İng. <em>corpus</em>).
+Hepsi tek yerde: <strong><a href="sozluk/">terim sözlüğü</a></strong>.</p>
 
 
 
@@ -2128,10 +2189,10 @@ görürseniz: <strong><a href="sozluk/">terim sözlüğü</a></strong>.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
       
     
   </body>

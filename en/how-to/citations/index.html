@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 181 from English text">
+        <meta name="description" content="Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative linguistic features from Turkish text and 181 from English text">
       
       
       
@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -31,10 +31,10 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -622,7 +622,7 @@
   <span class="md-ellipsis">
     
   
-    Korpusu CSV'ye çıkar
+    Derlemi CSV'ye çıkar
   
 
     
@@ -767,6 +767,8 @@
       
         
           
+        
+      
         
       
         
@@ -930,6 +932,34 @@
     
   
     Sınırlılıklar
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tr/aciklama/kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formülleri
   
 
     
@@ -1488,6 +1518,8 @@
       
         
       
+        
+      
     
     
     
@@ -1644,6 +1676,34 @@
     
   
     Limitations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../explanation/kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formulas
   
 
     
@@ -2139,12 +2199,12 @@ came from. The library hands you that.</p>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a> 'description': 'moving-average TTR',
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a> 'formula': 'mean TTR of every sliding window of mattr_window words',
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a> 'scale': 'ratio_0_1',
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a> 'inputs': ('raw_text', 'surface_tokens', 'lemma_tokens', 'pos_data'),
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a> 'inputs': ('raw_text',),
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a> 'params': ('mattr_window',),
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a> 'requires': 'at least 100 words (2 x mattr_window)',
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a> 'citation': 'Covington &amp; McFall (2010); default window 50 — C&amp;M recommend a window of '
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>             '500; 50 is used here so that texts of 100+ words can be measured (mattr '
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>             'needs 2 × window)',
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>             '500 (p.97); 50 is used here so that texts of 100+ words can be measured '
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>             '(mattr needs 2 × window)',
 <a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a> 'references': ('Covington, M. A., &amp; McFall, J. D. (2010). Cutting the Gordian knot: '
 <a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>                'The moving-average type–token ratio (MATTR). Journal of Quantitative '
 <a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>                'Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098',),
@@ -2210,18 +2270,22 @@ came from. The library hands you that.</p>
 <h2 id="the-citation-also-tells-you-what-we-do-not-know">The citation also tells you what we do not know<a class="headerlink" href="#the-citation-also-tells-you-what-we-do-not-know" title="Permanent link">&para;</a></h2>
 <p>In the example above the citation says:</p>
 <blockquote>
-<p>default window 50 — C&amp;M recommend a window of 500; 50 is used here so
+<p>default window 50 — C&amp;M recommend a window of 500 (p.97); 50 is used here so
 that texts of 100+ words can be measured (mattr needs 2 × window)</p>
 </blockquote>
 <p>That is: the method is Covington &amp; McFall's, <strong>but the default window size
 is not theirs.</strong> Being able to read that distinction off the citation is
 deliberate.</p>
+<p>A citation gives not only the source but <strong>where</strong> in it the formula is: 179 of the 203
+Turkish citations give a page, table, equation or section number (<code>p.97</code>, <code>eq. (5)</code>). So
+you can find the formula in its source and compare it with the tool's implementation.</p>
 <p>Other forms of the same pattern:</p>
 <ul>
 <li><code>"Herdan (1960/1964), as cited in Tweedie &amp; Baayen (1998) p.327, eq. (5)"</code>
   — <strong>the primary source could not be obtained</strong>; the formula was taken
-  from the citing work. <strong>15</strong> citations are like this, and all of them
-  carry <code>as cited in</code>.</li>
+  from the citing work. <strong>13</strong> citations are like this across both languages (12 in
+  Turkish; the thirteenth is LIX, computed for English only), and all of them carry
+  <code>as cited in</code>.</li>
 <li><code>"McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form
   of SMOG's input, not the source's own measure"</code> — derived from the
   source, but not a measure the source itself defines.</li>
@@ -2232,13 +2296,13 @@ deliberate.</p>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>(None, ())
 </code></pre></div>
-<p>A <code>citation</code> of <code>None</code> means the key is <strong>not a named measure from the
-literature</strong>; it is a plain definition: <code>punct_dash_ratio</code> ("dashes / all punctuation marks"),
+<p>A <code>citation</code> of <code>None</code> means the key is <strong>not a literature
+measure</strong>; it is a plain definition: <code>punct_dash_ratio</code> ("dashes / all punctuation marks"),
 <code>uppercase_ratio</code> ("share of words that start with a capital"),
 <code>lemma_count</code> ("number of distinct lemmas"). Keys that count the categories of an external tag scheme do
 have a citation, pointing at the scheme (<code>case_loc_ratio</code> → UD;
 <code>zeyrek_case_loc_ratio</code> → Zeyrek).</p>
-<p><strong>11 of the 208</strong> Turkish keys have no citation.</p>
+<p><strong>11 of the 214</strong> Turkish keys have no citation.</p>
 <h2 id="building-a-bibliography-for-your-methods-section">Building a bibliography for your methods section<a class="headerlink" href="#building-a-bibliography-for-your-methods-section" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">used</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"mattr"</span><span class="p">,</span> <span class="s2">"flesch_reading_ease"</span><span class="p">,</span> <span class="s2">"sent_len_mean"</span><span class="p">]</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
@@ -2250,7 +2314,7 @@ have a citation, pointing at the scheme (<code>case_loc_ratio</code> → UD;
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
 </code></pre></div>
 <p>This gives you the bibliography for the features <strong>you actually used</strong>, not
-all 56 works.</p>
+all 58 works.</p>
 <h2 id="does-the-number-actually-match">Does the number actually match?<a class="headerlink" href="#does-the-number-actually-match" title="Permanent link">&para;</a></h2>
 <p>The citation tells you the source; it does not tell you the number
 <strong>agrees</strong>. There is a separate document for that:</p>
@@ -2318,10 +2382,10 @@ all 56 works.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.c21346df.min.js"></script>
       
     
   </body>

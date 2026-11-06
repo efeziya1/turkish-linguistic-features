@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 181 from English text">
+        <meta name="description" content="Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative linguistic features from Turkish text and 181 from English text">
       
       
       
@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -31,10 +31,10 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -622,7 +622,7 @@
   <span class="md-ellipsis">
     
   
-    Korpusu CSV'ye çıkar
+    Derlemi CSV'ye çıkar
   
 
     
@@ -767,6 +767,8 @@
       
         
           
+        
+      
         
       
         
@@ -930,6 +932,34 @@
     
   
     Sınırlılıklar
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tr/aciklama/kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formülleri
   
 
     
@@ -1286,6 +1316,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Count your own phrases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-an-item-matches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What an item matches
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1510,6 +1557,8 @@
       
         
       
+        
+      
     
     
     
@@ -1666,6 +1715,34 @@
     
   
     Limitations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../explanation/kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formulas
   
 
     
@@ -2105,6 +2182,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Count your own phrases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-an-item-matches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What an item matches
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2183,10 +2277,10 @@ number.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">tr</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">tr_text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">en</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">en_text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nb">len</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span>   <span class="c1"># 208</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nb">len</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span>   <span class="c1"># 214</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nb">len</span><span class="p">(</span><span class="n">en</span><span class="p">)</span>   <span class="c1"># 181</span>
 </code></pre></div>
-<p>The 27-feature difference breaks down as:</p>
+<p>The 33-feature difference breaks down as:</p>
 <ul>
 <li><strong>+23</strong> Zeyrek suffix analysis: the <code>morphological_zeyrek</code> group (suffix
   chain, case markers, mood and tense; every key starts with <code>zeyrek_</code>) —
@@ -2195,18 +2289,23 @@ number.</p>
   a property of Turkish; not produced for English.</li>
 <li><strong>+3</strong> letters: the Turkish alphabet has 29, English 26 (<code>ç ğ ı ö ş ü</code>
   only in Turkish, <code>q w x</code> only in English).</li>
-<li><strong>−1</strong> readability: 3 Turkish-only features (the Ateşman, Çetinkaya-Uzun and
-  Bezirci-Yılmaz formulas), 4 English-only features (the Flesch, Flesch-Kincaid
-  and SMOG formulas and the polysyllabic word ratio); the shared ones exist in
-  both.</li>
+<li><strong>+5</strong> readability: 12 Turkish-only features (the Ateşman, Çetinkaya-Uzun and
+  Bezirci-Yılmaz formulas; <a href="../../explanation/kalyoncu/">Kalyoncu's</a> four formulas and five
+  components), 7 English-only features (the Flesch, Flesch-Kincaid,
+  SMOG, ARI, Coleman-Liau and LIX formulas and the polysyllabic word ratio); the
+  shared <code>long_word_ratio</code> exists in both.</li>
 </ul>
-<p>The <code>phonetic</code> group has 14 features in Turkish and 12 in English.</p>
+<p>A readability formula is computed only in the language it was built for. A formula's
+coefficients are set from texts in its own language; Ateşman (1997) likewise recomputed
+the coefficients of the Flesch formula from Turkish texts when applying it to Turkish. So
+Flesch is not given for Turkish text, nor Ateşman for English text.</p>
+<p>The <code>phonological</code> group has 14 features in Turkish and 12 in English.</p>
 <p><code>lang</code> accepts only <code>"tr"</code> and <code>"en"</code>. Anything else raises <code>ValueError</code>.</p>
 <h2 id="ask-for-specific-groups">Ask for specific groups<a class="headerlink" href="#ask-for-specific-groups" title="Permanent link">&para;</a></h2>
-<p>If you do not need all 208 features, pick groups; the output then carries
+<p>If you do not need all 214 features, pick groups; the output then carries
 only those groups' keys:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="s2">"readability"</span><span class="p">,</span> <span class="s2">"lexical"</span><span class="p">])</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">len</span><span class="p">(</span><span class="n">oz</span><span class="p">)</span>     <span class="c1"># 45</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">len</span><span class="p">(</span><span class="n">oz</span><span class="p">)</span>     <span class="c1"># 48</span>
 </code></pre></div>
 <p>Picking groups saves little time. Most of it goes to the spaCy and Zeyrek
 preprocessing, which runs once whatever you ask for; groups only shorten the
@@ -2217,78 +2316,88 @@ calculation after it. On a 1000-word text all groups take about 1.1 seconds,
 <thead>
 <tr>
 <th>Group</th>
-<th>Features</th>
+<th>Name</th>
 <th>Contents</th>
+<th>Features</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>lexical</code></td>
-<td>38</td>
-<td>Lexical richness, frequency</td>
+<td>Lexical richness &amp; frequency</td>
+<td>lexical diversity, word frequency and lexical density</td>
+<td>35</td>
 </tr>
 <tr>
 <td><code>chars</code></td>
+<td>Character frequencies</td>
+<td>the share of each letter</td>
 <td>29</td>
-<td>Letter frequency vector: one key per letter of the Turkish alphabet (26 in English; <code>q</code>, <code>w</code>, <code>x</code> only there)</td>
 </tr>
 <tr>
 <td><code>morphological_zeyrek</code></td>
+<td>Morphological features (Zeyrek)</td>
+<td>ratios from morpheme analysis</td>
 <td>23</td>
-<td>Zeyrek suffix analysis (Turkish only)</td>
-</tr>
-<tr>
-<td><code>morphological</code></td>
-<td>19</td>
-<td>UD morphological features</td>
 </tr>
 <tr>
 <td><code>punctuation</code></td>
+<td>Punctuation &amp; orthography</td>
+<td>punctuation, capitals, digits</td>
 <td>20</td>
-<td>Each mark type's share, punctuation density, capitalisation</td>
 </tr>
 <tr>
-<td><code>syntactic_dep</code></td>
-<td>16</td>
-<td>Dependency parse</td>
-</tr>
-<tr>
-<td><code>phonetic</code></td>
-<td>14</td>
-<td>Syllables, vowels, sound patterns</td>
+<td><code>morphological</code></td>
+<td>Morphological features (spaCy)</td>
+<td>case, tense, person, aspect, voice</td>
+<td>19</td>
 </tr>
 <tr>
 <td><code>frequency_structure</code></td>
-<td>13</td>
-<td>Zipf, h-point, thematic concentration</td>
+<td>Frequency structure</td>
+<td>frequency-structure measures based on the h-point and Zipf's law</td>
+<td>17</td>
 </tr>
 <tr>
 <td><code>pos</code></td>
-<td>12</td>
-<td>Part-of-speech shares</td>
+<td>Parts of speech</td>
+<td>part-of-speech shares and variation</td>
+<td>17</td>
 </tr>
 <tr>
 <td><code>syntactic</code></td>
-<td>7</td>
-<td>Sentence structure</td>
+<td>Syntactic features</td>
+<td>dependency distance, hierarchical distance, part of speech of the sentence-final word</td>
+<td>16</td>
 </tr>
 <tr>
-<td><code>sentence</code></td>
-<td>7</td>
-<td>Sentence-length distribution</td>
+<td><code>phonological</code></td>
+<td>Phonological features</td>
+<td>vowel distribution, vowel harmony, syllable count</td>
+<td>14</td>
 </tr>
 <tr>
 <td><code>readability</code></td>
-<td>7</td>
-<td>Readability formulas</td>
+<td>Readability</td>
+<td>readability formulas and their components</td>
+<td>13</td>
+</tr>
+<tr>
+<td><code>sentence</code></td>
+<td>Sentence features</td>
+<td>sentence count, length and question share</td>
+<td>8</td>
 </tr>
 <tr>
 <td><code>paragraph</code></td>
-<td>3</td>
 <td>Paragraph structure</td>
+<td>paragraph count and length</td>
+<td>3</td>
 </tr>
 </tbody>
 </table>
+<p><code>chars</code> counts letters only: one key per letter of the Turkish alphabet (26 in English;
+<code>q</code>, <code>w</code>, <code>x</code> only there). <code>morphological_zeyrek</code> is produced for Turkish only.</p>
 <p><code>describe_feature(key)["group"]</code> tells you where a given feature lives.</p>
 <h2 id="count-your-own-phrases">Count your own phrases<a class="headerlink" href="#count-your-own-phrases" title="Permanent link">&para;</a></h2>
 <p>If you are after a pattern the built-in features do not cover, pass it as
@@ -2299,22 +2408,66 @@ calculation after it. On a 1000-word text all groups take about 1.1 seconds,
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">oz</span><span class="p">[</span><span class="s2">"ngram_yet_nobody_count"</span><span class="p">]</span>   <span class="c1"># 1.0</span>
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">oz</span><span class="p">[</span><span class="s2">"ngram_ADJ_NOUN_count"</span><span class="p">]</span>     <span class="c1"># 4.0</span>
 </code></pre></div>
-<p>Each phrase becomes one key; its value is the number of matches in the text.</p>
-<ul>
-<li>Words are compared lowercased. The written form is matched, not the lemma:
-  <code>old houses</code> would not match <code>old house</code>.</li>
-<li>An UPPERCASE UD part-of-speech tag (<code>NOUN</code>, <code>VERB</code>, <code>ADJ</code>…) matches any
-  word carrying that tag. <code>["ADJ", "NOUN"]</code> means an adjective followed
-  directly by a noun.</li>
-<li>A match never crosses a sentence boundary: <code>down. A</code> is not adjacent.</li>
-<li>The value is a plain count. To compare texts of different lengths, divide
-  by <code>word_count</code> (<code>oz["ngram_ADJ_NOUN_count"] / oz["word_count"]</code>) or bring
-  them to the same size first (<code>segment_size</code>).</li>
-</ul>
-<p>The count answers "how often". To see <strong>what</strong> the phrase matched:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">ngram_matches</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="p">[</span><span class="s2">"ADJ"</span><span class="p">,</span> <span class="s2">"NOUN"</span><span class="p">],</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)</span>
+<p>Each phrase becomes one key; its value is the number of matches in the text.
+A phrase may also be a single item.</p>
+<h3 id="what-an-item-matches">What an item matches<a class="headerlink" href="#what-an-item-matches" title="Permanent link">&para;</a></h3>
+<p>Each item in a phrase is read in this order:</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Matches</th>
+<th>In the key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UD part-of-speech tag (<code>NOUN</code>, <code>VERB</code>, <code>ADJ</code>…)</td>
+<td>Any word carrying that tag</td>
+<td>uppercase (<code>NOUN</code>)</td>
+</tr>
+<tr>
+<td>All uppercase, at least 2 letters (<code>HOUSE</code>, <code>GO</code>, <code>EV</code>)</td>
+<td>Any word whose lemma it is</td>
+<td>uppercase (<code>HOUSE</code>)</td>
+</tr>
+<tr>
+<td>Anything else (<code>house</code>, <code>izmir</code>, <code>I</code>)</td>
+<td>The lowercased written form</td>
+<td>lowercase (<code>house</code>)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Written form.</strong> A lowercase item matches the written form: <code>old houses</code> does not
+match <code>old house</code>. It also catches capitalised spellings (<code>izmir</code> finds "Izmir" and
+"IZMIR"), but not inflected forms.</p>
+<p><strong>Lemma.</strong> To catch inflected forms too, write the item in all capitals; it matches
+every word carrying that lemma:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">ngram_matches</span><span class="p">(</span><span class="s2">"He went home. She goes home."</span><span class="p">,</span> <span class="p">[</span><span class="s2">"GO"</span><span class="p">,</span> <span class="s2">"home"</span><span class="p">],</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># {'went home': 1, 'goes home': 1}</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>{'old house': 2, 'new building': 1, 'big garden': 1}
+<p><strong>Tag.</strong> <code>["ADJ", "NOUN"]</code> means an adjective followed directly by a noun.</p>
+<p>Details:</p>
+<ul>
+<li>Words, lemmas and tags can be mixed in one phrase: <code>["old", "HOUSE"]</code>, <code>["ADJ", "HOUSE"]</code>.</li>
+<li>The lemma comes from the same place as in the rest of the library: spaCy for English,
+  Zeyrek's first analysis for Turkish.</li>
+<li>Verbs are written without an infinitive marker: <code>GO</code>, Turkish <code>GİT</code>.</li>
+<li>In Turkish, an uppercase item is lowercased by the Turkish rule: <code>İZMİR</code> → izmir,
+  <code>IRMAK</code> → ırmak; dotless <code>IZMIR</code> becomes ızmır.</li>
+<li>A one-letter item is a word, never a lemma search (<code>I</code>, <code>O</code>).</li>
+<li>A lemma that is also a tag name is always read as the tag: the English lemma "part"
+  cannot be searched as <code>PART</code>.</li>
+<li>A match never crosses a sentence boundary: <code>down. A</code> is not adjacent.</li>
+</ul>
+<p>Other notes:
+- The value is a plain count. To compare texts of different lengths, divide
+  by <code>word_count</code> (<code>oz["ngram_ADJ_NOUN_count"] / oz["word_count"]</code>) or bring
+  them to the same size first (<code>segment_size</code>).</p>
+<p>The count answers "how often". To see <strong>what</strong> the phrase matched:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">ngram_matches</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="p">[</span><span class="s2">"ADJ"</span><span class="p">,</span> <span class="s2">"NOUN"</span><span class="p">],</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>{'old house': 2, 'new building': 1, 'big garden': 1}
 </code></pre></div>
 <p>The most frequent match comes first, and the counts add up to
 <code>ngram_ADJ_NOUN_count</code>. Sentence and position are not returned. For several
@@ -2322,19 +2475,19 @@ texts, add the results up with <code>collections.Counter</code>. Working example
 <a href="https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/10_kelime_oruntuleri.py"><code>examples/10_kelime_oruntuleri.py</code></a>.</p>
 <h2 id="progress-output">Progress output<a class="headerlink" href="#progress-output" title="Permanent link">&para;</a></h2>
 <p>For long texts:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">,</span> <span class="n">show_progress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">,</span> <span class="n">show_progress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="silence-the-warnings">Silence the warnings<a class="headerlink" href="#silence-the-warnings" title="Permanent link">&para;</a></h2>
 <p>If the optional <code>wordfreq</code> package is missing, the library raises
 <code>MissingDependencyWarning</code> and leaves the two features that depend on it
 (<code>wordfreq_*</code>) as <code>nan</code>. If you
 are accepting that knowingly:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 <p><code>warn=False</code> <strong>does not change the computation</strong> — it only silences the
 warning. The feature is still <code>nan</code>.</p>
 <h2 id="use-a-different-spacy-model">Use a different spaCy model<a class="headerlink" href="#use-a-different-spacy-model" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">"en_core_web_trf"</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">"en_core_web_trf"</span><span class="p">)</span>
 </code></pre></div>
 <p>The defaults are <code>tr_core_news_md</code> and <code>en_core_web_sm</code>. If the model is
 not installed you get <code>ModelNotFoundError</code>, and the message contains the
@@ -2346,16 +2499,16 @@ dependency parse all come from the model. Do not compare a table produced with o
 against a table produced with another.</p>
 </div>
 <h2 id="full-signature">Full signature<a class="headerlink" href="#full-signature" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">analyze</span><span class="p">(</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"tr"</span><span class="p">,</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>    <span class="n">groups</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="n">params</span><span class="p">:</span> <span class="n">FeatureParams</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    <span class="n">custom_ngrams</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>    <span class="n">show_progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>    <span class="n">warn</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">analyze</span><span class="p">(</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"tr"</span><span class="p">,</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>    <span class="n">groups</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>    <span class="n">params</span><span class="p">:</span> <span class="n">FeatureParams</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>    <span class="n">custom_ngrams</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>    <span class="n">show_progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>    <span class="n">warn</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
 </code></pre></div>
 <p>For <code>params</code> see <a href="../parameters/">Change the thresholds</a>.</p>
 
@@ -2417,10 +2570,10 @@ against a table produced with another.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.c21346df.min.js"></script>
       
     
   </body>

@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 181 from English text">
+        <meta name="description" content="Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative linguistic features from Turkish text and 181 from English text">
       
       
       
@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -29,10 +29,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -620,7 +620,7 @@
   <span class="md-ellipsis">
     
   
-    Korpusu CSV'ye çıkar
+    Derlemi CSV'ye çıkar
   
 
     
@@ -765,6 +765,8 @@
       
         
           
+        
+      
         
       
         
@@ -928,6 +930,34 @@
     
   
     Sınırlılıklar
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tr/aciklama/kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formülleri
   
 
     
@@ -1363,6 +1393,8 @@
       
         
       
+        
+      
     
     
     
@@ -1516,6 +1548,34 @@
     
   
     Limitations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../en/explanation/kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formulas
   
 
     
@@ -1957,6 +2017,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#short-and-long-sentences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Short and long sentences
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1978,6 +2049,17 @@
     <span class="md-ellipsis">
       
         Comparison with Ateşman (1997)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-each-threshold-falls-in-the-other-language" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where each threshold falls in the other language
       
     </span>
   </a>
@@ -2071,6 +2153,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#short-and-long-sentences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Short and long sentences
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2092,6 +2185,17 @@
     <span class="md-ellipsis">
       
         Comparison with Ateşman (1997)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-each-threshold-falls-in-the-other-language" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where each threshold falls in the other language
       
     </span>
   </a>
@@ -2134,7 +2238,7 @@
 published source; they were chosen by measurement on newspaper columns, with the default sentence rule
 and the default word.
 This document records that measurement.</p>
-<p><strong>Measured:</strong> 2026-10-06.</p>
+<p><strong>Measured:</strong> 2026-10-06; re-measured with version 0.3.0 (2026-11-04). The thresholds did not change.</p>
 <h2 id="result">Result<a class="headerlink" href="#result" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -2177,7 +2281,7 @@ leave out keeps the value above (<a href="../en/how-to/parameters/">details</a>)
 </tr>
 <tr>
 <td>Columnists</td>
-<td>162</td>
+<td>137</td>
 <td>30</td>
 </tr>
 <tr>
@@ -2192,11 +2296,14 @@ leave out keeps the value above (<a href="../en/how-to/parameters/">details</a>)
 </tr>
 <tr>
 <td><strong>Sentences measured</strong></td>
-<td><strong>197,990</strong></td>
+<td><strong>198,225</strong></td>
 <td><strong>52,745</strong></td>
 </tr>
 </tbody>
 </table>
+<p>The Turkish columnists were counted after merging case, Turkish letters and spacing in the
+corpora's author folder names; the same author can be spelled differently across corpora
+(<code>canDundar</code> / <code>candundar</code>), and the raw names give 162.</p>
 <p>The full corpora were used, with no sampling. The texts are not distributed; only the numbers are published.
 Sentences and words were counted exactly as the <code>sentence</code> group counts them, with the
 library's default sentence rule and default word; both are defined, with examples, in
@@ -2211,7 +2318,7 @@ requires a threshold, and deriving the threshold from it would be circular.</p>
 <thead>
 <tr>
 <th>Percentile</th>
-<th>TR (n = 197,990)</th>
+<th>TR (n = 198,225)</th>
 <th>EN (n = 52,745)</th>
 </tr>
 </thead>
@@ -2263,7 +2370,15 @@ requires a threshold, and deriving the threshold from it would be circular.</p>
 </tr>
 </tbody>
 </table>
-<p>In Turkish the 85th percentile sits on the boundary: at 17, 15.0% of sentences count as long; at 18, 12.9%.</p>
+<p>In Turkish the 85th percentile sits on the boundary: at 17, 14.9% of sentences count as long; at 18, 12.9%.</p>
+<h3 id="short-and-long-sentences">Short and long sentences<a class="headerlink" href="#short-and-long-sentences" title="Permanent link">&para;</a></h3>
+<p>A <strong>short sentence</strong> is shorter than the threshold (fewer words than <code>short_sent_threshold</code>); a
+<strong>long sentence</strong> is longer than the threshold (more words than <code>long_sent_threshold</code>). A
+sentence whose length equals the threshold is in neither count.</p>
+<p>Why: sentence lengths are whole numbers, so whether the threshold itself is included changes
+the share noticeably. In Turkish, including it would count 19.2% of sentences as short and
+17.3% as long; excluding it gives 12.2% short and 14.9% long. The second pair is closer to
+15%.</p>
 <h2 id="why-a-language-specific-threshold">Why a language-specific threshold<a class="headerlink" href="#why-a-language-specific-threshold" title="Permanent link">&para;</a></h2>
 <p>A single pair of thresholds for both languages, such as 5 and 30, sits in the
 wrong place in both. In Turkish, 30 words is above even the 95th percentile
@@ -2274,7 +2389,46 @@ carry what a subordinate clause carries in an analytic language. The surface
 word count does not measure the same thing in the two languages.</p>
 <h2 id="comparison-with-atesman-1997">Comparison with Ateşman (1997)<a class="headerlink" href="#comparison-with-atesman-1997" title="Permanent link">&para;</a></h2>
 <p>Ateşman (1997, p.73) gives 9–10 words as the mean sentence length of Turkish; the
-corpus median (9.0) agrees with it.</p>
+corpus median (9.0) agrees with it, and the mean is 10.64 words. In English columns the mean
+is 20.45 words. That is longer than the 14–15 words Ateşman gives for English, following
+Flesch, but inside the 8–29-word range Flesch (1948, p.230) gives across genres; the
+difference most likely comes from genre.</p>
+<h2 id="where-each-threshold-falls-in-the-other-language">Where each threshold falls in the other language<a class="headerlink" href="#where-each-threshold-falls-in-the-other-language" title="Permanent link">&para;</a></h2>
+<p>Applied to the other language's columns, a threshold separates a very different share of
+sentences:</p>
+<table>
+<thead>
+<tr>
+<th>Threshold</th>
+<th style="text-align: right;">In its own language</th>
+<th style="text-align: right;">In the other language</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Turkish short (under 4 words)</td>
+<td style="text-align: right;">12.2%</td>
+<td style="text-align: right;">English 3.0%</td>
+</tr>
+<tr>
+<td>Turkish long (over 17 words)</td>
+<td style="text-align: right;">14.9%</td>
+<td style="text-align: right;">English 54.2%</td>
+</tr>
+<tr>
+<td>English short (under 8 words)</td>
+<td style="text-align: right;">12.4%</td>
+<td style="text-align: right;">Turkish 40.9%</td>
+</tr>
+<tr>
+<td>English long (over 32 words)</td>
+<td style="text-align: right;">14.7%</td>
+<td style="text-align: right;">Turkish 1.7%</td>
+</tr>
+</tbody>
+</table>
+<p>No threshold falls on the same percentile in the other language. So a feature with the
+same name does not measure the same thing in both languages under a shared threshold.</p>
 <h2 id="scope">Scope<a class="headerlink" href="#scope" title="Permanent link">&para;</a></h2>
 <p><strong>The thresholds were calibrated on newspaper columns.</strong> A column is a single genre.</p>
 <p>There is <strong>no guarantee</strong> that the same thresholds suit novels, technical
@@ -2344,10 +2498,10 @@ language.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
       
     
   </body>

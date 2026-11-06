@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 181 from English text">
+        <meta name="description" content="Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative linguistic features from Turkish text and 181 from English text">
       
       
       
@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -31,10 +31,10 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -632,7 +632,7 @@
   <span class="md-ellipsis">
     
   
-    Korpusu CSV'ye çıkar
+    Derlemi CSV'ye çıkar
   
 
     
@@ -900,6 +900,8 @@
       
         
       
+        
+      
     
     
     
@@ -1056,6 +1058,34 @@
     
   
     Sınırlılıklar
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../aciklama/kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formülleri
   
 
     
@@ -1491,6 +1521,8 @@
       
         
       
+        
+      
     
     
     
@@ -1644,6 +1676,34 @@
     
   
     Limitations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../en/explanation/kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formulas
   
 
     
@@ -2129,7 +2189,8 @@
 
 <h1 id="bir-ozniteligin-kaynagn-bul">Bir özniteliğin kaynağını bul<a class="headerlink" href="#bir-ozniteligin-kaynagn-bul" title="Permanent link">&para;</a></h1>
 <p>Bir sayıyı çalışmanızda kullanacaksanız nereden geldiğini yazmanız gerekir.
-Kütüphane bunu size hazır verir.</p>
+Araç bunu size hazır verir: Her özniteliğin tanımı, formülü ve künyesi (İng. <em>citation</em>)
+öznitelik dizininde (İng. <em>registry</em>) durur, <code>describe_feature</code> onu okur.</p>
 <h2 id="describe_feature"><code>describe_feature</code><a class="headerlink" href="#describe_feature" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"mattr"</span><span class="p">)</span>
 </code></pre></div>
@@ -2139,12 +2200,12 @@ Kütüphane bunu size hazır verir.</p>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a> 'description': 'moving-average TTR',
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a> 'formula': 'mean TTR of every sliding window of mattr_window words',
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a> 'scale': 'ratio_0_1',
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a> 'inputs': ('raw_text', 'surface_tokens', 'lemma_tokens', 'pos_data'),
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a> 'inputs': ('raw_text',),
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a> 'params': ('mattr_window',),
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a> 'requires': 'at least 100 words (2 x mattr_window)',
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a> 'citation': 'Covington &amp; McFall (2010); default window 50 — C&amp;M recommend a window of '
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>             '500; 50 is used here so that texts of 100+ words can be measured (mattr '
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>             'needs 2 × window)',
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>             '500 (p.97); 50 is used here so that texts of 100+ words can be measured '
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>             '(mattr needs 2 × window)',
 <a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a> 'references': ('Covington, M. A., &amp; McFall, J. D. (2010). Cutting the Gordian knot: '
 <a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>                'The moving-average type–token ratio (MATTR). Journal of Quantitative '
 <a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>                'Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098',),
@@ -2195,11 +2256,11 @@ Kütüphane bunu size hazır verir.</p>
 </tr>
 <tr>
 <td><code>citation</code></td>
-<td><strong>Kısa işaretçi</strong> — yöntem bölümünde parantez içi</td>
+<td><strong>Künye</strong>: kısa kaynak gösterimi, yöntem bölümünde parantez içinde verilen</td>
 </tr>
 <tr>
 <td><code>references</code></td>
-<td><strong>Tam bibliyografik kayıt</strong> — kaynakçaya kopyalanacak olan</td>
+<td><strong>Kaynakça kaydı</strong> (İng. <em>reference</em>): eserin tam kaydı, kaynakçaya kopyalanacak olan</td>
 </tr>
 <tr>
 <td><code>definitions</code></td>
@@ -2210,16 +2271,21 @@ Kütüphane bunu size hazır verir.</p>
 <h2 id="kunye-ne-bilmedigimizi-de-soyler">Künye ne bilmediğimizi de söyler<a class="headerlink" href="#kunye-ne-bilmedigimizi-de-soyler" title="Permanent link">&para;</a></h2>
 <p>Yukarıdaki örnekte künye şunu yazıyor:</p>
 <blockquote>
-<p>default window 50 — C&amp;M recommend a window of 500; 50 is used here so
+<p>default window 50 — C&amp;M recommend a window of 500 (p.97); 50 is used here so
 that texts of 100+ words can be measured (mattr needs 2 × window)</p>
 </blockquote>
 <p>Yani: yöntem Covington &amp; McFall'ın, <strong>ama varsayılan pencere boyu onlardan
 gelmiyor.</strong> Bu ayrımı künyeden okuyabilmeniz kasıtlıdır.</p>
+<p>Künye kaynağın yalnız adını değil, formülün kaynakta <strong>nerede</strong> olduğunu da gösterir:
+Türkçedeki 203 künyenin 179'u sayfa, tablo, denklem ya da bölüm numarası verir
+(<code>p.97</code>, <code>eq. (5)</code>). Böylece formülü kaynağında bulup aracın uygulamasıyla
+karşılaştırabilirsiniz.</p>
 <p>Aynı kalıbın başka biçimleri:</p>
 <ul>
 <li><code>"Herdan (1960/1964), as cited in Tweedie &amp; Baayen (1998) p.327, eq. (5)"</code>
-  — <strong>birincil kaynağa ulaşılamadı</strong>, formül aktaran kaynaktan alındı.
-  <strong>15</strong> künye böyledir ve hepsi <code>as cited in</code> ile işaretlidir.</li>
+  — <strong>birincil kaynağa ulaşılamadı</strong>, formül aktaran kaynaktan (İng. <em>as cited in</em>)
+  alındı. İki dilde <strong>13</strong> künye böyledir (Türkçede 12; on üçüncüsü yalnız İngilizcede
+  hesaplanan LIX) ve hepsi <code>as cited in</code> ile işaretlidir.</li>
 <li><code>"McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form of
   SMOG's input, not the source's own measure"</code> — ölçü kaynaktan türetilmiş
   ama kaynağın kendi ölçüsü değil.</li>
@@ -2230,14 +2296,14 @@ gelmiyor.</strong> Bu ayrımı künyeden okuyabilmeniz kasıtlıdır.</p>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>(None, ())
 </code></pre></div>
-<p><code>citation</code> <code>None</code> ise o anahtar <strong>adlandırılmış bir literatür ölçüsü
-değildir,</strong> saf bir tanımdır: <code>punct_dash_ratio</code> ("tire / bütün noktalama işaretleri"),
+<p><code>citation</code> <code>None</code> ise o anahtar <strong>bir alanyazın ölçüsü (İng. <em>literature measure</em>)
+değildir,</strong> yalın bir tanımdır (İng. <em>plain definition</em>): <code>punct_dash_ratio</code> ("tire / bütün noktalama işaretleri"),
 <code>uppercase_ratio</code> ("büyük harfle başlayan sözcüklerin payı"), <code>lemma_count</code>
-("farklı lemma sayısı").
+("farklı sözlükbirim sayısı").
 Bir dış etiket şemasının kategorisini sayan anahtarların künyesi ise <code>None</code>
 değildir, şemayı gösterir (<code>case_loc_ratio</code> → UD; <code>zeyrek_case_loc_ratio</code> →
 Zeyrek).</p>
-<p>Türkçedeki 208 anahtarın <strong>11'inin</strong> künyesi yoktur.</p>
+<p>Türkçedeki 214 anahtarın <strong>11'inin</strong> künyesi yoktur.</p>
 <h2 id="kaynakcay-olusturmak">Kaynakçayı oluşturmak<a class="headerlink" href="#kaynakcay-olusturmak" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">kullandiklarim</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"mattr"</span><span class="p">,</span> <span class="s2">"atesman"</span><span class="p">,</span> <span class="s2">"sent_len_mean"</span><span class="p">]</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
@@ -2248,7 +2314,7 @@ Zeyrek).</p>
 <a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">kaynaklar</span><span class="p">):</span>
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
 </code></pre></div>
-<p>Bu size yalnız <strong>kullandığınız</strong> özniteliklerin kaynakçasını verir — 56
+<p>Bu size yalnız <strong>kullandığınız</strong> özniteliklerin kaynakçasını verir — 58
 eserin tamamını değil.</p>
 <h2 id="say-gercekten-tutuyor-mu">Sayı gerçekten tutuyor mu<a class="headerlink" href="#say-gercekten-tutuyor-mu" title="Permanent link">&para;</a></h2>
 <p>Künye kaynağı söyler; <strong>tuttuğunu</strong> söylemez. Onun için ayrı bir belge var:</p>
@@ -2316,10 +2382,10 @@ eserin tamamını değil.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.c21346df.min.js"></script>
       
     
   </body>

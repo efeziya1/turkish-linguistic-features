@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 181 from English text">
+        <meta name="description" content="Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative linguistic features from Turkish text and 181 from English text">
       
       
       
@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -31,10 +31,10 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -630,7 +630,7 @@
   <span class="md-ellipsis">
     
   
-    Korpusu CSV'ye çıkar
+    Derlemi CSV'ye çıkar
   
 
     
@@ -777,6 +777,8 @@
       
         
           
+        
+      
         
       
         
@@ -1011,6 +1013,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#neden-sfr-degil" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Neden sıfır değil
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#nan-donmeyen-ama-yanltan-durum-paragraf" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1084,6 +1097,34 @@
     
   
     Sınırlılıklar
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formülleri
   
 
     
@@ -1519,6 +1560,8 @@
       
         
       
+        
+      
     
     
     
@@ -1672,6 +1715,34 @@
     
   
     Limitations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../en/explanation/kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formulas
   
 
     
@@ -2142,6 +2213,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#neden-sfr-degil" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Neden sıfır değil
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#nan-donmeyen-ama-yanltan-durum-paragraf" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2185,9 +2267,9 @@
 
 <h1 id="nan-ne-demek">NaN ne demek<a class="headerlink" href="#nan-ne-demek" title="Permanent link">&para;</a></h1>
 <h2 id="ksa-cevap">Kısa cevap<a class="headerlink" href="#ksa-cevap" title="Permanent link">&para;</a></h2>
-<p><code>nan</code>, <strong>"bu metinde bu sayıyı hesaplayamam"</strong> demektir. Hata değildir,
-eksik veri işaretidir.</p>
-<p>Kütüphane yetersiz veriyle sayı <strong>uydurmaz</strong>. Uydursaydı, tablonuzda
+<p><code>nan</code> (İng. <em>not a number</em>, "sayı değil"), <strong>"bu metinde bu sayıyı hesaplayamam"</strong>
+demektir. Hata değildir, eksik veri işaretidir.</p>
+<p>Araç yetersiz veriyle sayı <strong>uydurmaz</strong>. Uydursaydı, tablonuzda
 gerçek görünen ama anlamsız bir sütun olurdu ve bunu fark etmenin yolu
 olmazdı.</p>
 <h2 id="ne-kadar-sk">Ne kadar sık<a class="headerlink" href="#ne-kadar-sk" title="Permanent link">&para;</a></h2>
@@ -2196,9 +2278,9 @@ olmazdı.</p>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">nan_olan</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kisa</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v</span> <span class="o">!=</span> <span class="n">v</span><span class="p">]</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">len</span><span class="p">(</span><span class="n">kisa</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">nan_olan</span><span class="p">)</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>(208, 36)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>(214, 37)
 </code></pre></div>
-<p>208 öznitelikten <strong>36'sı</strong> <code>nan</code>. Örnekler:</p>
+<p>214 öznitelikten <strong>37'si</strong> <code>nan</code>. Örnekler:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>['aspect_imp_ratio', 'aspect_perf_ratio', 'aspect_prog_ratio', 'dugast_u',
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a> 'hdd', 'heaps_beta', 'honore_r', 'mattr']
 </code></pre></div>
@@ -2214,7 +2296,7 @@ olmazdı.</p>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>'at least 100 words (2 x mattr_window)'
 </code></pre></div>
-<p>Buradaki <strong>sözcük</strong> kütüphanenin varsayılan sözcüğüdür
+<p>Buradaki <strong>sözcük</strong> aracın varsayılan sözcüğüdür
 (<a href="../kavramlar/#sozcuk-ve-tumce">Kavramlar</a>). <code>segment_text</code>'in <code>segment_size</code> değeri de
 aynı sözcüğü sayar: 100 sözcüklük parça 100 sözcük isteyen bir ölçüye yeter.</p>
 <p>Sınırın altındaysanız <code>nan</code> gelir. Sınırların bir kısmı kaynaktan gelir
@@ -2224,20 +2306,25 @@ ortalama" olmaktan çıkar — o yüzden eşik <code>2 × pencere</code>dir.</p>
 <h3 id="2-gereken-yap-yok">2. Gereken yapı yok<a class="headerlink" href="#2-gereken-yap-yok" title="Permanent link">&para;</a></h3>
 <p><code>zeyrek_derivational_suffix_ratio</code> metinde hiç türetme eki bulamazsa paydası sıfır
 olur. <code>parse_depth_mean</code> tümce ayrıştırılamazsa değer üretemez.
-<code>verb_dist_mean</code> metinde en az iki fiil yoksa ölçülemez.
+<code>verb_dist_mean</code> metinde en az iki eylem yoksa ölçülemez. Hiç eylem içermeyen bir metinde
+eylemlerin zaman ve görünüş oranları hesaplanamaz.
 Metinde hiç noktalama işareti yoksa <code>punct_…_ratio</code> öznitelikleri hesaplanamaz.</p>
 <h3 id="3-istege-bagl-bir-paket-kurulu-degil">3. İsteğe bağlı bir paket kurulu değil<a class="headerlink" href="#3-istege-bagl-bir-paket-kurulu-degil" title="Permanent link">&para;</a></h3>
 <p><code>wordfreq</code> kurulu değilse <code>wordfreq_mean</code> ve <code>wordfreq_rare_ratio</code> <code>nan</code>
-döner ve kütüphane bir <code>MissingDependencyWarning</code> basar.</p>
+döner ve araç bir <code>MissingDependencyWarning</code> basar.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 <p><code>warn=False</code> yalnız uyarıyı susturur; öznitelik yine <code>nan</code> kalır. Aynı bayrak
 <code>ParagraphStructureWarning</code>'ı da susturur.</p>
+<h2 id="neden-sfr-degil">Neden sıfır değil<a class="headerlink" href="#neden-sfr-degil" title="Permanent link">&para;</a></h2>
+<p>Hesaplanamayan değer sıfırla doldurulmaz, çünkü sıfır gerçek bir değerdir: Hiç adıl
+içermeyen bir metnin adıl oranı 0'dır ve bu, metin hakkında bir bilgidir. Hesaplanamayan
+değeri sıfırla göstermek bu iki durumu birbirine karıştırırdı.</p>
 <h2 id="nan-donmeyen-ama-yanltan-durum-paragraf"><code>nan</code> dönmeyen ama yanıltan durum: paragraf<a class="headerlink" href="#nan-donmeyen-ama-yanltan-durum-paragraf" title="Permanent link">&para;</a></h2>
 <p>Paragraf sınırı boş satırla bulunur. Metinde boş satır yoksa metnin tamamı tek
 paragraf sayılır ve <code>para_len_mean</code> bütün metnin sözcük sayısına eşitlenir: değer
 <code>nan</code> olmaz ama paragraf hakkında bir şey söylemez. Ayrıntı:
-<a href="../sinirliliklar/">sınırlılıklar §8</a>.</p>
+<a href="../sinirliliklar/">Sınırlılıklar, paragraf öznitelikleri</a>.</p>
 <h2 id="neden-none-degil-de-nan">Neden <code>None</code> değil de <code>nan</code><a class="headerlink" href="#neden-none-degil-de-nan" title="Permanent link">&para;</a></h2>
 <p><code>nan</code> bir <code>float</code>'tır. Yani dönen sözlüğün bütün değerleri aynı tiptedir ve
 tablo doğrudan <code>pandas</code>, <code>numpy</code>, R ya da CSV'ye geçer. <code>None</code> koysaydık
@@ -2302,10 +2389,10 @@ sıfırı ayırt etmek zorlaşırdı.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.c21346df.min.js"></script>
       
     
   </body>

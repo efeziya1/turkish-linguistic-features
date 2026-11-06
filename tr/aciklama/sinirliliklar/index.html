@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 181 from English text">
+        <meta name="description" content="Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative linguistic features from Turkish text and 181 from English text">
       
       
       
@@ -16,14 +16,14 @@
         <link rel="prev" href="../dogrulama/">
       
       
-        <link rel="next" href="../../sozluk/">
+        <link rel="next" href="../kalyoncu/">
       
       
         
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -31,10 +31,10 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -630,7 +630,7 @@
   <span class="md-ellipsis">
     
   
-    Korpusu CSV'ye çıkar
+    Derlemi CSV'ye çıkar
   
 
     
@@ -777,6 +777,8 @@
       
         
           
+        
+      
         
       
         
@@ -995,22 +997,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#kutuphanenin-snrllklar" class="md-nav__link">
+  <a href="#aracn-snrllklar" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Kütüphanenin sınırlılıkları
+        Aracın sınırlılıkları
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Kütüphanenin sınırlılıkları">
+    <nav class="md-nav" aria-label="Aracın sınırlılıkları">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-tumce-esikleri-yalnz-gazete-kose-yazlaryla-kalibre-edildi" class="md-nav__link">
+  <a href="#tumce-esikleri-yalnz-gazete-kose-yazlaryla-kalibre-edildi" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Tümce eşikleri yalnız gazete köşe yazılarıyla kalibre edildi
+        Tümce eşikleri yalnız gazete köşe yazılarıyla kalibre edildi
       
     </span>
   </a>
@@ -1018,10 +1020,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-on-bes-kunye-ikincil-kaynaktan" class="md-nav__link">
+  <a href="#kaynaktan-alnan-sabitler-turkcede-snanmad" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. On beş künye ikincil kaynaktan
+        Kaynaktan alınan sabitler Türkçede sınanmadı
       
     </span>
   </a>
@@ -1029,10 +1031,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-spacy-modeli-sonuclarn-parcas" class="md-nav__link">
+  <a href="#on-uc-kunye-ikincil-kaynaktan" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. spaCy modeli sonuçların parçası
+        On üç künye ikincil kaynaktan
       
     </span>
   </a>
@@ -1040,10 +1042,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#4-turkce-morfoloji-zeyreke-bagl" class="md-nav__link">
+  <a href="#dil-modelinin-dogrulugu" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Türkçe morfoloji Zeyrek'e bağlı
+        Dil modelinin doğruluğu
       
     </span>
   </a>
@@ -1051,10 +1053,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#5-adaylarn-ucte-ikisi-hala-dogrulanmad" class="md-nav__link">
+  <a href="#bolunen-sozcukler" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Adayların üçte ikisi hâlâ doğrulanmadı
+        Bölünen sözcükler
       
     </span>
   </a>
@@ -1062,10 +1064,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#6-erken-gelistirme-asamas-0x" class="md-nav__link">
+  <a href="#turkce-bicimbilim-zeyreke-bagl" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Erken geliştirme aşaması (0.x)
+        Türkçe biçimbilim Zeyrek'e bağlı
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adaylarn-ucte-ikisi-hala-dogrulanmad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adayların üçte ikisi hâlâ doğrulanmadı
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#erken-gelistirme-asamas-0x" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Erken geliştirme aşaması (0.x)
       
     </span>
   </a>
@@ -1090,10 +1114,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#7-bu-kutuphanenin-kendi-turevleri" class="md-nav__link">
+  <a href="#araca-ozgu-oznitelikler" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. Bu kütüphanenin kendi türevleri
+        Araca özgü öznitelikler
       
     </span>
   </a>
@@ -1101,10 +1125,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#8-paragraf-oznitelikleri-girdinin-bicimlendirmesine-bagl" class="md-nav__link">
+  <a href="#paragraf-oznitelikleri-girdinin-bicimlendirmesine-bagl" class="md-nav__link">
     <span class="md-ellipsis">
       
-        8. Paragraf öznitelikleri girdinin biçimlendirmesine bağlı
+        Paragraf öznitelikleri girdinin biçimlendirmesine bağlı
       
     </span>
   </a>
@@ -1112,10 +1136,43 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#9-hece-saymnda-okunusla-saylanlar-ve-atlananlar" class="md-nav__link">
+  <a href="#seslem-saymnda-okunusla-saylanlar-ve-atlananlar" class="md-nav__link">
     <span class="md-ellipsis">
       
-        9. Hece sayımında okunuşla sayılanlar ve atlananlar
+        Seslem sayımında okunuşla sayılanlar ve atlananlar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sesbilimsel-olculer-harfle-hesaplanr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sesbilimsel ölçüler harfle hesaplanır
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#heaps-ksa-metinde-guvenilir-degil" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Heaps β kısa metinde güvenilir değil
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kalyoncu-formulleri-elle-saymn-yaklasg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kalyoncu formülleri elle sayımın yaklaşığı
       
     </span>
   </a>
@@ -1131,6 +1188,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formülleri
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1558,6 +1643,8 @@
       
         
       
+        
+      
     
     
     
@@ -1711,6 +1798,34 @@
     
   
     Limitations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../en/explanation/kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formulas
   
 
     
@@ -2109,22 +2224,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#kutuphanenin-snrllklar" class="md-nav__link">
+  <a href="#aracn-snrllklar" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Kütüphanenin sınırlılıkları
+        Aracın sınırlılıkları
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Kütüphanenin sınırlılıkları">
+    <nav class="md-nav" aria-label="Aracın sınırlılıkları">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-tumce-esikleri-yalnz-gazete-kose-yazlaryla-kalibre-edildi" class="md-nav__link">
+  <a href="#tumce-esikleri-yalnz-gazete-kose-yazlaryla-kalibre-edildi" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Tümce eşikleri yalnız gazete köşe yazılarıyla kalibre edildi
+        Tümce eşikleri yalnız gazete köşe yazılarıyla kalibre edildi
       
     </span>
   </a>
@@ -2132,10 +2247,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-on-bes-kunye-ikincil-kaynaktan" class="md-nav__link">
+  <a href="#kaynaktan-alnan-sabitler-turkcede-snanmad" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. On beş künye ikincil kaynaktan
+        Kaynaktan alınan sabitler Türkçede sınanmadı
       
     </span>
   </a>
@@ -2143,10 +2258,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-spacy-modeli-sonuclarn-parcas" class="md-nav__link">
+  <a href="#on-uc-kunye-ikincil-kaynaktan" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. spaCy modeli sonuçların parçası
+        On üç künye ikincil kaynaktan
       
     </span>
   </a>
@@ -2154,10 +2269,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#4-turkce-morfoloji-zeyreke-bagl" class="md-nav__link">
+  <a href="#dil-modelinin-dogrulugu" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Türkçe morfoloji Zeyrek'e bağlı
+        Dil modelinin doğruluğu
       
     </span>
   </a>
@@ -2165,10 +2280,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#5-adaylarn-ucte-ikisi-hala-dogrulanmad" class="md-nav__link">
+  <a href="#bolunen-sozcukler" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Adayların üçte ikisi hâlâ doğrulanmadı
+        Bölünen sözcükler
       
     </span>
   </a>
@@ -2176,10 +2291,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#6-erken-gelistirme-asamas-0x" class="md-nav__link">
+  <a href="#turkce-bicimbilim-zeyreke-bagl" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Erken geliştirme aşaması (0.x)
+        Türkçe biçimbilim Zeyrek'e bağlı
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adaylarn-ucte-ikisi-hala-dogrulanmad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adayların üçte ikisi hâlâ doğrulanmadı
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#erken-gelistirme-asamas-0x" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Erken geliştirme aşaması (0.x)
       
     </span>
   </a>
@@ -2204,10 +2341,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#7-bu-kutuphanenin-kendi-turevleri" class="md-nav__link">
+  <a href="#araca-ozgu-oznitelikler" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. Bu kütüphanenin kendi türevleri
+        Araca özgü öznitelikler
       
     </span>
   </a>
@@ -2215,10 +2352,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#8-paragraf-oznitelikleri-girdinin-bicimlendirmesine-bagl" class="md-nav__link">
+  <a href="#paragraf-oznitelikleri-girdinin-bicimlendirmesine-bagl" class="md-nav__link">
     <span class="md-ellipsis">
       
-        8. Paragraf öznitelikleri girdinin biçimlendirmesine bağlı
+        Paragraf öznitelikleri girdinin biçimlendirmesine bağlı
       
     </span>
   </a>
@@ -2226,10 +2363,43 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#9-hece-saymnda-okunusla-saylanlar-ve-atlananlar" class="md-nav__link">
+  <a href="#seslem-saymnda-okunusla-saylanlar-ve-atlananlar" class="md-nav__link">
     <span class="md-ellipsis">
       
-        9. Hece sayımında okunuşla sayılanlar ve atlananlar
+        Seslem sayımında okunuşla sayılanlar ve atlananlar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sesbilimsel-olculer-harfle-hesaplanr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sesbilimsel ölçüler harfle hesaplanır
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#heaps-ksa-metinde-guvenilir-degil" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Heaps β kısa metinde güvenilir değil
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kalyoncu-formulleri-elle-saymn-yaklasg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kalyoncu formülleri elle sayımın yaklaşığı
       
     </span>
   </a>
@@ -2262,96 +2432,139 @@
 
 
 <h1 id="snrllklar">Sınırlılıklar<a class="headerlink" href="#snrllklar" title="Permanent link">&para;</a></h1>
-<p>Bu sayfa iki kısımdan oluşur. İlki kütüphanenin nerede zayıf olduğunu anlatır;
-ikincisi kütüphanenin zayıflığı olmayan ama sonuçları yorumlarken bilmeniz
+<p>Bu sayfa iki kısımdan oluşur. İlki aracın nerede zayıf olduğunu anlatır;
+ikincisi aracın zayıflığı olmayan ama sonuçları yorumlarken bilmeniz
 gereken noktaları.</p>
-<h2 id="kutuphanenin-snrllklar">Kütüphanenin sınırlılıkları<a class="headerlink" href="#kutuphanenin-snrllklar" title="Permanent link">&para;</a></h2>
-<h3 id="1-tumce-esikleri-yalnz-gazete-kose-yazlaryla-kalibre-edildi">1. Tümce eşikleri yalnız gazete köşe yazılarıyla kalibre edildi<a class="headerlink" href="#1-tumce-esikleri-yalnz-gazete-kose-yazlaryla-kalibre-edildi" title="Permanent link">&para;</a></h3>
-<p><code>short_sent_ratio</code> ve <code>long_sent_ratio</code> eşikleri (TR 4/17, EN 8/32) gazete
-köşe yazılarında, varsayılan tümce kuralı ve varsayılan sözcükle ölçülen
+<h2 id="aracn-snrllklar">Aracın sınırlılıkları<a class="headerlink" href="#aracn-snrllklar" title="Permanent link">&para;</a></h2>
+<h3 id="tumce-esikleri-yalnz-gazete-kose-yazlaryla-kalibre-edildi">Tümce eşikleri yalnız gazete köşe yazılarıyla kalibre edildi<a class="headerlink" href="#tumce-esikleri-yalnz-gazete-kose-yazlaryla-kalibre-edildi" title="Permanent link">&para;</a></h3>
+<p><code>short_sent_ratio</code> ve <code>long_sent_ratio</code> eşikleri (İng. <em>thresholds</em>; TR 4/17, EN 8/32)
+gazete köşe yazılarında, varsayılan tümce kuralı ve varsayılan sözcükle ölçülen
 tümce uzunluğu dağılımının 15. ve 85. yüzdeliğinden türetildi:</p>
 <table>
 <thead>
 <tr>
 <th>Dil</th>
-<th>Tümce</th>
+<th style="text-align: right;">Yazar</th>
+<th style="text-align: right;">Tümce</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Türkçe</td>
-<td>197 990</td>
+<td style="text-align: right;">137</td>
+<td style="text-align: right;">198.225</td>
 </tr>
 <tr>
 <td>İngilizce</td>
-<td>52 745</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">52.745</td>
 </tr>
 </tbody>
 </table>
-<p>Köşe yazısı <strong>tek bir tür</strong>. Roman, teknik metin, transkript, şiir ya da
-çocuk kitabı için genelleneceği <strong>garanti değil.</strong> Yöntem:
-<a href="../../../esik-kalibrasyonu/">Eşik kalibrasyonu</a>.</p>
-<h3 id="2-on-bes-kunye-ikincil-kaynaktan">2. On beş künye ikincil kaynaktan<a class="headerlink" href="#2-on-bes-kunye-ikincil-kaynaktan" title="Permanent link">&para;</a></h3>
-<p><strong>15</strong> künye <code>as cited in</code> ile işaretlidir — birincil kaynağa ulaşılamadı, formül aktaran kaynaktan alındı. Örnek:</p>
+<p>Köşe yazısı <strong>tek bir tür</strong>. Tümce uzunluğu metin türüne göre de değiştiği için roman,
+teknik metin, konuşma dökümü, şiir ya da çocuk kitabında eşikler farklı çıkabilir. İki
+derlem de sınırlı sayıda yazarın yazılarından oluşur; özellikle 30 yazarlık İngilizce
+derlemde eşikler bu yazarların üslubundan etkilenmiş olabilir. Eşikler tümcelerin
+dağılımdaki yerini gösterir; okurların bu tümceleri gerçekten kısa ya da uzun bulup
+bulmadığını göstermez. Yöntem: <a href="../../../esik-kalibrasyonu/">Eşik kalibrasyonu</a>.</p>
+<h3 id="kaynaktan-alnan-sabitler-turkcede-snanmad">Kaynaktan alınan sabitler Türkçede sınanmadı<a class="headerlink" href="#kaynaktan-alnan-sabitler-turkcede-snanmad" title="Permanent link">&para;</a></h3>
+<p>MTLD'nin 0,72 eşiği, HD-D'nin 42 sözcüklük örneklemi ve Brunet ölçüsünün 0,172 değeri
+kaynaklarından alındı ve Türkçe metinlerle sınanmadı. Türkçeye aktarılamayacakları
+söylenemez, ama aktarılabildikleri de gösterilmedi. Ayrıntı:
+<a href="../../nasil/parametreler/#kaynaktan-alnan-sabitler-turkcede-snanmad">Eşikleri değiştir</a>.</p>
+<h3 id="on-uc-kunye-ikincil-kaynaktan">On üç künye ikincil kaynaktan<a class="headerlink" href="#on-uc-kunye-ikincil-kaynaktan" title="Permanent link">&para;</a></h3>
+<p><strong>13</strong> künye (Türkçede 12) <code>as cited in</code> ile işaretlidir: Birincil kaynağa (İng. <em>primary
+source</em>) ulaşılamadı, formül aktaran kaynaktan alındı. Örnek:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Herdan (1960/1964), as cited in Tweedie &amp; Baayen (1998) p.327, eq. (5)
 </code></pre></div>
-<p>Etkilenen ölçüler arasında <code>herdan_c</code>, <code>herdan_vm</code>, <code>honore_r</code>, <code>maas_a2</code>, <code>brunet_w</code>,
-<code>dugast_u</code>, <code>simpson_d</code>, <code>heaps_beta</code>, <code>lix</code>, <code>cttr</code>, <code>summer_s</code> var. Formüller doğrulandı ama <strong>birincil
-kaynağın kendi ifadesiyle</strong> karşılaştırılmadı.</p>
-<h3 id="3-spacy-modeli-sonuclarn-parcas">3. spaCy modeli sonuçların parçası<a class="headerlink" href="#3-spacy-modeli-sonuclarn-parcas" title="Permanent link">&para;</a></h3>
-<p>POS etiketleri, biçimbilimsel etiketler, İngilizce lemmalar ve bağlılık
-öznitelikleri (ayrıştırıcının kendi tümceleriyle) modelden gelir. Model
-değişirse bu sayılar değişir. Türkçe lemmalar Zeyrek'ten gelir (§4).</p>
-<p>Sözcük ve tümce kütüphanenin kendi kuralıyla sayılır
+<p>Etkilenen ölçüler arasında <code>herdan_c</code>, <code>herdan_vm</code>, <code>honore_r</code>, <code>maas_a2</code>,
+<code>dugast_u</code>, <code>simpson_d</code>, <code>heaps_beta</code>, <code>lix</code>, <code>cttr</code>, <code>summer_s</code> var. Formüller doğrulandı
+ama <strong>birincil kaynağın kendi ifadesiyle</strong> karşılaştırılmadı.</p>
+<h3 id="dil-modelinin-dogrulugu">Dil modelinin doğruluğu<a class="headerlink" href="#dil-modelinin-dogrulugu" title="Permanent link">&para;</a></h3>
+<p>Sözcük türü etiketleri, biçimbilimsel etiketler, İngilizce sözlükbirimler ve bağımlılık
+öznitelikleri spaCy modelinden gelir. Model değişirse bu sayılar değişir. Türkçe
+sözlükbirimler Zeyrek'ten gelir (aşağıda).</p>
+<p>Türkçe modeli geliştiren Altinok (2023, s.13747), kendi sınama verisinde modelin sözcük
+türünü %90 oranında doğru bulduğunu, bağımlılıkta ise bu oranın bağın türüyle birlikte
+%63'e düştüğünü bildirir. Model resmî yazılı dil kaynaklarıyla eğitilmiştir; başka türden
+metinlerde doğruluk farklı olabilir. Bu bilgilere dayanan öznitelikleri, özellikle
+doğruluğun en düşük olduğu bağımlılık ölçülerini (<code>syntactic</code>), dikkatle yorumlayın.</p>
+<p>Sözcük ve tümce aracın kendi kuralıyla sayılır
 (<a href="../kavramlar/#sozcuk-ve-tumce">Kavramlar</a>). Hangi özniteliğin hangi sözcüğü kullandığını
 <code>describe_feature(key)["definitions"]["word"]</code> söyler.</p>
 <p>Sınanan sürümler: spaCy 3.8.16, <code>en_core_web_sm</code> 3.8.0,
-<code>tr_core_news_md</code> 1.0.</p>
-<h3 id="4-turkce-morfoloji-zeyreke-bagl">4. Türkçe morfoloji Zeyrek'e bağlı<a class="headerlink" href="#4-turkce-morfoloji-zeyreke-bagl" title="Permanent link">&para;</a></h3>
-<p><code>morphological_zeyrek</code> grubundaki 23 öznitelik ve Türkçe lemmalar Zeyrek'ten
-gelir. Zeyrek bir sözcük için birden çok çözümleme döndürebilir; kütüphane bağlama
-bakmadan ilkini alır. Hangisinin ilk geldiği Python'un her çalıştırılışında az da
-olsa değişebilir; tekrar üretilebilir sayılar için Python'u <code>PYTHONHASHSEED=0</code> ile
-başlatın.</p>
-<h3 id="5-adaylarn-ucte-ikisi-hala-dogrulanmad">5. Adayların üçte ikisi hâlâ doğrulanmadı<a class="headerlink" href="#5-adaylarn-ucte-ikisi-hala-dogrulanmad" title="Permanent link">&para;</a></h3>
-<p><strong>151 doğrulama adayının 48'i</strong> doğrulanmış (46 ✅ + 2 🟡), <strong>103'ü 🔍 açık</strong>: kaynakların
+<code>tr_core_news_md</code> 1.0 (model sürümü 3.4.2), Zeyrek 0.1.3.</p>
+<h3 id="bolunen-sozcukler">Bölünen sözcükler<a class="headerlink" href="#bolunen-sozcukler" title="Permanent link">&para;</a></h3>
+<p>spaCy bir sözcüğü birden çok türceye (İng. <em>token</em>) ayırdığında araç sözcüğün türünü ve
+biçimbilimsel etiketlerini ilk türceden alır. Sözgelimi <code>sosyo-ekonomik</code> sıfat olduğu halde
+ad sayılır. Bu yalnız bu etiketleri kullanan öznitelikleri etkiler; sözcük, seslem ve tümce
+sayımlarına ve okunabilirlik formüllerine dokunmaz. Köşe yazılarında sözcüklerin Türkçede
+%0,65'i, İngilizcede %2,70'i birden çok türceye bölünür.</p>
+<h3 id="turkce-bicimbilim-zeyreke-bagl">Türkçe biçimbilim Zeyrek'e bağlı<a class="headerlink" href="#turkce-bicimbilim-zeyreke-bagl" title="Permanent link">&para;</a></h3>
+<p><code>morphological_zeyrek</code> grubundaki 23 öznitelik ve Türkçe sözlükbirimler Zeyrek'ten gelir.
+Zeyrek bir sözcük için birden çok çözümleme döndürebilir; araç bağlama bakmadan ilkini alır
+(Kalyoncu formüllerinde spaCy'nin sözcük türüne uyanı). Aynı sayıları yeniden almak için
+Python'u <code>PYTHONHASHSEED=0</code> ile başlatın.</p>
+<h3 id="adaylarn-ucte-ikisi-hala-dogrulanmad">Adayların üçte ikisi hâlâ doğrulanmadı<a class="headerlink" href="#adaylarn-ucte-ikisi-hala-dogrulanmad" title="Permanent link">&para;</a></h3>
+<p><strong>172 doğrulama adayının 61'i</strong> doğrulanmış (61 ✅), <strong>111'i 🔍 açık</strong>: kaynakların
 çoğu formülü yayımlar, o formülün uygulandığı bir sayısal örnek vermez. Ayrıntı:
 <a href="../dogrulama/">doğrulama sistemi</a>.</p>
-<h3 id="6-erken-gelistirme-asamas-0x">6. Erken geliştirme aşaması (0.x)<a class="headerlink" href="#6-erken-gelistirme-asamas-0x" title="Permanent link">&para;</a></h3>
-<p>1.0'a kadar anahtar adları ve genel API değişebilir; değişiklikler sürüm notlarında duyurulur.</p>
+<h3 id="erken-gelistirme-asamas-0x">Erken geliştirme aşaması (0.x)<a class="headerlink" href="#erken-gelistirme-asamas-0x" title="Permanent link">&para;</a></h3>
+<p>1.0'a kadar anahtar adları ve Python'dan çağrılan adlar değişebilir; değişiklikler sürüm
+notlarında duyurulur.</p>
 <h2 id="kullanrken-bilmeniz-gerekenler">Kullanırken bilmeniz gerekenler<a class="headerlink" href="#kullanrken-bilmeniz-gerekenler" title="Permanent link">&para;</a></h2>
-<p>Bunlar kütüphanenin eksiği değil: ölçülerin kendi davranışı, girdi
+<p>Bunlar aracın eksiği değil: ölçülerin kendi davranışı, girdi
 gereksinimi ya da künye kuralı. Yine de sonuçları etkiler.</p>
-<h3 id="7-bu-kutuphanenin-kendi-turevleri">7. Bu kütüphanenin kendi türevleri<a class="headerlink" href="#7-bu-kutuphanenin-kendi-turevleri" title="Permanent link">&para;</a></h3>
-<p>Bazı öznitelikler literatürde adı olan ölçüler değil, bu kütüphanenin
-tanımlarıdır. Künyeleri bunu açıkça yazar:</p>
+<h3 id="araca-ozgu-oznitelikler">Araca özgü öznitelikler<a class="headerlink" href="#araca-ozgu-oznitelikler" title="Permanent link">&para;</a></h3>
+<p>Bazı öznitelikler alanyazın ölçüsü değil, bu aracın tanımlarıdır. Künyeleri bunu açıkça
+yazar:</p>
 <ul>
-<li><code>punct_entropy</code>, <code>sent_len_entropy</code> — Shannon formülünün noktalama ve
+<li><code>punct_entropy</code>, <code>sent_len_entropy</code>: Shannon formülünün noktalama ve
   tümce uzunluğu dağılımına uygulanması. Formül Shannon'ın, uygulama kararı
   bizim.</li>
-<li><code>polysyllabic_word_ratio</code> — SMOG'un girdisinin oran biçimi. McLaughlin'in
+<li><code>polysyllabic_word_ratio</code>: SMOG'un girdisinin oran biçimi. McLaughlin'in
   kendi ölçüsü değil.</li>
 </ul>
 <p>Bunları kullanmakta sakınca yok; formülün kaynağını verin, ama ölçüyü o
 kaynağın ölçüsü gibi göstermeyin.</p>
-<h3 id="8-paragraf-oznitelikleri-girdinin-bicimlendirmesine-bagl">8. Paragraf öznitelikleri girdinin biçimlendirmesine bağlı<a class="headerlink" href="#8-paragraf-oznitelikleri-girdinin-bicimlendirmesine-bagl" title="Permanent link">&para;</a></h3>
+<h3 id="paragraf-oznitelikleri-girdinin-bicimlendirmesine-bagl">Paragraf öznitelikleri girdinin biçimlendirmesine bağlı<a class="headerlink" href="#paragraf-oznitelikleri-girdinin-bicimlendirmesine-bagl" title="Permanent link">&para;</a></h3>
 <p><code>paragraph</code> grubunun üç özniteliği paragraf sınırını boş satırdan bulur; tek
 satır sonu paragraf saymaz. Metinde boş satır yoksa metnin tamamı tek paragraf
 sayılır; bu, PDF ve EPUB'dan çıkarılan metinlerde sık olur. 1000 sözcüğü geçen
 bir metinde hiç paragraf sınırı yoksa <code>ParagraphStructureWarning</code> basılır.</p>
-<h3 id="9-hece-saymnda-okunusla-saylanlar-ve-atlananlar">9. Hece sayımında okunuşla sayılanlar ve atlananlar<a class="headerlink" href="#9-hece-saymnda-okunusla-saylanlar-ve-atlananlar" title="Permanent link">&para;</a></h3>
-<p>Okunabilirlik formülleri ve hece öznitelikleri, Çetinkaya-Uzun (2010) sayım
-protokolündeki gibi sayıları, kısaltmaları ve sembolleri <strong>okunuşlarıyla</strong>
-sayar: <code>1918</code> → bin dokuz yüz on sekiz (7 hece), <code>cm</code> → santimetre, <code>%50</code> →
-yüzde elli, <code>3. kat</code> → üçüncü kat, <code>10:30</code> → on otuz, <code>3kg</code> → üç kilogram,
-<code>TBMM</code> → te-be-me-me.</p>
+<h3 id="seslem-saymnda-okunusla-saylanlar-ve-atlananlar">Seslem sayımında okunuşla sayılanlar ve atlananlar<a class="headerlink" href="#seslem-saymnda-okunusla-saylanlar-ve-atlananlar" title="Permanent link">&para;</a></h3>
+<p>Okunabilirlik formülleri ve seslem (İng. <em>syllable</em>) öznitelikleri, Çetinkaya'nın (2010,
+s.93) seslemleri okunduğu biçimiyle sayma ilkesini izler; sayıları, kısaltmaları ve
+simgeleri <strong>okunuşlarıyla</strong> sayar: <code>1918</code> → bin dokuz yüz on sekiz (7 seslem), <code>cm</code> →
+santimetre, <code>%50</code> → yüzde elli, <code>3. kat</code> → üçüncü kat, <code>10:30</code> → on otuz, <code>3kg</code> → üç
+kilogram, <code>TBMM</code> → te-be-me-me.</p>
 <p>Sayıdan sonraki nokta, ardından sözcük ya da virgül geliyorsa sıra sayısıdır
 (<code>3. kat</code>); gelmiyorsa tümce sonudur (<code>Sonuç 3.</code> → üç).</p>
-<p>Okunuşu metinden belirlenemeyen biçimler tahmin edilmez, hece sayımından
+<p>Okunuşu metinden belirlenemeyen biçimler tahmin edilmez, seslem sayımından
 <strong>atlanır</strong>: tek başına birim harfi (<code>m</code> metre de olabilir dakika da),
-okunuşu bağlama göre değişen semboller (<code>/</code>, <code>#</code>, <code>*</code>), listede olmayan, ünlü
-içermeyen küçük harfli kısaltmalar. Bu yüzden sembol ve kısaltma yoğun bir metinde hece
-sayısı, protokole göre elle yapılan sayımdan biraz düşük çıkar.</p>
+okunuşu bağlama göre değişen simgeler (<code>/</code>, <code>#</code>, <code>*</code>), listede olmayan, ünlü
+içermeyen küçük harfli kısaltmalar. Bu yüzden simge ve kısaltma yoğun bir metinde seslem
+sayısı, elle yapılan sayımdan biraz düşük çıkar.</p>
+<h3 id="sesbilimsel-olculer-harfle-hesaplanr">Sesbilimsel ölçüler harfle hesaplanır<a class="headerlink" href="#sesbilimsel-olculer-harfle-hesaplanr" title="Permanent link">&para;</a></h3>
+<p><code>phonological</code> grubunun ölçüleri (ünlü oranları, ünlü uyumu) sesbirimlerden
+(İng. <em>phonemes</em>) değil, yazıdaki harflerden hesaplanır; ön ve art ünlüler gibi sınıflar
+birer harf listesidir. IPA çevriyazısıyla (İng. <em>transcription</em>) çalışılmaz; bu, ileriki
+sürümlere bırakıldı.</p>
+<h3 id="heaps-ksa-metinde-guvenilir-degil">Heaps β kısa metinde güvenilir değil<a class="headerlink" href="#heaps-ksa-metinde-guvenilir-degil" title="Permanent link">&para;</a></h3>
+<p><code>heaps_beta</code> metin boyunca 20 eşit noktada ölçülür (Tweedie ve Baayen 1998, s.333); her
+metin aynı sayıda noktayla ölçülür. En az uzunluk sınırı yoktur, değer en az 20 sözcüklük
+her metinde hesaplanır; 20 sözcükten kısa metinde <code>nan</code> döner. Yasa büyük derlemlerde iyi
+uyar, kısa metinlerde güvenilir değildir (Manning vd. 2008, s.81).</p>
+<h3 id="kalyoncu-formulleri-elle-saymn-yaklasg">Kalyoncu formülleri elle sayımın yaklaşığı<a class="headerlink" href="#kalyoncu-formulleri-elle-saymn-yaklasg" title="Permanent link">&para;</a></h3>
+<p><code>kalyoncu_*</code> anahtarları Kalyoncu'nun (2025) elle yaptığı sayımı Zeyrek ve spaCy ile yaklaşık
+olarak yeniden üretir. Kalyoncu'nun dokuz kuralından dördü (yaygın türetme ekli türevler,
+yansıma, pekiştirme, uzak anlam) ve anlama dayalı tümce tanımı uygulanmaz. KL uzman yargısına
+dayanır (3., 5., 8. kurallar), bu yüzden uzman değerleriyle tam örtüşmesi beklenmez. Yazıyla
+yazılan sayılar liste içidir; büyük harfle başlayan (tümce başında olmayan) sözcük özel ad
+sayılır; gövde ve fiilimsi sayımı spaCy türüne uyan Zeyrek çözümlemesinden yapılır (bu üç kural
+yalnız <code>kalyoncu_*</code> anahtarlarında). Zeyrek'in tanımadığı fiilimsi ekleri ve seçilen
+çözümlemedeki hatalar sonucu değiştirir. Ayrıntı:
+<a href="../kalyoncu/">Kalyoncu formülleri</a>.</p>
 
 
 
@@ -2411,10 +2624,10 @@ sayısı, protokole göre elle yapılan sayımdan biraz düşük çıkar.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.c21346df.min.js"></script>
       
     
   </body>

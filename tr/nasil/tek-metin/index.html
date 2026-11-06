@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 208, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 208 quantitative linguistic features from Turkish text and 181 from English text">
+        <meta name="description" content="Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative linguistic features from Turkish text and 181 from English text">
       
       
       
@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -31,10 +31,10 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -690,13 +690,30 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#kendi-obeklerinizi-sayn" class="md-nav__link">
+  <a href="#kendi-sozcuk-dizilerinizi-sayn" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Kendi öbeklerinizi sayın
+        Kendi sözcük dizilerinizi sayın
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Kendi sözcük dizilerinizi sayın">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bir-oge-neyle-eslesir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bir öge neyle eşleşir
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -767,7 +784,7 @@
   <span class="md-ellipsis">
     
   
-    Korpusu CSV'ye çıkar
+    Derlemi CSV'ye çıkar
   
 
     
@@ -912,6 +929,8 @@
       
         
           
+        
+      
         
       
         
@@ -1078,6 +1097,34 @@
     
   
     Sınırlılıklar
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../aciklama/kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formülleri
   
 
     
@@ -1513,6 +1560,8 @@
       
         
       
+        
+      
     
     
     
@@ -1666,6 +1715,34 @@
     
   
     Limitations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../en/explanation/kalyoncu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kalyoncu formulas
   
 
     
@@ -2097,13 +2174,30 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#kendi-obeklerinizi-sayn" class="md-nav__link">
+  <a href="#kendi-sozcuk-dizilerinizi-sayn" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Kendi öbeklerinizi sayın
+        Kendi sözcük dizilerinizi sayın
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Kendi sözcük dizilerinizi sayın">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bir-oge-neyle-eslesir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bir öge neyle eşleşir
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2177,144 +2271,209 @@
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
 </code></pre></div>
-<p>Dönen şey düz bir <code>dict</code>: anahtar öznitelik adı, değer sayı.</p>
+<p>Dönen şey düz bir <code>dict</code>: anahtar öznitelik (İng. <em>feature</em>) adı, değer sayı.</p>
 <h2 id="dil-secimi-oznitelik-kumesini-degistirir">Dil seçimi öznitelik kümesini değiştirir<a class="headerlink" href="#dil-secimi-oznitelik-kumesini-degistirir" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">tr</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">tr_metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">en</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">en_metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">)</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nb">len</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span>   <span class="c1"># 208</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nb">len</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span>   <span class="c1"># 214</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nb">len</span><span class="p">(</span><span class="n">en</span><span class="p">)</span>   <span class="c1"># 181</span>
 </code></pre></div>
-<p>Aradaki 27'nin dökümü:</p>
+<p>Aradaki 33'ün dökümü:</p>
 <ul>
-<li><strong>+23</strong> Zeyrek ek çözümlemesi: <code>morphological_zeyrek</code> grubu (ek zinciri,
-  durum ekleri, kip ve zaman; anahtarların hepsi <code>zeyrek_</code> ile başlar) — yalnız
+<li><strong>+23</strong> Zeyrek biçimbirim (İng. <em>morpheme</em>) çözümlemesi: <code>morphological_zeyrek</code> grubu (ek
+  zinciri, durum ekleri, kip ve zaman; anahtarların hepsi <code>zeyrek_</code> ile başlar); yalnız
   Türkçe.</li>
-<li><strong>+2</strong> ünlü uyumu (<code>harmony_fronting_ratio</code>, <code>harmony_rounding_ratio</code>) —
-  Türkçenin özelliği; İngilizcede üretilmez.</li>
+<li><strong>+2</strong> büyük ve küçük ünlü uyumu (<code>harmony_fronting_ratio</code>, <code>harmony_rounding_ratio</code>);
+  Türkçenin özelliği, İngilizcede üretilmez.</li>
 <li><strong>+3</strong> harf: Türkçe alfabe 29 harf, İngilizce 26 (<code>ç ğ ı ö ş ü</code> yalnız
   Türkçede, <code>q w x</code> yalnız İngilizcede).</li>
-<li><strong>−1</strong> okunabilirlik: Türkçeye özgü 3 öznitelik (Ateşman, Çetinkaya-Uzun ve
-  Bezirci-Yılmaz formülleri), İngilizceye özgü 4 öznitelik (Flesch, Flesch-Kincaid
-  ve SMOG formülleri ile çok heceli sözcük oranı); ortak olanlar iki dilde de var.</li>
+<li><strong>+5</strong> okunabilirlik: Türkçeye özgü 12 öznitelik (Ateşman, Çetinkaya-Uzun ve
+  Bezirci-Yılmaz formülleri; <a href="../../aciklama/kalyoncu/">Kalyoncu'nun</a> dört formülü ve beş
+  bileşeni), İngilizceye özgü 7 öznitelik (Flesch, Flesch-Kincaid,
+  SMOG, ARI, Coleman-Liau ve LIX formülleri ile çok seslemli sözcük oranı); ortak olan
+  <code>long_word_ratio</code> iki dilde de var.</li>
 </ul>
-<p><code>phonetic</code> grubu Türkçede 14, İngilizcede 12 öznitelik içerir.</p>
+<p>Okunabilirlik formülü yalnız kurulduğu dilde hesaplanır. Bir formülün katsayıları kurulduğu
+dilin metinlerinden belirlenir; Ateşman (1997) da Flesch formülünü Türkçeye uygularken
+katsayıları Türkçe metinlerden yeniden hesaplamıştır. Bu yüzden Türkçe metinde Flesch,
+İngilizce metinde Ateşman verilmez.</p>
+<p><code>phonological</code> grubu Türkçede 14, İngilizcede 12 öznitelik içerir.</p>
 <p><code>lang</code> yalnız <code>"tr"</code> ve <code>"en"</code> alır. Başka bir değer <code>ValueError</code> verir.</p>
 <h2 id="yalnz-baz-gruplar-isteyin">Yalnız bazı grupları isteyin<a class="headerlink" href="#yalnz-baz-gruplar-isteyin" title="Permanent link">&para;</a></h2>
-<p>208 özniteliğin hepsine ihtiyacınız yoksa grup seçin; çıktı yalnız o grupların
+<p>214 özniteliğin hepsine ihtiyacınız yoksa grup seçin; çıktı yalnız o grupların
 anahtarlarını taşır:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="s2">"readability"</span><span class="p">,</span> <span class="s2">"lexical"</span><span class="p">])</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">len</span><span class="p">(</span><span class="n">oz</span><span class="p">)</span>     <span class="c1"># 45</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">len</span><span class="p">(</span><span class="n">oz</span><span class="p">)</span>     <span class="c1"># 48</span>
 </code></pre></div>
 <p>Grup seçmek az hız kazandırır. Sürenin çoğu spaCy ve Zeyrek ön işlemesinde
 geçer ve o her durumda bir kez yapılır; grup seçimi yalnız sonraki hesabı
 kısaltır. 1000 sözcüklük bir metinde bütün gruplar yaklaşık 1,1 saniye, yalnız
 <code>readability</code> yaklaşık 0,95 saniye sürer.</p>
-<p>Mevcut gruplar ve Türkçede kaç öznitelik içerdikleri:</p>
+<p>Gruplar ve Türkçede kaç öznitelik içerdikleri:</p>
 <table>
 <thead>
 <tr>
 <th>Grup</th>
-<th>Öznitelik</th>
+<th>Ad</th>
 <th>İçerik</th>
+<th>Öznitelik</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>lexical</code></td>
-<td>38</td>
-<td>Sözcüksel zenginlik, sıklık</td>
+<td>Sözcüksel zenginlik ve sıklık</td>
+<td>sözcüksel çeşitlilik (İng. <em>lexical diversity</em>), sözcük sıklığı ve sözcüksel yoğunluk</td>
+<td>35</td>
 </tr>
 <tr>
 <td><code>chars</code></td>
+<td>Karakter sıklıkları</td>
+<td>her harfin oranı</td>
 <td>29</td>
-<td>Harf sıklık vektörü: Türkçe alfabenin her harfi için bir anahtar (İngilizcede 26; <code>q</code>, <code>w</code>, <code>x</code> yalnız orada)</td>
 </tr>
 <tr>
 <td><code>morphological_zeyrek</code></td>
+<td>Biçimbilimsel öznitelikler (Zeyrek)</td>
+<td>biçimbirim çözümlemesine dayalı oranlar</td>
 <td>23</td>
-<td>Zeyrek ek çözümlemesi (yalnız TR)</td>
-</tr>
-<tr>
-<td><code>morphological</code></td>
-<td>19</td>
-<td>UD biçimbilimsel özellikleri</td>
 </tr>
 <tr>
 <td><code>punctuation</code></td>
+<td>Noktalama ve yazım</td>
+<td>noktalama, büyük harf, rakam</td>
 <td>20</td>
-<td>Noktalama türlerinin payı, noktalama yoğunluğu, büyük harf</td>
 </tr>
 <tr>
-<td><code>syntactic_dep</code></td>
-<td>16</td>
-<td>Bağlılık ayrıştırması</td>
-</tr>
-<tr>
-<td><code>phonetic</code></td>
-<td>14</td>
-<td>Hece, ünlü, ses örüntüsü</td>
+<td><code>morphological</code></td>
+<td>Biçimbilimsel öznitelikler (spaCy)</td>
+<td>durum, zaman, kişi, görünüş, çatı</td>
+<td>19</td>
 </tr>
 <tr>
 <td><code>frequency_structure</code></td>
-<td>13</td>
-<td>Zipf, h-noktası, tematik yoğunlaşma</td>
+<td>Sıklık yapısı</td>
+<td>h-noktasına ve Zipf yasasına dayalı sıklık yapısı ölçüleri</td>
+<td>17</td>
 </tr>
 <tr>
 <td><code>pos</code></td>
-<td>12</td>
-<td>POS payları</td>
+<td>Sözcük türleri</td>
+<td>sözcük türlerinin (İng. <em>parts of speech</em>) oranları ve çeşitliliği</td>
+<td>17</td>
 </tr>
 <tr>
 <td><code>syntactic</code></td>
-<td>7</td>
-<td>Tümce yapısı</td>
+<td>Sözdizimsel öznitelikler</td>
+<td>bağımlılık uzaklığı, hiyerarşik uzaklık, tümce sonundaki sözcüğün türü</td>
+<td>16</td>
 </tr>
 <tr>
-<td><code>sentence</code></td>
-<td>7</td>
-<td>Tümce uzunluğu dağılımı</td>
+<td><code>phonological</code></td>
+<td>Sesbilimsel öznitelikler</td>
+<td>ünlü dağılımı, ünlü uyumu, seslem sayısı</td>
+<td>14</td>
 </tr>
 <tr>
 <td><code>readability</code></td>
-<td>7</td>
-<td>Okunabilirlik formülleri</td>
+<td>Okunabilirlik</td>
+<td>okunabilirlik formülleri ve bileşenleri</td>
+<td>13</td>
+</tr>
+<tr>
+<td><code>sentence</code></td>
+<td>Tümce öznitelikleri</td>
+<td>tümce sayısı, uzunluğu ve soru tümcesi oranı</td>
+<td>8</td>
 </tr>
 <tr>
 <td><code>paragraph</code></td>
-<td>3</td>
 <td>Paragraf yapısı</td>
+<td>paragraf sayısı ve uzunluğu</td>
+<td>3</td>
 </tr>
 </tbody>
 </table>
+<p><code>chars</code> yalnız harfleri sayar: Türkçe alfabenin her harfi için bir anahtar (İngilizcede 26;
+<code>q</code>, <code>w</code>, <code>x</code> yalnız orada). <code>morphological_zeyrek</code> yalnız Türkçede üretilir.</p>
 <p>Bir özniteliğin hangi grupta olduğunu <code>describe_feature(anahtar)["group"]</code>
 söyler.</p>
-<h2 id="kendi-obeklerinizi-sayn">Kendi öbeklerinizi sayın<a class="headerlink" href="#kendi-obeklerinizi-sayn" title="Permanent link">&para;</a></h2>
+<h2 id="kendi-sozcuk-dizilerinizi-sayn">Kendi sözcük dizilerinizi sayın<a class="headerlink" href="#kendi-sozcuk-dizilerinizi-sayn" title="Permanent link">&para;</a></h2>
 <p>Hazır özniteliklerin dışında aradığınız bir kalıp varsa <code>custom_ngrams</code> ile
-verin:</p>
+sözcük dizisi (İng. <em>n-gram</em>) olarak verin:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">metin</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"Eski ev yıkıldı. Yerine yeni bir bina yapıldı, ama büyük bahçe kaldı. "</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>         <span class="s2">"Ne var ki kimse eski evi unutmadı."</span><span class="p">)</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">custom_ngrams</span><span class="o">=</span><span class="p">[[</span><span class="s2">"ne"</span><span class="p">,</span> <span class="s2">"var"</span><span class="p">,</span> <span class="s2">"ki"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"ADJ"</span><span class="p">,</span> <span class="s2">"NOUN"</span><span class="p">]])</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">oz</span><span class="p">[</span><span class="s2">"ngram_ne_var_ki_count"</span><span class="p">]</span>   <span class="c1"># 1.0</span>
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">oz</span><span class="p">[</span><span class="s2">"ngram_ADJ_NOUN_count"</span><span class="p">]</span>    <span class="c1"># 3.0</span>
 </code></pre></div>
-<p>Her öbek bir anahtar olur; değeri metindeki eşleşme sayısıdır.</p>
-<ul>
-<li>Sözcükler küçük harfe indirilerek karşılaştırılır. Yazılı biçim aranır,
-  lemma değil: <code>eski ev</code> ile <code>eski evi</code> ayrı eşleşmelerdir.</li>
-<li>Büyük harfle yazılmış bir UD POS etiketi (<code>NOUN</code>, <code>VERB</code>, <code>ADJ</code>…)
-  o etiketi taşıyan herhangi bir sözcükle eşleşir. <code>["ADJ", "NOUN"]</code> bir sıfat
-  ve hemen ardından bir isim demektir; <code>yeni bir bina</code> eşleşmez, çünkü arada
-  <code>bir</code> var.</li>
-<li>Eşleşme tümce sınırını aşmaz: <code>kaldı. Ne</code> yan yana sayılmaz.</li>
-<li>Değer düz sayımdır. Uzunlukları farklı metinleri karşılaştıracaksanız
-  <code>word_count</code>'a bölün (<code>oz["ngram_ADJ_NOUN_count"] / oz["word_count"]</code>) ya
-  da metinleri aynı boya getirin (<code>segment_size</code>).</li>
-</ul>
-<p>Sayı "kaç kez" sorusunu cevaplar. Öbeğin <strong>neyle</strong> eşleştiğini görmek için:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">ngram_matches</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="p">[</span><span class="s2">"ADJ"</span><span class="p">,</span> <span class="s2">"NOUN"</span><span class="p">],</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
+<p>Her dizi bir anahtar olur; değeri metindeki eşleşme sayısıdır. Dizi tek bir öge de
+olabilir; o zaman o ögenin metinde kaç kez geçtiğini verir.</p>
+<h3 id="bir-oge-neyle-eslesir">Bir öge neyle eşleşir<a class="headerlink" href="#bir-oge-neyle-eslesir" title="Permanent link">&para;</a></h3>
+<p>Dizideki her öge şu sırayla yorumlanır:</p>
+<table>
+<thead>
+<tr>
+<th>Öge</th>
+<th>Neyle eşleşir</th>
+<th>Anahtarda</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sözcük türü etiketi (İng. <em>POS tag</em>; <code>NOUN</code>, <code>VERB</code>, <code>ADJ</code>…)</td>
+<td>O etiketi taşıyan her sözcük</td>
+<td>büyük harf (<code>NOUN</code>)</td>
+</tr>
+<tr>
+<td>Tamamı büyük harf, en az 2 harf (<code>EV</code>, <code>GİT</code>, <code>İZMİR</code>)</td>
+<td>Sözlükbirimi (İng. <em>lemma</em>) o olan her sözcük</td>
+<td>büyük harf (<code>EV</code>)</td>
+</tr>
+<tr>
+<td>Geri kalan her şey (<code>ev</code>, <code>izmir</code>, <code>I</code>)</td>
+<td>Küçük harfe indirilmiş yazılı biçim</td>
+<td>küçük harf (<code>ev</code>)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Yazılı biçim araması.</strong> Küçük harfle yazdığınız öge sözcüğün yazılı biçimiyle eşleşir:
+<code>eski ev</code> ile <code>eski evi</code> ayrı eşleşmelerdir. Büyük harfli yazımları da yakalar: <code>izmir</code>,
+"İzmir" ve "İZMİR"i bulur, ama çekimli biçimleri ("İzmir'e") bulmaz.</p>
+<p><strong>Sözlükbirim araması.</strong> Çekimli biçimleri de yakalamak için ögeyi tamamen büyük harfle
+yazın; o sözlükbirimi taşıyan her sözcükle eşleşir:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">ornek</span> <span class="o">=</span> <span class="s2">"Eve gittim. Evden çıktık. Evdeki kedi uyudu."</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">tlf</span><span class="o">.</span><span class="n">ngram_matches</span><span class="p">(</span><span class="n">ornek</span><span class="p">,</span> <span class="p">[</span><span class="s2">"EV"</span><span class="p">,</span> <span class="s2">"VERB"</span><span class="p">],</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># {'eve gittim': 1, 'evden çıktık': 1}</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">ornek</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">custom_ngrams</span><span class="o">=</span><span class="p">[[</span><span class="s2">"EV"</span><span class="p">,</span> <span class="s2">"VERB"</span><span class="p">]])[</span><span class="s2">"ngram_EV_VERB_count"</span><span class="p">]</span>   <span class="c1"># 2.0</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>{'eski ev': 1, 'büyük bahçe': 1, 'eski evi': 1}
+<p><strong>Sözcük türü etiketi.</strong> <code>["ADJ", "NOUN"]</code> bir sıfat ve hemen ardından bir ad demektir;
+<code>yeni bir bina</code> eşleşmez, çünkü arada <code>bir</code> var.</p>
+<p>Ayrıntılar:</p>
+<ul>
+<li>Sözcük, sözlükbirim ve etiket aynı dizide karışabilir: <code>["eski", "EV", "GİT"]</code> →
+  <code>ngram_eski_EV_GİT_count</code>; <code>["ADJ", "EV"]</code>; <code>["çok", "ADJ"]</code> (<code>çok</code> sözcüğünden hemen
+  sonra bir sıfat).</li>
+<li>Sözlükbirimin kaynağı aracın geri kalanıyla aynıdır: Türkçede Zeyrek'in ilk çözümlemesi,
+  İngilizcede spaCy.</li>
+<li>Eylemler mastar eki olmadan yazılır: <code>GİT</code>, <code>GO</code> (<code>["GO", "home"]</code> → "went home",
+  "goes home").</li>
+<li>Büyük harfli öge Türkçenin kuralıyla küçültülür: <code>İZMİR</code> → izmir, <code>IRMAK</code> → ırmak.
+  Noktasız <code>IZMIR</code> ise ızmır olur.</li>
+<li>Tek harfli öge sözcük sayılır, sözlükbirim araması yapılmaz (<code>I</code>, <code>O</code>).</li>
+<li>Etiket adıyla aynı olan sözlükbirim her zaman etiket sayılır: İngilizce "part"
+  sözlükbirimi <code>PART</code> diye aranamaz.</li>
+<li>Eşleşme tümce sınırını aşmaz: <code>kaldı. Ne</code> yan yana sayılmaz.</li>
+</ul>
+<p>Diğer notlar:
+- Değer düz sayımdır. Uzunlukları farklı metinleri karşılaştıracaksanız
+  <code>word_count</code>'a bölün (<code>oz["ngram_ADJ_NOUN_count"] / oz["word_count"]</code>) ya
+  da metinleri aynı boya getirin (<code>segment_size</code>).</p>
+<p>Sayı "kaç kez" sorusunu cevaplar. Dizinin <strong>neyle</strong> eşleştiğini görmek için:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">ngram_matches</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="p">[</span><span class="s2">"ADJ"</span><span class="p">,</span> <span class="s2">"NOUN"</span><span class="p">],</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>{'eski ev': 1, 'büyük bahçe': 1, 'eski evi': 1}
 </code></pre></div>
 <p>En sık eşleşme önce gelir; sayıların toplamı <code>ngram_ADJ_NOUN_count</code> ile
 aynıdır. Tümce ve konum bilgisi verilmez. Birden çok metin için sonuçları
@@ -2322,39 +2481,38 @@ aynıdır. Tümce ve konum bilgisi verilmez. Birden çok metin için sonuçları
 <a href="https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/10_kelime_oruntuleri.py"><code>examples/10_kelime_oruntuleri.py</code></a>.</p>
 <h2 id="ilerleme-gostergesi">İlerleme göstergesi<a class="headerlink" href="#ilerleme-gostergesi" title="Permanent link">&para;</a></h2>
 <p>Uzun metinlerde ne olduğunu görmek isterseniz:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">show_progress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">show_progress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="uyarlar-susturun">Uyarıları susturun<a class="headerlink" href="#uyarlar-susturun" title="Permanent link">&para;</a></h2>
-<p>İsteğe bağlı <code>wordfreq</code> paketi kurulu değilse kütüphane
+<p>İsteğe bağlı <code>wordfreq</code> paketi kurulu değilse araç
 <code>MissingDependencyWarning</code> basar ve ona bağlı iki özniteliği (<code>wordfreq_*</code>)
-<code>nan</code> bırakır. Bunu bilerek
-kabul ediyorsanız:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<code>nan</code> bırakır. Bunu bilerek kabul ediyorsanız:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 <p><code>warn=False</code> <strong>hesaplamayı değiştirmez</strong>, yalnız uyarıyı bastırır. Eksik
 öznitelik yine <code>nan</code> döner.</p>
 <h2 id="farkl-bir-spacy-modeli-kullann">Farklı bir spaCy modeli kullanın<a class="headerlink" href="#farkl-bir-spacy-modeli-kullann" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">"tr_core_news_trf"</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">"tr_core_news_trf"</span><span class="p">)</span>
 </code></pre></div>
 <p>Varsayılanlar <code>tr_core_news_md</code> ve <code>en_core_web_sm</code>. Model kurulu değilse
-<code>ModelNotFoundError</code> alırsınız — mesajda kurulum komutu yazar.</p>
+<code>ModelNotFoundError</code> alırsınız; mesajda kurulum komutu yazar.</p>
 <div class="admonition warning">
 <p class="admonition-title">Model değiştirmek sayıları değiştirir</p>
-<p>Tokenlara ayırma, POS etiketleri, biçimbilimsel etiketler ve bağlılık
-ayrıştırması modelden gelir. Farklı modelle çıkan tabloyu eskisiyle aynı çalışmada
-karşılaştırmayın.</p>
+<p>Türceler (İng. <em>tokens</em>), sözcük türü etiketleri, biçimbilimsel etiketler ve
+bağımlılık çözümlemesi modelden gelir. Farklı modelle çıkan tabloyu eskisiyle aynı
+çalışmada karşılaştırmayın.</p>
 </div>
 <h2 id="tam-imza">Tam imza<a class="headerlink" href="#tam-imza" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">analyze</span><span class="p">(</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"tr"</span><span class="p">,</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>    <span class="n">groups</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="n">params</span><span class="p">:</span> <span class="n">FeatureParams</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    <span class="n">custom_ngrams</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>    <span class="n">show_progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>    <span class="n">warn</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">analyze</span><span class="p">(</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"tr"</span><span class="p">,</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>    <span class="n">groups</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>    <span class="n">params</span><span class="p">:</span> <span class="n">FeatureParams</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>    <span class="n">custom_ngrams</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>    <span class="n">show_progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>    <span class="n">warn</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
 </code></pre></div>
 <p><code>params</code> için → <a href="../parametreler/">Eşikleri değiştir</a>.</p>
 
@@ -2416,10 +2574,10 @@ karşılaştırmayın.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "search.highlight", "toc.follow"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Kopyaland\u0131", "clipboard.copy": "Kopyala", "search.result.more.one": "Bu sayfada 1 tane daha", "search.result.more.other": "Bu sayfada # tane daha", "search.result.none": "E\u015fle\u015fen dok\u00fcman bulunamad\u0131", "search.result.one": "1 dok\u00fcman bulundu", "search.result.other": "# dok\u00fcman bulundu", "search.result.placeholder": "Aramaya ba\u015flamak i\u00e7in yaz\u0131n", "search.result.term.missing": "Eksik", "select.version": "Versiyon se\u00e7"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.c21346df.min.js"></script>
       
     
   </body>
