@@ -30,7 +30,7 @@ Aradaki 33'ün dökümü:
 - **+3** harf: Türkçe alfabe 29 harf, İngilizce 26 (`ç ğ ı ö ş ü` yalnız
   Türkçede, `q w x` yalnız İngilizcede).
 - **+5** okunabilirlik: Türkçeye özgü 12 öznitelik (Ateşman, Çetinkaya-Uzun ve
-  Bezirci-Yılmaz formülleri; [Kalyoncu'nun](../aciklama/kalyoncu.md) dört formülü ve beş
+  Bezirci-Yılmaz formülleri; Kalyoncu'nun dört formülü ve beş
   bileşeni), İngilizceye özgü 7 öznitelik (Flesch, Flesch-Kincaid,
   SMOG, ARI, Coleman-Liau ve LIX formülleri ile çok seslemli sözcük oranı); ortak olan
   `long_word_ratio` iki dilde de var.

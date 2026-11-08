@@ -31,7 +31,7 @@ The 33-feature difference breaks down as:
 - **+3** letters: the Turkish alphabet has 29, English 26 (`ç ğ ı ö ş ü`
   only in Turkish, `q w x` only in English).
 - **+5** readability: 12 Turkish-only features (the Ateşman, Çetinkaya-Uzun and
-  Bezirci-Yılmaz formulas; [Kalyoncu's](../explanation/kalyoncu.md) four formulas and five
+  Bezirci-Yılmaz formulas; Kalyoncu's four formulas and five
   components), 7 English-only features (the Flesch, Flesch-Kincaid,
   SMOG, ARI, Coleman-Liau and LIX formulas and the polysyllabic word ratio); the
   shared `long_word_ratio` exists in both.

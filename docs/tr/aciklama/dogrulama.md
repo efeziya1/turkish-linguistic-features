@@ -200,8 +200,7 @@ Raporun dışında, uzman değerlerini içeren bir sınama veri seti (İng. *tes
 kullanıldı: TOMA programı için yayımlanan 57 metin (Kalyoncu vd. 2026). Bu veri setinde
 aracın sözcük ve seslem sayıları uzman değerleriyle neredeyse tamamen, tümce sayıları ve
 Türkçe okunabilirlik formülleri metinlerin çoğunda örtüşür. İnsan yargısına dayanan
-değişkenlerde (Kalyoncu'nun KL ve KCO'su) araç uzman değerlerini üretmez
-([Kalyoncu formülleri](kalyoncu.md)).
+değişkenlerde (Kalyoncu'nun KL ve KCO'su) araç uzman değerlerini üretmez.
 
 ## Rapor testlerden üretilir
 

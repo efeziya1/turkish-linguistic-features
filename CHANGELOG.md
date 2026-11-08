@@ -15,8 +15,8 @@ Turkish 197 → 203, English 170. Groups: 13 → 12 (13 with
   list), `kalyoncu_ttr` (share of stems occurring once), `kalyoncu_kco` (share of complex
   sentences), `kalyoncu_yco` (verbals per sentence) and `kalyoncu_ocu` (words per sentence).
   Numbers count as the words they are read as (`1968` = 5 words), in these keys only. Four of
-  Kalyoncu's nine word-list rules and his meaning-based sentence definition are not applied;
-  see the Kalyoncu formulas page. The values approximate Kalyoncu's hand counts. In these keys
+  Kalyoncu's nine word-list rules and his meaning-based sentence definition are not applied.
+  The values approximate Kalyoncu's hand counts. In these keys
   only: numbers written in words (`iki`, `ikisi`, `üçüncü`, `beşer`) count as in the list
   (rule 9 does not tell digits from words); a word tagged `PROPN`, or capitalised and not at
   the start of a sentence (`İstanbul'da`, `İstanbul’da`), is a proper noun and stays out of the

@@ -2,8 +2,7 @@
 
 Bilinen değerlerin kaynağı YAYIMLANMIŞ sonuçlar (K12, Kademe A):
 QUITA kılavuzu (Kubát, Matlach & Čech 2014) Ek 15.3'teki iki Orwell metninin
-tam frekans listeleri ve kılavuzun kendi çalışılmış örnekleri. Sayfa/denklem
-numaraları → D:/Masaüstü/tlf-kaynaklar/00-INDEKS.md
+tam frekans listeleri ve kılavuzun kendi çalışılmış örnekleri.
 """
 
 import math

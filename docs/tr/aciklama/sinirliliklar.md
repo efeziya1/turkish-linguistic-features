@@ -155,5 +155,4 @@ dayanır (3., 5., 8. kurallar), bu yüzden uzman değerleriyle tam örtüşmesi 
 yazılan sayılar liste içidir; büyük harfle başlayan (tümce başında olmayan) sözcük özel ad
 sayılır; gövde ve fiilimsi sayımı spaCy türüne uyan Zeyrek çözümlemesinden yapılır (bu üç kural
 yalnız `kalyoncu_*` anahtarlarında). Zeyrek'in tanımadığı fiilimsi ekleri ve seçilen
-çözümlemedeki hatalar sonucu değiştirir. Ayrıntı:
-[Kalyoncu formülleri](kalyoncu.md).
+çözümlemedeki hatalar sonucu değiştirir.

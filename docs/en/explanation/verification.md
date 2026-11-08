@@ -212,8 +212,7 @@ Outside the report, a test dataset with expert values was also used: the 57 text
 published for the TOMA program (Kalyoncu et al. 2026). On this dataset the tool's word and
 syllable counts agree with the expert values almost completely, and its sentence counts and
 Turkish readability formulas agree on most texts. For variables that rest on human
-judgement (Kalyoncu's KL and KCO) the tool does not reproduce the expert values
-([Kalyoncu formulas](kalyoncu.md)).
+judgement (Kalyoncu's KL and KCO) the tool does not reproduce the expert values.
 
 ## The report is generated from the tests
 

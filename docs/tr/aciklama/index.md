@@ -10,4 +10,3 @@ sınırları anlatmak için.
 | [NaN ne demek](nan.md) | Neden sayı yerine `nan` dönüyor ve bu neden iyi |
 | [Doğrulama sistemi](dogrulama.md) | ✅ 🟡 🔍 ❌ ⚪ ⚫ 🔧 📐 ne anlama geliyor, nasıl okunur |
 | [Sınırlılıklar](sinirliliklar.md) | Nerede güvenmemeniz gerektiği |
-| [Kalyoncu formülleri](kalyoncu.md) | K1–K4 nasıl hesaplanıyor, hangi kurallar uygulanmıyor |

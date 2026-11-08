@@ -163,5 +163,4 @@ judgement (rules 3, 5, 8), so it is not expected to match the expert values exac
 written in words count as in the list; a capitalised word not at the start of a sentence
 counts as a proper noun; stems and verbals are counted from the Zeyrek analysis that matches
 spaCy's class (these three rules apply in the `kalyoncu_*` keys only). Verbal suffixes Zeyrek
-does not know and errors in the selected analysis change the result. Details:
-[Kalyoncu formulas](kalyoncu.md).
+does not know and errors in the selected analysis change the result.

@@ -76,7 +76,6 @@ nav:
           - NaN ne demek: tr/aciklama/nan.md
           - Doğrulama sistemi: tr/aciklama/dogrulama.md
           - Sınırlılıklar: tr/aciklama/sinirliliklar.md
-          - Kalyoncu formülleri: tr/aciklama/kalyoncu.md
       - Terim sözlüğü: tr/sozluk.md
   - English:
       - en/index.md
@@ -95,7 +94,6 @@ nav:
           - What NaN means: en/explanation/nan.md
           - The verification system: en/explanation/verification.md
           - Limitations: en/explanation/limitations.md
-          - Kalyoncu formulas: en/explanation/kalyoncu.md
       - Glossary: en/glossary.md
   - Reference:
       - reference/index.md

@@ -10,4 +10,3 @@ the boundaries.
 | [What NaN means](nan.md) | Why a number is missing, and why that is good |
 | [The verification system](verification.md) | What ✅ 🟡 🔍 ❌ ⚪ ⚫ 🔧 📐 mean and how to read them |
 | [Limitations](limitations.md) | Where not to trust it |
-| [Kalyoncu formulas](kalyoncu.md) | How K1–K4 are computed, which rules are not applied |
