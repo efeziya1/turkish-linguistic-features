@@ -56,6 +56,17 @@ def test_turkce_isleme():
 
 
 @tr_model
+def test_akana_ner_ozel_adi_isaretler():
+    """spaCy'nin kaçırdığı özel adlar Akana NER'le PROPN olur (0.4.0, Efe, 2026-11-25)."""
+    pt = Preprocessor(lang="tr").process("Ben dün Derya ile Almanya’da buluştum.")
+    etiket = dict(pt.pos_data)
+    assert etiket["Derya"] == "PROPN"
+    assert etiket["Almanya’da"] == "PROPN"
+    assert etiket["dün"] != "PROPN"
+    assert etiket["."] == "PUNCT"
+
+
+@tr_model
 def test_lemma_noktalama_icermez():
     pt = Preprocessor(lang="tr").process("Ali geldi, gitti.")
     assert "." not in pt.lemma_tokens

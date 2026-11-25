@@ -192,6 +192,30 @@ class Preprocessor:
             self._morph_backend._ensure_loaded()
         return self._morph_backend
 
+    def _ozel_adlar(self, doc, pos: list[tuple[str, str]]) -> list[tuple[str, str]]:
+        """Turkish: tokens inside a person, place or organisation name become ``PROPN``.
+
+        Names come from Akana's named-entity recogniser (``AkanaBackend.proper_noun_spans``);
+        spaCy's Turkish model leaves many of them ``NOUN`` or ``ADJ`` (``Derya``,
+        ``Almanya'da``). Punctuation, symbols and tokens without a letter keep their tag
+        (0.4.0, Efe, 2026-11-25). ``dep_data`` keeps spaCy's tags, so ``syntactic`` is
+        unaffected. ``pos`` is aligned with the non-space tokens of ``doc``.
+        """
+        araliklar = self._morph().proper_noun_spans(doc.text)
+        if not araliklar:
+            return pos
+        out = list(pos)
+        i = 0
+        for tok in doc:
+            if tok.is_space:
+                continue
+            a, b = tok.idx, tok.idx + len(tok.text)
+            if (out[i][1] not in NON_WORD_POS and any(c.isalpha() for c in tok.text)
+                    and any(s < b and a < e for s, e in araliklar)):
+                out[i] = (out[i][0], "PROPN")
+            i += 1
+        return out
+
     def _birlestir(self, raw_text: str, dokumanlar: list) -> ProcessedText:
         """Parça ``Doc``'larını tek ``ProcessedText``te toplar."""
         surface: list[str] = []
@@ -203,6 +227,8 @@ class Preprocessor:
 
         for doc in dokumanlar:
             s, p, m, c, lm, d = self._tokens_from_doc(doc, self.lang)
+            if self.lang == "tr":
+                p = self._ozel_adlar(doc, p)
             surface += s
             pos += p
             morph += m

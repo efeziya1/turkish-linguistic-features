@@ -124,3 +124,21 @@ def test_tumce_cozumsuz_turce_bicimi():
     assert [m for m, _ in secilen] == [(("Unk", "xqzpw", False),), (("Unk", "%", False),),
                                        (("Unk", ".", False),)]
     assert AkanaBackend().analyze_sentence([]) == []
+
+
+# ── özel ad aralıkları (Akana NER; 0.4.0, Efe, 2026-11-25) ────────────
+
+
+def test_ozel_ad_araliklari_kisi_yer_kurum():
+    """Kişi, yer, kurum adlarının karakter aralıkları; tarih özel ad değildir."""
+    metin = "Dün Derya, 29 Ekim 1923'te Türk Hava Yolları ile Almanya’ya gitti."
+    araliklar = AkanaBackend().proper_noun_spans(metin)
+    parcalar = [metin[a:b] for a, b in araliklar]
+    assert "Derya" in parcalar
+    assert any(p.startswith("Almanya") for p in parcalar)
+    assert any("Hava Yolları" in p for p in parcalar)
+    assert not any("Ekim" in p for p in parcalar)
+
+
+def test_ozel_ad_araliklari_bos_metin():
+    assert AkanaBackend().proper_noun_spans("") == []

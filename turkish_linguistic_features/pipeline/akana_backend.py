@@ -4,8 +4,8 @@ Akana (``altaidevorg/akana``, Rust çekirdek + Python bağlantısı, MIT/Apache-
 Zemberek'in morfotaktiğini taşıyor. Akana burada **tokenizasyon yapmaz**: hazır türceleri
 alır, türce sınırlarını spaCy belirler.
 
-İki işi var: ``morpheme_lists`` (``morphological_akana`` grubunun anahtarları) ve
-Türkçe ``lemma_tokens``.
+Üç işi var: ``morpheme_lists`` (``morphological_akana`` grubunun anahtarları), Türkçe
+``lemma_tokens`` ve özel ad aralıkları (``proper_noun_spans``; Akana'nın ad tanıyıcısı).
 
 **Seçim (0.4.0, Efe, 2026-11-24):** Akana'nın belirsizlik gidericisi
 (``akana.Disambiguator``) her sözcüğün çözümlemesini **tümcesinin içinde** seçer.
@@ -31,6 +31,9 @@ Morpheme = tuple[str, str, bool]
 Analysis = tuple[tuple[Morpheme, ...], str]       # (morfemler, sözlükbirim)
 
 __all__ = ["AkanaBackend"]
+
+# Özel ad sayılan ad türleri (Akana NER): kişi, yer, kurum. Tarih, para ve yüzde sayılmaz.
+_OZEL_AD_TURLERI = frozenset({"PER", "LOC", "ORG"})
 
 # Çözümsüz sözcüğün lemma yedeği kesmeden önceki kısım; düz ve eğri kesme. Akana eğri
 # kesmeyi düz kesmeyle aynı çözümlüyor, sözcük ona çevrilmeden verilir.
@@ -136,3 +139,16 @@ class AkanaBackend:
             else:
                 out.append(_cevir(c))
         return out
+
+    def proper_noun_spans(self, text: str) -> list[tuple[int, int]]:
+        """Kişi, yer ve kurum adlarının ``text`` içindeki karakter aralıkları (0.4.0, Efe).
+
+        Akana'nın ad tanıyıcısından (``akana.extract_entities``). UD Türkçe ağaç bankalarının
+        sınama bölümlerinde (10 banka, 85.629 sözcük) spaCy'nin ``PROPN`` etiketine eklenince
+        özel ad F1 75,6 → 84,5; büyük harf kuralı 79,3, spaCy'nin kendi NER'i 79,4 kaldı
+        (2026-11-25; ölçüm ``akana/sonuclar/ozel-ad``).
+        """
+        if not text:
+            return []
+        return [(e.start, e.end) for e in akana.extract_entities(text)
+                if e.label in _OZEL_AD_TURLERI]

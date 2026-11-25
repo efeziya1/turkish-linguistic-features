@@ -265,25 +265,22 @@ def test_kl_yazili_sayi_paya_girmez_paydada_kalir():
     assert kalyoncu_features(*girdi)["kalyoncu_kl"] == 20.0
 
 
-@pytest.mark.parametrize(("sozcuk", "etiket", "tumce_basi", "beklenen"), [
-    ("Derya", "NOUN", False, True),            # büyük harf, tümce başında değil
-    ("İstanbul'da", "NOUN", False, True),      # düz kesme
-    ("İstanbul’da", "NOUN", False, True),      # eğri kesme
-    ("Hassan'ı", "X", False, True),
-    ("Derya", "NOUN", True, False),            # tümce başı: yalnız PROPN'e kalır
-    ("Derya", "PROPN", True, True),
-    ("kitap", "NOUN", False, False),
-    ("ankara'da", "NOUN", False, False),
+@pytest.mark.parametrize(("etiket", "beklenen"), [
+    # 0.4.0 (Efe, 2026-11-25): özel ad yalnız PROPN etiketi. Türkçede ön işleme Akana'nın ad
+    # tanıyıcısının (NER) kişi, yer, kurum dediği sözcükleri PROPN yapar; büyük harf kuralı kalktı.
+    ("PROPN", True),
+    ("NOUN", False),
+    ("X", False),
 ])
-def test_ozel_ad_mi(sozcuk, etiket, tumce_basi, beklenen):
-    assert ozel_ad_mi(sozcuk, etiket, tumce_basi) is beklenen
+def test_ozel_ad_mi(etiket, beklenen):
+    assert ozel_ad_mi(etiket) is beklenen
 
 
-def test_kl_buyuk_harfli_ad_paya_girmez_tumce_basindaki_girer():
-    """"Ben Derya'yı gördüm": Derya'yı özel ad (pay dışı). "Xqzt geldi" tümce başı: pay içi."""
+def test_kl_ozel_ad_paya_girmez():
+    """"Ben Derya'yı gördüm": Derya'yı özel ad (PROPN; pay dışı). "Xqzt geldi": liste dışı, pay içi."""
     girdi = _girdi(
         [("Ben", "PRON", "ben", (("Pron", "ben", False), ("A1sg", "", False))),
-         ("Derya'yı", "NOUN", "Derya", AHMET), ("geldi", "VERB", "gel", GELDI)],
+         ("Derya'yı", "PROPN", "Derya", AHMET), ("geldi", "VERB", "gel", GELDI)],
         [("Xqzt", "NOUN", "xqzt", XQZT_AD), ("geldi", "VERB", "gel", GELDI)],
     )
     assert kalyoncu_features(*girdi)["kalyoncu_kl"] == 20.0     # 1 / 5

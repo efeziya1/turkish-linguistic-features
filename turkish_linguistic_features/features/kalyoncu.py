@@ -17,10 +17,9 @@ sınıf düzeyi tabloları s.101–105. Kararlar 2026-10-27 (Efe, S1–S10):
   içidir: küçük harfli kendisi, gövdesi, fiilse gövde + -mak/-mek (yumuşamış son ünsüz
   sertleştirilerek de denenir). Karşılaştırmada şapka iki tarafta da silinir (TOMA ile aynı,
   Kalyoncu vd. 2026 s.298). Özel ad (1. kural) ve sayı (9. kural) paydada kalır, paya girmez.
-- **Özel ad (0.3.0 düzeltmesi, Efe):** spaCy ``PROPN`` ya da tümce başında olmayıp büyük harfle
-  başlayan sözcük (``İstanbul'da``, ``Derya``; düz ve eğri kesme). Tümce başındaki ad yalnız
-  ``PROPN`` ise özel addır. Gerekçe: spaCy Türkçe modeli ``Derya``, ``Almanya'da``, ``Hassan'ı``
-  PROPN etiketlemiyor, Türkçe yazımda özel adlar büyük harfle yazılır.
+- **Özel ad:** ``PROPN`` etiketli sözcük. Türkçede ön işleme Akana'nın ad tanıyıcısının kişi, yer,
+  kurum dediği sözcükleri ``PROPN`` yapar (0.4.0, Efe, 2026-11-25); 0.3.0'daki büyük harf kuralı
+  kalktı (UD sınamasında NER'den belirgin biçimde daha az doğru).
 - **Sayı (0.3.0 düzeltmesi, Efe):** 9. kural rakam/yazı ayırmaz; yazıyla yazılan sayı da liste
   içidir. Sayı = spaCy ``NUM`` ya da Akana'nın seçtiği çözümlemenin kökü ``Num`` (``ikisi``,
   ``üçüncü``). 0.3.0'daki "öbür çözümlemelerden birinin kökü ``Num``" dalı kalktı (0.4.0, Efe):
@@ -190,9 +189,9 @@ def sayi_mi(etiket: str, morfemler: Any) -> bool:
     return etiket == "NUM" or bool(morfemler and morfemler[0][0] == "Num")
 
 
-def ozel_ad_mi(sozcuk: str, etiket: str, tumce_basi: bool) -> bool:
-    """``PROPN`` ya da tümce başında olmayıp büyük harfle başlayan sözcük."""
-    return etiket == "PROPN" or (not tumce_basi and sozcuk[:1].isupper())
+def ozel_ad_mi(etiket: str) -> bool:
+    """Özel ad (1. kural): ``PROPN`` etiketli sözcük."""
+    return etiket == "PROPN"
 
 
 def fiilimsi_mi(morfemler: Any) -> bool:
@@ -249,7 +248,7 @@ def kalyoncu_features(words: list[str], pos: list[tuple[str, str]], lemmas: list
     i = 0
     for cumle in sentences:
         c_fiil = c_fiilimsi = 0
-        for j, _ in enumerate(cumle):
+        for _ in cumle:
             w, (_, etiket), lem, m = words[i], pos[i], lemmas[i], morphemes[i]
             i += 1
             if any(c.isdigit() for c in w):
@@ -261,7 +260,7 @@ def kalyoncu_features(words: list[str], pos: list[tuple[str, str]], lemmas: list
             gov, fiil = govde(m, lem, w)
             govdeler.append(gov)
             sayi = sayi_mi(etiket, m)
-            if not (sayi or ozel_ad_mi(w, etiket, j == 0)) and not _listede(w, gov, fiil):
+            if not (sayi or ozel_ad_mi(etiket)) and not _listede(w, gov, fiil):
                 liste_disi += 1
             if fiilimsi_mi(m):
                 c_fiilimsi += 1
