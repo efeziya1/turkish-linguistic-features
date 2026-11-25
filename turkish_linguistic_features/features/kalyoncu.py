@@ -28,8 +28,9 @@ sınıf düzeyi tabloları s.101–105. Kararlar 2026-10-27 (Efe, S1–S10):
   seçtiği çözümleme (0.4.0, Efe).
 - **TTR:** bir kez geçen gövde / sözcük × 100; ``kalyoncu_ttr_window``'dan (500) uzun metinde
   adımı 1 olan kayan pencerelerin ortalaması (MATTR; s.73). Şapka silinmez.
-- **Fiilimsi:** aşağıdaki Akana etiketlerinden birini taşıyan sözcük; ek eylemli ad
-  (``öğrenciyken``) sayılmaz. Sözcük başına en çok bir.
+- **Fiilimsi:** aşağıdaki Akana etiketlerinden birini taşıyan sözcük. Sözcük başına en çok bir.
+  Ek eylemli adın *-ken*'i (``öğrenciyken``) de sayılır: 0.3.0'daki istisna kaldırıldı, çünkü
+  kaynak fiilimsinin kapsamını belirtmiyor (0.4.0, Efe, 2026-11-25).
 - **KCO:** en az bir fiilimsi ya da en az iki fiil (Akana'nın son türü ``Verb``) içeren tümce /
   tümce × 100. Kalyoncu "yargı"yı CYargı'da fiil + fiilimsi olarak sayar (s.73).
 - **YCO:** fiilimsi / tümce × 10. **OCU:** sözcük / tümce.
@@ -195,17 +196,10 @@ def ozel_ad_mi(etiket: str) -> bool:
 
 
 def fiilimsi_mi(morfemler: Any) -> bool:
-    """Akana çözümlemesinde fiilimsi eki var mı; ek eylemli adın ``-ken``'i sayılmaz (S5)."""
+    """Akana çözümlemesinde fiilimsi eki var mı (ek eylemli adın *-ken*'i dahil)."""
     if not morfemler or morfemler[0][0] == "Unk":
         return False
-    onceki = morfemler[0][0]
-    for etiket, _, _ in morfemler[1:]:
-        if etiket in _AKANA_TURLER:
-            continue
-        if etiket in _FIILIMSI and onceki != "Zero":
-            return True
-        onceki = etiket
-    return False
+    return any(etiket in _FIILIMSI for etiket, _, _ in morfemler[1:])
 
 
 # ── ölçüler ───────────────────────────────────────────────────────────

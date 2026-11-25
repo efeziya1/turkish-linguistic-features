@@ -119,10 +119,12 @@ def test_govde_ilk_cekimden_sonra_biter(m, lemma, kelime, beklenen):
     assert govde(m, lemma, kelime)[0] == beklenen
 
 
-def test_fiilimsi_ek_eylemli_ad_sayilmaz():
+def test_fiilimsi_ek_eylemli_ad_ken_de_sayilir():
+    """0.4.0: ek eylemli adın -ken'i de fiilimsi (kaynak kapsamı belirtmiyor; Efe, 2026-11-25)."""
     assert fiilimsi_mi(OKUYARAK)
     assert fiilimsi_mi(OKURKEN)
-    assert not fiilimsi_mi(OGRENCIYKEN)
+    assert fiilimsi_mi(OGRENCIYKEN)
+    assert not fiilimsi_mi(EVDEYDI)
     assert not fiilimsi_mi(GELDI)
     assert not fiilimsi_mi(BILINMEYEN)
 
@@ -164,7 +166,7 @@ def test_kl_fiil_mastarla_ve_yumusamis_unsuz_sertlesmis_bulunur():
 
 
 def test_kco_fiilimsi_ya_da_iki_fiil():
-    """Tek fiil basit; fiilimsi ya da iki fiil karmaşık; ek eylemli ad -ken fiilimsi değil."""
+    """Tek fiil basit; fiilimsi ya da iki fiil karmaşık; ek eylemli ad -ken de fiilimsi."""
     girdi = _girdi(
         [("Geldi", "VERB", "gel", GELDI)],
         [("Okuyarak", "VERB", "oku", OKUYARAK), ("geldi", "VERB", "gel", GELDI)],
@@ -172,8 +174,8 @@ def test_kco_fiilimsi_ya_da_iki_fiil():
         [("Öğrenciyken", "NOUN", "öğrenci", OGRENCIYKEN), ("geldi", "VERB", "gel", GELDI)],
     )
     sonuc = kalyoncu_features(*girdi)
-    assert sonuc["kalyoncu_kco"] == 50.0
-    assert sonuc["kalyoncu_yco"] == 2.5          # 1 fiilimsi / 4 tümce × 10
+    assert sonuc["kalyoncu_kco"] == 75.0
+    assert sonuc["kalyoncu_yco"] == 5.0          # 2 fiilimsi / 4 tümce × 10
 
 
 def test_ttr_bir_kez_gecen_govde_cekim_ayni_sozcuk():
