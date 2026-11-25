@@ -16,6 +16,12 @@ _ALFABE: dict[str, str] = {
 }
 
 
+def _dil_denetle(lang: str) -> None:
+    """Desteklenmeyen dil kodu için ``ValueError``."""
+    if lang not in _ALFABE:
+        raise ValueError(f"Unsupported language: {lang!r}. Expected one of: {sorted(_ALFABE)}")
+
+
 def _kucuk_harf(metin: str, lang: str) -> str:
     """Dile göre küçük harf. TR'de ``I → ı`` ve ``İ → i``; ``str.lower()`` bunu yapmaz."""
     if lang == "tr":

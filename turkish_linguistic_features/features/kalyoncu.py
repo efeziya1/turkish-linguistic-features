@@ -53,9 +53,9 @@ from importlib.resources import files
 from typing import Any
 
 from ..alfabe import _kucuk_harf
+from ..birimler.okunus import SEMBOLLER, UNITS_AFTER_NUMBER, read_ordinal, read_time, sayi_oku
 from ..params import DEFAULT_PARAMS, FeatureParams
 from .morphological import _ZEYREK_TURLER, _genel_tur
-from .okunus import SEMBOLLER, UNITS_AFTER_NUMBER, read_ordinal, read_time, sayi_oku
 
 __all__ = ["KALYONCU_KEYS", "kalyoncu_features", "kalyoncu_list"]
 

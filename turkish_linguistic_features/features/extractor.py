@@ -26,6 +26,8 @@ import math
 from typing import Any
 
 from ..alfabe import _kucuk_harf
+from ..birimler.sozcuk import cumle_birimleri, kelime_birimleri
+from ..birimler.tumce import kural_cumleleri
 from ..params import DEFAULT_PARAMS, FeatureParams, resolve_sent_thresholds
 from .dependency import dependency_features
 from .frequency_structure import (
@@ -99,11 +101,8 @@ from .punctuation import (
     whitespace_ratio,
 )
 from .readability import (
-    cumle_birimleri,
     english_readability_formulas,
     general_readability_formulas,
-    kelime_birimleri,
-    kural_cumleleri,
     turkish_readability_formulas,
 )
 from .registry import GROUP_LABELS

@@ -290,4 +290,3 @@ SEMBOLLER: dict[str, dict[str, str]] = {
         "<": "less than", ">": "greater than", "±": "plus or minus",
     },
 }
-

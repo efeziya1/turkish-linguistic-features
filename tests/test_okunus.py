@@ -1,6 +1,6 @@
 import pytest
 
-from turkish_linguistic_features.features.okunus import (
+from turkish_linguistic_features.birimler.okunus import (
     SEMBOLLER,
     read_ordinal,
     read_time,
@@ -149,7 +149,7 @@ def test_symbol_reading_joins_the_number():
 
 
 def test_symbol_alone_is_not_a_word():
-    from turkish_linguistic_features.features.readability import kelime_birimleri
+    from turkish_linguistic_features.birimler.sozcuk import kelime_birimleri
 
     kelimeler, semboller = kelime_birimleri("5 + 3 % oran", "tr")
     assert kelimeler == ["5", "3", "oran"] and semboller == ["+", "%"]

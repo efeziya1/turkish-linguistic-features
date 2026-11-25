@@ -24,8 +24,8 @@ from dataclasses import dataclass
 from typing import Any
 
 from ..alfabe import _kucuk_harf
+from ..birimler.sozcuk import word_units
 from ..vocab import NON_WORD_POS
-from .readability import word_units
 
 __all__ = ["WordView", "word_token_indices", "word_view"]
 

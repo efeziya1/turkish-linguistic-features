@@ -28,9 +28,9 @@ from collections import Counter
 import numpy as np
 import textstat
 
-from ..alfabe import _ALFABE, _kucuk_harf
+from ..alfabe import _ALFABE, _dil_denetle, _kucuk_harf
+from ..birimler.okunus import SEMBOLLER, UNITS_AFTER_NUMBER, okunus, sayi_oku, sayi_oku_en
 from ..exceptions import ModelNotFoundError
-from .okunus import SEMBOLLER, UNITS_AFTER_NUMBER, okunus, sayi_oku, sayi_oku_en
 
 _UNLULER: dict[str, str] = {"tr": "aeıioöuü", "en": "aeiou"}
 _ON: dict[str, str] = {"tr": "eiöü", "en": "ei"}
@@ -69,11 +69,6 @@ def _cmudict_denetle() -> None:
             "set the NLTK_DATA environment variable."
         ) from None
     _CMUDICT_VAR = True
-
-
-def _dil_denetle(lang: str) -> None:
-    if lang not in _ALFABE:
-        raise ValueError(f"Unsupported language: {lang!r}. Expected one of: {sorted(_ALFABE)}")
 
 
 def vowel_ratios(text: str, lang: str = "tr") -> dict[str, float]:
@@ -229,7 +224,7 @@ def hece_say(word: str, lang: str = "tr") -> int | None:
       Saat ve skor (``10:30`` → 3), sıra sayısı (``3.`` → üçüncü → 3) ve
       harfe bitişik sayı (``3kg`` → 4, ``100m`` → 3, ``3G`` → 2) okunuşuyla
       (2026-10-01, Efe). Tek başına ``3.`` sıra sayısı sayılır; cümle sonundaki
-      sayıyı ayırmak bağlam ister (``readability.kelime_birimleri``). Okunuşu çıkarılamayan
+      sayıyı ayırmak bağlam ister (``birimler.sozcuk.kelime_birimleri``). Okunuşu çıkarılamayan
       biçimler (``4x4``, tek başına ``m``) ve noktalama → ``None``.
     - EN — harflerden oluşan tokenler ``textstat.syllable_count`` ile, 0 verirse
       1 (``shh``). Sayılar okunuşuyla (``1918`` → nineteen eighteen → 4;
@@ -262,7 +257,7 @@ def _okunus_hecesi(okunus_: str, lang: str) -> int:
 
 
 def birim_hecesi(birim: str, lang: str) -> int | None:
-    """Kelime biriminin (``readability.kelime_birimleri``) hecesi; hecelenemiyorsa ``None``.
+    """Kelime biriminin (``birimler.sozcuk.kelime_birimleri``) hecesi; hecelenemiyorsa ``None``.
 
     Sırayla: ``hece_say`` (kelime, sayı, listedeki kısaltma) → kenardaki
     listedeki semboller okunur (``%50`` → yüzde elli) → tireli kelime
@@ -310,7 +305,7 @@ def _ortalama(degerler: list[int]) -> float:
 def syllable_count_stats(birimler: list[str], lang: str = "tr") -> dict[str, float]:
     """Kelime başına ortalama hece.
 
-    Kelime = varsayılan kelime birimi (``readability.kelime_birimleri``, 2026-10-06, Efe);
+    Kelime = varsayılan kelime birimi (``birimler.sozcuk.kelime_birimleri``, 2026-10-06, Efe);
     yalnız hecelenebilen birimler sayılır (``birim_hecesi``).
     """
     return {"syllable_mean": _ortalama(birim_heceleri(birimler, lang))}
@@ -346,7 +341,7 @@ def syllable_length_distribution(birimler: list[str], lang: str = "tr") -> dict[
 def sentence_syllable_stats(cumleler: list[list[str]], lang: str = "tr") -> dict[str, float]:
     """Cümle başına ortalama hece.
 
-    ``cumleler`` cümle başına kelime birimleridir (``readability.cumle_birimleri``).
+    ``cumleler`` cümle başına kelime birimleridir (``birimler.sozcuk.cumle_birimleri``).
     Cümlenin hecesi, hecelenebilen birimlerinin toplamıdır. Hiç hecelenebilen
     birimi olmayan cümle ölçülemez, hesaba girmez. Cümle yoksa NaN.
     """

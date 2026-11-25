@@ -11,6 +11,10 @@ KOK = Path(__file__).parent.parent / "turkish_linguistic_features"
 # L0 = paylaşılan çekirdek. Paket içinden hiçbir şey import etmez, yalnız stdlib.
 L0 = {"alfabe", "vocab", "params", "exceptions", "_warnings"}
 
+# L0b = ortak metin birimleri (sözcük, tümce, okunuş): yalnız L0'ı ve kendini görür; features
+# ve pipeline ikisi de okur, böylece araçta tek sözcük ve tek tümce tanımı olur (2026-11-24).
+L0B = "birimler"
+
 
 PAKET = KOK.name
 
@@ -60,8 +64,17 @@ def test_L0_paket_icinden_hicbir_sey_import_etmez():
         assert not ihlal, f"{ad}.py L0 olmalı ama paket içinden import ediyor: {ihlal}"
 
 
+def test_birimler_yalniz_L0_ve_kendini_gorur():
+    """L0b: ``features``'ı da ``pipeline``'ı da görmez; ikisinin ortak tabanıdır."""
+    for dosya in sorted((KOK / L0B).glob("*.py")):
+        for satir, hedef in _ic_importlar(dosya):
+            assert hedef.split(".")[0] in L0 | {L0B}, (
+                f"{L0B}/{dosya.name}:{satir} → {hedef!r} — L0b yalnız L0'ı ve kendini görebilir"
+            )
+
+
 def test_features_ile_pipeline_birbirini_gormez():
-    """L1/L2 yalnız L0'ı ve kendi paketini import edebilir.
+    """L1/L2 yalnız L0'ı, L0b'yi (``birimler``) ve kendi paketini import edebilir.
 
     Hedefin ilk parçası beyaz listede değilse ihlal. Tek kontrol iki kuralı
     birden tutuyor: çapraz bağ (``features`` ⇄ ``pipeline``) ve yukarı bağ
@@ -74,8 +87,9 @@ def test_features_ile_pipeline_birbirini_gormez():
     for paket in ("features", "pipeline"):
         for dosya in sorted((KOK / paket).glob("*.py")):
             for satir, hedef in _ic_importlar(dosya):
-                assert hedef.split(".")[0] in L0 | {paket}, (
-                    f"{paket}/{dosya.name}:{satir} → {hedef!r} — L1/L2 yalnız L0 ve kendi paketini görebilir"
+                assert hedef.split(".")[0] in L0 | {L0B, paket}, (
+                    f"{paket}/{dosya.name}:{satir} → {hedef!r} — "
+                    "L1/L2 yalnız L0, L0b ve kendi paketini görebilir"
                 )
 
 
