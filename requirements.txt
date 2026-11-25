@@ -1,7 +1,7 @@
 # Geliştirme ortamı. Tek kanon paket yöneticisi pip (2026-09-21, Efe).
 # Kurulum, dil modelleri ve yayın araçları → README.md.
 #
-# Çalışma bağımlılıkları (numpy, spaCy, zeyrek, textstat) burada tekrarlanmaz;
+# Çalışma bağımlılıkları (numpy, spaCy, akana, textstat) burada tekrarlanmaz;
 # aşağıdaki `-e .` onları pyproject.toml'den getirir.
 
 -e .

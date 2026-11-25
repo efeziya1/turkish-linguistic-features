@@ -34,7 +34,7 @@ class FeatureParams:
     # b = 0, b'siz biçimi verir (s. 49); V ≤ b iken değer NaN (2026-11-04, Efe).
     brunet_w_a: float = 0.172
     brunet_w_b: int = 20
-    # biçimbilim — zeyrek_verb_suffix_diversity: örneklem boyu (fiil), örneklem sayısı ve tohum.
+    # biçimbilim — akana_verb_suffix_diversity: örneklem boyu (fiil), örneklem sayısı ve tohum.
     # Brezina & Pallotti (2019) s.107: MC10, 10 fiillik örneklem (yazarlar 10'un keyfi olduğunu,
     # kısa metin için 5'i de belirtir); s.108: 100 rastgele örneklem (2026-10-26, Efe).
     verb_suffix_window: int = 10

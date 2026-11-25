@@ -128,10 +128,10 @@ KALIBRE_ANAHTARLARI = frozenset({
 # doğrulama adayı değildir.
 #
 # Ölçüt künyenin BAŞLANGICI: künye şemayla başlıyorsa satır şema
-# kategorisidir. Şemayı sonradan anan künyeler (``zeyrek_suffix_bigram_entropy``:
-# "Shannon (1948) — the entropy formula; Zeyrek …") gerçek bir ölçüdür ve
+# kategorisidir. Şemayı sonradan anan künyeler (``akana_suffix_bigram_entropy``:
+# "Shannon (1948) — the entropy formula; Akana …") gerçek bir ölçüdür ve
 # açık listede kalır.
-SEMA_ONEKLERI = ("de Marneffe et al. (2021)", "Zeyrek (a Python port")
+SEMA_ONEKLERI = ("de Marneffe et al. (2021)", "Akana (a Rust port")
 
 # Birebir sayılmak için gereken yakınlık: yayımlanan değerin %1'i. Kaynaklar
 # ara değerleri yuvarlayarak bastığı için mutlak eşitlik beklenmiyor. Göreli
@@ -832,7 +832,7 @@ Aşağıdaki dört durum **doğrulama adayı değildir** — aranacak bir sayı 
 | | Anlamı |
 |---|---|
 | ⚪ **yalın tanım** | Alanyazın ölçüsü değil; kaynağı olmayan tanım (`punct_dash_ratio`, `uppercase_ratio`). |
-| ⚫ **etiket oranı** | Bir ölçü değil, dış bir şemanın kategorisini sayıyor (`pos_noun_ratio` → UD; `zeyrek_case_loc_ratio` → Zeyrek). Şema kategori tanımlar, ölçüm yayımlamaz. |
+| ⚫ **etiket oranı** | Bir ölçü değil, dış bir şemanın kategorisini sayıyor (`pos_noun_ratio` → UD; `akana_case_loc_ratio` → Akana). Şema kategori tanımlar, ölçüm yayımlamaz. |
 | 🔧 **araca özgü** | Formül bir kaynaktan, **uygulaması bu kütüphaneden**. `sent_len_entropy` Shannon'ın entropisidir ama tümce uzunluklarına uygulanması bizim. Kimse bu ölçüyü yayımlamadı, dolayısıyla karşılaştırılacak sayı da yok. |
 | 📐 **kalibre edilmiş** | Eşik bu kütüphanenin kalibrasyonundan gelir (`short_sent_ratio`, `long_sent_ratio`). Kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
 
@@ -891,7 +891,7 @@ number to look for:
 | | Meaning |
 |---|---|
 | ⚪ **plain definition** | Not a literature measure; a definition without a source (`punct_dash_ratio`, `uppercase_ratio`). |
-| ⚫ **tag ratio** | Not a measure but a count of an external scheme's categories (`pos_noun_ratio` → UD; `zeyrek_case_loc_ratio` → Zeyrek). A scheme defines categories; it does not publish measurements. |
+| ⚫ **tag ratio** | Not a measure but a count of an external scheme's categories (`pos_noun_ratio` → UD; `akana_case_loc_ratio` → Akana). A scheme defines categories; it does not publish measurements. |
 | 🔧 **tool-specific** | The formula comes from a source, **the application is this library's**. `sent_len_entropy` is Shannon's entropy, but applying it to sentence lengths is ours. Nobody has published this measure, so there is no number to compare against. |
 | 📐 **calibrated** | The threshold comes from this library's own calibration (`short_sent_ratio`, `long_sent_ratio`). Testing it against our own calibration would be reading our own answer sheet. |
 

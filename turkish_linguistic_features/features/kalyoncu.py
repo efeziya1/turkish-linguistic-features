@@ -9,10 +9,10 @@ sınıf düzeyi tabloları s.101–105. Kararlar 2026-10-27 (Efe, S1–S10):
   açılmaz. Yalnız bu modülde; ``sent_len_mean`` ve öteki öznitelikler değişmez.
 - **Tümce:** aracın varsayılan tümcesi; harf içermeyen tümce sayılmaz, sözcükleri sayılır.
   Kalyoncu'nun anlama dayalı tümce tanımı (s.xii) uygulanmaz.
-- **Gövde:** Zeyrek sözlükbirimi + yapım ekleri. Çekim ekleri, ettirgen/edilgen (7. kural),
+- **Gövde:** Akana sözlükbirimi + yapım ekleri. Çekim ekleri, ettirgen/edilgen (7. kural),
   fiilimsi (4. kural), birleşik fiil ekleri ve ek eylem gövdeye girmez; ilk çekim ekinden sonra
   gelen hiçbir biçimbirim de girmez (``oradaki`` → ``ora``, Rel -ki). İlk atılan ekte durulur.
-  Belirsizlikte Zeyrek'in ilk çözümlemesi. Çözümlenemeyen sözcükte gövde küçük harfli sözcük.
+  Belirsizlikte Akana'nın gidericisinin seçtiği çözümleme. Çözümlenemeyen sözcükte gövde küçük harfli sözcük.
 - **KL:** listede olmayan sözcük / sözcük × 100. Sözcük şu üç biçimden biri listedeyse liste
   içidir: küçük harfli kendisi, gövdesi, fiilse gövde + -mak/-mek (yumuşamış son ünsüz
   sertleştirilerek de denenir). Karşılaştırmada şapka iki tarafta da silinir (TOMA ile aynı,
@@ -22,25 +22,22 @@ sınıf düzeyi tabloları s.101–105. Kararlar 2026-10-27 (Efe, S1–S10):
   ``PROPN`` ise özel addır. Gerekçe: spaCy Türkçe modeli ``Derya``, ``Almanya'da``, ``Hassan'ı``
   PROPN etiketlemiyor, Türkçe yazımda özel adlar büyük harfle yazılır.
 - **Sayı (0.3.0 düzeltmesi, Efe):** 9. kural rakam/yazı ayırmaz; yazıyla yazılan sayı da liste
-  içidir. Sayı = spaCy ``NUM``; seçilen Zeyrek çözümlemesinin kökü ``Num``; ya da spaCy'nin ad,
-  sıfat, belirteç ya da ``X`` dediği sözcüğün çözümlemelerinden birinin kökü ``Num`` (``ikisi``,
-  ``üçüncü``, ``beşer``; ``beşer`` spaCy'de ad çıkabiliyor). Zamir, eylem, özel ad etiketi
-  bağlayıcıdır: ``onun``, ``ona`` sayı değildir.
-- **Çözümleme seçimi (0.3.0 düzeltmesi, Efe):** Zeyrek'in çözümlemeleri arasından, genel türü
-  spaCy'nin sözcük türüne uyan ilki alınır (PRON→Pron, NOUN/PROPN→Noun, VERB/AUX→Verb,
-  ADJ→Adj, ADV→Adv, NUM→Num); uyan yoksa ilk çözümleme. Gövde, fiilimsi ve karmaşık tümce
-  sayımı (TTR, KCO, YCO) bundan. Aracın geri kalanında "ilk çözümleme" kuralı değişmez.
+  içidir. Sayı = spaCy ``NUM`` ya da Akana'nın seçtiği çözümlemenin kökü ``Num`` (``ikisi``,
+  ``üçüncü``). 0.3.0'daki "öbür çözümlemelerden birinin kökü ``Num``" dalı kalktı (0.4.0, Efe):
+  Kalyoncu'nun 9. kuralında yok, aracın eklemesiydi.
+- **Çözümleme:** aracın geri kalanındaki gibi Akana'nın belirsizlik gidericisinin tümce içinde
+  seçtiği çözümleme (0.4.0, Efe).
 - **TTR:** bir kez geçen gövde / sözcük × 100; ``kalyoncu_ttr_window``'dan (500) uzun metinde
   adımı 1 olan kayan pencerelerin ortalaması (MATTR; s.73). Şapka silinmez.
-- **Fiilimsi:** aşağıdaki Zeyrek etiketlerinden birini taşıyan sözcük; ek eylemli ad
+- **Fiilimsi:** aşağıdaki Akana etiketlerinden birini taşıyan sözcük; ek eylemli ad
   (``öğrenciyken``) sayılmaz. Sözcük başına en çok bir.
-- **KCO:** en az bir fiilimsi ya da en az iki fiil (Zeyrek'in son türü ``Verb``) içeren tümce /
+- **KCO:** en az bir fiilimsi ya da en az iki fiil (Akana'nın son türü ``Verb``) içeren tümce /
   tümce × 100. Kalyoncu "yargı"yı CYargı'da fiil + fiilimsi olarak sayar (s.73).
 - **YCO:** fiilimsi / tümce × 10. **OCU:** sözcük / tümce.
 
 Uygulanmayan kurallar: yaygın yapım ekli türevler (3.), yansıma (5.), pekiştirme (6.), uzak
-anlam (8.), anlama dayalı tümce sınırı. Zeyrek'in tanımadığı ekler (-alı, -ası, -casına,
--maksızın) ve ilk çözümlemedeki hatalar düzeltilmez.
+anlam (8.), anlama dayalı tümce sınırı. Akana'nın tanımadığı ekler (-alı, -ası, -casına,
+-maksızın) ve seçilen çözümlemedeki hatalar düzeltilmez.
 """
 
 from __future__ import annotations
@@ -55,7 +52,7 @@ from typing import Any
 from ..alfabe import _kucuk_harf
 from ..birimler.okunus import SEMBOLLER, UNITS_AFTER_NUMBER, read_ordinal, read_time, sayi_oku
 from ..params import DEFAULT_PARAMS, FeatureParams
-from .morphological import _ZEYREK_TURLER, _genel_tur
+from .morphological import _AKANA_TURLER, _genel_tur
 
 __all__ = ["KALYONCU_KEYS", "kalyoncu_features", "kalyoncu_list"]
 
@@ -81,10 +78,6 @@ _SERTLESME = {"ğ": "k", "b": "p", "c": "ç", "d": "t"}
 _SAPKA = str.maketrans("âîû", "aiu")
 _KALIN = frozenset("aıouâû")
 _UNLU = frozenset("aeıioöuüâîû")
-# spaCy türü → Zeyrek genel türü (çözümleme seçimi).
-_ZEYREK_TUR = {"PRON": "Pron", "NOUN": "Noun", "PROPN": "Noun", "VERB": "Verb", "AUX": "Verb",
-               "ADJ": "Adj", "ADV": "Adv", "NUM": "Num"}
-_ACIK_SINIF = frozenset({"NOUN", "ADJ", "ADV", "X"})
 _SAYI_HARF = re.compile(r"(\d+(?:,\d+)?)([^\W\d_]+)")
 
 
@@ -156,7 +149,7 @@ def _mastar(govde: str) -> str:
 def govde(morfemler: Any, lemma: str, kelime: str) -> tuple[str, bool]:
     """Sözcüğün gövdesi ve gövdenin fiil olup olmadığı (S3, 2026-10-27, Efe).
 
-    Gövde = Zeyrek sözlükbirimi + yapım ekleri; ilk çekim ekinde (yüzeyde görünen), çatı,
+    Gövde = Akana sözlükbirimi + yapım ekleri; ilk çekim ekinde (yüzeyde görünen), çatı,
     birleşik fiil, ek eylem ve fiilimsi eklerinde durulur. Çözümlenemeyen sözcükte küçük harfli
     sözcük.
     """
@@ -165,7 +158,7 @@ def govde(morfemler: Any, lemma: str, kelime: str) -> tuple[str, bool]:
     sonuc = _kucuk_harf(lemma, "tr")
     tur = morfemler[0][0]
     for etiket, yuzey, turetim in morfemler[1:]:
-        if etiket in _ZEYREK_TURLER:
+        if etiket in _AKANA_TURLER:
             tur = etiket
             continue
         if not turetim:
@@ -188,28 +181,13 @@ def _listede(kelime: str, gov: str, fiil: bool) -> bool:
     return any(a.translate(_SAPKA) in liste for a in adaylar)
 
 
-def cozumleme_sec(etiket: str, morfemler: Any, lemma: str,
-                  alternatifler: Any) -> tuple[Any, str]:
-    """Genel türü spaCy türüne uyan ilk Zeyrek çözümlemesi; uyan yoksa ilk çözümleme."""
-    tur = _ZEYREK_TUR.get(etiket)
-    if tur is not None:
-        for m, lem in alternatifler or ():
-            if _genel_tur(list(m)) == tur:
-                return m, lem
-    return morfemler, lemma
+def sayi_mi(etiket: str, morfemler: Any) -> bool:
+    """Yazıyla yazılan sayı: spaCy ``NUM`` ya da Akana'nın seçtiği çözümlemenin kökü ``Num``.
 
-
-def sayi_mi(etiket: str, morfemler: Any, alternatifler: Any) -> bool:
-    """Yazıyla yazılan sayı: spaCy ``NUM``, seçilen çözümlemenin kökü ``Num``, ya da spaCy'nin
-    açık sınıf (ad, sıfat, belirteç, ``X``) dediği sözcüğün çözümlemelerinden birinin kökü ``Num``.
-
-    Kök ``Num`` olunca çekimli (``ikisi``), sıra (``üçüncü``) ve üleştirme (``beşer``) biçimi de
-    sayıdır; ``beşer`` spaCy'de ad çıksa da Zeyrek'in sayı çözümlemesi vardır. Zamir, eylem ya da
-    özel ad etiketi bağlayıcıdır (``onun``, ``ona`` "on" sayılmaz).
+    Kök ``Num`` olunca çekimli (``ikisi``) ve sıra (``üçüncü``) biçimi de sayıdır. Yalnız
+    seçilen çözümlemeye bakılır; öbür çözümlemeler aranmaz (0.4.0, Efe).
     """
-    if etiket == "NUM" or (morfemler and morfemler[0][0] == "Num"):
-        return True
-    return etiket in _ACIK_SINIF and any(a[0][0][0] == "Num" for a in alternatifler)
+    return etiket == "NUM" or bool(morfemler and morfemler[0][0] == "Num")
 
 
 def ozel_ad_mi(sozcuk: str, etiket: str, tumce_basi: bool) -> bool:
@@ -218,12 +196,12 @@ def ozel_ad_mi(sozcuk: str, etiket: str, tumce_basi: bool) -> bool:
 
 
 def fiilimsi_mi(morfemler: Any) -> bool:
-    """Zeyrek çözümlemesinde fiilimsi eki var mı; ek eylemli adın ``-ken``'i sayılmaz (S5)."""
+    """Akana çözümlemesinde fiilimsi eki var mı; ek eylemli adın ``-ken``'i sayılmaz (S5)."""
     if not morfemler or morfemler[0][0] == "Unk":
         return False
     onceki = morfemler[0][0]
     for etiket, _, _ in morfemler[1:]:
-        if etiket in _ZEYREK_TURLER:
+        if etiket in _AKANA_TURLER:
             continue
         if etiket in _FIILIMSI and onceki != "Zero":
             return True
@@ -252,14 +230,12 @@ def _bir_kez_oran(govdeler: list[str], pencere: int) -> float:
 
 def kalyoncu_features(words: list[str], pos: list[tuple[str, str]], lemmas: list[str],
                       morphemes: list[Any], sentences: list[list[str]],
-                      params: FeatureParams | None = None,
-                      alternatives: list[Any] | None = None) -> dict[str, float]:
+                      params: FeatureParams | None = None) -> dict[str, float]:
     """KL, TTR, KCO, YCO, OCU ve K1–K4 (Kalyoncu 2025).
 
     Girdiler ``word_view``'un sözcük başına listeleri; ``sentences`` sözcükleri tümce tümce
-    verir ve sırayla ``words``'ü oluşturur. ``alternatives`` sözcük başına Zeyrek'in tüm
-    çözümlemeleridir (``(morfemler, sözlükbirim)``); verilmezse ``morphemes`` ve ``lemmas``
-    (ilk çözümleme) kullanılır.
+    verir ve sırayla ``words``'ü oluşturur. Gövde, fiilimsi ve tümce sayımı ``morphemes`` ve
+    ``lemmas``'tan (Akana'nın seçtiği çözümleme).
     """
     if params is None:
         params = DEFAULT_PARAMS
@@ -275,8 +251,6 @@ def kalyoncu_features(words: list[str], pos: list[tuple[str, str]], lemmas: list
         c_fiil = c_fiilimsi = 0
         for j, _ in enumerate(cumle):
             w, (_, etiket), lem, m = words[i], pos[i], lemmas[i], morphemes[i]
-            if alternatives:
-                m, lem = cozumleme_sec(etiket, m, lem, alternatives[i])
             i += 1
             if any(c.isdigit() for c in w):
                 okunus = okunus_sozcukleri(w)
@@ -286,7 +260,7 @@ def kalyoncu_features(words: list[str], pos: list[tuple[str, str]], lemmas: list
             sozcuk += 1
             gov, fiil = govde(m, lem, w)
             govdeler.append(gov)
-            sayi = sayi_mi(etiket, m, alternatives[i - 1] if alternatives else ())
+            sayi = sayi_mi(etiket, m)
             if not (sayi or ozel_ad_mi(w, etiket, j == 0)) and not _listede(w, gov, fiil):
                 liste_disi += 1
             if fiilimsi_mi(m):

@@ -24,9 +24,9 @@ def test_kurulum_ipucu_bilinen_paket():
 
 
 def test_zorunlu_paketler_tabloda_degil():
-    """numpy/spacy/zeyrek/textstat zorunlu — ipucu tablosunda yer almamalı."""
+    """numpy/spacy/akana/textstat zorunlu — ipucu tablosunda yer almamalı."""
     from turkish_linguistic_features._warnings import _KURULUM_KOMUTU
-    for paket in ("numpy", "spacy", "zeyrek", "textstat"):
+    for paket in ("numpy", "spacy", "akana", "textstat"):
         assert paket not in _KURULUM_KOMUTU, f"{paket} zorunlu, tabloda olmamalı"
 
 

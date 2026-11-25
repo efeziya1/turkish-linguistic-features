@@ -1,4 +1,4 @@
-"""Kalyoncu (2025) K1–K4 ve bileşenleri: elle kurulmuş Zeyrek çözümlemeleriyle (model gerekmez)."""
+"""Kalyoncu (2025) K1–K4 ve bileşenleri: elle kurulmuş Akana çözümlemeleriyle (model gerekmez)."""
 
 import math
 from collections import Counter
@@ -8,7 +8,6 @@ import pytest
 from turkish_linguistic_features.features.kalyoncu import (
     KALYONCU_KEYS,
     _bir_kez_oran,
-    cozumleme_sec,
     fiilimsi_mi,
     govde,
     kalyoncu_features,
@@ -236,23 +235,26 @@ IKISI = (("Num", "iki", False), ("A3sg", "", False), ("P3pl", "si", False), ("No
 UCUNCU = (("Num", "üç", False), ("Ord", "üncü", True), ("Adj", "", False))
 BESER = (("Num", "beş", False), ("Distrib", "er", True), ("Adv", "", False))
 BESER_AD = (("Noun", "beşer", False), ("A3sg", "", False))
-ON_SAYI = (("Num", "on", False), ("A3sg", "", False), ("Gen", "un", False), ("Noun", "", False))
 ONUN_ZAMIR = (("Pron", "o", False), ("A3sg", "", False), ("Gen", "nun", False))
 XQZT_FIIL = (("Verb", "xqzt", False), ("Imp", "", False), ("A2sg", "", False))
 XQZT_AD = (("Noun", "xqzt", False), ("A3sg", "", False))
 
 
-@pytest.mark.parametrize(("etiket", "m", "alt", "beklenen"), [
-    ("NUM", IKI, (), True),                             # spaCy NUM
-    ("NUM", IKISI, (), True),                           # çekimli
-    ("ADJ", UCUNCU, (), True),                          # sıra: seçilen çözümlemenin kökü Num
-    ("NOUN", BESER_AD, ((BESER, "beş"),), True),        # üleştirme, spaCy ad dese de
-    ("PRON", ONUN_ZAMIR, ((ON_SAYI, "on"),), False),    # onun ≠ on
-    ("VERB", GELDI, ((ON_SAYI, "on"),), False),
-    ("NOUN", EV, (), False),
+@pytest.mark.parametrize(("etiket", "m", "beklenen"), [
+    ("NUM", IKI, True),                                 # spaCy NUM
+    ("NUM", IKISI, True),                               # çekimli
+    ("ADJ", UCUNCU, True),                              # sıra: seçilen çözümlemenin kökü Num
+    ("ADV", BESER, True),                               # üleştirme: seçilen çözümlemenin kökü Num
+    # 0.4.0 (Efe): yalnız seçilen çözümlemeye bakılır. 0.3.0'da çözümlemesi ad olan "beşer"
+    # öbür çözümlemesindeki Num kökü yüzünden sayı sayılıyordu; bu dal Kalyoncu'nun 9.
+    # kuralında yok, aracın eklemesiydi ve kaldırıldı.
+    ("NOUN", BESER_AD, False),
+    ("PRON", ONUN_ZAMIR, False),                        # onun ≠ on
+    ("VERB", GELDI, False),
+    ("NOUN", EV, False),
 ])
-def test_sayi_mi_yazili_sayi(etiket, m, alt, beklenen):
-    assert sayi_mi(etiket, m, alt) is beklenen
+def test_sayi_mi_yazili_sayi(etiket, m, beklenen):
+    assert sayi_mi(etiket, m) is beklenen
 
 
 def test_kl_yazili_sayi_paya_girmez_paydada_kalir():
@@ -287,18 +289,8 @@ def test_kl_buyuk_harfli_ad_paya_girmez_tumce_basindaki_girer():
     assert kalyoncu_features(*girdi)["kalyoncu_kl"] == 20.0     # 1 / 5
 
 
-def test_cozumleme_secimi_spacy_turune_uyan_ilk_cozumleme():
-    alt = ((XQZT_FIIL, "xqzt"), (XQZT_AD, "xqzt"))
-    assert cozumleme_sec("NOUN", XQZT_FIIL, "xqzt", alt)[0] == XQZT_AD     # uyan ilk
-    assert cozumleme_sec("VERB", XQZT_FIIL, "xqzt", alt)[0] == XQZT_FIIL
-    assert cozumleme_sec("ADJ", XQZT_FIIL, "xqzt", alt)[0] == XQZT_FIIL    # uyan yok: ilk
-    assert cozumleme_sec("NOUN", XQZT_FIIL, "xqzt", ())[0] == XQZT_FIIL    # çözümleme yok
-
-
-def test_secilen_cozumleme_govdeyi_ve_tumce_sayimini_belirler():
-    """Zeyrek ilk çözümlemesi fiil; spaCy ad der: ad seçilir, fiil sayılmaz, KCO değişir."""
+def test_secilen_cozumleme_kullanilir_spacy_turu_secmez():
+    """Akana'nın seçtiği çözümleme fiil; spaCy ad dese de o çözümleme kalır (2026-11-10, Efe)."""
     cumle = [("geldi", "VERB", "gel", GELDI), ("xqzt", "NOUN", "xqzt", XQZT_FIIL)]
     girdi = _girdi(cumle)
     assert kalyoncu_features(*girdi)["kalyoncu_kco"] == 100.0              # iki fiil
-    alt = [(), ((XQZT_FIIL, "xqzt"), (XQZT_AD, "xqzt"))]
-    assert kalyoncu_features(*girdi, alternatives=alt)["kalyoncu_kco"] == 0.0

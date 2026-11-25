@@ -94,11 +94,10 @@ def test_features_ile_pipeline_birbirini_gormez():
 
 
 def test_pipeline_init_bos_kalir():
-    """T22: dolu bir __init__ spaCy'yi zeyrek'ten önce yükler, Windows koruması düşer.
+    """T22: ``pipeline/__init__.py`` boş kalır; alt modül import edilince spaCy'yi çekmesin.
 
-    ``from .pipeline.zeyrek_backend import ...`` bile önce paketi çalıştırır;
-    __init__ spacy_pipeline'ı çekerse (satır 20'de ``import spacy``) yükleme
-    sırası tersine döner ve bozulma sessizdir.
+    ``from .pipeline.akana_backend import ...`` bile önce paketi çalıştırır; __init__
+    spacy_pipeline'ı çekerse her içe aktarma spaCy'yi de yükler.
     """
     assert not (KOK / "pipeline" / "__init__.py").read_text(encoding="utf-8").strip()
 

@@ -373,7 +373,7 @@ def word_ngram_counts(
       ``evdeki``, ``evlerimizden``; 2026-11-06, hocanın önerisi); geri kalan her öge
       kelimedir ve dile göre küçük harfe inen yazılı biçimle eşleşir.
       ``["ADJ", "NOUN"]`` = bir sıfat ve hemen ardından bir isim.
-      Lemma ``lemma_tokens``'takiyle aynıdır: Türkçede Zeyrek'in ilk çözümlemesi,
+      Lemma ``lemma_tokens``'takiyle aynıdır: Türkçede Akana'nın seçtiği çözümleme,
       İngilizcede spaCy; fiilde mastar eki yok (``GİT``). Etiket adıyla aynı yazılan
       bir lemma (``PART``) etikettir.
     - Arama cümle içindedir: öbek cümle sınırını aşmaz.

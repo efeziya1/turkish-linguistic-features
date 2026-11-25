@@ -75,7 +75,7 @@ def test_uretilen_anahtarlar_registryle_birebir_ayni():
                 if k not in kayitli and not k.startswith(onekler)}
     assert not kayitsiz, f"Registry'de olmayan anahtarlar üretildi: {sorted(kayitsiz)}"
 
-    # `syntactic` hariç (dep_data yok); `morphological_zeyrek` DAHİL (lang="tr", K11).
+    # `syntactic` hariç (dep_data yok); `morphological_akana` DAHİL (lang="tr", K11).
     # İngilizceye özgü okunabilirlik anahtarları da Türkçede üretilmez.
     beklenen = (kayitli
                 - set(STATIC_GROUP_KEYS["syntactic"])
@@ -139,10 +139,10 @@ def test_brunet_v_yuzey_bicim():
 
 
 @pytest.mark.cmudict            # İngilizce hece sayımı
-def test_ingilizcede_zeyrek_grubu_hic_uretilmez():
-    """EN şemasında `morphological_zeyrek` YOK — Zeyrek İngilizce çözümlemiyor."""
+def test_ingilizcede_akana_grubu_hic_uretilmez():
+    """EN şemasında `morphological_akana` YOK — Akana İngilizce çözümlemiyor."""
     feats = _extract_features(**{**ORNEK_GIRDI, "lang": "en"})
-    assert not (set(STATIC_GROUP_KEYS["morphological_zeyrek"]) & set(feats))
+    assert not (set(STATIC_GROUP_KEYS["morphological_akana"]) & set(feats))
 
 
 @pytest.mark.cmudict            # İngilizce hece sayımı
@@ -212,7 +212,7 @@ def test_hizalanmasi_gereken_uc_alan_yoksa_grup_atlanir():
     eksik = {k: v for k, v in ORNEK_GIRDI.items()
              if k not in ("morph_tags", "morpheme_lists")}
     feats = _extract_features(**eksik)
-    for grup in ("morphological", "morphological_zeyrek", "syntactic"):
+    for grup in ("morphological", "morphological_akana", "syntactic"):
         assert not (set(STATIC_GROUP_KEYS[grup]) & set(feats)), grup
     assert len(feats) == TR_DEP_SIZ - 19 - 23
 

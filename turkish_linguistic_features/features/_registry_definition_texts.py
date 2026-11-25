@@ -1,7 +1,7 @@
 """``definitions`` açıklamaları: her (terim, ad) için kaynak ve tek cümlelik açıklama.
 
 ``source`` kuralı kimin koyduğunu söyler: ``tlf`` (kütüphanenin kendi kodu), ``spacy`` (spaCy
-modelinin çıktısı: ``tr_core_news_md`` / ``en_core_web_sm``), ``zeyrek``, ``textstat``,
+modelinin çıktısı: ``tr_core_news_md`` / ``en_core_web_sm``), ``akana``, ``textstat``,
 ``wordfreq``. tlf'nin spaCy tokenları üzerinde uyguladığı kural ``tlf``'dir; hangi girdiyi
 okuduğu açıklamada yazar. Açıklama en fazla bir cümle. Metinler 2026-10-06'da koddan okunarak yazıldı.
 """
@@ -10,7 +10,7 @@ from __future__ import annotations
 
 __all__ = ["SOURCES", "DEFINITION_INFO"]
 
-SOURCES: frozenset[str] = frozenset({"tlf", "spacy", "zeyrek", "textstat", "wordfreq"})
+SOURCES: frozenset[str] = frozenset({"tlf", "spacy", "akana", "textstat", "wordfreq"})
 
 DEFINITION_INFO: dict[tuple[str, str], tuple[str, str]] = {
     # ── sentence ──
@@ -31,8 +31,9 @@ DEFINITION_INFO: dict[tuple[str, str], tuple[str, str]] = {
         "space_unit plus pieces made only of listed symbols (% $ + …)."),
     ("word", "pos_token"): ("tlf",
         "A spaCy token whose POS tag is not PUNCT or SYM; numbers count."),
-    ("word", "zeyrek_analysed_word"): ("zeyrek",
-        "A space_unit that Zeyrek can analyse; the first analysis is used."),
+    ("word", "akana_analysed_word"): ("akana",
+        "A space_unit that Akana can analyse; Akana's disambiguator picks the analysis "
+        "(frequency score + rules on nearby words)."),
     ("word", "space_unit_numbers_read"): ("tlf",
         "space_unit, but a word with digits counts as the words it is read as (1968 = 5)."),
     # ── type ──
@@ -40,8 +41,8 @@ DEFINITION_INFO: dict[tuple[str, str], tuple[str, str]] = {
         "The word string lowercased by language (Turkish I→ı, İ→i); inflected forms are separate types."),
     ("type", "spacy_lemma"): ("spacy",
         "The lemma the spaCy model gives the word's first non-punctuation token, lowercased."),
-    ("type", "zeyrek_lemma"): ("zeyrek",
-        "Dictionary entry of Zeyrek's first analysis, lowercased, verbs without -mak/-mek; "
+    ("type", "akana_lemma"): ("akana",
+        "Dictionary entry of the analysis Akana's disambiguator picks, lowercased, verbs without -mak/-mek; "
         "unanalysed words keep the part before the apostrophe."),
     # ── token ──
     ("token", "spacy_token"): ("spacy",
@@ -59,8 +60,8 @@ DEFINITION_INFO: dict[tuple[str, str], tuple[str, str]] = {
         "A character for which str.isalpha() is true."),
     ("letter", "alphabet_letter"): ("tlf",
         "A letter of the language's alphabet (Turkish 29, English 26) after lowercasing."),
-    ("letter", "zeyrek_surface_letter"): ("zeyrek",
-        "Characters of the surface strings in Zeyrek's analysis (root and suffixes)."),
+    ("letter", "akana_surface_letter"): ("akana",
+        "Characters of the surface strings in Akana's analysis (root and suffixes)."),
     # ── character ──
     ("character", "token_string_length"): ("tlf",
         "len() of the lowercased word string, digits included."),
@@ -84,20 +85,20 @@ DEFINITION_INFO: dict[tuple[str, str], tuple[str, str]] = {
         "A word tagged NOUN or PROPN by spaCy."),
     ("verb", "verb_only"): ("tlf",
         "A word tagged VERB by spaCy; AUX is not counted."),
-    ("verb", "zeyrek_final_type_verb"): ("zeyrek",
-        "A word whose last type in Zeyrek's analysis is Verb."),
+    ("verb", "akana_final_type_verb"): ("akana",
+        "A word whose last type in Akana's analysis is Verb."),
     ("lexical_word", "noun_propn_verb_adj_adv"): ("tlf",
         "A word tagged NOUN, PROPN, VERB, ADJ or ADV by spaCy; all adverbs, not only Lu's "
         "(2012) adjective-derived ones."),
     # ── suffix ──
-    ("suffix", "zeyrek_visible_suffix"): ("zeyrek",
-        "A suffix in Zeyrek's analysis with a non-empty surface string."),
+    ("suffix", "akana_visible_suffix"): ("akana",
+        "A suffix in Akana's analysis with a non-empty surface string."),
     # ── Kalyoncu (2025) ──
-    ("stem", "zeyrek_lemma_derivations"): ("tlf",
-        "Zeyrek's lemma plus derivational suffixes; stops at voice, compound-verb, copula or "
+    ("stem", "akana_lemma_derivations"): ("tlf",
+        "Akana's lemma plus derivational suffixes; stops at voice, compound-verb, copula or "
         "verbal suffixes; unanalysed words lowercased."),
-    ("verbal", "zeyrek_verbal_tag"): ("tlf",
-        "A word whose Zeyrek analysis has an infinitive, participle or converb tag; noun + -ken "
+    ("verbal", "akana_verbal_tag"): ("tlf",
+        "A word whose Akana analysis has an infinitive, participle or converb tag; noun + -ken "
         "excluded."),
     ("list_word", "kalyoncu_list"): ("tlf",
         "A word whose form, stem or stem + -mak/-mek is in Kalyoncu's (2025) 4,600-word list, "
@@ -113,6 +114,6 @@ DEFINITION_INFO: dict[tuple[str, str], tuple[str, str]] = {
         "depth in steps to the root."),
     ("zipf_score", "wordfreq_zipf"): ("wordfreq",
         "wordfreq's Zipf score of the lemma; a lemma not in the list scores 0."),
-    ("zeyrek_tag", "zeyrek_tag"): ("zeyrek",
-        "A morphological tag in Zeyrek's analysis (A3pl, Acc, Neg, Pass …)."),
+    ("akana_tag", "akana_tag"): ("akana",
+        "A morphological tag in Akana's analysis (A3pl, Acc, Neg, Pass …)."),
 }

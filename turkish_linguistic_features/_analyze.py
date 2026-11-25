@@ -28,7 +28,7 @@ __all__ = ["analyze", "ngram_matches"]
 # dönüştüğü için anahtarın parçası değil — anahtar uzayı pratikte 1–2 girdi.
 #
 # ``clear_cache()`` YAZILMIYOR: iki önbellek de sınırlı. Bu sözlük 1–2 girdi,
-# Zeyrek'in kelime memo'su ``lru_cache(50_000)`` ile 18,1 MB tavanlı. Soğuk
+# Çözümleyicinin kelime memo'su ``lru_cache(50_000)`` ile sınırlı (Akana'da 39,3 MB ölçüldü). Soğuk
 # başlangıç isteyen test bu sözlüğü doğrudan ``clear()`` eder; public bir
 # fonksiyon gerekmiyor.
 _preprocessor_cache: dict[tuple[str, str | None], Preprocessor] = {}

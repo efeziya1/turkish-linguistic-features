@@ -464,12 +464,12 @@ def test_definitions_formulde_gecen_terim_kayitli(anahtar):
     ("lix", {"sentence": "default", "word": "space_unit", "letter": "unicode_letter",
              "long_word": "7_plus_letters"}),
     ("ttr", {"word": "space_unit", "type": "lowercase_surface"}),
-    # Tek kelime tanımı ve Türkçe Zeyrek lemması (2026-10-07, Efe); `type` dile göre.
-    ("lemma_count", {"word": "space_unit", "type": "zeyrek_lemma"}),
+    # Tek kelime tanımı ve Türkçe Akana lemması (2026-10-07, Efe); `type` dile göre.
+    ("lemma_count", {"word": "space_unit", "type": "akana_lemma"}),
     ("pos_noun_ratio", {"word": "space_unit", "pos_tag": "spacy_upos"}),
     ("case_acc_ratio", {"word": "space_unit", "morph_feature": "spacy_morph"}),
-    ("zeyrek_case_acc_ratio", {"word": "zeyrek_analysed_word", "zeyrek_tag": "zeyrek_tag"}),
-    ("wordfreq_mean", {"word": "space_unit", "type": "zeyrek_lemma",
+    ("akana_case_acc_ratio", {"word": "akana_analysed_word", "akana_tag": "akana_tag"}),
+    ("wordfreq_mean", {"word": "space_unit", "type": "akana_lemma",
                        "lexical_word": "noun_propn_verb_adj_adv", "pos_tag": "spacy_upos",
                        "zipf_score": "wordfreq_zipf"}),
     ("vowel_ratio", {"letter": "alphabet_letter"}),
@@ -481,7 +481,7 @@ def test_definitions_ornekler(anahtar, beklenen):
 
 
 def test_lemma_turu_dile_gore():
-    """Türkçe lemma Zeyrek'ten, İngilizce spaCy'den (2026-10-07, Efe)."""
+    """Türkçe lemma Akana'dan, İngilizce spaCy'den (2026-10-07, Efe)."""
     assert _adlar("lemma_count", lang="en")["type"] == "spacy_lemma"
     assert _adlar("ttr", lang="en")["type"] == "lowercase_surface"
 

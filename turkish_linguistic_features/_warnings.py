@@ -26,9 +26,9 @@ class ParagraphStructureWarning(UserWarning):
     """Metinde paragraf sınırı bulunamadı; ``para_*`` metin düzeyi sayı."""
 
 
-# Sadece OPSİYONEL paketler burada. numpy, spaCy, zeyrek ve textstat
+# Sadece OPSİYONEL paketler burada. numpy, spaCy, akana ve textstat
 # zorunlu (K1) — onlar eksikse paket zaten kurulamamış demektir, ipucu
-# vermenin anlamı yok. 2026-08-25'te zeyrek ve textstat bu tablodan çıktı.
+# vermenin anlamı yok. 2026-08-25'te zorunlu paketler bu tablodan çıktı.
 # Paket PyPI'da olmadığı için ekstra adı (`[lexical_freq]`) kurulmaz; komut paketin kendisini
 # pyproject'teki alt sınırla kurar (2026-10-06).
 _KURULUM_KOMUTU: dict[str, str] = {

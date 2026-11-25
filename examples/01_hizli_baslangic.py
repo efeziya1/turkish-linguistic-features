@@ -35,7 +35,7 @@ INGILIZCE_METIN = (
     "measures, it does not judge."
 )
 # İkisi yalnız Türkçe şemada, ikisi yalnız İngilizce şemada olan anahtarlar.
-DILE_OZEL = ("zeyrek_agglutination_depth", "atesman",
+DILE_OZEL = ("akana_agglutination_depth", "atesman",
              "flesch_reading_ease", "polysyllabic_word_ratio")
 
 
@@ -64,9 +64,9 @@ def main() -> None:
         print(f"{anahtar:<30} {oznitelikler[anahtar]:>10.4f}   {bilgi['formula']}")
         print(f"{'':<30} {'':>10}   ölçek: {bilgi['scale']}")
 
-    # 3. Aynı çağrı, başka dil. Türkçede Zeyrek çözümlemesinden gelen
-    #    `morphological_zeyrek` grubu ve Türkçeye özgü okunabilirlik formülleri
-    #    var; İngilizcede Flesch/SMOG ailesi var, Zeyrek grubu hiç yok.
+    # 3. Aynı çağrı, başka dil. Türkçede Akana çözümlemesinden gelen
+    #    `morphological_akana` grubu ve Türkçeye özgü okunabilirlik formülleri
+    #    var; İngilizcede Flesch/SMOG ailesi var, Akana grubu hiç yok.
     ingilizce = tlf.analyze(INGILIZCE_METIN, lang="en")
     print('\n-- İngilizce şema (lang="en") ' + "-" * 20)
     print(f"{len(ingilizce)} öznitelik çıkarıldı "

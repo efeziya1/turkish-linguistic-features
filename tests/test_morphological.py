@@ -4,6 +4,15 @@ import pytest
 
 from turkish_linguistic_features.features.morphological import (
     _parse_morph,
+    akana_agglutination_depth,
+    akana_derivational_suffix_ratio,
+    akana_morfoloji,
+    akana_negation_ratio,
+    akana_passive_ratio,
+    akana_plural_ratio,
+    akana_question_particle_ratio,
+    akana_suffix_char_length_ratio,
+    akana_verb_suffix_diversity,
     case_suffix_ratios,
     modal_suffix_ratios,
     mood_suffix_ratios,
@@ -11,15 +20,6 @@ from turkish_linguistic_features.features.morphological import (
     suffix_ngrams,
     surface_per_lemma,
     tense_ratios,
-    zeyrek_agglutination_depth,
-    zeyrek_derivational_suffix_ratio,
-    zeyrek_morfoloji,
-    zeyrek_negation_ratio,
-    zeyrek_passive_ratio,
-    zeyrek_plural_ratio,
-    zeyrek_question_particle_ratio,
-    zeyrek_suffix_char_length_ratio,
-    zeyrek_verb_suffix_diversity,
 )
 from turkish_linguistic_features.params import FeatureParams
 
@@ -158,9 +158,9 @@ def test_yuzey_lemma_hizasiz_hata():
         surface_per_lemma(["ev"], [], ["ev"])
 
 
-# ── T16: Zeyrek ───────────────────────────────────────────────────────
+# ── T16: Akana ───────────────────────────────────────────────────────
 #
-# Morpheme = (etiket, yüzey, türetimsel_mi) — ETİKET ÖNCE. Zeyrek'in gerçek
+# Morpheme = (etiket, yüzey, türetimsel_mi) — ETİKET ÖNCE. Akana'nın gerçek
 # çıktısına göre: görünmeyen ekler boş yüzeyle (A3sg), türetmeden sonraki
 # tür etiketi ayrı öge (("Verb", "", False)), çözümsüz kelime ("Unk", ...).
 
@@ -188,119 +188,119 @@ OGRENCILERDI = [("Noun", "öğrenci", False), ("A3pl", "ler", False), ("Zero", "
 GELDILER = [("Verb", "gel", False), ("Past", "di", False), ("A3pl", "ler", False)]
 MI = [("Ques", "mı", False), ("Pres", "", False), ("A3sg", "", False)]
 BILINMEYEN = [("Unk", "xqzt", False)]
-NOKTA = [("Punc", ".", False)]
+NOKTA = [("Unk", ".", False)]
 
 
 def _z(*kelimeler):
     """(morpheme_lists, pos_data); pos_data yalnız noktalama süzgeci için okunur."""
-    pos = [(m[0][1], "PUNCT" if m[0][0] == "Punc" else "X") for m in kelimeler]
+    pos = [(m[0][1], "PUNCT" if m[0][1] == "." else "X") for m in kelimeler]
     return list(kelimeler), pos
 
 
 def test_ek_derinligi_elle():
     """kitaplarımızda: 3 ek, ev: 0 görünen ek → 1.5 (S1)."""
-    assert zeyrek_agglutination_depth(*_z(KITAPLARIMIZDA, EV))["zeyrek_agglutination_depth"] == 1.5
+    assert akana_agglutination_depth(*_z(KITAPLARIMIZDA, EV))["akana_agglutination_depth"] == 1.5
 
 
 def test_derinlik_gorunmeyen_ek_ve_tur_etiketi_sayilmaz():
     """evdeydi: de + ydi = 2; A3sg, Zero, Verb sayılmaz."""
-    assert zeyrek_agglutination_depth(*_z(EV))["zeyrek_agglutination_depth"] == 0.0
-    assert zeyrek_agglutination_depth(*_z(EVDEYDI))["zeyrek_agglutination_depth"] == 2.0
+    assert akana_agglutination_depth(*_z(EV))["akana_agglutination_depth"] == 0.0
+    assert akana_agglutination_depth(*_z(EVDEYDI))["akana_agglutination_depth"] == 2.0
 
 
 def test_bilinmeyen_ve_noktalama_paydada_yok():
     """S6: Unk ve noktalama hiçbir paydaya girmez."""
-    sonuc = zeyrek_agglutination_depth(*_z(KITAPLARIMIZDA, BILINMEYEN, NOKTA))
-    assert sonuc["zeyrek_agglutination_depth"] == 3.0
+    sonuc = akana_agglutination_depth(*_z(KITAPLARIMIZDA, BILINMEYEN, NOKTA))
+    assert sonuc["akana_agglutination_depth"] == 3.0
 
 
 def test_cogul_orani():
-    assert zeyrek_plural_ratio(*_z(KITAPLARIMIZDA, EV))["zeyrek_plural_ratio"] == 0.5
+    assert akana_plural_ratio(*_z(KITAPLARIMIZDA, EV))["akana_plural_ratio"] == 0.5
 
 
 def test_cogul_bagli_oldugu_parcaya_bakar():
     """S10: öğrencilerdi → isme bağlı -ler çoğul; geldiler → kişi eki."""
-    assert zeyrek_plural_ratio(*_z(OGRENCILERDI, GELDILER))["zeyrek_plural_ratio"] == 0.5
+    assert akana_plural_ratio(*_z(OGRENCILERDI, GELDILER))["akana_plural_ratio"] == 0.5
 
 
 def test_olumsuzluk_paydasi_fiiller_eme_dahil():
     """S5a, S9: 3 fiil (gelmedim, gelemedim olumsuz) + isim → 2/3."""
-    sonuc = zeyrek_negation_ratio(*_z(GELMEDIM, GELEMEDIM, GELIRSE, EV))
-    assert sonuc["zeyrek_negation_ratio"] == pytest.approx(2 / 3, abs=1e-5)
+    sonuc = akana_negation_ratio(*_z(GELMEDIM, GELEMEDIM, GELIRSE, EV))
+    assert sonuc["akana_negation_ratio"] == pytest.approx(2 / 3, abs=1e-5)
 
 
 def test_kip_ayrimi_eme_yeterlilik_sayilir():
     """S9: gelebilirim, gelemedim → Able; gitmeliyim → Neces."""
     sonuc = modal_suffix_ratios(*_z(GELEBILIRIM, GELEMEDIM, GITMELIYIM, EV))
-    assert sonuc["zeyrek_modal_possibility_ratio"] == pytest.approx(2 / 3, abs=1e-5)
-    assert sonuc["zeyrek_modal_necessity_ratio"] == pytest.approx(1 / 3, abs=1e-5)
+    assert sonuc["akana_modal_possibility_ratio"] == pytest.approx(2 / 3, abs=1e-5)
+    assert sonuc["akana_modal_necessity_ratio"] == pytest.approx(1 / 3, abs=1e-5)
 
 
 def test_edilgen_fiil_genel_etiketle():
     """yazılan sıfat (genel etiket Adj) → payda ve paya girmez → 1/2."""
-    assert zeyrek_passive_ratio(*_z(YAZILDI, YAZILAN, GELMEDIM))["zeyrek_passive_ratio"] == 0.5
+    assert akana_passive_ratio(*_z(YAZILDI, YAZILAN, GELMEDIM))["akana_passive_ratio"] == 0.5
 
 
 def test_zaman_orani_paydasi_fiiller():
-    """1 fiil (geçmiş) + 3 isim → zeyrek_tense_past_def_ratio = 1.0, 0.25 değil."""
-    assert tense_ratios(*_z(GELMEDIM, EV, EV, EV))["zeyrek_tense_past_def_ratio"] == 1.0
+    """1 fiil (geçmiş) + 3 isim → akana_tense_past_def_ratio = 1.0, 0.25 değil."""
+    assert tense_ratios(*_z(GELMEDIM, EV, EV, EV))["akana_tense_past_def_ratio"] == 1.0
 
 
 def test_birlesik_zamanda_son_ek_sayilir():
     """S3: gidiyordum → yalnız geçmiş."""
     sonuc = tense_ratios(*_z(GIDIYORDUM))
-    assert sonuc["zeyrek_tense_past_def_ratio"] == 1.0 and sonuc["zeyrek_tense_present_ratio"] == 0.0
+    assert sonuc["akana_tense_past_def_ratio"] == 1.0 and sonuc["akana_tense_present_ratio"] == 0.0
 
 
 def test_simdiki_genis_zaman_ve_ek_fiil():
     """S4: geniş zaman (görünmeyen dahil) present; evdeydi fiil sayılır."""
-    assert tense_ratios(*_z(GELIRSE, GELMEM))["zeyrek_tense_present_ratio"] == 1.0
-    assert tense_ratios(*_z(EVDEYDI))["zeyrek_tense_past_def_ratio"] == 1.0
+    assert tense_ratios(*_z(GELIRSE, GELMEM))["akana_tense_present_ratio"] == 1.0
+    assert tense_ratios(*_z(EVDEYDI))["akana_tense_past_def_ratio"] == 1.0
 
 
 def test_sart_ve_ettirgen():
     sonuc = mood_suffix_ratios(*_z(GELIRSE, YAPTIRDI, EV))
-    assert sonuc["zeyrek_conditional_suffix_ratio"] == 0.5
-    assert sonuc["zeyrek_causative_suffix_ratio"] == 0.5
+    assert sonuc["akana_conditional_suffix_ratio"] == 0.5
+    assert sonuc["akana_causative_suffix_ratio"] == 0.5
 
 
 def test_durum_eki_orani():
     sonuc = case_suffix_ratios(*_z(KITAPLARIMIZDA, EV))
-    assert sonuc["zeyrek_case_loc_ratio"] == 0.5
-    assert sonuc["zeyrek_case_acc_ratio"] == 0.0
+    assert sonuc["akana_case_loc_ratio"] == 0.5
+    assert sonuc["akana_case_acc_ratio"] == 0.0
 
 
 def test_soru_eki_orani():
-    sonuc = zeyrek_question_particle_ratio(*_z(MI, EV, BILINMEYEN))
-    assert sonuc["zeyrek_question_particle_ratio"] == 0.5
+    sonuc = akana_question_particle_ratio(*_z(MI, EV, BILINMEYEN))
+    assert sonuc["akana_question_particle_ratio"] == 0.5
 
 
 def test_ek_karakter_orani():
     """kitaplarımızda: kök 5, ek 9 karakter → 9/14; noktalama sayılmaz."""
-    sonuc = zeyrek_suffix_char_length_ratio(*_z(KITAPLARIMIZDA, NOKTA))
-    assert sonuc["zeyrek_suffix_char_length_ratio"] == pytest.approx(9 / 14, abs=1e-5)
+    sonuc = akana_suffix_char_length_ratio(*_z(KITAPLARIMIZDA, NOKTA))
+    assert sonuc["akana_suffix_char_length_ratio"] == pytest.approx(9 / 14, abs=1e-5)
 
 
-def test_yapim_eki_orani_zeyrek_isareti():
+def test_yapim_eki_orani_akana_isareti():
     """S2: yazıldı → ıl yapım, dı çekim → 0.5."""
-    assert zeyrek_derivational_suffix_ratio(*_z(YAZILDI))["zeyrek_derivational_suffix_ratio"] == 0.5
-    assert zeyrek_derivational_suffix_ratio(*_z(GELMEDIM))["zeyrek_derivational_suffix_ratio"] == 0.0
-    assert math.isnan(zeyrek_derivational_suffix_ratio(*_z(EV))["zeyrek_derivational_suffix_ratio"])
+    assert akana_derivational_suffix_ratio(*_z(YAZILDI))["akana_derivational_suffix_ratio"] == 0.5
+    assert akana_derivational_suffix_ratio(*_z(GELMEDIM))["akana_derivational_suffix_ratio"] == 0.0
+    assert math.isnan(akana_derivational_suffix_ratio(*_z(EV))["akana_derivational_suffix_ratio"])
 
 
 def test_ek_bigram_entropisi():
     """kitaplarımızda: (A3pl,P1pl), (P1pl,Loc) eşit → ln 2 nat (1 bit); tek desen 0."""
-    assert suffix_ngrams(*_z(KITAPLARIMIZDA))["zeyrek_suffix_bigram_entropy"] == round(math.log(2), 5)
-    assert suffix_ngrams(*_z(GELDILER, GELDILER))["zeyrek_suffix_bigram_entropy"] == 0.0
-    assert math.isnan(suffix_ngrams(*_z(EV))["zeyrek_suffix_bigram_entropy"])
+    assert suffix_ngrams(*_z(KITAPLARIMIZDA))["akana_suffix_bigram_entropy"] == round(math.log(2), 5)
+    assert suffix_ngrams(*_z(GELDILER, GELDILER))["akana_suffix_bigram_entropy"] == 0.0
+    assert math.isnan(suffix_ngrams(*_z(EV))["akana_suffix_bigram_entropy"])
 
 
 def test_fiil_eki_cesitliligi_butun_fiiller_tek_ornekleme_sigarsa():
     """Örneklem boyu fiil sayısına eşitse her örneklem bütün fiillerdir: {Neg,Past,A1sg,Prog1}=4."""
     params = FeatureParams(verb_suffix_window=5)
-    sonuc = zeyrek_verb_suffix_diversity(
+    sonuc = akana_verb_suffix_diversity(
         *_z(GELMEDIM, EV, GIDIYORDUM, GELMEDIM, GELMEDIM, GIDIYORDUM), params)
-    assert sonuc["zeyrek_verb_suffix_diversity"] == 4.0
+    assert sonuc["akana_verb_suffix_diversity"] == 4.0
 
 
 def test_fiil_eki_cesitliligi_rastgele_ornekleme_ortalamasi():
@@ -310,11 +310,11 @@ def test_fiil_eki_cesitliligi_rastgele_ornekleme_ortalamasi():
     """
     params = FeatureParams(verb_suffix_window=2, verb_suffix_num_samples=50)
     girdi = _z(GELMEDIM, GIDIYORDUM, GELMEDIM, GELMEDIM, GIDIYORDUM)
-    sonuc = zeyrek_verb_suffix_diversity(*girdi, params)["zeyrek_verb_suffix_diversity"]
+    sonuc = akana_verb_suffix_diversity(*girdi, params)["akana_verb_suffix_diversity"]
     assert 3.0 < sonuc < 4.0
-    assert zeyrek_verb_suffix_diversity(*girdi, params)["zeyrek_verb_suffix_diversity"] == sonuc
+    assert akana_verb_suffix_diversity(*girdi, params)["akana_verb_suffix_diversity"] == sonuc
     baska = FeatureParams(verb_suffix_window=2, verb_suffix_num_samples=50, verb_suffix_random_seed=7)
-    assert 3.0 < zeyrek_verb_suffix_diversity(*girdi, baska)["zeyrek_verb_suffix_diversity"] < 4.0
+    assert 3.0 < akana_verb_suffix_diversity(*girdi, baska)["akana_verb_suffix_diversity"] < 4.0
 
 
 def test_fiil_eki_cesitliligi_varsayilanlar_ve_kisa_metin_nan():
@@ -322,23 +322,23 @@ def test_fiil_eki_cesitliligi_varsayilanlar_ve_kisa_metin_nan():
     p = FeatureParams()
     assert (p.verb_suffix_window, p.verb_suffix_num_samples) == (10, 100)
     assert p.verb_suffix_random_seed == p.vocd_random_seed
-    assert math.isnan(zeyrek_verb_suffix_diversity(*_z(GELMEDIM))["zeyrek_verb_suffix_diversity"])
+    assert math.isnan(akana_verb_suffix_diversity(*_z(GELMEDIM))["akana_verb_suffix_diversity"])
     dokuz = _z(*([GELMEDIM] * 9))
-    assert math.isnan(zeyrek_verb_suffix_diversity(*dokuz)["zeyrek_verb_suffix_diversity"])
+    assert math.isnan(akana_verb_suffix_diversity(*dokuz)["akana_verb_suffix_diversity"])
     on = _z(*([GELMEDIM] * 10))
-    assert zeyrek_verb_suffix_diversity(*on)["zeyrek_verb_suffix_diversity"] == 3.0
+    assert akana_verb_suffix_diversity(*on)["akana_verb_suffix_diversity"] == 3.0
 
 
-def test_zeyrek_morfoloji_23_anahtar():
-    assert len(zeyrek_morfoloji(*_z(KITAPLARIMIZDA, GELMEDIM))) == 23
+def test_akana_morfoloji_23_anahtar():
+    assert len(akana_morfoloji(*_z(KITAPLARIMIZDA, GELMEDIM))) == 23
 
 
 def test_bos_morfem_listesi():
     """Boş girdi → 23'ü de NaN (K4)."""
-    sonuc = zeyrek_morfoloji([], [])
+    sonuc = akana_morfoloji([], [])
     assert len(sonuc) == 23 and all(math.isnan(v) for v in sonuc.values())
 
 
-def test_zeyrek_hizasiz_girdi_hata():
+def test_akana_hizasiz_girdi_hata():
     with pytest.raises(ValueError):
-        zeyrek_agglutination_depth([EV], [])
+        akana_agglutination_depth([EV], [])

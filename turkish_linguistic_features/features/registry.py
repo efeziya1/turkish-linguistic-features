@@ -37,7 +37,7 @@ __all__ = ["describe_feature"]
 # ── gruplar ───────────────────────────────────────────────────────────
 
 # Görünen ad (2026-10-26, Efe): anahtar ve ad aynı kavramı aynı sözcük türüyle söyler; açıklayıcı
-# parantez yok (yalnız spaCy/Zeyrek ayrımı). Türkçe adlar Türkçe belgelerde.
+# parantez yok (yalnız spaCy/Akana ayrımı). Türkçe adlar Türkçe belgelerde.
 GROUP_LABELS: dict[str, str] = {
     "lexical": "Lexical richness & frequency",
     "frequency_structure": "Frequency structure",
@@ -46,7 +46,7 @@ GROUP_LABELS: dict[str, str] = {
     "pos": "Parts of speech",
     "syntactic": "Syntactic features",
     "morphological": "Morphological features (spaCy)",
-    "morphological_zeyrek": "Morphological features (Zeyrek)",
+    "morphological_akana": "Morphological features (Akana)",
     "phonological": "Phonological features",
     "readability": "Readability",
     "punctuation": "Punctuation & orthography",
@@ -108,16 +108,16 @@ STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
         'case_gen_ratio', 'person_1_ratio', 'person_2_ratio', 'person_3_ratio',
         'number_sing_ratio', 'number_plur_ratio', 'voice_pass_ratio',
     ),
-    "morphological_zeyrek": (
-        'zeyrek_agglutination_depth', 'zeyrek_suffix_char_length_ratio', 'zeyrek_suffix_bigram_entropy',
-        'zeyrek_derivational_suffix_ratio', 'zeyrek_verb_suffix_diversity', 'zeyrek_tense_past_def_ratio',
-        'zeyrek_tense_past_nar_ratio', 'zeyrek_tense_present_ratio', 'zeyrek_tense_future_ratio',
-        'zeyrek_negation_ratio', 'zeyrek_passive_ratio',
-        'zeyrek_plural_ratio', 'zeyrek_case_acc_ratio', 'zeyrek_case_dat_ratio', 'zeyrek_case_loc_ratio',
-        'zeyrek_case_abl_ratio',
-        'zeyrek_case_gen_ratio', 'zeyrek_case_ins_ratio', 'zeyrek_conditional_suffix_ratio',
-        'zeyrek_causative_suffix_ratio', 'zeyrek_modal_possibility_ratio',
-        'zeyrek_modal_necessity_ratio', 'zeyrek_question_particle_ratio',
+    "morphological_akana": (
+        'akana_agglutination_depth', 'akana_suffix_char_length_ratio', 'akana_suffix_bigram_entropy',
+        'akana_derivational_suffix_ratio', 'akana_verb_suffix_diversity', 'akana_tense_past_def_ratio',
+        'akana_tense_past_nar_ratio', 'akana_tense_present_ratio', 'akana_tense_future_ratio',
+        'akana_negation_ratio', 'akana_passive_ratio',
+        'akana_plural_ratio', 'akana_case_acc_ratio', 'akana_case_dat_ratio', 'akana_case_loc_ratio',
+        'akana_case_abl_ratio',
+        'akana_case_gen_ratio', 'akana_case_ins_ratio', 'akana_conditional_suffix_ratio',
+        'akana_causative_suffix_ratio', 'akana_modal_possibility_ratio',
+        'akana_modal_necessity_ratio', 'akana_question_particle_ratio',
     ),
     "phonological": (
         'vowel_ratio', 'front_vowel_ratio', 'back_vowel_ratio',
@@ -167,7 +167,7 @@ GROUP_INPUTS: dict[str, tuple[str, ...]] = {
     "pos": _ETIKET,
     "syntactic": ("dep_data",),
     "morphological": ("raw_text", "surface_tokens", "pos_data", "morph_tags"),
-    "morphological_zeyrek": ("raw_text", "surface_tokens", "pos_data", "morpheme_lists"),
+    "morphological_akana": ("raw_text", "surface_tokens", "pos_data", "morpheme_lists"),
     "phonological": _METIN,
     "readability": _CUMLE,
     "punctuation": _METIN,
@@ -200,7 +200,7 @@ FEATURE_INPUTS: dict[str, tuple[str, ...]] = {
     "surface_per_lemma": _LEMMA,
     # phonological: cümle başına
     "sent_syllable_mean": _CUMLE,
-    # readability: cümle saymayanlar; Kalyoncu (2025) Zeyrek gövdesi ve PROPN okur
+    # readability: cümle saymayanlar; Kalyoncu (2025) Akana gövdesi ve PROPN okur
     "polysyllabic_word_ratio": _METIN,
     "long_word_ratio": _METIN,
     **dict.fromkeys(("kalyoncu_kl", "kalyoncu_ttr", "kalyoncu_kco", "kalyoncu_yco",
@@ -226,7 +226,7 @@ GROUP_SCALES: dict[str, str] = {
     "pos": "ratio_0_1",
     "syntactic": "ratio_0_1",
     "morphological": "ratio_0_1",
-    "morphological_zeyrek": "ratio_0_1",
+    "morphological_akana": "ratio_0_1",
     "phonological": "ratio_0_1",
     "readability": "score",
     "punctuation": "ratio_0_1",
@@ -293,10 +293,10 @@ FEATURE_SCALES: dict[str, str] = {
     "parse_depth_mean": "length",
     # morphological
     "surface_per_lemma": "score",
-    # morphological_zeyrek
-    "zeyrek_agglutination_depth": "length",
-    "zeyrek_suffix_bigram_entropy": "nats",
-    "zeyrek_verb_suffix_diversity": "count",
+    # morphological_akana
+    "akana_agglutination_depth": "length",
+    "akana_suffix_bigram_entropy": "nats",
+    "akana_verb_suffix_diversity": "count",
     # phonological
     "syllable_mean": "length",
     "sent_syllable_mean": "length",
@@ -323,7 +323,7 @@ FEATURE_PARAMS: dict[str, tuple[str, ...]] = {
                "vocd_num_runs", "vocd_min_tokens", "vocd_random_seed"),
     "brunet_w": ("brunet_w_a", "brunet_w_b"),
     "heaps_beta": ("heaps_points",),
-    "zeyrek_verb_suffix_diversity": ("verb_suffix_window", "verb_suffix_num_samples",
+    "akana_verb_suffix_diversity": ("verb_suffix_window", "verb_suffix_num_samples",
                                      "verb_suffix_random_seed"),
     "short_sent_ratio": ("short_sent_threshold",),
     "long_sent_ratio": ("long_sent_threshold",),
@@ -436,7 +436,7 @@ def describe_feature(key: str, lang: str | None = None) -> dict:
         ``references``, ``definitions``.
         ``definitions`` = ``{terim: {"name", "source", "description"}}``: formülün
         kullandığı terimlerin (``sentence``, ``word``, ``syllable``…) tlf'deki tanımı,
-        kuralı kimin koyduğu (``tlf``, ``spacy``, ``zeyrek``, ``textstat``,
+        kuralı kimin koyduğu (``tlf``, ``spacy``, ``akana``, ``textstat``,
         ``wordfreq``) ve tek tümceyle nasıl hesaplandığı. Formülde olmayan terim sözlükte
         yoktur. Dile göre değişen terimde (``syllable``, ``type``) ``lang`` verilirse o dilin
         kaydı, verilmezse ``{"tr": kayıt, "en": kayıt}`` döner; yalnız tek dilde üretilen öznitelikte
@@ -450,7 +450,7 @@ def describe_feature(key: str, lang: str | None = None) -> dict:
         ölçüsü değildir, saf tanımdır (``punct_variety``, ``lemma_count``). Dış
         bir etiket şemasının kategorisini sayan anahtarların künyesi
         ``None`` değildir, şemayı gösterir (``case_loc_ratio`` → UD;
-        ``zeyrek_case_loc_ratio`` → Zeyrek).
+        ``akana_case_loc_ratio`` → Akana).
 
     Raises
     ------

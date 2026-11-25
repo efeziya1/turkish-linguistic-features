@@ -2,7 +2,8 @@
 
 Tümce = formüle özel işaretlerden biriyle biten dizi (``_CUMLE_SONU``). İşaretler spaCy
 türcelerinden okunur, böylece ``Dr.`` tümce bitirmez. Varsayılan kural (``kural_cumleleri``)
-bütün aracın tümcesidir; yalnız ``syntactic`` spaCy'nin ayrıştırıcı tümcesini kullanır.
+bütün aracın tümcesidir; Akana'nın belirsizlik gidericisine giden tümceler de bunlardır.
+Yalnız ``syntactic`` spaCy'nin ayrıştırıcı tümcesini kullanır.
 
 Saf hesap; paket içinden yalnız L0'ı ve ``birimler``i görür.
 """

@@ -4,9 +4,11 @@
 ``surface_tokens``, ``sentences_as_tokens``, ``pos_data``, ``morph_tags`` ve
 ``dep_data`` eğitilmiş spaCy modelinden gelir; ``lemma_tokens`` İngilizcede de.
 
-İki istisna Türkçede ``ZeyrekBackend``'den gelir: ``morpheme_lists`` (spaCy
+İki istisna Türkçede ``AkanaBackend``'den gelir: ``morpheme_lists`` (spaCy
 morfolojik **ek bölütlemesi** üretmiyor, K11) ve ``lemma_tokens`` (2026-10-07,
-Efe: Zeyrek'in sözlük maddesi). İngilizcede ``morpheme_lists`` boş kalır.
+Efe: çözümleyicinin sözlük maddesi). İngilizcede ``morpheme_lists`` boş kalır. Akana her sözcüğün
+çözümlemesini belirsizlik gidericisiyle seçer; gidericiye aracın tümce kuralının
+tümceleri gider (``birimler.tumce.kural_cumleleri``; 0.4.0, Efe).
 
 Katman **sessiz**: varsayılan çağrıda hiçbir şey yazdırmaz, uyarı vermez
 (2026-08-25).
@@ -19,12 +21,13 @@ from typing import TYPE_CHECKING
 import spacy
 
 from ..alfabe import _kucuk_harf
+from ..birimler.tumce import kural_cumleleri
 from ..exceptions import ModelNotFoundError
 from ..vocab import NON_WORD_POS
-from .preprocess import Analysis, Morpheme, ProcessedText
+from .preprocess import Morpheme, ProcessedText
 
 if TYPE_CHECKING:
-    from .zeyrek_backend import ZeyrekBackend
+    from .akana_backend import AkanaBackend
 
 __all__ = ["Preprocessor"]
 
@@ -96,7 +99,7 @@ class Preprocessor:
         self.lang = lang
         self.model_name = model or _DEFAULT_MODEL.get(lang, _DEFAULT_MODEL["en"])
         self._nlp: spacy.language.Language | None = None
-        self._zeyrek_backend: ZeyrekBackend | None = None
+        self._morph_backend: AkanaBackend | None = None
 
     def _ensure_loaded(self) -> None:
         if self._nlp is not None:
@@ -160,41 +163,34 @@ class Preprocessor:
         return (surface_tokens, pos_data, morph_tags, sentences_as_tokens,
                 lemma_tokens, dep_data)
 
-    def _morpheme_lists(self, surface_tokens: list[str]) -> tuple[tuple[Morpheme, ...], ...]:
-        """Token başına morfem parçaları, ``surface_tokens`` ile hizalı.
+    def _akana(self, surface: list[str],
+               pos: list[tuple[str, str]]) -> tuple[tuple[tuple[Morpheme, ...], ...], list[str]]:
+        """Turkish ``morpheme_lists`` and ``lemma_tokens`` from Akana, sentence by sentence.
 
-        Yalnızca Türkçe: İngilizcede ``()`` döner (K11 — Zeyrek İngilizce
-        çözümlemiyor). Türkçede her zaman dolar; ``zeyrek`` zorunlu bağımlılık
-        (K1), "kurulu değil" durumu yoktur.
+        Akana's disambiguator picks each token's analysis within a sentence of the library's
+        own sentence rule (``kural_cumleleri``), the same sentences every other group uses;
+        not spaCy's parser sentences (0.4.0, Efe, 2026-11-24). On the 57 TOMA texts the two
+        splits changed one analysis in 21,251 tokens and no feature value.
+
+        ``morpheme_lists`` is aligned with ``surface_tokens``; ``lemma_tokens`` with
+        its word tokens (punctuation and symbols left out, T21). spaCy's Turkish lemma left
+        inflected forms as lemmas (15 % of words in TOMA); the analyser's dictionary entry
+        replaces it (2026-10-07, Efe). ``akana`` is a required dependency (K1).
         """
-        if self.lang != "tr":
-            return ()
-        zeyrek = self._zeyrek()
-        return tuple(zeyrek.analyze_word(tok) for tok in surface_tokens)
+        cumleler = kural_cumleleri(surface, "tr")
+        morf = self._morph()
+        secilen = [a for c in cumleler for a in morf.analyze_sentence(c)]
+        morfemler = tuple(m for m, _ in secilen)
+        lemmas = [_kucuk_harf(lem, "tr")
+                  for (_, lem), (_, p) in zip(secilen, pos, strict=True) if p not in NON_WORD_POS]
+        return morfemler, lemmas
 
-    def _morpheme_alternatives(self, surface_tokens: list[str]) -> tuple[tuple[Analysis, ...], ...]:
-        """Token başına Zeyrek'in tüm çözümlemeleri; İngilizcede ``()``."""
-        if self.lang != "tr":
-            return ()
-        zeyrek = self._zeyrek()
-        return tuple(zeyrek.analyze_alternatives(tok) for tok in surface_tokens)
-
-    def _zeyrek(self) -> ZeyrekBackend:
-        if self._zeyrek_backend is None:
-            from .zeyrek_backend import ZeyrekBackend
-            self._zeyrek_backend = ZeyrekBackend()
-            self._zeyrek_backend._ensure_loaded()
-        return self._zeyrek_backend
-
-    def _turkish_lemmas(self, surface: list[str], pos: list[tuple[str, str]]) -> list[str]:
-        """Turkish ``lemma_tokens`` from Zeyrek, aligned like spaCy's (word tokens only).
-
-        spaCy's Turkish lemma left inflected forms as lemmas (15 % of words in TOMA);
-        Zeyrek's dictionary entry replaces it (2026-10-07, Efe). English keeps spaCy.
-        """
-        zeyrek = self._zeyrek()
-        return [_kucuk_harf(zeyrek.lemma(tok), "tr")
-                for tok, (_, p) in zip(surface, pos, strict=True) if p not in NON_WORD_POS]
+    def _morph(self) -> AkanaBackend:
+        if self._morph_backend is None:
+            from .akana_backend import AkanaBackend
+            self._morph_backend = AkanaBackend()
+            self._morph_backend._ensure_loaded()
+        return self._morph_backend
 
     def _birlestir(self, raw_text: str, dokumanlar: list) -> ProcessedText:
         """Parça ``Doc``'larını tek ``ProcessedText``te toplar."""
@@ -214,8 +210,10 @@ class Preprocessor:
             lemma += lm
             dep += d
 
+        morfemler: tuple[tuple[Morpheme, ...], ...] = ()
         if self.lang == "tr":
-            lemma = self._turkish_lemmas(surface, pos)
+            # İngilizcede morpheme_lists boş (K11), lemma spaCy'nin.
+            morfemler, lemma = self._akana(surface, pos)
 
         return ProcessedText(
             raw_text=raw_text,
@@ -223,11 +221,10 @@ class Preprocessor:
             lemma_tokens=tuple(lemma),
             pos_data=tuple(pos),
             sentences_as_tokens=tuple(cumleler),
-            morpheme_lists=self._morpheme_lists(surface),
+            morpheme_lists=morfemler,
             morph_tags=tuple(morph),
             lang=self.lang,
             dep_data=tuple(dep),
-            morpheme_alternatives=self._morpheme_alternatives(surface),
         )
 
     def process(self, text: str, show_progress: bool = False) -> ProcessedText:

@@ -25,7 +25,7 @@ number to look for:
 | | Meaning |
 |---|---|
 | ⚪ **plain definition** | Not a literature measure; a definition without a source (`punct_dash_ratio`, `uppercase_ratio`). |
-| ⚫ **tag ratio** | Not a measure but a count of an external scheme's categories (`pos_noun_ratio` → UD; `zeyrek_case_loc_ratio` → Zeyrek). A scheme defines categories; it does not publish measurements. |
+| ⚫ **tag ratio** | Not a measure but a count of an external scheme's categories (`pos_noun_ratio` → UD; `akana_case_loc_ratio` → Akana). A scheme defines categories; it does not publish measurements. |
 | 🔧 **tool-specific** | The formula comes from a source, **the application is this library's**. `sent_len_entropy` is Shannon's entropy, but applying it to sentence lengths is ours. Nobody has published this measure, so there is no number to compare against. |
 | 📐 **calibrated** | The threshold comes from this library's own calibration (`short_sent_ratio`, `long_sent_ratio`). Testing it against our own calibration would be reading our own answer sheet. |
 
@@ -204,8 +204,8 @@ A key may have more than one worked example in its source; each one is its own r
 | `verb_dist_mean` | QUITA §6.2.1 | 🔍 |
 | `posddev` | Deutsch, Jasbi & Shieber (2020) Definition 3.3 (POSDdev); computed over ratios, 12 UD tags | 🔍 |
 | `posdiv` | Deutsch, Jasbi & Shieber (2020) Definition 3.4 (POSdiv); natural logarithm (nats), the source uses bits | 🔍 |
-| `zeyrek_suffix_bigram_entropy` | Shannon (1948) — the entropy formula; Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | 🔍 |
-| `zeyrek_verb_suffix_diversity` | Brezina & Pallotti (2019) p.107 (MC10: 10-verb samples; the authors call 10 arbitrary and give MC5 for short texts) and p.108 (100 random samples); only the within-sample variety is measured (close to MC10a, no between-sample component); suffixes from Zeyrek (a Python port of Zemberek's morphotactics), tag set from Akın & Akın (2007) | 🔍 |
+| `akana_suffix_bigram_entropy` | Shannon (1948) — the entropy formula; Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | 🔍 |
+| `akana_verb_suffix_diversity` | Brezina & Pallotti (2019) p.107 (MC10: 10-verb samples; the authors call 10 arbitrary and give MC5 for short texts) and p.108 (100 random samples); only the within-sample variety is measured (close to MC10a, no between-sample component); suffixes from Akana (a Rust port of Zemberek's morphotactics), tag set from Akın & Akın (2007) | 🔍 |
 | `front_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `back_vowel_ratio` | Göksel & Kerslake (2005) ch. 2 (the vowel system, front/back) | 🔍 |
 | `harmony_fronting_ratio` | Göksel & Kerslake (2005) §3.1 (fronting harmony); exceptions §3.4 — the measure counts them as disharmonic | 🔍 |
@@ -326,27 +326,27 @@ A key may have more than one worked example in its source; each one is its own r
 | `number_sing_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
 | `number_plur_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
 | `voice_pass_ratio` | de Marneffe et al. (2021) Table 2 (universal morphological features) | ⚫ |
-| `zeyrek_agglutination_depth` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `zeyrek_suffix_char_length_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `zeyrek_derivational_suffix_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `zeyrek_tense_past_def_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `zeyrek_tense_past_nar_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `zeyrek_tense_present_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `zeyrek_tense_future_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `zeyrek_modal_possibility_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `zeyrek_modal_necessity_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `zeyrek_negation_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `zeyrek_passive_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `zeyrek_plural_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `zeyrek_case_acc_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `zeyrek_case_dat_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `zeyrek_case_loc_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `zeyrek_case_abl_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `zeyrek_case_gen_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `zeyrek_case_ins_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `zeyrek_conditional_suffix_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `zeyrek_causative_suffix_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
-| `zeyrek_question_particle_ratio` | Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `akana_agglutination_depth` | Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `akana_suffix_char_length_ratio` | Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `akana_derivational_suffix_ratio` | Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `akana_tense_past_def_ratio` | Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `akana_tense_past_nar_ratio` | Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `akana_tense_present_ratio` | Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `akana_tense_future_ratio` | Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `akana_modal_possibility_ratio` | Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `akana_modal_necessity_ratio` | Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `akana_negation_ratio` | Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `akana_passive_ratio` | Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `akana_plural_ratio` | Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `akana_case_acc_ratio` | Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `akana_case_dat_ratio` | Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `akana_case_loc_ratio` | Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `akana_case_abl_ratio` | Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `akana_case_gen_ratio` | Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `akana_case_ins_ratio` | Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `akana_conditional_suffix_ratio` | Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `akana_causative_suffix_ratio` | Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
+| `akana_question_particle_ratio` | Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın (2007) | ⚫ |
 | `vowel_ratio` | — | ⚪ |
 | `sent_syllable_mean` | — | ⚪ |
 | `punct_dash_ratio` | — | ⚪ |

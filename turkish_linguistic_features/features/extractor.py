@@ -11,7 +11,7 @@ olduğu tek bakışta belli oluyor.
 
 **Grup girdisi yoksa grup sessizce atlanır.** ``dep_data`` verilmezse
 ``syntactic`` (16), ``morph_tags`` verilmezse ``morphological`` (19),
-``morpheme_lists`` verilmezse ``morphological_zeyrek`` (23) hiç üretilmez —
+``morpheme_lists`` verilmezse ``morphological_akana`` (23) hiç üretilmez —
 hata da verilmez. Bu üç alan ``pos_data`` ile **hizalı** olmak zorunda, boş
 liste geçerli bir "hizalı" değer değil. ``analyze()`` yolunda ``Preprocessor``
 üçünü de doldurur (T21), yani taban şema bundan etkilenmez.
@@ -77,7 +77,7 @@ from .lexical import (
     zipf,
     zipf_mandelbrot,
 )
-from .morphological import spacy_morph_ratios, surface_per_lemma, zeyrek_morfoloji
+from .morphological import akana_morfoloji, spacy_morph_ratios, surface_per_lemma
 from .phonetic import (
     sentence_syllable_stats,
     syllable_count,
@@ -177,7 +177,6 @@ def _extract_features(
     groups: list[str] | None = None,
     params: FeatureParams | None = None,
     dep_data: Any = None,
-    morpheme_alternatives: list[list[Any]] | None = None,
 ) -> dict[str, float]:
     """Registry'de kayıtlı öznitelikleri üretir.
 
@@ -240,7 +239,7 @@ def _extract_features(
     # sayar; etiket kelimenin içindeki ilk kelime tokenından gelir (`word_alignment`).
     # Yalnız `syntactic` spaCy tokenında ve ayrıştırıcı cümlesinde kalır.
     wv = word_view(raw_text, kelimeler, surface_tokens, pos_data, lemma_tokens,
-                   morph_tags, morpheme_lists, cumleler, lang, morpheme_alternatives)
+                   morph_tags, morpheme_lists, cumleler, lang)
     # Dile göre küçük harf: `str.lower()` Türkçede "I"yı "i" yapar, "İ"ye
     # birleşik nokta (U+0307) ekler — ttr ve kelime uzunluğu kayardı.
     kucuk_kelimeler = [_kucuk_harf(tok, lang) for tok in kelimeler]
@@ -348,17 +347,17 @@ def _extract_features(
         feats.update(surface_per_lemma(wv.words, wv.pos, wv.lemmas, lang))
         feats.update(spacy_morph_ratios(wv.morph, wv.pos))
 
-    # ── morphological_zeyrek (23) — yalnız Türkçe ─────────────────────
-    # K11: dil şemayı belirler. İngilizcede grup hiç üretilmez; Zeyrek
+    # ── morphological_akana (23) — yalnız Türkçe ─────────────────────
+    # K11: dil şemayı belirler. İngilizcede grup hiç üretilmez; Akana
     # İngilizce çözümlemiyor, kurmak bir şeyi değiştirmez.
-    if istiyor("morphological_zeyrek") and lang == "tr" and wv.morphemes is not None:
-        feats.update(zeyrek_morfoloji(wv.morphemes, wv.pos, params))
+    if istiyor("morphological_akana") and lang == "tr" and wv.morphemes is not None:
+        feats.update(akana_morfoloji(wv.morphemes, wv.pos, params))
 
     # ── phonological (TR 14 · EN 12) ──────────────────────────────────
     if istiyor("phonological"):
         feats.update(vowel_ratios(raw_text, lang))
         # Ünlü uyumu Türkçeye özgü (Göksel & Kerslake 2005); İngilizcede
-        # anlamı yok, anahtar hiç üretilmez — Zeyrek ve okunabilirlikle aynı.
+        # anlamı yok, anahtar hiç üretilmez — Akana ve okunabilirlikle aynı.
         if lang == "tr":
             feats.update(vowel_harmony_ratios(kelimeler, lang))
         feats.update({k: (v if raw_text.strip() else math.nan)
@@ -372,10 +371,10 @@ def _extract_features(
         feats.update(general_readability_formulas(raw_text, surface_tokens, lang))
         if lang == "tr":
             feats.update(turkish_readability_formulas(raw_text, surface_tokens))
-            # Kalyoncu (2025) K1–K4 Zeyrek ister; girdi yoksa ölçülemez (K4), anahtar yine üretilir.
+            # Kalyoncu (2025) K1–K4 Akana ister; girdi yoksa ölçülemez (K4), anahtar yine üretilir.
             if wv.morphemes is not None:
                 feats.update(kalyoncu_features(wv.words, wv.pos, wv.lemmas, wv.morphemes,
-                                               wv.sentences, params, wv.alternatives))
+                                               wv.sentences, params))
             else:
                 feats.update(dict.fromkeys(KALYONCU_KEYS, math.nan))
         else:

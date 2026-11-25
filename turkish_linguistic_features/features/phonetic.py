@@ -162,7 +162,8 @@ def vowel_harmony_ratios(surface_tokens: list[str], lang: str = "tr") -> dict[st
 # kalır (tren, stra-te-ji). Liste gerekmez. KEMİK hece tablosu da bu kuralla
 # hecelenmiş (tlf-kaynaklar/00-INDEKS.md).
 
-_TR_HECE_UNLULERI = frozenset("aeıioöuüâîû")      # şapkalı ünlüler dahil (Zeyrek de sayıyor)
+# â î û are vowels: the circumflex is placed over a vowel (Göksel & Kerslake 2005, p.xxiii).
+_TR_HECE_UNLULERI = frozenset("aeıioöuüâîû")
 _KESMELER = str.maketrans("", "", "'’")
 
 
