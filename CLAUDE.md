@@ -8,43 +8,35 @@ Türkçe (208) ve İngilizce (180) metinden nicel dilbilimsel öznitelik çıkar
 (`import turkish_linguistic_features as tlf`). Public API `__init__.py`'deki on addan ibaret;
 kullanıcıların çoğu yalnız `tlf.analyze()` çağırır.
 
-**Yön (2026-09-29):** Türkçe derin yol + çok dilli genel yol. Türkçe spaCy'siz kendi yoluna geçiyor:
-kural tabanlı çözümleyici + ELECTRA-small seçici (`plan/2026-09-28-in-house-turkce-on-isleme.md`).
+**Yön (2026-09-29; aday kaynağı 2026-11-11):** Türkçe derin yol + çok dilli genel yol. Türkçe spaCy'siz
+kendi yoluna geçiyor: Akana'nın aday listesi + ELECTRA-small seçici (`plan/2026-10-06-ferhat-yol-haritasi.md`,
+`plan/2026-09-28-in-house-turkce-on-isleme.md`).
 İngilizce kalkmıyor, ilk genel yol dili oluyor; dil profili + ön işleyici mimarisi
 `plan/2026-09-29-cok-dilli-mimari.md`'de (Ferhat onayladı 2026-09-29; Efe'nin onayı bekleniyor).
 In-house planın "Paralel: EN" adımının yerini "Paralel: çok dilli iskelet" aldı. İş listesi `plan/todo.md`.
 
-**Çözümleyici:** kural tabanlı çözümleyici + belirsizlik giderici tlf'nin içinde bir alt paket olarak
-geliştiriliyor; bütün geliştirme bu deponun `dev` dalında, `main`'e doğrudan yapılmaz. Eski ayrı repo
-`efeziya1/morphotr` 2026-09-29'da arşivlendi. Belgeleri tek dosyada: `plan/2026-09-29-cozumleyici.md`;
-çözümleyici kararlarının tek kaynağı onun §4'ü; birleşik bankaya (K35) ait kararlar, kurallar ve
-ilerleme `plan/2026-10-03-birlesik-banka.md`'de. Tlf planlarıyla çelişkiler
-(TabiBERT mi ELECTRA mı, biçimbirim listesi, türetme) aynı belgenin §8'inde.
+**Çözümleyici:** Efe'nin kendi çözümleyici planı iptal (2026-11-11, Efe); belgesi masaüstünde `askıya alınmış çözümleyici planı/`.
+Aday kaynağı Akana, yalnız aday listesi (`plan/2026-11-10-cozumleyici-secimi.md`); seçici Ferhat'ın
+yol haritasında. Geliştirme `dev` dalında, `main`'e doğrudan yapılmaz. Birleşik banka planı repoda
+(`plan/2026-10-03-birlesik-banka.md`), şimdilik yapılmıyor.
 
 ## Kim ve nasıl çalışılır
 
-- **Efe** (dilbilim): çözümleyici (sözlük, ek sırası, ses kuralları, motor), etiket eşleme tabloları,
-  dönüştürücüler, test takımı, hata analizi; dilbilimsel ve öznitelik kararları (koddaki `(tarih, Efe)`
+- **Efe** (dilbilim): etiket eşleme tabloları, dönüştürücüler, test takımı, hata analizi; dilbilimsel ve öznitelik kararları (koddaki `(tarih, Efe)`
   notları).
 - **Ferhat** (model): ön işleme modeli (seçici ve etiket başlıkları), "yalnızca model" kıyas noktası, tlf
   entegrasyonu, çok dilli mimari, paketleme; model kararları.
 - **Karar:** seçenek sun, önerini belirt, kararı sahibi verir. Kararı ilgili plan belgesine yaz
-  (çözümleyici → `plan/2026-09-29-cozumleyici.md` §4; birleşik banka → `plan/2026-10-03-birlesik-banka.md`;
-  tlf → ilgili plan) ve `plan/todo.md`'yi aynı
+  (aday kaynağı → `plan/2026-11-10-cozumleyici-secimi.md`; seçici → `plan/2026-10-06-ferhat-yol-haritasi.md`;
+  birleşik banka → `plan/2026-10-03-birlesik-banka.md`; tlf → ilgili plan) ve `plan/todo.md`'yi aynı
   turda güncelle.
 - **Varsayma, doğrula:** bir lisansı ya da bir kaynağın ne dediğini varsayma; dosyayı açıp doğrula.
 - **Yazım:** kısa yaz: 1 cümle sonuç + birkaç madde + tek soru. UD etiketlerini ilk geçtiği yerde Türkçe
   karşılığıyla ver (`Case=Loc` = bulunma hâli, -de). Uydurma terim kullanma; terim yoğun cevaplarda sona
   ayrı bir **"Terimler"** bloğu ekle (terim başına tek satır, sade anlam).
-- **Çözümleyici ilkesi (2026-09-30, Efe):** hedef iyi bir Türkçe morfolojik çözümleyici. Tasarım
-  kararları dilbilimsel ve UD gerekçeleriyle verilir; tlf tasarımı yönlendirmez, ama tlf'nin
-  ihtiyaçları eksiksiz karşılanır (iyi bir çözümleyici bunları zaten karşılar). tlf'nin ihtiyaçları
-  kontrol listesinde tutulur; her kapsam kararında ve her sürümden önce ona bakılır. Karşılanmayan
-  ihtiyaç dilbilimsel bir eksikse çözümleyiciye eklenir; yalnız biçim farkıysa (etiket adı, alan
-  düzeni) tlf'deki dönüştürücü çözer. Hiçbir karar tlf'yi eksik bırakamaz: tlf'ye etkisi açıkça
-  yazılır ve nasıl karşılanacağı aynı kararda belirtilir. tlf'de özellik eklenebilir ya da
-  değiştirilebilir (sürüm artışı, CHANGELOG, doğrulama raporu). Ayrıntı:
-  `plan/2026-09-29-cozumleyici.md` §1.
+- **tlf'nin ihtiyaçları (2026-09-30, Efe):** aday kaynağı ve seçici tlf'nin ihtiyaç listesini (T1–T10)
+  eksiksiz karşılar; liste Ferhat'ın yol haritasının ekinde. Hiçbir karar tlf'yi eksik bırakamaz:
+  tlf'ye etkisi açıkça yazılır ve nasıl karşılanacağı aynı kararda belirtilir.
 - Tek başına yazılan "." = "evet, uygun".
 - **Commit** yalnız geliştirici açıkça isteyince ("toplu commit at" dahil). Düzenleme bitince her
   değişikliği hangi isteğe dayandığıyla birlikte raporla.
@@ -80,8 +72,9 @@ Akış: `analyze()` (`_analyze.py`) → `Preprocessor.process()` (`pipeline/spac
 `dict[str, float]`. `analyze_corpus()` (`_corpus.py`) = `file_loader._load_corpus` + parçalama + `analyze`.
 
 - **Ön işleme:** spaCy modeli token, POS, lemma, `morph_tags`, `dep_data` ve cümleleri üretir; yalnız
-  `morpheme_lists` (Türkçe ek bölütlemesi) Zeyrek'ten gelir (`pipeline/zeyrek_backend.py`; zeyrek#42
-  yaması da orada). Preprocessor `(lang, model)` başına `_analyze._preprocessor_cache`'te tutulur, model
+  `morpheme_lists` (Türkçe ek bölütlemesi) ve Türkçe lemmalar Akana'dan gelir (`pipeline/akana_backend.py`,
+  `akana==0.12.0`; 2026-11-10'da Zeyrek'in yerine). Akana'nın belirsizlik gidericisi çözümlemeyi
+  aracın tümce kuralının tümcesi içinde seçer (`birimler.tumce.kural_cumleleri`; 0.4.0). Preprocessor `(lang, model)` başına `_analyze._preprocessor_cache`'te tutulur, model
   ilk `process()`'te yüklenir. `segment_text` eğitilmiş model değil `spacy.blank(lang)` tokenizer'ı kullanır.
 - **Öznitelik katmanı model gerektirmez:** `_extract_features` hazır listelerle çalışır, öznitelik
   fonksiyonları saf hesaptır. Bir grubun girdisi (`dep_data`, `morph_tags`, `morpheme_lists`) `None` ise o
@@ -94,18 +87,15 @@ Akış: `analyze()` (`_analyze.py`) → `Preprocessor.process()` (`pipeline/spac
 ### Katman kuralı — `tests/test_import_katmanlari.py` denetler
 
 - L0 (`alfabe`, `vocab`, `params`, `exceptions`, `_warnings`): paket içinden hiçbir şey import etmez.
-- `features/` ve `pipeline/`: yalnız L0'ı ve kendi paketini görür, birbirini görmez.
+- L0b `birimler/` (sözcük `sozcuk.py`, tümce `tumce.py`, okunuş `okunus.py`): aracın tek sözcük ve tek
+  tümce tanımı; yalnız L0'ı ve kendini görür (2026-11-24).
+- `features/` ve `pipeline/`: yalnız L0'ı, `birimler/`'i ve kendi paketini görür, birbirini görmez.
 - Kök (`_analyze`, `_corpus`, `file_loader`, `__init__`): ikisini bağlar.
 - Opsiyonel `pandas` / `wordfreq` yalnız fonksiyon gövdesinde import edilir.
 
-### Windows yükleme sırası — bozma
+### `pipeline/__init__.py` boş kalır
 
-Zeyrek'in native uzantıları spaCy'ninkilerden önce yüklenmezse Windows'ta süreç traceback'siz çöker.
-
-- `__init__.py`'deki Zeyrek ısınma bloğu dosyanın ilk kodu kalır.
-- `pipeline/__init__.py` boş kalır (test denetler).
-- `zeyrek_backend.py`'de `import zeyrek`, `import spacy`'den önce gelir; ruff I001 orada kapalı —
-  `ruff check --fix` ya da isort ile sıralama.
+Test denetler. Kural Zeyrek döneminden kalma (2026-11-10'da Zeyrek kalktı); boş kalma kuralı sürüyor.
 
 ## Değişmezler
 
@@ -127,8 +117,8 @@ Zeyrek'in native uzantıları spaCy'ninkilerden önce yüklenmezse Windows'ta s�
 - **Kodlar:** yorumlardaki `K4`, `T21` gibi kodlar tlf'nin ilk ortak planındaki karar/görev numaraları;
   `(2026-09-xx, Efe)` notları kararın tarihi ve sahibi. Aynı harfler başka numaralamalarda da var:
   çözümleyici belgelerinde çözümleyici kodları (K1–K33, A, B, M, E, F…), in-house planda kilometre taşları
-  (K0–K10). Karışmasın diye çözümleyici kodları "çözümleyici K30" diye anılır (tablo:
-  `plan/2026-09-29-cozumleyici.md` §0).
+  (K0–K10). Karışmasın diye çözümleyici kodları "çözümleyici K30" diye anılır. Çözümleyici belgesi
+  masaüstünde `askıya alınmış çözümleyici planı/` (2026-11-11); Ferhat'ı ilgilendiren kararları yol haritasının ekinde.
 
 ## Yeni öznitelik eklerken
 
