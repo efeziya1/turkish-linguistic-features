@@ -164,6 +164,20 @@ def _ngram_cumleleri(raw_text: str, surface_tokens: list[str], lemma_tokens: lis
     return _etiketli_cumleler(wv)
 
 
+def _metin_birimleri(raw_text: str, surface_tokens: list[str], lemma_tokens: list[str],
+                     pos_data: list[tuple[str, str]], lang: str = "tr",
+                     **_: Any) -> dict[str, list[Any]]:
+    """``text_units`` için: ``_extract_features``'ın saydığı sözcükler ve tümceler."""
+    wv = word_view(raw_text, kelime_birimleri(raw_text, lang)[0], surface_tokens, pos_data,
+                   lemma_tokens, None, None, kural_cumleleri(surface_tokens, lang), lang)
+    return {
+        "words": wv.words,
+        "lemmas": wv.lemmas,
+        "pos": [etiket for _, etiket in wv.pos],
+        "sentences": wv.sentences,
+    }
+
+
 def _extract_features(
     raw_text: str,
     surface_tokens: list[str],

@@ -8,18 +8,18 @@ kullanıcıların çoğu yalnız bunu çağırır.
 from __future__ import annotations
 
 import warnings
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from ._warnings import MissingDependencyWarning, ParagraphStructureWarning
 from .alfabe import _ALFABE
-from .features.extractor import _extract_features, _ngram_cumleleri
+from .features.extractor import _extract_features, _metin_birimleri, _ngram_cumleleri
 from .features.phonetic import _cmudict_denetle
 
 if TYPE_CHECKING:
     from .params import FeatureParams
     from .pipeline.spacy_pipeline import Preprocessor
 
-__all__ = ["analyze", "ngram_matches"]
+__all__ = ["analyze", "ngram_matches", "text_units"]
 
 # 🔴 Model önbelleği. spaCy modelini yüklemek 2–5 saniye sürüyor; önbelleksiz
 # 1000 metinlik bir korpus yalnız yükleme yaparak saatler harcardı.
@@ -165,3 +165,37 @@ def ngram_matches(text: str, phrase: list[str], lang: str = "tr",
         raise ValueError("phrase is empty")
     islenmis = _get_preprocessor(lang, model).process(text)
     return word_ngram_matches(_ngram_cumleleri(**islenmis.to_dict()), phrase, lang)
+
+
+def text_units(text: str, lang: str = "tr", model: str | None = None) -> dict[str, list[Any]]:
+    """Metnin sözcükleri, sözlükbirimleri, sözcük türleri ve tümceleri, ayrı listeler.
+
+    Birimler ``analyze``'ın saydığı birimlerin kendisidir: ``len(units["words"])``
+    ``word_count``'a, ``len(units["sentences"])`` ``sent_count``'a eşittir.
+
+    Returns
+    -------
+    dict[str, list]
+        ``"words"``: sözcükler, metindeki yazılışıyla. ``"lemmas"``: sözlükbirimleri, küçük
+        harfle (Türkçede Akana'dan, İngilizcede spaCy'den). ``"pos"``: sözcük türü etiketleri
+        (spaCy; Türkçe özel adlar Akana'nın ad tanıyıcısından). ``"lemmas"`` ve ``"pos"``
+        ``"words"`` ile sıra sıra eşleşir. ``"sentences"``: her tümcenin sözcükleri; art
+        arda eklenince ``"words"`` olur. Boş metinde dört liste de boş.
+
+    Raises
+    ------
+    ValueError
+        Desteklenmeyen dil.
+
+    Examples
+    --------
+    >>> units = text_units("Kitabı okudu. Sonra uyudu.")  # doctest: +SKIP
+    >>> units["lemmas"]  # doctest: +SKIP
+    ['kitap', 'oku', 'sonra', 'uyu']
+    >>> units["sentences"]  # doctest: +SKIP
+    [['Kitabı', 'okudu'], ['Sonra', 'uyudu']]
+    """
+    if lang not in _ALFABE:
+        raise ValueError(f"Unsupported language: {lang!r}. Expected one of: {sorted(_ALFABE)}")
+    islenmis = _get_preprocessor(lang, model).process(text)
+    return _metin_birimleri(**islenmis.to_dict())

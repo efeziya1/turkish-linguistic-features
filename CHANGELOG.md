@@ -1,5 +1,60 @@
 # Changelog
 
+## [0.4.0] - 2026-11-25
+
+This release replaces the Turkish morphological analyser: Akana instead of Zeyrek. Keys that
+came from Zeyrek are renamed, and Turkish morphology, lemma and part-of-speech values change.
+Code that reads `zeyrek_*` keys or selects the `morphological_zeyrek` group must be updated.
+Keys: Turkish 214, English 181 (unchanged).
+
+### Added
+
+- `text_units(text, lang="tr")`: the words, lemmas, POS tags and sentences of a text, as separate
+  lists. They are the units the features count: `len(units["words"])` equals `word_count` and
+  `len(units["sentences"])` equals `sent_count`; lemmas and tags line up with the words.
+
+### Changed
+
+- **Akana replaces Zeyrek** for Turkish morphemes and lemmas (`akana==0.12.0`: a Rust port of
+  Zemberek's morphotactics with Python bindings, MIT or Apache-2.0;
+  github.com/altaidevorg/akana). The tag set is the same as Zeyrek's.
+- **The analysis is chosen in its sentence.** Akana's disambiguator picks each word's analysis
+  from a frequency score derived from treebanks and a few rules that look at nearby words
+  (`Yüz kişi geldi`: *yüz* is a number). Sentences come from the library's own sentence rule.
+  Results no longer depend on `PYTHONHASHSEED`.
+- **Renamed:** the 23 `zeyrek_*` keys are now `akana_*`; the group `morphological_zeyrek` is
+  now `morphological_akana`; the rule source `zeyrek` in `describe_feature(key)["definitions"]`
+  is now `akana`.
+- **Turkish proper nouns come from Akana's named entity recogniser.** Words inside a person,
+  place or organisation name are tagged `PROPN`, whatever spaCy's tag; `syntactic` keeps spaCy's
+  tags. On the test sections of ten UD Turkish treebanks (85,629 words), proper-noun F1 rises from
+  75.6 (spaCy) to 84.5; a capital-letter rule reached 79.3. The capital-letter rule of the
+  `kalyoncu_*` keys is removed.
+- In the `kalyoncu_*` keys, the -ken of a noun with the copula (`öğrenciyken`) counts as a verbal,
+  and a written number is a number only if spaCy tags it `NUM` or the root of the chosen analysis
+  is `Num`. -alı, -casına and -maksızın now count as verbals (Zeyrek did not produce these tags).
+- **Values change.** On the 57 TOMA texts, 67 of 214 Turkish keys change: all 23 `akana_*` keys
+  (mean plural ratio 0.055 → 0.081, accusative 0.070 → 0.038, -miş 0.071 → 0.129), 13
+  part-of-speech keys (`pos_propn_ratio` 0.019 → 0.033), 21 lemma-based lexical and frequency
+  measures, 2 `morphological` keys and the 8 `kalyoncu_*` keys. English values are unchanged.
+- Unanalysed punctuation gets the root tag `Unk` instead of `Punc`; both were already left out
+  of every denominator.
+
+### Removed
+
+- The `zeyrek` dependency, `pipeline/zeyrek_backend.py`, the zeyrek#42 patch and the Windows
+  import-order warm-up in `__init__.py`.
+- `ProcessedText.morpheme_alternatives` (all analyses per token) and its entry in
+  `ProcessedText.to_dict()`.
+
+### Internal
+
+- The word rule, the sentence rule and the readings of numbers and abbreviations moved to a
+  shared package, `turkish_linguistic_features.birimler`, which preprocessing and the features
+  both read. `features.okunus` is now `birimler.okunus`; `kelime_birimleri`, `word_units`,
+  `cumle_birimleri`, `cumle_sayisi` and `kural_cumleleri` are no longer in
+  `features.readability`. None of these is public API.
+
 ## [0.3.0] - 2026-11-06
 
 This release renames and regroups feature groups, removes three Turkish keys and adds

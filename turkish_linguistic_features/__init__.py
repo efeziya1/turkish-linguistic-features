@@ -1,6 +1,6 @@
 """turkish_linguistic_features — Türkçe ve İngilizce nicel dilsel öznitelik çıkarımı."""
 
-from ._analyze import analyze, ngram_matches
+from ._analyze import analyze, ngram_matches, text_units
 from ._corpus import analyze_corpus
 from ._warnings import MissingDependencyWarning, ParagraphStructureWarning
 from .exceptions import LinguisticFeaturesError, ModelNotFoundError
@@ -8,14 +8,15 @@ from .features import describe_feature
 from .file_loader import save_csv, segment_text
 from .params import FeatureParams
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
-# Genel API — on bir adın hepsi burada.
+# Genel API — on iki adın hepsi burada.
 __all__ = [
     # Analiz
     "analyze",
     "analyze_corpus",
     "ngram_matches",
+    "text_units",
     # Yapılandırma
     "FeatureParams",
     # Korpus
