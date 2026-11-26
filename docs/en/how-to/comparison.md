@@ -2,8 +2,8 @@
 
 Measuring two states of the same text — before and after an edit, a
 translation against its original, a draft against the final — is the most
-direct use of this library. The comparison is fair because **the same
-text** goes through the same pipeline twice.
+direct use of this library. The comparison is fair because both states go
+through the same pipeline with the same settings.
 
 ## Method
 

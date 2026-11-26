@@ -23,21 +23,22 @@ len(oz)               # 214
 oz["word_len_mean"]   # 6.2
 ```
 
-Aracın Python'dan çağrılan **on bir** adı var, hepsi bu kadar:
+Aracın Python'dan çağrılan **on iki** adı var, hepsi bu kadar:
 
 | Ad | Ne yapar |
 |---|---|
 | `analyze` | Bir metinden bütün öznitelikleri (İng. *features*) çıkarır |
 | `analyze_corpus` | Bir klasördeki her metin için `analyze` çalıştırır |
 | `ngram_matches` | Verdiğiniz bir sözcük dizisinin (İng. *n-gram*) metinde neyle eşleştiğini, sıklıklarıyla gösterir; dizi sözcüklerden, sözlükbirimlerden ya da sözcük türü etiketlerinden (`["EV", "VERB"]`, `["ADJ", "NOUN"]` gibi) oluşabilir |
+| `text_units` | Metnin sözcüklerini, sözlükbirimlerini (İng. *lemmas*), sözcük türü etiketlerini ve tümcelerini ayrı listeler hâlinde verir; bunlar özniteliklerin saydığı birimlerdir |
 | `segment_text` | Metni eşit büyüklükte parçalara böler |
 | `save_csv` | Çıkan satırları CSV'ye yazar |
 | `describe_feature` | Bir özniteliğin tanımını, formülünü, ölçeğini, hesaplanması için gereken en az veriyi ve künyesini verir |
-| `FeatureParams` | Eşikleri ve pencere boylarını taşıyan ayar nesnesi |
-| `LinguisticFeaturesError` | Aracın kendi hatalarının atası |
-| `ModelNotFoundError` | Gereken dil verisi kurulu değilse: spaCy modeli ya da İngilizce seslem sayımı için NLTK `cmudict` |
-| `MissingDependencyWarning` | İsteğe bağlı bir paket yoksa |
-| `ParagraphStructureWarning` | 1000 sözcüğü geçen metinde paragraf sınırı bulunamazsa |
+| `FeatureParams` | Eşik, pencere boyu gibi ayarları değiştirmeye yarar |
+| `LinguisticFeaturesError` | Aracın verdiği hataların ortak türü |
+| `ModelNotFoundError` | Gereken dil verisi (spaCy modeli ya da İngilizce seslem sayımı için NLTK `cmudict`) kurulu değilse verilen hata |
+| `MissingDependencyWarning` | İsteğe bağlı bir paket kurulu değilse verilen uyarı |
+| `ParagraphStructureWarning` | 1000 sözcüğü geçen bir metinde paragraf sınırı bulunamazsa verilen uyarı |
 
 Bütün öznitelikler, `custom_ngrams` ile saydığınız sözcük dizileri de dahil,
 `analyze`'dan çıkar.

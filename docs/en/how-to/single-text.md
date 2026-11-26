@@ -8,8 +8,8 @@ import turkish_linguistic_features as tlf
 oz = tlf.analyze(text, lang="en")
 ```
 
-What comes back is a flat `dict`: key is the feature name, value is a
-number.
+`analyze` returns a flat Python dictionary (`dict`): the keys are feature names, the
+values are numbers.
 
 ## The language changes the feature set
 
@@ -21,10 +21,10 @@ len(tr)   # 214
 len(en)   # 181
 ```
 
-The 33-feature difference breaks down as:
+The 33 extra Turkish features come from:
 
-- **+23** Zeyrek suffix analysis: the `morphological_zeyrek` group (suffix
-  chain, case markers, mood and tense; every key starts with `zeyrek_`) —
+- **+23** Akana suffix analysis: the `morphological_akana` group (suffix
+  chain, case markers, mood and tense; every key starts with `akana_`) —
   Turkish only.
 - **+2** vowel harmony (`harmony_fronting_ratio`, `harmony_rounding_ratio`) —
   a property of Turkish; not produced for English.
@@ -55,10 +55,10 @@ oz = tlf.analyze(text, lang="tr", groups=["readability", "lexical"])
 len(oz)     # 48
 ```
 
-Picking groups saves little time. Most of it goes to the spaCy and Zeyrek
+Picking groups saves little time. Most of it goes to the spaCy and Akana
 preprocessing, which runs once whatever you ask for; groups only shorten the
-calculation after it. On a 1000-word text all groups take about 1.1 seconds,
-`readability` alone about 0.95 seconds.
+calculation after it. On a 1000-word text all groups take about 0.6 seconds,
+`readability` alone about 0.5 seconds.
 
 The groups, with their Turkish feature counts:
 
@@ -66,7 +66,7 @@ The groups, with their Turkish feature counts:
 |---|---|---|---|
 | `lexical` | Lexical richness & frequency | lexical diversity, word frequency and lexical density | 35 |
 | `chars` | Character frequencies | the share of each letter | 29 |
-| `morphological_zeyrek` | Morphological features (Zeyrek) | ratios from morpheme analysis | 23 |
+| `morphological_akana` | Morphological features (Akana) | ratios from morpheme analysis | 23 |
 | `punctuation` | Punctuation & orthography | punctuation, capitals, digits | 20 |
 | `morphological` | Morphological features (spaCy) | case, tense, person, aspect, voice | 19 |
 | `frequency_structure` | Frequency structure | frequency-structure measures based on the h-point and Zipf's law | 17 |
@@ -78,7 +78,7 @@ The groups, with their Turkish feature counts:
 | `paragraph` | Paragraph structure | paragraph count and length | 3 |
 
 `chars` counts letters only: one key per letter of the Turkish alphabet (26 in English;
-`q`, `w`, `x` only there). `morphological_zeyrek` is produced for Turkish only.
+`q`, `w`, `x` only there). `morphological_akana` is produced for Turkish only.
 
 `describe_feature(key)["group"]` tells you where a given feature lives.
 
@@ -126,7 +126,7 @@ Details:
 
 - Words, lemmas and tags can be mixed in one phrase: `["old", "HOUSE"]`, `["ADJ", "HOUSE"]`.
 - The lemma comes from the same place as in the rest of the library: spaCy for English,
-  Zeyrek's first analysis for Turkish.
+  the analysis Akana chooses for Turkish.
 - Verbs are written without an infinitive marker: `GO`, Turkish `GİT`.
 - In Turkish, an uppercase item is lowercased by the Turkish rule: `İZMİR` → izmir,
   `IRMAK` → ırmak; dotless `IZMIR` becomes ızmır.
@@ -155,6 +155,29 @@ The most frequent match comes first, and the counts add up to
 texts, add the results up with `collections.Counter`. Working example:
 [`examples/10_kelime_oruntuleri.py`](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/10_kelime_oruntuleri.py).
 
+## See the units that are counted
+
+`text_units` gives the words, lemmas, POS tags and sentences the features
+count, as separate lists:
+
+```python
+u = tlf.text_units("Ali read the books. He will go home.", lang="en")
+u["words"]      # ['Ali', 'read', 'the', 'books', 'He', 'will', 'go', 'home']
+u["lemmas"]     # ['ali', 'read', 'the', 'book', 'he', 'will', 'go', 'home']
+u["pos"]        # ['PROPN', 'VERB', 'DET', 'NOUN', 'PRON', 'AUX', 'VERB', 'ADV']
+u["sentences"]  # [['Ali', 'read', 'the', 'books'], ['He', 'will', 'go', 'home']]
+```
+
+The lemma and tag lists line up with the words: `u["lemmas"][3]` is the lemma
+of `u["words"][3]`. The number of words equals `word_count` and the number of
+sentences equals `sent_count`, so you can see which units a number came from.
+To count lemmas:
+
+```python
+from collections import Counter
+Counter(u["lemmas"]).most_common(10)
+```
+
 ## Progress output
 
 For long texts:
@@ -165,7 +188,7 @@ oz = tlf.analyze(text, lang="en", show_progress=True)
 
 ## Silence the warnings
 
-If the optional `wordfreq` package is missing, the library raises
+If the optional `wordfreq` package is missing, the library gives a
 `MissingDependencyWarning` and leaves the two features that depend on it
 (`wordfreq_*`) as `nan`. If you
 are accepting that knowingly:

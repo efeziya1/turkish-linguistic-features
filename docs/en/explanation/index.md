@@ -7,6 +7,6 @@ the boundaries.
 | Page | What it covers |
 |---|---|
 | [Concepts](concepts.md) | Feature, group, scale, pipeline — the basic structure |
-| [What NaN means](nan.md) | Why a number is missing, and why that is good |
+| [What NaN means](nan.md) | Why a number is missing, and why that is the right behaviour |
 | [The verification system](verification.md) | What ✅ 🟡 🔍 ❌ ⚪ ⚫ 🔧 📐 mean and how to read them |
-| [Limitations](limitations.md) | Where not to trust it |
+| [Limitations](limitations.md) | Where to read the results with care |

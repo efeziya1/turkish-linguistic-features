@@ -3,7 +3,7 @@
 ## Neden gerekli
 
 Sözcüksel zenginlik (İng. *lexical richness*) öznitelikleri **metin uzunluğundan
-etkilenir.** TTR uzun metinde mutlaka düşer, `hapax_ratio` düşer, `yule_k` oynar. 50 000
+etkilenir.** TTR uzun metinde mutlaka düşer, `hapax_ratio` düşer, `yule_k` değişir. 50.000
 sözcüklük bir romanla 800 sözcüklük bir köşe yazısını aynı tabloda karşılaştırırsanız
 ölçtüğünüz şey üslup değil, uzunluk olur. `mattr`, `mtld` ve `vocd_d` TTR'den
 daha az etkilenir ama uzunluktan bağımsız değildir
@@ -65,8 +65,8 @@ Artık 75 sözcük, yani parçanın %75'i: `1.0` eşiğinin altında, `0.5`'in
 tlf.segment_text(metin, segment_size=5000, unit="char", lang="tr")
 ```
 
-`unit="char"` ham karakter sayar; sözcük kuralı devreye girmez, dolayısıyla
-`lang` anlamsızlaşır. Sözcük sınırına bakmaz: Parça bir sözcüğün
+`unit="char"` ham karakter sayar; sözcük kuralı devreye girmez, bu yüzden `lang`
+bir şey değiştirmez. Sözcük sınırına bakmaz: Parça bir sözcüğün
 ortasında bitebilir.
 
 ## Derlemde doğrudan kullanın

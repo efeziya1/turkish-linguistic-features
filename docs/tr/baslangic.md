@@ -20,8 +20,8 @@ pip install turkish-linguistic-features
 Kullandığınız dilin verisini bir kez kurun:
 
 ```bash
-# Türkçe — 156 MB. Model turkish-nlp-suite'e ait ve spaCy'nin kayıt
-# defterinde yok, bu yüzden wheel doğrudan kurulur:
+# Türkçe — 156 MB. Model turkish-nlp-suite'e ait ve spaCy'nin model
+# listesinde yok, bu yüzden paket dosyası (wheel) doğrudan kurulur:
 pip install https://huggingface.co/turkish-nlp-suite/tr_core_news_md/resolve/main/tr_core_news_md-1.0-py3-none-any.whl
 
 # İngilizce — iki parça: spaCy modeli (12 MB) ve seslem sayımı için CMU
@@ -33,17 +33,17 @@ python -m nltk.downloader cmudict
 pip install 'wordfreq>=3.0'
 ```
 
-Zeyrek (Türkçe biçimbirim çözümleyicisi) araçla birlikte kendiliğinden kurulur.
+Akana (Türkçe biçimbirim çözümleyicisi) araçla birlikte kendiliğinden kurulur.
 
 !!! note "Türkçe modelde hata sanacağınız iki şey"
 
-    **Wheel kendisiyle çelişiyor.** Dosya adı `1.0` diyor, içindeki üstveri
-    `3.4.2` diyor. `pip` bunu kabul eder ve kurar; daha katı kurucular
-    bozuk wheel diye reddeder.
+    **Sürüm numaraları farklı.** Paket dosyasının adında `1.0`, içindeki bilgide
+    `3.4.2` yazıyor. `pip` bunu sorun etmez ve kurar; daha katı kurulum araçları
+    paketi bozuk sayıp reddedebilir.
 
-    **Yüklenirken `W094` uyarısı basar.** Modelin kendi `meta.json`'ı spaCy
-    sürüm aralığını gevşek yazmış. Zararsızdır, iki tarafta da
-    düzeltilecek bir şey yoktur.
+    **Model yüklenirken `W094` uyarısı çıkar.** Modelin bilgi dosyası (`meta.json`)
+    uyumlu spaCy sürümlerini geniş bir aralıkla belirtmiş, spaCy bu yüzden uyarıyor.
+    Uyarı zararsızdır; sizin bir şey yapmanız gerekmez.
 
 Kurulumu doğrulayın:
 
@@ -76,7 +76,7 @@ Metnin ilk tümcesi Chomsky'nin *Syntactic Structures* (1957) kitabından.
 yazmanız gerekir.
 
 `analyze` **düz bir sözlük** döndürür: anahtarlar öznitelik (İng. *feature*) adları,
-değerler sayılar. İç içe yapı yok, sınıf yok, `pandas` zorunluluğu yok.
+değerler sayılar. İç içe yapı yoktur; sonucu kullanmak için `pandas` gerekmez.
 
 ## 4. Çıktıyı okuyun
 
@@ -105,8 +105,8 @@ Bunlar ne anlatıyor:
 | `word_len_mean` | 6.04 | Sözcük başına 6,04 karakter. |
 | `sent_len_mean` | 8.3333 | Tümce başına 8,33 sözcük. |
 | `syllable_mean` | 2.48 | Sözcük başına 2,48 seslem (İng. *syllable*). |
-| `atesman` | 77.441 | Ateşman (1997) okunabilirlik puanı. Olağan düzyazı 0–100 arasına düşer, ama bu bir sınır değildir. 70–89 "kolay" bandı. |
-| `entropy` | 3.163424 | Sözcük dağılımının Shannon entropisi, nat cinsinden (doğal logaritma). |
+| `atesman` | 77.441 | Ateşman (1997) okunabilirlik puanı. Olağan düzyazının puanı 0 ile 100 arasındadır, ama formül bu aralığın dışına da çıkabilir. 70–89 arası "kolay" sayılır. |
+| `entropy` | 3.163424 | Sözcük dağılımının Shannon entropisi: Sözcüklerin metne ne kadar çeşitli ve dengeli dağıldığını gösterir. Doğal logaritmayla (nat birimiyle) hesaplanır. |
 
 ## 5. Neden bazı değerler `nan`?
 
@@ -124,16 +124,18 @@ sayı **uydurmaz**, `nan` (İng. *not a number*, "sayı değil") döndürür.
 Ne kadarı `nan` olur, bakalım:
 
 ```python
+import math
+
 kisa = tlf.analyze("Kısa bir tümce.", lang="tr")
-nan_olan = [k for k, v in kisa.items() if isinstance(v, float) and v != v]
+nan_olan = [k for k, v in kisa.items() if math.isnan(v)]
 print(len(kisa), len(nan_olan))
 ```
 
 ```text
-214 37
+214 38
 ```
 
-Üç sözcüklük bir metinde 214 öznitelikten **37'si** `nan` döner. Bu bir hata
+Üç sözcüklük bir metinde 214 öznitelikten **38'i** `nan` döner. Bu bir hata
 değildir. Ayrıntı: **[NaN ne demek](aciklama/nan.md)**.
 
 ## 6. Bir özniteliğin kaynağını görün
@@ -154,7 +156,7 @@ Covington, M. A., & McFall, J. D. (2010). Cutting the Gordian knot: The moving-a
 `references` (kaynakça kaydı, İng. *reference*) kaynakçanıza kopyalayacağınız şeydir.
 `citation` (künye, İng. *citation*) kısa gösterimdir ve **ne bilmediğimizi de söyler**:
 yukarıdaki örnekte varsayılan pencere boyunun kaynaktan gelmediğini açıkça yazıyor.
-Sözlükteki öbür alanlar (formül, ölçek, gereken en az veri…): [Bir özniteliğin kaynağını
+`describe_feature`'ın verdiği öbür alanlar (formül, ölçek, gereken en az veri…): [Bir özniteliğin kaynağını
 bul](nasil/kunye.md).
 
 ## 7. Bir derlemi tabloya çevirin

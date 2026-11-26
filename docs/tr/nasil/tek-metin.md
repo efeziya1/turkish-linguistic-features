@@ -8,7 +8,7 @@ import turkish_linguistic_features as tlf
 oz = tlf.analyze(metin, lang="tr")
 ```
 
-Dönen şey düz bir `dict`: anahtar öznitelik (İng. *feature*) adı, değer sayı.
+`analyze` düz bir Python sözlüğü (`dict`) döndürür: anahtarlar öznitelik (İng. *feature*) adları, değerler sayılar.
 
 ## Dil seçimi öznitelik kümesini değiştirir
 
@@ -20,10 +20,10 @@ len(tr)   # 214
 len(en)   # 181
 ```
 
-Aradaki 33'ün dökümü:
+Türkçedeki 33 fazla öznitelik şunlardan gelir:
 
-- **+23** Zeyrek biçimbirim (İng. *morpheme*) çözümlemesi: `morphological_zeyrek` grubu (ek
-  zinciri, durum ekleri, kip ve zaman; anahtarların hepsi `zeyrek_` ile başlar); yalnız
+- **+23** Akana biçimbirim (İng. *morpheme*) çözümlemesi: `morphological_akana` grubu (ek
+  zinciri, durum ekleri, kip ve zaman; anahtarların hepsi `akana_` ile başlar); yalnız
   Türkçe.
 - **+2** büyük ve küçük ünlü uyumu (`harmony_fronting_ratio`, `harmony_rounding_ratio`);
   Türkçenin özelliği, İngilizcede üretilmez.
@@ -54,10 +54,10 @@ oz = tlf.analyze(metin, lang="tr", groups=["readability", "lexical"])
 len(oz)     # 48
 ```
 
-Grup seçmek az hız kazandırır. Sürenin çoğu spaCy ve Zeyrek ön işlemesinde
+Grup seçmek az hız kazandırır. Sürenin çoğu spaCy ve Akana ön işlemesinde
 geçer ve o her durumda bir kez yapılır; grup seçimi yalnız sonraki hesabı
-kısaltır. 1000 sözcüklük bir metinde bütün gruplar yaklaşık 1,1 saniye, yalnız
-`readability` yaklaşık 0,95 saniye sürer.
+kısaltır. 1000 sözcüklük bir metinde bütün gruplar yaklaşık 0,6 saniye, yalnız
+`readability` yaklaşık 0,5 saniye sürer.
 
 Gruplar ve Türkçede kaç öznitelik içerdikleri:
 
@@ -65,7 +65,7 @@ Gruplar ve Türkçede kaç öznitelik içerdikleri:
 |---|---|---|---|
 | `lexical` | Sözcüksel zenginlik ve sıklık | sözcüksel çeşitlilik (İng. *lexical diversity*), sözcük sıklığı ve sözcüksel yoğunluk | 35 |
 | `chars` | Karakter sıklıkları | her harfin oranı | 29 |
-| `morphological_zeyrek` | Biçimbilimsel öznitelikler (Zeyrek) | biçimbirim çözümlemesine dayalı oranlar | 23 |
+| `morphological_akana` | Biçimbilimsel öznitelikler (Akana) | biçimbirim çözümlemesine dayalı oranlar | 23 |
 | `punctuation` | Noktalama ve yazım | noktalama, büyük harf, rakam | 20 |
 | `morphological` | Biçimbilimsel öznitelikler (spaCy) | durum, zaman, kişi, görünüş, çatı | 19 |
 | `frequency_structure` | Sıklık yapısı | h-noktasına ve Zipf yasasına dayalı sıklık yapısı ölçüleri | 17 |
@@ -77,7 +77,7 @@ Gruplar ve Türkçede kaç öznitelik içerdikleri:
 | `paragraph` | Paragraf yapısı | paragraf sayısı ve uzunluğu | 3 |
 
 `chars` yalnız harfleri sayar: Türkçe alfabenin her harfi için bir anahtar (İngilizcede 26;
-`q`, `w`, `x` yalnız orada). `morphological_zeyrek` yalnız Türkçede üretilir.
+`q`, `w`, `x` yalnız orada). `morphological_akana` yalnız Türkçede üretilir.
 
 Bir özniteliğin hangi grupta olduğunu `describe_feature(anahtar)["group"]`
 söyler.
@@ -130,7 +130,7 @@ Ayrıntılar:
 - Sözcük, sözlükbirim ve etiket aynı dizide karışabilir: `["eski", "EV", "GİT"]` →
   `ngram_eski_EV_GİT_count`; `["ADJ", "EV"]`; `["çok", "ADJ"]` (`çok` sözcüğünden hemen
   sonra bir sıfat).
-- Sözlükbirimin kaynağı aracın geri kalanıyla aynıdır: Türkçede Zeyrek'in ilk çözümlemesi,
+- Sözlükbirimin kaynağı aracın geri kalanıyla aynıdır: Türkçede Akana'nın seçtiği çözümleme,
   İngilizcede spaCy.
 - Eylemler mastar eki olmadan yazılır: `GİT`, `GO` (`["GO", "home"]` → "went home",
   "goes home").
@@ -161,6 +161,29 @@ aynıdır. Tümce ve konum bilgisi verilmez. Birden çok metin için sonuçları
 `collections.Counter` ile toplayın. Çalışan örnek:
 [`examples/10_kelime_oruntuleri.py`](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/10_kelime_oruntuleri.py).
 
+## Sayılan birimleri görün
+
+`text_units`, özniteliklerin saydığı sözcükleri, sözlükbirimleri (İng. *lemmas*),
+sözcük türü etiketlerini ve tümceleri ayrı listeler hâlinde verir:
+
+```python
+b = tlf.text_units("Ali kitapları okudu. Yarın İstanbul'a gidecek.", lang="tr")
+b["words"]      # ['Ali', 'kitapları', 'okudu', 'Yarın', "İstanbul'a", 'gidecek']
+b["lemmas"]     # ['ali', 'kitap', 'oku', 'yarın', 'istanbul', 'git']
+b["pos"]        # ['PROPN', 'NOUN', 'VERB', 'NOUN', 'PROPN', 'VERB']
+b["sentences"]  # [['Ali', 'kitapları', 'okudu'], ['Yarın', "İstanbul'a", 'gidecek']]
+```
+
+Sözlükbirim ve etiket listeleri sözcüklerle sıra sıra eşleşir: `b["lemmas"][1]`,
+`b["words"][1]`'in sözlükbirimidir. Sözcük sayısı `word_count`'a, tümce sayısı
+`sent_count`'a eşittir; bir sayının hangi birimlerden çıktığını buradan
+görebilirsiniz. Sözlükbirimleri saymak için:
+
+```python
+from collections import Counter
+Counter(b["lemmas"]).most_common(10)
+```
+
 ## İlerleme göstergesi
 
 Uzun metinlerde ne olduğunu görmek isterseniz:
@@ -172,7 +195,7 @@ oz = tlf.analyze(metin, lang="tr", show_progress=True)
 ## Uyarıları susturun
 
 İsteğe bağlı `wordfreq` paketi kurulu değilse araç
-`MissingDependencyWarning` basar ve ona bağlı iki özniteliği (`wordfreq_*`)
+`MissingDependencyWarning` uyarısı verir ve ona bağlı iki özniteliği (`wordfreq_*`)
 `nan` bırakır. Bunu bilerek kabul ediyorsanız:
 
 ```python

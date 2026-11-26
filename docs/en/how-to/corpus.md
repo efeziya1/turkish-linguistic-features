@@ -50,8 +50,8 @@ experimental arm, whatever you are measuring.
 Files must be **UTF-8**. If any file is not, you get an error before the
 analysis starts, listing every unreadable file by name.
 
-If analysing a segment raises a `ValueError`, the run stops there. The error
-names that segment's `label`, `source` and `segment_id`.
+If an error occurs while a segment is analysed, the run stops there; the error message
+says which segment it stopped at (`label`, `source`, `segment_id`).
 
 ## Two calls
 

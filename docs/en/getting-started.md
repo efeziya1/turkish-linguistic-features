@@ -30,17 +30,17 @@ python -m nltk.downloader cmudict
 pip install 'wordfreq>=3.0'
 ```
 
-Zeyrek (the Turkish morphological analyser) is installed automatically with the tool.
+Akana (the Turkish morphological analyser) is installed automatically with the tool.
 
 !!! note "Two things about the Turkish model that look like bugs"
 
-    **The wheel disagrees with itself.** The filename says version `1.0`,
-    the metadata inside says `3.4.2`. `pip` accepts it and installs it;
-    stricter installers reject it as a malformed wheel.
+    **The version numbers differ.** The package file's name says `1.0`, the
+    information inside says `3.4.2`. `pip` accepts this and installs it;
+    stricter installers may reject the package as malformed.
 
-    **Loading it prints a `W094` warning** about an under-constrained spaCy
-    version requirement. That is the model's own `meta.json` talking. It is
-    harmless and there is nothing to fix on either side.
+    **Loading the model shows a `W094` warning.** The model's information file
+    (`meta.json`) gives a wide range of compatible spaCy versions, so spaCy warns.
+    The warning is harmless; you do not need to do anything.
 
 Check the install:
 
@@ -128,8 +128,10 @@ invent a number from insufficient data — it returns `nan`.
 How much of the output is affected in a very short text:
 
 ```python
+import math
+
 short = tlf.analyze("A short sentence.", lang="en")
-nans = [k for k, v in short.items() if isinstance(v, float) and v != v]
+nans = [k for k, v in short.items() if math.isnan(v)]
 print(len(short), len(nans))
 ```
 
@@ -137,8 +139,8 @@ print(len(short), len(nans))
 181 34
 ```
 
-In a three-word text, **34 of 181** features return `nan`. That is honesty,
-not failure. See **[What NaN means](explanation/nan.md)**.
+In a three-word text, **34 of 181** features return `nan`. That is not an
+error. See **[What NaN means](explanation/nan.md)**.
 
 ## 6. See where a feature comes from
 
@@ -159,7 +161,7 @@ Covington, M. A., & McFall, J. D. (2010). Cutting the Gordian knot: The moving-a
 `references` is what you copy into your bibliography. `citation` is the
 short pointer, and it **also tells you what we do not know** — in this case
 it says outright that the default window size does not come from the source. The
-dictionary's other fields (formula, scale, minimum data…): [Find a feature's
+other fields `describe_feature` returns (formula, scale, minimum data…): [Find a feature's
 source](how-to/citations.md).
 
 ## 7. Turn a corpus into a table

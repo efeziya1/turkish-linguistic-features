@@ -14,8 +14,10 @@ to tell.
 In a three-word English text:
 
 ```python
+import math
+
 short = tlf.analyze("A short sentence.", lang="en")
-nans = [k for k, v in short.items() if isinstance(v, float) and v != v]
+nans = [k for k, v in short.items() if math.isnan(v)]
 len(short), len(nans)
 ```
 
@@ -65,7 +67,7 @@ being a moving average — hence the `2 × window` threshold.
 
 ### 2. The required structure is absent
 
-`zeyrek_derivational_suffix_ratio` has a zero denominator if the text contains no
+`akana_derivational_suffix_ratio` has a zero denominator if the text contains no
 derivational suffixes. `parse_depth_mean` cannot produce a value if no
 sentence parses. `verb_dist_mean` cannot be measured unless the text has at least two verbs. In a text
 with no verbs, the tense and aspect shares of verbs cannot be computed.
@@ -81,7 +83,7 @@ oz = tlf.analyze(text, lang="en", warn=False)
 ```
 
 `warn=False` silences the warning only; the feature is still `nan`. The same
-flag also silences `ParagraphStructureWarning`.
+setting also silences `ParagraphStructureWarning`.
 
 ## Not `nan`, but misleading: paragraphs
 
@@ -98,7 +100,6 @@ text. Showing an uncomputable value as zero would mix the two cases up.
 
 ## Why `nan` and not `None`
 
-`nan` is a `float`. That means every value in the returned dictionary has
-the same type, and the table goes straight into `pandas`, `numpy`, R or
-CSV. With `None`, the column dtype becomes `object`, arithmetic breaks, and
-in a CSV an empty cell becomes hard to distinguish from a real zero.
+`nan` is itself a number (`float`). So every value in the returned dictionary is a number,
+and the table goes straight into `pandas`, `numpy`, R or CSV. With `None`, the column would
+stop being a numeric column and calculations on it would become harder.

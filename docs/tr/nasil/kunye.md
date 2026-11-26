@@ -46,12 +46,12 @@ tlf.describe_feature("mattr")
 | `description` | Bir tümcelik tanım |
 | `formula` | Hesabın kendisi, sözel |
 | `scale` | Ölçek: `ratio_0_1`, `score`, `count`… |
-| `inputs` | Hangi ön işleme adımına ihtiyaç duyduğu |
+| `inputs` | Hesap için hangi ön işleme çıktısına ihtiyaç duyduğu |
 | `params` | Hangi `FeatureParams` alanının onu etkilediği |
 | `requires` | Sayı üretmesi için gereken en az veri; sağlanmazsa `nan` |
 | `citation` | **Künye**: kısa kaynak gösterimi, yöntem bölümünde parantez içinde verilen |
 | `references` | **Kaynakça kaydı** (İng. *reference*): eserin tam kaydı, kaynakçaya kopyalanacak olan |
-| `definitions` | `formula`daki terimlerin ne demek olduğu ve tanımın nereden geldiği: her terim için `{"name", "source" (kuralı kim koyuyor: tlf, spacy, zeyrek, textstat, wordfreq), "description" (tek tümce: nasıl sayıldığı)}`; yalnız o formülün kullandığı terimler; dile göre değişen terimde (`syllable`, `type`) `describe_feature(key, lang="tr")` dili seçer |
+| `definitions` | `formula`daki terimlerin (sözcük, tür, seslem…) nasıl tanımlandığı ve tanımın kimden geldiği (`tlf`, `spacy`, `akana`, `textstat`, `wordfreq`). Tanımı dile göre değişen terimlerde dili `describe_feature(key, lang="tr")` ile seçin |
 
 ## Künye ne bilmediğimizi de söyler
 
@@ -94,8 +94,8 @@ değildir,** yalın bir tanımdır (İng. *plain definition*): `punct_dash_ratio
 `uppercase_ratio` ("büyük harfle başlayan sözcüklerin payı"), `lemma_count`
 ("farklı sözlükbirim sayısı").
 Bir dış etiket şemasının kategorisini sayan anahtarların künyesi ise `None`
-değildir, şemayı gösterir (`case_loc_ratio` → UD; `zeyrek_case_loc_ratio` →
-Zeyrek).
+değildir, şemayı gösterir (`case_loc_ratio` → UD; `akana_case_loc_ratio` →
+Akana).
 
 Türkçedeki 214 anahtarın **11'inin** künyesi yoktur.
 
@@ -117,8 +117,9 @@ eserin tamamını değil.
 
 ## Sayı gerçekten tutuyor mu
 
-Künye kaynağı söyler; **tuttuğunu** söylemez. Onun için ayrı bir belge var:
+Künye ölçünün kaynağını söyler; aracın sonucunun kaynakla **örtüştüğünü** söylemez. Onun
+için ayrı bir belge var:
 
-- **[Doğrulama raporu](../../dogrulama-raporu.md)** — her öznitelik için,
-  kaynağın yayımladığı sayıyla karşılaştırma.
+- **[Doğrulama raporu](../../dogrulama-raporu.md)** — kaynağında yayımlanmış bir örnek
+  bulunan özniteliklerde aracın sonucuyla kaynağın sonucunun karşılaştırması.
 - Nasıl okunacağı: **[Doğrulama sistemi](../aciklama/dogrulama.md)**.

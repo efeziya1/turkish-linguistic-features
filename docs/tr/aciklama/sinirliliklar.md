@@ -6,7 +6,7 @@ gereken noktaları.
 
 ## Aracın sınırlılıkları
 
-### Tümce eşikleri yalnız gazete köşe yazılarıyla kalibre edildi
+### Tümce eşikleri yalnız gazete köşe yazılarından ölçüldü
 
 `short_sent_ratio` ve `long_sent_ratio` eşikleri (İng. *thresholds*; TR 4/17, EN 8/32)
 gazete köşe yazılarında, varsayılan tümce kuralı ve varsayılan sözcükle ölçülen
@@ -41,14 +41,14 @@ Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)
 ```
 
 Etkilenen ölçüler arasında `herdan_c`, `herdan_vm`, `honore_r`, `maas_a2`,
-`dugast_u`, `simpson_d`, `heaps_beta`, `lix`, `cttr`, `summer_s` var. Formüller doğrulandı
-ama **birincil kaynağın kendi ifadesiyle** karşılaştırılmadı.
+`dugast_u`, `simpson_d`, `heaps_beta`, `lix`, `cttr`, `summer_s` var. Formüller aktaran
+kaynakla karşılaştırıldı, ama **birincil kaynağın kendisiyle** karşılaştırılamadı.
 
 ### Dil modelinin doğruluğu
 
 Sözcük türü etiketleri, biçimbilimsel etiketler, İngilizce sözlükbirimler ve bağımlılık
 öznitelikleri spaCy modelinden gelir. Model değişirse bu sayılar değişir. Türkçe
-sözlükbirimler Zeyrek'ten gelir (aşağıda).
+sözlükbirimler Akana'dan gelir (aşağıda).
 
 Türkçe modeli geliştiren Altinok (2023, s.13747), kendi sınama verisinde modelin sözcük
 türünü %90 oranında doğru bulduğunu, bağımlılıkta ise bu oranın bağın türüyle birlikte
@@ -61,7 +61,7 @@ Sözcük ve tümce aracın kendi kuralıyla sayılır
 `describe_feature(key)["definitions"]["word"]` söyler.
 
 Sınanan sürümler: spaCy 3.8.16, `en_core_web_sm` 3.8.0,
-`tr_core_news_md` 1.0 (model sürümü 3.4.2), Zeyrek 0.1.3.
+`tr_core_news_md` 1.0 (model sürümü 3.4.2), Akana 0.12.0.
 
 ### Bölünen sözcükler
 
@@ -71,17 +71,24 @@ ad sayılır. Bu yalnız bu etiketleri kullanan öznitelikleri etkiler; sözcük
 sayımlarına ve okunabilirlik formüllerine dokunmaz. Köşe yazılarında sözcüklerin Türkçede
 %0,65'i, İngilizcede %2,70'i birden çok türceye bölünür.
 
-### Türkçe biçimbilim Zeyrek'e bağlı
+### Türkçe biçimbilim Akana'ya bağlı
 
-`morphological_zeyrek` grubundaki 23 öznitelik ve Türkçe sözlükbirimler Zeyrek'ten gelir.
-Zeyrek bir sözcük için birden çok çözümleme döndürebilir; araç bağlama bakmadan ilkini alır
-(Kalyoncu formüllerinde spaCy'nin sözcük türüne uyanı). Aynı sayıları yeniden almak için
-Python'u `PYTHONHASHSEED=0` ile başlatın.
+`morphological_akana` grubundaki 23 öznitelik ve Türkçe sözlükbirimler Akana'dan gelir.
+Akana bir sözcüğün bütün çözümlemelerini verir; araç bunlardan birini Akana'nın belirsizlik
+gidericisiyle seçer. Giderici ağaç bankalarından elde edilmiş sıklık puanına ve yakın sözcüklere
+bakan birkaç kurala (ilgi–iyelik uyumu, ilgecin istediği durum eki, belirleyiciler) dayanır.
+Giderici de belirsiz sözcüklerde bazen yanlış seçer: *Bakan dün geldi* tümcesinde `bakan`
+fiilimsi sayılır.
 
-### Adayların üçte ikisi hâlâ doğrulanmadı
+Türkçe özel adlar da Akana'dan gelir: Ad tanıyıcının kişi, yer ya da kurum dediği sözcükler
+`PROPN` sayılır. Ad tanıyıcı bazı adları kaçırır (`Deniz`) ve `Ahmet Bey`'deki `Bey` gibi
+unvanları adın parçası sayar.
 
-**172 doğrulama adayının 61'i** doğrulanmış (61 ✅), **111'i 🔍 açık**: kaynakların
-çoğu formülü yayımlar, o formülün uygulandığı bir sayısal örnek vermez. Ayrıntı:
+### Karşılaştırmaların üçte ikisi için yayımlanmış örnek yok
+
+**172 karşılaştırma adayının 61'i** yapıldı ve hepsi örtüştü (61 ✅). **111'i** için
+kaynaklarda yayımlanmış bir örnek bulunamadı (🔍 açık): Kaynakların çoğu formülü yayımlar,
+ama formülü bir metne uyguladığı bir örnek vermez. Ayrıntı:
 [doğrulama sistemi](dogrulama.md).
 
 ### Erken geliştirme aşaması (0.x)
@@ -113,7 +120,7 @@ kaynağın ölçüsü gibi göstermeyin.
 `paragraph` grubunun üç özniteliği paragraf sınırını boş satırdan bulur; tek
 satır sonu paragraf saymaz. Metinde boş satır yoksa metnin tamamı tek paragraf
 sayılır; bu, PDF ve EPUB'dan çıkarılan metinlerde sık olur. 1000 sözcüğü geçen
-bir metinde hiç paragraf sınırı yoksa `ParagraphStructureWarning` basılır.
+bir metinde hiç paragraf sınırı yoksa `ParagraphStructureWarning` uyarısı verilir.
 
 ### Seslem sayımında okunuşla sayılanlar ve atlananlar
 
@@ -142,17 +149,20 @@ sürümlere bırakıldı.
 ### Heaps β kısa metinde güvenilir değil
 
 `heaps_beta` metin boyunca 20 eşit noktada ölçülür (Tweedie ve Baayen 1998, s.333); her
-metin aynı sayıda noktayla ölçülür. En az uzunluk sınırı yoktur, değer en az 20 sözcüklük
-her metinde hesaplanır; 20 sözcükten kısa metinde `nan` döner. Yasa büyük derlemlerde iyi
+metin aynı sayıda noktayla ölçülür. Değer en az 20 sözcüklük her metinde hesaplanır, daha
+kısa metinde `nan` döner. Yasa büyük derlemlerde iyi
 uyar, kısa metinlerde güvenilir değildir (Manning vd. 2008, s.81).
 
 ### Kalyoncu formülleri elle sayımın yaklaşığı
 
-`kalyoncu_*` anahtarları Kalyoncu'nun (2025) elle yaptığı sayımı Zeyrek ve spaCy ile yaklaşık
+`kalyoncu_*` anahtarları Kalyoncu'nun (2025) elle yaptığı sayımı Akana ve spaCy ile yaklaşık
 olarak yeniden üretir. Kalyoncu'nun dokuz kuralından dördü (yaygın türetme ekli türevler,
 yansıma, pekiştirme, uzak anlam) ve anlama dayalı tümce tanımı uygulanmaz. KL uzman yargısına
 dayanır (3., 5., 8. kurallar), bu yüzden uzman değerleriyle tam örtüşmesi beklenmez. Yazıyla
-yazılan sayılar liste içidir; büyük harfle başlayan (tümce başında olmayan) sözcük özel ad
-sayılır; gövde ve fiilimsi sayımı spaCy türüne uyan Zeyrek çözümlemesinden yapılır (bu üç kural
-yalnız `kalyoncu_*` anahtarlarında). Zeyrek'in tanımadığı fiilimsi ekleri ve seçilen
-çözümlemedeki hatalar sonucu değiştirir.
+yazılan sayılar liste içidir; özel adlar aracın geri kalanındaki gibi Akana'nın ad tanıyıcısından
+gelir; gövde ve fiilimsi sayımı Akana'nın seçtiği çözümlemeden yapılır. 7. kural kısmen
+uygulanır: Edilgen ve ettirgen biçimler gövdeye indirilir, işteş biçimler indirilmez, çünkü
+Akana işteşi çoğu zaman ayrı bir ek olarak çözümlemiyor (`selamlaşmak` liste dışı sayılabilir);
+sonuç yaklaşıktır. Ek fiilli adın -ken'i (`öğrenciyken`) fiilimsi sayılır, çünkü kaynak
+fiilimsinin kapsamını belirtmiyor. Akana'nın tanımadığı fiilimsi ekleri ve çözümlemedeki
+hatalar sonucu değiştirir.

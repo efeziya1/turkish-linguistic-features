@@ -109,7 +109,7 @@ same name does not measure the same thing in both languages under a shared thres
 **The thresholds were calibrated on newspaper columns.** A column is a single genre.
 
 There is **no guarantee** that the same thresholds suit novels, technical
-writing, transcripts, poetry, legal text or textbooks.
+writing, speech transcripts, poetry, legal text or textbooks.
 
 Also, `short_sent_ratio` and `long_sent_ratio` are **not comparable across the two
 languages**: the same-named column is measured with a different threshold in each.

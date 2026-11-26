@@ -25,12 +25,13 @@ source to check them against.
 
 ### 2. Source-number verification
 
-An extra check on top of the first layer: a number the source published is found and
-compared against our output. 61 of the 172 candidates are verified in this layer.
+An extra check on top of the first layer: the result a source published for a text or an
+input is found and compared with the tool's result. 61 of the 172 comparison candidates are
+verified in this layer.
 The rest of this page is about this layer.
 
 The second layer is not a precondition for the first. A feature marked 🔍 open does
-not have a questionable formula; no published number was found to compare against.
+not have a questionable formula; only no published example was found to compare against.
 
 ## First: not every feature can be verified
 
@@ -40,13 +41,13 @@ some of the 214 features are **not even candidates** for verification:
 | | Why not a candidate |
 |---|---|
 | ⚪ **plain definition** | No source. `punct_dash_ratio` means "dashes / all punctuation marks"; there is no number in the literature to look for. |
-| ⚫ **tag ratio** | Not a measure but a count of an external scheme's categories. `pos_noun_ratio` → UD, `zeyrek_case_loc_ratio` → Zeyrek. **A scheme defines categories; it does not publish measurements** — de Marneffe's paper does not print "case_loc_ratio = 0.07", and could not. |
+| ⚫ **tag ratio** | Not a measure but a count of an external scheme's categories. `pos_noun_ratio` → UD, `akana_case_loc_ratio` → Akana. **A scheme defines categories; it does not publish measurements** — de Marneffe's paper does not print "case_loc_ratio = 0.07", and could not. |
 | 🔧 **tool-specific** | The formula is from a source, **the application is ours**. `sent_len_entropy` is Shannon's entropy, but applying it to sentence lengths is ours. Nobody has published this measure. |
 | 📐 **calibrated** | The threshold comes from our own calibration: `long_sent_ratio`. Testing it against our own calibration would be reading our own answer sheet. |
 
-On the Turkish side **81 features** are one of these four. The remaining 133 features
-have **172 verification candidate rows** in the report (a feature can be compared with
-more than one example from its source). That is the real denominator.
+In Turkish, **81 features** are one of these four. For the remaining 133 features the
+report has **172 comparison candidates** (a feature can be compared with more than one
+example from its source). The verification rate is computed against this number.
 
 ## The four statuses a candidate can have
 
@@ -54,7 +55,7 @@ more than one example from its source). That is the real denominator.
 |---|---|
 | ✅ **match** | Within tolerance of the number the source published. If the cause of a small difference is known, it is noted under the row. |
 | 🟡 **documented deviation** | The difference is **beyond the tolerance** and **the reason is written down** — the source rounded an intermediate value, the source's own numbers were produced by hand, and so on. |
-| 🔍 **open** | The source gives the formula but never applies it to anything. Verifiable, not yet verified. |
+| 🔍 **open** | The source gives the formula but no example of applying it to a text; it can be verified once a published example is found. |
 | ❌ **mismatch** | An **unexplained** difference. **Release gate: a single one blocks a release.** |
 
 Where things stand today: **61 of the 172 candidates are done** (61 ✅),
@@ -91,7 +92,7 @@ step leading to it is correct.
 and its coefficients, not the pipeline. It is what is available when the
 source published no text.
 
-## Why 111 rows are still 🔍 open
+## Why 111 comparisons are still 🔍 open
 
 The source published the formula but never applied it to a text and printed
 the result. In quantitative linguistics this is **ordinary**. With no such
@@ -202,7 +203,7 @@ where it comes from.*
 
 ## In short: how much could be checked
 
-Only 21 of the 133 Turkish literature measures could be compared with a worked example
+Only 22 of the 133 Turkish literature measures could be compared with a worked example
 their source published; in all 61 comparisons that could be made, the tool matches the
 source. Only three of these features could be tested end to end, that is, together with
 word, syllable and sentence counting. Most sources define a measure by its formula but do
@@ -219,7 +220,7 @@ judgement (Kalyoncu's KL and KCO) the tool does not reproduce the expert values.
 `docs/verification-report.md` is not written by hand.
 `scripts/generate_verification_report.py` generates it, and
 `tests/test_kaynak_esligi.py` reads **the same comparison table**. The
-report and the tests cannot drift apart; if the report goes stale, a test
+report and the tests cannot drift apart; if the report is out of date, a test
 fails.
 
 The coverage list comes from the registry, so a feature cannot be added

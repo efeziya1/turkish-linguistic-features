@@ -3,20 +3,21 @@
 ## Öznitelik
 
 **Öznitelik** (İng. *feature*), bir metinden çıkarılan tek bir sayıdır. `ttr`,
-`word_len_mean`, `atesman`: her biri bir öznitelik. Adları `snake_case`'dir.
+`word_len_mean`, `atesman`: her biri bir öznitelik. Adları küçük harfle, sözcükler alt çizgiyle
+ayrılarak yazılır.
 
 Türkçedeki 214 öznitelik, dayandıkları kaynak bakımından beş türe ayrılır:
 
 | Tür | Sayı | Ne | Örnek |
 |---|---:|---|---|
 | **Alanyazın ölçüsü** (İng. *literature measure*) | 133 | Alanyazında önerilmiş bir ölçü; künyesi vardır | `mattr`, `mtld`, `atesman` |
-| **Etiket oranı** (İng. *tag ratio*) | 66 | spaCy'nin ya da Zeyrek'in sözcüklere verdiği bir etiketin metindeki payı; künyesi etiketi tanımlayan şemadır, ölçünün kendisi değil | `pos_noun_ratio` (Evrensel Bağımlılıklar), `zeyrek_case_loc_ratio` (Zeyrek) |
+| **Etiket oranı** (İng. *tag ratio*) | 66 | spaCy'nin ya da Akana'nın sözcüklere verdiği bir etiketin metindeki payı; künyesi etiketi tanımlayan şemadır, ölçünün kendisi değil | `pos_noun_ratio` (Evrensel Bağımlılıklar), `akana_case_loc_ratio` (Akana) |
 | **Yalın tanım** (İng. *plain definition*) | 11 | Alanyazında adı olan bir ölçüye dayanmaz; künyesi yoktur | `question_sent_ratio`: soru işaretiyle biten tümcelerin payı |
 | **Araca özgü** (İng. *tool-specific*) | 2 | Formül alanyazından, hangi veriye uygulanacağı bu araçtan | `sent_len_entropy`: Shannon entropisinin tümce uzunluklarına uygulanması |
-| **Kalibre edilmiş** (İng. *calibrated*) | 2 | Eşiği bu aracın derlem ölçümünden | `short_sent_ratio`, `long_sent_ratio` |
+| **Kalibre edilmiş** (İng. *calibrated*) | 2 | Eşiği bu aracın derlemlerde yaptığı ölçümden gelir | `short_sent_ratio`, `long_sent_ratio` |
 
 214 anahtarın 203'ünün künyesi vardır, 11'inin yoktur. Bu ayrım, hangi özniteliğin
-kaynağın yayımladığı bir sayıyla sınanabileceğini de belirler
+kaynağında yayımlanmış bir örnekle sınanabileceğini de belirler
 ([Doğrulama sistemi](dogrulama.md)).
 
 Araç bir okunabilirlik formülünün yalnız sonucunu vermez; formüle giren ölçüleri, sözgelimi
@@ -36,12 +37,12 @@ Ad, özniteliğin ne ölçtüğünü söyler:
 | Alanyazındaki adı | Adı yerleşik ölçü; `_ratio` almaz | `ttr`, `mattr`, `yule_k`, `posddev` |
 
 Biçimbilimsel öznitelikler iki çözümleyiciden (İng. *analyzer*) gelir. spaCy'nin
-Evrensel Bağımlılıklar etiketlerinden gelenler öneksizdir (`case_loc_ratio`), Zeyrek'ten
-gelenler `zeyrek_` ile başlar (`zeyrek_case_loc_ratio`). İkisi aynı sayıyı vermez:
+Evrensel Bağımlılıklar etiketlerinden gelenler öneksizdir (`case_loc_ratio`), Akana'dan
+gelenler `akana_` ile başlar (`akana_case_loc_ratio`). İkisi aynı sayıyı vermez:
 `case_loc_ratio` durum etiketi taşıyan sözcükler içinde bulunma durumunun
-payıdır, `zeyrek_case_loc_ratio` çözümlenen bütün sözcükler içinde. Zeyrek
+payıdır, `akana_case_loc_ratio` çözümlenen bütün sözcükler içinde. Akana
 evrensel etiketlerin ayırmadığı ayrımları da verir: -DI ve -mIş geçmişi ayrıdır
-(`zeyrek_tense_past_def_ratio`, `zeyrek_tense_past_nar_ratio`); spaCy'de ikisi tek
+(`akana_tense_past_def_ratio`, `akana_tense_past_nar_ratio`); spaCy'de ikisi tek
 `tense_past_ratio`'dur.
 
 On `punct_…_ratio` anahtarı (`punct_comma_ratio`, `punct_dash_ratio` …) her işaret
@@ -109,9 +110,8 @@ içeriyorsa sözcüktür** (İng. *word*); içermiyorsa sayılmaz.
 Sıra sayısı kuralı Türkçeye özgüdür, çünkü Türkçede sıra sayısı rakamdan sonra nokta konarak
 yazılır; İngilizcede `3rd` yazıldığı için bu kurala gerek yoktur.
 
-Sözcük türü etiketine dayanan çözümlemeler noktalamayı ve simgeleri etiketlerine bakarak
-ayıklar; bu araç aynı işi sözcüğün kenarındaki işaretleri atarak yapar. `syntactic`
-grubu dışındaki her öznitelik bu sözcüğü sayar.
+Araç sözcük sayarken noktalamayı etikete bakarak değil, sözcüğün kenarındaki işaretleri
+atarak ayıklar. `syntactic` grubu dışındaki her öznitelik bu sözcüğü sayar.
 
 ### Tümce
 
@@ -181,7 +181,13 @@ spaCy metni kendi kurallarıyla böldüğü için bir sözcük birden çok türc
 bir kez sayılır; sözcük türü etiketi (İng. *POS tag*), biçimbilimsel etiketleri ve
 sözlükbirimi (İng. *lemma*) içindeki noktalama olmayan ilk türceden alınır. Çift tırnak
 (`"` `“` `”` `«` `»`) modelin verdiği etiketten bağımsız olarak burada hep noktalama sayılır.
-Türkçe sözlükbirim Zeyrek'in sözlük maddesidir, İngilizce sözlükbirim spaCy'nin.
+Türkçe sözlükbirim Akana'nın sözlük maddesidir, İngilizce sözlükbirim spaCy'nin.
+
+Türkçede kişi, yer ve kurum adlarının içindeki sözcükler, spaCy hangi etiketi vermiş olursa olsun
+özel ad (`PROPN`) sayılır. Bu adları Akana'nın ad tanıyıcısı (İng. *named entity recognizer*)
+bulur; spaCy Türkçe modeli `Derya`, `Almanya'da` gibi sözcükleri çoğu zaman `PROPN`
+etiketlemiyor. Bağımlılık çözümlemesine dayanan `syntactic` grubu spaCy'nin türcelerini okuduğu
+için bundan etkilenmez.
 
 ### Çeşitlilik ölçülerinin sayım birimi
 
@@ -191,7 +197,8 @@ bir tür olmaz. Türkçede küçük harfe çevirme Türkçenin kuralıyla yapıl
 yazılımların varsayılan dönüşümü `IŞIK`'ı `işik`'e çevirdiği için bu ayrıca gözetilir.
 
 Tür yüzey biçime dayandığı için çekimli biçimler ayrı türdür: `kitap` ile `kitaplar` iki
-ayrı türdür. Bu, aracın tasarım kararıdır. İstisnalar `*_variation` ve `lemma_count`.
+ayrı türdür. Bu, aracın tasarım kararıdır. Bunun istisnası, sözlükbirim sayan `*_variation`
+ölçüleri ve `lemma_count`'tur.
 Kaynağı başka birim kullanan ölçülerde (`brunet_w`, `herdan_c`, `yule_k`) fark künyede
 yazılıdır.
 
@@ -220,31 +227,33 @@ Bir özniteliğin hangi kuralı kullandığını
 ham metin
    ↓  1. spaCy (tr_core_news_md / en_core_web_sm)
 türce · sözcük türü etiketi · biçimbilimsel etiket · bağımlılık ağacı · İngilizce sözlükbirim
-   ↓  2. Zeyrek (yalnız Türkçe)
-biçimbirim çözümlemesi · Türkçe sözlükbirim
+   ↓  2. Akana (yalnız Türkçe)
+biçimbirim çözümlemesi · Türkçe sözlükbirim · özel adlar
    ↓  3. aracın kuralları
 sözcük ve tümce sınırları; her sözcük etiketini kendi türcesinden alır
    ↓  4. öznitelik hesaplayıcıları
 214 sayı (İngilizcede 181)
 ```
 
-Zeyrek, aracın bütünüyle Python içinde, Java gibi ek bir ortam kurulmadan çalışabilmesi için
-seçilmiştir.
+Akana, Türkçe biçimbirim çözümleyicisidir: Zemberek'in kurallarını taşıyan, Rust ile yazılmış ve
+Python'dan çağrılan bir paket. Java gibi ek bir ortam gerektirmez. Bir sözcüğün birden çok
+çözümlemesi varsa Akana'nın belirsizlik gidericisi (İng. *disambiguator*) tümcedeki yakın
+sözcüklere bakarak birini seçer.
 
-**spaCy modeli ve Zeyrek sonuçların parçasıdır.** Biri değişirse ona dayanan öznitelikler de
+**spaCy modeli ve Akana sonuçların parçasıdır.** Biri değişirse ona dayanan öznitelikler de
 değişir. Türkçedeki 214 öznitelikten 105'i bu iki çözümleyiciden en az birine dayanır; kalan
 109'u yalnız aracın kendi kurallarıyla hesaplanır. Bu yüzden bir sonucu yeniden
-üretebilmek için aracın sürümüyle birlikte spaCy modelinin ve Zeyrek'in sürümünü de verin.
+üretebilmek için aracın sürümüyle birlikte spaCy modelinin ve Akana'nın sürümünü de verin.
 Aracın sınandığı sürümler: Python 3.12, spaCy 3.8.16, `tr_core_news_md` 1.0 (model
-sürümü 3.4.2), `en_core_web_sm` 3.8.0, Zeyrek 0.1.3.
+sürümü 3.4.2), `en_core_web_sm` 3.8.0, Akana 0.12.0.
 
 ## `FeatureParams`
 
 Pencere boyları, eşikler ve örneklem sayıları burada durur. Ayrıntı:
 [Eşikleri değiştir](../nasil/parametreler.md).
 
-Tümce eşikleri (`short_sent_threshold`, `long_sent_threshold`) **dile göre
-kalibre edilmiştir** (TR 4/17, EN 8/32).
+Tümce eşikleri (`short_sent_threshold`, `long_sent_threshold`) **her dil için ayrı
+ölçülmüştür** (TR 4/17, EN 8/32).
 
 ## Öznitelik dizini
 
@@ -252,7 +261,7 @@ kalibre edilmiştir** (TR 4/17, EN 8/32).
 ölçeğini, parametrelerini, hesaplanması için gereken en az veriyi, künyesini ve formüldeki
 terimlerin araçtaki tanımlarını tek bir yerde tutar. `describe_feature`,
 [başvuru bölümü](../../reference/index.md) ve [doğrulama raporu](../../dogrulama-raporu.md)
-aynı kaynaktan okur; bu yüzden üçü birbiriyle hep aynıdır.
+aynı kaynaktan okur; bu yüzden üçündeki bilgi hep aynıdır.
 
 Öznitelik dizini **İngilizcedir**. Tanımlar, formüller ve künyeler tek dilde
 tutulur ki çoğu İngilizce olan kaynaklarla karşılaştırırken araya çeviri katmanı girmesin.

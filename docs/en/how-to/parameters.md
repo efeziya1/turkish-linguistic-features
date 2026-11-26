@@ -13,9 +13,8 @@ p = tlf.FeatureParams(short_sent_threshold=3, long_sent_threshold=12)
 oz = tlf.analyze(text, lang="tr", params=p)
 ```
 
-`FeatureParams` is a dataclass; fields you omit keep their defaults. For the
-sentence thresholds that default is not a fixed number but the calibrated value
-for the language — see [below](#the-sentence-thresholds-resolve-per-language).
+Fields you omit keep their default values. For the sentence thresholds the default is not
+a single number but a value measured separately for each language — see [below](#the-sentence-thresholds-resolve-per-language).
 
 Output (`short_sent_ratio`, `long_sent_ratio`):
 
@@ -45,15 +44,15 @@ sentences is over 12 words; none is over 17.
 | `heaps_points` | 20 | `heaps_beta` |
 | `brunet_w_a` | 0.172 | `brunet_w` |
 | `brunet_w_b` | 20 | `brunet_w` |
-| `verb_suffix_window` | 10 | `zeyrek_verb_suffix_diversity` |
-| `verb_suffix_num_samples` | 100 | `zeyrek_verb_suffix_diversity` |
-| `verb_suffix_random_seed` | 42 | `zeyrek_verb_suffix_diversity` |
+| `verb_suffix_window` | 10 | `akana_verb_suffix_diversity` |
+| `verb_suffix_num_samples` | 100 | `akana_verb_suffix_diversity` |
+| `verb_suffix_random_seed` | 42 | `akana_verb_suffix_diversity` |
 | `kalyoncu_ttr_window` | 500 | `kalyoncu_ttr`, `kalyoncu_k1`–`kalyoncu_k3` |
 | `short_sent_threshold` | TR **4** · EN **8** | `short_sent_ratio` |
 | `long_sent_threshold` | TR **17** · EN **32** | `long_sent_ratio` |
 | `max_parse_depth` | 20 | `parse_depth_mean` |
 
-`zeyrek_verb_suffix_diversity` draws 100 random samples from the text's verbs; each sample
+`akana_verb_suffix_diversity` draws 100 random samples from the text's verbs; each sample
 has 10 verbs, with no verb repeated within a sample. The result is the mean number of
 distinct suffix types seen in the samples (Brezina & Pallotti 2019, pp.107-108: MC10). The
 tool measures only the within-sample variety; MC10's between-sample component is left
@@ -75,9 +74,8 @@ corpus, change it with the fields above.
 
 ## The sentence thresholds resolve per language
 
-These are the only two fields in the table without a single value. The reason
-is typological: Turkish sentences are shorter than English ones, so one
-threshold cannot serve both. The Turkish long-sentence threshold of 17 words counts 54% of
+These two fields have no single default; it depends on the language. The reason:
+Turkish sentences are shorter than English ones, so one threshold cannot serve both. The Turkish long-sentence threshold of 17 words counts 54% of
 sentences in English columns as long; in its own language the share is 15%.
 
 | Language | short | long |
@@ -100,7 +98,7 @@ tlf.describe_feature("mattr")["params"]
 ('mattr_window',)
 ```
 
-An empty tuple, `()`, means the feature depends on no parameter.
+An empty value, `()`, means the feature depends on no parameter.
 
 ## Why `mattr_window` is 50
 

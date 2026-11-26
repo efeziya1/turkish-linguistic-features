@@ -24,18 +24,19 @@ len(oz)               # 181
 oz["word_len_mean"]   # 6.6
 ```
 
-The library has **eleven** public names. That is all of them:
+The library has **twelve** public names. That is all of them:
 
 | Name | What it does |
 |---|---|
 | `analyze` | Extracts every feature from one text |
 | `analyze_corpus` | Runs `analyze` on every text in a folder |
 | `ngram_matches` | Shows what a sequence of words, lemmas or POS tags you give (such as `["GO", "home"]` or `["ADJ", "NOUN"]`) matched in a text, with counts |
+| `text_units` | Gives the words, lemmas, POS tags and sentences of a text as separate lists; these are the units the features count |
 | `segment_text` | Splits a text into fixed-size segments |
 | `save_csv` | Writes the resulting rows to CSV |
 | `describe_feature` | Gives a feature's definition, formula, scale, the minimum data it needs, and its citation |
-| `FeatureParams` | The settings object holding thresholds and windows |
-| `LinguisticFeaturesError` | Base class for the library's own errors |
+| `FeatureParams` | Lets you change settings such as thresholds and window sizes |
+| `LinguisticFeaturesError` | The common type of the library's errors |
 | `ModelNotFoundError` | Raised when required language data is missing: a spaCy model, or NLTK's `cmudict` for English syllable counts |
 | `MissingDependencyWarning` | Warned when an optional package is missing |
 | `ParagraphStructureWarning` | Warned when a text over 1000 words has no paragraph boundary |

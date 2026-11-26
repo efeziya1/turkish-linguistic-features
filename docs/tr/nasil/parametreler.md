@@ -14,9 +14,8 @@ p = tlf.FeatureParams(short_sent_threshold=3, long_sent_threshold=12)
 oz = tlf.analyze(metin, lang="tr", params=p)
 ```
 
-`FeatureParams` bir dataclass'tır; vermediğiniz alanlar varsayılanda kalır.
-Tümce eşiklerinin varsayılanı sabit bir sayı değil, dilin kalibre edilmiş
-değeridir — [aşağıda](#tumce-esikleri-dile-gore-uygulanr).
+Vermediğiniz alanlar varsayılan değerinde kalır. Tümce eşiklerinin varsayılanı tek bir sayı
+değil, her dil için ayrı ölçülmüş değerdir — [aşağıda](#tumce-esikleri-dile-gore-uygulanr).
 
 Çıktı (`short_sent_ratio`, `long_sent_ratio`):
 
@@ -46,15 +45,15 @@ Aynı metin, farklı eşik, farklı sayı. Üç tümcenin biri 12 sözcüğü ge
 | `heaps_points` | 20 | `heaps_beta` |
 | `brunet_w_a` | 0.172 | `brunet_w` |
 | `brunet_w_b` | 20 | `brunet_w` |
-| `verb_suffix_window` | 10 | `zeyrek_verb_suffix_diversity` |
-| `verb_suffix_num_samples` | 100 | `zeyrek_verb_suffix_diversity` |
-| `verb_suffix_random_seed` | 42 | `zeyrek_verb_suffix_diversity` |
+| `verb_suffix_window` | 10 | `akana_verb_suffix_diversity` |
+| `verb_suffix_num_samples` | 100 | `akana_verb_suffix_diversity` |
+| `verb_suffix_random_seed` | 42 | `akana_verb_suffix_diversity` |
 | `kalyoncu_ttr_window` | 500 | `kalyoncu_ttr`, `kalyoncu_k1`–`kalyoncu_k3` |
 | `short_sent_threshold` | TR **4** · EN **8** | `short_sent_ratio` |
 | `long_sent_threshold` | TR **17** · EN **32** | `long_sent_ratio` |
 | `max_parse_depth` | 20 | `parse_depth_mean` |
 
-`zeyrek_verb_suffix_diversity` metnin eylemlerinden 100 rastgele örneklem çeker; her örneklem
+`akana_verb_suffix_diversity` metnin eylemlerinden 100 rastgele örneklem çeker; her örneklem
 10 eylemdir, örneklem içinde eylem tekrarlanmaz. Sonuç, örneklemlerde görünen farklı ek
 türü sayısının ortalamasıdır (Brezina ve Pallotti 2019, s.107-108: MC10). Araç yalnız
 örneklem içi çeşitliliği ölçer; MC10'un örneklemler arası bileşeni yoktur, ölçü MC10a'ya
@@ -75,8 +74,8 @@ Kendi derleminizde bir sabiti denemek isterseniz yukarıdaki alanlarla değişti
 
 ## Tümce eşikleri dile göre uygulanır
 
-Tablodaki tek sayı olmayan iki alan bunlar. Sebep tipolojik: Türkçe tümceler
-İngilizce tümcelerden kısa, aynı eşik iki dile uymuyor. Türkçenin 17 sözcüklük uzun tümce
+Tablodaki iki alanın varsayılanı tek bir sayı değil, dile göre değişir. Nedeni şu: Türkçe
+tümceler İngilizce tümcelerden kısadır, aynı eşik iki dile uymaz. Türkçenin 17 sözcüklük uzun tümce
 eşiği İngilizce köşe yazılarında tümcelerin %54'ünü "uzun" sayar; kendi dilinde bu pay
 %15'tir.
 
@@ -99,7 +98,7 @@ tlf.describe_feature("mattr")["params"]
 ('mattr_window',)
 ```
 
-Boş demet `()` dönerse o öznitelik hiçbir parametreye bağlı değildir.
+Boş bir değer (`()`) dönerse o öznitelik hiçbir parametreye bağlı değildir.
 
 ## `mattr_window` neden 50
 

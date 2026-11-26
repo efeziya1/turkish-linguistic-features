@@ -42,7 +42,7 @@ oz["atesman"]         # 89.355  (Ateşman 1997 okunabilirlik)
 
 - **[Doğrulama · Verification →](dogrulama-raporu.md)**
 
-    Hangi özniteliğin kaynağıyla birebir tuttuğu, hangisinin tutmadığı.
+    Hangi özniteliğin kaynağında yayımlanmış bir örnekle karşılaştırıldığı ve sonucu.
     [English version](verification-report.md).
 
 </div>
@@ -64,14 +64,14 @@ oz["atesman"]         # 89.355  (Ateşman 1997 okunabilirlik)
 | Öznitelik | 214 | 181 |
 | Künyesi olan öznitelik | 203 | 170 |
 | Künyesi olmayan, yalın tanım | 11 | 11 |
-| Doğrulama adayı rapor satırı | 172 | 146 |
+| Yayımlanmış bir örnekle yapılan karşılaştırma | 61 | 48 |
 | — örtüşen (✅) | 61 | 46 |
 | — tolerans dışında, nedeni açıklanmış (🟡) | 0 | 2 |
+| Yayımlanmış örnek bulunamadığı için yapılamayan karşılaştırma (🔍) | 111 | 98 |
 
 Kaynakçada 58 eser var (iki dil için tek kaynakça).
 
 Künye, formülün kaynağını sayfa ve formül numarasıyla verir. Doğrulama
-raporu ayrıca, kaynağın yayımladığı bir sayıyla karşılaştırılabilen satırları
-listeler. İkisinin farkı ve raporun nasıl okunacağı:
+raporu ise aracın sonucunu, kaynağın aynı girdi için yayımladığı sonuçla karşılaştırır. İkisinin farkı ve raporun nasıl okunacağı:
 [Doğrulama sistemi](tr/aciklama/dogrulama.md) ·
 [The verification system](en/explanation/verification.md).

@@ -1,8 +1,8 @@
 # İki sürümü karşılaştır
 
 Aynı metnin iki hâlini ölçmek — düzenleme öncesi/sonrası, çeviri/asıl,
-taslak/son — aracın en doğrudan kullanımıdır. Karşılaştırma adildir
-çünkü **aynı metin**, aynı çözümleme hattından (İng. *pipeline*) iki kez geçer.
+taslak/son — aracın en doğrudan kullanımıdır. Karşılaştırma adildir, çünkü iki hâl de
+aynı çözümleme hattından (İng. *pipeline*) aynı ayarlarla geçer.
 
 ## Yöntem
 

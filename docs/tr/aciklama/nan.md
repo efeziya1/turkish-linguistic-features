@@ -14,16 +14,18 @@ olmazdı.
 Üç sözcüklük bir metinde:
 
 ```python
+import math
+
 kisa = tlf.analyze("Kısa bir tümce.", lang="tr")
-nan_olan = [k for k, v in kisa.items() if isinstance(v, float) and v != v]
+nan_olan = [k for k, v in kisa.items() if math.isnan(v)]
 len(kisa), len(nan_olan)
 ```
 
 ```text
-(214, 37)
+(214, 38)
 ```
 
-214 öznitelikten **37'si** `nan`. Örnekler:
+214 öznitelikten **38'i** `nan`. Örnekler:
 
 ```text
 ['aspect_imp_ratio', 'aspect_perf_ratio', 'aspect_prog_ratio', 'dugast_u',
@@ -59,12 +61,12 @@ aynı sözcüğü sayar: 100 sözcüklük parça 100 sözcük isteyen bir ölç�
 
 Sınırın altındaysanız `nan` gelir. Sınırların bir kısmı kaynaktan gelir
 (`mtld` için "texts as short as 100 tokens can be used"), bir kısmı
-matematikten: `mattr` tek pencerede düz TTR'a çöker, yani "hareketli
+matematikten: `mattr` tek pencerede düz TTR'ye döner, yani "hareketli
 ortalama" olmaktan çıkar — o yüzden eşik `2 × pencere`dir.
 
 ### 2. Gereken yapı yok
 
-`zeyrek_derivational_suffix_ratio` metinde hiç türetme eki bulamazsa paydası sıfır
+`akana_derivational_suffix_ratio` metinde hiç türetme eki bulamazsa paydası sıfır
 olur. `parse_depth_mean` tümce ayrıştırılamazsa değer üretemez.
 `verb_dist_mean` metinde en az iki eylem yoksa ölçülemez. Hiç eylem içermeyen bir metinde
 eylemlerin zaman ve görünüş oranları hesaplanamaz.
@@ -73,13 +75,13 @@ Metinde hiç noktalama işareti yoksa `punct_…_ratio` öznitelikleri hesaplana
 ### 3. İsteğe bağlı bir paket kurulu değil
 
 `wordfreq` kurulu değilse `wordfreq_mean` ve `wordfreq_rare_ratio` `nan`
-döner ve araç bir `MissingDependencyWarning` basar.
+döner ve araç bir `MissingDependencyWarning` uyarısı verir.
 
 ```python
 oz = tlf.analyze(metin, lang="tr", warn=False)
 ```
 
-`warn=False` yalnız uyarıyı susturur; öznitelik yine `nan` kalır. Aynı bayrak
+`warn=False` yalnız uyarıyı susturur; öznitelik yine `nan` kalır. Aynı ayar
 `ParagraphStructureWarning`'ı da susturur.
 
 ## Neden sıfır değil
@@ -97,7 +99,6 @@ paragraf sayılır ve `para_len_mean` bütün metnin sözcük sayısına eşitle
 
 ## Neden `None` değil de `nan`
 
-`nan` bir `float`'tır. Yani dönen sözlüğün bütün değerleri aynı tiptedir ve
-tablo doğrudan `pandas`, `numpy`, R ya da CSV'ye geçer. `None` koysaydık
-sütun tipi `object` olur, aritmetik bozulur, CSV'de boş hücre ile gerçek
-sıfırı ayırt etmek zorlaşırdı.
+`nan` da bir sayıdır (`float`). Bu yüzden dönen sözlüğün bütün değerleri sayıdır ve tablo
+doğrudan `pandas`, `numpy`, R ya da CSV'ye aktarılabilir. `None` kullanılsaydı sütun sayı
+sütunu olmaktan çıkar ve üzerinde hesap yapmak zorlaşırdı.

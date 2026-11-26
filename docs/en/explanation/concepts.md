@@ -3,20 +3,21 @@
 ## Feature
 
 A **feature** is a single number extracted from a text. `ttr`,
-`word_len_mean`, `atesman`: each is one feature. Names are `snake_case`.
+`word_len_mean`, `atesman`: each is one feature. Names are lowercase, with words joined
+by underscores.
 
 By the kind of source they rest on, the 214 Turkish features fall into five types:
 
 | Type | Count | What | Example |
 |---|---:|---|---|
 | **Literature measure** | 133 | A measure proposed in the literature; it has a citation | `mattr`, `mtld`, `atesman` |
-| **Tag ratio** | 66 | The share of a tag that spaCy or Zeyrek gives to words; the citation points at the scheme that defines the tag, not at a measure | `pos_noun_ratio` (Universal Dependencies), `zeyrek_case_loc_ratio` (Zeyrek) |
+| **Tag ratio** | 66 | The share of a tag that spaCy or Akana gives to words; the citation points at the scheme that defines the tag, not at a measure | `pos_noun_ratio` (Universal Dependencies), `akana_case_loc_ratio` (Akana) |
 | **Plain definition** | 11 | Not based on a named measure in the literature; no citation | `question_sent_ratio`: the share of sentences ending in a question mark |
 | **Tool-specific** | 2 | The formula comes from the literature; what it is applied to is this tool's decision | `sent_len_entropy`: Shannon entropy applied to sentence lengths |
 | **Calibrated** | 2 | The threshold comes from this tool's corpus measurement | `short_sent_ratio`, `long_sent_ratio` |
 
 Of 214 keys, 203 have a citation and 11 do not. The type also decides whether a feature
-can be checked against a number its source published
+can be checked against a worked example its source published
 ([The verification system](verification.md)).
 
 The tool does not give only the result of a readability formula; it also gives the measures
@@ -36,12 +37,12 @@ A name is built so that it says what the feature measures:
 | The name in the literature | An established measure; no `_ratio` | `ttr`, `mattr`, `yule_k`, `posddev` |
 
 The morphological features come from two analysers. Those from spaCy's Universal
-Dependencies tags have no prefix (`case_loc_ratio`); those from Zeyrek start with `zeyrek_`
-(`zeyrek_case_loc_ratio`). The two do not give the same number:
+Dependencies tags have no prefix (`case_loc_ratio`); those from Akana start with `akana_`
+(`akana_case_loc_ratio`). The two do not give the same number:
 `case_loc_ratio` is the locative's share among words that carry a case tag,
-`zeyrek_case_loc_ratio` its share among all analysed words. Zeyrek also draws distinctions
+`akana_case_loc_ratio` its share among all analysed words. Akana also draws distinctions
 the universal tags do not: the -DI past and the -mIş past are separate
-(`zeyrek_tense_past_def_ratio`, `zeyrek_tense_past_nar_ratio`); in spaCy both are
+(`akana_tense_past_def_ratio`, `akana_tense_past_nar_ratio`); in spaCy both are
 `tense_past_ratio`.
 
 The ten `punct_…_ratio` keys (`punct_comma_ratio`, `punct_dash_ratio` …) are each
@@ -110,9 +111,8 @@ contains at least one letter or digit**; otherwise it is not counted.
 The ordinal rule is Turkish only because Turkish writes ordinals as a digit followed by a dot;
 English writes `3rd`, so it needs no such rule.
 
-Part-of-speech based analyses remove punctuation and symbols by looking at their tags; this
-tool does the same job by stripping the marks at the edges of the word. Every feature except
-the `syntactic` group counts this word.
+When counting words, the tool removes punctuation by stripping the marks at the edges of the
+word, not by looking at tags. Every feature except the `syntactic` group counts this word.
 
 ### Sentence
 
@@ -181,7 +181,12 @@ spaCy splits text by its own rules, so one word can span several tokens: `Ankara
 becomes the tokens `Ankara`, `-` and `İstanbul`. The word is then counted once; its part of
 speech, morphological tags and lemma come from the first token inside it that is not
 punctuation. A double quote (`"` `“` `”` `«` `»`) is always punctuation here, whatever tag the
-model gave it. Turkish lemmas are Zeyrek's dictionary entry, English lemmas spaCy's.
+model gave it. Turkish lemmas are Akana's dictionary entry, English lemmas spaCy's.
+
+In Turkish, the words inside a person, place or organisation name are proper nouns (`PROPN`),
+whatever tag spaCy gave them. Akana's named entity recogniser finds these names; the spaCy
+Turkish model often does not tag words like `Derya` or `Almanya'da` as `PROPN`. The
+`syntactic` group reads spaCy's tokens for the dependency parse and is not affected.
 
 ### Counting unit of the diversity measures
 
@@ -191,8 +196,8 @@ Turkish rule (I → ı, İ → i); software's default conversion turns `IŞIK` i
 this is handled separately.
 
 Because the type rests on the surface form, inflected forms are separate types: `book` and
-`books` are two types. This is the tool's design decision. The exceptions are `*_variation`
-and `lemma_count`. Where the source counts in another unit (`brunet_w`, `herdan_c`,
+`books` are two types. This is the tool's design decision. The exceptions are the
+lemma-based `*_variation` measures and `lemma_count`. Where the source counts in another unit (`brunet_w`, `herdan_c`,
 `yule_k`), the citation says so.
 
 ### Content word
@@ -218,23 +223,24 @@ When you call `analyze`, the text goes through four stages:
 raw text
    ↓  1. spaCy (tr_core_news_md / en_core_web_sm)
 tokens · POS tags · morphological tags · dependency tree · English lemmas
-   ↓  2. Zeyrek (Turkish only)
-morpheme analysis · Turkish lemmas
+   ↓  2. Akana (Turkish only)
+morpheme analysis · Turkish lemmas · proper nouns
    ↓  3. the tool's own rules
 word and sentence boundaries; each word takes its tags from its own token
    ↓  4. feature calculators
 214 numbers (181 in English)
 ```
 
-Zeyrek was chosen so that the tool runs entirely inside Python, without installing another
-environment such as Java.
+Akana is a Turkish morphological analyser: a port of Zemberek's rules, written in Rust and
+called from Python. It needs no other environment such as Java. When a word has several
+analyses, Akana's disambiguator picks one by looking at nearby words in the sentence.
 
-**The spaCy model and Zeyrek are part of the result.** If either changes, the features that
+**The spaCy model and Akana are part of the result.** If either changes, the features that
 depend on it change too. Of the 214 Turkish features, 105 depend on at least one of the two
 analysers; the other 109 are computed with the tool's own rules alone. To reproduce a
-result, report the versions of the spaCy model and Zeyrek along with the tool's version.
+result, report the versions of the spaCy model and Akana along with the tool's version.
 Versions the tool was tested with: Python 3.12, spaCy 3.8.16, `tr_core_news_md` 1.0 (model
-version 3.4.2), `en_core_web_sm` 3.8.0, Zeyrek 0.1.3.
+version 3.4.2), `en_core_web_sm` 3.8.0, Akana 0.12.0.
 
 ## `FeatureParams`
 
@@ -242,7 +248,7 @@ Window sizes, thresholds and sample counts live here. Details:
 [Change the thresholds](../how-to/parameters.md).
 
 The sentence thresholds (`short_sent_threshold`, `long_sent_threshold`) are
-**calibrated per language** (TR 4/17, EN 8/32).
+**measured separately for each language** (TR 4/17, EN 8/32).
 
 ## The registry
 

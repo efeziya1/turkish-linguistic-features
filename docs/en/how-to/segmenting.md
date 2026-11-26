@@ -3,8 +3,8 @@
 ## Why it matters
 
 Lexical richness features are **sensitive to text length**. TTR always
-falls as a text gets longer, `hapax_ratio` falls, `yule_k` drifts. Put a
-50 000-word novel and an 800-word column in the same table and what you
+falls as a text gets longer, `hapax_ratio` falls, `yule_k` changes. Put a
+50,000-word novel and an 800-word column in the same table and what you
 measure is not style, it is length. `mattr`, `mtld` and `vocd_d` are less
 sensitive than TTR but not independent of length
 ([measured example](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/09_uzunluk_duyarliligi.py)).
@@ -65,8 +65,8 @@ above `0.5`.
 tlf.segment_text(text, segment_size=5000, unit="char", lang="en")
 ```
 
-`unit="char"` counts raw characters; the word rule is not involved, so
-`lang` becomes meaningless. It does not respect word boundaries — a
+`unit="char"` counts raw characters; the word rule is not involved, so `lang`
+changes nothing. It does not respect word boundaries — a
 segment can end mid-word.
 
 ## Use it directly on a corpus

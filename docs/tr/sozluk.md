@@ -9,17 +9,17 @@ aynıdır. Her sayfada bir terim ilk geçtiğinde İngilizcesi parantez içinde 
 | Türkçe | İngilizce | Ne |
 |---|---|---|
 | **öznitelik** | feature | Metinden çıkarılan tek bir sayı (`ttr`, `atesman`) |
-| **anahtar** | key | Özniteliğin adı; dönen sözlükteki `dict` anahtarı |
+| **anahtar** | key | Özniteliğin adı; `analyze`'ın döndürdüğü sözlükteki anahtar |
 | **grup** | group | Özniteliklerin 12 kümesinden biri (`lexical`, `readability`…; `custom_ngrams` ile 13) |
 | **künye** | citation | Kısa kaynak gösterimi; yöntem bölümünde parantez içinde verilen |
 | **kaynakça kaydı** | reference | Eserin tam kaydı; kaynakçaya kopyalanan |
 | **öznitelik dizini** | registry | Her özniteliğin tanımının, formülünün ve künyesinin durduğu tek yer |
-| **çözümleme hattı** | pipeline | Ham metinden sayılara giden adımlar: spaCy, Zeyrek ve aracın kuralları |
+| **çözümleme hattı** | pipeline | Ham metinden sayılara giden adımlar: spaCy, Akana ve aracın kuralları |
 | **ölçek** | scale | Değerin türü: `ratio_0_1`, `score`, `count`… |
 | **parça** | segment | `segment_text` ile kesilmiş metin dilimi |
 | **etiket** | label | Derlemde klasör adı; yazar, sınıf ya da deney kolu |
 | **parametre** | parameter | Kullanıcının değiştirebildiği pencere boyu, eşik ya da örneklem sayısı (`FeatureParams`) |
-| **sabit** | constant | Formülde sabit duran sayı: MTLD'nin 0,72'si, Brunet'nin 0,172'si, okunabilirlik formüllerinin katsayıları |
+| **sabit** | constant | Formülde sabit duran sayı: MTLD'nin 0,72'si, Brunet'in 0,172'si, okunabilirlik formüllerinin katsayıları |
 | **sözcük dizisi** | n-gram | Kullanıcının verdiği, yan yana gelen sözcükler, sözlükbirimler ya da sözcük türü etiketleri; `custom_ngrams` ile sayılır |
 
 ## Dil işleme
@@ -29,17 +29,17 @@ aynıdır. Her sayfada bir terim ilk geçtiğinde İngilizcesi parantez içinde 
 | **türce** | token | spaCy'nin metni böldüğü en küçük birim; noktalama da ayrı türcedir. Tür/türce oranında ise metindeki her sözcük bir türcedir |
 | **tür** | type | Metindeki farklı sözcüklerden biri; `ev` üç kez geçse de bir türdür |
 | **tür/türce oranı** | type-token ratio (TTR) | Tür sayısı / türce sayısı |
-| **sözlükbirim** | lemma | Sözcüğün sözlükteki biçimi; Türkçede Zeyrek'ten, İngilizcede spaCy'den |
-| **biçimbirim** | morpheme | Zeyrek çözümlemesindeki kök ya da ek |
+| **sözlükbirim** | lemma | Sözcüğün sözlükteki biçimi; Türkçede Akana'dan, İngilizcede spaCy'den |
+| **biçimbirim** | morpheme | Akana çözümlemesindeki kök ya da ek |
 | **sözcük türü** | part of speech | Ad, eylem, sıfat… |
 | **sözcük türü etiketi** | POS tag | Evrensel Bağımlılıklar'ın 17 etiketinden biri (`NOUN`, `VERB`, `ADJ`…) |
 | **bağımlılık** | dependency | Ayrıştırıcının tümcedeki iki sözcük arasında kurduğu bağ |
 | **ayrıştırıcı** | parser | Tümcenin bağımlılık yapısını çıkaran bileşen (spaCy) |
-| **çözümleyici** | analyzer | Sözcüğü biçimbirimlerine ayıran bileşen; bu araçta Zeyrek |
+| **çözümleyici** | analyzer | Sözcüğü biçimbirimlerine ayıran bileşen; bu araçta Akana |
 | **etiketleyici** | tagger | Sözcüklere sözcük türü etiketi veren bileşen (spaCy) |
 | **türceleyici** | tokenizer | Metni türcelere bölen bileşen |
-| **belirsizlik giderme** | disambiguation | Bir sözcüğün birden çok çözümlemesinden bağlama uyanı seçmek; Zeyrek bunu yapmaz |
-| **karma tohumu** | hash seed | Python'un her çalıştırılışta değişen iç sayısı; `PYTHONHASHSEED=0` ile sabitlenir |
+| **belirsizlik giderme** | disambiguation | Bir sözcüğün birden çok çözümlemesinden tümceye uyanı seçmek; bu araçta Akana'nın belirsizlik gidericisi |
+| **ad tanıyıcı** | named entity recognizer | Metindeki kişi, yer ve kurum adlarını bulan bileşen; bu araçta Akana'nınki |
 | **tümce sınırı** | sentence boundary | Bir tümcenin bittiği yer; aracın kendi kuralıyla bulunur |
 | **içeriksel sözcük** | content word | Ad, özel ad, eylem, sıfat ya da belirteç |
 | **belirteç** | adverb | Zarf |
@@ -84,14 +84,14 @@ aynıdır. Her sayfada bir terim ilk geçtiğinde İngilizcesi parantez içinde 
 | **etiket oranı** | tag ratio | Dış bir etiket şemasının bir kategorisinin payı |
 | **yalın tanım** | plain definition | Kaynağı olmayan tanım |
 | **araca özgü** | tool-specific | Formülü kaynaktan, hangi veriye uygulanacağı bu araçtan |
-| **kalibre edilmiş** | calibrated | Eşiği bu aracın kalibrasyonundan |
+| **kalibre edilmiş** | calibrated | Eşiği bu aracın derlemlerde yaptığı ölçümden gelir |
 | **birincil kaynak** | primary source | Ölçüyü öneren yayının kendisi |
 | **ikincil kaynak** | secondary source | Ölçüyü başka bir yayından aktaran kaynak |
 | **aktaran (akt.)** | as cited in | Birincil kaynağa ulaşılamadı, ikincil kaynaktan alındı |
-| **karşılaştırma** | comparison | Raporda bir öznitelik ile kaynağın yayımladığı bir sayının eşleştirilmesi |
+| **karşılaştırma** | comparison | Aracın bir öznitelik için verdiği sonucun, kaynağın aynı girdi için yayımladığı sonuçla karşılaştırılması |
 | **örtüşen** | match | Kaynağın sayısıyla tolerans içinde aynı (✅) |
 | **belgelenmiş sapma** | documented deviation | Fark var, nedeni yazılı (🟡) |
-| **açık** | open | Kaynağın yayımladığı bir sayı henüz bulunamadı (🔍) |
+| **açık** | open | Kaynakta, formülü bir metne uygulayan yayımlanmış bir örnek bulunamadı (🔍) |
 | **uyuşmazlık** | mismatch | Nedeni açıklanmamış fark (❌) |
 | **göreli tolerans** | relative tolerance | İzin verilen fark, yayımlanan değerin yüzdesi olarak (%1) |
 | **uçtan uca karşılaştırma** | end-to-end comparison | Kaynağın metni çözümleme hattından geçirilerek sınandı |

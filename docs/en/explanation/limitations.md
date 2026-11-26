@@ -6,7 +6,7 @@ need to know when interpreting the results.
 
 ## Limitations of the tool
 
-### The sentence thresholds were calibrated on newspaper columns only
+### The sentence thresholds were measured on newspaper columns only
 
 The `short_sent_ratio` and `long_sent_ratio` thresholds (TR 4/17, EN 8/32)
 were derived from the 15th and 85th percentiles of the sentence-length
@@ -44,12 +44,13 @@ Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)
 
 Affected measures include `herdan_c`, `herdan_vm`, `honore_r`, `maas_a2`,
 `dugast_u`, `simpson_d`, `heaps_beta`, `lix`, `cttr` and `summer_s`. The formulas were
-verified, but not against the **primary source's own wording**.
+checked against the citing source, but could not be checked against the **primary source
+itself**.
 
 ### Accuracy of the language model
 
 POS tags, morphological tags, English lemmas and the dependency features come from the
-spaCy model. Change the model and those numbers change. Turkish lemmas come from Zeyrek
+spaCy model. Change the model and those numbers change. Turkish lemmas come from Akana
 (below).
 
 Altinok (2023, p.13747), who developed the Turkish model, reports that on their own test
@@ -64,7 +65,7 @@ Words and sentences are counted with the tool's own rules
 `describe_feature(key)["definitions"]["word"]` names the word each feature uses.
 
 Tested versions: spaCy 3.8.16, `en_core_web_sm` 3.8.0,
-`tr_core_news_md` 1.0 (model version 3.4.2), Zeyrek 0.1.3.
+`tr_core_news_md` 1.0 (model version 3.4.2), Akana 0.12.0.
 
 ### Split words
 
@@ -75,17 +76,24 @@ touch the word, syllable and sentence counts or the readability formulas. In the
 columns, 0.65% of Turkish words and 2.70% of English words are split into more than one
 token.
 
-### Turkish morphology depends on Zeyrek
+### Turkish morphology depends on Akana
 
-The 23 features in the `morphological_zeyrek` group and the Turkish lemmas come from
-Zeyrek. Zeyrek can return several analyses for a word; the tool takes the first without
-looking at the context (in the Kalyoncu formulas, the one matching spaCy's part of
-speech). To get the same numbers again, start Python with `PYTHONHASHSEED=0`.
+The 23 features in the `morphological_akana` group and the Turkish lemmas come from
+Akana. Akana returns all analyses of a word; the tool picks one with Akana's disambiguator,
+which relies on a frequency score derived from treebanks and on a few rules that look at nearby
+words (genitive–possessive agreement, the case a postposition requires, determiners). For ambiguous words the
+disambiguator sometimes picks wrong: in *Bakan dün geldi* 'the minister came yesterday'
+`bakan` counts as a verbal.
 
-### Two thirds of the candidates are still unverified
+Turkish proper nouns also come from Akana: words the named entity recogniser marks as a person,
+place or organisation are `PROPN`. The recogniser misses some names (`Deniz`) and counts titles
+such as `Bey` in `Ahmet Bey` as part of the name.
 
-Of the **172 verification candidates, 61 are done** (61 ✅) and **111 are 🔍
-open**: most sources publish a formula but never a worked numerical example.
+### Two thirds of the comparisons have no published example
+
+Of the **172 comparison candidates, 61 were made and all matched** (61 ✅). For **111**, no
+published example was found in the sources (🔍 open): most sources publish a formula but
+no example of applying it to a text.
 Details: [The verification system](verification.md).
 
 ### Early development (0.x)
@@ -149,18 +157,20 @@ versions.
 ### Heaps β is unreliable on short texts
 
 `heaps_beta` is measured at 20 equally spaced points through the text (Tweedie & Baayen
-1998, p.333), so every text is measured with the same number of points. There is no
-minimum length; the value is computed for every text of 20 words or more, and a text
-shorter than 20 words gives `nan`. The law fits large collections well and is not reliable
+1998, p.333), so every text is measured with the same number of points. The value is
+computed for every text of 20 words or more; a shorter text gives `nan`. The law fits large collections well and is not reliable
 on short texts (Manning et al. 2008, p.81).
 
 ### The Kalyoncu formulas approximate hand counts
 
-The `kalyoncu_*` keys reproduce Kalyoncu's (2025) hand counts approximately, with Zeyrek and
+The `kalyoncu_*` keys reproduce Kalyoncu's (2025) hand counts approximately, with Akana and
 spaCy. Four of Kalyoncu's nine rules (common derivations, onomatopoeia, intensified forms, rare
 senses) and Kalyoncu's meaning-based sentence definition are not applied. KL rests on expert
 judgement (rules 3, 5, 8), so it is not expected to match the expert values exactly. Numbers
-written in words count as in the list; a capitalised word not at the start of a sentence
-counts as a proper noun; stems and verbals are counted from the Zeyrek analysis that matches
-spaCy's class (these three rules apply in the `kalyoncu_*` keys only). Verbal suffixes Zeyrek
-does not know and errors in the selected analysis change the result.
+written in words count as in the list; proper nouns come from Akana's named entity recogniser,
+as in the rest of the tool; stems and verbals are counted from the analysis Akana chooses.
+Rule 7 is applied in part: passive and causative forms are reduced to their stem, reciprocal
+forms are not, because Akana mostly does not analyse the reciprocal as a separate suffix
+(`selamlaşmak` can count as outside the list); the result is approximate. The -ken of a noun
+with the copula (`öğrenciyken`) counts as a verbal, because the source does not define the scope
+of verbals. Verbal suffixes Akana does not know and errors in that analysis change the result.

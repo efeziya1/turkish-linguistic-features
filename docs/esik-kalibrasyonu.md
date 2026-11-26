@@ -106,7 +106,7 @@ Hiçbir eşik öbür dilde kendi dilindeki yüzdeliğe denk gelmez. Yani aynı a
 
 **Eşikler gazete köşe yazılarıyla kalibre edildi.** Köşe yazısı tek bir tür.
 
-Roman, teknik metin, transkript, şiir, hukuk metni ya da ders kitabında eşiklerin
+Roman, teknik metin, konuşma dökümü, şiir, hukuk metni ya da ders kitabında eşiklerin
 uygun olacağı **garanti değildir**.
 
 Ayrıca `short_sent_ratio` ve `long_sent_ratio` **iki dilde kıyaslanamaz**: aynı
