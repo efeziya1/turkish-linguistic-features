@@ -20,7 +20,7 @@ def test_hata_hiyerarsisi():
 
 def test_kurulum_ipucu_bilinen_paket():
     # Paket PyPI'da yok: ekstra değil paketin kendisi önerilir (2026-10-06).
-    assert kurulum_ipucu("wordfreq") == "pip install 'wordfreq>=3.0'"
+    assert kurulum_ipucu("wordfreq") == 'pip install "wordfreq>=3.0"'
 
 
 def test_zorunlu_paketler_tabloda_degil():

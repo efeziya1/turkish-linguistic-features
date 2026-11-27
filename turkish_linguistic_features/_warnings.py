@@ -32,8 +32,8 @@ class ParagraphStructureWarning(UserWarning):
 # Paket PyPI'da olmadığı için ekstra adı (`[lexical_freq]`) kurulmaz; komut paketin kendisini
 # pyproject'teki alt sınırla kurar (2026-10-06).
 _KURULUM_KOMUTU: dict[str, str] = {
-    "pandas": "pip install 'pandas>=1.5'",
-    "wordfreq": "pip install 'wordfreq>=3.0'",
+    "pandas": 'pip install "pandas>=1.5"',
+    "wordfreq": 'pip install "wordfreq>=3.0"',
 }
 
 

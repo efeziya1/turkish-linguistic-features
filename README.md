@@ -57,7 +57,7 @@ python -m spacy download en_core_web_sm
 python -m nltk.downloader cmudict
 
 # Optional — for the two wordfreq_* features:
-pip install 'wordfreq>=3.0'
+pip install "wordfreq>=3.0"
 ```
 
 If something is missing, `analyze()` stops with an error that shows the

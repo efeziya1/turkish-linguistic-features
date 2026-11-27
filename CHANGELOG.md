@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+
+- Install commands for optional packages use double quotes (`pip install "wordfreq>=3.0"`)
+  in the README, the getting-started pages and the `MissingDependencyWarning` hint. With
+  single quotes the command failed in Windows `cmd.exe`, which reads `>` as a redirect.
+
 ## [0.4.0] - 2026-11-25
 
 This release replaces the Turkish morphological analyser: Akana instead of Zeyrek. Keys that

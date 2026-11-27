@@ -29,7 +29,7 @@ python -m spacy download en_core_web_sm
 python -m nltk.downloader cmudict
 
 # İsteğe bağlı — iki wordfreq_* özniteliği için
-pip install 'wordfreq>=3.0'
+pip install "wordfreq>=3.0"
 ```
 
 Akana (Türkçe biçimbirim çözümleyicisi) araçla birlikte kendiliğinden kurulur.
