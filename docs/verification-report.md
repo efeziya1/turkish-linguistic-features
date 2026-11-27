@@ -6,9 +6,8 @@
 # Verification report
 
 This report compares the number each feature produces against the number
-**published by the source it rests on**. The purpose is plain: before you use
-a number in your own work, you should be able to see that it matches the
-value in the literature.
+**published by the source it rests on**. The purpose is that before a number is used in a
+study, it can be seen to match the value in the literature.
 
 ## What the statuses mean
 
@@ -26,8 +25,8 @@ number to look for:
 |---|---|
 | ⚪ **plain definition** | Not a literature measure; a definition without a source (`punct_dash_ratio`, `uppercase_ratio`). |
 | ⚫ **tag ratio** | Not a measure but a count of an external scheme's categories (`pos_noun_ratio` → UD; `akana_case_loc_ratio` → Akana). A scheme defines categories; it does not publish measurements. |
-| 🔧 **tool-specific** | The formula comes from a source, **the application is this library's**. `sent_len_entropy` is Shannon's entropy, but applying it to sentence lengths is ours. Nobody has published this measure, so there is no number to compare against. |
-| 📐 **calibrated** | The threshold comes from this library's own calibration (`short_sent_ratio`, `long_sent_ratio`). Testing it against our own calibration would be reading our own answer sheet. |
+| 🔧 **tool-specific** | The formula comes from a source, **the application is this library's**. `sent_len_entropy` is Shannon's entropy, but applying it to sentence lengths is the tool's choice. Nobody has published this measure, so there is no number to compare against. |
+| 📐 **calibrated** | The threshold comes from this library's own calibration (`short_sent_ratio`, `long_sent_ratio`). Testing the tool against its own calibration would be reading its own answer sheet. |
 
 The tolerance is **1% relative** to the published value. Sources print rounded
 intermediate values, so exact equality is not expected; a relative tolerance
@@ -36,12 +35,15 @@ means the same thing at every scale.
 **Exceeding the tolerance does not automatically make a row ❌.** What decides
 is not the size of the difference but **whether its cause is known**: if the
 cause has been measured and written down the row is 🟡, and if it has not the
-row is ❌. A reason is not an excuse — it is evidence of where the difference
-came from, and you can read it under the row.
+row is ❌. A reason is not an excuse: it is evidence of where the difference
+came from, and it is written under the row.
 
-**Exception: the source's arithmetic.** If the number the source printed
-contradicts the arithmetic of the inputs the source itself gives, and our value
-gives the correct arithmetic, the row counts as ✅; the reason is noted under it.
+**Exception: the source's own calculation.** When a source publishes both the inputs and the
+result, the result can be recomputed from those inputs. If the published result does not
+agree with that calculation (for instance, the source truncated 121 ÷ 202 = 0.599 to 0.59
+instead of rounding it) and the tool's value equals the calculation from the source's own
+inputs, the row counts as ✅; the case is written under it. The exception applies only where
+the source's own numbers allow the check.
 
 ## Two kinds of evidence
 
@@ -51,29 +53,27 @@ the strongest evidence.
 
 **Formula** rows feed the inputs to the function directly (for example
 "syllables per word 2.2 and words per sentence 4"). They verify the formula
-and its coefficients, not the pipeline. This is what is available when the
-source published no text.
+and its coefficients, not the pipeline.
 
-This report is **generated from the tests** — it reads the same comparison
-table as `tests/test_kaynak_esligi.py`, so the two cannot drift apart. The
-other known-value tests live in their own files.
+The numbers in this report are generated from the comparison table the tests check; the
+report is not edited by hand and always agrees with the tests.
 
 
-## Turkish — 214 keys, 253 rows
+## Turkish — 217 keys, 256 rows
 
 A key may have more than one worked example in its source; each one is its own row.
 
-**Verification candidates — 172 rows**
+**Verification candidates — 136 features** (61 comparisons: where possible, a feature was tested against more than one published example)
 
-| Status | Rows |
+| Status | Features |
 |---|---|
-| ✅ match | 61 |
-| 🔍 open — no worked example in source | 111 |
+| ✅ match | 22 |
+| 🔍 open — no worked example in source | 114 |
 
 
-**Not verification candidates — 81 rows.** There is no published number to look for in these.
+**Not verification candidates — 81 features.** There is no published number to look for in these.
 
-| Status | Rows |
+| Status | Features |
 |---|---|
 | ⚪ plain definition — no source | 11 |
 | ⚫ tag ratio — not a measure | 66 |
@@ -82,7 +82,7 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### Keys with a numeric comparison
 
-| Key | Source | Example | Evidence | Expected | Ours | Diff | Status |
+| Key | Source | Example | Evidence | Expected | Tool | Diff | Status |
 |---|---|---|---|---|---|---|---|
 | `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26); source 6.438043 in bits → × ln 2 | formula | 4.463 | 4.463 | +0.000 | ✅ |
 | `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26); source 6.395099 in bits → × ln 2 | formula | 4.433 | 4.433 | +0.000 | ✅ |
@@ -146,7 +146,7 @@ A key may have more than one worked example in its source; each one is its own r
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | H values of the hardest text | formula | 18.820 | 18.815 | -0.005 | ✅ |
 | `bezirci_yilmaz` | Bezirci & Yılmaz (2010) Table 3 | mean H values | formula | 8.300 | 8.341 | +0.041 | ✅ |
 
-**`ttr` note:** The source's own counts (V=121, N=202) give 121/202 = 0.599; the source truncated that result instead of rounding it and printed 0.59 (rounded to two decimals it is 0.60). Our value follows the arithmetic; the difference is 1.5% of the published value and exceeds the tolerance for this reason alone. Counted as a match under the arithmetic exception.
+**`ttr` note:** The source's own counts (V=121, N=202) give 121/202 = 0.599; the source truncated that result instead of rounding it and printed 0.59 (rounded to two decimals it is 0.60). The tool's value follows the arithmetic; the difference is 1.5% of the published value and exceeds the tolerance for this reason alone. Counted as a match under the exception for the source's own calculation.
 
 **`bezirci_yilmaz` note:** The paper rounded its H6 intermediate value; the difference is 0.031 and both values fall in the same readability class (academic, 16+).
 
@@ -154,7 +154,7 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### 🔍 Open — verifiable, not yet verified
 
-111 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary. `yule_k` is a different case: Yule (1944) prints K values, but computes them on the lemmas of a single word class, mostly nouns. The tool counts the surface forms of all words, so the two cannot be compared on the same input. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
+114 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary. `yule_k` is a different case: Yule (1944) prints K values, but computes them on the lemmas of a single word class, mostly nouns. The tool counts the surface forms of all words, so the two cannot be compared on the same input. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
 
 | Key | Source | Status |
 |---|---|---|
@@ -240,35 +240,38 @@ A key may have more than one worked example in its source; each one is its own r
 | `punct_question_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
 | `punct_char_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C" | 🔍 |
 | `whitespace_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of white-space characters/C" | 🔍 |
-| `char_a_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_b_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_c_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_ç_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_d_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_e_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_f_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_g_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_ğ_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_h_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_ı_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_i_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_j_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_k_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_l_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_m_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_n_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_o_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_ö_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_p_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_r_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_s_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_ş_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_t_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_u_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_ü_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_v_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_y_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_z_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_a_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_b_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_c_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_ç_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_d_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_e_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_f_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_g_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_ğ_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_h_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_ı_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_i_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_j_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_k_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_l_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_m_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_n_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_o_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_ö_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_p_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_q_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_r_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_s_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_ş_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_t_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_u_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_ü_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_v_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_w_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_x_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_y_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_z_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
 
 ### Not verification candidates
 
@@ -358,22 +361,22 @@ A key may have more than one worked example in its source; each one is its own r
 | `uppercase_ratio` | — | ⚪ |
 | `all_caps_word_ratio` | — | ⚪ |
 
-## English — 181 keys, 207 rows
+## English — 187 keys, 213 rows
 
 A key may have more than one worked example in its source; each one is its own row.
 
-**Verification candidates — 146 rows**
+**Verification candidates — 126 features** (48 comparisons: where possible, a feature was tested against more than one published example)
 
-| Status | Rows |
+| Status | Features |
 |---|---|
-| ✅ match | 46 |
+| ✅ match | 20 |
 | 🟡 documented deviation | 2 |
-| 🔍 open — no worked example in source | 98 |
+| 🔍 open — no worked example in source | 104 |
 
 
-**Not verification candidates — 61 rows.** There is no published number to look for in these.
+**Not verification candidates — 61 features.** There is no published number to look for in these.
 
-| Status | Rows |
+| Status | Features |
 |---|---|
 | ⚪ plain definition — no source | 11 |
 | ⚫ tag ratio — not a measure | 45 |
@@ -382,7 +385,7 @@ A key may have more than one worked example in its source; each one is its own r
 
 ### Keys with a numeric comparison
 
-| Key | Source | Example | Evidence | Expected | Ours | Diff | Status |
+| Key | Source | Example | Evidence | Expected | Tool | Diff | Status |
 |---|---|---|---|---|---|---|---|
 | `entropy` | QUITA §6.1.12 | Text 1 · eq. (6.26); source 6.438043 in bits → × ln 2 | formula | 4.463 | 4.463 | +0.000 | ✅ |
 | `entropy` | QUITA §6.1.12 | Text 2 · eq. (6.26); source 6.395099 in bits → × ln 2 | formula | 4.433 | 4.433 | +0.000 | ✅ |
@@ -433,15 +436,15 @@ A key may have more than one worked example in its source; each one is its own r
 | `coleman_liau` | Coleman & Liau (1975) p.284, Table 1 | cloze 40.4% → grade 12 | formula | 12.000 | 11.994 | -0.006 | ✅ |
 | `flesch_kincaid_grade` | Kincaid et al. (1975) p.12, Table 2 | Appendix A · 18 passages, mean | end-to-end | 10.700 | 10.326 | -0.374 | 🟡 |
 
-**`ttr` note:** The source's own counts (V=121, N=202) give 121/202 = 0.599; the source truncated that result instead of rounding it and printed 0.59 (rounded to two decimals it is 0.60). Our value follows the arithmetic; the difference is 1.5% of the published value and exceeds the tolerance for this reason alone. Counted as a match under the arithmetic exception.
+**`ttr` note:** The source's own counts (V=121, N=202) give 121/202 = 0.599; the source truncated that result instead of rounding it and printed 0.59 (rounded to two decimals it is 0.60). The tool's value follows the arithmetic; the difference is 1.5% of the published value and exceeds the tolerance for this reason alone. Counted as a match under the exception for the source's own calculation.
 
-**`ari` deviation:** The source's numbers were produced **by hand** in 1975 with a mechanical counter attached to a typewriter (Appendix B, ARI instructions). In 17 of the 18 passages, the stroke count that would yield the source's ARI is 0.996-1.041 times ours — a difference of a few characters. Passage 2 is an outlier (ratio 1.145), and there the source's own two numbers contradict each other: Table 1's ARI of 20.3 requires 6.270 strokes per word, while the text's actual value is 5.475; moreover, the words per sentence implied by that ARI give an FKGL of 18.70, whereas Table 2 printed 16.7. Our stroke definition was tested separately: counting spaces raises the difference from 0.54 to 4.32, so counting without spaces is correct.
+**`ari` deviation:** The source's numbers were produced **by hand** in 1975 with a mechanical counter attached to a typewriter (Appendix B, ARI instructions). In 17 of the 18 passages, the stroke count that would yield the source's ARI is 0.996-1.041 times the tool's count — a difference of a few characters. Passage 2 is an outlier (ratio 1.145), and there the source's own two numbers contradict each other: Table 1's ARI of 20.3 requires 6.270 strokes per word, while the text's actual value is 5.475; moreover, the words per sentence implied by that ARI give an FKGL of 18.70, whereas Table 2 printed 16.7. The tool's stroke definition was tested separately: counting spaces raises the difference from 0.54 to 4.32, so counting without spaces is correct.
 
 **`flesch_kincaid_grade` deviation:** Same hand-counting source. The per-passage deviation is below 0.6 in 15 of the 18 passages; passage 12 is an outlier (-4.28) and also misses its FRE band, so the deviation is concentrated in a single passage. The difference between the means is 0.37 grade levels — too small to change the readability classification.
 
 ### 🔍 Open — verifiable, not yet verified
 
-98 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary. `yule_k` is a different case: Yule (1944) prints K values, but computes them on the lemmas of a single word class, mostly nouns. The tool counts the surface forms of all words, so the two cannot be compared on the same input. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
+104 keys. The source published the formula but never applied it to anything and printed the result. In quantitative linguistics this is ordinary. `yule_k` is a different case: Yule (1944) prints K values, but computes them on the lemmas of a single word class, mostly nouns. The tool counts the surface forms of all words, so the two cannot be compared on the same input. These rows are **not untested** — their formulas and edge cases are tested in their own test files. What is tracked here is only the comparison *against the source's number*.
 
 | Key | Source | Status |
 |---|---|---|
@@ -517,32 +520,38 @@ A key may have more than one worked example in its source; each one is its own r
 | `punct_question_ratio` | Zheng et al. (2006) Table 3, p.385, no. 88-95 (frequencies of eight marks, this one among them); here the share among all marks | 🔍 |
 | `punct_char_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of punctuations/C" | 🔍 |
 | `whitespace_ratio` | de Vel et al. (2001) Table 2, p.60 "Total number of white-space characters/C" | 🔍 |
-| `char_a_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_b_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_c_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_d_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_e_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_f_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_g_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_h_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_i_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_j_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_k_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_l_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_m_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_n_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_o_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_p_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_q_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_r_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_s_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_t_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_u_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_v_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_w_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_x_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_y_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
-| `char_z_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters | 🔍 |
+| `char_a_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_b_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_c_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_ç_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_d_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_e_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_f_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_g_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_ğ_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_h_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_ı_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_i_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_j_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_k_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_l_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_m_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_n_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_o_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_ö_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_p_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_q_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_r_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_s_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_ş_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_t_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_u_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_ü_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_v_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_w_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_x_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_y_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
+| `char_z_ratio` | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 | 🔍 |
 
 ### Not verification candidates
 
@@ -618,7 +627,7 @@ Syllabification feeds eight `syllable_*` keys and all three Turkish readability 
 
 Source: TDK, "Hece Yapısı ve Satır Sonunda Kelimelerin Bölünmesi" (tdk.gov.tr, 2019).
 
-| Word | TDK | Ours | Status |
+| Word | TDK | Tool | Status |
 |---|---|---|---|
 | aldı | `al-dı` | `al-dı` | ✅ |
 | altlık | `alt-lık` | `alt-lık` | ✅ |
@@ -635,11 +644,11 @@ Source: TDK, "Hece Yapısı ve Satır Sonunda Kelimelerin Bölünmesi" (tdk.gov.
 
 The 18 comparisons behind the two 🟡 rows in the main table (`ari`, `flesch_kincaid_grade`). The intermediate counts (strokes, words) are here so that when a number differs you can see which input it came from.
 
-The **FRE band** column is a separate check: Table 1's Flesch column prints not a 0-100 score but Flesch's own grade band (`8-9` = FRE 60-70, and so on). It asks whether our FRE falls inside that band.
+The **FRE band** column is a separate check: Table 1's Flesch column prints not a 0-100 score but Flesch's own grade band (`8-9` = FRE 60-70, and so on). It asks whether the tool's FRE falls inside that band.
 
 Passage texts: `tests/veri/kincaid/`. Measurement: `scripts/kincaid_olcum.py`.
 
-| # | Strokes | Words | ARI source | ARI ours | Diff | FKGL source | FKGL ours | Diff | FRE band |
+| # | Strokes | Words | ARI source | ARI tool | Diff | FKGL source | FKGL tool | Diff | FRE band |
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | 663 | 148 | 10.6 | 10.24 | -0.36 | 9.7 | 9.64 | -0.06 | 8-9 ✅ |
 | 2 | 668 | 122 | 20.3 | 16.56 | -3.74 | 16.7 | 15.79 | -0.91 | 16+ ✅ |
