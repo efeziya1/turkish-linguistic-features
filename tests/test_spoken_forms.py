@@ -55,6 +55,35 @@ def test_ingilizce_ondalik_ve_bastaki_sifir():
     assert sayi_oku_en("007") == "zero zero seven"
 
 
+def test_ingilizce_virgullu_ondalik():
+    # Binlik biçime uymayan tek virgüllü sayı virgüllü yazılmış ondalıktır, noktalı gibi okunur.
+    # 0,500 eskiden int(",") ValueError veriyor, analyze() çöküyordu.
+    for virgullu, noktali in (("0,500", "0.500"), ("3,14", "3.14"), ("0,5", "0.5"),
+                              ("12,75", "12.75"), ("1,0000", "1.0000")):
+        assert sayi_oku_en(virgullu) == sayi_oku_en(noktali), virgullu
+    assert sayi_oku_en("0,500") == "zero point five zero zero"
+    assert sayi_oku_en("3,14") == "three point one four"
+
+
+def test_ingilizce_binlik_virgul_degismez():
+    # Binlik biçime uyan sayı binlik kalır; 1,500 Avrupa usulü 1,5 de olabilir, İngilizce kazanır.
+    assert sayi_oku_en("1,500") == "one thousand five hundred"
+    assert sayi_oku_en("1,000") == "one thousand"
+    assert sayi_oku_en("2,500,000") == "two million five hundred thousand"
+    assert sayi_oku_en("12,345.5") == "twelve thousand three hundred forty five point five"
+
+
+def test_ingilizce_belirsiz_virgullu_okunmaz():
+    for token in ("0,500,000", "0,500.5", "1,2,3", "3,14,15"):
+        assert sayi_oku_en(token) is None, token
+
+
+def test_ingilizce_virgullu_ondalik_hece_sayimi():
+    from turkish_linguistic_features.features.phonetic import hece_say
+
+    assert hece_say("0,500", "en") == hece_say("0.500", "en")
+
+
 def test_ingilizce_okunamayanlar():
     for token in ("3G", "10:30", "1.000.000", "2.", "1" + "0" * 15):
         assert sayi_oku_en(token) is None, token

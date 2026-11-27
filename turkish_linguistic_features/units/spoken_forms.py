@@ -228,6 +228,10 @@ _EN_ONLAR = ("", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "
 _EN_RAKAMLAR = ("zero",) + _EN_BIRLER[1:10]
 _EN_BUYUKLER = ((10**12, "trillion"), (10**9, "billion"), (10**6, "million"), (10**3, "thousand"))
 _EN_SAYI = re.compile(r"(\d{1,3}(?:,\d{3})+|\d+)(?:\.(\d+))?")
+# Geçerli binlik biçim: 0 ile başlamayan 1-3 hane, ardından 3 haneli gruplar (1,500 · 32,008).
+_EN_BINLIK = re.compile(r"[1-9]\d{0,2}(?:,\d{3})+")
+# Rakamlar arasında tek virgül (3,14 · 0,500 · 1,500); binlik değilse ondalık okunur.
+_EN_VIRGULLU_ONDALIK = re.compile(r"(\d+),(\d+)")
 
 
 def _en_iki_basamak(n: int) -> list[str]:
@@ -271,11 +275,23 @@ def sayi_oku_en(token: str) -> str | None:
 
     Virgül binlik ayırıcı (``32,008``), nokta ondalık (``3.14`` → "three point
     one four"); başı sıfırsa rakam rakam. 10**15 ve üstü → ``None``.
+
+    Rakamlar arasında tek virgül taşıyan ama binlik biçime uymayan sayı (binlik grup 3 haneli
+    olur ve ``0`` ile başlamaz) virgüllü yazılmış ondalıktır, noktalı gibi okunur: ``3,14`` →
+    "three point one four", ``0,500`` → "zero point five zero zero". Binlik biçime uyan sayı
+    binliktir: ``1,500`` → "one thousand five hundred" (Avrupa usulü 1,5 de olabilir; İngilizce
+    kural kazanır). Birden çok virgüllü ve binlik biçime uymayan sayı (``1,2,3``,
+    ``0,500,000``) belirsizdir → ``None`` (2026-11-27, Efe).
     """
+    virgullu = _EN_VIRGULLU_ONDALIK.fullmatch(token)
+    if virgullu is not None and _EN_BINLIK.fullmatch(token) is None:
+        return sayi_oku_en(f"{virgullu.group(1)}.{virgullu.group(2)}")
     m = _EN_SAYI.fullmatch(token)
     if m is None:
         return None
     tam, ondalik = m.group(1), m.group(2)
+    if "," in tam and tam[0] == "0":     # 0,500,000 ya da 0,500.5: binlik değil, belirsiz
+        return None
     if len(tam) > 1 and tam[0] == "0":
         kelimeler = [_EN_RAKAMLAR[int(c)] for c in tam]
     else:
