@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative linguistic features from Turkish text and 181 from English text">
+        <meta name="description" content="Türkçe metinden 217, İngilizce metinden 187 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 217 quantitative linguistic features from Turkish text and 187 from English text">
       
       
       
@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
     
     
       
@@ -2340,8 +2340,9 @@
 <h1 id="kavramlar">Kavramlar<a class="headerlink" href="#kavramlar" title="Permanent link">&para;</a></h1>
 <h2 id="oznitelik">Öznitelik<a class="headerlink" href="#oznitelik" title="Permanent link">&para;</a></h2>
 <p><strong>Öznitelik</strong> (İng. <em>feature</em>), bir metinden çıkarılan tek bir sayıdır. <code>ttr</code>,
-<code>word_len_mean</code>, <code>atesman</code>: her biri bir öznitelik. Adları <code>snake_case</code>'dir.</p>
-<p>Türkçedeki 214 öznitelik, dayandıkları kaynak bakımından beş türe ayrılır:</p>
+<code>word_len_mean</code>, <code>atesman</code>: her biri bir özniteliktir. Adları küçük harfle, sözcükler alt çizgiyle
+ayrılarak yazılır.</p>
+<p>Türkçedeki 217 öznitelik, dayandıkları kaynak bakımından beş türe ayrılır:</p>
 <table>
 <thead>
 <tr>
@@ -2354,15 +2355,15 @@
 <tbody>
 <tr>
 <td><strong>Alanyazın ölçüsü</strong> (İng. <em>literature measure</em>)</td>
-<td style="text-align: right;">133</td>
+<td style="text-align: right;">136</td>
 <td>Alanyazında önerilmiş bir ölçü; künyesi vardır</td>
 <td><code>mattr</code>, <code>mtld</code>, <code>atesman</code></td>
 </tr>
 <tr>
 <td><strong>Etiket oranı</strong> (İng. <em>tag ratio</em>)</td>
 <td style="text-align: right;">66</td>
-<td>spaCy'nin ya da Zeyrek'in sözcüklere verdiği bir etiketin metindeki payı; künyesi etiketi tanımlayan şemadır, ölçünün kendisi değil</td>
-<td><code>pos_noun_ratio</code> (Evrensel Bağımlılıklar), <code>zeyrek_case_loc_ratio</code> (Zeyrek)</td>
+<td>spaCy'nin ya da Akana'nın sözcüklere verdiği bir etiketin metindeki payı; künyesi etiketi tanımlayan şemadır, ölçünün kendisi değil</td>
+<td><code>pos_noun_ratio</code> (Evrensel Bağımlılıklar), <code>akana_case_loc_ratio</code> (Akana)</td>
 </tr>
 <tr>
 <td><strong>Yalın tanım</strong> (İng. <em>plain definition</em>)</td>
@@ -2373,24 +2374,24 @@
 <tr>
 <td><strong>Araca özgü</strong> (İng. <em>tool-specific</em>)</td>
 <td style="text-align: right;">2</td>
-<td>Formül alanyazından, hangi veriye uygulanacağı bu araçtan</td>
+<td>Formülü alanyazından alınmıştır; hangi veriye uygulanacağını araç belirler</td>
 <td><code>sent_len_entropy</code>: Shannon entropisinin tümce uzunluklarına uygulanması</td>
 </tr>
 <tr>
 <td><strong>Kalibre edilmiş</strong> (İng. <em>calibrated</em>)</td>
 <td style="text-align: right;">2</td>
-<td>Eşiği bu aracın derlem ölçümünden</td>
+<td>Eşiği bu aracın derlemlerde yaptığı ölçümden gelir</td>
 <td><code>short_sent_ratio</code>, <code>long_sent_ratio</code></td>
 </tr>
 </tbody>
 </table>
-<p>214 anahtarın 203'ünün künyesi vardır, 11'inin yoktur. Bu ayrım, hangi özniteliğin
-kaynağın yayımladığı bir sayıyla sınanabileceğini de belirler
+<p>217 anahtarın 206'sının künyesi vardır, 11'inin yoktur. Bu ayrım, hangi özniteliğin
+kaynağında yayımlanmış bir örnekle sınanabileceğini de belirler
 (<a href="../dogrulama/">Doğrulama sistemi</a>).</p>
 <p>Araç bir okunabilirlik formülünün yalnız sonucunu vermez; formüle giren ölçüleri, sözgelimi
 ortalama tümce uzunluğunu ve sözcük başına seslem sayısını, ayrı öznitelikler olarak da
-verir. Türkçe için yeni bir formül kurmak istiyorsanız değişken adaylarını bu ölçülerden ve
-aracın öteki özniteliklerinden seçip sınayabilirsiniz.</p>
+verir. Yeni bir formül kurulurken değişken adayları bu ölçülerden ve aracın öteki
+özniteliklerinden seçilip sınanabilir.</p>
 <h2 id="anahtar-adlar">Anahtar adları<a class="headerlink" href="#anahtar-adlar" title="Permanent link">&para;</a></h2>
 <p>Ad, özniteliğin ne ölçtüğünü söyler:</p>
 <table>
@@ -2425,34 +2426,34 @@ aracın öteki özniteliklerinden seçip sınayabilirsiniz.</p>
 </tbody>
 </table>
 <p>Biçimbilimsel öznitelikler iki çözümleyiciden (İng. <em>analyzer</em>) gelir. spaCy'nin
-Evrensel Bağımlılıklar etiketlerinden gelenler öneksizdir (<code>case_loc_ratio</code>), Zeyrek'ten
-gelenler <code>zeyrek_</code> ile başlar (<code>zeyrek_case_loc_ratio</code>). İkisi aynı sayıyı vermez:
+Evrensel Bağımlılıklar etiketlerinden gelenler öneksizdir (<code>case_loc_ratio</code>), Akana'dan
+gelenler <code>akana_</code> ile başlar (<code>akana_case_loc_ratio</code>). İkisi aynı sayıyı vermez:
 <code>case_loc_ratio</code> durum etiketi taşıyan sözcükler içinde bulunma durumunun
-payıdır, <code>zeyrek_case_loc_ratio</code> çözümlenen bütün sözcükler içinde. Zeyrek
+payıdır, <code>akana_case_loc_ratio</code> ise çözümlenen bütün sözcükler içindeki payı. Akana
 evrensel etiketlerin ayırmadığı ayrımları da verir: -DI ve -mIş geçmişi ayrıdır
-(<code>zeyrek_tense_past_def_ratio</code>, <code>zeyrek_tense_past_nar_ratio</code>); spaCy'de ikisi tek
+(<code>akana_tense_past_def_ratio</code>, <code>akana_tense_past_nar_ratio</code>); spaCy'de ikisi tek
 <code>tense_past_ratio</code>'dur.</p>
 <p>On <code>punct_…_ratio</code> anahtarı (<code>punct_comma_ratio</code>, <code>punct_dash_ratio</code> …) her işaret
 türünün bütün noktalama işaretleri içindeki payıdır; toplamları 1 eder. Metinde ne
 kadar noktalama olduğunu <code>punct_char_ratio</code> söyler (noktalama işaretleri / karakterler).</p>
 <h2 id="grup">Grup<a class="headerlink" href="#grup" title="Permanent link">&para;</a></h2>
-<p>Öznitelikler 12 gruba ayrılır (<code>custom_ngrams</code> verirseniz oluşan <code>ngram_*</code>
-anahtarlarıyla 13). Grup hem düzenlemeye hem seçmeye yarar: Yalnız gereken
-grupları hesaplatabilirsiniz.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="s2">"readability"</span><span class="p">,</span> <span class="s2">"lexical"</span><span class="p">])</span>
+<p>Öznitelikler 12 gruba ayrılır (<code>custom_ngrams</code> verilince oluşan <code>ngram_*</code>
+anahtarlarıyla 13). Grup hem düzenlemeye hem seçmeye yarar: Yalnız gereken gruplar
+hesaplatılabilir.</p>
+<div class="highlight"><pre><span></span><code><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="s2">"readability"</span><span class="p">,</span> <span class="s2">"lexical"</span><span class="p">])</span>
 </code></pre></div>
 <p>Gruplar, içerikleri ve büyüklükleri <a href="../../nasil/tek-metin/">Tek metni analiz et</a>
-sayfasında.</p>
+sayfasındadır.</p>
 <h2 id="kalptan-uretilen-anahtarlar">Kalıptan üretilen anahtarlar<a class="headerlink" href="#kalptan-uretilen-anahtarlar" title="Permanent link">&para;</a></h2>
 <p>Bazı anahtarlar tek tek yazılmamıştır, kalıptan üretilir:</p>
 <ul>
-<li><code>char_*</code>: harf sıklık vektörü; alfabenin her harfi için bir anahtar
-  (Türkçe 29: <code>char_a_ratio</code>, <code>char_ç_ratio</code> … <code>char_z_ratio</code>; İngilizce 26)</li>
-<li><code>ngram_*</code>: <code>custom_ngrams</code> ile verdiğiniz sözcük dizilerinin (İng. <em>n-grams</em>) sayaçları
+<li><code>char_*</code>: harf sıklık vektörü; iki dilde aynı 32 harfin her biri için bir anahtar
+  (Türkçe ve İngilizce alfabelerin birleşimi: <code>char_a_ratio</code>, <code>char_ç_ratio</code> … <code>char_z_ratio</code>)</li>
+<li><code>ngram_*</code>: <code>custom_ngrams</code> ile verilen sözcük dizilerinin (İng. <em>n-grams</em>) sayaçları
   (<a href="../../nasil/tek-metin/#kendi-sozcuk-dizilerinizi-sayn">nasıl</a>)</li>
 </ul>
-<p><code>describe_feature("char_a_ratio")</code> çağırırsanız <code>formula</code> ve <code>requires</code> alanları
-<strong>grup düzeyinde</strong> genel ifadedir, tek harfe özel değil.</p>
+<p><code>describe_feature("char_a_ratio")</code> çağrısında <code>formula</code> ve <code>requires</code> alanları
+<strong>grup düzeyinde</strong> genel ifadedir, tek harfe özel değildir.</p>
 <h2 id="olcek-scale">Ölçek (<code>scale</code>)<a class="headerlink" href="#olcek-scale" title="Permanent link">&para;</a></h2>
 <p>Her özniteliğin bir ölçeği (İng. <em>scale</em>) vardır:</p>
 <table>
@@ -2494,7 +2495,7 @@ sayfasında.</p>
 <h2 id="sozcuk-ve-tumce">Sözcük ve tümce<a class="headerlink" href="#sozcuk-ve-tumce" title="Permanent link">&para;</a></h2>
 <p>Bir özniteliğin değeri sözcüğün, tümcenin ve seslemin nasıl sayıldığına bağlıdır.
 Öznitelikler sözcüğü ve tümceyi aracın kendi kuralıyla sayar, modelin türcesiyle
-(İng. <em>token</em>) değil. Bunlar <strong>varsayılan sözcük</strong> ve <strong>varsayılan tümcedir</strong>; bu adları
+(İng. <em>token</em>) değildir. Bunlar <strong>varsayılan sözcük</strong> ve <strong>varsayılan tümcedir</strong>; bu adları
 kullanan öbür sayfalar buraya gönderir.</p>
 <h3 id="sozcuk">Sözcük<a class="headerlink" href="#sozcuk" title="Permanent link">&para;</a></h3>
 <p>Metin boşluklardan bölünür. Her parçanın kenarındaki noktalama atılır (<code>. , ; : ! ? …</code>,
@@ -2528,26 +2529,36 @@ içeriyorsa sözcüktür</strong> (İng. <em>word</em>); içermiyorsa sayılmaz.
 <td><code>3. kat</code> · <code>Sonuç 3.</code></td>
 <td>Yalnız Türkçede: ardından sözcük ya da virgül gelen <code>3.</code> tek sözcüktür (sıra sayısı); tümce sonunda <code>3</code> olur</td>
 </tr>
+<tr>
+<td><code>geldi.Sonra</code> · <code>3.köprü</code></td>
+<td>Boşluk unutulmuşsa noktalamayla bitişik iki sözcük iki sözcüktür: <code>geldi</code>, <code>Sonra</code> · <code>3.</code>, <code>köprü</code>. Tek harfli baş harf (<code>G.Saray</code>), adres (<code>kariyer.net</code>), sayı (<code>1.5</code>) ve tırnak ya da kesmeden sonra gelen ek (<code>“kampusu!”na</code>) bölünmez</td>
+</tr>
 </tbody>
 </table>
 <p>Sıra sayısı kuralı Türkçeye özgüdür, çünkü Türkçede sıra sayısı rakamdan sonra nokta konarak
 yazılır; İngilizcede <code>3rd</code> yazıldığı için bu kurala gerek yoktur.</p>
-<p>Sözcük türü etiketine dayanan çözümlemeler noktalamayı ve simgeleri etiketlerine bakarak
-ayıklar; bu araç aynı işi sözcüğün kenarındaki işaretleri atarak yapar. <code>syntactic</code>
-grubu dışındaki her öznitelik bu sözcüğü sayar.</p>
+<p>Araç sözcük sayarken noktalamayı etikete bakarak değil, sözcüğün kenarındaki işaretleri
+atarak ayıklar. <code>syntactic</code> grubu dışındaki her öznitelik bu sözcüğü sayar.</p>
 <h3 id="tumce">Tümce<a class="headerlink" href="#tumce" title="Permanent link">&para;</a></h3>
 <p>Tümceyi (İng. <em>sentence</em>) bitirenler:</p>
 <ul>
-<li><strong><code>.</code> <code>?</code> <code>!</code> <code>…</code></strong>: her zaman. <code>...</code> ile <code>…</code> aynı işarettir. <code>?!</code> gibi art
-  arda gelen işaretler tek tümce bitirir.</li>
-<li><strong><code>:</code></strong>: yalnız ardından yeni bir tümce başlıyorsa: büyük harf, tırnak, çizgi ya da
-  açılış ayracı. Ardından küçük harfli bir sözcük ya da sayı gelen iki nokta (liste,
-  açıklama, <code>10:30</code>) tümce bitirmez.</li>
+<li><strong><code>.</code> <code>?</code> <code>!</code> <code>…</code></strong>: her zaman tümce bitirir. Üç nokta <code>...</code> diye de yazılabilir.</li>
+<li><strong>Art arda gelen işaretler</strong> (<code>?!</code>, <code>!!!</code>) tek bir tümce sonu sayılır.</li>
+<li><strong><code>:</code></strong>: ardından büyük harfle başlayan bir sözcük, tırnak, çizgi ya da açılış ayracı
+  geliyorsa tümce bitirir. Küçük harf ya da sayı geliyorsa (liste, açıklama, <code>10:30</code>)
+  bitirmez.</li>
 <li><strong>metnin sonu</strong>: işaret olmasa da.</li>
 </ul>
-<p>Kısaltmadan sonraki nokta tümce <strong>bitirmez</strong>: <code>Dr.</code> tek birimdir. Türkçede <code>bkz.</code> gibi
-listedeki bir kısaltmanın noktası, ancak ardından büyük harfle başlayan bir sözcük gelirse
-tümce bitirir.</p>
+<p>Türkçede kısaltmadan sonraki nokta:</p>
+<ul>
+<li><strong>Büyük harfle yazılan kısaltmada</strong> (<code>Dr.</code>, <code>Cad.</code>, <code>Ltd.</code>) tümce bitirmez; bu kısaltmalar
+  ardındaki ada bağlanır.</li>
+<li><strong>Küçük harfle yazılan kısaltmada</strong> (<code>vb.</code>, <code>dk.</code>, <code>km.</code>) ardından büyük harf gelirse tümce
+  bitirir, küçük harf gelirse bitirmez.</li>
+<li><strong><code>bkz.</code></strong> (bakınız) tümce bitirmez, ardından büyük harf gelse de: Ardından gösterilen yer
+  gelir (<code>bkz. Ek 2</code>).</li>
+</ul>
+<p>İngilizcede <code>Dr.</code> gibi tek birim yazılan kısaltma tümce bitirmez.</p>
 <table>
 <thead>
 <tr>
@@ -2581,8 +2592,12 @@ tümce bitirir.</p>
 <td>1</td>
 </tr>
 <tr>
-<td><code>Ayrıntı için bkz. şekil 3.</code></td>
-<td>1: <code>bkz.</code> sonrası küçük harf</td>
+<td><code>Elma, armut vb. Sonra eve döndük.</code></td>
+<td>2: <code>vb.</code> sonrası büyük harf</td>
+</tr>
+<tr>
+<td><code>Ayrıntı için bkz. Ek 2.</code></td>
+<td>1: <code>bkz.</code> tümce bitirmez</td>
 </tr>
 <tr>
 <td><code>Geldi ve gitti</code></td>
@@ -2595,9 +2610,12 @@ Türkçe köşe yazılarında (4.321 yazı) iki noktaların %93,9'undan sonraki 
 tırnak, çizgi ya da açılış ayracıyla başlar; İngilizce köşe yazılarında (1.485 yazı) bu oran
 %62,4'tür. Koşul, ardından küçük harfle başlayan bir liste ya da açıklama gelen iki noktayı
 tümce sonu saymamak için konmuştur. Kural iki dilde aynıdır.</p>
-<p>Tümce uzunluğu tümcedeki sözcük sayısıdır. Tümce uzunluğu öznitelikleri ve <code>sent_count</code>,
-ortalamayı boş yere aşağı çekmesin diye hiç harf içermeyen tümceyi saymaz:
-<code>Bu bir tümce. 1999. Bitti.</code> 2 tümcedir; <code>1999</code> dahil 5 sözcüğün hepsi sayılır.</p>
+<p>Tümce uzunluğu tümcedeki sözcük sayısıdır. Yalnız sayıdan oluşan tümce de tümcedir:
+<code>Bu bir tümce. 1999! Bitti.</code> 3 tümcedir. Bütün öznitelikler ve <code>text_units</code> tümceyi aynı
+biçimde sayar.</p>
+<p>Türkçede rakamdan sonraki nokta, ardından bir sözcük geliyorsa sıra sayısının noktası sayılır
+ve tümce bitirmez (<code>3. kat</code>). Bu yüzden <code>Yıl 1999. Bitti.</code> tek tümcedir: Yazıda <code>1999. Bitti</code>
+ile <code>2. Dünya Savaşı</code> aynı biçimdedir ve kural ikisini ayırt edemez.</p>
 <p>İki tür öznitelik bu kuralı kullanmaz:</p>
 <ul>
 <li>bazı <strong>okunabilirlik formülleri</strong> kendi kaynaklarının sayım kuralını izler
@@ -2655,19 +2673,26 @@ kullanır. Seslemler (İng. <em>syllables</em>) bütün formüllerde okunuşa g�
 bir kez sayılır; sözcük türü etiketi (İng. <em>POS tag</em>), biçimbilimsel etiketleri ve
 sözlükbirimi (İng. <em>lemma</em>) içindeki noktalama olmayan ilk türceden alınır. Çift tırnak
 (<code>"</code> <code>“</code> <code>”</code> <code>«</code> <code>»</code>) modelin verdiği etiketten bağımsız olarak burada hep noktalama sayılır.
-Türkçe sözlükbirim Zeyrek'in sözlük maddesidir, İngilizce sözlükbirim spaCy'nin.</p>
+Türkçe sözlükbirim Akana'nın sözlük maddesidir, İngilizce sözlükbirim spaCy'ninkidir.</p>
+<p>Türkçede özel adları Akana'nın ad tanıyıcısı (İng. <em>named entity recognizer</em>) bulur. Ad
+tanıyıcının kişi, yer ya da kurum adı dediği her sözcük, spaCy hangi etiketi vermiş olursa
+olsun özel ad (<code>PROPN</code>) sayılır; <code>Mustafa Kemal</code> gibi birden çok sözcüklü bir adın her sözcüğü
+de öyle sayılır. Bunun nedeni, spaCy Türkçe modelinin <code>Derya</code>, <code>Almanya'da</code> gibi sözcükleri çoğu zaman
+<code>PROPN</code> etiketlememesidir. Bağımlılık çözümlemesine dayanan <code>syntactic</code> grubu spaCy'nin türcelerini okuduğu
+için bundan etkilenmez.</p>
 <h3 id="cesitlilik-olculerinin-saym-birimi">Çeşitlilik ölçülerinin sayım birimi<a class="headerlink" href="#cesitlilik-olculerinin-saym-birimi" title="Permanent link">&para;</a></h3>
 <p>Sözcüksel çeşitlilik (İng. <em>lexical diversity</em>) ölçülerinde tür (İng. <em>type</em>), sözcüğün
 küçük harfe çevrilmiş yüzey biçimidir. Böylece tümce başında büyük harfle yazılan sözcük ayrı
 bir tür olmaz. Türkçede küçük harfe çevirme Türkçenin kuralıyla yapılır (I → ı, İ → i);
 yazılımların varsayılan dönüşümü <code>IŞIK</code>'ı <code>işik</code>'e çevirdiği için bu ayrıca gözetilir.</p>
 <p>Tür yüzey biçime dayandığı için çekimli biçimler ayrı türdür: <code>kitap</code> ile <code>kitaplar</code> iki
-ayrı türdür. Bu, aracın tasarım kararıdır. İstisnalar <code>*_variation</code> ve <code>lemma_count</code>.
+ayrı türdür. Bu, aracın tasarım kararıdır. Bunun istisnası, sözlükbirim sayan <code>*_variation</code>
+ölçüleri ve <code>lemma_count</code>'tur.
 Kaynağı başka birim kullanan ölçülerde (<code>brunet_w</code>, <code>herdan_c</code>, <code>yule_k</code>) fark künyede
 yazılıdır.</p>
 <h3 id="iceriksel-sozcuk">İçeriksel sözcük<a class="headerlink" href="#iceriksel-sozcuk" title="Permanent link">&para;</a></h3>
 <p>İçeriksel sözcük (İng. <em>content word</em>), sözcük türü etiketi <code>NOUN</code>, <code>PROPN</code>, <code>VERB</code>, <code>ADJ</code>
-ya da <code>ADV</code> olan sözcüktür: ad, özel ad, eylem, sıfat ve belirteç. Yardımcı eylemler
+ya da <code>ADV</code> olan sözcüktür: ad, özel ad, eylem, sıfat ve belirteç. Yardımcı sözcükler
 (<code>AUX</code>) eylem sayılmaz. Bu tanımı sözcüksel yoğunluk (<code>lexical_density</code>), sözcük türü
 çeşitliliği, tematik yoğunlaşma ve sıklık ölçüleri kullanır.</p>
 <p>Tanım Lu'nun (2012) tanımıdır, bir farkla: Lu (2012, s.192) belirteçlerden yalnız sıfattan
@@ -2678,37 +2703,40 @@ araştırmacıya bırakır (Kubát vd. 2014, s.50–51).</p>
 <p>Bir özniteliğin hangi kuralı kullandığını
 <code>describe_feature(anahtar)["definitions"]</code> söyler.</p>
 <h2 id="cozumleme-hatt">Çözümleme hattı<a class="headerlink" href="#cozumleme-hatt" title="Permanent link">&para;</a></h2>
-<p><code>analyze</code> çağırdığınızda metin dört aşamadan geçer; bu adımların bütününe çözümleme hattı
+<p><code>analyze</code> çağrılınca metin dört aşamadan geçer; bu adımların bütününe çözümleme hattı
 (İng. <em>pipeline</em>) denir:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ham metin
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>   ↓  1. spaCy (tr_core_news_md / en_core_web_sm)
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>türce · sözcük türü etiketi · biçimbilimsel etiket · bağımlılık ağacı · İngilizce sözlükbirim
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>   ↓  2. Zeyrek (yalnız Türkçe)
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>biçimbirim çözümlemesi · Türkçe sözlükbirim
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>   ↓  3. aracın kuralları
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>sözcük ve tümce sınırları; her sözcük etiketini kendi türcesinden alır
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>   ↓  4. öznitelik hesaplayıcıları
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>214 sayı (İngilizcede 181)
+<div class="highlight"><pre><span></span><code>ham metin
+   ↓  1. spaCy (tr_core_news_md / en_core_web_sm)
+türce · sözcük türü etiketi · biçimbilimsel etiket · bağımlılık ağacı · İngilizce sözlükbirim
+   ↓  2. Akana (yalnız Türkçe)
+biçimbirim çözümlemesi · Türkçe sözlükbirim · özel adlar
+   ↓  3. aracın kuralları
+sözcük ve tümce sınırları; her sözcük etiketini kendi türcesinden alır
+   ↓  4. öznitelik hesaplayıcıları
+217 sayı (İngilizcede 187)
 </code></pre></div>
-<p>Zeyrek, aracın bütünüyle Python içinde, Java gibi ek bir ortam kurulmadan çalışabilmesi için
-seçilmiştir.</p>
-<p><strong>spaCy modeli ve Zeyrek sonuçların parçasıdır.</strong> Biri değişirse ona dayanan öznitelikler de
-değişir. Türkçedeki 214 öznitelikten 105'i bu iki çözümleyiciden en az birine dayanır; kalan
-109'u yalnız aracın kendi kurallarıyla hesaplanır. Bu yüzden bir sonucu yeniden
-üretebilmek için aracın sürümüyle birlikte spaCy modelinin ve Zeyrek'in sürümünü de verin.
+<p>Akana, Türkçe biçimbirim çözümleyicisidir: Zemberek'in kurallarını taşıyan, Rust ile yazılmış ve
+Python'dan çağrılan bir pakettir. Java gibi ek bir ortam gerektirmez. Bir sözcüğün birden çok
+çözümlemesi varsa Akana'nın belirsizlik gidericisi (İng. <em>disambiguator</em>) birini seçer:
+Çözümlemeleri ağaç bankalarından çıkarılmış sıklıklarına göre sıralar ve tümcedeki yakın
+sözcüklere bakan birkaç kuralla düzeltir.</p>
+<p><strong>spaCy modeli ve Akana sonuçların parçasıdır.</strong> Biri değişirse ona dayanan öznitelikler de
+değişir. Türkçedeki 217 öznitelikten 105'i bu iki çözümleyiciden en az birine dayanır; kalan
+112'si yalnız aracın kendi kurallarıyla hesaplanır. Bu yüzden bir sonucu yeniden
+üretebilmek için aracın sürümüyle birlikte spaCy modelinin ve Akana'nın sürümü de verilmelidir.
 Aracın sınandığı sürümler: Python 3.12, spaCy 3.8.16, <code>tr_core_news_md</code> 1.0 (model
-sürümü 3.4.2), <code>en_core_web_sm</code> 3.8.0, Zeyrek 0.1.3.</p>
+sürümü 3.4.2), <code>en_core_web_sm</code> 3.8.0, Akana 0.12.0.</p>
 <h2 id="featureparams"><code>FeatureParams</code><a class="headerlink" href="#featureparams" title="Permanent link">&para;</a></h2>
 <p>Pencere boyları, eşikler ve örneklem sayıları burada durur. Ayrıntı:
 <a href="../../nasil/parametreler/">Eşikleri değiştir</a>.</p>
-<p>Tümce eşikleri (<code>short_sent_threshold</code>, <code>long_sent_threshold</code>) <strong>dile göre
-kalibre edilmiştir</strong> (TR 4/17, EN 8/32).</p>
+<p>Tümce eşikleri (<code>short_sent_threshold</code>, <code>long_sent_threshold</code>) <strong>her dil için ayrı
+ölçülmüştür</strong> (TR 4/17, EN 8/32).</p>
 <h2 id="oznitelik-dizini">Öznitelik dizini<a class="headerlink" href="#oznitelik-dizini" title="Permanent link">&para;</a></h2>
 <p>Öznitelik dizini (İng. <em>registry</em>), her özniteliğin adını, ne ölçtüğünü, formülünü,
 ölçeğini, parametrelerini, hesaplanması için gereken en az veriyi, künyesini ve formüldeki
 terimlerin araçtaki tanımlarını tek bir yerde tutar. <code>describe_feature</code>,
 <a href="../../../reference/">başvuru bölümü</a> ve <a href="../../../dogrulama-raporu/">doğrulama raporu</a>
-aynı kaynaktan okur; bu yüzden üçü birbiriyle hep aynıdır.</p>
+aynı kaynaktan okur; bu yüzden üçündeki bilgi hep aynıdır.</p>
 <p>Öznitelik dizini <strong>İngilizcedir</strong>. Tanımlar, formüller ve künyeler tek dilde
 tutulur ki çoğu İngilizce olan kaynaklarla karşılaştırırken araya çeviri katmanı girmesin.</p>
 

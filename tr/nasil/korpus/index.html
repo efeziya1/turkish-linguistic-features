@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative linguistic features from Turkish text and 181 from English text">
+        <meta name="description" content="Türkçe metinden 217, İngilizce metinden 187 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 217 quantitative linguistic features from Turkish text and 187 from English text">
       
       
       
@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
     
     
       
@@ -2128,43 +2128,43 @@
 
 
 <h1 id="derlemi-csvye-ckar">Derlemi CSV'ye çıkar<a class="headerlink" href="#derlemi-csvye-ckar" title="Permanent link">&para;</a></h1>
-<p>Derlem (İng. <em>corpus</em>), birlikte çözümlenecek metinlerinizdir. Bu sayfa bir derlemi tek
+<p>Derlem (İng. <em>corpus</em>), birlikte çözümlenecek metinlerdir. Bu sayfa bir derlemi tek
 seferde öznitelik tablosuna çevirmeyi anlatır.</p>
 <h2 id="klasor-duzeni">Klasör düzeni<a class="headerlink" href="#klasor-duzeni" title="Permanent link">&para;</a></h2>
 <p><code>analyze_corpus</code> üç düzeni kendiliğinden tanır. Her satır bir <code>label</code>
 (etiket) ve bir <code>source</code> (kaynak) taşır.</p>
 <p><strong>1. Alt klasör — klasör adı etikettir:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>derlem/
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  yazar_a/
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    metin1.txt      → label "yazar_a", source "metin1"
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    metin2.txt
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  yazar_b/
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    metin3.txt
+<div class="highlight"><pre><span></span><code>derlem/
+  yazar_a/
+    metin1.txt      → label "yazar_a", source "metin1"
+    metin2.txt
+  yazar_b/
+    metin3.txt
 </code></pre></div>
 <p><strong>2. Kökte <code>Etiket_Başlık.txt</code> — dosya adının ilk alt çizgisine kadarki kısım
 etikettir:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>derlem/
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  Roman_Yaban.txt     → label "Roman", source "Yaban"
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  notlar.txt          → label "" (alt çizgi yok), source "notlar"
+<div class="highlight"><pre><span></span><code>derlem/
+  Roman_Yaban.txt     → label "Roman", source "Yaban"
+  notlar.txt          → label "" (alt çizgi yok), source "notlar"
 </code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">Alt çizgili dosya adları</p>
-<p>Kökteki bir dosyanın adında alt çizgi varsa ilk kısım <strong>etiket</strong> olur:
-<code>metin_1.txt</code> → label <code>"metin"</code>, source <code>"1"</code>.</p>
-</div>
-<p>İki düzen aynı klasörde birlikte bulunabilir.</p>
-<p><strong>3. Tek bir CSV ya da TSV dosyası</strong> — <code>analyze_corpus("derlem.csv")</code>. Sütun
-başlıkları şu adlardan biri olmalı (ilk eşleşen kullanılır):</p>
+<p>Dikkat: <code>metin_1.txt</code> gibi bir adda da ilk kısım etiket olur (label <code>"metin"</code>, source <code>"1"</code>).
+İki düzen aynı klasörde birlikte bulunabilir.</p>
+<p><strong>3. Tek bir CSV ya da TSV dosyası</strong> — <code>analyze_corpus("derlem.csv")</code>. Her satır bir
+metindir. Sütun başlıkları <code>text</code> (metin), <code>label</code> (etiket) ve <code>source</code> (kaynak) olur;
+Türkçeleri de kabul edilir (<code>metin</code>, <code>etiket</code>, <code>kaynak</code>). Yalnız metin sütunu zorunludur;
+kaynak sütunu yoksa dosyanın adı kullanılır. <code>.tsv</code> dosyası sekmeyle ayrılmış okunur.</p>
+<details class="note">
+<summary>Kabul edilen bütün başlıklar</summary>
 <table>
 <thead>
 <tr>
 <th>Alan</th>
-<th>Kabul edilen başlıklar</th>
+<th>Başlıklar (ilk eşleşen kullanılır)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>metin (zorunlu)</td>
+<td>metin</td>
 <td><code>text</code>, <code>Text</code>, <code>metin</code>, <code>Metin</code>, <code>METIN</code>, <code>content</code></td>
 </tr>
 <tr>
@@ -2177,30 +2177,23 @@ başlıkları şu adlardan biri olmalı (ilk eşleşen kullanılır):</p>
 </tr>
 </tbody>
 </table>
-<p>Kaynak sütunu yoksa dosyanın adı kullanılır. <code>.tsv</code> uzantılı dosya sekmeyle
-ayrılmış okunur.</p>
-<p>Etiket yazar olmak zorunda değil: dönem, tür, sınıf düzeyi, deney kolu,
-ne ölçüyorsanız o.</p>
-<p>Dosyalar <strong>UTF-8</strong> olmalı. UTF-8 olmayan dosya varsa analiz başlamadan hata
-verilir ve okunamayan dosyaların hepsi adıyla listelenir.</p>
-<p>Bir parçanın analizi <code>ValueError</code> verirse çalışma orada durur. Hata o
-parçanın <code>label</code>, <code>source</code> ve <code>segment_id</code> değerini söyler.</p>
+</details>
+<p>Etiket yazar olmak zorunda değildir: dönem, tür, sınıf düzeyi, deney kolu, ne ölçülüyorsa o.</p>
+<p>Dosyalar <strong>UTF-8</strong> olmalı; olmayan dosya varsa analiz başlamadan hepsi adıyla listelenir.
+Bir metin çözümlenirken hata çıkarsa çalışma durur ve ileti hangi dosyada durduğunu söyler.</p>
 <h2 id="iki-cagr">İki çağrı<a class="headerlink" href="#iki-cagr" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">satirlar</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"derlem/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">tlf</span><span class="o">.</span><span class="n">save_csv</span><span class="p">(</span><span class="n">satirlar</span><span class="p">,</span> <span class="s2">"oznitelikler.csv"</span><span class="p">)</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"satır sayısı:"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">satirlar</span><span class="p">))</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"sütun sayısı:"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">satirlar</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
+
+<span class="n">satirlar</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"derlem/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
+<span class="n">tlf</span><span class="o">.</span><span class="n">save_csv</span><span class="p">(</span><span class="n">satirlar</span><span class="p">,</span> <span class="s2">"oznitelikler.csv"</span><span class="p">)</span>
 </code></pre></div>
+<p>Dosyanın nereye kaydedildiği: <a href="../../baslangic/#7-bir-derlemi-tabloya-cevirin">Öğretici, 7. adım</a>.</p>
 <h2 id="ne-ckyor">Ne çıkıyor<a class="headerlink" href="#ne-ckyor" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>satır sayısı: 3
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>sütun sayısı: 217
-</code></pre></div>
-<p>Her dosya bir satır. 217 sütun = 214 öznitelik (İng. <em>feature</em>) + üç kimlik sütunu:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>label=yazar_a  source=metin1     segment_id=0  ttr=1.0
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>label=yazar_a  source=metin2     segment_id=0  ttr=1.0
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>label=yazar_b  source=metin3     segment_id=0  ttr=1.0
+<p>Her dosya bir satır: 3 satır, 220 sütun. 220 sütun = 217 öznitelik (İng. <em>feature</em>) + üç
+kimlik sütunu:</p>
+<div class="highlight"><pre><span></span><code>label=yazar_a  source=metin1     segment_id=0  ttr=1.0
+label=yazar_a  source=metin2     segment_id=0  ttr=1.0
+label=yazar_b  source=metin3     segment_id=0  ttr=1.0
 </code></pre></div>
 <table>
 <thead>
@@ -2225,26 +2218,26 @@ parçanın <code>label</code>, <code>source</code> ve <code>segment_id</code> de
 </tbody>
 </table>
 <p>CSV başlığı:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>label,source,segment_id,lemma_count,word_count,word_len_mean,entropy,yu...
+<div class="highlight"><pre><span></span><code>label,source,segment_id,lemma_count,word_count,word_len_mean,entropy,yu...
 </code></pre></div>
 <h2 id="ilerlemeyi-gorun">İlerlemeyi görün<a class="headerlink" href="#ilerlemeyi-gorun" title="Permanent link">&para;</a></h2>
 <p>Derlem büyükse:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">satirlar</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"derlem/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">show_progress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">satirlar</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"derlem/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">show_progress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>  [1/3] metin1 #0
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>  [2/3] metin2 #0
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>  [3/3] metin3 #0
+<div class="highlight"><pre><span></span><code>  [1/3] metin1 #0
+  [2/3] metin2 #0
+  [3/3] metin3 #0
 </code></pre></div>
 <h2 id="dosyalar-parcalara-bolerek-analiz-edin">Dosyaları parçalara bölerek analiz edin<a class="headerlink" href="#dosyalar-parcalara-bolerek-analiz-edin" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">satirlar</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"derlem/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">satirlar</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"derlem/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 </code></pre></div>
 <p>Örneğin 648 sözcüklük tek bir dosya içeren <code>tek_dosya/</code> klasöründe:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">butun</span>   <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"tek_dosya/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">parcali</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"tek_dosya/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">butun</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">parcali</span><span class="p">),</span> <span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="s2">"segment_id"</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">parcali</span><span class="p">])</span>
+<div class="highlight"><pre><span></span><code><span class="n">butun</span>   <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"tek_dosya/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
+<span class="n">parcali</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"tek_dosya/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">butun</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">parcali</span><span class="p">))</span>
 </code></pre></div>
 <p>Çıktı:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>1 3 [0, 1, 2]
+<div class="highlight"><pre><span></span><code>1 3
 </code></pre></div>
 <p>648 ÷ 200 = 3 tam parça; kalan 48 sözcük varsayılan <code>min_fill=1.0</code> ile atılır.</p>
 <p>Tümce uzunluğu dağılımını etiketlere göre karşılaştıran çalışan örnek:
@@ -2255,24 +2248,24 @@ parçanın <code>label</code>, <code>source</code> ve <code>segment_id</code> de
 böler. Bütün dosyaları birleştirip baştan sona 1000'er kesmez.
 Dolayısıyla her dosyanın sonunda <code>segment_size</code>'dan kısa bir artık kalır ve
 varsayılan <code>min_fill=1.0</code> ile <strong>atılır</strong>.</p>
-<p>Neden ve ne zaman parçalamalısınız →
+<p>Neden ve ne zaman parçalamak gerekir →
 <a href="../segmentleme/">Metni parçalara böl</a>.</p>
 </div>
 <h2 id="tam-imza">Tam imza<a class="headerlink" href="#tam-imza" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">analyze_corpus</span><span class="p">(</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>    <span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"tr"</span><span class="p">,</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    <span class="n">segment_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    <span class="o">*</span><span class="p">,</span>
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="n">min_fill</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>    <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"word"</span><span class="p">,</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>    <span class="n">groups</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>    <span class="n">params</span><span class="p">:</span> <span class="n">FeatureParams</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>    <span class="n">custom_ngrams</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>    <span class="n">show_progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>    <span class="n">warn</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]]</span>
+<div class="highlight"><pre><span></span><code><span class="n">analyze_corpus</span><span class="p">(</span>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+    <span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"tr"</span><span class="p">,</span>
+    <span class="n">segment_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">min_fill</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"word"</span><span class="p">,</span>
+    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">groups</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">params</span><span class="p">:</span> <span class="n">FeatureParams</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">custom_ngrams</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">show_progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">warn</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]]</span>
 </code></pre></div>
 <p><code>groups</code>, <code>params</code>, <code>model</code>, <code>custom_ngrams</code>, <code>warn</code>: hepsi <code>analyze</code> ile aynı
 anlamda ve her parçaya uygulanır. <code>custom_ngrams</code> sayıları parça başınadır.</p>

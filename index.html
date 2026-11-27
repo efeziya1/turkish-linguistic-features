@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative linguistic features from Turkish text and 181 from English text">
+        <meta name="description" content="Türkçe metinden 217, İngilizce metinden 187 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 217 quantitative linguistic features from Turkish text and 187 from English text">
       
       
       
@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
     
     
       
@@ -2047,23 +2047,23 @@
 
 
 <h1 id="turkish-linguistic-features">turkish-linguistic-features<a class="headerlink" href="#turkish-linguistic-features" title="Permanent link">&para;</a></h1>
-<p>Türkçe metinden <strong>214</strong>, İngilizce metinden <strong>181 nicel dilbilimsel öznitelik</strong>
-çıkarır. Her özniteliğin formülü yazılıdır; Türkçedeki 214 özniteliğin 203'ü,
-İngilizcedeki 181 özniteliğin 170'i alanyazında bir kaynağa dayanır, geri
+<p>Türkçe metinden <strong>217</strong>, İngilizce metinden <strong>187 nicel dilbilimsel öznitelik</strong>
+çıkarır. Her özniteliğin formülü yazılıdır; Türkçedeki 217 özniteliğin 206'sı,
+İngilizcedeki 187 özniteliğin 176'sı alanyazında bir kaynağa dayanır, geri
 kalanı yalın tanımdır (örneğin tirenin noktalama işaretleri içindeki payı).
 <a href="dogrulama-raporu/">Doğrulama raporu</a>, hangilerinin kaynağın yayımladığı bir
 sayıyla karşılaştırıldığını gösterir.</p>
-<p>Extracts 214 quantitative linguistic features from Turkish text and 181 from
-English. Every feature has its formula written out; 203 of the Turkish features
-and 170 of the English ones cite a source in the literature, and the rest are
+<p>Extracts 217 quantitative linguistic features from Turkish text and 187 from
+English. Every feature has its formula written out; 206 of the Turkish features
+and 176 of the English ones cite a source in the literature, and the rest are
 plain definitions (such as the dash's share of punctuation marks). The
 <a href="verification-report/">verification report</a> shows which ones have been
 checked against a number their source published.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="s2">"Renksiz yeşil fikirler öfkeyle uyur."</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">oz</span><span class="p">[</span><span class="s2">"word_len_mean"</span><span class="p">]</span>   <span class="c1"># 6.2</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">oz</span><span class="p">[</span><span class="s2">"atesman"</span><span class="p">]</span>         <span class="c1"># 89.355  (Ateşman 1997 okunabilirlik)</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
+
+<span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="s2">"Renksiz yeşil fikirler öfkeyle uyur."</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
+<span class="n">oz</span><span class="p">[</span><span class="s2">"word_len_mean"</span><span class="p">]</span>   <span class="c1"># 6.2</span>
+<span class="n">oz</span><span class="p">[</span><span class="s2">"atesman"</span><span class="p">]</span>         <span class="c1"># 89.355  (Ateşman 1997 okunabilirlik)</span>
 </code></pre></div>
 <hr />
 <h2 id="belgeler-documentation">Belgeler · Documentation<a class="headerlink" href="#belgeler-documentation" title="Permanent link">&para;</a></h2>
@@ -2079,11 +2079,11 @@ checked against a number their source published.</p>
 </li>
 <li>
 <p><strong><a href="reference/">Başvuru · Reference →</a></strong></p>
-<p>214 özniteliğin tam listesi ve Python'dan çağrılan adlar (İngilizce).</p>
+<p>217 özniteliğin tam listesi ve Python'dan çağrılan adlar (İngilizce).</p>
 </li>
 <li>
 <p><strong><a href="dogrulama-raporu/">Doğrulama · Verification →</a></strong></p>
-<p>Hangi özniteliğin kaynağıyla birebir tuttuğu, hangisinin tutmadığı.
+<p>Hangi özniteliğin kaynağında yayımlanmış bir örnekle karşılaştırıldığı ve sonucu.
 <a href="verification-report/">English version</a>.</p>
 </li>
 </ul>
@@ -2109,13 +2109,13 @@ checked against a number their source published.</p>
 <tbody>
 <tr>
 <td>Öznitelik</td>
-<td style="text-align: right;">214</td>
-<td style="text-align: right;">181</td>
+<td style="text-align: right;">217</td>
+<td style="text-align: right;">187</td>
 </tr>
 <tr>
 <td>Künyesi olan öznitelik</td>
-<td style="text-align: right;">203</td>
-<td style="text-align: right;">170</td>
+<td style="text-align: right;">206</td>
+<td style="text-align: right;">176</td>
 </tr>
 <tr>
 <td>Künyesi olmayan, yalın tanım</td>
@@ -2123,26 +2123,31 @@ checked against a number their source published.</p>
 <td style="text-align: right;">11</td>
 </tr>
 <tr>
-<td>Doğrulama adayı rapor satırı</td>
-<td style="text-align: right;">172</td>
-<td style="text-align: right;">146</td>
+<td>Yayımlanmış bir örnekle sınanan öznitelik</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">22</td>
 </tr>
 <tr>
 <td>— örtüşen (✅)</td>
-<td style="text-align: right;">61</td>
-<td style="text-align: right;">46</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">20</td>
 </tr>
 <tr>
 <td>— tolerans dışında, nedeni açıklanmış (🟡)</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">2</td>
 </tr>
+<tr>
+<td>Yayımlanmış örnek bulunamadığı için sınanamayan öznitelik (🔍)</td>
+<td style="text-align: right;">114</td>
+<td style="text-align: right;">104</td>
+</tr>
 </tbody>
 </table>
+<p>Bir öznitelik, mümkün olduğunda birden çok yayımlanmış örnekle sınanmıştır.</p>
 <p>Kaynakçada 58 eser var (iki dil için tek kaynakça).</p>
 <p>Künye, formülün kaynağını sayfa ve formül numarasıyla verir. Doğrulama
-raporu ayrıca, kaynağın yayımladığı bir sayıyla karşılaştırılabilen satırları
-listeler. İkisinin farkı ve raporun nasıl okunacağı:
+raporu ise aracın sonucunu, kaynağın aynı girdi için yayımladığı sonuçla karşılaştırır. İkisinin farkı ve raporun nasıl okunacağı:
 <a href="tr/aciklama/dogrulama/">Doğrulama sistemi</a> ·
 <a href="en/explanation/verification/">The verification system</a>.</p>
 

@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative linguistic features from Turkish text and 181 from English text">
+        <meta name="description" content="Türkçe metinden 217, İngilizce metinden 187 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 217 quantitative linguistic features from Turkish text and 187 from English text">
       
       
       
@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
     
     
       
@@ -2170,75 +2170,65 @@
 
 
 <h1 id="ogretici-sfrdan-ilk-olcume">Öğretici — sıfırdan ilk ölçüme<a class="headerlink" href="#ogretici-sfrdan-ilk-olcume" title="Permanent link">&para;</a></h1>
-<p>Bu sayfa tek bir akıştır: kurulumdan başlayıp elinizde okunabilir bir sayı
-tablosuyla bitirir. Dallanma yok; seçenekleri
-<a href="../nasil/">Nasıl yapılır</a> bölümünde bulursunuz.</p>
+<p>Bu sayfa tek bir akıştır: Kurulumdan başlar, okunabilir bir sayı tablosuyla biter. Dallanma
+yok; seçenekler <a href="../nasil/">Nasıl yapılır</a> bölümündedir.</p>
 <p>Süre: yaklaşık 15 dakika, çoğu model indirmekle geçer.</p>
 <h2 id="1-arac-kurun">1. Aracı kurun<a class="headerlink" href="#1-arac-kurun" title="Permanent link">&para;</a></h2>
 <p>Araç bir Python kütüphanesi olarak dağıtılır:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>turkish-linguistic-features
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>turkish-linguistic-features
 </code></pre></div>
 <h2 id="2-dil-verisini-kurun">2. Dil verisini kurun<a class="headerlink" href="#2-dil-verisini-kurun" title="Permanent link">&para;</a></h2>
 <p><code>pip install</code> Python bağımlılıklarını kurar, dil verisini kurmaz.
-Kullandığınız dilin verisini bir kez kurun:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Türkçe — 156 MB. Model turkish-nlp-suite'e ait ve spaCy'nin kayıt</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># defterinde yok, bu yüzden wheel doğrudan kurulur:</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>pip<span class="w"> </span>install<span class="w"> </span>https://huggingface.co/turkish-nlp-suite/tr_core_news_md/resolve/main/tr_core_news_md-1.0-py3-none-any.whl
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># İngilizce — iki parça: spaCy modeli (12 MB) ve seslem sayımı için CMU</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># telaffuz sözlüğü (1 MB)</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>python<span class="w"> </span>-m<span class="w"> </span>spacy<span class="w"> </span>download<span class="w"> </span>en_core_web_sm
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>python<span class="w"> </span>-m<span class="w"> </span>nltk.downloader<span class="w"> </span>cmudict
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1"># İsteğe bağlı — iki wordfreq_* özniteliği için</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="s1">'wordfreq&gt;=3.0'</span>
+Kullanılacak dilin verisi bir kez kurulur:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Türkçe — 156 MB. Model turkish-nlp-suite'e ait ve spaCy'nin model</span>
+<span class="c1"># listesinde yok, bu yüzden paket dosyası (wheel) doğrudan kurulur:</span>
+pip<span class="w"> </span>install<span class="w"> </span>https://huggingface.co/turkish-nlp-suite/tr_core_news_md/resolve/main/tr_core_news_md-1.0-py3-none-any.whl
+
+<span class="c1"># İngilizce — iki parça: spaCy modeli (12 MB) ve seslem sayımı için CMU</span>
+<span class="c1"># telaffuz sözlüğü (1 MB)</span>
+python<span class="w"> </span>-m<span class="w"> </span>spacy<span class="w"> </span>download<span class="w"> </span>en_core_web_sm
+python<span class="w"> </span>-m<span class="w"> </span>nltk.downloader<span class="w"> </span>cmudict
+
+<span class="c1"># İsteğe bağlı — iki wordfreq_* özniteliği için</span>
+pip<span class="w"> </span>install<span class="w"> </span><span class="s1">'wordfreq&gt;=3.0'</span>
 </code></pre></div>
-<p>Zeyrek (Türkçe biçimbirim çözümleyicisi) araçla birlikte kendiliğinden kurulur.</p>
+<p>Akana (Türkçe biçimbirim çözümleyicisi) araçla birlikte kendiliğinden kurulur.</p>
 <div class="admonition note">
-<p class="admonition-title">Türkçe modelde hata sanacağınız iki şey</p>
-<p><strong>Wheel kendisiyle çelişiyor.</strong> Dosya adı <code>1.0</code> diyor, içindeki üstveri
-<code>3.4.2</code> diyor. <code>pip</code> bunu kabul eder ve kurar; daha katı kurucular
-bozuk wheel diye reddeder.</p>
-<p><strong>Yüklenirken <code>W094</code> uyarısı basar.</strong> Modelin kendi <code>meta.json</code>'ı spaCy
-sürüm aralığını gevşek yazmış. Zararsızdır, iki tarafta da
-düzeltilecek bir şey yoktur.</p>
+<p class="admonition-title">Türkçe model</p>
+<p>Model yüklenirken <code>W094</code> uyarısı çıkar; zararsızdır. Paket dosyasının adındaki
+sürüm (<code>1.0</code>) içindeki sürümden (<code>3.4.2</code>) farklıdır; <code>pip</code> bunu sorun etmez.</p>
 </div>
-<p>Kurulumu doğrulayın:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import spacy; spacy.load('tr_core_news_md'); print('tamam')"</span>
+<p>Kurulum şöyle doğrulanır:</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import spacy; spacy.load('tr_core_news_md'); print('tamam')"</span>
 </code></pre></div>
 <h2 id="3-ilk-olcum">3. İlk ölçüm<a class="headerlink" href="#3-ilk-olcum" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">metin</span> <span class="o">=</span> <span class="p">(</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="s2">"Renksiz yeşil fikirler öfkeyle uyur. Chomsky bu tümceyi, dilbilgisine "</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="s2">"uygun bir tümcenin anlamsız da olabileceğini göstermek için kurdu. Bu "</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="s2">"kütüphane de anlamı değil, biçimi ölçer."</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="p">)</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">oz</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
+
+<span class="n">metin</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">"Renksiz yeşil fikirler öfkeyle uyur. Chomsky bu tümceyi, dilbilgisine "</span>
+    <span class="s2">"uygun bir tümcenin anlamsız da olabileceğini göstermek için kurdu. Bu "</span>
+    <span class="s2">"kütüphane de anlamı değil, biçimi ölçer."</span>
+<span class="p">)</span>
+
+<span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">oz</span><span class="p">))</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>214
+<div class="highlight"><pre><span></span><code>217
 </code></pre></div>
-<p>Metnin ilk tümcesi Chomsky'nin <em>Syntactic Structures</em> (1957) kitabından.</p>
+<p>Metnin ilk tümcesi Chomsky'nin <em>Syntactic Structures</em> (1957) kitabındandır.</p>
 <p><code>lang</code> verilmezse varsayılan <code>"tr"</code>'dir; İngilizce metin için <code>lang="en"</code>
-yazmanız gerekir.</p>
+yazılmalıdır.</p>
 <p><code>analyze</code> <strong>düz bir sözlük</strong> döndürür: anahtarlar öznitelik (İng. <em>feature</em>) adları,
-değerler sayılar. İç içe yapı yok, sınıf yok, <code>pandas</code> zorunluluğu yok.</p>
+değerler sayılar. İç içe yapı yoktur; sonucu kullanmak için <code>pandas</code> gerekmez.</p>
 <h2 id="4-ckty-okuyun">4. Çıktıyı okuyun<a class="headerlink" href="#4-ckty-okuyun" title="Permanent link">&para;</a></h2>
-<p>214 sayıya birden bakmanın anlamı yok. Birkaçına bakalım:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"ttr"</span><span class="p">,</span> <span class="s2">"word_len_mean"</span><span class="p">,</span> <span class="s2">"sent_len_mean"</span><span class="p">,</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>          <span class="s2">"syllable_mean"</span><span class="p">,</span> <span class="s2">"atesman"</span><span class="p">,</span> <span class="s2">"entropy"</span><span class="p">):</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">20s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">oz</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<p>Bir özniteliğin değeri adıyla alınır:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="n">oz</span><span class="p">[</span><span class="s2">"ttr"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">oz</span><span class="p">[</span><span class="s2">"atesman"</span><span class="p">])</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>ttr                  0.96
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>word_len_mean        6.04
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>sent_len_mean        8.3333
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>syllable_mean        2.48
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>atesman              77.441
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>entropy              3.163424
+<div class="highlight"><pre><span></span><code>0.96
+77.441
 </code></pre></div>
-<p>Bunlar ne anlatıyor:</p>
+<p>Birkaç özniteliğin anlattığı:</p>
 <table>
 <thead>
 <tr>
@@ -2271,79 +2261,73 @@ değerler sayılar. İç içe yapı yok, sınıf yok, <code>pandas</code> zorunl
 <tr>
 <td><code>atesman</code></td>
 <td>77.441</td>
-<td>Ateşman (1997) okunabilirlik puanı. Olağan düzyazı 0–100 arasına düşer, ama bu bir sınır değildir. 70–89 "kolay" bandı.</td>
+<td>Ateşman (1997) okunabilirlik puanı. Olağan düzyazının puanı 0 ile 100 arasındadır, ama formül bu aralığın dışına da çıkabilir. 70–89 arası "kolay" sayılır.</td>
 </tr>
 <tr>
 <td><code>entropy</code></td>
 <td>3.163424</td>
-<td>Sözcük dağılımının Shannon entropisi, nat cinsinden (doğal logaritma).</td>
+<td>Sözcük dağılımının Shannon entropisi: Sözcüklerin metne ne kadar çeşitli ve dengeli dağıldığını gösterir. Doğal logaritmayla (nat birimiyle) hesaplanır.</td>
 </tr>
 </tbody>
 </table>
 <h2 id="5-neden-baz-degerler-nan">5. Neden bazı değerler <code>nan</code>?<a class="headerlink" href="#5-neden-baz-degerler-nan" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nb">print</span><span class="p">(</span><span class="n">oz</span><span class="p">[</span><span class="s2">"mattr"</span><span class="p">])</span>
+<div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="n">oz</span><span class="p">[</span><span class="s2">"mattr"</span><span class="p">])</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>nan
+<div class="highlight"><pre><span></span><code>nan
 </code></pre></div>
 <p>Metin 25 sözcük; <code>mattr</code> en az 100 sözcük ister. Araç eksik veriyle
 sayı <strong>uydurmaz</strong>, <code>nan</code> (İng. <em>not a number</em>, "sayı değil") döndürür.</p>
-<p>Ne kadarı <code>nan</code> olur, bakalım:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">kisa</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="s2">"Kısa bir tümce."</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">nan_olan</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kisa</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v</span> <span class="o">!=</span> <span class="n">v</span><span class="p">]</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">kisa</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">nan_olan</span><span class="p">))</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>214 37
-</code></pre></div>
-<p>Üç sözcüklük bir metinde 214 öznitelikten <strong>37'si</strong> <code>nan</code> döner. Bu bir hata
-değildir. Ayrıntı: <strong><a href="../aciklama/nan/">NaN ne demek</a></strong>.</p>
+<p>Metin kısaldıkça <code>nan</code> artar: Üç sözcüklük bir metinde (<code>Kısa bir tümce.</code>) 217
+öznitelikten <strong>38'i</strong> <code>nan</code> döner. Bu bir hata değildir. Ayrıntı: <strong><a href="../aciklama/nan/">NaN ne demek</a></strong>.</p>
 <h2 id="6-bir-ozniteligin-kaynagn-gorun">6. Bir özniteliğin kaynağını görün<a class="headerlink" href="#6-bir-ozniteligin-kaynagn-gorun" title="Permanent link">&para;</a></h2>
-<p>Bir sayıyı çalışmanızda kullanacaksanız nereden geldiğini bilmelisiniz:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">d</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"mattr"</span><span class="p">)</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">"citation"</span><span class="p">])</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">"references"</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<p>Bir çalışmada kullanılacak sayının nereden geldiği bilinmelidir:</p>
+<div class="highlight"><pre><span></span><code><span class="n">d</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"mattr"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">"citation"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">"references"</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Covington &amp; McFall (2010); default window 50 — C&amp;M recommend a window of 500 (p.97); 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window)
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>Covington, M. A., &amp; McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098
+<div class="highlight"><pre><span></span><code>Covington &amp; McFall (2010); default window 50 — C&amp;M recommend a window of 500 (p.97); 50 is used here so that texts of 100+ words can be measured (mattr needs 2 × window)
+Covington, M. A., &amp; McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098
 </code></pre></div>
-<p><code>references</code> (kaynakça kaydı, İng. <em>reference</em>) kaynakçanıza kopyalayacağınız şeydir.
-<code>citation</code> (künye, İng. <em>citation</em>) kısa gösterimdir ve <strong>ne bilmediğimizi de söyler</strong>:
+<p><code>references</code> (kaynakça kaydı, İng. <em>reference</em>) kaynakçaya kopyalanacak kayıttır.
+<code>citation</code> (künye, İng. <em>citation</em>) kısa gösterimdir ve <strong>neyin bilinmediğini de söyler</strong>:
 yukarıdaki örnekte varsayılan pencere boyunun kaynaktan gelmediğini açıkça yazıyor.
-Sözlükteki öbür alanlar (formül, ölçek, gereken en az veri…): <a href="../nasil/kunye/">Bir özniteliğin kaynağını
+<code>describe_feature</code>'ın verdiği öbür alanlar (formül, ölçek, gereken en az veri…): <a href="../nasil/kunye/">Bir özniteliğin kaynağını
 bul</a>.</p>
 <h2 id="7-bir-derlemi-tabloya-cevirin">7. Bir derlemi tabloya çevirin<a class="headerlink" href="#7-bir-derlemi-tabloya-cevirin" title="Permanent link">&para;</a></h2>
-<p>Tek metin nadiren yeterlidir. Derleminizin (İng. <em>corpus</em>) klasör yapısı şöyle olsun:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>derlem/
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>  yazar_a/
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    metin1.txt
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>    metin2.txt
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>  yazar_b/
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>    metin3.txt
+<p>Tek metin nadiren yeterlidir. Örnek bir derlemin (İng. <em>corpus</em>) klasör yapısı şöyledir:</p>
+<div class="highlight"><pre><span></span><code>derlem/
+  yazar_a/
+    metin1.txt
+    metin2.txt
+  yazar_b/
+    metin3.txt
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">satirlar</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"derlem/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="n">tlf</span><span class="o">.</span><span class="n">save_csv</span><span class="p">(</span><span class="n">satirlar</span><span class="p">,</span> <span class="s2">"oznitelikler.csv"</span><span class="p">)</span>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"satır sayısı:"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">satirlar</span><span class="p">))</span>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"sütun sayısı:"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">satirlar</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<div class="highlight"><pre><span></span><code><span class="n">satirlar</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"derlem/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
+<span class="n">tlf</span><span class="o">.</span><span class="n">save_csv</span><span class="p">(</span><span class="n">satirlar</span><span class="p">,</span> <span class="s2">"oznitelikler.csv"</span><span class="p">)</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>satır sayısı: 3
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>sütun sayısı: 217
-</code></pre></div>
-<p>Her dosya bir satır olur. 217 sütun = 214 öznitelik + üç kimlik sütunu:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>label=yazar_a  source=metin1     segment_id=0
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>label=yazar_a  source=metin2     segment_id=0
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>label=yazar_b  source=metin3     segment_id=0
+<p><strong>Dosya nereye kaydedilir?</strong> Yalnız dosya adı yazılırsa (<code>"oznitelikler.csv"</code>),
+dosya Python'un çalıştırıldığı klasöre kaydedilir: Terminalde <code>python betik.py</code>
+komutunun verildiği klasör, Jupyter'de defterin bulunduğu klasör. Başka bir yere
+kaydetmek için tam yol yazılır: <code>"C:/Users/adiniz/Desktop/oznitelikler.csv"</code>. Aynı
+adda bir dosya varsa üzerine yazılır. <code>"derlem/"</code> de aynı kuralla aranır.</p>
+<p>Tabloda her dosya bir satır olur: 3 satır, 220 sütun. 220 sütun = 217 öznitelik + üç
+kimlik sütunu:</p>
+<div class="highlight"><pre><span></span><code>label=yazar_a  source=metin1     segment_id=0
+label=yazar_a  source=metin2     segment_id=0
+label=yazar_b  source=metin3     segment_id=0
 </code></pre></div>
 <p><code>label</code> klasör adıdır (çoğu çalışmada yazar ya da sınıf), <code>source</code> dosya
 adıdır. CSV'nin ilk satırı:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>label,source,segment_id,lemma_count,word_count,word_len_mean,entropy,yu...
+<div class="highlight"><pre><span></span><code>label,source,segment_id,lemma_count,word_count,word_len_mean,entropy,yu...
 </code></pre></div>
-<p>Bu dosyayı <code>pandas</code>, R ya da SPSS ile doğrudan açabilirsiniz.</p>
+<p>Bu dosya <code>pandas</code>, R ya da SPSS ile doğrudan açılabilir.</p>
 <h2 id="bitti-srada-ne-var">Bitti — sırada ne var<a class="headerlink" href="#bitti-srada-ne-var" title="Permanent link">&para;</a></h2>
-<p>Elinizde çalışan bir kurulum ve bir öznitelik tablosu var. Şimdi:</p>
+<p>Bu noktada çalışan bir kurulum ve bir öznitelik tablosu hazır. Sonraki adımlar:</p>
 <ul>
-<li>Belirli bir iş yapmanız gerekiyorsa → <strong><a href="../nasil/">Nasıl yapılır</a></strong></li>
-<li>Metinleriniz çok uzunsa ve parçalamanız gerekiyorsa →
+<li>Belirli bir iş için → <strong><a href="../nasil/">Nasıl yapılır</a></strong></li>
+<li>Uzun metinleri parçalamak için →
   <strong><a href="../nasil/segmentleme/">Metni parçalara böl</a></strong></li>
-<li>Sayıların ne kadarına güvenebileceğinizi merak ediyorsanız →
+<li>Sayıların ne kadar güvenilir olduğu için →
   <strong><a href="../aciklama/dogrulama/">Doğrulama sistemi</a></strong> ve
   <strong><a href="../aciklama/sinirliliklar/">Sınırlılıklar</a></strong></li>
 </ul>

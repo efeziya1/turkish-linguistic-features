@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative linguistic features from Turkish text and 181 from English text">
+        <meta name="description" content="Türkçe metinden 217, İngilizce metinden 187 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 217 quantitative linguistic features from Turkish text and 187 from English text">
       
       
       
@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
     
     
       
@@ -1407,17 +1407,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#constants-taken-from-sources-were-not-tested-on-turkish" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Constants taken from sources were not tested on Turkish
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#the-sentence-thresholds-resolve-per-language" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1433,17 +1422,6 @@
     <span class="md-ellipsis">
       
         Which feature depends on which parameter
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#why-mattr_window-is-50" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Why mattr_window is 50
       
     </span>
   </a>
@@ -2064,17 +2042,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#constants-taken-from-sources-were-not-tested-on-turkish" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Constants taken from sources were not tested on Turkish
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#the-sentence-thresholds-resolve-per-language" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2090,17 +2057,6 @@
     <span class="md-ellipsis">
       
         Which feature depends on which parameter
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#why-mattr_window-is-50" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Why mattr_window is 50
       
     </span>
   </a>
@@ -2131,21 +2087,23 @@
 <p>Window sizes, thresholds and sample counts live in <code>FeatureParams</code>. These are the
 parameters; the tool has 21, and you can change all of them.</p>
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># text: the three-sentence text from the Turkish tutorial (5, 13 and 7 words)</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">p</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">FeatureParams</span><span class="p">(</span><span class="n">short_sent_threshold</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">long_sent_threshold</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
+
+<span class="n">metin</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"Kapı açıldı. Yaşlı adam yavaşça içeri girdi ve masaya oturdu. Herkes susmuş, "</span>
+         <span class="s2">"onun ne söyleyeceğini merakla beklerken dışarıda yağmur bütün gece boyunca "</span>
+         <span class="s2">"durmadan yağmaya devam etti ve sokaklar sular altında kaldı."</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">FeatureParams</span><span class="p">(</span><span class="n">short_sent_threshold</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">long_sent_threshold</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">oz</span><span class="p">[</span><span class="s2">"short_sent_ratio"</span><span class="p">],</span> <span class="n">oz</span><span class="p">[</span><span class="s2">"long_sent_ratio"</span><span class="p">])</span>
 </code></pre></div>
-<p><code>FeatureParams</code> is a dataclass; fields you omit keep their defaults. For the
-sentence thresholds that default is not a fixed number but the calibrated value
-for the language — see <a href="#the-sentence-thresholds-resolve-per-language">below</a>.</p>
-<p>Output (<code>short_sent_ratio</code>, <code>long_sent_ratio</code>):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>default (TR 4/17): short=0.0      long=0.0
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>manual (3/12)    : short=0.0      long=0.333333
+<div class="highlight"><pre><span></span><code>0.666667 0.0
 </code></pre></div>
-<p>Same text, different thresholds, different numbers. One of the three
-sentences is over 12 words; none is over 17.</p>
+<p>The text's three sentences have 2, 8 and 21 words. With the default thresholds (4 and 17)
+the result is <code>0.333333 0.333333</code>: one short and one long sentence. With thresholds of 10
+and 25, two sentences are short and none is long.</p>
+<p>Fields you leave out keep their default values. The default sentence thresholds were
+measured separately for each language — <a href="#the-sentence-thresholds-resolve-per-language">below</a>.</p>
 <h2 id="every-field">Every field<a class="headerlink" href="#every-field" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -2229,17 +2187,17 @@ sentences is over 12 words; none is over 17.</p>
 <tr>
 <td><code>verb_suffix_window</code></td>
 <td>10</td>
-<td><code>zeyrek_verb_suffix_diversity</code></td>
+<td><code>akana_verb_suffix_diversity</code></td>
 </tr>
 <tr>
 <td><code>verb_suffix_num_samples</code></td>
 <td>100</td>
-<td><code>zeyrek_verb_suffix_diversity</code></td>
+<td><code>akana_verb_suffix_diversity</code></td>
 </tr>
 <tr>
 <td><code>verb_suffix_random_seed</code></td>
 <td>42</td>
-<td><code>zeyrek_verb_suffix_diversity</code></td>
+<td><code>akana_verb_suffix_diversity</code></td>
 </tr>
 <tr>
 <td><code>kalyoncu_ttr_window</code></td>
@@ -2263,26 +2221,12 @@ sentences is over 12 words; none is over 17.</p>
 </tr>
 </tbody>
 </table>
-<p><code>zeyrek_verb_suffix_diversity</code> draws 100 random samples from the text's verbs; each sample
-has 10 verbs, with no verb repeated within a sample. The result is the mean number of
-distinct suffix types seen in the samples (Brezina &amp; Pallotti 2019, pp.107-108: MC10). The
-tool measures only the within-sample variety; MC10's between-sample component is left
-out, so the measure is close to MC10a.</p>
-<h2 id="constants-taken-from-sources-were-not-tested-on-turkish">Constants taken from sources were not tested on Turkish<a class="headerlink" href="#constants-taken-from-sources-were-not-tested-on-turkish" title="Permanent link">&para;</a></h2>
-<p>Some values in the table are the source's own constants: MTLD's 0.72 threshold
-(McCarthy &amp; Jarvis 2010, p.385), HD-D's 42-word sample (p.383) and the 0.172 of Brunet's
-measure (Brunet 1978, p.49). These numbers were set on English or French texts and have
-not been tested on Turkish texts. It cannot be said that they do not carry over to Turkish,
-but it has not been shown that they do.</p>
-<p>For readability formulas, how this problem is handled is known: Ateşman (1997,
-pp.73–74) kept the structure of the Flesch formula when applying it to Turkish and
-recomputed its coefficients from Turkish texts. In this tool, the sentence thresholds were
-likewise measured separately for each language (below). To try a constant on your own
-corpus, change it with the fields above.</p>
+<p><code>akana_verb_suffix_diversity</code> picks 10 verbs at random from the text, counts how many
+different suffixes appear among them, and gives the mean over many such picks; the three
+<code>verb_suffix_*</code> fields set the size of a pick, the number of picks and the random seed.</p>
 <h2 id="the-sentence-thresholds-resolve-per-language">The sentence thresholds resolve per language<a class="headerlink" href="#the-sentence-thresholds-resolve-per-language" title="Permanent link">&para;</a></h2>
-<p>These are the only two fields in the table without a single value. The reason
-is typological: Turkish sentences are shorter than English ones, so one
-threshold cannot serve both. The Turkish long-sentence threshold of 17 words counts 54% of
+<p>These two fields have no single default; it depends on the language. The reason:
+Turkish sentences are shorter than English ones, so one threshold cannot serve both. The Turkish long-sentence threshold of 17 words counts 54% of
 sentences in English columns as long; in its own language the share is 15%.</p>
 <table>
 <thead>
@@ -2310,19 +2254,11 @@ distribution in newspaper columns, measured with the default sentence rule and
 the default word (Turkish: 198,225 sentences; English: 52,745 sentences). Method:
 <a href="../../../threshold-calibration/">Threshold calibration</a>.</p>
 <h2 id="which-feature-depends-on-which-parameter">Which feature depends on which parameter<a class="headerlink" href="#which-feature-depends-on-which-parameter" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"mattr"</span><span class="p">)[</span><span class="s2">"params"</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"mattr"</span><span class="p">)[</span><span class="s2">"params"</span><span class="p">]</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>('mattr_window',)
+<div class="highlight"><pre><span></span><code>('mattr_window',)
 </code></pre></div>
-<p>An empty tuple, <code>()</code>, means the feature depends on no parameter.</p>
-<h2 id="why-mattr_window-is-50">Why <code>mattr_window</code> is 50<a class="headerlink" href="#why-mattr_window-is-50" title="Permanent link">&para;</a></h2>
-<p>Covington &amp; McFall (2010) recommend <strong>500</strong> for stylometric analysis. The
-default here is 50 — a tenth of that, because the window size is also a <strong>lower
-bound</strong>: <code>mattr</code> requires at least <code>2 × window</code> words. At 500, no text under 1000
-words could produce a value at all.</p>
-<p>The citation states this distinction openly. If you want 500:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">p</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">FeatureParams</span><span class="p">(</span><span class="n">mattr_window</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
-</code></pre></div>
+<p>An empty value, <code>()</code>, means the feature depends on no parameter.</p>
 
 
 

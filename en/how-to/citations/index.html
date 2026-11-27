@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative linguistic features from Turkish text and 181 from English text">
+        <meta name="description" content="Türkçe metinden 217, İngilizce metinden 187 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 217 quantitative linguistic features from Turkish text and 187 from English text">
       
       
       
@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
     
     
       
@@ -1379,10 +1379,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-citation-also-tells-you-what-we-do-not-know" class="md-nav__link">
+  <a href="#the-citation-also-says-what-is-not-known" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The citation also tells you what we do not know
+        The citation also says what is not known
       
     </span>
   </a>
@@ -2064,10 +2064,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-citation-also-tells-you-what-we-do-not-know" class="md-nav__link">
+  <a href="#the-citation-also-says-what-is-not-known" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The citation also tells you what we do not know
+        The citation also says what is not known
       
     </span>
   </a>
@@ -2128,37 +2128,36 @@
 
 
 <h1 id="find-a-features-source">Find a feature's source<a class="headerlink" href="#find-a-features-source" title="Permanent link">&para;</a></h1>
-<p>If you are going to use a number in your own work, you have to say where it
-came from. The library hands you that.</p>
+<p>If you use a number in your own work, you have to say where it came from. The library gives you that.</p>
 <h2 id="describe_feature"><code>describe_feature</code><a class="headerlink" href="#describe_feature" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"mattr"</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"mattr"</span><span class="p">)</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>{'key': 'mattr',
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a> 'group': 'lexical',
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a> 'group_label': 'Lexical richness &amp; frequency',
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a> 'description': 'moving-average TTR',
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a> 'formula': 'mean TTR of every sliding window of mattr_window words',
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a> 'scale': 'ratio_0_1',
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a> 'inputs': ('raw_text',),
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a> 'params': ('mattr_window',),
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a> 'requires': 'at least 100 words (2 x mattr_window)',
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a> 'citation': 'Covington &amp; McFall (2010); default window 50 — C&amp;M recommend a window of '
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>             '500 (p.97); 50 is used here so that texts of 100+ words can be measured '
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>             '(mattr needs 2 × window)',
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a> 'references': ('Covington, M. A., &amp; McFall, J. D. (2010). Cutting the Gordian knot: '
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>                'The moving-average type–token ratio (MATTR). Journal of Quantitative '
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>                'Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098',),
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a> 'definitions': {'word': {'name': 'space_unit',
-<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>                          'source': 'tlf',
-<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>                          'description': 'Whitespace-separated piece of the raw text '
-<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>                                         'with edge punctuation stripped, containing a '
-<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>                                         "letter or digit; the library's default "
-<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>                                         'word.'},
-<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>                 'type': {'name': 'lowercase_surface',
-<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>                          'source': 'tlf',
-<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>                          'description': 'The word string lowercased by language '
-<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>                                         '(Turkish I→ı, İ→i); inflected forms are '
-<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>                                         'separate types.'}}}
+<div class="highlight"><pre><span></span><code>{'key': 'mattr',
+ 'group': 'lexical',
+ 'group_label': 'Lexical richness &amp; frequency',
+ 'description': 'moving-average TTR',
+ 'formula': 'mean TTR of every sliding window of mattr_window words',
+ 'scale': 'ratio_0_1',
+ 'inputs': ('raw_text',),
+ 'params': ('mattr_window',),
+ 'requires': 'at least 100 words (2 x mattr_window)',
+ 'citation': 'Covington &amp; McFall (2010); default window 50 — C&amp;M recommend a window of '
+             '500 (p.97); 50 is used here so that texts of 100+ words can be measured '
+             '(mattr needs 2 × window)',
+ 'references': ('Covington, M. A., &amp; McFall, J. D. (2010). Cutting the Gordian knot: '
+                'The moving-average type–token ratio (MATTR). Journal of Quantitative '
+                'Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098',),
+ 'definitions': {'word': {'name': 'space_unit',
+                          'source': 'tlf',
+                          'description': 'Whitespace-separated piece of the raw text '
+                                         'with edge punctuation stripped, containing a '
+                                         "letter or digit; the library's default "
+                                         'word.'},
+                 'type': {'name': 'lowercase_surface',
+                          'source': 'tlf',
+                          'description': 'The word string lowercased by language '
+                                         '(Turkish I→ı, İ→i); inflected forms are '
+                                         'separate types.'}}}
 </code></pre></div>
 <h2 id="what-each-field-is-for">What each field is for<a class="headerlink" href="#what-each-field-is-for" title="Permanent link">&para;</a></h2>
 <table>
@@ -2183,7 +2182,7 @@ came from. The library hands you that.</p>
 </tr>
 <tr>
 <td><code>inputs</code></td>
-<td>Which preprocessing step it needs</td>
+<td>Which preprocessing output the calculation needs</td>
 </tr>
 <tr>
 <td><code>params</code></td>
@@ -2203,11 +2202,11 @@ came from. The library hands you that.</p>
 </tr>
 <tr>
 <td><code>definitions</code></td>
-<td>What the terms in <code>formula</code> mean and where the definition comes from: for each term <code>{"name", "source" (who defines the rule: tlf, spacy, zeyrek, textstat, wordfreq), "description" (one sentence: how it is counted)}</code>; only the terms that formula uses; <code>describe_feature(key, lang="tr")</code> picks the language for terms that differ by language (<code>syllable</code>, <code>type</code>)</td>
+<td>How the terms in <code>formula</code> (word, type, syllable…) are defined and who defines them (<code>tlf</code>, <code>spacy</code>, <code>akana</code>, <code>textstat</code>, <code>wordfreq</code>). For terms defined differently by language, choose the language with <code>describe_feature(key, lang="tr")</code></td>
 </tr>
 </tbody>
 </table>
-<h2 id="the-citation-also-tells-you-what-we-do-not-know">The citation also tells you what we do not know<a class="headerlink" href="#the-citation-also-tells-you-what-we-do-not-know" title="Permanent link">&para;</a></h2>
+<h2 id="the-citation-also-says-what-is-not-known">The citation also says what is not known<a class="headerlink" href="#the-citation-also-says-what-is-not-known" title="Permanent link">&para;</a></h2>
 <p>In the example above the citation says:</p>
 <blockquote>
 <p>default window 50 — C&amp;M recommend a window of 500 (p.97); 50 is used here so
@@ -2216,7 +2215,7 @@ that texts of 100+ words can be measured (mattr needs 2 × window)</p>
 <p>That is: the method is Covington &amp; McFall's, <strong>but the default window size
 is not theirs.</strong> Being able to read that distinction off the citation is
 deliberate.</p>
-<p>A citation gives not only the source but <strong>where</strong> in it the formula is: 179 of the 203
+<p>A citation gives not only the source but <strong>where</strong> in it the formula is: 182 of the 206
 Turkish citations give a page, table, equation or section number (<code>p.97</code>, <code>eq. (5)</code>). So
 you can find the formula in its source and compare it with the tool's implementation.</p>
 <p>Other forms of the same pattern:</p>
@@ -2231,36 +2230,35 @@ you can find the formula in its source and compare it with the tool's implementa
   source, but not a measure the source itself defines.</li>
 </ul>
 <h2 id="features-without-a-source">Features without a source<a class="headerlink" href="#features-without-a-source" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">d</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"punct_dash_ratio"</span><span class="p">)</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">d</span><span class="p">[</span><span class="s2">"citation"</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="s2">"references"</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><span class="n">d</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="s2">"punct_dash_ratio"</span><span class="p">)</span>
+<span class="n">d</span><span class="p">[</span><span class="s2">"citation"</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="s2">"references"</span><span class="p">]</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>(None, ())
+<div class="highlight"><pre><span></span><code>(None, ())
 </code></pre></div>
 <p>A <code>citation</code> of <code>None</code> means the key is <strong>not a literature
 measure</strong>; it is a plain definition: <code>punct_dash_ratio</code> ("dashes / all punctuation marks"),
 <code>uppercase_ratio</code> ("share of words that start with a capital"),
 <code>lemma_count</code> ("number of distinct lemmas"). Keys that count the categories of an external tag scheme do
 have a citation, pointing at the scheme (<code>case_loc_ratio</code> → UD;
-<code>zeyrek_case_loc_ratio</code> → Zeyrek).</p>
-<p><strong>11 of the 214</strong> Turkish keys have no citation.</p>
+<code>akana_case_loc_ratio</code> → Akana).</p>
+<p><strong>11 of the 217</strong> Turkish keys have no citation.</p>
 <h2 id="building-a-bibliography-for-your-methods-section">Building a bibliography for your methods section<a class="headerlink" href="#building-a-bibliography-for-your-methods-section" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">used</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"mattr"</span><span class="p">,</span> <span class="s2">"flesch_reading_ease"</span><span class="p">,</span> <span class="s2">"sent_len_mean"</span><span class="p">]</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">refs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">used</span><span class="p">:</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="n">refs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="n">k</span><span class="p">)[</span><span class="s2">"references"</span><span class="p">])</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">refs</span><span class="p">):</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">used</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"mattr"</span><span class="p">,</span> <span class="s2">"flesch_reading_ease"</span><span class="p">,</span> <span class="s2">"sent_len_mean"</span><span class="p">]</span>
+
+<span class="n">refs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">used</span><span class="p">:</span>
+    <span class="n">refs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">tlf</span><span class="o">.</span><span class="n">describe_feature</span><span class="p">(</span><span class="n">k</span><span class="p">)[</span><span class="s2">"references"</span><span class="p">])</span>
+
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">refs</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
 </code></pre></div>
-<p>This gives you the bibliography for the features <strong>you actually used</strong>, not
-all 58 works.</p>
+<p>This gives you the bibliography for the features <strong>you actually used</strong>, not all 58 works.</p>
 <h2 id="does-the-number-actually-match">Does the number actually match?<a class="headerlink" href="#does-the-number-actually-match" title="Permanent link">&para;</a></h2>
-<p>The citation tells you the source; it does not tell you the number
-<strong>agrees</strong>. There is a separate document for that:</p>
+<p>The citation tells you the measure's source; it does not tell you that the tool's result
+<strong>agrees</strong> with the source. There is a separate document for that:</p>
 <ul>
-<li><strong><a href="../../../verification-report/">Verification report</a></strong> — for each
-  feature, a comparison against the number its source published.</li>
+<li><strong><a href="../../../verification-report/">Verification report</a></strong> — for features whose source
+  published a worked example, a comparison of the tool's result with the source's.</li>
 <li>How to read it: <strong><a href="../../explanation/verification/">The verification system</a></strong>.</li>
 </ul>
 

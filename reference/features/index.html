@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative linguistic features from Turkish text and 181 from English text">
+        <meta name="description" content="Türkçe metinden 217, İngilizce metinden 187 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 217 quantitative linguistic features from Turkish text and 187 from English text">
       
       
       
@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
     
     
       
@@ -1805,10 +1805,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#morphological_zeyrek-morphological-features-zeyrek" class="md-nav__link">
+  <a href="#morphological_akana-morphological-features-akana" class="md-nav__link">
     <span class="md-ellipsis">
       
-        morphological_zeyrek — Morphological features (Zeyrek)
+        morphological_akana — Morphological features (Akana)
       
     </span>
   </a>
@@ -2221,10 +2221,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#morphological_zeyrek-morphological-features-zeyrek" class="md-nav__link">
+  <a href="#morphological_akana-morphological-features-akana" class="md-nav__link">
     <span class="md-ellipsis">
       
-        morphological_zeyrek — Morphological features (Zeyrek)
+        morphological_akana — Morphological features (Akana)
       
     </span>
   </a>
@@ -2406,9 +2406,9 @@ published is a separate question — see the
 <td>Morphological features (spaCy)</td>
 </tr>
 <tr>
-<td><code>morphological_zeyrek</code></td>
+<td><code>morphological_akana</code></td>
 <td>23</td>
-<td>Morphological features (Zeyrek)</td>
+<td>Morphological features (Akana)</td>
 </tr>
 <tr>
 <td><code>phonological</code></td>
@@ -2437,7 +2437,7 @@ published is a separate question — see the
 </tr>
 </tbody>
 </table>
-<p><code>morphological_zeyrek</code> is produced for Turkish only.</p>
+<p><code>morphological_akana</code> is produced for Turkish only.</p>
 <h2 id="lexical-lexical-richness-frequency"><code>lexical</code> — Lexical richness &amp; frequency<a class="headerlink" href="#lexical-lexical-richness-frequency" title="Permanent link">&para;</a></h2>
 <p>35 keys.</p>
 <table>
@@ -2849,14 +2849,14 @@ published is a separate question — see the
 <td><code>sent_len_mean</code></td>
 <td>mean sentence length in words</td>
 <td><code>mean words per sentence</code></td>
-<td>at least 1 sentence with a letter</td>
+<td>at least 1 sentence</td>
 <td>Flesch (1948) p.223, element (1) "Average Sentence Length in Words"</td>
 </tr>
 <tr>
 <td><code>sent_count</code></td>
 <td>number of sentences</td>
 <td><code>sentences</code></td>
-<td>at least 1 sentence with a letter</td>
+<td>at least 1 sentence</td>
 <td>de Vel (2000) Table 2, attribute 3 "Number of sentences"; Zheng et al. (2006) Table 3, p.385, no. 247 "Total number of sentences"</td>
 </tr>
 <tr>
@@ -2870,28 +2870,28 @@ published is a separate question — see the
 <td><code>short_sent_ratio</code></td>
 <td>share of short sentences</td>
 <td><code>sentences with fewer than short_sent_threshold words / sentences</code></td>
-<td>at least 1 sentence with a letter</td>
+<td>at least 1 sentence</td>
 <td>This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only</td>
 </tr>
 <tr>
 <td><code>long_sent_ratio</code></td>
 <td>share of long sentences</td>
 <td><code>sentences with more than long_sent_threshold words / sentences</code></td>
-<td>at least 1 sentence with a letter</td>
+<td>at least 1 sentence</td>
 <td>This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only</td>
 </tr>
 <tr>
 <td><code>sent_len_median</code></td>
 <td>median sentence length</td>
 <td><code>median words per sentence</code></td>
-<td>at least 1 sentence with a letter</td>
+<td>at least 1 sentence</td>
 <td>Yule (1939) p.369, median sentence length alongside the mean</td>
 </tr>
 <tr>
 <td><code>sent_len_entropy</code></td>
 <td>variety of sentence lengths</td>
 <td><code>Shannon entropy (nats) of the distribution of words per sentence</code></td>
-<td>at least 2 sentences with a letter</td>
+<td>at least 2 sentences</td>
 <td>Shannon (1948) Theorem 2 — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision</td>
 </tr>
 <tr>
@@ -2934,7 +2934,7 @@ published is a separate question — see the
 <td><code>sents_per_para_mean</code></td>
 <td>mean sentences per paragraph</td>
 <td><code>sentences / paragraphs (sent_count / para_count)</code></td>
-<td>at least 1 sentence with a letter</td>
+<td>at least 1 sentence</td>
 <td>Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph"</td>
 </tr>
 </tbody>
@@ -3348,7 +3348,7 @@ published is a separate question — see the
 </tr>
 </tbody>
 </table>
-<h2 id="morphological_zeyrek-morphological-features-zeyrek"><code>morphological_zeyrek</code> — Morphological features (Zeyrek)<a class="headerlink" href="#morphological_zeyrek-morphological-features-zeyrek" title="Permanent link">&para;</a></h2>
+<h2 id="morphological_akana-morphological-features-akana"><code>morphological_akana</code> — Morphological features (Akana)<a class="headerlink" href="#morphological_akana-morphological-features-akana" title="Permanent link">&para;</a></h2>
 <p>23 keys.</p>
 <table>
 <thead>
@@ -3362,165 +3362,165 @@ published is a separate question — see the
 </thead>
 <tbody>
 <tr>
-<td><code>zeyrek_agglutination_depth</code></td>
+<td><code>akana_agglutination_depth</code></td>
 <td>visible suffixes per word</td>
 <td><code>visible suffixes / analysed words</code></td>
 <td>at least 1 analysed word</td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>Akana (a Rust port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>zeyrek_suffix_char_length_ratio</code></td>
+<td><code>akana_suffix_char_length_ratio</code></td>
 <td>share of word letters in suffixes</td>
 <td><code>suffix letters / word letters</code></td>
 <td>at least 1 analysed word</td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>Akana (a Rust port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>zeyrek_suffix_bigram_entropy</code></td>
+<td><code>akana_suffix_bigram_entropy</code></td>
 <td>variety of suffix sequences</td>
 <td><code>Shannon entropy (nats) of within-word visible suffix pairs</code></td>
 <td>at least 1 word with 2 visible suffixes</td>
-<td>Shannon (1948) — the entropy formula; Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>Shannon (1948) — the entropy formula; Akana (a Rust port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>zeyrek_derivational_suffix_ratio</code></td>
+<td><code>akana_derivational_suffix_ratio</code></td>
 <td>share of derivational suffixes</td>
 <td><code>derivational / visible suffixes</code></td>
 <td>at least 1 visible suffix</td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>Akana (a Rust port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>zeyrek_verb_suffix_diversity</code></td>
+<td><code>akana_verb_suffix_diversity</code></td>
 <td>suffix variety on verbs</td>
 <td><code>mean distinct visible suffix tags over verb_suffix_num_samples random samples of verb_suffix_window verbs (no repeats within a sample)</code></td>
 <td>at least 10 verbs (verb_suffix_window)</td>
-<td>Brezina &amp; Pallotti (2019) p.107 (MC10: 10-verb samples; the authors call 10 arbitrary and give MC5 for short texts) and p.108 (100 random samples); only the within-sample variety is measured (close to MC10a, no between-sample component); suffixes from Zeyrek (a Python port of Zemberek's morphotactics), tag set from Akın &amp; Akın (2007)</td>
+<td>Brezina &amp; Pallotti (2019) p.107 (MC10: 10-verb samples; the authors call 10 arbitrary and give MC5 for short texts) and p.108 (100 random samples); only the within-sample variety is measured (close to MC10a, no between-sample component); suffixes from Akana (a Rust port of Zemberek's morphotactics), tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>zeyrek_tense_past_def_ratio</code></td>
+<td><code>akana_tense_past_def_ratio</code></td>
 <td>share of verbs in the definite past (-DI)</td>
 <td><code>verbs whose last tense tag is X / verbs</code></td>
 <td>at least 1 verb</td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>Akana (a Rust port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>zeyrek_tense_past_nar_ratio</code></td>
+<td><code>akana_tense_past_nar_ratio</code></td>
 <td>share of verbs in the reported past (-mIş)</td>
 <td><code>verbs whose last tense tag is X / verbs</code></td>
 <td>at least 1 verb</td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>Akana (a Rust port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>zeyrek_tense_present_ratio</code></td>
+<td><code>akana_tense_present_ratio</code></td>
 <td>share of verbs in the present</td>
 <td><code>verbs whose last tense tag is X / verbs</code></td>
 <td>at least 1 verb</td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>Akana (a Rust port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>zeyrek_tense_future_ratio</code></td>
+<td><code>akana_tense_future_ratio</code></td>
 <td>share of verbs in the future (-AcAk)</td>
 <td><code>verbs whose last tense tag is X / verbs</code></td>
 <td>at least 1 verb</td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>Akana (a Rust port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>zeyrek_negation_ratio</code></td>
+<td><code>akana_negation_ratio</code></td>
 <td>share of negative verbs</td>
 <td><code>verbs with Neg or Unable / verbs</code></td>
 <td>at least 1 verb</td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>Akana (a Rust port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>zeyrek_passive_ratio</code></td>
+<td><code>akana_passive_ratio</code></td>
 <td>share of passive verbs</td>
 <td><code>verbs with Pass / verbs</code></td>
 <td>at least 1 verb</td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>Akana (a Rust port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>zeyrek_plural_ratio</code></td>
+<td><code>akana_plural_ratio</code></td>
 <td>share of plural nominals</td>
 <td><code>words with A3pl on a non-verb part / analysed words</code></td>
 <td>at least 1 analysed word</td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>Akana (a Rust port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>zeyrek_case_acc_ratio</code></td>
+<td><code>akana_case_acc_ratio</code></td>
 <td>share of words in the accusative case</td>
 <td><code>words with Acc … Ins / analysed words</code></td>
 <td>at least 1 analysed word</td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>Akana (a Rust port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>zeyrek_case_dat_ratio</code></td>
+<td><code>akana_case_dat_ratio</code></td>
 <td>share of words in the dative case</td>
 <td><code>words with Acc … Ins / analysed words</code></td>
 <td>at least 1 analysed word</td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>Akana (a Rust port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>zeyrek_case_loc_ratio</code></td>
+<td><code>akana_case_loc_ratio</code></td>
 <td>share of words in the locative case</td>
 <td><code>words with Acc … Ins / analysed words</code></td>
 <td>at least 1 analysed word</td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>Akana (a Rust port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>zeyrek_case_abl_ratio</code></td>
+<td><code>akana_case_abl_ratio</code></td>
 <td>share of words in the ablative case</td>
 <td><code>words with Acc … Ins / analysed words</code></td>
 <td>at least 1 analysed word</td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>Akana (a Rust port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>zeyrek_case_gen_ratio</code></td>
+<td><code>akana_case_gen_ratio</code></td>
 <td>share of words in the genitive case</td>
 <td><code>words with Acc … Ins / analysed words</code></td>
 <td>at least 1 analysed word</td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>Akana (a Rust port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>zeyrek_case_ins_ratio</code></td>
+<td><code>akana_case_ins_ratio</code></td>
 <td>share of words in the instrumental case</td>
 <td><code>words with Acc … Ins / analysed words</code></td>
 <td>at least 1 analysed word</td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>Akana (a Rust port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>zeyrek_conditional_suffix_ratio</code></td>
+<td><code>akana_conditional_suffix_ratio</code></td>
 <td>share of conditional verbs</td>
 <td><code>verbs with Cond / verbs</code></td>
 <td>at least 1 verb</td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>Akana (a Rust port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>zeyrek_causative_suffix_ratio</code></td>
+<td><code>akana_causative_suffix_ratio</code></td>
 <td>share of causative verbs</td>
 <td><code>verbs with Caus / verbs</code></td>
 <td>at least 1 verb</td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>Akana (a Rust port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>zeyrek_modal_possibility_ratio</code></td>
+<td><code>akana_modal_possibility_ratio</code></td>
 <td>share of ability verbs</td>
 <td><code>verbs with Able or Unable / verbs</code></td>
 <td>at least 1 verb</td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>Akana (a Rust port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>zeyrek_modal_necessity_ratio</code></td>
+<td><code>akana_modal_necessity_ratio</code></td>
 <td>share of necessity verbs</td>
 <td><code>verbs with Neces / verbs</code></td>
 <td>at least 1 verb</td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>Akana (a Rust port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 <tr>
-<td><code>zeyrek_question_particle_ratio</code></td>
+<td><code>akana_question_particle_ratio</code></td>
 <td>share of question particles</td>
 <td><code>words with root Ques / analysed words</code></td>
 <td>at least 1 analysed word</td>
-<td>Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
+<td>Akana (a Rust port of Zemberek's morphotactics); tag set from Akın &amp; Akın (2007)</td>
 </tr>
 </tbody>
 </table>
@@ -3731,35 +3731,35 @@ published is a separate question — see the
 <td><code>kalyoncu_kl</code></td>
 <td>share of words not in Kalyoncu's familiarity word list (%)</td>
 <td><code>100 * words not in the list / words; a word is in the list if its form, stem or stem + -mak/-mek is, circumflexes ignored; proper nouns and numbers count as in the list</code></td>
-<td>at least 1 word; Zeyrek</td>
+<td>at least 1 word; Akana</td>
 <td>Kalyoncu (2025) p.71-72, nine counting rules; word list Appendix 1, pp.129-160; rules 3, 5, 6 and 8 are not applied</td>
 </tr>
 <tr>
 <td><code>kalyoncu_ttr</code></td>
 <td>Kalyoncu TTR: share of stems occurring once (%)</td>
 <td><code>100 * stems occurring once / words; texts longer than kalyoncu_ttr_window: mean over moving windows (step 1)</code></td>
-<td>at least 1 word; Zeyrek</td>
+<td>at least 1 word; Akana</td>
 <td>Kalyoncu (2025) p.73; not the type-token ratio but the share of stems occurring once</td>
 </tr>
 <tr>
 <td><code>kalyoncu_kco</code></td>
 <td>share of complex sentences (%)</td>
 <td><code>100 * sentences with a verbal or with 2+ verbs / sentences</code></td>
-<td>at least 1 sentence with a letter; Zeyrek</td>
+<td>at least 1 sentence; Akana</td>
 <td>Kalyoncu (2025) p.73; "judgement" counted as verb or verbal, as in his CYargi (p.73)</td>
 </tr>
 <tr>
 <td><code>kalyoncu_yco</code></td>
 <td>verbals per sentence, times 10</td>
 <td><code>10 * verbals / sentences</code></td>
-<td>at least 1 sentence with a letter; Zeyrek</td>
+<td>at least 1 sentence; Akana</td>
 <td>Kalyoncu (2025) p.74</td>
 </tr>
 <tr>
 <td><code>kalyoncu_ocu</code></td>
 <td>words per sentence, numbers counted as read aloud</td>
 <td><code>words / sentences; a number counts as the words it is read as</code></td>
-<td>at least 1 sentence with a letter</td>
+<td>at least 1 sentence</td>
 <td>Kalyoncu (2025) p.77; numbers read aloud, p.xiii</td>
 </tr>
 <tr>
@@ -3962,10 +3962,10 @@ published is a separate question — see the
 <tbody>
 <tr>
 <td><code>char_…</code></td>
-<td>share of that letter among alphabet letters</td>
-<td><code>letter count / alphabet letters</code></td>
-<td>at least 1 alphabet letter</td>
-<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters</td>
+<td>share of that letter among the 32 letters</td>
+<td><code>letter count / the 32 letters</code></td>
+<td>at least 1 of the 32 letters</td>
+<td>Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32</td>
 </tr>
 </tbody>
 </table>
@@ -3975,6 +3975,8 @@ published is a separate question — see the
 <h2 id="bibliography">Bibliography<a class="headerlink" href="#bibliography" title="Permanent link">&para;</a></h2>
 <p>58 works. Every citation above names at least one of these verbatim, and every entry here is named by at least one citation — both directions are tested.</p>
 <dl>
+<dt><strong>Akana</strong></dt>
+<dd>Akana — a Rust port of the Zemberek morphological analyser, with Python bindings (Altai Yapay Zeka Teknolojileri A.Ş.). Version 0.12.0. github.com/altaidevorg/akana</dd>
 <dt><strong>Akın &amp; Akın (2007)</strong></dt>
 <dd>Akın, A. A., &amp; Akın, M. D. (2007). Zemberek, an open source NLP framework for Turkic Languages. 8 pp. Source code: github.com/ahmetaa/zemberek-nlp. (The document does not state a place of publication.)</dd>
 <dt><strong>Anderson (1983)</strong></dt>
@@ -4077,8 +4079,6 @@ published is a separate question — see the
 <dd>Yule, G. U. (1939). On sentence-length as a statistical characteristic of style in prose: With application to two cases of disputed authorship. Biometrika, 30(3/4), 363–390. JSTOR 2332655.</dd>
 <dt><strong>Yule (1944)</strong></dt>
 <dd>Yule, G. U. (1944). The Statistical Study of Literary Vocabulary. Cambridge University Press.</dd>
-<dt><strong>Zeyrek</strong></dt>
-<dd>Zeyrek — a Python port of the Zemberek morphological analyser. github.com/obulat/zeyrek</dd>
 <dt><strong>Zheng et al. (2006)</strong></dt>
 <dd>Zheng, R., Li, J., Chen, H., &amp; Huang, Z. (2006). A framework for authorship identification of online messages: Writing-style features and classification techniques. Journal of the American Society for Information Science and Technology, 57(3), 378–393. DOI 10.1002/asi.20316</dd>
 <dt><strong>de Marneffe et al. (2021)</strong></dt>

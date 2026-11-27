@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative linguistic features from Turkish text and 181 from English text">
+        <meta name="description" content="Türkçe metinden 217, İngilizce metinden 187 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 217 quantitative linguistic features from Turkish text and 187 from English text">
       
       
       
@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
     
     
       
@@ -1595,10 +1595,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#the-sentence-thresholds-were-calibrated-on-newspaper-columns-only" class="md-nav__link">
+  <a href="#the-sentence-thresholds-were-measured-on-newspaper-columns-only" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The sentence thresholds were calibrated on newspaper columns only
+        The sentence thresholds were measured on newspaper columns only
       
     </span>
   </a>
@@ -1650,10 +1650,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#turkish-morphology-depends-on-zeyrek" class="md-nav__link">
+  <a href="#turkish-morphology-depends-on-akana" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Turkish morphology depends on Zeyrek
+        Turkish morphology depends on Akana
       
     </span>
   </a>
@@ -1661,10 +1661,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#two-thirds-of-the-candidates-are-still-unverified" class="md-nav__link">
+  <a href="#most-features-have-no-published-example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Two thirds of the candidates are still unverified
+        Most features have no published example
       
     </span>
   </a>
@@ -1755,10 +1755,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#the-kalyoncu-formulas-approximate-hand-counts" class="md-nav__link">
+  <a href="#measures-that-need-human-judgement-are-computed-approximately" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The Kalyoncu formulas approximate hand counts
+        Measures that need human judgement are computed approximately
       
     </span>
   </a>
@@ -2176,10 +2176,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#the-sentence-thresholds-were-calibrated-on-newspaper-columns-only" class="md-nav__link">
+  <a href="#the-sentence-thresholds-were-measured-on-newspaper-columns-only" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The sentence thresholds were calibrated on newspaper columns only
+        The sentence thresholds were measured on newspaper columns only
       
     </span>
   </a>
@@ -2231,10 +2231,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#turkish-morphology-depends-on-zeyrek" class="md-nav__link">
+  <a href="#turkish-morphology-depends-on-akana" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Turkish morphology depends on Zeyrek
+        Turkish morphology depends on Akana
       
     </span>
   </a>
@@ -2242,10 +2242,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#two-thirds-of-the-candidates-are-still-unverified" class="md-nav__link">
+  <a href="#most-features-have-no-published-example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Two thirds of the candidates are still unverified
+        Most features have no published example
       
     </span>
   </a>
@@ -2336,10 +2336,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#the-kalyoncu-formulas-approximate-hand-counts" class="md-nav__link">
+  <a href="#measures-that-need-human-judgement-are-computed-approximately" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The Kalyoncu formulas approximate hand counts
+        Measures that need human judgement are computed approximately
       
     </span>
   </a>
@@ -2373,10 +2373,10 @@
 
 <h1 id="limitations">Limitations<a class="headerlink" href="#limitations" title="Permanent link">&para;</a></h1>
 <p>This page has two parts. The first says where the tool is weak; the
-second covers points that are not weaknesses of the tool but that you
-need to know when interpreting the results.</p>
+second covers points that are not weaknesses of the tool but that you need to know when
+interpreting the results.</p>
 <h2 id="limitations-of-the-tool">Limitations of the tool<a class="headerlink" href="#limitations-of-the-tool" title="Permanent link">&para;</a></h2>
-<h3 id="the-sentence-thresholds-were-calibrated-on-newspaper-columns-only">The sentence thresholds were calibrated on newspaper columns only<a class="headerlink" href="#the-sentence-thresholds-were-calibrated-on-newspaper-columns-only" title="Permanent link">&para;</a></h3>
+<h3 id="the-sentence-thresholds-were-measured-on-newspaper-columns-only">The sentence thresholds were measured on newspaper columns only<a class="headerlink" href="#the-sentence-thresholds-were-measured-on-newspaper-columns-only" title="Permanent link">&para;</a></h3>
 <p>The <code>short_sent_ratio</code> and <code>long_sent_ratio</code> thresholds (TR 4/17, EN 8/32)
 were derived from the 15th and 85th percentiles of the sentence-length
 distribution in newspaper columns, measured with the default sentence rule
@@ -2410,33 +2410,34 @@ show where a sentence falls in the distribution; they do not show whether reader
 find such sentences short or long. Method:
 <a href="../../../threshold-calibration/">Threshold calibration</a>.</p>
 <h3 id="constants-taken-from-sources-were-not-tested-on-turkish">Constants taken from sources were not tested on Turkish<a class="headerlink" href="#constants-taken-from-sources-were-not-tested-on-turkish" title="Permanent link">&para;</a></h3>
-<p>MTLD's 0.72 threshold, HD-D's 42-word sample and the 0.172 of Brunet's measure were taken
-from their sources and have not been tested on Turkish texts. It cannot be said that they
-do not carry over to Turkish, but it has not been shown that they do. Details:
-<a href="../../how-to/parameters/#constants-taken-from-sources-were-not-tested-on-turkish">Change the thresholds</a>.</p>
+<p>MTLD's 0.72 threshold (McCarthy &amp; Jarvis 2010, p.385), HD-D's 42-word sample (p.383) and the
+0.172 of Brunet's measure (Brunet 1978, p.49) were set on English or French texts and have not
+been tested on Turkish texts. It cannot be said that they do not carry over to Turkish, but it
+has not been shown that they do. To try a constant on your own corpus:
+<a href="../../how-to/parameters/">Change the thresholds</a>.</p>
 <h3 id="thirteen-citations-are-secondary">Thirteen citations are secondary<a class="headerlink" href="#thirteen-citations-are-secondary" title="Permanent link">&para;</a></h3>
 <p><strong>13</strong> citations (12 in Turkish) carry <code>as cited in</code>: the primary source could not
 be obtained and the formula was taken from the citing work. For example:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Herdan (1960/1964), as cited in Tweedie &amp; Baayen (1998) p.327, eq. (5)
+<div class="highlight"><pre><span></span><code>Herdan (1960/1964), as cited in Tweedie &amp; Baayen (1998) p.327, eq. (5)
 </code></pre></div>
 <p>Affected measures include <code>herdan_c</code>, <code>herdan_vm</code>, <code>honore_r</code>, <code>maas_a2</code>,
 <code>dugast_u</code>, <code>simpson_d</code>, <code>heaps_beta</code>, <code>lix</code>, <code>cttr</code> and <code>summer_s</code>. The formulas were
-verified, but not against the <strong>primary source's own wording</strong>.</p>
+checked against the citing source, but could not be checked against the <strong>primary source
+itself</strong>.</p>
 <h3 id="accuracy-of-the-language-model">Accuracy of the language model<a class="headerlink" href="#accuracy-of-the-language-model" title="Permanent link">&para;</a></h3>
-<p>POS tags, morphological tags, English lemmas and the dependency features come from the
-spaCy model. Change the model and those numbers change. Turkish lemmas come from Zeyrek
-(below).</p>
-<p>Altinok (2023, p.13747), who developed the Turkish model, reports that on their own test
-data the model tags parts of speech correctly 90% of the time, falling to 63% for
-dependencies when the relation label is included. The model was trained on formal written
-sources; accuracy may differ on other kinds of text. Interpret the features that rest on
-this information with care, especially the dependency measures (<code>syntactic</code>), where
-accuracy is lowest.</p>
+<p>POS tags, morphological tags and the dependency features come from the spaCy model in both
+languages; Turkish lemmas and proper nouns come from Akana (below). If the model changes,
+these numbers change.</p>
+<p>As reported by Altinok (2023, p.13747), the Turkish spaCy model (<code>tr_core_news_md</code>) gets the
+part of speech right for 90% of words. In dependency parsing the share is 63%; here both the
+word a word attaches to and the type of the relation must be right. The model was trained on
+formal written texts, so accuracy may differ on other kinds of text. Interpret the dependency
+measures (<code>syntactic</code>) with particular care.</p>
 <p>Words and sentences are counted with the tool's own rules
 (<a href="../concepts/#word-and-sentence">Concepts</a>).
 <code>describe_feature(key)["definitions"]["word"]</code> names the word each feature uses.</p>
 <p>Tested versions: spaCy 3.8.16, <code>en_core_web_sm</code> 3.8.0,
-<code>tr_core_news_md</code> 1.0 (model version 3.4.2), Zeyrek 0.1.3.</p>
+<code>tr_core_news_md</code> 1.0 (model version 3.4.2), Akana 0.12.0.</p>
 <h3 id="split-words">Split words<a class="headerlink" href="#split-words" title="Permanent link">&para;</a></h3>
 <p>When spaCy splits a word into several tokens, the tool takes the word's part of speech and
 morphological tags from the first token. For example, <code>sosyo-ekonomik</code> is an adjective but
@@ -2444,34 +2445,36 @@ is counted as a noun. This only affects the features that use these tags; it doe
 touch the word, syllable and sentence counts or the readability formulas. In the newspaper
 columns, 0.65% of Turkish words and 2.70% of English words are split into more than one
 token.</p>
-<h3 id="turkish-morphology-depends-on-zeyrek">Turkish morphology depends on Zeyrek<a class="headerlink" href="#turkish-morphology-depends-on-zeyrek" title="Permanent link">&para;</a></h3>
-<p>The 23 features in the <code>morphological_zeyrek</code> group and the Turkish lemmas come from
-Zeyrek. Zeyrek can return several analyses for a word; the tool takes the first without
-looking at the context (in the Kalyoncu formulas, the one matching spaCy's part of
-speech). To get the same numbers again, start Python with <code>PYTHONHASHSEED=0</code>.</p>
-<h3 id="two-thirds-of-the-candidates-are-still-unverified">Two thirds of the candidates are still unverified<a class="headerlink" href="#two-thirds-of-the-candidates-are-still-unverified" title="Permanent link">&para;</a></h3>
-<p>Of the <strong>172 verification candidates, 61 are done</strong> (61 ✅) and <strong>111 are 🔍
-open</strong>: most sources publish a formula but never a worked numerical example.
+<h3 id="turkish-morphology-depends-on-akana">Turkish morphology depends on Akana<a class="headerlink" href="#turkish-morphology-depends-on-akana" title="Permanent link">&para;</a></h3>
+<p>The 23 features in the <code>morphological_akana</code> group, the Turkish lemmas and proper nouns come
+from Akana. When a word has several analyses, Akana picks one by looking at the sentence; the
+choice is sometimes wrong: in <em>Bakan dün geldi</em> 'the minister came yesterday' <code>bakan</code> counts
+as a verbal (bak-an). The named entity recogniser that finds proper nouns also misses some
+names that are ordinary words too: in <em>Kitabı Sevgi bana verdi</em> 'Sevgi gave me the book'
+<code>Sevgi</code> counts as a noun (<code>NOUN</code>).</p>
+<h3 id="most-features-have-no-published-example">Most features have no published example<a class="headerlink" href="#most-features-have-no-published-example" title="Permanent link">&para;</a></h3>
+<p>Of the <strong>136 candidate features, 22 were compared with a published example and all matched</strong> (✅). For <strong>114</strong>, no
+published example was found in the sources (🔍 open): most sources publish a formula but
+no example of applying it to a text.
 Details: <a href="../verification/">The verification system</a>.</p>
 <h3 id="early-development-0x">Early development (0.x)<a class="headerlink" href="#early-development-0x" title="Permanent link">&para;</a></h3>
 <p>Until 1.0, key names and the public API may change; changes are announced in the release
 notes.</p>
 <h2 id="things-to-know-when-using-it">Things to know when using it<a class="headerlink" href="#things-to-know-when-using-it" title="Permanent link">&para;</a></h2>
-<p>These are not shortcomings of the tool: they are how the measures
-themselves behave, an input requirement, or an attribution rule. They still
-affect your results.</p>
+<p>These are not shortcomings of the tool: they are how the measures themselves behave, an input
+requirement, or an attribution rule. They still affect your results.</p>
 <h3 id="tool-specific-features">Tool-specific features<a class="headerlink" href="#tool-specific-features" title="Permanent link">&para;</a></h3>
 <p>A few features are not literature measures but definitions
 this tool made. Their citations say so plainly:</p>
 <ul>
 <li><code>punct_entropy</code>, <code>sent_len_entropy</code>: Shannon's formula applied to the
   distribution of punctuation types and of sentence lengths. The formula is
-  Shannon's; the decision to apply it there is ours.</li>
+  Shannon's; where it is applied is the tool's decision.</li>
 <li><code>polysyllabic_word_ratio</code>: the ratio form of SMOG's input. Not a measure
   McLaughlin defines.</li>
 </ul>
-<p>There is nothing wrong with using them; cite the source of the formula, but do
-not present the measure as that source's own.</p>
+<p>There is nothing wrong with using them; cite the source of the formula, but do not present
+the measure as that source's own.</p>
 <h3 id="paragraph-features-depend-on-how-the-input-is-formatted">Paragraph features depend on how the input is formatted<a class="headerlink" href="#paragraph-features-depend-on-how-the-input-is-formatted" title="Permanent link">&para;</a></h3>
 <p>The three <code>paragraph</code> features find paragraph boundaries from blank lines; a
 single line break does not count. If the text has no blank lines, the whole
@@ -2486,12 +2489,68 @@ counted <strong>as they are read aloud</strong>: <code>1918</code> → bin dokuz
 <code>10:30</code> → on otuz, <code>3kg</code> → üç kilogram, <code>TBMM</code> → te-be-me-me.</p>
 <p>In Turkish, a dot after a number marks an ordinal when a word or a comma
 follows it (<code>3. kat</code>); otherwise it ends the sentence (<code>Sonuç 3.</code> → üç).</p>
-<p>Forms whose reading cannot be told from the text are not guessed; they are
-<strong>left out</strong> of the syllable count: a unit letter on its own (<code>m</code> may be metre
-or minute), symbols whose reading depends on context (<code>/</code>, <code>#</code>, <code>*</code>), and
-unlisted lowercase abbreviations without vowels. In text dense with symbols
-and abbreviations, the syllable count therefore comes out slightly lower than a
-hand count.</p>
+<p>A dot inside a number: with an hour of 0–24 before the dot and two digits of 00–59 after it,
+the number is read as a time (<code>8.15</code> → sekiz on beş, <code>12.30</code> → on iki otuz); otherwise it is
+a decimal, read with "nokta" (<code>1.5</code> → bir nokta beş, <code>1.60</code>, <code>25.30</code> → yirmi beş nokta otuz).
+A single <code>0</code> is not taken as an hour (<code>0.25</code> → sıfır nokta yirmi beş; midnight is written
+<code>00.25</code>). Three digits after the dot make a thousands group (<code>2.850</code> → iki bin sekiz yüz
+elli). Decimals that look like times (<code>4.50</code> lira) are read as times and come out two
+syllables short.</p>
+<p>More examples:</p>
+<table>
+<thead>
+<tr>
+<th>Form</th>
+<th>Reading</th>
+<th style="text-align: right;">Syllables</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ve/veya</code>, <code>4+4+4</code> (joined by a symbol)</td>
+<td>ve veya · dört artı dört artı dört</td>
+<td style="text-align: right;">3 · 7</td>
+</tr>
+<tr>
+<td><code>1/2</code> (fraction)</td>
+<td>bir bölü iki</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr>
+<td><code>12/05/2020</code>, <code>13.3.2008</code> (date)</td>
+<td>on iki sıfır beş iki bin yirmi · on üç üç iki bin sekiz</td>
+<td style="text-align: right;">11 · 8</td>
+</tr>
+<tr>
+<td><code>4x4</code> (<code>x</code> between numbers)</td>
+<td>dört çarpı dört</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td><code>F1</code>, <code>A2'den</code> (letters + number)</td>
+<td>fe bir · a iki den</td>
+<td style="text-align: right;">2 · 4</td>
+</tr>
+<tr>
+<td><code>5N1K</code></td>
+<td>beş ne bir ke</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td><code>Dersim'38</code> (shortened year)</td>
+<td>dersim otuz sekiz</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr>
+<td><code>tv</code> (vowelless abbreviation)</td>
+<td>te ve</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+<p>Forms whose reading cannot be told from the text are not guessed; they are <strong>left out</strong> of
+the syllable count: a single lowercase consonant on its own, e-mail and web addresses. In the
+newspaper columns, 0.03% of words are left out this way.</p>
 <h3 id="phonological-measures-are-computed-from-letters">Phonological measures are computed from letters<a class="headerlink" href="#phonological-measures-are-computed-from-letters" title="Permanent link">&para;</a></h3>
 <p>The measures in the <code>phonological</code> group (vowel shares, vowel harmony) are computed from
 the letters of the written text, not from phonemes; classes such as front and back vowels
@@ -2499,19 +2558,15 @@ are letter lists. They do not work with IPA transcription; that is left for late
 versions.</p>
 <h3 id="heaps-is-unreliable-on-short-texts">Heaps β is unreliable on short texts<a class="headerlink" href="#heaps-is-unreliable-on-short-texts" title="Permanent link">&para;</a></h3>
 <p><code>heaps_beta</code> is measured at 20 equally spaced points through the text (Tweedie &amp; Baayen
-1998, p.333), so every text is measured with the same number of points. There is no
-minimum length; the value is computed for every text of 20 words or more, and a text
-shorter than 20 words gives <code>nan</code>. The law fits large collections well and is not reliable
+1998, p.333), so every text is measured with the same number of points. The value is
+computed for every text of 20 words or more; a shorter text gives <code>nan</code>. The law fits large collections well and is not reliable
 on short texts (Manning et al. 2008, p.81).</p>
-<h3 id="the-kalyoncu-formulas-approximate-hand-counts">The Kalyoncu formulas approximate hand counts<a class="headerlink" href="#the-kalyoncu-formulas-approximate-hand-counts" title="Permanent link">&para;</a></h3>
-<p>The <code>kalyoncu_*</code> keys reproduce Kalyoncu's (2025) hand counts approximately, with Zeyrek and
-spaCy. Four of Kalyoncu's nine rules (common derivations, onomatopoeia, intensified forms, rare
-senses) and Kalyoncu's meaning-based sentence definition are not applied. KL rests on expert
-judgement (rules 3, 5, 8), so it is not expected to match the expert values exactly. Numbers
-written in words count as in the list; a capitalised word not at the start of a sentence
-counts as a proper noun; stems and verbals are counted from the Zeyrek analysis that matches
-spaCy's class (these three rules apply in the <code>kalyoncu_*</code> keys only). Verbal suffixes Zeyrek
-does not know and errors in the selected analysis change the result.</p>
+<h3 id="measures-that-need-human-judgement-are-computed-approximately">Measures that need human judgement are computed approximately<a class="headerlink" href="#measures-that-need-human-judgement-are-computed-approximately" title="Permanent link">&para;</a></h3>
+<p>The sources of some measures did the counting by hand, with expert judgement: an expert
+decides whether a word counts as being in a list, or where a sentence ends in meaning. The
+tool makes these decisions with rules, so the result is close to the expert count but not
+the same. The features in this situation are Kalyoncu's (2025) formulas and their components
+(<code>kalyoncu_*</code>).</p>
 
 
 

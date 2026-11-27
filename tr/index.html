@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative linguistic features from Turkish text and 181 from English text">
+        <meta name="description" content="Türkçe metinden 217, İngilizce metinden 187 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 217 quantitative linguistic features from Turkish text and 187 from English text">
       
       
       
@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
     
     
       
@@ -1969,47 +1969,46 @@
 
 
 <h1 id="turkce-belgeler">Türkçe belgeler<a class="headerlink" href="#turkce-belgeler" title="Permanent link">&para;</a></h1>
-<p>Bu bölüm dört parçaya ayrılır. Hangisine gideceğiniz, şu an ne yapmak
-istediğinize bağlı.</p>
+<p>Bu bölüm dört parçaya ayrılır; hangi parçaya bakılacağı yapılacak işe bağlıdır.</p>
 <table>
 <thead>
 <tr>
-<th>Ne yapmak istiyorsunuz</th>
-<th>Nereye gidin</th>
+<th>Amaç</th>
+<th>Sayfa</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Aracı hiç kullanmadım, baştan sona anlatın</td>
+<td>Aracı ilk kez kullanmak, baştan sona öğrenmek</td>
 <td><strong><a href="baslangic/">Öğretici</a></strong></td>
 </tr>
 <tr>
-<td>Belirli bir işi yapmam lazım</td>
+<td>Belirli bir işi yapmak</td>
 <td><strong><a href="nasil/">Nasıl yapılır</a></strong></td>
 </tr>
 <tr>
-<td>Bir özniteliğin ne olduğunu arıyorum</td>
+<td>Bir özniteliğin ne olduğunu bulmak</td>
 <td><strong><a href="../reference/">Başvuru</a></strong> (İngilizce)</td>
 </tr>
 <tr>
-<td>Neden böyle çalıştığını anlamak istiyorum</td>
+<td>Aracın neden böyle çalıştığını anlamak</td>
 <td><strong><a href="aciklama/">Açıklama</a></strong></td>
 </tr>
 <tr>
-<td>Çalışan bir betikten başlamak istiyorum</td>
+<td>Çalışan bir betikten başlamak</td>
 <td><strong><a href="https://github.com/efeziya1/turkish-linguistic-features/tree/main/examples">Örnek betikler</a></strong> (on betik, her biri bir soruya cevap)</td>
 </tr>
 </tbody>
 </table>
-<p>Emin değilseniz öğreticiden başlayın: kurulumdan ilk tabloya kadar götürür.</p>
+<p>Araca yeni başlayanlar için en uygun başlangıç öğreticidir: Kurulumdan ilk tabloya kadar götürür.</p>
 <h2 id="hzl-baks">Hızlı bakış<a class="headerlink" href="#hzl-baks" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="s2">"Renksiz yeşil fikirler öfkeyle uyur."</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nb">len</span><span class="p">(</span><span class="n">oz</span><span class="p">)</span>               <span class="c1"># 214</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">oz</span><span class="p">[</span><span class="s2">"word_len_mean"</span><span class="p">]</span>   <span class="c1"># 6.2</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">turkish_linguistic_features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tlf</span>
+
+<span class="n">oz</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="s2">"Renksiz yeşil fikirler öfkeyle uyur."</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">oz</span><span class="p">)</span>               <span class="c1"># 217</span>
+<span class="n">oz</span><span class="p">[</span><span class="s2">"word_len_mean"</span><span class="p">]</span>   <span class="c1"># 6.2</span>
 </code></pre></div>
-<p>Aracın Python'dan çağrılan <strong>on bir</strong> adı var, hepsi bu kadar:</p>
+<p>Aracın Python'dan çağrılan <strong>on iki</strong> adı var, hepsi bu kadar:</p>
 <table>
 <thead>
 <tr>
@@ -2028,7 +2027,11 @@ istediğinize bağlı.</p>
 </tr>
 <tr>
 <td><code>ngram_matches</code></td>
-<td>Verdiğiniz bir sözcük dizisinin (İng. <em>n-gram</em>) metinde neyle eşleştiğini, sıklıklarıyla gösterir; dizi sözcüklerden, sözlükbirimlerden ya da sözcük türü etiketlerinden (<code>["EV", "VERB"]</code>, <code>["ADJ", "NOUN"]</code> gibi) oluşabilir</td>
+<td>Verilen bir sözcük dizisinin (İng. <em>n-gram</em>) metinde neyle eşleştiğini, sıklıklarıyla gösterir; dizi sözcüklerden, sözlükbirimlerden ya da sözcük türü etiketlerinden (<code>["EV", "VERB"]</code>, <code>["ADJ", "NOUN"]</code> gibi) oluşabilir</td>
+</tr>
+<tr>
+<td><code>text_units</code></td>
+<td>Metnin sözcüklerini, sözlükbirimlerini (İng. <em>lemmas</em>), sözcük türü etiketlerini, seslem sayılarını ve tümcelerini ayrı listeler hâlinde verir; bunlar özniteliklerin saydığı birimlerdir</td>
 </tr>
 <tr>
 <td><code>segment_text</code></td>
@@ -2044,31 +2047,30 @@ istediğinize bağlı.</p>
 </tr>
 <tr>
 <td><code>FeatureParams</code></td>
-<td>Eşikleri ve pencere boylarını taşıyan ayar nesnesi</td>
+<td>Eşik, pencere boyu gibi ayarları değiştirmeye yarar</td>
 </tr>
 <tr>
 <td><code>LinguisticFeaturesError</code></td>
-<td>Aracın kendi hatalarının atası</td>
+<td>Aracın verdiği hataların ortak türü</td>
 </tr>
 <tr>
 <td><code>ModelNotFoundError</code></td>
-<td>Gereken dil verisi kurulu değilse: spaCy modeli ya da İngilizce seslem sayımı için NLTK <code>cmudict</code></td>
+<td>Gereken dil verisi (spaCy modeli ya da İngilizce seslem sayımı için NLTK <code>cmudict</code>) kurulu değilse verilen hata</td>
 </tr>
 <tr>
 <td><code>MissingDependencyWarning</code></td>
-<td>İsteğe bağlı bir paket yoksa</td>
+<td>İsteğe bağlı bir paket kurulu değilse verilen uyarı</td>
 </tr>
 <tr>
 <td><code>ParagraphStructureWarning</code></td>
-<td>1000 sözcüğü geçen metinde paragraf sınırı bulunamazsa</td>
+<td>1000 sözcüğü geçen bir metinde paragraf sınırı bulunamazsa verilen uyarı</td>
 </tr>
 </tbody>
 </table>
-<p>Bütün öznitelikler, <code>custom_ngrams</code> ile saydığınız sözcük dizileri de dahil,
+<p>Bütün öznitelikler, <code>custom_ngrams</code> ile sayılan sözcük dizileri de dahil,
 <code>analyze</code>'dan çıkar.</p>
 <h2 id="terimler">Terimler<a class="headerlink" href="#terimler" title="Permanent link">&para;</a></h2>
-<p>Belgelerdeki terimler, aracın anlatıldığı tezdeki terimlerle aynıdır. Bir terim bir sayfada
-ilk geçtiğinde İngilizcesi yanında verilir: türce (İng. <em>token</em>), derlem (İng. <em>corpus</em>).
+<p>Bir terim bir sayfada ilk geçtiğinde İngilizcesi yanında verilir: türce (İng. <em>token</em>), derlem (İng. <em>corpus</em>).
 Hepsi tek yerde: <strong><a href="sozluk/">terim sözlüğü</a></strong>.</p>
 
 

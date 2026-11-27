@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative linguistic features from Turkish text and 181 from English text">
+        <meta name="description" content="Türkçe metinden 217, İngilizce metinden 187 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 217 quantitative linguistic features from Turkish text and 187 from English text">
       
       
       
@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
     
     
       
@@ -2084,7 +2084,7 @@
 <h1 id="glossary">Glossary<a class="headerlink" href="#glossary" title="Permanent link">&para;</a></h1>
 <p>These terms are used consistently throughout the documentation, so that the same thing
 never gets two names on two pages. The Turkish column gives the term used in the Turkish
-documentation and in the thesis that describes the tool.</p>
+documentation.</p>
 <h2 id="the-tools-concepts">The tool's concepts<a class="headerlink" href="#the-tools-concepts" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -2103,7 +2103,7 @@ documentation and in the thesis that describes the tool.</p>
 <tr>
 <td><strong>key</strong></td>
 <td>anahtar</td>
-<td>A feature's name; the <code>dict</code> key in the returned mapping</td>
+<td>A feature's name; a key in the dictionary <code>analyze</code> returns</td>
 </tr>
 <tr>
 <td><strong>group</strong></td>
@@ -2128,7 +2128,7 @@ documentation and in the thesis that describes the tool.</p>
 <tr>
 <td><strong>pipeline</strong></td>
 <td>çözümleme hattı</td>
-<td>The steps from raw text to numbers: spaCy, Zeyrek and the tool's own rules</td>
+<td>The steps from raw text to numbers: spaCy, Akana and the tool's own rules</td>
 </tr>
 <tr>
 <td><strong>scale</strong></td>
@@ -2158,7 +2158,7 @@ documentation and in the thesis that describes the tool.</p>
 <tr>
 <td><strong>n-gram</strong></td>
 <td>sözcük dizisi</td>
-<td>A sequence of words, lemmas or part-of-speech tags you give; counted with <code>custom_ngrams</code></td>
+<td>A sequence of adjacent words, lemmas or part-of-speech tags you give; counted with <code>custom_ngrams</code></td>
 </tr>
 </tbody>
 </table>
@@ -2190,12 +2190,12 @@ documentation and in the thesis that describes the tool.</p>
 <tr>
 <td><strong>lemma</strong></td>
 <td>sözlükbirim</td>
-<td>A word's dictionary form; from Zeyrek for Turkish, from spaCy for English</td>
+<td>A word's dictionary form; from Akana for Turkish, from spaCy for English</td>
 </tr>
 <tr>
 <td><strong>morpheme</strong></td>
 <td>biçimbirim</td>
-<td>A root or suffix in Zeyrek's analysis</td>
+<td>A root or suffix in Akana's analysis</td>
 </tr>
 <tr>
 <td><strong>part of speech</strong></td>
@@ -2220,7 +2220,7 @@ documentation and in the thesis that describes the tool.</p>
 <tr>
 <td><strong>analyzer</strong></td>
 <td>çözümleyici</td>
-<td>The component that splits a word into morphemes; Zeyrek in this tool</td>
+<td>The component that splits a word into morphemes; Akana in this tool</td>
 </tr>
 <tr>
 <td><strong>tagger</strong></td>
@@ -2235,12 +2235,12 @@ documentation and in the thesis that describes the tool.</p>
 <tr>
 <td><strong>disambiguation</strong></td>
 <td>belirsizlik giderme</td>
-<td>Choosing, from several analyses of a word, the one that fits the context; Zeyrek does not do this</td>
+<td>Choosing, from several analyses of a word, the one that fits the sentence; Akana's disambiguator in this tool</td>
 </tr>
 <tr>
-<td><strong>hash seed</strong></td>
-<td>karma tohumu</td>
-<td>Python's internal number that changes on every run; fixed with <code>PYTHONHASHSEED=0</code></td>
+<td><strong>named entity recognizer</strong></td>
+<td>ad tanıyıcı</td>
+<td>The component that finds person, place and organisation names in a text; Akana's in this tool</td>
 </tr>
 <tr>
 <td><strong>sentence boundary</strong></td>
@@ -2434,7 +2434,7 @@ documentation and in the thesis that describes the tool.</p>
 <tr>
 <td><strong>calibrated</strong></td>
 <td>kalibre edilmiş</td>
-<td>Threshold from this tool's own calibration</td>
+<td>Threshold from this tool's own corpus measurement</td>
 </tr>
 <tr>
 <td><strong>primary source</strong></td>
@@ -2454,7 +2454,7 @@ documentation and in the thesis that describes the tool.</p>
 <tr>
 <td><strong>comparison</strong></td>
 <td>karşılaştırma</td>
-<td>In the report, pairing a feature with a number its source published</td>
+<td>Comparing the tool's result for a feature with the result its source published for the same input</td>
 </tr>
 <tr>
 <td><strong>match</strong></td>
@@ -2469,7 +2469,7 @@ documentation and in the thesis that describes the tool.</p>
 <tr>
 <td><strong>open</strong></td>
 <td>açık</td>
-<td>No number published by the source has been found yet (🔍)</td>
+<td>No published example applying the formula to a text was found in the source (🔍)</td>
 </tr>
 <tr>
 <td><strong>mismatch</strong></td>

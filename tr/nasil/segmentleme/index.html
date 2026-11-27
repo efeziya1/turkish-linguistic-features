@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative linguistic features from Turkish text and 181 from English text">
+        <meta name="description" content="Türkçe metinden 217, İngilizce metinden 187 nicel dilbilimsel öznitelik çıkaran Python kütüphanesi · A Python library that extracts 217 quantitative linguistic features from Turkish text and 187 from English text">
       
       
       
@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
     
     
       
@@ -739,17 +739,6 @@
     <span class="md-ellipsis">
       
         Son parça: min_fill
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#karakterle-bolmek" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Karakterle bölmek
       
     </span>
   </a>
@@ -2075,17 +2064,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#karakterle-bolmek" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Karakterle bölmek
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#derlemde-dogrudan-kullann" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2130,23 +2108,22 @@
 <h1 id="metni-parcalara-bol">Metni parçalara böl<a class="headerlink" href="#metni-parcalara-bol" title="Permanent link">&para;</a></h1>
 <h2 id="neden-gerekli">Neden gerekli<a class="headerlink" href="#neden-gerekli" title="Permanent link">&para;</a></h2>
 <p>Sözcüksel zenginlik (İng. <em>lexical richness</em>) öznitelikleri <strong>metin uzunluğundan
-etkilenir.</strong> TTR uzun metinde mutlaka düşer, <code>hapax_ratio</code> düşer, <code>yule_k</code> oynar. 50 000
-sözcüklük bir romanla 800 sözcüklük bir köşe yazısını aynı tabloda karşılaştırırsanız
-ölçtüğünüz şey üslup değil, uzunluk olur. <code>mattr</code>, <code>mtld</code> ve <code>vocd_d</code> TTR'den
+etkilenir.</strong> TTR uzun metinde mutlaka düşer, <code>hapax_ratio</code> düşer, <code>yule_k</code> değişir. 50.000
+sözcüklük bir romanla 800 sözcüklük bir köşe yazısı aynı tabloda karşılaştırılırsa
+ölçülen şey üslup değil, uzunluk olur. <code>mattr</code>, <code>mtld</code> ve <code>vocd_d</code> TTR'den
 daha az etkilenir ama uzunluktan bağımsız değildir
 (<a href="https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/09_uzunluk_duyarliligi.py">ölçüm örneği</a>).</p>
-<p>Çözüm: hepsini aynı boya getirin.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">parcalar</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
+<p>Çözüm: hepsini aynı boya getirmek.</p>
+<div class="highlight"><pre><span></span><code><span class="n">parcalar</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="parca-boyu-sozcukle-olculur">Parça boyu sözcükle ölçülür<a class="headerlink" href="#parca-boyu-sozcukle-olculur" title="Permanent link">&para;</a></h2>
 <p><code>segment_size</code>, <code>analyze</code>'ın saydığı sözcüğü (İng. <em>word</em>) sayar: boşlukla ayrılan, kenar
 noktalaması atılan, harf ya da rakam içeren birim. Noktalama sözcük değildir
 (<a href="../../aciklama/kavramlar/#sozcuk">tam tanım</a>).
 <a href="../../baslangic/">Öğreticideki</a> 25 sözcüklük <code>metin</code> ile:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">uzun</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">metin</span><span class="p">]</span> <span class="o">*</span> <span class="mi">15</span><span class="p">)</span>                  <span class="c1"># 375 sözcük</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">parcalar</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">uzun</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nb">len</span><span class="p">(</span><span class="n">parcalar</span><span class="p">)</span>                                  <span class="c1"># 3</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parcalar</span><span class="p">]</span>             <span class="c1"># [100, 100, 100]</span>
+<div class="highlight"><pre><span></span><code><span class="n">uzun</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">metin</span><span class="p">]</span> <span class="o">*</span> <span class="mi">15</span><span class="p">)</span>                  <span class="c1"># 375 sözcük</span>
+<span class="n">parcalar</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">uzun</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">parcalar</span><span class="p">)</span>                                  <span class="c1"># 3</span>
 </code></pre></div>
 <p>375 sözcük ÷ 100 = 3 tam parça (İng. <em>segment</em>), artan 75 sözcük atılır. Her parça
 <code>analyze</code>'da tam 100 sözcük eder; <code>mattr</code> gibi "en az 100 sözcük" isteyen bir
@@ -2154,11 +2131,11 @@ noktalaması atılan, harf ya da rakam içeren birim. Noktalama sözcük değild
 <h2 id="son-parca-min_fill">Son parça: <code>min_fill</code><a class="headerlink" href="#son-parca-min_fill" title="Permanent link">&para;</a></h2>
 <p>Varsayılan <code>min_fill=1.0</code> yalnız <strong>tam</strong> parçaları tutar. Eksik kalan son
 parça atılır.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">uzun</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>                <span class="c1"># 3 parça</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">uzun</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">min_fill</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>  <span class="c1"># 4 parça</span>
+<div class="highlight"><pre><span></span><code><span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">uzun</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>                <span class="c1"># 3 parça</span>
+<span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">uzun</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">min_fill</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>  <span class="c1"># 4 parça</span>
 </code></pre></div>
 <p>Artık 75 sözcük, yani parçanın %75'i: <code>1.0</code> eşiğinin altında, <code>0.5</code>'in
-üstünde.</p>
+üstündedir.</p>
 <table>
 <thead>
 <tr>
@@ -2183,35 +2160,28 @@ parça atılır.</p>
 </table>
 <div class="admonition warning">
 <p class="admonition-title">Atılan veri sessizce atılır</p>
-<p>Araç kaç parça attığını size söylemez. <code>min_fill=1.0</code> ile 1400
+<p>Araç kaç parça attığını söylemez. <code>min_fill=1.0</code> ile 1400
 sözcüklük bir dosyadan <code>segment_size=1000</code> ile <strong>tek</strong> parça çıkar; kalan 400
-sözcük gider. Derleminizde kısa dosyalar varsa hiç parça
-üretmeyebilirler.</p>
+sözcük gider. Derlemdeki kısa dosyalar hiç parça
+üretmeyebilir.</p>
 </div>
-<h2 id="karakterle-bolmek">Karakterle bölmek<a class="headerlink" href="#karakterle-bolmek" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">tlf</span><span class="o">.</span><span class="n">segment_text</span><span class="p">(</span><span class="n">metin</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">"char"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">)</span>
-</code></pre></div>
-<p><code>unit="char"</code> ham karakter sayar; sözcük kuralı devreye girmez, dolayısıyla
-<code>lang</code> anlamsızlaşır. Sözcük sınırına bakmaz: Parça bir sözcüğün
-ortasında bitebilir.</p>
 <h2 id="derlemde-dogrudan-kullann">Derlemde doğrudan kullanın<a class="headerlink" href="#derlemde-dogrudan-kullann" title="Permanent link">&para;</a></h2>
-<p>Tek tek bölüp <code>analyze</code> çağırmanıza gerek yok:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">satirlar</span> <span class="o">=</span> <span class="n">tlf</span><span class="o">.</span><span class="n">analyze_corpus</span><span class="p">(</span><span class="s2">"derlem/"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"tr"</span><span class="p">,</span> <span class="n">segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
-</code></pre></div>
+<p>Bir derlemi parçalamak için <code>analyze_corpus</code>'a <code>segment_size</code> vermek yeter:
+<a href="../korpus/#dosyalar-parcalara-bolerek-analiz-edin">Derlemi CSV'ye çıkar</a>.</p>
 <h2 id="tam-imza">Tam imza<a class="headerlink" href="#tam-imza" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">segment_text</span><span class="p">(</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="n">segment_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">min_fill</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"word"</span><span class="p">,</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"tr"</span><span class="p">,</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><span class="n">segment_text</span><span class="p">(</span>
+    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">segment_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+    <span class="n">min_fill</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"word"</span><span class="p">,</span>
+    <span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"tr"</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 </code></pre></div>
-<p><code>lang</code> metnin diliyle aynı olmalı. Varsayılan <code>"tr"</code>. Sözcük kuralı iki dilde
-neredeyse aynıdır; fark sıra sayısındadır (Türkçede <code>3. kat</code>'taki <code>3.</code> tek
-sözcük), yani İngilizce bir metinde parça sınırları nadiren kayar.</p>
+<p><code>lang</code> metnin diliyle aynı olmalıdır. Varsayılan <code>"tr"</code>'dir. Sözcük kuralı iki dilde aynıdır,
+tek fark Türkçedeki sıra sayısıdır: <code>3. kat</code>'taki <code>3.</code> tek sözcüktür. İngilizce sıra
+sayısını <code>3rd</code> diye yazdığı için bu kurala gerek duymaz.</p>
 <p>Parça içeriği <strong>ham metin dilimidir</strong>, yeniden birleştirilmiş sözcük listesi
-değil. Yani noktalama, boşluk ve satır sonları olduğu gibi kalır.</p>
+değildir. Yani noktalama, boşluk ve satır sonları olduğu gibi kalır.</p>
 
 
 
