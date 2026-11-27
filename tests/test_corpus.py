@@ -8,7 +8,7 @@ için 100 token ~83 kelime ediyordu.
 
 import pytest
 
-from turkish_linguistic_features.features.readability import kelime_birimleri
+from turkish_linguistic_features.birimler.sozcuk import kelime_birimleri
 
 # ``_load_corpus`` 2026-09-23'te public yüzeyden çıktı (``analyze_corpus``
 # zinciri kapatıyor) ama kodu duruyor: üç dosya düzeni algılaması ve CSV

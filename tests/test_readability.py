@@ -9,13 +9,13 @@ import math
 import pytest
 import spacy
 
+from turkish_linguistic_features.birimler.sozcuk import kelime_birimleri
+from turkish_linguistic_features.birimler.tumce import cumle_sayisi
 from turkish_linguistic_features.features.phonetic import hece_say
 from turkish_linguistic_features.features.readability import (
     birim_hecesi,
-    cumle_sayisi,
     english_readability_formulas,
     general_readability_formulas,
-    kelime_birimleri,
     turkish_readability_formulas,
 )
 
@@ -92,6 +92,22 @@ def test_turkish_ordinal_keeps_its_dot_when_a_word_or_comma_follows():
     assert birim_hecesi("3.", "tr") == 3
 
 
+@pytest.mark.parametrize(("metin", "beklenen"), [
+    ("geldi.Sonra uyudu", ["geldi", "Sonra", "uyudu"]),        # boşluğu unutulmuş iki sözcük
+    ("gibi...Bu", ["gibi", "Bu"]),
+    ("yoktu.?Kemerleri", ["yoktu", "Kemerleri"]),
+    ("sorunlar.var.", ["sorunlar", "var"]),
+    ("3.köprü", ["3.", "köprü"]),                               # sıra sayısı noktasını korur
+    ("G.Saray T.C.'nin", ["G.Saray", "T.C.'nin"]),              # tek harfli baş harf bölünmez
+    ("ad@gazete.com kariyer.net", ["ad@gazete.com", "kariyer.net"]),   # adres bölünmez
+    ("1.5 13.3.2008", ["1.5", "13.3.2008"]),                    # sayılar bölünmez
+    ("“kampusu!”na mm.’lik", ["kampusu!”na", "mm.’lik"]),       # tırnak/kesmeden sonra ek
+])
+def test_bitisik_sozcukler_ayrilir(metin, beklenen):
+    """Noktalamayla bitişmiş iki sözcük iki sözcüktür (2026-11-27, Efe)."""
+    assert kelime_birimleri(metin, "tr")[0] == beklenen
+
+
 def test_english_number_with_dot_is_not_an_ordinal():
     kelimeler, _ = kelime_birimleri("Chapter 3. Next", "en")
     assert kelimeler == ["Chapter", "3", "Next"]
@@ -128,7 +144,7 @@ def test_noktali_virgul_ve_iki_nokta_formule_gore():
 @pytest.mark.parametrize("kume", ["varsayilan", "kincaid", "cetinkaya"])
 def test_uc_nokta_iki_yazimda_ayni_sayilir(lang, kume):
     """2026-10-06 (Efe): "..." ve "…" aynı işaret; ikisi de her kuralda cümle bitirir."""
-    from turkish_linguistic_features.features.readability import _CUMLE_SONU
+    from turkish_linguistic_features.birimler.tumce import _CUMLE_SONU
 
     uc = cumle_sayisi(_tok("Geldi... Gitti. Kaldı.", lang), _CUMLE_SONU[kume], lang)
     tek = cumle_sayisi(_tok("Geldi… Gitti. Kaldı.", lang), _CUMLE_SONU[kume], lang)
@@ -164,6 +180,27 @@ def test_kisaltma_noktasi_cumle_bitirmez():
     assert cumle_sayisi(_tok("Dr. Smith paid on Jan. 3. Then left.", "en"), ".?!", "en") == 2
     # spaCy TR "bkz." kısaltmasını böler; ardından küçük harf geliyorsa sınır değil
     assert cumle_sayisi(_tok("Tabloya bkz. ekte var. Sonra bitti.", "tr"), ".?!", "tr") == 2
+
+
+def test_gonderme_kisaltmasi_buyuk_harften_once_de_bitirmez():
+    """``bkz. Ek 2``: gönderme kısaltması ardındakini gösterir, tümce bitmez (2026-11-26, Efe)."""
+    assert cumle_sayisi(_tok("Konuyu bkz. Ek 2'de anlattık. Sonra bitti.", "tr"), ".?!", "tr") == 2
+    assert cumle_sayisi(_tok("Konuyu Bkz. Ek 2'de anlattık. Sonra bitti.", "tr"), ".?!", "tr") == 2
+    assert cumle_sayisi(_tok("Konuyu bknz. Tablo 2'de anlattık.", "tr"), ".?!", "tr") == 1
+
+
+def test_kucuk_harfli_kisaltma_buyuk_harften_once_tumce_bitirir():
+    """spaCy'nin tek token tuttuğu ``vb.``, ``dk.``: ardından büyük harf gelirse tümce biter;
+    büyük harfli ``Dr.``, ``Cad.``, ``Ltd.`` bitirmez (2026-11-26, Efe)."""
+    def say(metin: str) -> int:
+        return cumle_sayisi(_tok(metin, "tr"), ".?!", "tr")
+
+    assert say("Elma, armut vb. Sonra eve döndük.") == 2
+    assert say("Toplantı 5 dk. Sonra bitti.") == 2
+    assert say("Elma, armut vb. aldık.") == 1
+    assert say("Dr. Ayşe geldi.") == 1
+    assert say("Bağdat Cad. Kadıköy şubesine gitti.") == 1
+    assert say("Yılmaz Ltd. Şti. kuruldu.") == 1
 
 
 def test_bos_metin_sifir_cumle():
@@ -403,7 +440,7 @@ _KURAL_METINLERI = [
 @pytest.mark.parametrize("lang", ["tr", "en"])
 def test_kural_cumleleri_tokenlari_kaybetmez_ve_sayiyla_uyusur(metin, lang):
     """Birleştirilince girdiyi verir; uzunluğu ``cumle_sayisi`` ile aynı (alfasayısal varsa)."""
-    from turkish_linguistic_features.features.readability import _CUMLE_SONU, kural_cumleleri
+    from turkish_linguistic_features.birimler.tumce import _CUMLE_SONU, kural_cumleleri
 
     tok = _tok(metin, lang)
     cumleler = kural_cumleleri(tok, lang)
@@ -413,20 +450,20 @@ def test_kural_cumleleri_tokenlari_kaybetmez_ve_sayiyla_uyusur(metin, lang):
 
 
 def test_kural_cumleleri_bos_girdi_bos_liste():
-    from turkish_linguistic_features.features.readability import kural_cumleleri
+    from turkish_linguistic_features.birimler.tumce import kural_cumleleri
 
     assert kural_cumleleri([], "tr") == []
 
 
 def test_kural_cumleleri_kapanis_tirnagi_onceki_cumlede_kalir():
-    from turkish_linguistic_features.features.readability import kural_cumleleri
+    from turkish_linguistic_features.birimler.tumce import kural_cumleleri
 
     cumleler = kural_cumleleri(["Dedi", "“", "Gel", ".", "”", "Gitti", "."], "tr")
     assert cumleler == [["Dedi", "“", "Gel", ".", "”"], ["Gitti", "."]]
 
 
 def test_kural_cumleleri_acilis_tirnagi_sonraki_cumleye_gecer():
-    from turkish_linguistic_features.features.readability import kural_cumleleri
+    from turkish_linguistic_features.birimler.tumce import kural_cumleleri
 
     cumleler = kural_cumleleri(["Geldi", ".", "“", "Gel", "!", "”"], "tr")
     assert cumleler == [["Geldi", "."], ["“", "Gel", "!", "”"]]
@@ -436,7 +473,8 @@ def test_kural_cumleleri_acilis_tirnagi_sonraki_cumleye_gecer():
 
 
 def test_cumle_birimleri_cumleye_gore_boler():
-    from turkish_linguistic_features.features.readability import cumle_birimleri, kural_cumleleri
+    from turkish_linguistic_features.birimler.sozcuk import cumle_birimleri
+    from turkish_linguistic_features.birimler.tumce import kural_cumleleri
 
     metin = "E-posta geldi. %50 indirim var mı?"
     tok = _tok(metin, "tr")
@@ -447,7 +485,7 @@ def test_cumle_birimleri_cumleye_gore_boler():
 
 def test_cumle_birimleri_bosluksuz_sinirda_birimi_boler():
     """Sınır boşluk biriminin içine düşerse (``geldi.Sonra``) birim iki cümleye bölünür."""
-    from turkish_linguistic_features.features.readability import cumle_birimleri
+    from turkish_linguistic_features.birimler.sozcuk import cumle_birimleri
 
     cumleler = [["O", "geldi", "."], ["Sonra", "gitti", "."]]
     assert cumle_birimleri("O geldi.Sonra gitti.", cumleler, "tr") == [["O", "geldi"],
@@ -455,7 +493,7 @@ def test_cumle_birimleri_bosluksuz_sinirda_birimi_boler():
 
 
 def test_cumle_birimleri_hizasiz_girdi_hata():
-    from turkish_linguistic_features.features.readability import cumle_birimleri
+    from turkish_linguistic_features.birimler.sozcuk import cumle_birimleri
 
     assert cumle_birimleri("", [], "tr") == []
     with pytest.raises(ValueError, match="preprocessing error"):

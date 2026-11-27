@@ -1,5 +1,99 @@
 # Changelog
 
+## [0.4.0] - 2026-11-25
+
+This release replaces the Turkish morphological analyser: Akana instead of Zeyrek. Keys that
+came from Zeyrek are renamed, and Turkish morphology, lemma and part-of-speech values change.
+Code that reads `zeyrek_*` keys or selects the `morphological_zeyrek` group must be updated.
+Keys: Turkish 217, English 187: both languages now count the same 32 letters (`char_*`).
+
+### Added
+
+- **The same 32 letters in both languages.** `char_*` counts the Turkish and English alphabets
+  together in both languages: Turkish gains `char_q_ratio`, `char_w_ratio`, `char_x_ratio`,
+  English gains `char_ç_ratio`, `char_ğ_ratio`, `char_ı_ratio`, `char_ö_ratio`, `char_ş_ratio`,
+  `char_ü_ratio`. A `w` in a Turkish text (or an `ş` in an English one) is now counted and enters
+  the denominator, so the other `char_*` values of such texts change slightly. Keys: Turkish
+  214 → 217, English 181 → 187. None of the 57 TOMA texts contains q, w or x.
+- `text_units(text, lang="tr")`: the words, lemmas, POS tags, syllable counts and sentences of a
+  text, as separate lists. They are the units the features count: `len(units["words"])` equals
+  `word_count`, `len(units["sentences"])` equals `sent_count` and the syllables add up to
+  `syllable_count`; lemmas, tags and syllables line up with the words (`nan` syllables where
+  the reading cannot be taken from the text).
+
+### Changed
+
+- **Akana replaces Zeyrek** for Turkish morphemes and lemmas (`akana==0.12.0`: a Rust port of
+  Zemberek's morphotactics with Python bindings, MIT or Apache-2.0;
+  github.com/altaidevorg/akana). The tag set is the same as Zeyrek's.
+- **The analysis is chosen in its sentence.** Akana's disambiguator picks each word's analysis
+  from a frequency score derived from treebanks and a few rules that look at nearby words
+  (`Yüz kişi geldi`: *yüz* is a number). Sentences come from the library's own sentence rule.
+  Results no longer depend on `PYTHONHASHSEED`.
+- **Renamed:** the 23 `zeyrek_*` keys are now `akana_*`; the group `morphological_zeyrek` is
+  now `morphological_akana`; the rule source `zeyrek` in `describe_feature(key)["definitions"]`
+  is now `akana`.
+- **Turkish proper nouns come from Akana's named entity recogniser.** Words inside a person,
+  place or organisation name are tagged `PROPN`, whatever spaCy's tag; `syntactic` keeps spaCy's
+  tags. On the test sections of ten UD Turkish treebanks (85,629 words), proper-noun F1 rises from
+  75.6 (spaCy) to 84.5; a capital-letter rule reached 79.3. The capital-letter rule of the
+  `kalyoncu_*` keys is removed.
+- In the `kalyoncu_*` keys, the -ken of a noun with the copula (`öğrenciyken`) counts as a verbal,
+  and a written number is a number only if spaCy tags it `NUM` or the root of the chosen analysis
+  is `Num`. -alı, -casına and -maksızın now count as verbals (Zeyrek did not produce these tags).
+- **Values change.** On the 57 TOMA texts, 67 of the 214 Turkish keys that 0.3.0 also has change: all 23 `akana_*` keys
+  (mean plural ratio 0.055 → 0.081, accusative 0.070 → 0.038, -miş 0.071 → 0.129), 13
+  part-of-speech keys (`pos_propn_ratio` 0.019 → 0.033), 21 lemma-based lexical and frequency
+  measures, 2 `morphological` keys and the 8 `kalyoncu_*` keys. English values are unchanged.
+- Unanalysed punctuation gets the root tag `Unk` instead of `Punc`; both were already left out
+  of every denominator.
+- **More written forms get a syllable count** (Turkish). A quote between letters is read as an
+  apostrophe (`siyaset"i` = 4), brackets inside a word are dropped (`konul(a)mayan` = 5), words
+  glued by punctuation or by `/` are counted part by part (`mısınız?"diye` = 5, `ve/veya` = 3,
+  `12/05/2020` = 11, and the same with dots: `13.3.2008` = 8), a slash between two numbers is read *bölü* (`1/2` = 5),
+  listed symbols inside a word are read (`4+4+4` = 7), a vowelless abbreviation is read letter
+  by letter whatever its case, up to four letters unless all capitals (`tv`, `Hz` = 2; `rhythm`
+  stays unread), dotted initials before a word count one syllable each (`G.Saray` = 3), and a
+  number with a dot and one or two digits is read as a time if it can be one (hour 0-24,
+  minutes 00-59: `8.15`, `12.30`) and otherwise as a decimal, *nokta* (`1.5` = bir nokta beş, 4;
+  `25.30` = 7; a single `0` hour is a decimal: `0.25` = 7). A decimal that looks like a time
+  (`4.50` lira) is read as a time, two syllables short. Some readings fall short or over (`Hz` is *hazreti*, 3;
+  `hmm` counts 3). Also read: `x`/`*` between numbers as *çarpı* (`4x4` = 4), letters + number (`F1` = 2,
+  `TR325` = 7; up to four letter/number parts: `5N1K` = 4), an elided letter (`n'olmuş` = 2), a shortened year (`Dersim'38` = 6), words
+  joined by a dash or `_`; apostrophe look-alikes (`´`, `` ` ``, `‘`) count as apostrophes.
+  Unsyllabified words in 2,500 Turkish columns: 0.38% → 0.03%. On the 57 TOMA
+  texts four texts change slightly (Ateşman by at most 0.27).
+- **Words glued by punctuation are two words** (Turkish). When the space is left out after
+  sentence punctuation (`geldi.Sonra`, `gibi...Bu`, `3.köprü`), the unit is two words. Until now
+  it was one word in `word_count` and `text_units` but two in the sentence-length keys
+  (`Ali eve geldi.Sonra uyudu.`: `word_count` 4, `sent_len_mean` 5/2). Dotted initials
+  (`G.Saray`), addresses, numbers and a suffix after a quote or apostrophe (`“kampusu!”na`) are
+  not split. 265 units in 2,500 Turkish columns; no value changes on the 57 TOMA texts.
+- **One sentence definition.** A sentence with no letter in it (`Bu bir tümce. 1999! Bitti.`)
+  now counts as a sentence everywhere. Until now `sent_count`, the sentence-length keys,
+  `sents_per_para_mean` and the `kalyoncu_*` keys left it out, while the readability formulas
+  and `text_units` kept it. No value changes on the 57 TOMA texts.
+- Turkish abbreviations and sentences: a lower-case abbreviation (`vb.`, `dk.`) ends a sentence
+  when a capital follows (`Elma, armut vb. Sonra eve döndük.` is two sentences); a capitalised
+  one (`Dr.`, `Cad.`, `Ltd.`) never does; `bkz.` never does (`bkz. Ek 2'de`). Until now `vb.`
+  and the other abbreviations spaCy keeps with their dot never ended a sentence, and a capital
+  after `bkz.` did. On the 57 TOMA texts one text changes (62 → 63 sentences).
+
+### Removed
+
+- The `zeyrek` dependency, `pipeline/zeyrek_backend.py`, the zeyrek#42 patch and the Windows
+  import-order warm-up in `__init__.py`.
+- `ProcessedText.morpheme_alternatives` (all analyses per token) and its entry in
+  `ProcessedText.to_dict()`.
+
+### Internal
+
+- The word rule, the sentence rule and the readings of numbers and abbreviations moved to a
+  shared package, `turkish_linguistic_features.birimler`, which preprocessing and the features
+  both read. `features.okunus` is now `birimler.okunus`; `kelime_birimleri`, `word_units`,
+  `cumle_birimleri`, `cumle_sayisi` and `kural_cumleleri` are no longer in
+  `features.readability`. None of these is public API.
+
 ## [0.3.0] - 2026-11-06
 
 This release renames and regroups feature groups, removes three Turkish keys and adds
@@ -15,8 +109,8 @@ Turkish 197 → 203, English 170. Groups: 13 → 12 (13 with
   list), `kalyoncu_ttr` (share of stems occurring once), `kalyoncu_kco` (share of complex
   sentences), `kalyoncu_yco` (verbals per sentence) and `kalyoncu_ocu` (words per sentence).
   Numbers count as the words they are read as (`1968` = 5 words), in these keys only. Four of
-  Kalyoncu's nine word-list rules and his meaning-based sentence definition are not applied;
-  see the Kalyoncu formulas page. The values approximate Kalyoncu's hand counts. In these keys
+  Kalyoncu's nine word-list rules and his meaning-based sentence definition are not applied.
+  The values approximate Kalyoncu's hand counts. In these keys
   only: numbers written in words (`iki`, `ikisi`, `üçüncü`, `beşer`) count as in the list
   (rule 9 does not tell digits from words); a word tagged `PROPN`, or capitalised and not at
   the start of a sentence (`İstanbul'da`, `İstanbul’da`), is a proper noun and stays out of the

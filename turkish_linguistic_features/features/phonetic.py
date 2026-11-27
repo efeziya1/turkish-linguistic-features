@@ -28,9 +28,9 @@ from collections import Counter
 import numpy as np
 import textstat
 
-from ..alfabe import _ALFABE, _kucuk_harf
+from ..alfabe import _ALFABE, _dil_denetle, _kucuk_harf
+from ..birimler.okunus import SEMBOLLER, UNITS_AFTER_NUMBER, okunus, sayi_oku, sayi_oku_en
 from ..exceptions import ModelNotFoundError
-from .okunus import SEMBOLLER, UNITS_AFTER_NUMBER, okunus, sayi_oku, sayi_oku_en
 
 _UNLULER: dict[str, str] = {"tr": "aeıioöuü", "en": "aeiou"}
 _ON: dict[str, str] = {"tr": "eiöü", "en": "ei"}
@@ -69,11 +69,6 @@ def _cmudict_denetle() -> None:
             "set the NLTK_DATA environment variable."
         ) from None
     _CMUDICT_VAR = True
-
-
-def _dil_denetle(lang: str) -> None:
-    if lang not in _ALFABE:
-        raise ValueError(f"Unsupported language: {lang!r}. Expected one of: {sorted(_ALFABE)}")
 
 
 def vowel_ratios(text: str, lang: str = "tr") -> dict[str, float]:
@@ -167,7 +162,8 @@ def vowel_harmony_ratios(surface_tokens: list[str], lang: str = "tr") -> dict[st
 # kalır (tren, stra-te-ji). Liste gerekmez. KEMİK hece tablosu da bu kuralla
 # hecelenmiş (tlf-kaynaklar/00-INDEKS.md).
 
-_TR_HECE_UNLULERI = frozenset("aeıioöuüâîû")      # şapkalı ünlüler dahil (Zeyrek de sayıyor)
+# â î û are vowels: the circumflex is placed over a vowel (Göksel & Kerslake 2005, p.xxiii).
+_TR_HECE_UNLULERI = frozenset("aeıioöuüâîû")
 _KESMELER = str.maketrans("", "", "'’")
 
 
@@ -214,7 +210,11 @@ def _tr_kok_hecesi(kok: str) -> int | None:
     n = _unlu_sayisi(kok)
     if n > 0:
         return n
-    return len(kok) if kok.isupper() else None
+    # A vowelless abbreviation is read letter by letter: all capitals at any length (TBMM),
+    # other spellings at 2-4 letters (tv, Hz, Mszp). Longer vowelless strings are foreign
+    # words (rhythm) and a single lower-case consonant may be a unit (m): both stay unread
+    # (2026-11-26, Efe).
+    return len(kok) if kok.isupper() or 1 < len(kok) <= 4 else None
 
 
 def hece_say(word: str, lang: str = "tr") -> int | None:
@@ -229,7 +229,7 @@ def hece_say(word: str, lang: str = "tr") -> int | None:
       Saat ve skor (``10:30`` → 3), sıra sayısı (``3.`` → üçüncü → 3) ve
       harfe bitişik sayı (``3kg`` → 4, ``100m`` → 3, ``3G`` → 2) okunuşuyla
       (2026-10-01, Efe). Tek başına ``3.`` sıra sayısı sayılır; cümle sonundaki
-      sayıyı ayırmak bağlam ister (``readability.kelime_birimleri``). Okunuşu çıkarılamayan
+      sayıyı ayırmak bağlam ister (``birimler.sozcuk.kelime_birimleri``). Okunuşu çıkarılamayan
       biçimler (``4x4``, tek başına ``m``) ve noktalama → ``None``.
     - EN — harflerden oluşan tokenler ``textstat.syllable_count`` ile, 0 verirse
       1 (``shh``). Sayılar okunuşuyla (``1918`` → nineteen eighteen → 4;
@@ -256,13 +256,127 @@ def hece_say(word: str, lang: str = "tr") -> int | None:
 # Noktalı baş harfler: F.O.B, i.e, A.Ş — harf harf okunur.
 _BAS_HARFLER = re.compile(r"(?:[^\W\d_]\.)+[^\W\d_]?")
 
+# Turkish written forms the reading can still be taken from (2026-11-26, Efe):
+# a quote between two letters stands for an apostrophe (siyaset"i = siyaset'i) ...
+_ICTE_TIRNAK = re.compile(r'(?<=[^\W\d_])["“”«»](?=[^\W\d_])')
+# Apostrophe look-alikes are one apostrophe: ‘ ´ ` ʼ ′ after a letter or digit, before a
+# letter (Ankara´da, 70`ini) (2026-11-27, Efe).
+_KESME_BENZERI = re.compile(r"(?<=[^\W_])[’‘´`ʼ′](?=[^\W\d_])")
+# A word, an apostrophe and a number: a shortened year (Dersim'38 = dersim otuz sekiz).
+_KESME_SAYI = re.compile(r"([^\W\d_]+)['’](\d+)")
+# ... brackets inside a word are dropped (konul(a)mayan = konulamayan) ...
+_ICTE_AYRAC = re.compile(r"[()\[\]]")
+# ... and two words glued by punctuation are read as two words (mısınız?"diye).
+_BITISTIREN = re.compile(r'[?!"“”«»;:,…—–_]+|-(?=["“”«»])|(?<=["“”«»])-')
+# Letters and a number written together (F1, TR325, A2'den, meselâ12): letters as a word or
+# letter names, the number as a number (2026-11-27, Efe).
+_HARF_RAKAM = re.compile(r"([^\W\d_]+)(\d+(?:,\d+)?)((?:['’][^\W\d_]+)?)")
+# Letters and numbers alternating in three or four parts (5N1K, M354J) are read part by part;
+# five parts or more is a number-for-letter joke spelling (H4R1KUL4D3) and stays unread
+# (2026-11-27, Efe).
+_HARF_RAKAM_PARCA = re.compile(r"(?:\d+|[^\W\d_]+)")
+_EN_COK_PARCA = 4
+# An x or * between two numbers is read "çarpı" (4x4, 73x92, 4*5) (2026-11-27, Efe).
+_CARPI = re.compile(r"(\d+)[xX*](\d+)")
+# One elided letter before an apostrophe (n'olmuş, l'Amour): read with the word.
+_TEK_HARF_KESME = re.compile(r"[^\W\d_]'[^\W\d_]+")
+_KENAR_ISARET = ".,;:!?…\"'“”‘’«»()[]{}–—-/*_"
+# Dotted initials before a word or suffix: each initial is one letter name, one syllable
+# (G.Saray = ge + saray, T.C.'nin = te + ce + nin). The full name (Galatasaray) cannot be
+# read from the text; the shortfall is accepted (2026-11-26, Efe).
+# A slash between exactly two numbers is a fraction, read "bölü" (1/2 = bir bölü iki); with
+# three numbers it is a date and is not read (12/05/2020), nor between words (ve/veya)
+# (2026-11-26, Efe).
+_KESIR = re.compile(r"(\d+)/(\d+)")
+# A date with dots is read like one with slashes: the dots are not read and each part is a
+# number (13.3.2008 = on üç üç iki bin sekiz). The middle part has at most two digits, so a
+# thousands group (12.500.000) never matches (2026-11-27, Efe).
+_NOKTALI_TARIH = re.compile(r"(\d{1,2})\.(\d{1,2})\.(\d{2}|\d{4})(['’][^\W\d_]+)?")
+_BAS_HARF_VE_SOZCUK = re.compile(r"((?:[A-ZÇĞİÖŞÜ]\.)+)(['’]?[^\W\d_].*)")
+# E-mail and web addresses have no reading to count (2026-11-26, Efe).
+_ADRES = re.compile(r"@|https?:|www\.")
+
+
+def _tr_yazim_hecesi(birim: str) -> int | None:
+    """Syllables of a Turkish unit after the written-form rules above; ``None`` if none apply.
+
+    Order: apostrophe look-alikes and quotes as apostrophes, brackets dropped, one elided
+    letter (``n'olmuş``), ``x``/``*`` between numbers (``4x4``), letters + number (``F1``),
+    dotted initials before a word, a date with dots (``13.3.2008``), a fraction of two numbers
+    (``1/2`` = bir bölü iki), split at gluing punctuation, dashes and ``_``, then split at
+    ``/`` (not read: ``ve/veya`` = ve + veya) and at listed symbols (read: ``4+4+4`` = dört artı
+    dört artı dört). Every part must be readable, otherwise the unit stays unread.
+    """
+    if _ADRES.search(birim):
+        return None
+    duz = _ICTE_AYRAC.sub("", _ICTE_TIRNAK.sub("'", _KESME_BENZERI.sub("'", birim)))
+    if duz != birim:
+        return birim_hecesi(duz, "tr") if duz else None
+    if _TEK_HARF_KESME.fullmatch(birim):
+        return _unlu_sayisi(birim)
+    kesme_sayi = _KESME_SAYI.fullmatch(birim)
+    if kesme_sayi is not None:
+        h_sozcuk, h_yil = (birim_hecesi(x, "tr") for x in kesme_sayi.groups())
+        return None if h_sozcuk is None or h_yil is None else h_sozcuk + h_yil
+    carpi = _CARPI.fullmatch(birim)
+    if carpi is not None:
+        sol, sag = (birim_hecesi(x, "tr") for x in carpi.groups())
+        return None if sol is None or sag is None else sol + _unlu_sayisi("çarpı") + sag
+    harf_rakam = _HARF_RAKAM.fullmatch(birim)
+    if harf_rakam is not None:
+        harf, sayi, ek = harf_rakam.groups()
+        h_harf, h_sayi = birim_hecesi(harf, "tr"), birim_hecesi(sayi, "tr")
+        if h_harf is None or h_sayi is None:
+            return None
+        return h_harf + h_sayi + _unlu_sayisi(ek)
+    govde, _, ek = birim.replace("’", "'").partition("'")
+    if govde.isalnum() and (not ek or ek.isalpha()):
+        parcalar = _HARF_RAKAM_PARCA.findall(govde)
+        if 3 <= len(parcalar) <= _EN_COK_PARCA:
+            heceler = [birim_hecesi(x, "tr") for x in parcalar]
+            if None in heceler:
+                return None
+            return sum(h for h in heceler if h is not None) + _unlu_sayisi(ek)
+    bas_harf = _BAS_HARF_VE_SOZCUK.fullmatch(birim)
+    if bas_harf is not None:
+        harfler, kalan = bas_harf.groups()
+        kalan_hece = (_unlu_sayisi(kalan) if kalan[0] in "'’" else birim_hecesi(kalan, "tr"))
+        return None if kalan_hece is None else harfler.count(".") + kalan_hece
+    tarih = _NOKTALI_TARIH.fullmatch(birim)
+    if tarih is not None:
+        gun, ay, yil, ek = tarih.groups()
+        heceler = [birim_hecesi(x, "tr") for x in (gun, ay, yil)]
+        if None in heceler:
+            return None
+        return sum(h for h in heceler if h is not None) + (_unlu_sayisi(ek) if ek else 0)
+    kesir = _KESIR.fullmatch(birim)
+    if kesir is not None:
+        pay, payda = (birim_hecesi(x, "tr") for x in kesir.groups())
+        return None if pay is None or payda is None else pay + _unlu_sayisi("bölü") + payda
+    for ayirici in (_BITISTIREN, re.compile(r"/")):
+        parcalar = [q for q in (p.strip(_KENAR_ISARET) for p in ayirici.split(birim)) if q]
+        if len(parcalar) > 1:
+            heceler = [birim_hecesi(p, "tr") for p in parcalar]
+            return None if None in heceler else sum(h for h in heceler if h is not None)
+    semboller = SEMBOLLER["tr"]
+    if any(c in semboller for c in birim):
+        parcalar = re.split("(" + "|".join(re.escape(c) for c in semboller) + ")", birim)
+        toplam = 0
+        for p in (p for p in parcalar if p):
+            h = _okunus_hecesi(semboller[p], "tr") if p in semboller else birim_hecesi(p, "tr")
+            if h is None:
+                return None
+            toplam += h
+        return toplam
+    return None
+
 
 def _okunus_hecesi(okunus_: str, lang: str) -> int:
     return sum(hece_say(k, lang) or 0 for k in okunus_.split())
 
 
 def birim_hecesi(birim: str, lang: str) -> int | None:
-    """Kelime biriminin (``readability.kelime_birimleri``) hecesi; hecelenemiyorsa ``None``.
+    """Kelime biriminin (``birimler.sozcuk.kelime_birimleri``) hecesi; hecelenemiyorsa ``None``.
 
     Sırayla: ``hece_say`` (kelime, sayı, listedeki kısaltma) → kenardaki
     listedeki semboller okunur (``%50`` → yüzde elli) → tireli kelime
@@ -284,7 +398,7 @@ def birim_hecesi(birim: str, lang: str) -> int | None:
         govde = birim_hecesi(birim[bas:son], lang)
         return None if govde is None else ek + govde
     if "-" in birim:
-        parcalar = birim.split("-")
+        parcalar = [p.strip(_KENAR_ISARET) for p in birim.split("-")]
         heceler = [birim_hecesi(p, lang) for p in parcalar if p]
         if len(heceler) == len(parcalar) and all(x is not None for x in heceler):
             return sum(x for x in heceler if x is not None)
@@ -292,7 +406,7 @@ def birim_hecesi(birim: str, lang: str) -> int | None:
     if _BAS_HARFLER.fullmatch(birim):
         harfler = [c for c in birim if c.isalpha()]
         return sum(3 if lang == "en" and c.lower() == "w" else 1 for c in harfler)
-    return None
+    return _tr_yazim_hecesi(birim) if lang == "tr" else None
 
 
 def birim_heceleri(birimler: list[str], lang: str) -> list[int]:
@@ -310,7 +424,7 @@ def _ortalama(degerler: list[int]) -> float:
 def syllable_count_stats(birimler: list[str], lang: str = "tr") -> dict[str, float]:
     """Kelime başına ortalama hece.
 
-    Kelime = varsayılan kelime birimi (``readability.kelime_birimleri``, 2026-10-06, Efe);
+    Kelime = varsayılan kelime birimi (``birimler.sozcuk.kelime_birimleri``, 2026-10-06, Efe);
     yalnız hecelenebilen birimler sayılır (``birim_hecesi``).
     """
     return {"syllable_mean": _ortalama(birim_heceleri(birimler, lang))}
@@ -346,7 +460,7 @@ def syllable_length_distribution(birimler: list[str], lang: str = "tr") -> dict[
 def sentence_syllable_stats(cumleler: list[list[str]], lang: str = "tr") -> dict[str, float]:
     """Cümle başına ortalama hece.
 
-    ``cumleler`` cümle başına kelime birimleridir (``readability.cumle_birimleri``).
+    ``cumleler`` cümle başına kelime birimleridir (``birimler.sozcuk.cumle_birimleri``).
     Cümlenin hecesi, hecelenebilen birimlerinin toplamıdır. Hiç hecelenebilen
     birimi olmayan cümle ölçülemez, hesaba girmez. Cümle yoksa NaN.
     """

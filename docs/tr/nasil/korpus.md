@@ -1,6 +1,6 @@
 # Derlemi CSV'ye çıkar
 
-Derlem (İng. *corpus*), birlikte çözümlenecek metinlerinizdir. Bu sayfa bir derlemi tek
+Derlem (İng. *corpus*), birlikte çözümlenecek metinlerdir. Bu sayfa bir derlemi tek
 seferde öznitelik tablosuna çevirmeyi anlatır.
 
 ## Klasör düzeni
@@ -28,33 +28,26 @@ derlem/
   notlar.txt          → label "" (alt çizgi yok), source "notlar"
 ```
 
-!!! note "Alt çizgili dosya adları"
-
-    Kökteki bir dosyanın adında alt çizgi varsa ilk kısım **etiket** olur:
-    `metin_1.txt` → label `"metin"`, source `"1"`.
-
+Dikkat: `metin_1.txt` gibi bir adda da ilk kısım etiket olur (label `"metin"`, source `"1"`).
 İki düzen aynı klasörde birlikte bulunabilir.
 
-**3. Tek bir CSV ya da TSV dosyası** — `analyze_corpus("derlem.csv")`. Sütun
-başlıkları şu adlardan biri olmalı (ilk eşleşen kullanılır):
+**3. Tek bir CSV ya da TSV dosyası** — `analyze_corpus("derlem.csv")`. Her satır bir
+metindir. Sütun başlıkları `text` (metin), `label` (etiket) ve `source` (kaynak) olur;
+Türkçeleri de kabul edilir (`metin`, `etiket`, `kaynak`). Yalnız metin sütunu zorunludur;
+kaynak sütunu yoksa dosyanın adı kullanılır. `.tsv` dosyası sekmeyle ayrılmış okunur.
 
-| Alan | Kabul edilen başlıklar |
-|---|---|
-| metin (zorunlu) | `text`, `Text`, `metin`, `Metin`, `METIN`, `content` |
-| etiket | `label`, `Label`, `etiket`, `Etiket`, `ETIKET`, `author`, `Author`, `yazar`, `Yazar`, `kategori`, `category` |
-| kaynak | `source`, `Source`, `kaynak`, `Kaynak`, `başlık`, `title`, `book`, `file` |
+??? note "Kabul edilen bütün başlıklar"
 
-Kaynak sütunu yoksa dosyanın adı kullanılır. `.tsv` uzantılı dosya sekmeyle
-ayrılmış okunur.
+    | Alan | Başlıklar (ilk eşleşen kullanılır) |
+    |---|---|
+    | metin | `text`, `Text`, `metin`, `Metin`, `METIN`, `content` |
+    | etiket | `label`, `Label`, `etiket`, `Etiket`, `ETIKET`, `author`, `Author`, `yazar`, `Yazar`, `kategori`, `category` |
+    | kaynak | `source`, `Source`, `kaynak`, `Kaynak`, `başlık`, `title`, `book`, `file` |
 
-Etiket yazar olmak zorunda değil: dönem, tür, sınıf düzeyi, deney kolu,
-ne ölçüyorsanız o.
+Etiket yazar olmak zorunda değildir: dönem, tür, sınıf düzeyi, deney kolu, ne ölçülüyorsa o.
 
-Dosyalar **UTF-8** olmalı. UTF-8 olmayan dosya varsa analiz başlamadan hata
-verilir ve okunamayan dosyaların hepsi adıyla listelenir.
-
-Bir parçanın analizi `ValueError` verirse çalışma orada durur. Hata o
-parçanın `label`, `source` ve `segment_id` değerini söyler.
+Dosyalar **UTF-8** olmalı; olmayan dosya varsa analiz başlamadan hepsi adıyla listelenir.
+Bir metin çözümlenirken hata çıkarsa çalışma durur ve ileti hangi dosyada durduğunu söyler.
 
 ## İki çağrı
 
@@ -63,18 +56,14 @@ import turkish_linguistic_features as tlf
 
 satirlar = tlf.analyze_corpus("derlem/", lang="tr")
 tlf.save_csv(satirlar, "oznitelikler.csv")
-print("satır sayısı:", len(satirlar))
-print("sütun sayısı:", len(satirlar[0]))
 ```
+
+Dosyanın nereye kaydedildiği: [Öğretici, 7. adım](../baslangic.md#7-bir-derlemi-tabloya-cevirin).
 
 ## Ne çıkıyor
 
-```text
-satır sayısı: 3
-sütun sayısı: 217
-```
-
-Her dosya bir satır. 217 sütun = 214 öznitelik (İng. *feature*) + üç kimlik sütunu:
+Her dosya bir satır: 3 satır, 220 sütun. 220 sütun = 217 öznitelik (İng. *feature*) + üç
+kimlik sütunu:
 
 ```text
 label=yazar_a  source=metin1     segment_id=0  ttr=1.0
@@ -119,13 +108,13 @@ satirlar = tlf.analyze_corpus("derlem/", lang="tr", segment_size=1000)
 ```python
 butun   = tlf.analyze_corpus("tek_dosya/", lang="tr")
 parcali = tlf.analyze_corpus("tek_dosya/", lang="tr", segment_size=200)
-print(len(butun), len(parcali), [s["segment_id"] for s in parcali])
+print(len(butun), len(parcali))
 ```
 
 Çıktı:
 
 ```text
-1 3 [0, 1, 2]
+1 3
 ```
 
 648 ÷ 200 = 3 tam parça; kalan 48 sözcük varsayılan `min_fill=1.0` ile atılır.
@@ -140,7 +129,7 @@ Tümce uzunluğu dağılımını etiketlere göre karşılaştıran çalışan �
     Dolayısıyla her dosyanın sonunda `segment_size`'dan kısa bir artık kalır ve
     varsayılan `min_fill=1.0` ile **atılır**.
 
-    Neden ve ne zaman parçalamalısınız →
+    Neden ve ne zaman parçalamak gerekir →
     [Metni parçalara böl](segmentleme.md).
 
 ## Tam imza

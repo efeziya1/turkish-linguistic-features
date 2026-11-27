@@ -1,15 +1,15 @@
 # How-to
 
-Each page finishes one job. You do not need to read them in order; go to
-the one you need.
+Each page finishes one job. You do not need to read them in order; go to the one you need.
 
-If you have never used the library, start with the
-**[tutorial](../getting-started.md)** — these pages assume it is installed.
+These pages assume the tool is installed; if you have never used it, start with the
+**[tutorial](../getting-started.md)**.
 
 | Page | Question it answers |
 |---|---|
 | [Analyse a single text](single-text.md) | I have a text, how do I get the numbers? |
 | [Count your own phrases](single-text.md#count-your-own-phrases) | How do I count a word, lemma or part-of-speech sequence of my own, and see what it matched? |
+| [See the units that are counted](single-text.md#see-the-units-that-are-counted) | Which words, lemmas and sentences did the tool count? |
 | [Export a corpus to CSV](corpus.md) | How do I turn a folder of files into a table? |
 | [Split a text into segments](segmenting.md) | My texts differ in length — how do I compare them fairly? |
 | [Compare two versions](comparison.md) | What did the edit actually change? |

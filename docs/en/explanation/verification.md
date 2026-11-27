@@ -2,9 +2,9 @@
 
 ## The problem
 
-A library can say "I implement the Ateşman readability formula." How would
-you check? By finding the source, reading the formula and inspecting the
-code. That is more work than a user should have to do.
+A library can say "I implement the Ateşman readability formula." How would you check? You
+would have to find the source, read the formula and inspect the code. That is more work than a user
+should have to do.
 
 This library does something else: it takes **the number the source
 published**, gives the same input to its own code, and prints the two side
@@ -25,28 +25,28 @@ source to check them against.
 
 ### 2. Source-number verification
 
-An extra check on top of the first layer: a number the source published is found and
-compared against our output. 61 of the 172 candidates are verified in this layer.
+An extra check on top of the first layer: the result a source published for a text or an
+input is found and compared with the tool's result. 22 of the 136 candidate features are
+verified in this layer.
 The rest of this page is about this layer.
 
 The second layer is not a precondition for the first. A feature marked 🔍 open does
-not have a questionable formula; no published number was found to compare against.
+not have a questionable formula; only no published example was found to compare against.
 
 ## First: not every feature can be verified
 
-This distinction is the most important part of the report. By definition,
-some of the 214 features are **not even candidates** for verification:
+By definition, some of the 217 features are **not even candidates** for verification:
 
 | | Why not a candidate |
 |---|---|
 | ⚪ **plain definition** | No source. `punct_dash_ratio` means "dashes / all punctuation marks"; there is no number in the literature to look for. |
-| ⚫ **tag ratio** | Not a measure but a count of an external scheme's categories. `pos_noun_ratio` → UD, `zeyrek_case_loc_ratio` → Zeyrek. **A scheme defines categories; it does not publish measurements** — de Marneffe's paper does not print "case_loc_ratio = 0.07", and could not. |
-| 🔧 **tool-specific** | The formula is from a source, **the application is ours**. `sent_len_entropy` is Shannon's entropy, but applying it to sentence lengths is ours. Nobody has published this measure. |
-| 📐 **calibrated** | The threshold comes from our own calibration: `long_sent_ratio`. Testing it against our own calibration would be reading our own answer sheet. |
+| ⚫ **tag ratio** | Not a measure but a count of an external scheme's categories. `pos_noun_ratio` → UD, `akana_case_loc_ratio` → Akana. **A scheme defines categories; it does not publish measurements** — de Marneffe's paper does not print "case_loc_ratio = 0.07", and could not. |
+| 🔧 **tool-specific** | The formula is from a source, **what it is applied to is the tool's**. `sent_len_entropy` is Shannon's entropy, but applying it to sentence lengths is the tool's decision. Nobody has published this measure. |
+| 📐 **calibrated** | The threshold comes from the tool's own calibration: `long_sent_ratio`. Testing the tool against its own calibration would be reading its own answer sheet. |
 
-On the Turkish side **81 features** are one of these four. The remaining 133 features
-have **172 verification candidate rows** in the report (a feature can be compared with
-more than one example from its source). That is the real denominator.
+In Turkish, **81 features** are one of these four; the remaining **136 features** are
+verification candidates. Where possible, a feature was tested against more than one
+published example.
 
 ## The four statuses a candidate can have
 
@@ -54,11 +54,14 @@ more than one example from its source). That is the real denominator.
 |---|---|
 | ✅ **match** | Within tolerance of the number the source published. If the cause of a small difference is known, it is noted under the row. |
 | 🟡 **documented deviation** | The difference is **beyond the tolerance** and **the reason is written down** — the source rounded an intermediate value, the source's own numbers were produced by hand, and so on. |
-| 🔍 **open** | The source gives the formula but never applies it to anything. Verifiable, not yet verified. |
+| 🔍 **open** | The source gives the formula but no example of applying it to a text; it can be verified once a published example is found. |
 | ❌ **mismatch** | An **unexplained** difference. **Release gate: a single one blocks a release.** |
 
-Where things stand today: **61 of the 172 candidates are done** (61 ✅),
-111 are 🔍 open.
+Where things stand today: **22 of the 136 candidate features are verified** (✅),
+114 are 🔍 open. Turkish has no 🟡; in English two features are 🟡: `ari` deviates from the
+source by 4.4% (0.54 points), `flesch_kincaid_grade` by 3.5% (0.37 points). For both, the
+reason is that the source counted characters by hand in 1975; the passage-by-passage numbers
+are in the appendix of the [verification report](../../verification-report.md).
 
 The tolerance is **1% of the published value** (relative). Sources print
 rounded intermediate values, so exact equality is not expected.
@@ -68,14 +71,17 @@ is not the size of the difference but **whether its cause is known**. If the
 cause has been measured and written down the row is 🟡; if it has not, the row
 is ❌ and no release is made.
 
-**Exception: the source's arithmetic.** If the number the source printed
-contradicts the arithmetic of the inputs the source itself gives, and our value
-gives the correct arithmetic, the comparison counts as ✅; the reason is noted
-under it.
+**Exception: the source's own calculation.** When a source publishes both the inputs and the
+result, the result can be recomputed from those inputs. If the published result does not
+agree with that calculation (for instance, the source truncated 121 ÷ 202 = 0.599 to 0.59
+instead of rounding it) and the tool's value equals the calculation from the source's own
+inputs, the comparison counts as ✅; the case is written under the comparison. The exception
+applies only where the source's own numbers allow the check, and today it applies in one
+place: `ttr` on QUITA's Text 2.
 
-This is not an escape hatch. A reason cannot be a guess along the lines of
-"it is probably rounding"; it has to be a measurement showing where the
-difference came from. The Kincaid example below shows what that looks like.
+For a difference beyond the tolerance to count as 🟡, the reason cannot be a guess either
+("it is probably rounding"); it has to be a measurement showing where the difference came
+from. The two English 🟡 above are an example.
 
 ## Two kinds of evidence
 
@@ -88,10 +94,10 @@ step leading to it is correct.
 
 **Formula** feeds the inputs to the function directly — for example
 "syllables per word 2.2 and words per sentence 4". It verifies the formula
-and its coefficients, not the pipeline. It is what is available when the
-source published no text.
+and its coefficients, not the pipeline. Of the 22 verified Turkish features, 19 were tested
+this way; the end-to-end ones are the Ateşman, Çetinkaya-Uzun and Bezirci-Yılmaz formulas.
 
-## Why 111 rows are still 🔍 open
+## Why 114 features are still 🔍 open
 
 The source published the formula but never applied it to a text and printed
 the result. In quantitative linguistics this is **ordinary**. With no such
@@ -107,22 +113,23 @@ comparison *against the source's number*.
 
 Which groups are verified follows from their genre, not from chance:
 
-| Group | ✅ | 🟡 | 🔍 |
-|---|---|---|---|
-| `frequency_structure` | 22 | 0 | 6 |
-| `readability` | 17 | 0 | 1 |
-| `lexical` | 7 | 0 | 30 |
-| `phonological` | 0 | 0 | 12 |
+| Group | ✅ | 🔍 |
+|---|---:|---:|
+| `frequency_structure` | 11 | 6 |
+| `lexical` | 5 | 29 |
+| `readability` | 3 | 10 |
+| `syntactic` | 2 | 0 |
+| `pos` | 1 | 4 |
 
-Readability formulas are **practical instruments** — their authors publish
-the formula together with a worked example, because the point is for someone
-else to apply it. Lexical richness measures are mathematical definitions;
-the author gives the formula and leaves the example to the reader.
+Readability formulas are **practical instruments**: their authors publish the formula
+together with a worked example, because the point is for someone else to apply it. That is
+why the Ateşman, Çetinkaya-Uzun and Bezirci-Yılmaz formulas could be verified; the open ones
+are the formulas' components and Kalyoncu's formulas. Lexical richness measures are
+mathematical definitions; the author gives the formula and leaves the example to the reader.
 
 ## How a 🔍 becomes a ✅
 
-Someone has to find a number the source actually published. Three
-examples:
+Someone has to find a number the source actually published. An example:
 
 **The QUITA manual — fourteen features at once.** The manual works fourteen
 indicators through two example texts from beginning to end and prints the
@@ -130,81 +137,29 @@ results, and it also **publishes those texts' frequency distributions**
 (§15.3). Since the distribution is the only input these indicators take, the
 comparison can be made directly:
 
-| | QUITA | ours |
+| | QUITA | tool |
 |---|---|---|
 | `repeat_rate` Text 2 | 0.02147 | 0.02147 |
 | `gini_coef` Text 1 | 0.3045 | 0.30449 |
 | `curve_length` Text 2 | 134.2787 | 134.27870 |
 | `entropy` Text 1 | 6.438043 bits = 4.462511 nats | 4.462512 |
 
-QUITA prints entropy in bits. Every logarithm in this library is natural, so the published
-value is converted to nats (× ln 2) before the comparison.
+QUITA is the manual of a piece of software: for the formulas it is a secondary source (each
+formula's original source is in the citation), while the numbers compared are the manual's own
+calculations. QUITA gives entropy in bits; the tool uses natural logarithms, so the value is
+converted to nats for the comparison.
 
-Twenty-seven of the twenty-eight comparisons fall within tolerance (the
-largest relative difference is under 0.1%, and most deviate by zero). The
-remaining one deviates by 0.009, which is 1.5% of the published value: for `ttr`
-on Text 2 the source printed 0.59, but dividing the numbers it supplies itself
+All fourteen features match the source on both texts (the largest relative difference is
+under 0.1%, and most deviate by zero). Only `ttr` on Text 2 deviates by 0.009, which is 1.5%
+of the published value: the source printed 0.59, but dividing the numbers it supplies itself
 gives 121 ÷ 202 = **0.599**. The source truncated the result instead of rounding
-it (rounded to two decimals it is 0.60). Ours is the arithmetically correct
-value, so this comparison is ✅ too (the arithmetic exception, above).
-
-**`mtld`** — The measure sweeps the text and counts a "factor" each time TTR
-drops below 0.72; the leftover stretch is added as a fractional factor.
-McCarthy & Jarvis (2010) p.385 work through exactly that fraction: *".887 forms
-40.4% of the range between 1.00 and the full factor of .720."* We ran the same
-sequence through the production code and got a fractional factor of **0.4043** —
-the same as the source's printed 40.4%.
-
-**`coleman_liau`** — The article defines the measure in two steps: first
-estimate the text's cloze percentage, then convert that percentage to a grade
-level. In practice the two steps are combined into a single formula, and that
-is the standard use in the literature. We measured that running the two steps
-separately and using the single formula give the same result: **7.7041** and
-**7.7046**. The 0.0005 between them comes from the source rounding an
-intermediate value.
-
-## What a 🟡 looks like — the Kincaid case
-
-In the English report two readability features, `ari` and
-`flesch_kincaid_grade`, sit at 🟡. Both are computed for English only. Three
-questions explain it.
-
-**What was compared?** The source for both measures is a 1975 US Navy technical
-report. It does not only give the formulas: its appendix reprints **18 real
-passages** taken from training material, and its tables give the ARI and FKGL
-values the report itself computed for those 18 passages. So the source published
-both the input and the answer — the best material verification can hope for. All
-18 went through our pipeline.
-
-**How large is the deviation?** The mean of the per-passage absolute
-differences is **0.54 ARI points**. The −0.537 shown in the report is a
-different number: the gap between the mean the source printed in Table 1
-(12.3) and our mean over the 18 passages. Relative to the published
-value that is about 4.4% (0.537 ÷ 12.3), far above the 1% tolerance, so ✅ is out.
-
-**Why is it not ❌?** Because we did not guess where the deviation comes from, we
-measured it. ARI takes "strokes per word" (every non-space character: letters,
-digits and punctuation) as an input, and in 1975 that count was made by hand,
-with a mechanical counter attached to a typewriter. We tested whether the difference sits there: how many
-times our stroke count would the source's own number require? In 17 of the 18
-passages the answer is **0.996–1.041 times** — a handful of characters per
-passage. That is the size you expect from hand counting.
-
-The source did not count the passage headings: counting them makes the result worse
-in all 18. FKGL's deviation comes from a single passage (passage 12).
-
-Every number per passage — stroke and word counts included — sits in the
-appendix at the end of the report, so you can see which input a difference came
-from.
-
-That is what 🟡 means: *there is a difference, we measured it, and we know
-where it comes from.*
+it (rounded to two decimals it is 0.60). The tool's value is arithmetically correct, so this
+comparison is ✅ too (the exception for the source's own calculation, above).
 
 ## In short: how much could be checked
 
-Only 21 of the 133 Turkish literature measures could be compared with a worked example
-their source published; in all 61 comparisons that could be made, the tool matches the
-source. Only three of these features could be tested end to end, that is, together with
+Only 22 of the 136 Turkish literature measures could be compared with a worked example
+their source published, and all of them match the source. Only three of these features could be tested end to end, that is, together with
 word, syllable and sentence counting. Most sources define a measure by its formula but do
 not apply it to a text and publish the result.
 
@@ -212,25 +167,13 @@ Outside the report, a test dataset with expert values was also used: the 57 text
 published for the TOMA program (Kalyoncu et al. 2026). On this dataset the tool's word and
 syllable counts agree with the expert values almost completely, and its sentence counts and
 Turkish readability formulas agree on most texts. For variables that rest on human
-judgement (Kalyoncu's KL and KCO) the tool does not reproduce the expert values
-([Kalyoncu formulas](kalyoncu.md)).
+judgement (Kalyoncu's KL and KCO) the tool does not reproduce the expert values.
 
-## The report is generated from the tests
+## For ⚪, 🔧 and 📐 the tool gives the definition
 
-`docs/verification-report.md` is not written by hand.
-`scripts/generate_verification_report.py` generates it, and
-`tests/test_kaynak_esligi.py` reads **the same comparison table**. The
-report and the tests cannot drift apart; if the report goes stale, a test
-fails.
-
-The coverage list comes from the registry, so a feature cannot be added
-and quietly left out of the report.
-
-## For ⚪, 🔧 and 📐 we supply the definition
-
-In these cases you do not have to write the measure's definition from
-scratch for your methods section. The registry keeps a citable definition for
-every feature:
+These features have no source in the literature, so if you use them in a study you have to
+define them yourself. The tool gives a ready-made definition for every feature, which you
+can take for your methods section:
 
 ```python
 tlf.describe_feature("sent_len_entropy")["formula"]
@@ -244,18 +187,17 @@ Five examples:
 
 | Feature | Definition | What belongs to the source |
 |---|---|---|
-| `punct_entropy` | Shannon entropy (nats) of the distribution over the ten mark types | the entropy formula — Shannon (1948) |
-| `sent_len_entropy` | Shannon entropy (nats) of the distribution of words per sentence | the entropy formula — Shannon (1948) |
-| `short_sent_ratio` | sentences with fewer than `short_sent_threshold` words / sentences | the threshold value — [threshold calibration](../../threshold-calibration.md) |
-| `long_sent_ratio` | sentences with more than `long_sent_threshold` words / sentences | the threshold value — [threshold calibration](../../threshold-calibration.md) |
-| `polysyllabic_word_ratio` | 3+ syllable words / syllabifiable words | the definition of polysyllabic — McLaughlin (1969) p.641 |
+| ⚪ `lemma_count` | number of different lemmas in the text | — (no source) |
+| ⚪ `sent_syllable_mean` | mean syllables per sentence | — (no source) |
+| 🔧 `sent_len_entropy` | Shannon entropy (nats) of the distribution of sentence lengths | the entropy formula — Shannon (1948) |
+| 📐 `short_sent_ratio` | sentences shorter than 4 words / sentences (8 in English) | the threshold value — [threshold calibration](../../threshold-calibration.md) |
+| 📐 `long_sent_ratio` | sentences longer than 17 words / sentences (32 in English) | the threshold value — [threshold calibration](../../threshold-calibration.md) |
 
-Cite the source of the formula, but do not present the measure as that source's
-own.
+Cite the source of the formula, but do not present the measure as that source's own.
 
 - ✗ "the Shannon (1948) `sent_len_entropy` measure"
 - ✓ "Shannon (1948) entropy applied to the distribution of sentence lengths
-  (as defined by turkish-linguistic-features)"
+  (turkish-linguistic-features, doi:10.5281/zenodo.23009540)"
 
 The first wording implies a measure the reader could look up in the source and
 find. Shannon defined the entropy; he did not apply it to sentence lengths.

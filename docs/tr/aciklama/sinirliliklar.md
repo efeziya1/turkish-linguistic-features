@@ -1,12 +1,12 @@
 # Sınırlılıklar
 
 Bu sayfa iki kısımdan oluşur. İlki aracın nerede zayıf olduğunu anlatır;
-ikincisi aracın zayıflığı olmayan ama sonuçları yorumlarken bilmeniz
+ikincisi aracın zayıflığı olmayan ama sonuçlar yorumlanırken bilinmesi
 gereken noktaları.
 
 ## Aracın sınırlılıkları
 
-### Tümce eşikleri yalnız gazete köşe yazılarıyla kalibre edildi
+### Tümce eşikleri yalnız gazete köşe yazılarından ölçüldü
 
 `short_sent_ratio` ve `long_sent_ratio` eşikleri (İng. *thresholds*; TR 4/17, EN 8/32)
 gazete köşe yazılarında, varsayılan tümce kuralı ve varsayılan sözcükle ölçülen
@@ -26,10 +26,11 @@ bulmadığını göstermez. Yöntem: [Eşik kalibrasyonu](../../esik-kalibrasyon
 
 ### Kaynaktan alınan sabitler Türkçede sınanmadı
 
-MTLD'nin 0,72 eşiği, HD-D'nin 42 sözcüklük örneklemi ve Brunet ölçüsünün 0,172 değeri
-kaynaklarından alındı ve Türkçe metinlerle sınanmadı. Türkçeye aktarılamayacakları
-söylenemez, ama aktarılabildikleri de gösterilmedi. Ayrıntı:
-[Eşikleri değiştir](../nasil/parametreler.md#kaynaktan-alnan-sabitler-turkcede-snanmad).
+MTLD'nin 0,72 eşiği (McCarthy ve Jarvis 2010, s.385), HD-D'nin 42 sözcüklük örneklemi
+(s.383) ve Brunet ölçüsünün 0,172 değeri (Brunet 1978, s.49) İngilizce ya da Fransızca
+metinlerle belirlendi ve Türkçe metinlerle sınanmadı. Türkçeye aktarılamayacakları
+söylenemez, ama aktarılabildikleri de gösterilmedi. Bir sabitin bir derlemde denenmesi
+için: [Eşikleri değiştir](../nasil/parametreler.md).
 
 ### On üç künye ikincil kaynaktan
 
@@ -41,27 +42,27 @@ Herdan (1960/1964), as cited in Tweedie & Baayen (1998) p.327, eq. (5)
 ```
 
 Etkilenen ölçüler arasında `herdan_c`, `herdan_vm`, `honore_r`, `maas_a2`,
-`dugast_u`, `simpson_d`, `heaps_beta`, `lix`, `cttr`, `summer_s` var. Formüller doğrulandı
-ama **birincil kaynağın kendi ifadesiyle** karşılaştırılmadı.
+`dugast_u`, `simpson_d`, `heaps_beta`, `lix`, `cttr`, `summer_s` var. Formüller aktaran
+kaynakla karşılaştırıldı, ama **birincil kaynağın kendisiyle** karşılaştırılamadı.
 
 ### Dil modelinin doğruluğu
 
-Sözcük türü etiketleri, biçimbilimsel etiketler, İngilizce sözlükbirimler ve bağımlılık
-öznitelikleri spaCy modelinden gelir. Model değişirse bu sayılar değişir. Türkçe
-sözlükbirimler Zeyrek'ten gelir (aşağıda).
+Sözcük türü etiketleri, biçimbilimsel etiketler ve bağımlılık öznitelikleri iki dilde de
+spaCy modelinden gelir; Türkçe sözlükbirimler ve özel adlar Akana'dan (aşağıda). Model
+değişirse bu sayılar değişir.
 
-Türkçe modeli geliştiren Altinok (2023, s.13747), kendi sınama verisinde modelin sözcük
-türünü %90 oranında doğru bulduğunu, bağımlılıkta ise bu oranın bağın türüyle birlikte
-%63'e düştüğünü bildirir. Model resmî yazılı dil kaynaklarıyla eğitilmiştir; başka türden
-metinlerde doğruluk farklı olabilir. Bu bilgilere dayanan öznitelikleri, özellikle
-doğruluğun en düşük olduğu bağımlılık ölçülerini (`syntactic`), dikkatle yorumlayın.
+Altinok'un (2023, s.13747) bildirdiğine göre spaCy'nin Türkçe modeli (`tr_core_news_md`)
+sözcüklerin %90'ının türünü doğru bulur. Bağımlılık çözümlemesinde bu oran %63'tür; burada bir
+sözcüğün hangi sözcüğe bağlandığı ve bağın türü birlikte doğru olmalıdır. Model resmî yazılı
+metinlerle eğitildiği için başka türden metinlerde doğruluk farklı olabilir. Bağımlılık
+ölçüleri (`syntactic`) özellikle dikkatle yorumlanmalıdır.
 
 Sözcük ve tümce aracın kendi kuralıyla sayılır
 ([Kavramlar](kavramlar.md#sozcuk-ve-tumce)). Hangi özniteliğin hangi sözcüğü kullandığını
 `describe_feature(key)["definitions"]["word"]` söyler.
 
 Sınanan sürümler: spaCy 3.8.16, `en_core_web_sm` 3.8.0,
-`tr_core_news_md` 1.0 (model sürümü 3.4.2), Zeyrek 0.1.3.
+`tr_core_news_md` 1.0 (model sürümü 3.4.2), Akana 0.12.0.
 
 ### Bölünen sözcükler
 
@@ -71,17 +72,19 @@ ad sayılır. Bu yalnız bu etiketleri kullanan öznitelikleri etkiler; sözcük
 sayımlarına ve okunabilirlik formüllerine dokunmaz. Köşe yazılarında sözcüklerin Türkçede
 %0,65'i, İngilizcede %2,70'i birden çok türceye bölünür.
 
-### Türkçe biçimbilim Zeyrek'e bağlı
+### Türkçe biçimbilim Akana'ya bağlı
 
-`morphological_zeyrek` grubundaki 23 öznitelik ve Türkçe sözlükbirimler Zeyrek'ten gelir.
-Zeyrek bir sözcük için birden çok çözümleme döndürebilir; araç bağlama bakmadan ilkini alır
-(Kalyoncu formüllerinde spaCy'nin sözcük türüne uyanı). Aynı sayıları yeniden almak için
-Python'u `PYTHONHASHSEED=0` ile başlatın.
+`morphological_akana` grubundaki 23 öznitelik, Türkçe sözlükbirimler ve özel adlar Akana'dan
+gelir. Bir sözcüğün birden çok çözümlemesi varsa Akana tümceye bakarak birini seçer; seçim bazen
+yanlıştır: *Bakan dün geldi* tümcesinde `bakan` fiilimsi (bak-an) sayılır. Özel adları bulan ad
+tanıyıcı da aynı zamanda sözcük olan bazı adları kaçırır: *Kitabı Sevgi bana verdi* tümcesinde
+`Sevgi` ad (`NOUN`) sayılır.
 
-### Adayların üçte ikisi hâlâ doğrulanmadı
+### Özniteliklerin çoğu için yayımlanmış örnek yok
 
-**172 doğrulama adayının 61'i** doğrulanmış (61 ✅), **111'i 🔍 açık**: kaynakların
-çoğu formülü yayımlar, o formülün uygulandığı bir sayısal örnek vermez. Ayrıntı:
+**136 aday özniteliğin 22'si** yayımlanmış bir örnekle karşılaştırıldı ve hepsi örtüştü (✅). **114'ü** için
+kaynaklarda yayımlanmış bir örnek bulunamadı (🔍 açık): Kaynakların çoğu formülü yayımlar,
+ama formülü bir metne uyguladığı bir örnek vermez. Ayrıntı:
 [doğrulama sistemi](dogrulama.md).
 
 ### Erken geliştirme aşaması (0.x)
@@ -91,8 +94,8 @@ notlarında duyurulur.
 
 ## Kullanırken bilmeniz gerekenler
 
-Bunlar aracın eksiği değil: ölçülerin kendi davranışı, girdi
-gereksinimi ya da künye kuralı. Yine de sonuçları etkiler.
+Bunlar aracın eksiği değildir: ölçülerin kendi davranışı, girdi
+gereksinimi ya da künye kuralıdır. Yine de sonuçları etkiler.
 
 ### Araca özgü öznitelikler
 
@@ -100,20 +103,20 @@ Bazı öznitelikler alanyazın ölçüsü değil, bu aracın tanımlarıdır. K�
 yazar:
 
 - `punct_entropy`, `sent_len_entropy`: Shannon formülünün noktalama ve
-  tümce uzunluğu dağılımına uygulanması. Formül Shannon'ın, uygulama kararı
-  bizim.
-- `polysyllabic_word_ratio`: SMOG'un girdisinin oran biçimi. McLaughlin'in
-  kendi ölçüsü değil.
+  tümce uzunluğu dağılımına uygulanması. Formül Shannon'ındır, nereye uygulanacağı
+  aracın kararıdır.
+- `polysyllabic_word_ratio`: SMOG'un girdisinin oran biçimidir. McLaughlin'in
+  kendi ölçüsü değildir.
 
-Bunları kullanmakta sakınca yok; formülün kaynağını verin, ama ölçüyü o
-kaynağın ölçüsü gibi göstermeyin.
+Bunları kullanmakta sakınca yok; formülün kaynağı verilmeli, ama ölçü o
+kaynağın ölçüsü gibi gösterilmemelidir.
 
 ### Paragraf öznitelikleri girdinin biçimlendirmesine bağlı
 
 `paragraph` grubunun üç özniteliği paragraf sınırını boş satırdan bulur; tek
 satır sonu paragraf saymaz. Metinde boş satır yoksa metnin tamamı tek paragraf
 sayılır; bu, PDF ve EPUB'dan çıkarılan metinlerde sık olur. 1000 sözcüğü geçen
-bir metinde hiç paragraf sınırı yoksa `ParagraphStructureWarning` basılır.
+bir metinde hiç paragraf sınırı yoksa `ParagraphStructureWarning` uyarısı verilir.
 
 ### Seslem sayımında okunuşla sayılanlar ve atlananlar
 
@@ -126,11 +129,29 @@ kilogram, `TBMM` → te-be-me-me.
 Sayıdan sonraki nokta, ardından sözcük ya da virgül geliyorsa sıra sayısıdır
 (`3. kat`); gelmiyorsa tümce sonudur (`Sonuç 3.` → üç).
 
-Okunuşu metinden belirlenemeyen biçimler tahmin edilmez, seslem sayımından
-**atlanır**: tek başına birim harfi (`m` metre de olabilir dakika da),
-okunuşu bağlama göre değişen simgeler (`/`, `#`, `*`), listede olmayan, ünlü
-içermeyen küçük harfli kısaltmalar. Bu yüzden simge ve kısaltma yoğun bir metinde seslem
-sayısı, elle yapılan sayımdan biraz düşük çıkar.
+Sayının içindeki nokta: Noktadan önce 0–24 arası bir saat, sonra 00–59 arası iki basamak varsa
+saat okunur (`8.15` → sekiz on beş, `12.30` → on iki otuz); yoksa ondalıktır ve "nokta" diye
+okunur (`1.5` → bir nokta beş, `1.60`, `25.30` → yirmi beş nokta otuz). Tek başına `0` saat
+sayılmaz (`0.25` → sıfır nokta yirmi beş; gece yarısı `00.25` diye yazılır). Noktadan sonra
+üç basamak varsa binliktir (`2.850` → iki bin sekiz yüz elli). Saate benzeyen ondalıklar
+(`4.50` lira) saat okunur ve iki seslem eksik sayılır.
+
+Başka örnekler:
+
+| Biçim | Okunuşu | Seslem |
+|---|---|---:|
+| `ve/veya`, `4+4+4` (simgeyle birleşik) | ve veya · dört artı dört artı dört | 3 · 7 |
+| `1/2` (kesir) | bir bölü iki | 5 |
+| `12/05/2020`, `13.3.2008` (tarih) | on iki sıfır beş iki bin yirmi · on üç üç iki bin sekiz | 11 · 8 |
+| `4x4` (sayılar arasında `x`) | dört çarpı dört | 4 |
+| `F1`, `A2'den` (harf + rakam) | fe bir · a iki den | 2 · 4 |
+| `5N1K` | beş ne bir ke | 4 |
+| `Dersim'38` (kısaltılmış yıl) | dersim otuz sekiz | 6 |
+| `tv` (ünlüsüz kısaltma) | te ve | 2 |
+
+Okunuşu metinden belirlenemeyen biçimler tahmin edilmez, seslem sayımından **atlanır**: tek
+başına küçük ünsüz harf, e-posta ve web adresleri. Köşe yazılarında sözcüklerin %0,03'ü böyle
+atlanır.
 
 ### Sesbilimsel ölçüler harfle hesaplanır
 
@@ -142,18 +163,13 @@ sürümlere bırakıldı.
 ### Heaps β kısa metinde güvenilir değil
 
 `heaps_beta` metin boyunca 20 eşit noktada ölçülür (Tweedie ve Baayen 1998, s.333); her
-metin aynı sayıda noktayla ölçülür. En az uzunluk sınırı yoktur, değer en az 20 sözcüklük
-her metinde hesaplanır; 20 sözcükten kısa metinde `nan` döner. Yasa büyük derlemlerde iyi
+metin aynı sayıda noktayla ölçülür. Değer en az 20 sözcüklük her metinde hesaplanır, daha
+kısa metinde `nan` döner. Yasa büyük derlemlerde iyi
 uyar, kısa metinlerde güvenilir değildir (Manning vd. 2008, s.81).
 
-### Kalyoncu formülleri elle sayımın yaklaşığı
+### İnsan yargısı gerektiren ölçüler yaklaşık hesaplanır
 
-`kalyoncu_*` anahtarları Kalyoncu'nun (2025) elle yaptığı sayımı Zeyrek ve spaCy ile yaklaşık
-olarak yeniden üretir. Kalyoncu'nun dokuz kuralından dördü (yaygın türetme ekli türevler,
-yansıma, pekiştirme, uzak anlam) ve anlama dayalı tümce tanımı uygulanmaz. KL uzman yargısına
-dayanır (3., 5., 8. kurallar), bu yüzden uzman değerleriyle tam örtüşmesi beklenmez. Yazıyla
-yazılan sayılar liste içidir; büyük harfle başlayan (tümce başında olmayan) sözcük özel ad
-sayılır; gövde ve fiilimsi sayımı spaCy türüne uyan Zeyrek çözümlemesinden yapılır (bu üç kural
-yalnız `kalyoncu_*` anahtarlarında). Zeyrek'in tanımadığı fiilimsi ekleri ve seçilen
-çözümlemedeki hatalar sonucu değiştirir. Ayrıntı:
-[Kalyoncu formülleri](kalyoncu.md).
+Bazı ölçülerin kaynakları sayımı elle, uzman yargısıyla yapmıştır: Bir sözcüğün listede sayılıp
+sayılmayacağına ya da bir tümcenin anlamca nerede bittiğine uzman karar verir. Araç bu kararları
+kurallarla verdiği için sonuç uzman sayımına yakındır ama onunla aynı değildir. Bu durumdaki
+öznitelikler Kalyoncu'nun (2025) formülleri ve bileşenleridir (`kalyoncu_*`).

@@ -246,10 +246,11 @@ def test_paragraf_basina_cumle_sent_count_bolu_para_count():
     assert paragraph_stats(metin, cumleler)["sents_per_para_mean"] == 1.0
 
 
-def test_harfli_cumle_yoksa_paragraf_basina_cumle_nan():
-    """Harfsiz cümle ``sent_count``'taki gibi sayılmaz; paragraf var, cümle yok → NaN."""
+def test_harfsiz_cumle_de_sayilir_kelimesiz_cumle_sayilmaz():
+    """``1999.`` bir tümcedir (2026-11-26, Efe); kelimesi olmayan tümce yok sayılır → NaN."""
     sonuc = paragraph_stats("1999.", [["1999"]])
-    assert sonuc["para_count"] == 1.0 and _nan(sonuc["sents_per_para_mean"])
+    assert sonuc["para_count"] == 1.0 and sonuc["sents_per_para_mean"] == 1.0
+    assert _nan(paragraph_stats("...", [["..."]])["sents_per_para_mean"])
 
 
 def test_paragraf_windows_satir_sonu():
@@ -332,10 +333,11 @@ def test_alfabesiz_cumle_sayilmaz():
     assert sonuc["sent_len_mean"] == 2.0
 
 
-def test_rakam_kelimedir_ama_tek_basina_cumle_degildir():
-    """Sayı kelime sayılır (isalnum); ama alfabesiz cümle cümle sayılmaz (isalpha)."""
+def test_rakam_kelimedir_tek_basina_da_cumledir():
+    """Sayı kelime sayılır (isalnum); harfsiz ama kelimeli tümce de tümcedir (2026-11-26, Efe)."""
     assert sentence_stats([["Yıl", "1999", "."]])["sent_len_mean"] == 2.0
-    assert _hepsi_nan(sentence_stats([["1999", "."]]))
+    assert sentence_stats([["1999", "."]]) == {"sent_len_mean": 1.0, "sent_len_median": 1.0,
+                                               "sent_count": 1.0}
 
 
 def test_yalniz_noktalama_cumlesi_hepsi_nan():

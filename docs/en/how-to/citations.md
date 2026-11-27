@@ -1,7 +1,6 @@
 # Find a feature's source
 
-If you are going to use a number in your own work, you have to say where it
-came from. The library hands you that.
+If you use a number in your own work, you have to say where it came from. The library gives you that.
 
 ## `describe_feature`
 
@@ -45,14 +44,14 @@ tlf.describe_feature("mattr")
 | `description` | One-sentence definition |
 | `formula` | The computation itself, in words |
 | `scale` | `ratio_0_1`, `score`, `count`… |
-| `inputs` | Which preprocessing step it needs |
+| `inputs` | Which preprocessing output the calculation needs |
 | `params` | Which `FeatureParams` field affects it |
 | `requires` | The minimum data needed to produce a number; below it, `nan` |
 | `citation` | **Short pointer** — the parenthetical in your methods section |
 | `references` | **Full bibliographic record** — what goes in your bibliography |
-| `definitions` | What the terms in `formula` mean and where the definition comes from: for each term `{"name", "source" (who defines the rule: tlf, spacy, zeyrek, textstat, wordfreq), "description" (one sentence: how it is counted)}`; only the terms that formula uses; `describe_feature(key, lang="tr")` picks the language for terms that differ by language (`syllable`, `type`) |
+| `definitions` | How the terms in `formula` (word, type, syllable…) are defined and who defines them (`tlf`, `spacy`, `akana`, `textstat`, `wordfreq`). For terms defined differently by language, choose the language with `describe_feature(key, lang="tr")` |
 
-## The citation also tells you what we do not know
+## The citation also says what is not known
 
 In the example above the citation says:
 
@@ -63,7 +62,7 @@ That is: the method is Covington & McFall's, **but the default window size
 is not theirs.** Being able to read that distinction off the citation is
 deliberate.
 
-A citation gives not only the source but **where** in it the formula is: 179 of the 203
+A citation gives not only the source but **where** in it the formula is: 182 of the 206
 Turkish citations give a page, table, equation or section number (`p.97`, `eq. (5)`). So
 you can find the formula in its source and compare it with the tool's implementation.
 
@@ -94,9 +93,9 @@ measure**; it is a plain definition: `punct_dash_ratio` ("dashes / all punctuati
 `uppercase_ratio` ("share of words that start with a capital"),
 `lemma_count` ("number of distinct lemmas"). Keys that count the categories of an external tag scheme do
 have a citation, pointing at the scheme (`case_loc_ratio` → UD;
-`zeyrek_case_loc_ratio` → Zeyrek).
+`akana_case_loc_ratio` → Akana).
 
-**11 of the 214** Turkish keys have no citation.
+**11 of the 217** Turkish keys have no citation.
 
 ## Building a bibliography for your methods section
 
@@ -111,14 +110,13 @@ for r in sorted(refs):
     print(r)
 ```
 
-This gives you the bibliography for the features **you actually used**, not
-all 58 works.
+This gives you the bibliography for the features **you actually used**, not all 58 works.
 
 ## Does the number actually match?
 
-The citation tells you the source; it does not tell you the number
-**agrees**. There is a separate document for that:
+The citation tells you the measure's source; it does not tell you that the tool's result
+**agrees** with the source. There is a separate document for that:
 
-- **[Verification report](../../verification-report.md)** — for each
-  feature, a comparison against the number its source published.
+- **[Verification report](../../verification-report.md)** — for features whose source
+  published a worked example, a comparison of the tool's result with the source's.
 - How to read it: **[The verification system](../explanation/verification.md)**.

@@ -1,6 +1,6 @@
 # Public API
 
-Eleven names. Everything else in the package is private and may change
+Twelve names. Everything else in the package is private and may change
 without notice.
 
 Every function that takes `lang` defaults to `"tr"`. For English text,
@@ -13,9 +13,9 @@ tlf.__all__
 ```
 
 ```text
-['analyze', 'analyze_corpus', 'ngram_matches', 'FeatureParams', 'segment_text',
- 'save_csv', 'describe_feature', 'LinguisticFeaturesError', 'ModelNotFoundError',
- 'MissingDependencyWarning', 'ParagraphStructureWarning']
+['analyze', 'analyze_corpus', 'ngram_matches', 'text_units', 'FeatureParams',
+ 'segment_text', 'save_csv', 'describe_feature', 'LinguisticFeaturesError',
+ 'ModelNotFoundError', 'MissingDependencyWarning', 'ParagraphStructureWarning']
 ```
 
 ---
@@ -41,7 +41,7 @@ Extracts every feature from one text. Returns a flat `dict`; values are
 | Parameter | Meaning |
 |---|---|
 | `text` | The text to analyse |
-| `lang` | `"tr"` (default) or `"en"`. Anything else raises `ValueError`. Changes the feature set (214 vs 181) |
+| `lang` | `"tr"` (default) or `"en"`. Anything else raises `ValueError`. Changes the feature set (217 vs 187) |
 | `model` | spaCy model name. Defaults: `tr_core_news_md`, `en_core_web_sm` |
 | `groups` | Restrict to these groups; `None` means all |
 | `params` | Thresholds and window sizes. **`None` selects language-calibrated values** |
@@ -89,6 +89,43 @@ tlf.ngram_matches("Eski ev yıkıldı. Büyük bahçe kaldı.", ["ADJ", "NOUN"])
 Sentence and position are not returned. For several texts, add the results up
 (`collections.Counter`). The text goes through the spaCy pipeline, as in
 `analyze`.
+
+---
+
+## `text_units`
+
+```python
+text_units(
+    text: str,
+    lang: str = "tr",
+    model: str | None = None,
+) -> dict[str, list]
+```
+
+The words, lemmas, POS tags, syllable counts and sentences of a text, as separate lists.
+They are the units `analyze` counts: `len(units["words"])` equals `word_count`,
+`len(units["sentences"])` equals `sent_count` and the syllables add up to `syllable_count`.
+
+```python
+units = tlf.text_units("Ali kitapları okudu. Yarın İstanbul'a gidecek.")
+```
+
+```text
+{'words':     ['Ali', 'kitapları', 'okudu', 'Yarın', "İstanbul'a", 'gidecek'],
+ 'lemmas':    ['ali', 'kitap', 'oku', 'yarın', 'istanbul', 'git'],
+ 'pos':       ['PROPN', 'NOUN', 'VERB', 'NOUN', 'PROPN', 'VERB'],
+ 'syllables': [2.0, 4.0, 3.0, 2.0, 4.0, 3.0],
+ 'sentences': [['Ali', 'kitapları', 'okudu'], ['Yarın', "İstanbul'a", 'gidecek']]}
+```
+
+`lemmas[i]`, `pos[i]` and `syllables[i]` belong to `words[i]`. Lemmas are lowercase; in Turkish
+they come from Akana, in English from spaCy. Tags come from spaCy, except that
+Turkish proper nouns come from Akana's named entity recognizer. `sentences`
+joined together give `words`. A word whose reading cannot be taken from the text (an e-mail or web
+address) has `nan` syllables. English syllables need the CMU dictionary, as in
+`analyze`. An empty text gives five empty lists.
+
+See: [TR](../tr/nasil/tek-metin.md) · [EN](../en/how-to/single-text.md)
 
 ---
 
@@ -191,7 +228,7 @@ not a literature measure.
 
 `definitions` explains the terms the `formula` uses (`sentence`, `word`, `syllable`,
 `letter`, `type`…): for each, `{"name": ..., "source": ..., "description": ...}` — the
-rule tlf counts it with, who defines that rule (`tlf`, `spacy`, `zeyrek`,
+rule tlf counts it with, who defines that rule (`tlf`, `spacy`, `akana`,
 `textstat`, `wordfreq`) and, in one sentence, how it is counted. A term the formula does not use is absent.
 Where the definition differs by language (`syllable`, `type`), `describe_feature(key, lang="tr")` returns
 that language's entry; without `lang` you get `{"tr": ..., "en": ...}`.
@@ -220,7 +257,7 @@ sample counts. Twenty-one fields; the full table is in
 
 | Name | When |
 |---|---|
-| `LinguisticFeaturesError` | Base class for the library's own errors: missing language data, corpus files that are not UTF-8, an incompatible Zeyrek version |
+| `LinguisticFeaturesError` | Base class for the library's own errors: missing language data, corpus files that are not UTF-8, an incompatible Akana version |
 | `ModelNotFoundError` | Required language data is not installed: a spaCy model, or NLTK's `cmudict` for English syllable counts. The message contains the install command |
 | `MissingDependencyWarning` | The optional `wordfreq` package is missing; the two `wordfreq_*` features return `nan` |
 | `ParagraphStructureWarning` | A text over 1000 words has no blank-line paragraph boundary; the three `paragraph` features (`para_count`, `para_len_mean`, `sents_per_para_mean`) describe the whole text as one paragraph |
@@ -228,4 +265,4 @@ sample counts. Twenty-one fields; the full table is in
 Catching `LinguisticFeaturesError` catches the two errors. An invalid argument raises
 Python's own error instead: `ValueError` for an unsupported `lang` or a
 non-positive `segment_size`, `KeyError` from `describe_feature` for an unknown
-key. Errors raised inside spaCy or Zeyrek are not caught either.
+key. Errors raised inside spaCy or Akana are not caught either.

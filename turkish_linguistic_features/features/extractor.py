@@ -11,7 +11,7 @@ olduğu tek bakışta belli oluyor.
 
 **Grup girdisi yoksa grup sessizce atlanır.** ``dep_data`` verilmezse
 ``syntactic`` (16), ``morph_tags`` verilmezse ``morphological`` (19),
-``morpheme_lists`` verilmezse ``morphological_zeyrek`` (23) hiç üretilmez —
+``morpheme_lists`` verilmezse ``morphological_akana`` (23) hiç üretilmez —
 hata da verilmez. Bu üç alan ``pos_data`` ile **hizalı** olmak zorunda, boş
 liste geçerli bir "hizalı" değer değil. ``analyze()`` yolunda ``Preprocessor``
 üçünü de doldurur (T21), yani taban şema bundan etkilenmez.
@@ -26,6 +26,8 @@ import math
 from typing import Any
 
 from ..alfabe import _kucuk_harf
+from ..birimler.sozcuk import cumle_birimleri, kelime_birimleri
+from ..birimler.tumce import kural_cumleleri
 from ..params import DEFAULT_PARAMS, FeatureParams, resolve_sent_thresholds
 from .dependency import dependency_features
 from .frequency_structure import (
@@ -75,8 +77,9 @@ from .lexical import (
     zipf,
     zipf_mandelbrot,
 )
-from .morphological import spacy_morph_ratios, surface_per_lemma, zeyrek_morfoloji
+from .morphological import akana_morfoloji, spacy_morph_ratios, surface_per_lemma
 from .phonetic import (
+    birim_hecesi,
     sentence_syllable_stats,
     syllable_count,
     syllable_count_stats,
@@ -99,11 +102,8 @@ from .punctuation import (
     whitespace_ratio,
 )
 from .readability import (
-    cumle_birimleri,
     english_readability_formulas,
     general_readability_formulas,
-    kelime_birimleri,
-    kural_cumleleri,
     turkish_readability_formulas,
 )
 from .registry import GROUP_LABELS
@@ -165,6 +165,24 @@ def _ngram_cumleleri(raw_text: str, surface_tokens: list[str], lemma_tokens: lis
     return _etiketli_cumleler(wv)
 
 
+def _metin_birimleri(raw_text: str, surface_tokens: list[str], lemma_tokens: list[str],
+                     pos_data: list[tuple[str, str]], lang: str = "tr",
+                     **_: Any) -> dict[str, list[Any]]:
+    """``text_units`` için: ``_extract_features``'ın saydığı sözcükler ve tümceler."""
+    wv = word_view(raw_text, kelime_birimleri(raw_text, lang)[0], surface_tokens, pos_data,
+                   lemma_tokens, None, None, kural_cumleleri(surface_tokens, lang), lang)
+    # Syllables of each word, as the syllable keys count them; NaN where the reading cannot be
+    # taken from the text (2026-11-26, Efe).
+    heceler = [birim_hecesi(w, lang) for w in wv.words]
+    return {
+        "words": wv.words,
+        "lemmas": wv.lemmas,
+        "pos": [etiket for _, etiket in wv.pos],
+        "syllables": [float(h) if h is not None else math.nan for h in heceler],
+        "sentences": wv.sentences,
+    }
+
+
 def _extract_features(
     raw_text: str,
     surface_tokens: list[str],
@@ -178,7 +196,6 @@ def _extract_features(
     groups: list[str] | None = None,
     params: FeatureParams | None = None,
     dep_data: Any = None,
-    morpheme_alternatives: list[list[Any]] | None = None,
 ) -> dict[str, float]:
     """Registry'de kayıtlı öznitelikleri üretir.
 
@@ -196,7 +213,7 @@ def _extract_features(
     Returns
     -------
     dict[str, float]
-        Anahtar → değer. Türkçe taban 214, İngilizce 181; ``dep_data``
+        Anahtar → değer. Türkçe taban 217, İngilizce 187; ``dep_data``
         verilmezse her ikisinden de 16 eksik.
 
     Raises
@@ -241,7 +258,7 @@ def _extract_features(
     # sayar; etiket kelimenin içindeki ilk kelime tokenından gelir (`word_alignment`).
     # Yalnız `syntactic` spaCy tokenında ve ayrıştırıcı cümlesinde kalır.
     wv = word_view(raw_text, kelimeler, surface_tokens, pos_data, lemma_tokens,
-                   morph_tags, morpheme_lists, cumleler, lang, morpheme_alternatives)
+                   morph_tags, morpheme_lists, cumleler, lang)
     # Dile göre küçük harf: `str.lower()` Türkçede "I"yı "i" yapar, "İ"ye
     # birleşik nokta (U+0307) ekler — ttr ve kelime uzunluğu kayardı.
     kucuk_kelimeler = [_kucuk_harf(tok, lang) for tok in kelimeler]
@@ -349,17 +366,17 @@ def _extract_features(
         feats.update(surface_per_lemma(wv.words, wv.pos, wv.lemmas, lang))
         feats.update(spacy_morph_ratios(wv.morph, wv.pos))
 
-    # ── morphological_zeyrek (23) — yalnız Türkçe ─────────────────────
-    # K11: dil şemayı belirler. İngilizcede grup hiç üretilmez; Zeyrek
+    # ── morphological_akana (23) — yalnız Türkçe ─────────────────────
+    # K11: dil şemayı belirler. İngilizcede grup hiç üretilmez; Akana
     # İngilizce çözümlemiyor, kurmak bir şeyi değiştirmez.
-    if istiyor("morphological_zeyrek") and lang == "tr" and wv.morphemes is not None:
-        feats.update(zeyrek_morfoloji(wv.morphemes, wv.pos, params))
+    if istiyor("morphological_akana") and lang == "tr" and wv.morphemes is not None:
+        feats.update(akana_morfoloji(wv.morphemes, wv.pos, params))
 
     # ── phonological (TR 14 · EN 12) ──────────────────────────────────
     if istiyor("phonological"):
         feats.update(vowel_ratios(raw_text, lang))
         # Ünlü uyumu Türkçeye özgü (Göksel & Kerslake 2005); İngilizcede
-        # anlamı yok, anahtar hiç üretilmez — Zeyrek ve okunabilirlikle aynı.
+        # anlamı yok, anahtar hiç üretilmez — Akana ve okunabilirlikle aynı.
         if lang == "tr":
             feats.update(vowel_harmony_ratios(kelimeler, lang))
         feats.update({k: (v if raw_text.strip() else math.nan)
@@ -373,10 +390,10 @@ def _extract_features(
         feats.update(general_readability_formulas(raw_text, surface_tokens, lang))
         if lang == "tr":
             feats.update(turkish_readability_formulas(raw_text, surface_tokens))
-            # Kalyoncu (2025) K1–K4 Zeyrek ister; girdi yoksa ölçülemez (K4), anahtar yine üretilir.
+            # Kalyoncu (2025) K1–K4 Akana ister; girdi yoksa ölçülemez (K4), anahtar yine üretilir.
             if wv.morphemes is not None:
                 feats.update(kalyoncu_features(wv.words, wv.pos, wv.lemmas, wv.morphemes,
-                                               wv.sentences, params, wv.alternatives))
+                                               wv.sentences, params))
             else:
                 feats.update(dict.fromkeys(KALYONCU_KEYS, math.nan))
         else:

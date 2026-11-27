@@ -1,4 +1,4 @@
-# Tutorial — from nothing to your first measurement
+# Tutorial — from nothing to a first measurement
 
 This page is a single path: it starts at installation and ends with a
 readable table of numbers. No branching; the options live in
@@ -15,7 +15,7 @@ pip install turkish-linguistic-features
 ## 2. Install the language data
 
 `pip install` sets up the Python dependencies but not the language data.
-Install the data for the language(s) you use, once:
+Install the data for each language you use, once:
 
 ```bash
 # Turkish — 156 MB, not in spaCy's registry, install the wheel directly
@@ -30,17 +30,12 @@ python -m nltk.downloader cmudict
 pip install 'wordfreq>=3.0'
 ```
 
-Zeyrek (the Turkish morphological analyser) is installed automatically with the tool.
+Akana (the Turkish morphological analyser) is installed automatically with the tool.
 
-!!! note "Two things about the Turkish model that look like bugs"
+!!! note "The Turkish model"
 
-    **The wheel disagrees with itself.** The filename says version `1.0`,
-    the metadata inside says `3.4.2`. `pip` accepts it and installs it;
-    stricter installers reject it as a malformed wheel.
-
-    **Loading it prints a `W094` warning** about an under-constrained spaCy
-    version requirement. That is the model's own `meta.json` talking. It is
-    harmless and there is nothing to fix on either side.
+    Loading the model shows a `W094` warning; it is harmless. The version in the package file's
+    name (`1.0`) differs from the one inside it (`3.4.2`); `pip` does not mind.
 
 Check the install:
 
@@ -64,7 +59,7 @@ print(len(oz))
 ```
 
 ```text
-181
+187
 ```
 
 The first sentence is from Chomsky's *Syntactic Structures* (1957).
@@ -77,24 +72,19 @@ numbers. No nesting, no classes, no `pandas` requirement.
 
 ## 4. Read the output
 
-Looking at 181 numbers at once is pointless. Look at a few:
+You get a feature's value by its name:
 
 ```python
-for k in ("ttr", "word_len_mean", "flesch_reading_ease",
-          "flesch_kincaid_grade", "ari", "coleman_liau"):
-    print(f"{k:22s} {oz[k]}")
+print(oz["ttr"])
+print(oz["flesch_reading_ease"])
 ```
 
 ```text
-ttr                    0.923077
-word_len_mean          5.5385
-flesch_reading_ease    51.6153
-flesch_kincaid_grade   8.2131
-ari                    10.0764
-coleman_liau           13.3508
+0.923077
+51.6153
 ```
 
-What these say:
+What a few features say:
 
 | Key | Value | Reading |
 |---|---|---|
@@ -109,8 +99,8 @@ What these say:
 
     8.21, 10.08 and 13.35 all claim to be a grade level for the same text.
     That is not a bug — readability formulas disagree by design, because
-    they were fitted on different corpora with different criteria. Report
-    which formula you used, and do not average them.
+    they were fitted on different corpora with different criteria. Report which formula
+    you used, and do not average them.
 
 ## 5. Why are some values `nan`?
 
@@ -125,25 +115,12 @@ nan
 The text has 26 words; `mattr` requires at least 100. The library does not
 invent a number from insufficient data — it returns `nan`.
 
-How much of the output is affected in a very short text:
-
-```python
-short = tlf.analyze("A short sentence.", lang="en")
-nans = [k for k, v in short.items() if isinstance(v, float) and v != v]
-print(len(short), len(nans))
-```
-
-```text
-181 34
-```
-
-In a three-word text, **34 of 181** features return `nan`. That is honesty,
-not failure. See **[What NaN means](explanation/nan.md)**.
+The shorter the text, the more `nan`: in a three-word text (`A short sentence.`) **35 of
+187** features return `nan`. That is not an error. See **[What NaN means](explanation/nan.md)**.
 
 ## 6. See where a feature comes from
 
-If you are going to put a number in your own work, you need to know its
-source:
+If you use a number in your own work, you need to know where it comes from:
 
 ```python
 d = tlf.describe_feature("mattr")
@@ -156,15 +133,15 @@ Covington & McFall (2010); default window 50 — C&M recommend a window of 500 (
 Covington, M. A., & McFall, J. D. (2010). Cutting the Gordian knot: The moving-average type–token ratio (MATTR). Journal of Quantitative Linguistics, 17(2), 94–100. DOI 10.1080/09296171003643098
 ```
 
-`references` is what you copy into your bibliography. `citation` is the
-short pointer, and it **also tells you what we do not know** — in this case
+`references` is what you copy into your bibliography. `citation` is the short pointer,
+and it **also says what is not known** — in this case
 it says outright that the default window size does not come from the source. The
-dictionary's other fields (formula, scale, minimum data…): [Find a feature's
+other fields `describe_feature` returns (formula, scale, minimum data…): [Find a feature's
 source](how-to/citations.md).
 
 ## 7. Turn a corpus into a table
 
-One text is rarely enough. Lay your directory out like this:
+One text is rarely enough. Lay out your directory like this:
 
 ```text
 corpus/
@@ -180,7 +157,13 @@ rows = tlf.analyze_corpus("corpus/", lang="en")
 tlf.save_csv(rows, "features.csv")
 ```
 
-Each file becomes one row. The table has your features plus three identity
+**Where is the file saved?** If you give only a file name (`"features.csv"`), the file is saved in
+the folder you run Python from: the folder where you typed `python script.py` in the terminal,
+or the notebook's folder in Jupyter. To save it elsewhere, give the full path:
+`"C:/Users/yourname/Desktop/features.csv"`. A file with the same name is overwritten.
+`"corpus/"` is looked up by the same rule.
+
+Each file becomes one row: 3 rows, 190 columns, that is 187 features plus three identity
 columns:
 
 ```text
@@ -197,8 +180,8 @@ label=author_b  source=text3     segment_id=0
 You now have a working install and a feature table. From here:
 
 - A specific job to do → **[How-to](how-to/index.md)**
-- Texts of very different lengths →
+- Long texts to split →
   **[Split a text into segments](how-to/segmenting.md)**
-- Wondering how far to trust the numbers →
+- How far to trust the numbers →
   **[The verification system](explanation/verification.md)** and
   **[Limitations](explanation/limitations.md)**

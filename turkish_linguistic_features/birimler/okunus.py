@@ -96,13 +96,32 @@ def _basamaklar(rakamlar: str) -> list[str] | None:
     return None if n >= _UST_SINIR else _tam_sayi(n)
 
 
+# A number, a dot and one or two digits: a time if it can be one (hour 0-24, two-digit
+# minutes under 60: 8.15, 10.30, 6.00'da), otherwise a decimal read "nokta" (1.5 = bir nokta
+# beş, 1.75, 25.30 = yirmi beş nokta otuz). A single "0" hour is a decimal (0.25 = sıfır nokta
+# yirmi beş); midnight is written 00.25. Three digits after the dot is a thousands group
+# (2.850). A decimal that looks like a time (4.50 lira) is read as a time, two syllables short
+# (2026-11-27, Efe).
+_NOKTALI_ONDALIK = re.compile(r"(\d+)\.(\d{1,2})")
+
+
+def _saat_olabilir(sol: str, sag: str) -> bool:
+    return len(sol) <= 2 and sol != "0" and len(sag) == 2 and int(sol) <= 24 and int(sag) < 60
+
+
 def sayi_oku(token: str) -> str | None:
     """Sayıyı Türkçe okunuşuna çevirir; sayı biçiminde değilse ``None``.
 
     ``1916`` → "bin dokuz yüz on altı" · ``12.500.000`` (binlik nokta) ·
-    ``3,5`` → "üç virgül beş" · ``0532`` → rakam rakam. 10**15 ve üstü,
-    sıra sayısı (``2.``), saat (``10:30``) ve karışık biçimler (``3G``) → ``None``.
+    ``3,5`` → "üç virgül beş" · ``1.5`` → "bir nokta beş" · ``0532`` → rakam rakam.
+    10**15 ve üstü, sıra sayısı (``2.``), saat (``10:30``) ve karışık biçimler (``3G``) →
+    ``None``.
     """
+    nokta = _NOKTALI_ONDALIK.fullmatch(token)
+    if nokta is not None and not _saat_olabilir(*nokta.groups()):
+        tam_n, ondalik_n = _basamaklar(nokta.group(1)), _basamaklar(nokta.group(2))
+        return (None if tam_n is None or ondalik_n is None
+                else " ".join(tam_n + ["nokta"] + ondalik_n))
     m = _SAYI.fullmatch(token)
     if m is None:
         return None
@@ -290,4 +309,3 @@ SEMBOLLER: dict[str, dict[str, str]] = {
         "<": "less than", ">": "greater than", "±": "plus or minus",
     },
 }
-

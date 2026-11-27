@@ -110,7 +110,7 @@ def analyze_corpus(path: str | Path, lang: str = "tr",
         if show_progress:
             print(f"  [{i}/{len(kayitlar)}] {kayit['source']} #{kayit['segment_id']}")
         # Parça parça `analyze`, toplu `nlp.pipe()` değil: ölçüldü (2026-10-09, Efe), toplam süreyi
-        # TR'de %1,6, EN'de %4 kısaltıyordu; süre Zeyrek'te ve öznitelik hesabında. Bu yüzden
+        # TR'de %1,6, EN'de %4 kısaltıyordu; süre çözümlemede ve öznitelik hesabında. Bu yüzden
         # `Preprocessor.process_many` kaldırıldı.
         # Hata korpusu atlamadan durdurur (yarım tablo sessizce eksilmesin), ama
         # hangi parçada durduğunu söyler; tip aynı kalır (2026-10-09, Efe).

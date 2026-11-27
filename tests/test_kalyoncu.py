@@ -1,4 +1,4 @@
-"""Kalyoncu (2025) K1–K4 ve bileşenleri: elle kurulmuş Zeyrek çözümlemeleriyle (model gerekmez)."""
+"""Kalyoncu (2025) K1–K4 ve bileşenleri: elle kurulmuş Akana çözümlemeleriyle (model gerekmez)."""
 
 import math
 from collections import Counter
@@ -8,7 +8,6 @@ import pytest
 from turkish_linguistic_features.features.kalyoncu import (
     KALYONCU_KEYS,
     _bir_kez_oran,
-    cozumleme_sec,
     fiilimsi_mi,
     govde,
     kalyoncu_features,
@@ -120,18 +119,21 @@ def test_govde_ilk_cekimden_sonra_biter(m, lemma, kelime, beklenen):
     assert govde(m, lemma, kelime)[0] == beklenen
 
 
-def test_fiilimsi_ek_eylemli_ad_sayilmaz():
+def test_fiilimsi_ek_eylemli_ad_ken_de_sayilir():
+    """0.4.0: ek eylemli adın -ken'i de fiilimsi (kaynak kapsamı belirtmiyor; Efe, 2026-11-25)."""
     assert fiilimsi_mi(OKUYARAK)
     assert fiilimsi_mi(OKURKEN)
-    assert not fiilimsi_mi(OGRENCIYKEN)
+    assert fiilimsi_mi(OGRENCIYKEN)
+    assert not fiilimsi_mi(EVDEYDI)
     assert not fiilimsi_mi(GELDI)
     assert not fiilimsi_mi(BILINMEYEN)
 
 
 # ── ölçüler ───────────────────────────────────────────────────────────
 
-def test_ocu_sayiyi_okunusuyla_sayar_harfsiz_tumceyi_saymaz():
-    """"Bu bir tümce. 1999. Bitti." → 3 + 5 + 1 = 9 sözcük, 2 tümce, OCU 4,5 (2026-10-27, Efe)."""
+def test_ocu_sayiyi_okunusuyla_sayar_harfsiz_tumceyi_de_sayar():
+    """"Bu bir tümce. 1999! Bitti." → 3 + 5 + 1 = 9 sözcük, 3 tümce, OCU 3 (2026-11-26, Efe:
+    harfsiz tümce de tümcedir; 2026-10-27'den beri sayılmıyordu)."""
     girdi = _girdi(
         [("Bu", "DET", "bu", (("Det", "bu", False),)),
          ("bir", "DET", "bir", (("Det", "bir", False),)),
@@ -141,7 +143,7 @@ def test_ocu_sayiyi_okunusuyla_sayar_harfsiz_tumceyi_saymaz():
                                    ("A3sg", "", False)))],
     )
     sonuc = kalyoncu_features(*girdi)
-    assert sonuc["kalyoncu_ocu"] == 4.5
+    assert sonuc["kalyoncu_ocu"] == 3.0
 
 
 def test_kl_ozel_ad_ve_sayi_liste_ici_sapka_silinir():
@@ -165,7 +167,7 @@ def test_kl_fiil_mastarla_ve_yumusamis_unsuz_sertlesmis_bulunur():
 
 
 def test_kco_fiilimsi_ya_da_iki_fiil():
-    """Tek fiil basit; fiilimsi ya da iki fiil karmaşık; ek eylemli ad -ken fiilimsi değil."""
+    """Tek fiil basit; fiilimsi ya da iki fiil karmaşık; ek eylemli ad -ken de fiilimsi."""
     girdi = _girdi(
         [("Geldi", "VERB", "gel", GELDI)],
         [("Okuyarak", "VERB", "oku", OKUYARAK), ("geldi", "VERB", "gel", GELDI)],
@@ -173,8 +175,8 @@ def test_kco_fiilimsi_ya_da_iki_fiil():
         [("Öğrenciyken", "NOUN", "öğrenci", OGRENCIYKEN), ("geldi", "VERB", "gel", GELDI)],
     )
     sonuc = kalyoncu_features(*girdi)
-    assert sonuc["kalyoncu_kco"] == 50.0
-    assert sonuc["kalyoncu_yco"] == 2.5          # 1 fiilimsi / 4 tümce × 10
+    assert sonuc["kalyoncu_kco"] == 75.0
+    assert sonuc["kalyoncu_yco"] == 5.0          # 2 fiilimsi / 4 tümce × 10
 
 
 def test_ttr_bir_kez_gecen_govde_cekim_ayni_sozcuk():
@@ -214,7 +216,7 @@ def test_bos_metin_nan_ve_harfsiz_tumce():
     assert all(math.isnan(v) for v in kalyoncu_features(*_girdi()).values())
     sadece_sayi = kalyoncu_features(*_girdi([("1999", "NUM", "1999", (("Num", "1999", False),))]))
     assert sadece_sayi["kalyoncu_kl"] == 0.0
-    assert math.isnan(sadece_sayi["kalyoncu_ocu"]) and math.isnan(sadece_sayi["kalyoncu_k1"])
+    assert sadece_sayi["kalyoncu_ocu"] == 5.0          # "bin dokuz yüz doksan dokuz", 1 tümce
 
 
 def test_pencere_parametresi_dogrulanir():
@@ -236,23 +238,26 @@ IKISI = (("Num", "iki", False), ("A3sg", "", False), ("P3pl", "si", False), ("No
 UCUNCU = (("Num", "üç", False), ("Ord", "üncü", True), ("Adj", "", False))
 BESER = (("Num", "beş", False), ("Distrib", "er", True), ("Adv", "", False))
 BESER_AD = (("Noun", "beşer", False), ("A3sg", "", False))
-ON_SAYI = (("Num", "on", False), ("A3sg", "", False), ("Gen", "un", False), ("Noun", "", False))
 ONUN_ZAMIR = (("Pron", "o", False), ("A3sg", "", False), ("Gen", "nun", False))
 XQZT_FIIL = (("Verb", "xqzt", False), ("Imp", "", False), ("A2sg", "", False))
 XQZT_AD = (("Noun", "xqzt", False), ("A3sg", "", False))
 
 
-@pytest.mark.parametrize(("etiket", "m", "alt", "beklenen"), [
-    ("NUM", IKI, (), True),                             # spaCy NUM
-    ("NUM", IKISI, (), True),                           # çekimli
-    ("ADJ", UCUNCU, (), True),                          # sıra: seçilen çözümlemenin kökü Num
-    ("NOUN", BESER_AD, ((BESER, "beş"),), True),        # üleştirme, spaCy ad dese de
-    ("PRON", ONUN_ZAMIR, ((ON_SAYI, "on"),), False),    # onun ≠ on
-    ("VERB", GELDI, ((ON_SAYI, "on"),), False),
-    ("NOUN", EV, (), False),
+@pytest.mark.parametrize(("etiket", "m", "beklenen"), [
+    ("NUM", IKI, True),                                 # spaCy NUM
+    ("NUM", IKISI, True),                               # çekimli
+    ("ADJ", UCUNCU, True),                              # sıra: seçilen çözümlemenin kökü Num
+    ("ADV", BESER, True),                               # üleştirme: seçilen çözümlemenin kökü Num
+    # 0.4.0 (Efe): yalnız seçilen çözümlemeye bakılır. 0.3.0'da çözümlemesi ad olan "beşer"
+    # öbür çözümlemesindeki Num kökü yüzünden sayı sayılıyordu; bu dal Kalyoncu'nun 9.
+    # kuralında yok, aracın eklemesiydi ve kaldırıldı.
+    ("NOUN", BESER_AD, False),
+    ("PRON", ONUN_ZAMIR, False),                        # onun ≠ on
+    ("VERB", GELDI, False),
+    ("NOUN", EV, False),
 ])
-def test_sayi_mi_yazili_sayi(etiket, m, alt, beklenen):
-    assert sayi_mi(etiket, m, alt) is beklenen
+def test_sayi_mi_yazili_sayi(etiket, m, beklenen):
+    assert sayi_mi(etiket, m) is beklenen
 
 
 def test_kl_yazili_sayi_paya_girmez_paydada_kalir():
@@ -263,42 +268,29 @@ def test_kl_yazili_sayi_paya_girmez_paydada_kalir():
     assert kalyoncu_features(*girdi)["kalyoncu_kl"] == 20.0
 
 
-@pytest.mark.parametrize(("sozcuk", "etiket", "tumce_basi", "beklenen"), [
-    ("Derya", "NOUN", False, True),            # büyük harf, tümce başında değil
-    ("İstanbul'da", "NOUN", False, True),      # düz kesme
-    ("İstanbul’da", "NOUN", False, True),      # eğri kesme
-    ("Hassan'ı", "X", False, True),
-    ("Derya", "NOUN", True, False),            # tümce başı: yalnız PROPN'e kalır
-    ("Derya", "PROPN", True, True),
-    ("kitap", "NOUN", False, False),
-    ("ankara'da", "NOUN", False, False),
+@pytest.mark.parametrize(("etiket", "beklenen"), [
+    # 0.4.0 (Efe, 2026-11-25): özel ad yalnız PROPN etiketi. Türkçede ön işleme Akana'nın ad
+    # tanıyıcısının (NER) kişi, yer, kurum dediği sözcükleri PROPN yapar; büyük harf kuralı kalktı.
+    ("PROPN", True),
+    ("NOUN", False),
+    ("X", False),
 ])
-def test_ozel_ad_mi(sozcuk, etiket, tumce_basi, beklenen):
-    assert ozel_ad_mi(sozcuk, etiket, tumce_basi) is beklenen
+def test_ozel_ad_mi(etiket, beklenen):
+    assert ozel_ad_mi(etiket) is beklenen
 
 
-def test_kl_buyuk_harfli_ad_paya_girmez_tumce_basindaki_girer():
-    """"Ben Derya'yı gördüm": Derya'yı özel ad (pay dışı). "Xqzt geldi" tümce başı: pay içi."""
+def test_kl_ozel_ad_paya_girmez():
+    """"Ben Derya'yı gördüm": Derya'yı özel ad (PROPN; pay dışı). "Xqzt geldi": liste dışı, pay içi."""
     girdi = _girdi(
         [("Ben", "PRON", "ben", (("Pron", "ben", False), ("A1sg", "", False))),
-         ("Derya'yı", "NOUN", "Derya", AHMET), ("geldi", "VERB", "gel", GELDI)],
+         ("Derya'yı", "PROPN", "Derya", AHMET), ("geldi", "VERB", "gel", GELDI)],
         [("Xqzt", "NOUN", "xqzt", XQZT_AD), ("geldi", "VERB", "gel", GELDI)],
     )
     assert kalyoncu_features(*girdi)["kalyoncu_kl"] == 20.0     # 1 / 5
 
 
-def test_cozumleme_secimi_spacy_turune_uyan_ilk_cozumleme():
-    alt = ((XQZT_FIIL, "xqzt"), (XQZT_AD, "xqzt"))
-    assert cozumleme_sec("NOUN", XQZT_FIIL, "xqzt", alt)[0] == XQZT_AD     # uyan ilk
-    assert cozumleme_sec("VERB", XQZT_FIIL, "xqzt", alt)[0] == XQZT_FIIL
-    assert cozumleme_sec("ADJ", XQZT_FIIL, "xqzt", alt)[0] == XQZT_FIIL    # uyan yok: ilk
-    assert cozumleme_sec("NOUN", XQZT_FIIL, "xqzt", ())[0] == XQZT_FIIL    # çözümleme yok
-
-
-def test_secilen_cozumleme_govdeyi_ve_tumce_sayimini_belirler():
-    """Zeyrek ilk çözümlemesi fiil; spaCy ad der: ad seçilir, fiil sayılmaz, KCO değişir."""
+def test_secilen_cozumleme_kullanilir_spacy_turu_secmez():
+    """Akana'nın seçtiği çözümleme fiil; spaCy ad dese de o çözümleme kalır (2026-11-10, Efe)."""
     cumle = [("geldi", "VERB", "gel", GELDI), ("xqzt", "NOUN", "xqzt", XQZT_FIIL)]
     girdi = _girdi(cumle)
     assert kalyoncu_features(*girdi)["kalyoncu_kco"] == 100.0              # iki fiil
-    alt = [(), ((XQZT_FIIL, "xqzt"), (XQZT_AD, "xqzt"))]
-    assert kalyoncu_features(*girdi, alternatives=alt)["kalyoncu_kco"] == 0.0

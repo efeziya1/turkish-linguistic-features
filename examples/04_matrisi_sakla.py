@@ -1,6 +1,6 @@
 """Matrisi sakla — pahalı adımı bir kez öde.
 
-Öznitelik çıkarımı kütüphanenin en pahalı adımıdır (spaCy + Zeyrek). Çıkarımı
+Öznitelik çıkarımı kütüphanenin en pahalı adımıdır (spaCy + Akana). Çıkarımı
 bir döngünün içine koyarsanız korpus her turda yeniden işlenir. Kalıp şudur:
 **çıkar → kaydet → tekrar tekrar yükle.**
 

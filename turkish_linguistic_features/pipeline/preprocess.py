@@ -5,7 +5,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 Morpheme = tuple[str, str, bool]      # (etiket, yüzey_ek, türetimsel_mi)
-Analysis = tuple[tuple[Morpheme, ...], str]   # (morfemler, sözlükbirim)
 DepToken = tuple[int, str, str, int]  # (index, pos, deprel, head_index)
 
 # Why bu sıra: etiket POZISYON 0'da. Tüm etiket eşleşmeli öznitelik
@@ -14,8 +13,8 @@ DepToken = tuple[int, str, str, int]  # (index, pos, deprel, head_index)
 # kadar görünmez. Ölçüldü (2026-08-21): çalışan eski kod
 # `(morph.id_, surf, morph.derivational)` üretiyor.
 #
-# Why üçüncü alan: `zeyrek_derivational_suffix_ratio()` (T16) türetimsel ekleri
-# elle tutulan bir yüzey-biçim listesinden değil, Zeyrek'in kendi
+# Why üçüncü alan: `akana_derivational_suffix_ratio()` (T16) türetimsel ekleri
+# elle tutulan bir yüzey-biçim listesinden değil, Akana'nın kendi
 # morfotaktik modelinden okuyor. Bu bayrak olmadan o öznitelik
 # hesaplanamaz — ölçüldü: eski kodda ikili tuple `IndexError` veriyor.
 
@@ -37,8 +36,6 @@ class ProcessedText:
     morph_tags:          tuple[tuple[str, str], ...] = ()
     lang:                str = "tr"
     dep_data:            tuple[tuple[DepToken, ...], ...] | None = None
-    # Token başına Zeyrek'in tüm çözümlemeleri (yalnız Kalyoncu çözümleme seçimi için).
-    morpheme_alternatives: tuple[tuple[Analysis, ...], ...] = ()
 
     def to_dict(self) -> dict:
         """``_extract_features(**processed.to_dict())`` için kwargs döndürür.
@@ -56,5 +53,4 @@ class ProcessedText:
             "morph_tags":          [tuple(m) for m in self.morph_tags],
             "lang":                self.lang,
             "dep_data":            self.dep_data,
-            "morpheme_alternatives": [list(a) for a in self.morpheme_alternatives],
         }

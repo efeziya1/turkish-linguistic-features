@@ -103,7 +103,7 @@ _SIMGE = {BIREBIR: "✅", SAPMA: "🟡", ACIK: "🔍", KAYNAK_YOK: "⚪",
 ADAY_DURUMLAR = (BIREBIR, SAPMA, ACIK, UYUSMAZLIK)
 ADAY_OLMAYAN = (KAYNAK_YOK, SEMA, ARACA_OZGU, KALIBRE)
 
-# Formülü bir kaynaktan gelen ama **uygulaması bu kütüphaneye ait** ölçüler.
+# Formülü bir kaynaktan gelen ama **uygulaması araca ait** ölçüler.
 # Karşılaştırılacak yayımlanmış bir sayı yok ve olamaz: ölçüyü biz tanımladık,
 # kimse onu yayımlamadı. ``long_sent_ratio``'yu kendi kalibrasyonumuza karşı
 # sınamak kendi cevabımıza bakıp sınav olmak demekti (2026-09-24, Efe).
@@ -128,10 +128,10 @@ KALIBRE_ANAHTARLARI = frozenset({
 # doğrulama adayı değildir.
 #
 # Ölçüt künyenin BAŞLANGICI: künye şemayla başlıyorsa satır şema
-# kategorisidir. Şemayı sonradan anan künyeler (``zeyrek_suffix_bigram_entropy``:
-# "Shannon (1948) — the entropy formula; Zeyrek …") gerçek bir ölçüdür ve
+# kategorisidir. Şemayı sonradan anan künyeler (``akana_suffix_bigram_entropy``:
+# "Shannon (1948) — the entropy formula; Akana …") gerçek bir ölçüdür ve
 # açık listede kalır.
-SEMA_ONEKLERI = ("de Marneffe et al. (2021)", "Zeyrek (a Python port")
+SEMA_ONEKLERI = ("de Marneffe et al. (2021)", "Akana (a Rust port")
 
 # Birebir sayılmak için gereken yakınlık: yayımlanan değerin %1'i. Kaynaklar
 # ara değerleri yuvarlayarak bastığı için mutlak eşitlik beklenmiyor. Göreli
@@ -315,12 +315,9 @@ def _cl_iki_denklem() -> float:
     basılmıyor. L ve S üretim kodunun kendi sayımından alınıyor ki iki yol
     aynı girdiyi görsün.
     """
-    from turkish_linguistic_features.features.readability import (
-        _CUMLE_SONU,
-        _harf_sayisi,
-        cumle_sayisi,
-        kelime_birimleri,
-    )
+    from turkish_linguistic_features.birimler.sozcuk import kelime_birimleri
+    from turkish_linguistic_features.birimler.tumce import _CUMLE_SONU, cumle_sayisi
+    from turkish_linguistic_features.features.readability import _harf_sayisi
     kelimeler, _ = kelime_birimleri(_CL_METIN, "en")
     cumle = cumle_sayisi(_CL_METIN.split(), _CUMLE_SONU["varsayilan"], "en")
     L = 100 * sum(_harf_sayisi(k) for k in kelimeler) / len(kelimeler)
@@ -471,22 +468,22 @@ def _kincaid_en_buyuk_fark(alan: str, yayimlanan: dict[int, float]) -> tuple[int
 _KINCAID_GEREKCE_ARI = _iki(
     "Kaynağın sayıları 1975'te daktiloya takılı mekanik bir sayaçla **elle** "
     "üretildi (Ek B, ARI talimatı). 18 pasajın 17'sinde, kaynağın ARI'sını "
-    "verecek vuruş sayısı bizim saydığımızın 0,996-1,041 katı — yani birkaç "
+    "verecek vuruş sayısı aracın saydığının 0,996-1,041 katı — yani birkaç "
     "karakterlik fark. Pasaj 2 aykırı (oran 1,145) ve kaynağın kendi iki "
     "sayısı orada çelişiyor: Tablo 1'in ARI 20,3'ü vuruş/sözcük 6,270 "
     "gerektiriyor, metnin gerçek değeri 5,475; üstelik o ARI'nın ima ettiği "
-    "sözcük/tümce FKGL'yi 18,70 yapıyor, oysa Tablo 2 16,7 basmış. Bizim "
-    "vuruş tanımımız ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten "
+    "sözcük/tümce FKGL'yi 18,70 yapıyor, oysa Tablo 2 16,7 basmış. Aracın "
+    "vuruş tanımı ayrıca sınandı: boşluğu sayıma katmak farkı 0,54'ten "
     "4,32'ye çıkarıyor, yani boşluksuz sayım doğru.",
     "The source's numbers were produced **by hand** in 1975 with a mechanical "
     "counter attached to a typewriter (Appendix B, ARI instructions). In 17 of "
     "the 18 passages, the stroke count that would yield the source's ARI is "
-    "0.996-1.041 times ours — a difference of a few characters. Passage 2 is "
+    "0.996-1.041 times the tool's count — a difference of a few characters. Passage 2 is "
     "an outlier (ratio 1.145), and there the source's own two numbers "
     "contradict each other: Table 1's ARI of 20.3 requires 6.270 strokes per "
     "word, while the text's actual value is 5.475; moreover, the words per "
     "sentence implied by that ARI give an FKGL of 18.70, whereas Table 2 "
-    "printed 16.7. Our stroke definition was tested separately: counting "
+    "printed 16.7. The tool's stroke definition was tested separately: counting "
     "spaces raises the difference from 0.54 to 4.32, so counting without "
     "spaces is correct.",
 )
@@ -699,14 +696,14 @@ _QUITA_ORNEKLER: dict[str, tuple[str, float, float, str | dict[str, str],
 _QUITA_T2_GEREKCE: dict[str, dict[str, str]] = {
     "ttr": _iki(
         "Kaynağın kendi sayıları (V=121, N=202) 121/202 = 0,599 verir; kaynak bu sonucu "
-        "yuvarlamak yerine kesmiş ve 0,59 basmış (iki ondalığa yuvarlanmışı 0,60). Bizim "
-        "değer aritmetiğe uyuyor; fark yayımlanan değerin %1,5'i ve toleransı yalnız bu "
-        "nedenle aşıyor. Aritmetik istisnasıyla örtüşen sayılır.",
+        "yuvarlamak yerine kesmiş ve 0,59 basmış (iki ondalığa yuvarlanmışı 0,60). Aracın "
+        "değeri aritmetiğe uyuyor; fark yayımlanan değerin %1,5'i ve toleransı yalnız bu "
+        "nedenle aşıyor. Kaynağın kendi hesabı istisnasıyla örtüşen sayılır.",
         "The source's own counts (V=121, N=202) give 121/202 = 0.599; the source "
         "truncated that result instead of rounding it and printed 0.59 (rounded to two "
-        "decimals it is 0.60). Our value follows the arithmetic; the difference is 1.5% "
+        "decimals it is 0.60). The tool's value follows the arithmetic; the difference is 1.5% "
         "of the published value and exceeds the tolerance for this reason alone. Counted "
-        "as a match under the arithmetic exception."),
+        "as a match under the exception for the source's own calculation."),
 }
 # Kaynağın kendi girdilerinin verdiği değer (aritmetik istisnası).
 _QUITA_T2_ARITMETIK: dict[str, float] = {"ttr": 121 / 202}
@@ -818,8 +815,8 @@ _BASLIK = """<!-- ÜRETİLMİŞ DOSYA — elle düzenlemeyin.
 # Doğrulama raporu
 
 Bu rapor her özniteliğin ürettiği sayıyı, dayandığı kaynağın **yayımladığı
-sayıyla** karşılaştırır. Amaç basit: bir sayıyı çalışmanızda kullanmadan önce
-onun alanyazındaki değeri tuttuğunu görebilmeniz.
+sayıyla** karşılaştırır. Amaç, bir sayı bir çalışmada kullanılmadan önce alanyazındaki
+değerle tuttuğunun görülebilmesidir.
 
 ## Durumlar ne anlama geliyor
 
@@ -835,9 +832,9 @@ Aşağıdaki dört durum **doğrulama adayı değildir** — aranacak bir sayı 
 | | Anlamı |
 |---|---|
 | ⚪ **yalın tanım** | Alanyazın ölçüsü değil; kaynağı olmayan tanım (`punct_dash_ratio`, `uppercase_ratio`). |
-| ⚫ **etiket oranı** | Bir ölçü değil, dış bir şemanın kategorisini sayıyor (`pos_noun_ratio` → UD; `zeyrek_case_loc_ratio` → Zeyrek). Şema kategori tanımlar, ölçüm yayımlamaz. |
-| 🔧 **araca özgü** | Formül bir kaynaktan, **uygulaması bu kütüphaneden**. `sent_len_entropy` Shannon'ın entropisidir ama tümce uzunluklarına uygulanması bizim. Kimse bu ölçüyü yayımlamadı, dolayısıyla karşılaştırılacak sayı da yok. |
-| 📐 **kalibre edilmiş** | Eşik bu kütüphanenin kalibrasyonundan gelir (`short_sent_ratio`, `long_sent_ratio`). Kendi kalibrasyonumuza karşı sınamak kendi cevabımıza bakmak olurdu. |
+| ⚫ **etiket oranı** | Bir ölçü değil, dış bir şemanın kategorisini sayıyor (`pos_noun_ratio` → UD; `akana_case_loc_ratio` → Akana). Şema kategori tanımlar, ölçüm yayımlamaz. |
+| 🔧 **araca özgü** | Formül bir kaynaktan, **nereye uygulanacağı araçtan**. `sent_len_entropy` Shannon'ın entropisidir ama tümce uzunluklarına uygulanması aracın kararıdır. Kimse bu ölçüyü yayımlamadı, dolayısıyla karşılaştırılacak sayı da yok. |
+| 📐 **kalibre edilmiş** | Eşik aracın kendi kalibrasyonundan gelir (`short_sent_ratio`, `long_sent_ratio`). Aracı kendi kalibrasyonuyla sınamak, cevabı yine kendisinden almak olurdu. |
 
 Tolerans yayımlanan değerin **%1'i** (göreli). Kaynaklar ara değerleri
 yuvarlayarak bastığı için mutlak eşitlik beklenmiyor; göreli tolerans her
@@ -846,24 +843,25 @@ yuvarlayarak bastığı için mutlak eşitlik beklenmiyor; göreli tolerans her
 **Toleransı aşan fark otomatik olarak ❌ değildir.** Belirleyici olan farkın
 büyüklüğü değil, **nedeninin bilinip bilinmediğidir**: nedeni ölçülmüş ve
 yazılmışsa karşılaştırma 🟡, yazılmamışsa ❌ olur. Gerekçe bir mazeret değil, farkın
-nereden geldiğinin kanıtıdır — ilgili karşılaştırmanın altında okuyabilirsiniz.
+nereden geldiğinin kanıtıdır ve ilgili karşılaştırmanın altında yazılıdır.
 
-**İstisna: kaynağın aritmetiği.** Kaynağın bastığı sayı, kaynağın kendi verdiği
-girdilerle aritmetik olarak çelişiyorsa ve bizim değer doğru aritmetiği veriyorsa
-karşılaştırma ✅ sayılır; neden altında not olarak yazılır.
+**İstisna: kaynağın kendi hesabı.** Kaynak hem girdileri hem sonucu yayımlamışsa, sonuç o
+girdilerden yeniden hesaplanabilir. Yayımlanan sonuç bu hesapla tutmuyorsa (sözgelimi kaynak
+121 ÷ 202 = 0,599'u yuvarlamak yerine kesip 0,59 yazmışsa) ve aracın değeri kaynağın kendi
+girdileriyle yapılan hesapla aynıysa karşılaştırma ✅ sayılır; durum karşılaştırmanın altında
+yazılır. Bu istisna yalnız kaynağın kendi sayılarıyla denetlenebilen durumlar içindir.
 
 ## Kanıtın iki türü
 
 **Uçtan uca** karşılaştırmalar kaynağın **metnini** çözümleme hattından geçirir — yani
-türceleme, seslem sayımı ve tümce bölme de sınanır. Bunlar en güçlü kanıt.
+türceleme, seslem sayımı ve tümce bölme de sınanır. Bunlar en güçlü kanıttır.
 
 **Formül** karşılaştırmaları fonksiyona girdileri doğrudan verir (örneğin "seslem/sözcük
 2,2 ve sözcük/tümce 4"). Formülü ve katsayıları doğrular, çözümleme hattını
-doğrulamaz. Kaynak bir metin yayımlamamışsa elde olan budur.
+doğrulamaz.
 
-Bu rapor **testlerden üretilir** — `tests/test_kaynak_esligi.py` ile aynı
-karşılaştırma tablosunu okur, yani ikisi ayrışamaz. Diğer bilinen-değer
-testleri kendi dosyalarında duruyor.
+Bu rapordaki sayılar testlerin denetlediği karşılaştırma tablosundan üretilir; rapor elle
+düzenlenmez ve her zaman testlerle aynıdır.
 
 """
 
@@ -875,9 +873,8 @@ _BASLIK_EN = """<!-- GENERATED FILE — do not edit by hand.
 # Verification report
 
 This report compares the number each feature produces against the number
-**published by the source it rests on**. The purpose is plain: before you use
-a number in your own work, you should be able to see that it matches the
-value in the literature.
+**published by the source it rests on**. The purpose is that before a number is used in a
+study, it can be seen to match the value in the literature.
 
 ## What the statuses mean
 
@@ -894,9 +891,9 @@ number to look for:
 | | Meaning |
 |---|---|
 | ⚪ **plain definition** | Not a literature measure; a definition without a source (`punct_dash_ratio`, `uppercase_ratio`). |
-| ⚫ **tag ratio** | Not a measure but a count of an external scheme's categories (`pos_noun_ratio` → UD; `zeyrek_case_loc_ratio` → Zeyrek). A scheme defines categories; it does not publish measurements. |
-| 🔧 **tool-specific** | The formula comes from a source, **the application is this library's**. `sent_len_entropy` is Shannon's entropy, but applying it to sentence lengths is ours. Nobody has published this measure, so there is no number to compare against. |
-| 📐 **calibrated** | The threshold comes from this library's own calibration (`short_sent_ratio`, `long_sent_ratio`). Testing it against our own calibration would be reading our own answer sheet. |
+| ⚫ **tag ratio** | Not a measure but a count of an external scheme's categories (`pos_noun_ratio` → UD; `akana_case_loc_ratio` → Akana). A scheme defines categories; it does not publish measurements. |
+| 🔧 **tool-specific** | The formula comes from a source, **the application is this library's**. `sent_len_entropy` is Shannon's entropy, but applying it to sentence lengths is the tool's choice. Nobody has published this measure, so there is no number to compare against. |
+| 📐 **calibrated** | The threshold comes from this library's own calibration (`short_sent_ratio`, `long_sent_ratio`). Testing the tool against its own calibration would be reading its own answer sheet. |
 
 The tolerance is **1% relative** to the published value. Sources print rounded
 intermediate values, so exact equality is not expected; a relative tolerance
@@ -905,12 +902,15 @@ means the same thing at every scale.
 **Exceeding the tolerance does not automatically make a row ❌.** What decides
 is not the size of the difference but **whether its cause is known**: if the
 cause has been measured and written down the row is 🟡, and if it has not the
-row is ❌. A reason is not an excuse — it is evidence of where the difference
-came from, and you can read it under the row.
+row is ❌. A reason is not an excuse: it is evidence of where the difference
+came from, and it is written under the row.
 
-**Exception: the source's arithmetic.** If the number the source printed
-contradicts the arithmetic of the inputs the source itself gives, and our value
-gives the correct arithmetic, the row counts as ✅; the reason is noted under it.
+**Exception: the source's own calculation.** When a source publishes both the inputs and the
+result, the result can be recomputed from those inputs. If the published result does not
+agree with that calculation (for instance, the source truncated 121 ÷ 202 = 0.599 to 0.59
+instead of rounding it) and the tool's value equals the calculation from the source's own
+inputs, the row counts as ✅; the case is written under it. The exception applies only where
+the source's own numbers allow the check.
 
 ## Two kinds of evidence
 
@@ -920,12 +920,10 @@ the strongest evidence.
 
 **Formula** rows feed the inputs to the function directly (for example
 "syllables per word 2.2 and words per sentence 4"). They verify the formula
-and its coefficients, not the pipeline. This is what is available when the
-source published no text.
+and its coefficients, not the pipeline.
 
-This report is **generated from the tests** — it reads the same comparison
-table as `tests/test_kaynak_esligi.py`, so the two cannot drift apart. The
-other known-value tests live in their own files.
+The numbers in this report are generated from the comparison table the tests check; the
+report is not edited by hand and always agrees with the tests.
 
 """
 
@@ -937,8 +935,8 @@ _DURUM_ADI = {
            ACIK: "açık — kaynakta sayısal örnek yok",
            KAYNAK_YOK: "yalın tanım — kaynak yok",
            SEMA: "etiket oranı — ölçü değil",
-           ARACA_OZGU: "araca özgü — uygulaması bu kütüphaneye ait",
-           KALIBRE: "kalibre edilmiş — eşiği bu kütüphanenin kalibrasyonundan",
+           ARACA_OZGU: "araca özgü — uygulaması araca ait",
+           KALIBRE: "kalibre edilmiş — eşiği aracın kalibrasyonundan",
            UYUSMAZLIK: "uyuşmazlık"},
     "en": {BIREBIR: "match", SAPMA: "documented deviation",
            ACIK: "open — no worked example in source",
@@ -962,13 +960,14 @@ _METIN = {
         "bolum": "\n## {etiket} — {anahtar} anahtar, {satir} satır\n\n"
                  "Bir anahtarın birden çok kaynak örneği olabilir; her biri "
                  "ayrı satır.\n\n",
-        "ozet_basligi": ("Durum", "Satır sayısı"),
-        "ozet_aday": "**Doğrulama adayı — {n} satır**\n\n",
-        "ozet_disi": "\n\n**Doğrulama adayı olmayan — {n} satır.** "
+        "ozet_basligi": ("Durum", "Öznitelik sayısı"),
+        "ozet_aday": ("**Doğrulama adayı — {k} öznitelik** ({n} karşılaştırma: bir öznitelik, "
+                      "mümkün olduğunda birden çok yayımlanmış örnekle sınanmıştır)\n\n"),
+        "ozet_disi": "\n\n**Doğrulama adayı olmayan — {k} öznitelik.** "
                      "Bunlarda aranacak yayımlanmış bir sayı yoktur.\n\n",
         "olculen_basligi": "\n\n### Sayısal karşılaştırması olanlar\n\n",
         "olculen_sutun": "| Anahtar | Kaynak | Örnek | Kanıt | Beklenen "
-                         "| Bizim | Fark | Durum |\n",
+                         "| Araç | Fark | Durum |\n",
         "sapma": "\n**`{anahtar}` sapması:** {gerekce}\n",
         "not": "\n**`{anahtar}` notu:** {gerekce}\n",
         "kalan_basligi": "\n### 🔍 Açık — doğrulanabilir, henüz doğrulanmadı\n\n",
@@ -989,8 +988,8 @@ _METIN = {
                      "⚫ olanlar bir ölçü değil, dış bir etiket şemasının "
                      "kategorisini sayıyor; şema kategori tanımlar, ölçüm "
                      "yayımlamaz. 🔧 araca özgü olanların formülü bir kaynaktan gelir "
-                     "ama uygulaması bu kütüphaneye aittir; 📐 kalibre edilmiş olanların "
-                     "eşiği bu kütüphanenin kalibrasyonundan gelir. Hiçbirinde aranacak "
+                     "ama uygulaması araca aittir; 📐 kalibre edilmiş olanların "
+                     "eşiği aracın kalibrasyonundan gelir. Hiçbirinde aranacak "
                      "bir sayı yok.\n\n",
         "hece": "\n## Seslemlere ayırma — {tam}/{top}\n\n"
                 "Seslemlere ayırma sekiz `syllable_*` anahtarını ve üç Türkçe "
@@ -1000,7 +999,7 @@ _METIN = {
                 "karşılaştırması onu yakalamaz.\n\n"
                 "Kaynak: TDK, \"Hece Yapısı ve Satır Sonunda Kelimelerin "
                 "Bölünmesi\" (tdk.gov.tr, 2019).\n\n"
-                "| Sözcük | TDK | Bizim | Durum |\n|---|---|---|---|\n",
+                "| Sözcük | TDK | Araç | Durum |\n|---|---|---|---|\n",
         "kincaid": "\n## Ek — Kincaid Ek A, pasaj bazında\n\n"
                    "Ana tablodaki iki 🟡 karşılaştırmanın (`ari`, `flesch_kincaid_grade`) "
                    "dayandığı 18 karşılaştırma. Ara değerler (vuruş, sözcük) "
@@ -1008,12 +1007,12 @@ _METIN = {
                    "görülebilsin.\n\n"
                    "**FRE bandı** sütunu ayrı bir kontrol: Tablo 1'in Flesch "
                    "sütunu 0-100 puanı değil, Flesch'in kendi sınıf bandını "
-                   "basıyor (`8-9` = FRE 60-70 gibi). Bizim FRE'miz bandın "
+                   "basıyor (`8-9` = FRE 60-70 gibi). Aracın FRE'si bandın "
                    "içine düşüyor mu, ona bakıyor.\n\n"
                    "Pasaj metinleri `tests/veri/kincaid/`, ölçüm "
                    "`scripts/kincaid_olcum.py`.\n\n"
-                   "| # | Vuruş | Sözcük | ARI kaynak | ARI bizim | Fark "
-                   "| FKGL kaynak | FKGL bizim | Fark | FRE bandı |\n"
+                   "| # | Vuruş | Sözcük | ARI kaynak | ARI araç | Fark "
+                   "| FKGL kaynak | FKGL araç | Fark | FRE bandı |\n"
                    "|---|---|---|---|---|---|---|---|---|---|\n",
         "kincaid_ozet": "\nARI ortalama mutlak fark **{ari_ort:.2f}**, en büyük "
                         "**{ari_max:.2f}** (pasaj {ari_n}). FKGL ortalama mutlak "
@@ -1026,13 +1025,14 @@ _METIN = {
         "bolum": "\n## {etiket} — {anahtar} keys, {satir} rows\n\n"
                  "A key may have more than one worked example in its source; "
                  "each one is its own row.\n\n",
-        "ozet_basligi": ("Status", "Rows"),
-        "ozet_aday": "**Verification candidates — {n} rows**\n\n",
-        "ozet_disi": "\n\n**Not verification candidates — {n} rows.** There is "
+        "ozet_basligi": ("Status", "Features"),
+        "ozet_aday": ("**Verification candidates — {k} features** ({n} comparisons: where possible, "
+                      "a feature was tested against more than one published example)\n\n"),
+        "ozet_disi": "\n\n**Not verification candidates — {k} features.** There is "
                      "no published number to look for in these.\n\n",
         "olculen_basligi": "\n\n### Keys with a numeric comparison\n\n",
         "olculen_sutun": "| Key | Source | Example | Evidence | Expected "
-                         "| Ours | Diff | Status |\n",
+                         "| Tool | Diff | Status |\n",
         "sapma": "\n**`{anahtar}` deviation:** {gerekce}\n",
         "not": "\n**`{anahtar}` note:** {gerekce}\n",
         "kalan_basligi": "\n### 🔍 Open — verifiable, not yet verified\n\n",
@@ -1065,7 +1065,7 @@ _METIN = {
                 "and a count comparison would not catch it.\n\n"
                 "Source: TDK, \"Hece Yapısı ve Satır Sonunda Kelimelerin "
                 "Bölünmesi\" (tdk.gov.tr, 2019).\n\n"
-                "| Word | TDK | Ours | Status |\n|---|---|---|---|\n",
+                "| Word | TDK | Tool | Status |\n|---|---|---|---|\n",
         "kincaid": "\n## Appendix — Kincaid Appendix A, passage by passage\n\n"
                    "The 18 comparisons behind the two 🟡 rows in the main "
                    "table (`ari`, `flesch_kincaid_grade`). The intermediate "
@@ -1074,11 +1074,11 @@ _METIN = {
                    "The **FRE band** column is a separate check: Table 1's "
                    "Flesch column prints not a 0-100 score but Flesch's own "
                    "grade band (`8-9` = FRE 60-70, and so on). It asks whether "
-                   "our FRE falls inside that band.\n\n"
+                   "the tool's FRE falls inside that band.\n\n"
                    "Passage texts: `tests/veri/kincaid/`. Measurement: "
                    "`scripts/kincaid_olcum.py`.\n\n"
-                   "| # | Strokes | Words | ARI source | ARI ours | Diff "
-                   "| FKGL source | FKGL ours | Diff | FRE band |\n"
+                   "| # | Strokes | Words | ARI source | ARI tool | Diff "
+                   "| FKGL source | FKGL tool | Diff | FRE band |\n"
                    "|---|---|---|---|---|---|---|---|---|---|\n",
         "kincaid_ozet": "\nARI mean absolute difference **{ari_ort:.2f}**, "
                         "largest **{ari_max:.2f}** (passage {ari_n}). FKGL mean "
@@ -1117,7 +1117,16 @@ def _ozet(satirlar: list[dict[str, object]], dil: str = "tr") -> str:
     satırı, doğrulanabilir 83 satırın yanında "başarısız" gibi okunuyordu.
     """
     from collections import Counter
-    sayim = Counter(s["durum"] for s in satirlar)
+    # Counts are per feature (2026-11-27, Efe): a feature with several rows takes one status,
+    # in the order ❌, ✅, 🟡, 🔍; the number of comparisons is given beside the total.
+    oncelik = (UYUSMAZLIK, BIREBIR, SAPMA, ACIK)
+    oznitelik: dict[object, set[object]] = {}
+    for satir_ in satirlar:
+        oznitelik.setdefault(satir_["anahtar"], set()).add(satir_["durum"])
+    sayim = Counter(next((d for d in oncelik if d in ds), next(iter(ds)))
+                    for ds in oznitelik.values())
+    n_karsilastirma = sum(1 for satir_ in satirlar
+                          if satir_["durum"] in (BIREBIR, SAPMA, UYUSMAZLIK))
     m = _METIN[dil]
     a, b = m["ozet_basligi"]
     ad = _DURUM_ADI[dil]
@@ -1133,8 +1142,8 @@ def _ozet(satirlar: list[dict[str, object]], dil: str = "tr") -> str:
 
     aday, n_aday = tablo(ADAY_DURUMLAR)
     disi, n_disi = tablo(ADAY_OLMAYAN)
-    return (m["ozet_aday"].format(n=n_aday) + aday + "\n"
-            + m["ozet_disi"].format(n=n_disi) + disi)
+    return (m["ozet_aday"].format(k=n_aday, n=n_karsilastirma) + aday + "\n"
+            + m["ozet_disi"].format(k=n_disi) + disi)
 
 
 def uret(dil: str = "tr") -> str:

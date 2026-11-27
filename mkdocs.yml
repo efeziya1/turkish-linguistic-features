@@ -1,9 +1,9 @@
 site_name: turkish-linguistic-features
 site_url: https://efeziya1.github.io/turkish-linguistic-features/
 site_description: >-
-  Türkçe metinden 214, İngilizce metinden 181 nicel dilbilimsel öznitelik
-  çıkaran Python kütüphanesi · A Python library that extracts 214 quantitative
-  linguistic features from Turkish text and 181 from English text
+  Türkçe metinden 217, İngilizce metinden 187 nicel dilbilimsel öznitelik
+  çıkaran Python kütüphanesi · A Python library that extracts 217 quantitative
+  linguistic features from Turkish text and 187 from English text
 repo_url: https://github.com/efeziya1/turkish-linguistic-features
 repo_name: efeziya1/turkish-linguistic-features
 copyright: MIT
@@ -45,8 +45,7 @@ markdown_extensions:
   - toc:
       permalink: true
   - pymdownx.details
-  - pymdownx.highlight:
-      anchor_linenums: true
+  - pymdownx.highlight
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
@@ -76,7 +75,6 @@ nav:
           - NaN ne demek: tr/aciklama/nan.md
           - Doğrulama sistemi: tr/aciklama/dogrulama.md
           - Sınırlılıklar: tr/aciklama/sinirliliklar.md
-          - Kalyoncu formülleri: tr/aciklama/kalyoncu.md
       - Terim sözlüğü: tr/sozluk.md
   - English:
       - en/index.md
@@ -95,7 +93,6 @@ nav:
           - What NaN means: en/explanation/nan.md
           - The verification system: en/explanation/verification.md
           - Limitations: en/explanation/limitations.md
-          - Kalyoncu formulas: en/explanation/kalyoncu.md
       - Glossary: en/glossary.md
   - Reference:
       - reference/index.md

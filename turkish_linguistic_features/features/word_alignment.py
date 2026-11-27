@@ -2,7 +2,7 @@
 
 Every group except ``syntactic`` counts the default word (``kelime_birimleri``:
 whitespace unit, edge punctuation stripped). Groups that need a tag per word (POS,
-morphology, lemma, Zeyrek morphemes) take it from the model token the word holds:
+morphology, lemma, Akana morphemes) take it from the model token the word holds:
 the first token inside the word's whitespace chunk that is not punctuation or a
 symbol. A word split into several tokens (TR ``Türk-Amerikan``, ``4-5``; EN ``it's``,
 ``don't``) therefore gets its first part's tag. Measured: 0.31 % of Turkish and
@@ -24,8 +24,8 @@ from dataclasses import dataclass
 from typing import Any
 
 from ..alfabe import _kucuk_harf
+from ..birimler.sozcuk import word_units
 from ..vocab import NON_WORD_POS
-from .readability import word_units
 
 __all__ = ["WordView", "word_token_indices", "word_view"]
 
@@ -86,16 +86,13 @@ class WordView:
     morph: list[tuple[str, str]] | None
     morphemes: list[Any] | None
     sentences: list[list[str]]
-    # Zeyrek'in tüm çözümlemeleri, sözcük başına; yoksa ``None`` (Kalyoncu çözümleme seçimi).
-    alternatives: list[Any] | None = None
 
 
 def word_view(raw_text: str, words: list[str], surface_tokens: list[str],
               pos_data: list[tuple[str, str]], lemma_tokens: list[str],
               morph_tags: list[tuple[str, str]] | None, morpheme_lists: list[Any] | None,
-              sentences: list[list[str]], lang: str,
-              morpheme_alternatives: list[Any] | None = None) -> WordView:
-    """Per-word POS, lemma, morphology and Zeyrek morphemes, plus words per rule sentence.
+              sentences: list[list[str]], lang: str) -> WordView:
+    """Per-word POS, lemma, morphology and Akana morphemes, plus words per rule sentence.
 
     ``lemma_tokens`` is aligned with the word tokens of ``pos_data`` (punctuation and
     symbols left out, T21). ``sentences`` is ``kural_cumleleri``'s output (token lists
@@ -108,7 +105,7 @@ def word_view(raw_text: str, words: list[str], surface_tokens: list[str],
         raise ValueError(f"default words ({len(words)}) do not match word units ({len(idx)})")
 
     for name, lst in (("morph_tags", morph_tags), ("morpheme_lists", morpheme_lists)):
-        # An empty morpheme_lists is English (no Zeyrek), not a misalignment.
+        # An empty morpheme_lists is English (no Akana), not a misalignment.
         if lst is not None and len(lst) and len(lst) != len(pos_data):
             raise ValueError(
                 f"{name} ({len(lst)}) is not aligned with pos_data ({len(pos_data)})"
@@ -130,7 +127,6 @@ def word_view(raw_text: str, words: list[str], surface_tokens: list[str],
     lemmas: list[str] = []
     morph: list[tuple[str, str]] = []
     morphemes: list[Any] = []
-    alternatives: list[Any] = []
     groups: dict[int, list[str]] = {}
     last_sent = 0
     for w, i in zip(words, idx, strict=True):
@@ -139,7 +135,6 @@ def word_view(raw_text: str, words: list[str], surface_tokens: list[str],
             lemmas.append(_kucuk_harf(w, lang))
             morph.append((w, ""))
             morphemes.append(((_UNANALYSED, w, False),))
-            alternatives.append(())
         else:
             pos.append((w, pos_data[i][1]))
             lemmas.append(lemma_of[i])
@@ -147,8 +142,6 @@ def word_view(raw_text: str, words: list[str], surface_tokens: list[str],
                 morph.append((w, morph_tags[i][1]))
             if morpheme_lists:
                 morphemes.append(morpheme_lists[i])
-                if morpheme_alternatives:
-                    alternatives.append(morpheme_alternatives[i])
             if i < len(sent_of):
                 last_sent = sent_of[i]
         groups.setdefault(last_sent, []).append(w)
@@ -159,9 +152,8 @@ def word_view(raw_text: str, words: list[str], surface_tokens: list[str],
         lemmas=lemmas,
         morph=morph if morph_tags is not None else None,
         # Empty lists on an empty text still mean "measured" (all NaN, K4); empty lists
-        # next to tokens mean English, which has no Zeyrek morphemes.
+        # next to tokens mean English, which has no Akana morphemes.
         morphemes=morphemes if morpheme_lists is not None and (morpheme_lists or not pos_data)
         else None,
         sentences=[groups[s] for s in sorted(groups)],
-        alternatives=alternatives if morpheme_alternatives and morpheme_lists else None,
     )

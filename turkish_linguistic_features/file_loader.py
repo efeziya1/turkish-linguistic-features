@@ -20,8 +20,8 @@ import csv
 from pathlib import Path
 
 from .alfabe import _ALFABE
+from .birimler.sozcuk import word_units
 from .exceptions import LinguisticFeaturesError
-from .features.readability import word_units
 
 __all__ = ["segment_text", "save_csv"]
 

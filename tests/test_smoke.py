@@ -4,13 +4,13 @@ def test_paket_import_edilebilir():
 
 
 def test_zorunlu_bagimliliklar_kurulu():
-    """K1: numpy, spaCy, zeyrek ve textstat zorunlu — dördü de import edilebilmeli."""
+    """K1: numpy, spaCy, akana ve textstat zorunlu — dördü de import edilebilmeli."""
+    import akana
     import numpy
     import spacy
     import textstat
-    import zeyrek
     assert numpy.__version__ and spacy.__version__
-    assert zeyrek is not None and textstat is not None
+    assert akana.Morphology is not None and textstat is not None
 
 
 def test_import_dil_modeli_gerektirmez():

@@ -3,26 +3,27 @@
 ## Feature
 
 A **feature** is a single number extracted from a text. `ttr`,
-`word_len_mean`, `atesman`: each is one feature. Names are `snake_case`.
+`word_len_mean`, `atesman`: each is one feature. Names are lowercase, with words joined
+by underscores.
 
-By the kind of source they rest on, the 214 Turkish features fall into five types:
+By the kind of source they rest on, the 217 Turkish features fall into five types:
 
 | Type | Count | What | Example |
 |---|---:|---|---|
-| **Literature measure** | 133 | A measure proposed in the literature; it has a citation | `mattr`, `mtld`, `atesman` |
-| **Tag ratio** | 66 | The share of a tag that spaCy or Zeyrek gives to words; the citation points at the scheme that defines the tag, not at a measure | `pos_noun_ratio` (Universal Dependencies), `zeyrek_case_loc_ratio` (Zeyrek) |
+| **Literature measure** | 136 | A measure proposed in the literature; it has a citation | `mattr`, `mtld`, `atesman` |
+| **Tag ratio** | 66 | The share of a tag that spaCy or Akana gives to words; the citation points at the scheme that defines the tag, not at a measure | `pos_noun_ratio` (Universal Dependencies), `akana_case_loc_ratio` (Akana) |
 | **Plain definition** | 11 | Not based on a named measure in the literature; no citation | `question_sent_ratio`: the share of sentences ending in a question mark |
 | **Tool-specific** | 2 | The formula comes from the literature; what it is applied to is this tool's decision | `sent_len_entropy`: Shannon entropy applied to sentence lengths |
 | **Calibrated** | 2 | The threshold comes from this tool's corpus measurement | `short_sent_ratio`, `long_sent_ratio` |
 
-Of 214 keys, 203 have a citation and 11 do not. The type also decides whether a feature
-can be checked against a number its source published
+Of 217 keys, 206 have a citation and 11 do not. The type also decides whether a feature
+can be checked against a worked example its source published
 ([The verification system](verification.md)).
 
 The tool does not give only the result of a readability formula; it also gives the measures
 that go into the formula, such as mean sentence length and syllables per word, as separate
-features. If you want to build a new formula for Turkish, you can choose and test candidate
-variables from these measures and the tool's other features.
+features. If you want to build a new formula, you can choose and test candidate variables
+from these measures and the tool's other features.
 
 ## Key names
 
@@ -36,12 +37,12 @@ A name is built so that it says what the feature measures:
 | The name in the literature | An established measure; no `_ratio` | `ttr`, `mattr`, `yule_k`, `posddev` |
 
 The morphological features come from two analysers. Those from spaCy's Universal
-Dependencies tags have no prefix (`case_loc_ratio`); those from Zeyrek start with `zeyrek_`
-(`zeyrek_case_loc_ratio`). The two do not give the same number:
+Dependencies tags have no prefix (`case_loc_ratio`); those from Akana start with `akana_`
+(`akana_case_loc_ratio`). The two do not give the same number:
 `case_loc_ratio` is the locative's share among words that carry a case tag,
-`zeyrek_case_loc_ratio` its share among all analysed words. Zeyrek also draws distinctions
+`akana_case_loc_ratio` its share among all analysed words. Akana also draws distinctions
 the universal tags do not: the -DI past and the -mIş past are separate
-(`zeyrek_tense_past_def_ratio`, `zeyrek_tense_past_nar_ratio`); in spaCy both are
+(`akana_tense_past_def_ratio`, `akana_tense_past_nar_ratio`); in spaCy both are
 `tense_past_ratio`.
 
 The ten `punct_…_ratio` keys (`punct_comma_ratio`, `punct_dash_ratio` …) are each
@@ -66,8 +67,9 @@ The groups, their contents and their sizes are listed in
 Some keys are not written out one by one; they are generated from a
 pattern:
 
-- `char_*`: the letter-frequency vector, one key per letter of the alphabet
-  (Turkish 29: `char_a_ratio`, `char_ç_ratio` … `char_z_ratio`; English 26)
+- `char_*`: the letter-frequency vector, one key for each of the same 32 letters in both
+  languages (the Turkish and English alphabets together: `char_a_ratio`, `char_ç_ratio` …
+  `char_z_ratio`)
 - `ngram_*`: counters for the word sequences (n-grams) you pass with `custom_ngrams`
   ([how](../how-to/single-text.md#count-your-own-phrases))
 
@@ -106,28 +108,35 @@ contains at least one letter or digit**; otherwise it is not counted.
 | `in 1999` | `in`, `1999`: a number is a word |
 | `This — is a test ...` | `This`, `is`, `a`, `test`: `—` and `...` on their own are not words |
 | `3. kat` · `Sonuç 3.` | Turkish only: `3.` is one word (an ordinal) when a word or a comma follows it; at the end of a sentence it is `3` |
+| `came.Then` · `3.köprü` | When the space is left out, two words glued by punctuation are two words: `came`, `Then` · `3.`, `köprü`. Dotted initials (`G.Saray`), addresses (`site.net`), numbers (`1.5`) and a suffix after a quote or apostrophe (`“kampusu!”na`) are not split |
 
 The ordinal rule is Turkish only because Turkish writes ordinals as a digit followed by a dot;
 English writes `3rd`, so it needs no such rule.
 
-Part-of-speech based analyses remove punctuation and symbols by looking at their tags; this
-tool does the same job by stripping the marks at the edges of the word. Every feature except
-the `syntactic` group counts this word.
+When counting words, the tool removes punctuation by stripping the marks at the edges of the
+word, not by looking at tags. Every feature except the `syntactic` group counts this word.
 
 ### Sentence
 
 A sentence ends at:
 
-- **`.` `?` `!` `…`**: always. `...` and `…` are the same mark. Marks in a row
-  such as `?!` end one sentence.
-- **`:`**: only when what follows starts like a new sentence: a capital letter, a
-  quote, a dash or an opening bracket. A colon followed by a lowercase word or a number
-  (a list, an explanation, `10:30`) does not end a sentence.
+- **`.` `?` `!` `…`**: always end a sentence. The ellipsis can also be written `...`.
+- **Marks in a row** (`?!`, `!!!`) count as one sentence end.
+- **`:`**: ends a sentence when a word starting with a capital, a quote, a dash or an
+  opening bracket follows. When a lowercase word or a number follows (a list, an
+  explanation, `10:30`), it does not.
 - **the end of the text**, even without a mark.
 
-A full stop after an abbreviation does **not** end a sentence: `Dr.` is one unit. In
-Turkish, the dot after a listed abbreviation such as `bkz.` ends a sentence only when the
-next word starts with a capital.
+In Turkish, the dot after an abbreviation:
+
+- **in an abbreviation written with a capital** (`Dr.`, `Cad.`, `Ltd.`) does not end a
+  sentence; these abbreviations lead into the name after them.
+- **in an abbreviation written in lowercase** (`vb.`, `dk.`, `km.`) ends a sentence when a
+  capital follows, and does not when a lowercase letter follows.
+- **in `bkz.`** (*bakınız*, "see") does not end a sentence, even before a capital: the place
+  referred to follows it (`bkz. Ek 2`).
+
+In English, an abbreviation written as one unit, such as `Dr.`, does not end a sentence.
 
 | Text | Sentences |
 |---|---|
@@ -137,6 +146,7 @@ next word starts with a capital.
 | `He bought three things: bread, milk and cheese.` | 1: lowercase after `:` |
 | `The meeting began at 10:30.` | 1 |
 | `Dr. Smith arrived.` | 1 |
+| `Elma, armut vb. Sonra eve döndük.` | 2: a capital after `vb.` |
 | `He came and went` | 1: no mark; the text ends |
 
 The colon has this condition because a colon is not always a sentence boundary. In Turkish
@@ -145,10 +155,13 @@ quote, a dash or an opening bracket; in English columns (1,485 articles) the sha
 The condition keeps a colon followed by a lowercase list or explanation from ending a
 sentence. The rule is the same in both languages.
 
-A sentence's length is the number of words in it. The sentence-length features and
-`sent_count` do not count a sentence with no letter in it, so that it does not pull the
-mean down: `This is one. 1999. Done.` has 2 sentences, and all 5 of its words, `1999`
-included, are counted.
+A sentence's length is the number of words in it. A sentence made only of a number is a
+sentence too: `This is one. 1999! Done.` has 3 sentences. Every feature and `text_units`
+count sentences the same way.
+
+In Turkish, a dot after digits is the dot of an ordinal when a word follows it, and does not
+end a sentence (`3. kat`). So `Yıl 1999. Bitti.` is one sentence: in writing, `1999. Bitti`
+and `2. Dünya Savaşı` have the same form, and the rule cannot tell them apart.
 
 Two kinds of feature do not use this rule:
 
@@ -181,7 +194,14 @@ spaCy splits text by its own rules, so one word can span several tokens: `Ankara
 becomes the tokens `Ankara`, `-` and `İstanbul`. The word is then counted once; its part of
 speech, morphological tags and lemma come from the first token inside it that is not
 punctuation. A double quote (`"` `“` `”` `«` `»`) is always punctuation here, whatever tag the
-model gave it. Turkish lemmas are Zeyrek's dictionary entry, English lemmas spaCy's.
+model gave it. Turkish lemmas are Akana's dictionary entry, English lemmas spaCy's.
+
+In Turkish, proper nouns are found by Akana's named entity recogniser. Every word the
+recogniser calls part of a person, place or organisation name counts as a proper noun
+(`PROPN`), whatever tag spaCy gave it; so does every word of a multi-word name such as
+`Mustafa Kemal`. The reason is that the spaCy Turkish model often does not tag words like
+`Derya` or `Almanya'da` as `PROPN`. The
+`syntactic` group reads spaCy's tokens for the dependency parse and is not affected.
 
 ### Counting unit of the diversity measures
 
@@ -191,8 +211,8 @@ Turkish rule (I → ı, İ → i); software's default conversion turns `IŞIK` i
 this is handled separately.
 
 Because the type rests on the surface form, inflected forms are separate types: `book` and
-`books` are two types. This is the tool's design decision. The exceptions are `*_variation`
-and `lemma_count`. Where the source counts in another unit (`brunet_w`, `herdan_c`,
+`books` are two types. This is the tool's design decision. The exceptions are the
+lemma-based `*_variation` measures and `lemma_count`. Where the source counts in another unit (`brunet_w`, `herdan_c`,
 `yule_k`), the citation says so.
 
 ### Content word
@@ -218,23 +238,26 @@ When you call `analyze`, the text goes through four stages:
 raw text
    ↓  1. spaCy (tr_core_news_md / en_core_web_sm)
 tokens · POS tags · morphological tags · dependency tree · English lemmas
-   ↓  2. Zeyrek (Turkish only)
-morpheme analysis · Turkish lemmas
+   ↓  2. Akana (Turkish only)
+morpheme analysis · Turkish lemmas · proper nouns
    ↓  3. the tool's own rules
 word and sentence boundaries; each word takes its tags from its own token
    ↓  4. feature calculators
-214 numbers (181 in English)
+217 numbers (187 in English)
 ```
 
-Zeyrek was chosen so that the tool runs entirely inside Python, without installing another
-environment such as Java.
+Akana is a Turkish morphological analyser: a port of Zemberek's rules, written in Rust and
+called from Python. It needs no other environment such as Java. When a word has several
+analyses, Akana's disambiguator picks one: it ranks the analyses by their frequency in
+treebanks and corrects the ranking with a few rules that look at nearby words in the
+sentence.
 
-**The spaCy model and Zeyrek are part of the result.** If either changes, the features that
-depend on it change too. Of the 214 Turkish features, 105 depend on at least one of the two
-analysers; the other 109 are computed with the tool's own rules alone. To reproduce a
-result, report the versions of the spaCy model and Zeyrek along with the tool's version.
+**The spaCy model and Akana are part of the result.** If either changes, the features that
+depend on it change too. Of the 217 Turkish features, 105 depend on at least one of the two
+analysers; the other 112 are computed with the tool's own rules alone. To reproduce a
+result, report the versions of the spaCy model and Akana along with the tool's version.
 Versions the tool was tested with: Python 3.12, spaCy 3.8.16, `tr_core_news_md` 1.0 (model
-version 3.4.2), `en_core_web_sm` 3.8.0, Zeyrek 0.1.3.
+version 3.4.2), `en_core_web_sm` 3.8.0, Akana 0.12.0.
 
 ## `FeatureParams`
 
@@ -242,7 +265,7 @@ Window sizes, thresholds and sample counts live here. Details:
 [Change the thresholds](../how-to/parameters.md).
 
 The sentence thresholds (`short_sent_threshold`, `long_sent_threshold`) are
-**calibrated per language** (TR 4/17, EN 8/32).
+**measured separately for each language** (TR 4/17, EN 8/32).
 
 ## The registry
 

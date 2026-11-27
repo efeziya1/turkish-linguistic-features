@@ -1,15 +1,15 @@
 # turkish-linguistic-features
 
-Türkçe metinden **214**, İngilizce metinden **181 nicel dilbilimsel öznitelik**
-çıkarır. Her özniteliğin formülü yazılıdır; Türkçedeki 214 özniteliğin 203'ü,
-İngilizcedeki 181 özniteliğin 170'i alanyazında bir kaynağa dayanır, geri
+Türkçe metinden **217**, İngilizce metinden **187 nicel dilbilimsel öznitelik**
+çıkarır. Her özniteliğin formülü yazılıdır; Türkçedeki 217 özniteliğin 206'sı,
+İngilizcedeki 187 özniteliğin 176'sı alanyazında bir kaynağa dayanır, geri
 kalanı yalın tanımdır (örneğin tirenin noktalama işaretleri içindeki payı).
 [Doğrulama raporu](dogrulama-raporu.md), hangilerinin kaynağın yayımladığı bir
 sayıyla karşılaştırıldığını gösterir.
 
-Extracts 214 quantitative linguistic features from Turkish text and 181 from
-English. Every feature has its formula written out; 203 of the Turkish features
-and 170 of the English ones cite a source in the literature, and the rest are
+Extracts 217 quantitative linguistic features from Turkish text and 187 from
+English. Every feature has its formula written out; 206 of the Turkish features
+and 176 of the English ones cite a source in the literature, and the rest are
 plain definitions (such as the dash's share of punctuation marks). The
 [verification report](verification-report.md) shows which ones have been
 checked against a number their source published.
@@ -38,11 +38,11 @@ oz["atesman"]         # 89.355  (Ateşman 1997 okunabilirlik)
 
 - **[Başvuru · Reference →](reference/index.md)**
 
-    214 özniteliğin tam listesi ve Python'dan çağrılan adlar (İngilizce).
+    217 özniteliğin tam listesi ve Python'dan çağrılan adlar (İngilizce).
 
 - **[Doğrulama · Verification →](dogrulama-raporu.md)**
 
-    Hangi özniteliğin kaynağıyla birebir tuttuğu, hangisinin tutmadığı.
+    Hangi özniteliğin kaynağında yayımlanmış bir örnekle karşılaştırıldığı ve sonucu.
     [English version](verification-report.md).
 
 </div>
@@ -61,17 +61,19 @@ oz["atesman"]         # 89.355  (Ateşman 1997 okunabilirlik)
 
 | | Türkçe (TR) | İngilizce (EN) |
 |---|---:|---:|
-| Öznitelik | 214 | 181 |
-| Künyesi olan öznitelik | 203 | 170 |
+| Öznitelik | 217 | 187 |
+| Künyesi olan öznitelik | 206 | 176 |
 | Künyesi olmayan, yalın tanım | 11 | 11 |
-| Doğrulama adayı rapor satırı | 172 | 146 |
-| — örtüşen (✅) | 61 | 46 |
+| Yayımlanmış bir örnekle sınanan öznitelik | 22 | 22 |
+| — örtüşen (✅) | 22 | 20 |
 | — tolerans dışında, nedeni açıklanmış (🟡) | 0 | 2 |
+| Yayımlanmış örnek bulunamadığı için sınanamayan öznitelik (🔍) | 114 | 104 |
+
+Bir öznitelik, mümkün olduğunda birden çok yayımlanmış örnekle sınanmıştır.
 
 Kaynakçada 58 eser var (iki dil için tek kaynakça).
 
 Künye, formülün kaynağını sayfa ve formül numarasıyla verir. Doğrulama
-raporu ayrıca, kaynağın yayımladığı bir sayıyla karşılaştırılabilen satırları
-listeler. İkisinin farkı ve raporun nasıl okunacağı:
+raporu ise aracın sonucunu, kaynağın aynı girdi için yayımladığı sonuçla karşılaştırır. İkisinin farkı ve raporun nasıl okunacağı:
 [Doğrulama sistemi](tr/aciklama/dogrulama.md) ·
 [The verification system](en/explanation/verification.md).

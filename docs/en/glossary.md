@@ -2,25 +2,25 @@
 
 These terms are used consistently throughout the documentation, so that the same thing
 never gets two names on two pages. The Turkish column gives the term used in the Turkish
-documentation and in the thesis that describes the tool.
+documentation.
 
 ## The tool's concepts
 
 | Term | Turkish | Meaning |
 |---|---|---|
 | **feature** | öznitelik | A single number extracted from a text (`ttr`, `atesman`) |
-| **key** | anahtar | A feature's name; the `dict` key in the returned mapping |
+| **key** | anahtar | A feature's name; a key in the dictionary `analyze` returns |
 | **group** | grup | One of the 12 sets features belong to (`lexical`, `readability`…; 13 with `custom_ngrams`) |
 | **citation** | künye | The short source pointer; the parenthetical in a methods section |
 | **reference** | kaynakça kaydı | The full bibliographic record; what goes in a bibliography |
 | **registry** | öznitelik dizini | The single place each feature's definition, formula and citation live |
-| **pipeline** | çözümleme hattı | The steps from raw text to numbers: spaCy, Zeyrek and the tool's own rules |
+| **pipeline** | çözümleme hattı | The steps from raw text to numbers: spaCy, Akana and the tool's own rules |
 | **scale** | ölçek | The kind of value: `ratio_0_1`, `score`, `count`… |
 | **segment** | parça | A slice of text produced by `segment_text` |
 | **label** | etiket | The folder name in a corpus; author, class or experimental arm |
 | **parameter** | parametre | A window size, threshold or sample count you can change (`FeatureParams`) |
 | **constant** | sabit | A number fixed in a formula: MTLD's 0.72, Brunet's 0.172, the coefficients of a readability formula |
-| **n-gram** | sözcük dizisi | A sequence of words, lemmas or part-of-speech tags you give; counted with `custom_ngrams` |
+| **n-gram** | sözcük dizisi | A sequence of adjacent words, lemmas or part-of-speech tags you give; counted with `custom_ngrams` |
 
 ## Language processing
 
@@ -29,17 +29,17 @@ documentation and in the thesis that describes the tool.
 | **token** | türce | The smallest unit spaCy splits text into; punctuation is a token of its own. In the type-token ratio, each word instance in a text |
 | **type** | tür | One of the distinct words in a text; `house` occurring three times is one type |
 | **type-token ratio (TTR)** | tür/türce oranı | Number of types ÷ number of tokens |
-| **lemma** | sözlükbirim | A word's dictionary form; from Zeyrek for Turkish, from spaCy for English |
-| **morpheme** | biçimbirim | A root or suffix in Zeyrek's analysis |
+| **lemma** | sözlükbirim | A word's dictionary form; from Akana for Turkish, from spaCy for English |
+| **morpheme** | biçimbirim | A root or suffix in Akana's analysis |
 | **part of speech** | sözcük türü | Noun, verb, adjective… |
 | **POS tag** | sözcük türü etiketi | One of the 17 Universal Dependencies part-of-speech tags (`NOUN`, `VERB`, `ADJ`…) |
 | **dependency** | bağımlılık | The link the parser draws between two words of a sentence |
 | **parser** | ayrıştırıcı | The component that derives a sentence's dependency structure (spaCy) |
-| **analyzer** | çözümleyici | The component that splits a word into morphemes; Zeyrek in this tool |
+| **analyzer** | çözümleyici | The component that splits a word into morphemes; Akana in this tool |
 | **tagger** | etiketleyici | The component that gives words their part-of-speech tags (spaCy) |
 | **tokenizer** | türceleyici | The component that splits text into tokens |
-| **disambiguation** | belirsizlik giderme | Choosing, from several analyses of a word, the one that fits the context; Zeyrek does not do this |
-| **hash seed** | karma tohumu | Python's internal number that changes on every run; fixed with `PYTHONHASHSEED=0` |
+| **disambiguation** | belirsizlik giderme | Choosing, from several analyses of a word, the one that fits the sentence; Akana's disambiguator in this tool |
+| **named entity recognizer** | ad tanıyıcı | The component that finds person, place and organisation names in a text; Akana's in this tool |
 | **sentence boundary** | tümce sınırı | Where a sentence ends; found with the tool's own rule |
 | **content word** | içeriksel sözcük | A noun, proper noun, verb, adjective or adverb |
 | **phoneme** | sesbirim | A sound unit that distinguishes meaning; the tool works with letters, not phonemes |
@@ -83,14 +83,14 @@ documentation and in the thesis that describes the tool.
 | **tag ratio** | etiket oranı | The share of one category of an external tag scheme |
 | **plain definition** | yalın tanım | A definition without a source |
 | **tool-specific** | araca özgü | Formula from a source; what it is applied to, from this tool |
-| **calibrated** | kalibre edilmiş | Threshold from this tool's own calibration |
+| **calibrated** | kalibre edilmiş | Threshold from this tool's own corpus measurement |
 | **primary source** | birincil kaynak | The publication that proposed the measure |
 | **secondary source** | ikincil kaynak | A source that reports the measure from another publication |
 | **as cited in** | aktaran (akt.) | The primary source could not be obtained; taken from a secondary one |
-| **comparison** | karşılaştırma | In the report, pairing a feature with a number its source published |
+| **comparison** | karşılaştırma | Comparing the tool's result for a feature with the result its source published for the same input |
 | **match** | örtüşen | Within tolerance of the source's number (✅) |
 | **documented deviation** | belgelenmiş sapma | A difference whose reason is written down (🟡) |
-| **open** | açık | No number published by the source has been found yet (🔍) |
+| **open** | açık | No published example applying the formula to a text was found in the source (🔍) |
 | **mismatch** | uyuşmazlık | An unexplained difference (❌) |
 | **relative tolerance** | göreli tolerans | The allowed difference as a share of the published value (1%) |
 | **end-to-end comparison** | uçtan uca karşılaştırma | Tested by pushing the source's own text through the pipeline |

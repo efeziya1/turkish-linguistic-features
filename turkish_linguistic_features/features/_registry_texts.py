@@ -167,30 +167,30 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'number_sing_ratio': 'share of words tagged Number=Sing',
     'number_plur_ratio': 'share of words tagged Number=Plur',
     'voice_pass_ratio': 'share of passive verbs',
-    # ── morphological_zeyrek ────────────────────────────────────
-    'zeyrek_agglutination_depth': 'visible suffixes per word',
-    'zeyrek_suffix_char_length_ratio': 'share of word letters in suffixes',
-    'zeyrek_suffix_bigram_entropy': 'variety of suffix sequences',
-    'zeyrek_derivational_suffix_ratio': 'share of derivational suffixes',
-    'zeyrek_verb_suffix_diversity': 'suffix variety on verbs',
-    'zeyrek_tense_past_def_ratio': 'share of verbs in the definite past (-DI)',
-    'zeyrek_tense_past_nar_ratio': 'share of verbs in the reported past (-mIş)',
-    'zeyrek_tense_present_ratio': 'share of verbs in the present',
-    'zeyrek_tense_future_ratio': 'share of verbs in the future (-AcAk)',
-    'zeyrek_negation_ratio': 'share of negative verbs',
-    'zeyrek_passive_ratio': 'share of passive verbs',
-    'zeyrek_plural_ratio': 'share of plural nominals',
-    'zeyrek_case_acc_ratio': 'share of words in the accusative case',
-    'zeyrek_case_dat_ratio': 'share of words in the dative case',
-    'zeyrek_case_loc_ratio': 'share of words in the locative case',
-    'zeyrek_case_abl_ratio': 'share of words in the ablative case',
-    'zeyrek_case_gen_ratio': 'share of words in the genitive case',
-    'zeyrek_case_ins_ratio': 'share of words in the instrumental case',
-    'zeyrek_conditional_suffix_ratio': 'share of conditional verbs',
-    'zeyrek_causative_suffix_ratio': 'share of causative verbs',
-    'zeyrek_modal_possibility_ratio': 'share of ability verbs',
-    'zeyrek_modal_necessity_ratio': 'share of necessity verbs',
-    'zeyrek_question_particle_ratio': 'share of question particles',
+    # ── morphological_akana ────────────────────────────────────
+    'akana_agglutination_depth': 'visible suffixes per word',
+    'akana_suffix_char_length_ratio': 'share of word letters in suffixes',
+    'akana_suffix_bigram_entropy': 'variety of suffix sequences',
+    'akana_derivational_suffix_ratio': 'share of derivational suffixes',
+    'akana_verb_suffix_diversity': 'suffix variety on verbs',
+    'akana_tense_past_def_ratio': 'share of verbs in the definite past (-DI)',
+    'akana_tense_past_nar_ratio': 'share of verbs in the reported past (-mIş)',
+    'akana_tense_present_ratio': 'share of verbs in the present',
+    'akana_tense_future_ratio': 'share of verbs in the future (-AcAk)',
+    'akana_negation_ratio': 'share of negative verbs',
+    'akana_passive_ratio': 'share of passive verbs',
+    'akana_plural_ratio': 'share of plural nominals',
+    'akana_case_acc_ratio': 'share of words in the accusative case',
+    'akana_case_dat_ratio': 'share of words in the dative case',
+    'akana_case_loc_ratio': 'share of words in the locative case',
+    'akana_case_abl_ratio': 'share of words in the ablative case',
+    'akana_case_gen_ratio': 'share of words in the genitive case',
+    'akana_case_ins_ratio': 'share of words in the instrumental case',
+    'akana_conditional_suffix_ratio': 'share of conditional verbs',
+    'akana_causative_suffix_ratio': 'share of causative verbs',
+    'akana_modal_possibility_ratio': 'share of ability verbs',
+    'akana_modal_necessity_ratio': 'share of necessity verbs',
+    'akana_question_particle_ratio': 'share of question particles',
     # ── phonological ────────────────────────────────────────────────
     'vowel_ratio': 'share of vowels',
     'front_vowel_ratio': 'share of front vowels',
@@ -249,7 +249,7 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'uppercase_ratio': 'share of capitalised words',
     'all_caps_word_ratio': 'share of all-caps words',
     # ── chars (dinamik grup) ───────────────────────────────────────
-    'chars': 'share of that letter among alphabet letters',
+    'chars': 'share of that letter among the 32 letters',
     # ── custom_ngrams (dinamik grup) ───────────────────────────────
     'custom_ngrams': 'count of a user-supplied sequence of words, lemmas or POS tags within sentences',
 }
@@ -387,32 +387,32 @@ FEATURE_FORMULAS: dict[str, str] = {
     'number_sing_ratio': 'words with Number=X / words with any Number',
     'number_plur_ratio': 'words with Number=X / words with any Number',
     'voice_pass_ratio': 'VERB with Voice=Pass / VERB',
-    # ── morphological_zeyrek ────────────────────────────────────
-    'zeyrek_agglutination_depth': 'visible suffixes / analysed words',
-    'zeyrek_suffix_char_length_ratio': 'suffix letters / word letters',
-    'zeyrek_suffix_bigram_entropy': 'Shannon entropy (nats) of within-word visible suffix pairs',
-    'zeyrek_derivational_suffix_ratio': 'derivational / visible suffixes',
-    'zeyrek_verb_suffix_diversity':
+    # ── morphological_akana ────────────────────────────────────
+    'akana_agglutination_depth': 'visible suffixes / analysed words',
+    'akana_suffix_char_length_ratio': 'suffix letters / word letters',
+    'akana_suffix_bigram_entropy': 'Shannon entropy (nats) of within-word visible suffix pairs',
+    'akana_derivational_suffix_ratio': 'derivational / visible suffixes',
+    'akana_verb_suffix_diversity':
         'mean distinct visible suffix tags over verb_suffix_num_samples random samples of '
         'verb_suffix_window verbs (no repeats within a sample)',
-    'zeyrek_tense_past_def_ratio': 'verbs whose last tense tag is X / verbs',
-    'zeyrek_tense_past_nar_ratio': 'verbs whose last tense tag is X / verbs',
-    'zeyrek_tense_present_ratio': 'verbs whose last tense tag is X / verbs',
-    'zeyrek_tense_future_ratio': 'verbs whose last tense tag is X / verbs',
-    'zeyrek_negation_ratio': 'verbs with Neg or Unable / verbs',
-    'zeyrek_passive_ratio': 'verbs with Pass / verbs',
-    'zeyrek_plural_ratio': 'words with A3pl on a non-verb part / analysed words',
-    'zeyrek_case_acc_ratio': 'words with Acc … Ins / analysed words',
-    'zeyrek_case_dat_ratio': 'words with Acc … Ins / analysed words',
-    'zeyrek_case_loc_ratio': 'words with Acc … Ins / analysed words',
-    'zeyrek_case_abl_ratio': 'words with Acc … Ins / analysed words',
-    'zeyrek_case_gen_ratio': 'words with Acc … Ins / analysed words',
-    'zeyrek_case_ins_ratio': 'words with Acc … Ins / analysed words',
-    'zeyrek_conditional_suffix_ratio': 'verbs with Cond / verbs',
-    'zeyrek_causative_suffix_ratio': 'verbs with Caus / verbs',
-    'zeyrek_modal_possibility_ratio': 'verbs with Able or Unable / verbs',
-    'zeyrek_modal_necessity_ratio': 'verbs with Neces / verbs',
-    'zeyrek_question_particle_ratio': 'words with root Ques / analysed words',
+    'akana_tense_past_def_ratio': 'verbs whose last tense tag is X / verbs',
+    'akana_tense_past_nar_ratio': 'verbs whose last tense tag is X / verbs',
+    'akana_tense_present_ratio': 'verbs whose last tense tag is X / verbs',
+    'akana_tense_future_ratio': 'verbs whose last tense tag is X / verbs',
+    'akana_negation_ratio': 'verbs with Neg or Unable / verbs',
+    'akana_passive_ratio': 'verbs with Pass / verbs',
+    'akana_plural_ratio': 'words with A3pl on a non-verb part / analysed words',
+    'akana_case_acc_ratio': 'words with Acc … Ins / analysed words',
+    'akana_case_dat_ratio': 'words with Acc … Ins / analysed words',
+    'akana_case_loc_ratio': 'words with Acc … Ins / analysed words',
+    'akana_case_abl_ratio': 'words with Acc … Ins / analysed words',
+    'akana_case_gen_ratio': 'words with Acc … Ins / analysed words',
+    'akana_case_ins_ratio': 'words with Acc … Ins / analysed words',
+    'akana_conditional_suffix_ratio': 'verbs with Cond / verbs',
+    'akana_causative_suffix_ratio': 'verbs with Caus / verbs',
+    'akana_modal_possibility_ratio': 'verbs with Able or Unable / verbs',
+    'akana_modal_necessity_ratio': 'verbs with Neces / verbs',
+    'akana_question_particle_ratio': 'words with root Ques / analysed words',
     # ── phonological ────────────────────────────────────────────────
     'vowel_ratio': 'vowels / alphabet letters',
     'front_vowel_ratio': 'front vowels / alphabet letters',
@@ -481,7 +481,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'uppercase_ratio': 'words whose first letter is upper case / words with a letter',
     'all_caps_word_ratio': 'words with 2+ letters, all upper case / words with a letter',
     # ── chars (dinamik grup) ───────────────────────────────────────
-    'chars': 'letter count / alphabet letters',
+    'chars': 'letter count / the 32 letters',
     # ── custom_ngrams (dinamik grup) ───────────────────────────────
     'custom_ngrams':
         'matches inside sentences; overlapping matches counted; UPPERCASE UD tags match any word '
@@ -545,18 +545,18 @@ FEATURE_REQUIRES: dict[str, str] = {
     'zipf_mandelbrot_q': 'at least 10 distinct words',
     'zipf_mandelbrot_s': 'at least 10 distinct words',
     # ── sentence ────────────────────────────────────────────────
-    'sent_len_mean': 'at least 1 sentence with a letter',
-    'sent_count': 'at least 1 sentence with a letter',
+    'sent_len_mean': 'at least 1 sentence',
+    'sent_count': 'at least 1 sentence',
     'sent_len_char_mean': 'at least 1 sentence',
-    'short_sent_ratio': 'at least 1 sentence with a letter',
-    'long_sent_ratio': 'at least 1 sentence with a letter',
-    'sent_len_median': 'at least 1 sentence with a letter',
-    'sent_len_entropy': 'at least 2 sentences with a letter',
+    'short_sent_ratio': 'at least 1 sentence',
+    'long_sent_ratio': 'at least 1 sentence',
+    'sent_len_median': 'at least 1 sentence',
+    'sent_len_entropy': 'at least 2 sentences',
     'question_sent_ratio': 'at least 1 sentence',
     # ── paragraph ───────────────────────────────────────────────
     'para_count': 'at least 1 paragraph',
     'para_len_mean': 'at least 1 paragraph',
-    'sents_per_para_mean': 'at least 1 sentence with a letter',
+    'sents_per_para_mean': 'at least 1 sentence',
     # ── pos ─────────────────────────────────────────────────────
     'pos_noun_ratio': 'at least 1 word',
     'pos_propn_ratio': 'at least 1 word',
@@ -612,30 +612,30 @@ FEATURE_REQUIRES: dict[str, str] = {
     'number_sing_ratio': 'at least 1 word with a Number tag',
     'number_plur_ratio': 'at least 1 word with a Number tag',
     'voice_pass_ratio': 'at least 1 verb',
-    # ── morphological_zeyrek ────────────────────────────────────
-    'zeyrek_agglutination_depth': 'at least 1 analysed word',
-    'zeyrek_suffix_char_length_ratio': 'at least 1 analysed word',
-    'zeyrek_suffix_bigram_entropy': 'at least 1 word with 2 visible suffixes',
-    'zeyrek_derivational_suffix_ratio': 'at least 1 visible suffix',
-    'zeyrek_verb_suffix_diversity': 'at least 10 verbs (verb_suffix_window)',
-    'zeyrek_tense_past_def_ratio': 'at least 1 verb',
-    'zeyrek_tense_past_nar_ratio': 'at least 1 verb',
-    'zeyrek_tense_present_ratio': 'at least 1 verb',
-    'zeyrek_tense_future_ratio': 'at least 1 verb',
-    'zeyrek_negation_ratio': 'at least 1 verb',
-    'zeyrek_passive_ratio': 'at least 1 verb',
-    'zeyrek_plural_ratio': 'at least 1 analysed word',
-    'zeyrek_case_acc_ratio': 'at least 1 analysed word',
-    'zeyrek_case_dat_ratio': 'at least 1 analysed word',
-    'zeyrek_case_loc_ratio': 'at least 1 analysed word',
-    'zeyrek_case_abl_ratio': 'at least 1 analysed word',
-    'zeyrek_case_gen_ratio': 'at least 1 analysed word',
-    'zeyrek_case_ins_ratio': 'at least 1 analysed word',
-    'zeyrek_conditional_suffix_ratio': 'at least 1 verb',
-    'zeyrek_causative_suffix_ratio': 'at least 1 verb',
-    'zeyrek_modal_possibility_ratio': 'at least 1 verb',
-    'zeyrek_modal_necessity_ratio': 'at least 1 verb',
-    'zeyrek_question_particle_ratio': 'at least 1 analysed word',
+    # ── morphological_akana ────────────────────────────────────
+    'akana_agglutination_depth': 'at least 1 analysed word',
+    'akana_suffix_char_length_ratio': 'at least 1 analysed word',
+    'akana_suffix_bigram_entropy': 'at least 1 word with 2 visible suffixes',
+    'akana_derivational_suffix_ratio': 'at least 1 visible suffix',
+    'akana_verb_suffix_diversity': 'at least 10 verbs (verb_suffix_window)',
+    'akana_tense_past_def_ratio': 'at least 1 verb',
+    'akana_tense_past_nar_ratio': 'at least 1 verb',
+    'akana_tense_present_ratio': 'at least 1 verb',
+    'akana_tense_future_ratio': 'at least 1 verb',
+    'akana_negation_ratio': 'at least 1 verb',
+    'akana_passive_ratio': 'at least 1 verb',
+    'akana_plural_ratio': 'at least 1 analysed word',
+    'akana_case_acc_ratio': 'at least 1 analysed word',
+    'akana_case_dat_ratio': 'at least 1 analysed word',
+    'akana_case_loc_ratio': 'at least 1 analysed word',
+    'akana_case_abl_ratio': 'at least 1 analysed word',
+    'akana_case_gen_ratio': 'at least 1 analysed word',
+    'akana_case_ins_ratio': 'at least 1 analysed word',
+    'akana_conditional_suffix_ratio': 'at least 1 verb',
+    'akana_causative_suffix_ratio': 'at least 1 verb',
+    'akana_modal_possibility_ratio': 'at least 1 verb',
+    'akana_modal_necessity_ratio': 'at least 1 verb',
+    'akana_question_particle_ratio': 'at least 1 analysed word',
     # ── phonological ────────────────────────────────────────────────
     'vowel_ratio': 'at least 1 alphabet letter',
     'front_vowel_ratio': 'at least 1 alphabet letter',
@@ -663,11 +663,11 @@ FEATURE_REQUIRES: dict[str, str] = {
     'lix': 'at least 1 word',
     'polysyllabic_word_ratio': 'at least 1 syllabifiable word',
     'long_word_ratio': 'at least 1 word',
-    'kalyoncu_kl': 'at least 1 word; Zeyrek',
-    'kalyoncu_ttr': 'at least 1 word; Zeyrek',
-    'kalyoncu_kco': 'at least 1 sentence with a letter; Zeyrek',
-    'kalyoncu_yco': 'at least 1 sentence with a letter; Zeyrek',
-    'kalyoncu_ocu': 'at least 1 sentence with a letter',
+    'kalyoncu_kl': 'at least 1 word; Akana',
+    'kalyoncu_ttr': 'at least 1 word; Akana',
+    'kalyoncu_kco': 'at least 1 sentence; Akana',
+    'kalyoncu_yco': 'at least 1 sentence; Akana',
+    'kalyoncu_ocu': 'at least 1 sentence',
     'kalyoncu_k1': 'all four components',
     'kalyoncu_k2': 'all three components',
     'kalyoncu_k3': 'all three components',
@@ -694,7 +694,7 @@ FEATURE_REQUIRES: dict[str, str] = {
     'uppercase_ratio': 'at least 1 word with a letter',
     'all_caps_word_ratio': 'at least 1 word with a letter',
     # ── chars (dinamik grup) ───────────────────────────────────────
-    'chars': 'at least 1 alphabet letter',
+    'chars': 'at least 1 of the 32 letters',
     # ── custom_ngrams (dinamik grup) ───────────────────────────────
     'custom_ngrams': 'non-empty text (0 when the phrase is longer than every sentence)',
 }
@@ -901,78 +901,78 @@ FEATURE_CITATIONS: dict[str, str] = {
         'de Marneffe et al. (2021) Table 2 (universal morphological features)',
     'voice_pass_ratio':
         'de Marneffe et al. (2021) Table 2 (universal morphological features)',
-    # ── morphological_zeyrek ────────────────────────────────
-    'zeyrek_agglutination_depth':
-        "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
+    # ── morphological_akana ────────────────────────────────
+    'akana_agglutination_depth':
+        "Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'zeyrek_suffix_char_length_ratio':
-        "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
+    'akana_suffix_char_length_ratio':
+        "Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'zeyrek_suffix_bigram_entropy':
-        "Shannon (1948) — the entropy formula; Zeyrek (a Python port of Zemberek's "
+    'akana_suffix_bigram_entropy':
+        "Shannon (1948) — the entropy formula; Akana (a Rust port of Zemberek's "
         'morphotactics); tag set from Akın & Akın (2007)',
-    'zeyrek_derivational_suffix_ratio':
-        "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
+    'akana_derivational_suffix_ratio':
+        "Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'zeyrek_verb_suffix_diversity':
+    'akana_verb_suffix_diversity':
         'Brezina & Pallotti (2019) p.107 (MC10: 10-verb samples; the authors call 10 '
         'arbitrary and give MC5 for short texts) and p.108 (100 random samples); only the '
         'within-sample variety is measured (close to MC10a, no between-sample component); '
-        "suffixes from Zeyrek (a Python port of Zemberek's morphotactics), tag set from "
+        "suffixes from Akana (a Rust port of Zemberek's morphotactics), tag set from "
         'Akın & Akın (2007)',
-    'zeyrek_tense_past_def_ratio':
-        "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
+    'akana_tense_past_def_ratio':
+        "Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'zeyrek_tense_past_nar_ratio':
-        "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
+    'akana_tense_past_nar_ratio':
+        "Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'zeyrek_tense_present_ratio':
-        "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
+    'akana_tense_present_ratio':
+        "Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'zeyrek_tense_future_ratio':
-        "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
+    'akana_tense_future_ratio':
+        "Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'zeyrek_negation_ratio':
-        "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
+    'akana_negation_ratio':
+        "Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'zeyrek_passive_ratio':
-        "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
+    'akana_passive_ratio':
+        "Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'zeyrek_plural_ratio':
-        "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
+    'akana_plural_ratio':
+        "Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'zeyrek_case_acc_ratio':
-        "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
+    'akana_case_acc_ratio':
+        "Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'zeyrek_case_dat_ratio':
-        "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
+    'akana_case_dat_ratio':
+        "Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'zeyrek_case_loc_ratio':
-        "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
+    'akana_case_loc_ratio':
+        "Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'zeyrek_case_abl_ratio':
-        "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
+    'akana_case_abl_ratio':
+        "Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'zeyrek_case_gen_ratio':
-        "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
+    'akana_case_gen_ratio':
+        "Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'zeyrek_case_ins_ratio':
-        "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
+    'akana_case_ins_ratio':
+        "Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'zeyrek_conditional_suffix_ratio':
-        "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
+    'akana_conditional_suffix_ratio':
+        "Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'zeyrek_causative_suffix_ratio':
-        "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
+    'akana_causative_suffix_ratio':
+        "Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'zeyrek_modal_possibility_ratio':
-        "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
+    'akana_modal_possibility_ratio':
+        "Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'zeyrek_modal_necessity_ratio':
-        "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
+    'akana_modal_necessity_ratio':
+        "Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
-    'zeyrek_question_particle_ratio':
-        "Zeyrek (a Python port of Zemberek's morphotactics); tag set from Akın & Akın "
+    'akana_question_particle_ratio':
+        "Akana (a Rust port of Zemberek's morphotactics); tag set from Akın & Akın "
         '(2007)',
     # ── phonological ────────────────────────────────────────────
     'front_vowel_ratio':
@@ -1035,8 +1035,8 @@ FEATURE_CITATIONS: dict[str, str] = {
     # Dynamic group: every char_* key takes this citation (registry._citation).
     'chars':
         'Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; '
-        "here each letter of the language's alphabet (Turkish 29, English 26) as a share of all "
-        'its letters',
+        'here each of 32 letters (the Turkish and English alphabets together, the same in both '
+        'languages) as a share of all 32',
     'word_len_mean':
         'Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241',
     'sent_len_median': 'Yule (1939) p.369, median sentence length alongside the mean',
@@ -1325,9 +1325,10 @@ BIBLIOGRAPHY: dict[str, str] = {
     'Yule (1944)':
         'Yule, G. U. (1944). The Statistical Study of Literary Vocabulary. '
         'Cambridge University Press.',
-    'Zeyrek':
-        'Zeyrek — a Python port of the Zemberek morphological analyser. '
-        'github.com/obulat/zeyrek',
+    'Akana':
+        'Akana — a Rust port of the Zemberek morphological analyser, with Python '
+        'bindings (Altai Yapay Zeka Teknolojileri A.Ş.). Version 0.12.0. '
+        'github.com/altaidevorg/akana',
     'Zheng et al. (2006)':
         'Zheng, R., Li, J., Chen, H., & Huang, Z. (2006). A framework for authorship identification '
         'of online messages: Writing-style features and classification techniques. Journal of the '

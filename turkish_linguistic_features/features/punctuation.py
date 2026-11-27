@@ -6,7 +6,7 @@ Bu modül iki grubun anahtarlarını üretir:
   ``punct_char_ratio``,
   ``punct_entropy``, ``consecutive_punct_ratio``, ``whitespace_ratio``,
   ``punct_variety``, ``uppercase_ratio``, ``all_caps_word_ratio``
-- ``chars`` (dinamik): ``char_{harf}_ratio`` — TR 29, EN 26
+- ``chars`` (dinamik): ``char_{harf}_ratio`` — 32 letters in both languages (2026-11-26)
 
 Noktalama **işaret** düzeyinde sayılır, karakter düzeyinde değil (Efe'nin
 kararları, 2026-09-15):
@@ -28,7 +28,7 @@ from __future__ import annotations
 import math
 from collections import Counter
 
-from ..alfabe import _ALFABE, _kucuk_harf
+from ..alfabe import _ALFABE, _KARAKTER_HARFLERI, _kucuk_harf
 
 # Karakter → işaret türü. Tür adları punct_{tür}_ratio anahtarlarının ortasıdır.
 _TUR: dict[str, str] = {
@@ -194,11 +194,12 @@ def all_caps_word_ratio(surface_tokens: list[str]) -> dict[str, float]:
 
 
 def char_freq_vector(text: str, lang: str) -> dict[str, float]:
-    """Alfabedeki her harfin oranı: ``harf sayısı / alfabedeki harflerin toplamı``.
+    """Share of each of the 32 letters (``alfabe._KARAKTER_HARFLERI``): letter / all 32 letters.
 
-    Metin dile göre küçük harfe indirilir (TR'de ``I → ı``, ``İ → i``). Alfabe
-    dışı harfler (TR'de ``q w x``) sayılmaz; vektörün toplamı 1'dir. Alfabe
-    harfi yoksa bütün vektör NaN.
+    The text is lower-cased by language (Turkish ``I → ı``, ``İ → i``). Both languages count
+    the same 32 letters, the union of the two alphabets (2026-11-26, Efe; until then each
+    language counted only its own alphabet). Other letters (``é``, ``ä``) are not counted;
+    the vector sums to 1. With none of the 32 letters the whole vector is NaN.
 
     Raises
     ------
@@ -207,7 +208,8 @@ def char_freq_vector(text: str, lang: str) -> dict[str, float]:
     """
     if lang not in _ALFABE:
         raise ValueError(f"Unsupported language: {lang!r}. Expected one of: {sorted(_ALFABE)}")
-    alfabe = _ALFABE[lang]
-    say = Counter(ch for ch in _kucuk_harf(text, lang) if ch in alfabe)
+    harfler = _KARAKTER_HARFLERI
+    say = Counter(ch for ch in _kucuk_harf(text, lang) if ch in harfler)
     toplam = sum(say.values())
-    return {f"char_{h}_ratio": round(say.get(h, 0) / toplam, 6) if toplam else math.nan for h in alfabe}
+    return {f"char_{h}_ratio": round(say.get(h, 0) / toplam, 6) if toplam else math.nan
+            for h in harfler}

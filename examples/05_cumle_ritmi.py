@@ -44,7 +44,7 @@ def main() -> None:
         demo_korpus_yaz(korpus)
 
     # Yalnız `sentence` grubu: satırlar yalnız tümce ölçülerini taşır. Süre az kısalır;
-    # spaCy ve Zeyrek ön işlemesi hangi grup seçilirse seçilsin her parçada bir kez çalışır.
+    # spaCy ve Akana ön işlemesi hangi grup seçilirse seçilsin her parçada bir kez çalışır.
     satirlar = tlf.analyze_corpus(korpus, lang=DIL, segment_size=parca_boyutu,
                                   groups=["sentence"], warn=False)
     if not satirlar:

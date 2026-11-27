@@ -50,14 +50,14 @@ def test_word_view_kelime_duzeyi_listeler():
     tok = ["E", "-", "posta", "geldi", "."]
     pos = [("E", "NOUN"), ("-", "PUNCT"), ("posta", "NOUN"), ("geldi", "VERB"), (".", "PUNCT")]
     morf = [("E", "Case=Nom"), ("-", ""), ("posta", "Case=Nom"), ("geldi", "Tense=Past"), (".", "")]
-    zeyrek = [(("Noun", "e", False),), (("Punc", "-", False),), (("Noun", "posta", False),),
-              (("Verb", "gel", False), ("Past", "di", False)), (("Punc", ".", False),)]
-    wv = word_view(metin, ["E-posta", "geldi"], tok, pos, ["e", "posta", "gel"], morf, zeyrek,
+    akana = [(("Noun", "e", False),), (("Unk", "-", False),), (("Noun", "posta", False),),
+             (("Verb", "gel", False), ("Past", "di", False)), (("Unk", ".", False),)]
+    wv = word_view(metin, ["E-posta", "geldi"], tok, pos, ["e", "posta", "gel"], morf, akana,
                    [tok], "tr")
     assert wv.pos == [("E-posta", "NOUN"), ("geldi", "VERB")]
     assert wv.lemmas == ["e", "gel"]
     assert wv.morph == [("E-posta", "Case=Nom"), ("geldi", "Tense=Past")]
-    assert wv.morphemes == [zeyrek[0], zeyrek[3]]
+    assert wv.morphemes == [akana[0], akana[3]]
     assert wv.sentences == [["E-posta", "geldi"]]
 
 

@@ -13,8 +13,8 @@ from turkish_linguistic_features import analyze
 tr_model = pytest.mark.tr_model
 en_model = pytest.mark.en_model
 
-TR_TABAN = 214
-EN_TABAN = 181
+TR_TABAN = 217
+EN_TABAN = 187
 
 
 # ── önbellek — model gerektirmez ──────────────────────────────────────
@@ -118,7 +118,7 @@ def test_ngram_matches_analyze_sayimiyla_tutarli():
 
 @tr_model
 def test_ngram_lemma_turkce_uctan_uca():
-    """``EV`` Zeyrek lemmasıyla eşleşir: eve, evden aynı lemma (hocanın önerisi)."""
+    """``EV`` Akana lemmasıyla eşleşir: eve, evden aynı lemma (hocanın önerisi)."""
     metin = "Eve gittim. Evden çıktık. Evdeki kedi uyudu."
     eslesme = tlf.ngram_matches(metin, ["EV", "VERB"])
     sayim = analyze(metin, custom_ngrams=[["EV", "VERB"]], groups=["custom_ngrams"])
@@ -157,33 +157,33 @@ def test_desteklenmeyen_dil():
 
 
 @tr_model
-def test_zeyrek_grubu_gercekten_olculuyor():
-    """23 ``morphological_zeyrek`` anahtarı üretilmeli ve hepsi NaN olmamalı.
+def test_akana_grubu_gercekten_olculuyor():
+    """23 ``morphological_akana`` anahtarı üretilmeli ve hepsi NaN olmamalı.
 
-    ``zeyrek`` zorunlu bağımlılık (K1) — "kurulu değil" senaryosu yok. Grup
-    üretiliyor ama her değer NaN çıkıyorsa Zeyrek sessizce boş dönüyordur.
+    ``akana`` zorunlu bağımlılık (K1) — "kurulu değil" senaryosu yok. Grup
+    üretiliyor ama her değer NaN çıkıyorsa Akana sessizce boş dönüyordur.
     """
     import math
 
     from turkish_linguistic_features.features.registry import STATIC_GROUP_KEYS
 
     feats = analyze("Kitaplarımızda yazıyordu. Gelmedim çünkü çağırmadılar.", lang="tr")
-    zeyrek_anahtarlari = STATIC_GROUP_KEYS["morphological_zeyrek"]
-    assert len(zeyrek_anahtarlari) == 23
-    assert set(zeyrek_anahtarlari) <= set(feats)
-    olculen = [feats[k] for k in zeyrek_anahtarlari if not math.isnan(feats[k])]
-    assert olculen, "morphological_zeyrek'in tamamı NaN — Zeyrek boş dönüyor"
+    akana_anahtarlari = STATIC_GROUP_KEYS["morphological_akana"]
+    assert len(akana_anahtarlari) == 23
+    assert set(akana_anahtarlari) <= set(feats)
+    olculen = [feats[k] for k in akana_anahtarlari if not math.isnan(feats[k])]
+    assert olculen, "morphological_akana'nın tamamı NaN — Akana boş dönüyor"
 
 
 @en_model
 @pytest.mark.cmudict
-def test_ingilizcede_zeyrek_grubu_hic_yok(recwarn):
+def test_ingilizcede_akana_grubu_hic_yok(recwarn):
     """K11 — İngilizcede grup üretilmez ve bunun için uyarı da verilmez."""
     from turkish_linguistic_features.features.registry import STATIC_GROUP_KEYS
 
     feats = analyze("This is a test. A second sentence here.", lang="en")
-    assert not (set(STATIC_GROUP_KEYS["morphological_zeyrek"]) & set(feats))
-    assert not [w for w in recwarn if "zeyrek" in str(w.message).lower()]
+    assert not (set(STATIC_GROUP_KEYS["morphological_akana"]) & set(feats))
+    assert not [w for w in recwarn if "akana" in str(w.message).lower()]
 
 
 def test_chunk_chars_ve_clear_cache_yok():

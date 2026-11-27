@@ -12,8 +12,9 @@ import math
 import numpy as np
 import pytest
 
-MODULLER = ("dependency", "frequency_structure", "lexical", "morphological",
-            "phonetic", "punctuation", "readability", "syntactic")
+MODULLER = ("features.dependency", "features.frequency_structure", "features.lexical",
+            "features.morphological", "features.phonetic", "features.punctuation",
+            "features.readability", "features.syntactic", "birimler.sozcuk", "birimler.tumce")
 
 BOS = np.array([], dtype=float)
 BIR = np.array([1.0])
@@ -92,14 +93,14 @@ DURUMLAR: dict[str, tuple[tuple, tuple]] = {
     "punctuation.punctuation_ratios": (("",), ("ev.",)),
     "punctuation.uppercase_ratio": (([],), (["Ev"],)),
     "punctuation.whitespace_ratio": (("",), (" ",)),
-    "readability.cumle_birimleri": (("", [], "tr"), ("Ev.", [["Ev", "."]], "tr")),
-    "readability.cumle_sayisi": (([], ".?!", "tr"), (["ev"], ".?!", "tr")),
+    "sozcuk.cumle_birimleri": (("", [], "tr"), ("Ev.", [["Ev", "."]], "tr")),
+    "tumce.cumle_sayisi": (([], ".?!", "tr"), (["ev"], ".?!", "tr")),
     "readability.english_readability_formulas": (("", []), ("Home.", ["Home", "."])),
     "readability.general_readability_formulas": (("", [], "tr"), ("Ev.", ["Ev", "."], "tr")),
-    "readability.kelime_birimleri": (("", "tr"), ("ev", "tr")),
-    "readability.kural_cumleleri": (([], "tr"), (["Ev", "."], "tr")),
+    "sozcuk.kelime_birimleri": (("", "tr"), ("ev", "tr")),
+    "tumce.kural_cumleleri": (([], "tr"), (["Ev", "."], "tr")),
     "readability.turkish_readability_formulas": (("", []), ("Ev.", ["Ev", "."])),
-    "readability.word_units": (("", "tr"), ("ev", "tr")),
+    "sozcuk.word_units": (("", "tr"), ("ev", "tr")),
     "syntactic.activity_ratio": (([],), (POS_EV,)),
     "syntactic.sent_len_char_mean": (([],), ([["ev"]],)),
     "syntactic.lexical_density": (([],), (POS_EV,)),
@@ -115,20 +116,20 @@ DURUMLAR: dict[str, tuple[tuple, tuple]] = {
     "syntactic.word_ngram_counts": (([], []), ([[("ev", "NOUN")]], [["ev"]])),
     "syntactic.word_ngram_matches": (([], ["ev"]), ([[("ev", "NOUN")]], ["ev"])),
 }
-for _ad in ("zeyrek_agglutination_depth", "case_suffix_ratios", "zeyrek_derivational_suffix_ratio",
-            "modal_suffix_ratios", "mood_suffix_ratios", "zeyrek_negation_ratio", "zeyrek_passive_ratio",
-            "zeyrek_plural_ratio", "zeyrek_question_particle_ratio", "zeyrek_suffix_char_length_ratio",
-            "suffix_ngrams", "tense_ratios", "zeyrek_verb_suffix_diversity", "zeyrek_morfoloji"):
+for _ad in ("akana_agglutination_depth", "case_suffix_ratios", "akana_derivational_suffix_ratio",
+            "modal_suffix_ratios", "mood_suffix_ratios", "akana_negation_ratio", "akana_passive_ratio",
+            "akana_plural_ratio", "akana_question_particle_ratio", "akana_suffix_char_length_ratio",
+            "suffix_ngrams", "tense_ratios", "akana_verb_suffix_diversity", "akana_morfoloji"):
     DURUMLAR[f"morphological.{_ad}"] = (([], []), (ZEYREK_EV, POS_EV))
 
 
 def _public_fonksiyonlar() -> dict[str, object]:
     sonuc = {}
     for m in MODULLER:
-        mod = importlib.import_module(f"turkish_linguistic_features.features.{m}")
+        mod = importlib.import_module(f"turkish_linguistic_features.{m}")
         for ad, f in inspect.getmembers(mod, inspect.isfunction):
             if f.__module__ == mod.__name__ and not ad.startswith("_"):
-                sonuc[f"{m}.{ad}"] = f
+                sonuc[f"{m.split('.')[-1]}.{ad}"] = f
     return sonuc
 
 

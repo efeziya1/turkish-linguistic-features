@@ -4,14 +4,18 @@ type: software
 title: "turkish-linguistic-features"
 abstract: >-
   A toolkit for extracting quantitative linguistic features from Turkish and
-  English text: 214 features for Turkish, 181 for English. 203 of the Turkish
+  English text: 217 features for Turkish, 187 for English. 206 of the Turkish
   features cite a source in the literature; the rest are plain definitions.
 authors:
   - given-names: "Efe Ziya"
     family-names: "Okul"
-version: "0.3.0"
-date-released: 2026-11-06
+version: "0.4.0"
+date-released: 2026-11-25
 doi: 10.5281/zenodo.23009540
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.24008291
+    description: "Version 0.3.0"
 license: MIT
 repository-code: "https://github.com/efeziya1/turkish-linguistic-features"
 keywords:

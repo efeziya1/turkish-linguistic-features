@@ -30,8 +30,8 @@ from collections.abc import Sequence
 import numpy as np
 
 from ..alfabe import _kucuk_harf
+from ..birimler.sozcuk import kelime_birimleri
 from ..vocab import LEXICAL_POS, NON_WORD_POS, POS_TAGS, UPOS_TAGS
-from .readability import kelime_birimleri
 
 _PARA_SPLIT = re.compile(r"\n[ \t]*\n")   # boş satır = paragraf sınırı
 
@@ -64,20 +64,20 @@ def _cumle_kelimeleri(cumleler: list[list[str]]) -> list[list[str]]:
 
     - **Token**: noktalama düşer, sayı kalır (``_noktalama_mi``, ``isalnum``).
       "Yıl 1999." iki kelimedir — okunabilirlik formülleri de sayıyı kelime sayar.
-    - **Cümle**: içinde hiç alfabetik karakter olmayan cümle düşer (``isalpha``).
-      Tek başına ``"..."`` cümle değildir; uzunluğu 0 sayıp ortalamayı aşağı
-      çekmesindense hiç sayılmaz.
+    - **Sentence**: a sentence left with no word (punctuation only) is dropped. A sentence
+      with a word but no letter (``1999!``) counts, so the library has one sentence
+      definition, shared by ``text_units``, the readability formulas and ``kalyoncu_*``
+      (2026-11-26, Efe; until then sentences without a letter were dropped here).
 
     Cümle uzunluğu literatürde kelimeyle ölçülür. ``_extract_features`` bu
     fonksiyonlara 2026-10-06'dan beri (Efe) cümle başına varsayılan kelime
-    birimlerini verir (``readability.cumle_birimleri``); onlarda noktalama zaten
+    birimlerini verir (``birimler.sozcuk.cumle_birimleri``); onlarda noktalama zaten
     yoktur, token süzgeci yalnız token listesi verilirse iş görür.
     ``pos_distribution_stats`` bu yardımcıyı **kullanmaz**: orada cümleler
     ``pos_data`` ile token token dilimlenir, süzülmüş liste hizayı bozar.
     """
-    return [[t for t in cumle if not _noktalama_mi(t)]
-            for cumle in cumleler
-            if any(ch.isalpha() for t in cumle for ch in t)]
+    kelimeli = ([t for t in cumle if not _noktalama_mi(t)] for cumle in cumleler)
+    return [cumle for cumle in kelimeli if cumle]
 
 
 # ── POS oranları ve ızgara ────────────────────────────────────────────
@@ -209,7 +209,7 @@ def sentence_stats(cumleler: list[list[str]]) -> dict[str, float]:
     """Cümle uzunluğu (**kelime** sayısı): ortalama, medyan ve cümle sayısı.
 
     Uzunluk ``_cumle_kelimeleri`` üzerinden ölçülür — noktalama tokenı
-    kelime sayılmaz, alfabesiz cümle cümle sayılmaz. Cümle yoksa NaN.
+    kelime sayılmaz, kelimesiz cümle cümle sayılmaz. Cümle yoksa NaN.
     ``sentence_length_cv`` (2026-10-07) ve ``sent_len_skewness`` (2026-10-08)
     kaldırıldı (Efe).
     """
@@ -220,7 +220,7 @@ def sentence_stats(cumleler: list[list[str]]) -> dict[str, float]:
     return {
         "sent_len_mean": round(float(u.mean()), 4),
         "sent_len_median": round(float(np.median(u)), 4),
-        # Cümle sayısı (2026-10-08, Efe): ortalamanın saydığı cümleler, harfsiz olan sayılmaz.
+        # Cümle sayısı (2026-10-08, Efe): ortalamanın saydığı cümleler.
         "sent_count": float(len(kelimeler)),
     }
 
@@ -275,7 +275,7 @@ def paragraph_stats(raw_text: str, cumleler: list[list[str]],
     """Paragraf sayısı, paragraf uzunluğu ve paragraf başına cümle.
 
     Üç kural: paragraf = boş satır (tek satır sonu saymaz); paragraf başına
-    kelime = varsayılan kelime birimi (``readability.kelime_birimleri``: boşlukla
+    kelime = varsayılan kelime birimi (``birimler.sozcuk.kelime_birimleri``: boşlukla
     ayrılan birim, kenar noktalaması atılır, yalnız noktalamadan oluşan birim
     sayılmaz; 2026-10-06, Efe); paragraf başına cümle = ``sent_count`` /
     ``para_count``. ``\\r\\n`` önce ``\\n``'e çevrilir — aksi halde Windows'ta
@@ -289,7 +289,7 @@ def paragraph_stats(raw_text: str, cumleler: list[list[str]],
 
     ``para_len_mean`` ile ``sent_len_mean`` aynı kelime tanımını kullanır.
 
-    Paragraf yoksa hepsi NaN; harfli cümle yoksa ``sents_per_para_mean`` NaN.
+    Paragraf yoksa hepsi NaN; cümle yoksa ``sents_per_para_mean`` NaN.
     CV'ler 2026-10-07'de kaldırıldı (Efe).
 
     Çok cümleli bir metin tek paragraf çıkıyorsa ``ParagraphStructureWarning``
@@ -373,7 +373,7 @@ def word_ngram_counts(
       ``evdeki``, ``evlerimizden``; 2026-11-06, hocanın önerisi); geri kalan her öge
       kelimedir ve dile göre küçük harfe inen yazılı biçimle eşleşir.
       ``["ADJ", "NOUN"]`` = bir sıfat ve hemen ardından bir isim.
-      Lemma ``lemma_tokens``'takiyle aynıdır: Türkçede Zeyrek'in ilk çözümlemesi,
+      Lemma ``lemma_tokens``'takiyle aynıdır: Türkçede Akana'nın seçtiği çözümleme,
       İngilizcede spaCy; fiilde mastar eki yok (``GİT``). Etiket adıyla aynı yazılan
       bir lemma (``PART``) etikettir.
     - Arama cümle içindedir: öbek cümle sınırını aşmaz.

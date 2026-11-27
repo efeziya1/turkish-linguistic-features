@@ -15,6 +15,17 @@ _ALFABE: dict[str, str] = {
     "en": "abcdefghijklmnopqrstuvwxyz",      # 26 harf
 }
 
+# Letters the `chars` group counts, the same in both languages: the union of the two
+# alphabets (32). A Turkish text can contain q, w, x and an English one ç, ğ, ı, ö, ş, ü
+# (names, loanwords, quotations); both languages get the same keys (2026-11-26, Efe).
+_KARAKTER_HARFLERI: str = "abcçdefgğhıijklmnoöpqrsştuüvwxyz"
+
+
+def _dil_denetle(lang: str) -> None:
+    """Desteklenmeyen dil kodu için ``ValueError``."""
+    if lang not in _ALFABE:
+        raise ValueError(f"Unsupported language: {lang!r}. Expected one of: {sorted(_ALFABE)}")
+
 
 def _kucuk_harf(metin: str, lang: str) -> str:
     """Dile göre küçük harf. TR'de ``I → ı`` ve ``İ → i``; ``str.lower()`` bunu yapmaz."""

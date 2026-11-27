@@ -56,6 +56,17 @@ def test_turkce_isleme():
 
 
 @tr_model
+def test_akana_ner_ozel_adi_isaretler():
+    """spaCy'nin kaçırdığı özel adlar Akana NER'le PROPN olur (0.4.0, Efe, 2026-11-25)."""
+    pt = Preprocessor(lang="tr").process("Ben dün Derya ile Almanya’da buluştum.")
+    etiket = dict(pt.pos_data)
+    assert etiket["Derya"] == "PROPN"
+    assert etiket["Almanya’da"] == "PROPN"
+    assert etiket["dün"] != "PROPN"
+    assert etiket["."] == "PUNCT"
+
+
+@tr_model
 def test_lemma_noktalama_icermez():
     pt = Preprocessor(lang="tr").process("Ali geldi, gitti.")
     assert "." not in pt.lemma_tokens
@@ -87,10 +98,6 @@ def test_morfem_listesi_tokenlarla_hizali():
     pt = Preprocessor(lang="tr").process("Kitaplarımızda gelmedim yazıyordu.")
     assert len(pt.morpheme_lists) == len(pt.surface_tokens)
     assert any(ms for ms in pt.morpheme_lists)
-    # Kalyoncu çözümleme seçimi: tüm çözümlemeler hizalı, ilki morfem listesiyle aynı.
-    assert len(pt.morpheme_alternatives) == len(pt.surface_tokens)
-    for ms, alt in zip(pt.morpheme_lists, pt.morpheme_alternatives, strict=True):
-        assert alt[0][0] == ms
 
 
 @tr_model
@@ -104,14 +111,14 @@ def test_morfem_uclusunun_sirasi():
 
 @tr_model
 def test_to_dict_extractor_ile_uyumlu():
-    """Türkçe uçtan uca: taban şemanın tamamı, 214 anahtar."""
+    """Türkçe uçtan uca: taban şemanın tamamı, 217 anahtar."""
     from turkish_linguistic_features.features.extractor import _extract_features
     pt = Preprocessor(lang="tr").process(
         "Küçük çocuk bahçede top oynuyordu. Annesi ona seslendi ve eve çağırdı.\n\n"
         "Çocuk koşarak geldi, yorgun görünüyordu."
     )
     feats = _extract_features(**pt.to_dict())
-    assert len(feats) == 214
+    assert len(feats) == 217
 
 
 @tr_model
@@ -134,10 +141,9 @@ def test_uzun_metin_parcalanarak_isleniyor():
 
 @en_model
 def test_ingilizcede_morfem_listesi_bos():
-    """Zeyrek İngilizce çözümlemiyor — grup hiç üretilmemeli (K11)."""
+    """Akana İngilizce çözümlemiyor — grup hiç üretilmemeli (K11)."""
     pt = Preprocessor(lang="en").process("This is a test sentence.")
     assert pt.morpheme_lists == ()
-    assert pt.morpheme_alternatives == ()
 
 
 @en_model
@@ -148,7 +154,7 @@ def test_ingilizce_taban_sema():
         "The small child was playing in the garden. His mother called him inside.\n\n"
         "The child came running, looking tired."
     )
-    assert len(_extract_features(**pt.to_dict())) == 181
+    assert len(_extract_features(**pt.to_dict())) == 187
 
 
 # ── hata yolu ─────────────────────────────────────────────────────────
