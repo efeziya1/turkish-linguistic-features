@@ -4,6 +4,7 @@ import pytest
 
 from turkish_linguistic_features.features.phonetic import (
     _syllabify_tr,
+    birim_hecesi,
     hece_say,
     sentence_syllable_stats,
     syllable_count,
@@ -174,10 +175,11 @@ def test_hece_say_buyuk_harf_unsuz_kisaltma():
 
 @pytest.mark.cmudict            # İngilizce hece sayımı
 def test_hece_say_sayilamayan_tokenler():
-    """Okunuşu çıkarılamayan biçimler, listede olmayan küçük harfli ünsüz
-    tokenler ve noktalama hecelenmez."""
-    for token in ("4x4", "3x", "1.5", "xyz", "m", "%", ".", "", "..."):
+    """Adresler ve noktalama hecelenmez.
+    Ünlüsüz kısaltma her yazımda harf harf okunur: ``xyz`` → 3 (2026-11-26, Efe)."""
+    for token in ("www.x.com", "ad@x.com", "%", ".", "", "..."):
         assert hece_say(token, "tr") is None, token
+    assert hece_say("xyz", "tr") == 3
     assert hece_say("3G", "en") is None
 
 
@@ -261,18 +263,18 @@ def test_hece_ortalamasi_elle():
 
 
 def test_hece_istatistigi_sayilamayanlari_atlar():
-    assert syllable_count_stats(["xyz", "4x4", "kitap", "masa"], "tr")["syllable_mean"] == 2.0
+    assert syllable_count_stats(["ad@x.com", "www.x.com", "kitap", "masa"], "tr")["syllable_mean"] == 2.0
 
 
 def test_hece_istatistigi_bos_ve_tek():
     assert all(_nan(v) for v in syllable_count_stats([], "tr").values())
-    assert all(_nan(v) for v in syllable_count_stats(["4x4", "."], "tr").values())
+    assert all(_nan(v) for v in syllable_count_stats(["www.x.com", "."], "tr").values())
     assert syllable_count_stats(["ev"], "tr")["syllable_mean"] == 1.0
 
 
 def test_hece_sayisi_hecelenemeyeni_atlar():
-    """ki-tap (2) + ma-sa (2); "4x4" hecelenemez → 4. Kelime yoksa 0."""
-    assert syllable_count(["xyz", "4x4", "kitap", "masa"], "tr") == {"syllable_count": 4.0}
+    """ki-tap (2) + ma-sa (2); adresler hecelenmez → 4. Kelime yoksa 0."""
+    assert syllable_count(["ad@x.com", "www.x.com", "kitap", "masa"], "tr") == {"syllable_count": 4.0}
     assert syllable_count([], "tr") == {"syllable_count": 0.0}
 
 
@@ -319,8 +321,8 @@ def test_cumle_hecesi_elle():
 
 
 def test_cumle_hecesi_hecesiz_cumle_sayilmaz():
-    """Yalnız rakam/noktalama içeren cümlenin hecesi ölçülemez, hesaba girmez."""
-    sonuc = sentence_syllable_stats([["ev", "."], ["4x4", "."], ["okul", "."]], "tr")
+    """Hecesi ölçülemeyen cümle (yalnız adres) hesaba girmez."""
+    sonuc = sentence_syllable_stats([["ev", "."], ["www.x.com", "."], ["okul", "."]], "tr")
     assert sonuc["sent_syllable_mean"] == 1.5
 
 
@@ -368,3 +370,56 @@ def test_rounding_ayni_paydayi_kullaniyor():
 
 def test_rounding_bos_girdi_nan():
     assert _nan(vowel_harmony_ratios([])["harmony_rounding_ratio"])
+
+
+# ── yazımdan okunabilen biçimler (2026-11-26, Efe) ────────────────────
+
+
+@pytest.mark.parametrize(("birim", "hece"), [
+    ('siyaset"i', 4),            # sözcük içindeki tırnak kesme sayılır
+    ("demokrasi“yi", 5),
+    ('mısınız?"diye', 5),        # işaretle bitişmiş iki sözcük: parçaların toplamı
+    ("ve/veya", 3),              # / sözcükler arasında okunmaz
+    ("1/2", 5), ("3/4", 4),      # iki sayı arasında kesir: bir bölü iki, üç bölü dört
+    ("12/05/2020", 11),          # üç sayı: tarih, / okunmaz
+    ("1.5", 4), ("1.60", 5),     # nokta + 1-2 basamak, saat olamıyorsa ondalık: "nokta" (2026-11-27)
+    ("8.15", 4), ("1.34", 4), ("6.00'da", 3),   # saat 0-24, dakika 00-59: saat
+    ("0.25", 7), ("00.25", 5),   # tek "0" saat değil, ondalık; gece yarısı 00.25
+    ("25.30", 7), ("12.5", 6),   # yirmi beş nokta otuz · on iki nokta beş
+    ("12.30", 5), ("10.30", 3),  # saat olabiliyorsa saat: on iki otuz
+    ("2.850", 8),                # üç basamak binlik
+    ("13.3.2008", 8), ("13.3.2008'de", 9),   # noktalı tarih: on üç üç iki bin sekiz (2026-11-27)
+    ("4x4", 4), ("73x92", 9), ("4*5", 4),    # sayılar arasında x, *: çarpı
+    ("F1", 2), ("A2'den", 4), ("TR325", 7), ("meselâ12", 6),   # harf + rakam bitişik
+    ("n'olmuş", 2), ("n’olmuş", 2), ("Ankara´da", 4), ("70`ini", 4),   # kesme benzerleri
+    ("Dersim’38", 6),                        # kesme + kısaltılmış yıl
+    ("5N1K", 4), ("M354J", 7),               # 3-4 parçalı harf-rakam: parça parça
+    ("Tarihi—Orhan", 5), ('hakaret-"tırmıklama"-itaatsizlik', 12), ("Leyla_Ipekci", 5),
+    ("4+4+4", 7),                # + okunur: dört artı dört artı dört
+    ("konul(a)mayan", 5),        # ayraç atılır
+    ("tv", 2), ("Hz", 2), ("Cgt", 3),   # ünlüsüz kısaltma her yazımda harf harf
+    ("G.Saray", 3),              # noktalı baş harf + sözcük: ge + saray (doğrusu 5, kabul)
+    ("F.Bahçe'nin", 4), ("T.S.K.'leri", 5),
+])
+def test_yazimdan_okunabilen_bicimler(birim, hece):
+    assert birim_hecesi(birim, "tr") == hece
+
+
+@pytest.mark.parametrize("birim", ["ad@gazete.com", "ad@x.com", "www.x.com", "http://x.org/a"])
+def test_okunusu_belirsiz_bicim_sayilmaz(birim):
+    """E-posta ve web adresi: okunuş yazıdan çıkmaz."""
+    assert birim_hecesi(birim, "tr") is None
+
+
+@pytest.mark.parametrize("birim", ["s", "b", "m", "x"])
+def test_tek_kucuk_unsuz_harf_sayilmaz(birim):
+    """Tek başına küçük ünsüz harf okunmaz: ``m`` metre de olabilir harf de (2026-11-26, Efe)."""
+    assert birim_hecesi(birim, "tr") is None
+
+
+@pytest.mark.parametrize("birim", ["rhythm", "ntvmsnbc"])
+def test_dort_harften_uzun_unsuz_sozcuk_sayilmaz(birim):
+    """Küçük harf içeren ünlüsüz biçim en çok 4 harfse harf harf okunur, daha uzunsa
+    yabancı sözcüktür ve sayılmaz (2026-11-26, Efe)."""
+    assert birim_hecesi(birim, "tr") is None
+    assert birim_hecesi("Mszp", "tr") == 4 and birim_hecesi("TBMMKK", "tr") == 6
