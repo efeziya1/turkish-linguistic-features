@@ -106,18 +106,32 @@ def _kodlama_hatasi(hatalar: list[tuple[Path, UnicodeDecodeError]]) -> Linguisti
 
 
 def _csv_kayitlari(yol: Path) -> list[tuple[str, str, str]]:
-    """CSV/TSV'den ``(etiket, kaynak, metin)`` üçlüleri."""
+    """CSV/TSV'den ``(etiket, kaynak, metin)`` üçlüleri.
+
+    pandas ile okunur (2026-11-27, Efe): standart ``csv`` modülünün hücre sınırı (131.072
+    karakter) uzun metni okutmuyordu. Her hücre metin olarak alınır, pandas'ın tür ve eksik
+    değer tahmini kapalıdır: ``001`` etiketi ``1`` olmaz, ``NA`` yazısı boşalmaz. Kapanmamış
+    tırnak gibi bozuk dosya ``ValueError`` verir.
+    """
+    import pandas as pd
+
     ayirac = "\t" if yol.suffix.lower() == ".tsv" else ","
     try:
-        with yol.open(encoding=_KODLAMA, newline="") as f:
-            satirlar = list(csv.DictReader(f, delimiter=ayirac))
+        tablo = pd.read_csv(yol, sep=ayirac, encoding=_KODLAMA, dtype=str,
+                            keep_default_na=False, index_col=False)
     except UnicodeDecodeError as h:
         raise _kodlama_hatasi([(yol, h)]) from h
-    if not satirlar:
+    except pd.errors.EmptyDataError:
         return []
+    except pd.errors.ParserError as h:
+        raise ValueError(f"{yol.name}: not a valid CSV file: {h}") from h
+    if tablo.empty:
+        return []
+    sutunlar = list(tablo.columns)
+    satirlar = tablo.fillna("").to_dict("records")
 
     def bul(adaylar: tuple[str, ...]) -> str | None:
-        return next((a for a in adaylar if a in satirlar[0]), None)
+        return next((a for a in adaylar if a in sutunlar), None)
 
     metin_sutunu = bul(_TEXT_KEYS)
     if metin_sutunu is None:

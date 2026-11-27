@@ -41,6 +41,9 @@ dependencies = [
     "textstat>=0.7.10,<0.8",
     # Doğrudan import ediliyor (cmudict denetimi).
     "nltk>=3.8",
+    # CSV korpusu okuma (2026-11-27, Efe): standart `csv` modülünün hücre sınırı (131.072
+    # karakter) uzun metni okutmuyordu; pandas'ta bu sınır yok.
+    "pandas>=1.5",
 ]
 
 [project.urls]

@@ -179,6 +179,45 @@ def test_bomlu_csv_basligi_okunur(tmp_path):
     assert kayit["label"] == "A" and kayit["text"] == "merhaba dünya"
 
 
+def test_csv_uzun_metin_okunur(tmp_path):
+    """Standart csv modülü 131.072 karakterden uzun hücrede duruyordu (2026-11-27)."""
+    uzun = "kelime " * 30_000                       # ~210.000 karakter
+    yol = tmp_path / "korpus.csv"
+    yol.write_text(f'label,text\nRoman,"{uzun}"\n', encoding="utf-8")
+    kayit = _load_corpus(yol)[0]
+    assert kayit["label"] == "Roman" and kayit["text"] == uzun
+
+
+def test_csv_hucreler_metin_kalir(tmp_path):
+    """pandas'ın tür ve eksik değer tahmini kapalı: 001 → 1 olmaz, NA ve boş hücre boşalmaz."""
+    yol = tmp_path / "korpus.csv"
+    yol.write_text("label,source,text\n001,NA,null\n,,\n", encoding="utf-8")
+    kayitlar = _load_corpus(yol)
+    assert [(k["label"], k["source"], k["text"]) for k in kayitlar] == [
+        ("001", "NA", "null"), ("", "", "")]
+
+
+def test_csv_tirnak_ici_virgul_ve_satir_sonu(tmp_path):
+    yol = tmp_path / "korpus.csv"
+    # Bayt olarak: write_text Windows'ta \n'yi \r\n yapardı, hücredeki satır sonu da değişirdi.
+    yol.write_bytes('label,text\nA,"Bir, iki.\nÜç."\n'.encode())
+    assert _load_corpus(yol)[0]["text"] == "Bir, iki.\nÜç."
+
+
+def test_bos_csv(tmp_path):
+    (tmp_path / "bos.csv").write_text("", encoding="utf-8")
+    (tmp_path / "baslik.csv").write_text("label,text\n", encoding="utf-8")
+    assert _load_corpus(tmp_path / "bos.csv") == []
+    assert _load_corpus(tmp_path / "baslik.csv") == []
+
+
+def test_kapanmamis_tirnak_hata_verir(tmp_path):
+    yol = tmp_path / "bozuk.csv"
+    yol.write_text('label,text\nA,"açık kalan tırnak\nB,metin\n', encoding="utf-8")
+    with pytest.raises(ValueError, match="bozuk.csv"):
+        _load_corpus(yol)
+
+
 def test_bos_klasor(tmp_path):
     assert _load_corpus(tmp_path) == []
 
