@@ -9,8 +9,6 @@ import math
 import pytest
 import spacy
 
-from turkish_linguistic_features.birimler.sozcuk import kelime_birimleri
-from turkish_linguistic_features.birimler.tumce import cumle_sayisi
 from turkish_linguistic_features.features.phonetic import hece_say
 from turkish_linguistic_features.features.readability import (
     birim_hecesi,
@@ -18,6 +16,8 @@ from turkish_linguistic_features.features.readability import (
     general_readability_formulas,
     turkish_readability_formulas,
 )
+from turkish_linguistic_features.units.sentences import cumle_sayisi
+from turkish_linguistic_features.units.words import kelime_birimleri
 
 _NLP = {lang: spacy.blank(lang) for lang in ("tr", "en")}
 
@@ -144,7 +144,7 @@ def test_noktali_virgul_ve_iki_nokta_formule_gore():
 @pytest.mark.parametrize("kume", ["varsayilan", "kincaid", "cetinkaya"])
 def test_uc_nokta_iki_yazimda_ayni_sayilir(lang, kume):
     """2026-10-06 (Efe): "..." ve "…" aynı işaret; ikisi de her kuralda cümle bitirir."""
-    from turkish_linguistic_features.birimler.tumce import _CUMLE_SONU
+    from turkish_linguistic_features.units.sentences import _CUMLE_SONU
 
     uc = cumle_sayisi(_tok("Geldi... Gitti. Kaldı.", lang), _CUMLE_SONU[kume], lang)
     tek = cumle_sayisi(_tok("Geldi… Gitti. Kaldı.", lang), _CUMLE_SONU[kume], lang)
@@ -440,7 +440,7 @@ _KURAL_METINLERI = [
 @pytest.mark.parametrize("lang", ["tr", "en"])
 def test_kural_cumleleri_tokenlari_kaybetmez_ve_sayiyla_uyusur(metin, lang):
     """Birleştirilince girdiyi verir; uzunluğu ``cumle_sayisi`` ile aynı (alfasayısal varsa)."""
-    from turkish_linguistic_features.birimler.tumce import _CUMLE_SONU, kural_cumleleri
+    from turkish_linguistic_features.units.sentences import _CUMLE_SONU, kural_cumleleri
 
     tok = _tok(metin, lang)
     cumleler = kural_cumleleri(tok, lang)
@@ -450,20 +450,20 @@ def test_kural_cumleleri_tokenlari_kaybetmez_ve_sayiyla_uyusur(metin, lang):
 
 
 def test_kural_cumleleri_bos_girdi_bos_liste():
-    from turkish_linguistic_features.birimler.tumce import kural_cumleleri
+    from turkish_linguistic_features.units.sentences import kural_cumleleri
 
     assert kural_cumleleri([], "tr") == []
 
 
 def test_kural_cumleleri_kapanis_tirnagi_onceki_cumlede_kalir():
-    from turkish_linguistic_features.birimler.tumce import kural_cumleleri
+    from turkish_linguistic_features.units.sentences import kural_cumleleri
 
     cumleler = kural_cumleleri(["Dedi", "“", "Gel", ".", "”", "Gitti", "."], "tr")
     assert cumleler == [["Dedi", "“", "Gel", ".", "”"], ["Gitti", "."]]
 
 
 def test_kural_cumleleri_acilis_tirnagi_sonraki_cumleye_gecer():
-    from turkish_linguistic_features.birimler.tumce import kural_cumleleri
+    from turkish_linguistic_features.units.sentences import kural_cumleleri
 
     cumleler = kural_cumleleri(["Geldi", ".", "“", "Gel", "!", "”"], "tr")
     assert cumleler == [["Geldi", "."], ["“", "Gel", "!", "”"]]
@@ -473,8 +473,8 @@ def test_kural_cumleleri_acilis_tirnagi_sonraki_cumleye_gecer():
 
 
 def test_cumle_birimleri_cumleye_gore_boler():
-    from turkish_linguistic_features.birimler.sozcuk import cumle_birimleri
-    from turkish_linguistic_features.birimler.tumce import kural_cumleleri
+    from turkish_linguistic_features.units.sentences import kural_cumleleri
+    from turkish_linguistic_features.units.words import cumle_birimleri
 
     metin = "E-posta geldi. %50 indirim var mı?"
     tok = _tok(metin, "tr")
@@ -485,7 +485,7 @@ def test_cumle_birimleri_cumleye_gore_boler():
 
 def test_cumle_birimleri_bosluksuz_sinirda_birimi_boler():
     """Sınır boşluk biriminin içine düşerse (``geldi.Sonra``) birim iki cümleye bölünür."""
-    from turkish_linguistic_features.birimler.sozcuk import cumle_birimleri
+    from turkish_linguistic_features.units.words import cumle_birimleri
 
     cumleler = [["O", "geldi", "."], ["Sonra", "gitti", "."]]
     assert cumle_birimleri("O geldi.Sonra gitti.", cumleler, "tr") == [["O", "geldi"],
@@ -493,7 +493,7 @@ def test_cumle_birimleri_bosluksuz_sinirda_birimi_boler():
 
 
 def test_cumle_birimleri_hizasiz_girdi_hata():
-    from turkish_linguistic_features.birimler.sozcuk import cumle_birimleri
+    from turkish_linguistic_features.units.words import cumle_birimleri
 
     assert cumle_birimleri("", [], "tr") == []
     with pytest.raises(ValueError, match="preprocessing error"):

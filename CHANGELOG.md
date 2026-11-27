@@ -97,8 +97,8 @@ Keys: Turkish 217, English 187: both languages now count the same 32 letters (`c
 ### Internal
 
 - The word rule, the sentence rule and the readings of numbers and abbreviations moved to a
-  shared package, `turkish_linguistic_features.birimler`, which preprocessing and the features
-  both read. `features.okunus` is now `birimler.okunus`; `kelime_birimleri`, `word_units`,
+  shared package, `turkish_linguistic_features.units`, which preprocessing and the features
+  both read. `features.okunus` is now `units.spoken_forms`; `kelime_birimleri`, `word_units`,
   `cumle_birimleri`, `cumle_sayisi` and `kural_cumleleri` are no longer in
   `features.readability`. None of these is public API.
 

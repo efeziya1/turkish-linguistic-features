@@ -8,8 +8,6 @@ için 100 token ~83 kelime ediyordu.
 
 import pytest
 
-from turkish_linguistic_features.birimler.sozcuk import kelime_birimleri
-
 # ``_load_corpus`` 2026-09-23'te public yüzeyden çıktı (``analyze_corpus``
 # zinciri kapatıyor) ama kodu duruyor: üç dosya düzeni algılaması ve CSV
 # başlık eşlemesi hâlâ çalışıyor, dolayısıyla testleri de duruyor.
@@ -18,6 +16,7 @@ from turkish_linguistic_features.file_loader import (
     save_csv,
     segment_text,
 )
+from turkish_linguistic_features.units.words import kelime_birimleri
 
 
 def _metin(n: int) -> str:

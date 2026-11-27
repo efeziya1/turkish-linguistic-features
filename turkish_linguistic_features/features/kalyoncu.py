@@ -50,9 +50,9 @@ from functools import lru_cache
 from importlib.resources import files
 from typing import Any
 
-from ..alfabe import _kucuk_harf
-from ..birimler.okunus import SEMBOLLER, UNITS_AFTER_NUMBER, read_ordinal, read_time, sayi_oku
+from ..alphabet import _kucuk_harf
 from ..params import DEFAULT_PARAMS, FeatureParams
+from ..units.spoken_forms import SEMBOLLER, UNITS_AFTER_NUMBER, read_ordinal, read_time, sayi_oku
 from .morphological import _AKANA_TURLER, _genel_tur
 
 __all__ = ["KALYONCU_KEYS", "kalyoncu_features", "kalyoncu_list"]

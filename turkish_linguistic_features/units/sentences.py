@@ -5,13 +5,13 @@ türcelerinden okunur, böylece ``Dr.`` tümce bitirmez. Varsayılan kural (``ku
 bütün aracın tümcesidir; Akana'nın belirsizlik gidericisine giden tümceler de bunlardır.
 Yalnız ``syntactic`` spaCy'nin ayrıştırıcı tümcesini kullanır.
 
-Saf hesap; paket içinden yalnız L0'ı ve ``birimler``i görür.
+Saf hesap; paket içinden yalnız L0'ı ve ``units``i görür.
 """
 
 from __future__ import annotations
 
-from ..alfabe import _kucuk_harf
-from .okunus import kisaltma_oku
+from ..alphabet import _kucuk_harf
+from .spoken_forms import kisaltma_oku
 
 __all__ = ["cumle_sayisi", "kural_cumleleri"]
 

@@ -6,15 +6,15 @@ birim sözcük değil; tek başına duran listedeki sembol ayrı döner. Türkç
 (``3.`` → üçüncü) noktasıyla sözcük olur.
 
 Öznitelikler (``features``), ön işleme (``pipeline``) ve dosya okuyucu aynı tanımı buradan
-alır. Saf hesap; paket içinden yalnız L0'ı ve ``birimler``i görür.
+alır. Saf hesap; paket içinden yalnız L0'ı ve ``units``i görür.
 """
 
 from __future__ import annotations
 
 import re
 
-from ..alfabe import _dil_denetle
-from .okunus import SEMBOLLER
+from ..alphabet import _dil_denetle
+from .spoken_forms import SEMBOLLER
 
 __all__ = ["cumle_birimleri", "kelime_birimleri", "word_units"]
 

@@ -28,7 +28,7 @@ from __future__ import annotations
 import math
 from collections import Counter
 
-from ..alfabe import _ALFABE, _KARAKTER_HARFLERI, _kucuk_harf
+from ..alphabet import _ALFABE, _KARAKTER_HARFLERI, _kucuk_harf
 
 # Karakter → işaret türü. Tür adları punct_{tür}_ratio anahtarlarının ortasıdır.
 _TUR: dict[str, str] = {

@@ -39,8 +39,8 @@ from __future__ import annotations
 
 import math
 
-from ..birimler.sozcuk import kelime_birimleri
-from ..birimler.tumce import _CUMLE_KOSULLU, _CUMLE_SONU, cumle_sayisi
+from ..units.sentences import _CUMLE_KOSULLU, _CUMLE_SONU, cumle_sayisi
+from ..units.words import kelime_birimleri
 from .phonetic import birim_hecesi
 
 # Björnsson: "6 harften uzun" kelime (Anderson 1983 s.491: seven or more letters).

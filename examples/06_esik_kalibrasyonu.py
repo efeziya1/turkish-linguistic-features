@@ -28,10 +28,10 @@ from _demo import demo_korpus_yaz
 # Kütüphanenin tümce ve sözcük kuralı genel API'de ayrı bir fonksiyon olarak
 # yok; eşiği aynı kuralla türetmek için iç yardımcıları doğrudan çağırıyoruz.
 from turkish_linguistic_features._analyze import _get_preprocessor
-from turkish_linguistic_features.birimler.sozcuk import cumle_birimleri
-from turkish_linguistic_features.birimler.tumce import kural_cumleleri
 from turkish_linguistic_features.features.syntactic import _cumle_kelimeleri
 from turkish_linguistic_features.params import DEFAULT_PARAMS, resolve_sent_thresholds
+from turkish_linguistic_features.units.sentences import kural_cumleleri
+from turkish_linguistic_features.units.words import cumle_birimleri
 
 DIL = "tr"
 DOSYA_BASINA_KARAKTER = 100_000   # uzun dosyaların ortasından bu kadarı okunur

@@ -1,16 +1,16 @@
 import pytest
 
-from turkish_linguistic_features.birimler.okunus import (
+from turkish_linguistic_features.features.phonetic import (
+    birim_hecesi,
+    hece_say,
+    syllable_count_stats,
+)
+from turkish_linguistic_features.units.spoken_forms import (
     SEMBOLLER,
     read_ordinal,
     read_time,
     sayi_oku,
     sayi_oku_en,
-)
-from turkish_linguistic_features.features.phonetic import (
-    birim_hecesi,
-    hece_say,
-    syllable_count_stats,
 )
 
 # ── Türkçe sayı ───────────────────────────────────────────────────────
@@ -149,7 +149,7 @@ def test_symbol_reading_joins_the_number():
 
 
 def test_symbol_alone_is_not_a_word():
-    from turkish_linguistic_features.birimler.sozcuk import kelime_birimleri
+    from turkish_linguistic_features.units.words import kelime_birimleri
 
     kelimeler, semboller = kelime_birimleri("5 + 3 % oran", "tr")
     assert kelimeler == ["5", "3", "oran"] and semboller == ["+", "%"]

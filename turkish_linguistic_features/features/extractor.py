@@ -25,10 +25,10 @@ from __future__ import annotations
 import math
 from typing import Any
 
-from ..alfabe import _kucuk_harf
-from ..birimler.sozcuk import cumle_birimleri, kelime_birimleri
-from ..birimler.tumce import kural_cumleleri
+from ..alphabet import _kucuk_harf
 from ..params import DEFAULT_PARAMS, FeatureParams, resolve_sent_thresholds
+from ..units.sentences import kural_cumleleri
+from ..units.words import cumle_birimleri, kelime_birimleri
 from .dependency import dependency_features
 from .frequency_structure import (
     adjusted_modulus,

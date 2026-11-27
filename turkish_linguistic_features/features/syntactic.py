@@ -29,8 +29,8 @@ from collections.abc import Sequence
 
 import numpy as np
 
-from ..alfabe import _kucuk_harf
-from ..birimler.sozcuk import kelime_birimleri
+from ..alphabet import _kucuk_harf
+from ..units.words import kelime_birimleri
 from ..vocab import LEXICAL_POS, NON_WORD_POS, POS_TAGS, UPOS_TAGS
 
 _PARA_SPLIT = re.compile(r"\n[ \t]*\n")   # boş satır = paragraf sınırı
@@ -71,7 +71,7 @@ def _cumle_kelimeleri(cumleler: list[list[str]]) -> list[list[str]]:
 
     Cümle uzunluğu literatürde kelimeyle ölçülür. ``_extract_features`` bu
     fonksiyonlara 2026-10-06'dan beri (Efe) cümle başına varsayılan kelime
-    birimlerini verir (``birimler.sozcuk.cumle_birimleri``); onlarda noktalama zaten
+    birimlerini verir (``units.words.cumle_birimleri``); onlarda noktalama zaten
     yoktur, token süzgeci yalnız token listesi verilirse iş görür.
     ``pos_distribution_stats`` bu yardımcıyı **kullanmaz**: orada cümleler
     ``pos_data`` ile token token dilimlenir, süzülmüş liste hizayı bozar.
@@ -275,7 +275,7 @@ def paragraph_stats(raw_text: str, cumleler: list[list[str]],
     """Paragraf sayısı, paragraf uzunluğu ve paragraf başına cümle.
 
     Üç kural: paragraf = boş satır (tek satır sonu saymaz); paragraf başına
-    kelime = varsayılan kelime birimi (``birimler.sozcuk.kelime_birimleri``: boşlukla
+    kelime = varsayılan kelime birimi (``units.words.kelime_birimleri``: boşlukla
     ayrılan birim, kenar noktalaması atılır, yalnız noktalamadan oluşan birim
     sayılmaz; 2026-10-06, Efe); paragraf başına cümle = ``sent_count`` /
     ``para_count``. ``\\r\\n`` önce ``\\n``'e çevrilir — aksi halde Windows'ta

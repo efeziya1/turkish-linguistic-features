@@ -315,9 +315,9 @@ def _cl_iki_denklem() -> float:
     basılmıyor. L ve S üretim kodunun kendi sayımından alınıyor ki iki yol
     aynı girdiyi görsün.
     """
-    from turkish_linguistic_features.birimler.sozcuk import kelime_birimleri
-    from turkish_linguistic_features.birimler.tumce import _CUMLE_SONU, cumle_sayisi
     from turkish_linguistic_features.features.readability import _harf_sayisi
+    from turkish_linguistic_features.units.sentences import _CUMLE_SONU, cumle_sayisi
+    from turkish_linguistic_features.units.words import kelime_birimleri
     kelimeler, _ = kelime_birimleri(_CL_METIN, "en")
     cumle = cumle_sayisi(_CL_METIN.split(), _CUMLE_SONU["varsayilan"], "en")
     L = 100 * sum(_harf_sayisi(k) for k in kelimeler) / len(kelimeler)

@@ -14,7 +14,7 @@ import pytest
 
 MODULLER = ("features.dependency", "features.frequency_structure", "features.lexical",
             "features.morphological", "features.phonetic", "features.punctuation",
-            "features.readability", "features.syntactic", "birimler.sozcuk", "birimler.tumce")
+            "features.readability", "features.syntactic", "units.words", "units.sentences")
 
 BOS = np.array([], dtype=float)
 BIR = np.array([1.0])
@@ -93,14 +93,14 @@ DURUMLAR: dict[str, tuple[tuple, tuple]] = {
     "punctuation.punctuation_ratios": (("",), ("ev.",)),
     "punctuation.uppercase_ratio": (([],), (["Ev"],)),
     "punctuation.whitespace_ratio": (("",), (" ",)),
-    "sozcuk.cumle_birimleri": (("", [], "tr"), ("Ev.", [["Ev", "."]], "tr")),
-    "tumce.cumle_sayisi": (([], ".?!", "tr"), (["ev"], ".?!", "tr")),
+    "words.cumle_birimleri": (("", [], "tr"), ("Ev.", [["Ev", "."]], "tr")),
+    "sentences.cumle_sayisi": (([], ".?!", "tr"), (["ev"], ".?!", "tr")),
     "readability.english_readability_formulas": (("", []), ("Home.", ["Home", "."])),
     "readability.general_readability_formulas": (("", [], "tr"), ("Ev.", ["Ev", "."], "tr")),
-    "sozcuk.kelime_birimleri": (("", "tr"), ("ev", "tr")),
-    "tumce.kural_cumleleri": (([], "tr"), (["Ev", "."], "tr")),
+    "words.kelime_birimleri": (("", "tr"), ("ev", "tr")),
+    "sentences.kural_cumleleri": (([], "tr"), (["Ev", "."], "tr")),
     "readability.turkish_readability_formulas": (("", []), ("Ev.", ["Ev", "."])),
-    "sozcuk.word_units": (("", "tr"), ("ev", "tr")),
+    "words.word_units": (("", "tr"), ("ev", "tr")),
     "syntactic.activity_ratio": (([],), (POS_EV,)),
     "syntactic.sent_len_char_mean": (([],), ([["ev"]],)),
     "syntactic.lexical_density": (([],), (POS_EV,)),

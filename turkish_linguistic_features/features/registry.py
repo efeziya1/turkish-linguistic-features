@@ -21,7 +21,7 @@ sayılarla **birlikte** yapılır.
 
 from __future__ import annotations
 
-from ..alfabe import _KARAKTER_HARFLERI
+from ..alphabet import _KARAKTER_HARFLERI
 from ._registry_definitions import definitions_of
 from ._registry_texts import (
     BIBLIOGRAPHY,

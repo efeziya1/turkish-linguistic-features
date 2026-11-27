@@ -46,7 +46,7 @@ from collections import Counter
 
 import numpy as np
 
-from ..alfabe import _kucuk_harf
+from ..alphabet import _kucuk_harf
 from ..vocab import LEXICAL_POS
 
 

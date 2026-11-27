@@ -11,7 +11,7 @@ import warnings
 from typing import TYPE_CHECKING, Any
 
 from ._warnings import MissingDependencyWarning, ParagraphStructureWarning
-from .alfabe import _ALFABE
+from .alphabet import _ALFABE
 from .features.extractor import _extract_features, _metin_birimleri, _ngram_cumleleri
 from .features.phonetic import _cmudict_denetle
 

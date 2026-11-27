@@ -42,7 +42,7 @@ from collections import Counter
 
 import numpy as np
 
-from ..alfabe import _kucuk_harf
+from ..alphabet import _kucuk_harf
 from ..vocab import LEXICAL_POS, NON_WORD_POS, NOUN_POS
 
 # Brunet's W sabitleri — Kademe A, birincil kaynak okundu (2026-11-04, Efe):

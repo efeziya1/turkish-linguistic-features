@@ -23,7 +23,7 @@ import math
 import random
 from collections import Counter
 
-from ..alfabe import _kucuk_harf
+from ..alphabet import _kucuk_harf
 from ..params import DEFAULT_PARAMS, FeatureParams
 from ..vocab import ASPECT_TAGS, NON_WORD_POS
 from .lexical import _hizala

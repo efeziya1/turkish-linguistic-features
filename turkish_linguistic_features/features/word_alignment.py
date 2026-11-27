@@ -23,8 +23,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from ..alfabe import _kucuk_harf
-from ..birimler.sozcuk import word_units
+from ..alphabet import _kucuk_harf
+from ..units.words import word_units
 from ..vocab import NON_WORD_POS
 
 __all__ = ["WordView", "word_token_indices", "word_view"]

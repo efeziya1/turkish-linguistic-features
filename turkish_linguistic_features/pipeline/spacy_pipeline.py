@@ -8,7 +8,7 @@
 morfolojik **ek bölütlemesi** üretmiyor, K11) ve ``lemma_tokens`` (2026-10-07,
 Efe: çözümleyicinin sözlük maddesi). İngilizcede ``morpheme_lists`` boş kalır. Akana her sözcüğün
 çözümlemesini belirsizlik gidericisiyle seçer; gidericiye aracın tümce kuralının
-tümceleri gider (``birimler.tumce.kural_cumleleri``; 0.4.0, Efe).
+tümceleri gider (``units.sentences.kural_cumleleri``; 0.4.0, Efe).
 
 Katman **sessiz**: varsayılan çağrıda hiçbir şey yazdırmaz, uyarı vermez
 (2026-08-25).
@@ -20,9 +20,9 @@ from typing import TYPE_CHECKING
 
 import spacy
 
-from ..alfabe import _kucuk_harf
-from ..birimler.tumce import kural_cumleleri
+from ..alphabet import _kucuk_harf
 from ..exceptions import ModelNotFoundError
+from ..units.sentences import kural_cumleleri
 from ..vocab import NON_WORD_POS
 from .preprocess import Morpheme, ProcessedText
 
