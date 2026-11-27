@@ -116,13 +116,13 @@ published is a separate question — see the
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
-| `sent_len_mean` | mean sentence length in words | `mean words per sentence` | at least 1 sentence with a letter | Flesch (1948) p.223, element (1) "Average Sentence Length in Words" |
-| `sent_count` | number of sentences | `sentences` | at least 1 sentence with a letter | de Vel (2000) Table 2, attribute 3 "Number of sentences"; Zheng et al. (2006) Table 3, p.385, no. 247 "Total number of sentences" |
+| `sent_len_mean` | mean sentence length in words | `mean words per sentence` | at least 1 sentence | Flesch (1948) p.223, element (1) "Average Sentence Length in Words" |
+| `sent_count` | number of sentences | `sentences` | at least 1 sentence | de Vel (2000) Table 2, attribute 3 "Number of sentences"; Zheng et al. (2006) Table 3, p.385, no. 247 "Total number of sentences" |
 | `sent_len_char_mean` | mean sentence length in characters | `mean len(tokens joined by single spaces)` | at least 1 sentence | Zheng et al. (2006) Table 3, p.385, no. 58 "Average sentence length in terms of character" |
-| `short_sent_ratio` | share of short sentences | `sentences with fewer than short_sent_threshold words / sentences` | at least 1 sentence with a letter | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only |
-| `long_sent_ratio` | share of long sentences | `sentences with more than long_sent_threshold words / sentences` | at least 1 sentence with a letter | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only |
-| `sent_len_median` | median sentence length | `median words per sentence` | at least 1 sentence with a letter | Yule (1939) p.369, median sentence length alongside the mean |
-| `sent_len_entropy` | variety of sentence lengths | `Shannon entropy (nats) of the distribution of words per sentence` | at least 2 sentences with a letter | Shannon (1948) Theorem 2 — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision |
+| `short_sent_ratio` | share of short sentences | `sentences with fewer than short_sent_threshold words / sentences` | at least 1 sentence | This library's threshold calibration (docs/threshold-calibration.md); TR 4, EN 8 — 15th percentile of newspaper columns under the default sentence and word rules. Note: the TR value coincides with Ateşman (1997) p.74, where the easiest text has a mean sentence length of 4 words; that is a text mean, not a threshold, so it is not the source. Calibrated on newspaper columns only |
+| `long_sent_ratio` | share of long sentences | `sentences with more than long_sent_threshold words / sentences` | at least 1 sentence | This library's threshold calibration (docs/threshold-calibration.md); TR 17, EN 32 — 85th percentile of newspaper columns under the default sentence and word rules. Ateşman's 30 was not used: that is the mean of the hardest text, not a single-sentence threshold (in Turkish newspaper columns 30 words is above the 95th percentile, so as a threshold it would almost never fire). Calibrated on newspaper columns only |
+| `sent_len_median` | median sentence length | `median words per sentence` | at least 1 sentence | Yule (1939) p.369, median sentence length alongside the mean |
+| `sent_len_entropy` | variety of sentence lengths | `Shannon entropy (nats) of the distribution of words per sentence` | at least 2 sentences | Shannon (1948) Theorem 2 — the entropy formula; applying it to the distribution of sentence lengths is this library's own decision |
 | `question_sent_ratio` | share of sentences ending in "?" | `sentences whose final mark contains "?" / sentences` | at least 1 sentence | — |
 
 ## `paragraph` — Paragraph structure
@@ -133,7 +133,7 @@ published is a separate question — see the
 |---|---|---|---|---|
 | `para_count` | number of paragraphs | `paragraphs (blank line = boundary)` | at least 1 paragraph | Zheng et al. (2006) Table 3, p.385, no. 248 "Total number of paragraphs" |
 | `para_len_mean` | mean paragraph length | `mean words per paragraph (blank line = boundary)` | at least 1 paragraph | Zheng et al. (2006) Table 3, p.385, no. 251 "Number of words per paragraph" |
-| `sents_per_para_mean` | mean sentences per paragraph | `sentences / paragraphs (sent_count / para_count)` | at least 1 sentence with a letter | Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph" |
+| `sents_per_para_mean` | mean sentences per paragraph | `sentences / paragraphs (sent_count / para_count)` | at least 1 sentence | Zheng et al. (2006) Table 3, p.385, no. 249 "Number of sentences per paragraph" |
 
 ## `pos` — Parts of speech
 
@@ -278,9 +278,9 @@ published is a separate question — see the
 | `long_word_ratio` | share of 7+ letter words | `long words / words` | at least 1 word | Anderson (1983) p.491; long word = 7+ letters |
 | `kalyoncu_kl` | share of words not in Kalyoncu's familiarity word list (%) | `100 * words not in the list / words; a word is in the list if its form, stem or stem + -mak/-mek is, circumflexes ignored; proper nouns and numbers count as in the list` | at least 1 word; Akana | Kalyoncu (2025) p.71-72, nine counting rules; word list Appendix 1, pp.129-160; rules 3, 5, 6 and 8 are not applied |
 | `kalyoncu_ttr` | Kalyoncu TTR: share of stems occurring once (%) | `100 * stems occurring once / words; texts longer than kalyoncu_ttr_window: mean over moving windows (step 1)` | at least 1 word; Akana | Kalyoncu (2025) p.73; not the type-token ratio but the share of stems occurring once |
-| `kalyoncu_kco` | share of complex sentences (%) | `100 * sentences with a verbal or with 2+ verbs / sentences` | at least 1 sentence with a letter; Akana | Kalyoncu (2025) p.73; "judgement" counted as verb or verbal, as in his CYargi (p.73) |
-| `kalyoncu_yco` | verbals per sentence, times 10 | `10 * verbals / sentences` | at least 1 sentence with a letter; Akana | Kalyoncu (2025) p.74 |
-| `kalyoncu_ocu` | words per sentence, numbers counted as read aloud | `words / sentences; a number counts as the words it is read as` | at least 1 sentence with a letter | Kalyoncu (2025) p.77; numbers read aloud, p.xiii |
+| `kalyoncu_kco` | share of complex sentences (%) | `100 * sentences with a verbal or with 2+ verbs / sentences` | at least 1 sentence; Akana | Kalyoncu (2025) p.73; "judgement" counted as verb or verbal, as in his CYargi (p.73) |
+| `kalyoncu_yco` | verbals per sentence, times 10 | `10 * verbals / sentences` | at least 1 sentence; Akana | Kalyoncu (2025) p.74 |
+| `kalyoncu_ocu` | words per sentence, numbers counted as read aloud | `words / sentences; a number counts as the words it is read as` | at least 1 sentence | Kalyoncu (2025) p.77; numbers read aloud, p.xiii |
 | `kalyoncu_k1` | Kalyoncu text difficulty, formula 1; higher = harder | `-29.829 + 0.508 KL + 1.191 TTR + 0.733 KCO - 0.66 OCU` | all four components | Kalyoncu (2025) p.97, Table 31; grade levels p.102 |
 | `kalyoncu_k2` | Kalyoncu text difficulty, formula 2; higher = harder | `25.457 + 0.877 KL + 0.668 TTR + 0.333 OCU` | all three components | Kalyoncu (2025) p.98, Table 32; grade levels p.103 |
 | `kalyoncu_k3` | Kalyoncu text difficulty, formula 3; higher = harder | `25.153 + 0.834 KL + 0.686 TTR + 0.226 YCO` | all three components | Kalyoncu (2025) p.99, Table 33; grade levels p.104 |
@@ -319,7 +319,7 @@ Dynamic group: keys are generated with the prefix `char_`. The description, form
 
 | Key | Description | Formula | Requires | Source |
 |---|---|---|---|---|
-| `char_…` | share of that letter among alphabet letters | `letter count / alphabet letters` | at least 1 alphabet letter | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each letter of the language's alphabet (Turkish 29, English 26) as a share of all its letters |
+| `char_…` | share of that letter among the 32 letters | `letter count / the 32 letters` | at least 1 of the 32 letters | Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; here each of 32 letters (the Turkish and English alphabets together, the same in both languages) as a share of all 32 |
 
 
 ## `custom_ngrams` — User-defined n-grams

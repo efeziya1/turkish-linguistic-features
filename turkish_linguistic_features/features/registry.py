@@ -6,8 +6,8 @@ döndürür: ne ölçtüğü, nasıl hesaplandığı, hangi ölçekte olduğu, h
 kadar metin gerektirdiği ve künyesi. Kullanıcı üç ayrı sözlüğe bakmak zorunda
 kalmasın diye tek giriş noktası budur.
 
-Taban şema **TR 214 · EN 181**: 192 statik anahtardan dile özgü olanlar + dile
-göre 26–29 ``char_*``.
+Taban şema **TR 217 · EN 187**: 192 statik anahtardan dile özgü olanlar + iki dilde
+aynı 32 ``char_*``.
 ``custom_ngrams`` istenmedikçe anahtar üretmez, bu yüzden toplama girmez.
 13 grup = 11 statik + 2 dinamik.
 
@@ -21,7 +21,7 @@ sayılarla **birlikte** yapılır.
 
 from __future__ import annotations
 
-from ..alfabe import _ALFABE
+from ..alfabe import _KARAKTER_HARFLERI
 from ._registry_definitions import definitions_of
 from ._registry_texts import (
     BIBLIOGRAPHY,
@@ -62,7 +62,7 @@ DYNAMIC_PREFIXES: dict[str, str] = {
 }
 
 # Geçerli `char_` son ekleri: iki dilin alfabesinin birleşimi.
-_CHAR_HARFLERI: frozenset[str] = frozenset("".join(_ALFABE.values()))
+_CHAR_HARFLERI: frozenset[str] = frozenset(_KARAKTER_HARFLERI)
 
 STATIC_GROUP_KEYS: dict[str, tuple[str, ...]] = {
     "lexical": (

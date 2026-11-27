@@ -60,6 +60,9 @@ DEFINITION_INFO: dict[tuple[str, str], tuple[str, str]] = {
         "A character for which str.isalpha() is true."),
     ("letter", "alphabet_letter"): ("tlf",
         "A letter of the language's alphabet (Turkish 29, English 26) after lowercasing."),
+    ("letter", "shared_letter"): ("tlf",
+        "One of 32 letters, the Turkish and English alphabets together, after lowercasing; "
+        "the same in both languages."),
     ("letter", "akana_surface_letter"): ("akana",
         "Characters of the surface strings in Akana's analysis (root and suffixes)."),
     # ── character ──

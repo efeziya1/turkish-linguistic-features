@@ -111,14 +111,14 @@ def test_morfem_uclusunun_sirasi():
 
 @tr_model
 def test_to_dict_extractor_ile_uyumlu():
-    """Türkçe uçtan uca: taban şemanın tamamı, 214 anahtar."""
+    """Türkçe uçtan uca: taban şemanın tamamı, 217 anahtar."""
     from turkish_linguistic_features.features.extractor import _extract_features
     pt = Preprocessor(lang="tr").process(
         "Küçük çocuk bahçede top oynuyordu. Annesi ona seslendi ve eve çağırdı.\n\n"
         "Çocuk koşarak geldi, yorgun görünüyordu."
     )
     feats = _extract_features(**pt.to_dict())
-    assert len(feats) == 214
+    assert len(feats) == 217
 
 
 @tr_model
@@ -154,7 +154,7 @@ def test_ingilizce_taban_sema():
         "The small child was playing in the garden. His mother called him inside.\n\n"
         "The child came running, looking tired."
     )
-    assert len(_extract_features(**pt.to_dict())) == 181
+    assert len(_extract_features(**pt.to_dict())) == 187
 
 
 # ── hata yolu ─────────────────────────────────────────────────────────

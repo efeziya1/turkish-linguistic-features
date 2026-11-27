@@ -249,7 +249,7 @@ FEATURE_DESCRIPTIONS: dict[str, str] = {
     'uppercase_ratio': 'share of capitalised words',
     'all_caps_word_ratio': 'share of all-caps words',
     # ── chars (dinamik grup) ───────────────────────────────────────
-    'chars': 'share of that letter among alphabet letters',
+    'chars': 'share of that letter among the 32 letters',
     # ── custom_ngrams (dinamik grup) ───────────────────────────────
     'custom_ngrams': 'count of a user-supplied sequence of words, lemmas or POS tags within sentences',
 }
@@ -481,7 +481,7 @@ FEATURE_FORMULAS: dict[str, str] = {
     'uppercase_ratio': 'words whose first letter is upper case / words with a letter',
     'all_caps_word_ratio': 'words with 2+ letters, all upper case / words with a letter',
     # ── chars (dinamik grup) ───────────────────────────────────────
-    'chars': 'letter count / alphabet letters',
+    'chars': 'letter count / the 32 letters',
     # ── custom_ngrams (dinamik grup) ───────────────────────────────
     'custom_ngrams':
         'matches inside sentences; overlapping matches counted; UPPERCASE UD tags match any word '
@@ -545,18 +545,18 @@ FEATURE_REQUIRES: dict[str, str] = {
     'zipf_mandelbrot_q': 'at least 10 distinct words',
     'zipf_mandelbrot_s': 'at least 10 distinct words',
     # ── sentence ────────────────────────────────────────────────
-    'sent_len_mean': 'at least 1 sentence with a letter',
-    'sent_count': 'at least 1 sentence with a letter',
+    'sent_len_mean': 'at least 1 sentence',
+    'sent_count': 'at least 1 sentence',
     'sent_len_char_mean': 'at least 1 sentence',
-    'short_sent_ratio': 'at least 1 sentence with a letter',
-    'long_sent_ratio': 'at least 1 sentence with a letter',
-    'sent_len_median': 'at least 1 sentence with a letter',
-    'sent_len_entropy': 'at least 2 sentences with a letter',
+    'short_sent_ratio': 'at least 1 sentence',
+    'long_sent_ratio': 'at least 1 sentence',
+    'sent_len_median': 'at least 1 sentence',
+    'sent_len_entropy': 'at least 2 sentences',
     'question_sent_ratio': 'at least 1 sentence',
     # ── paragraph ───────────────────────────────────────────────
     'para_count': 'at least 1 paragraph',
     'para_len_mean': 'at least 1 paragraph',
-    'sents_per_para_mean': 'at least 1 sentence with a letter',
+    'sents_per_para_mean': 'at least 1 sentence',
     # ── pos ─────────────────────────────────────────────────────
     'pos_noun_ratio': 'at least 1 word',
     'pos_propn_ratio': 'at least 1 word',
@@ -665,9 +665,9 @@ FEATURE_REQUIRES: dict[str, str] = {
     'long_word_ratio': 'at least 1 word',
     'kalyoncu_kl': 'at least 1 word; Akana',
     'kalyoncu_ttr': 'at least 1 word; Akana',
-    'kalyoncu_kco': 'at least 1 sentence with a letter; Akana',
-    'kalyoncu_yco': 'at least 1 sentence with a letter; Akana',
-    'kalyoncu_ocu': 'at least 1 sentence with a letter',
+    'kalyoncu_kco': 'at least 1 sentence; Akana',
+    'kalyoncu_yco': 'at least 1 sentence; Akana',
+    'kalyoncu_ocu': 'at least 1 sentence',
     'kalyoncu_k1': 'all four components',
     'kalyoncu_k2': 'all three components',
     'kalyoncu_k3': 'all three components',
@@ -694,7 +694,7 @@ FEATURE_REQUIRES: dict[str, str] = {
     'uppercase_ratio': 'at least 1 word with a letter',
     'all_caps_word_ratio': 'at least 1 word with a letter',
     # ── chars (dinamik grup) ───────────────────────────────────────
-    'chars': 'at least 1 alphabet letter',
+    'chars': 'at least 1 of the 32 letters',
     # ── custom_ngrams (dinamik grup) ───────────────────────────────
     'custom_ngrams': 'non-empty text (0 when the phrase is longer than every sentence)',
 }
@@ -1035,8 +1035,8 @@ FEATURE_CITATIONS: dict[str, str] = {
     # Dynamic group: every char_* key takes this citation (registry._citation).
     'chars':
         'Zheng et al. (2006) Table 3, p.385, no. 7-32 "Frequency of letters (26 features)", A-Z; '
-        "here each letter of the language's alphabet (Turkish 29, English 26) as a share of all "
-        'its letters',
+        'here each of 32 letters (the Turkish and English alphabets together, the same in both '
+        'languages) as a share of all 32',
     'word_len_mean':
         'Mendenhall (1887) p.237 "mean word-length"; computed as letters per word, p.241',
     'sent_len_median': 'Yule (1939) p.369, median sentence length alongside the mean',

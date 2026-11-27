@@ -19,16 +19,13 @@ from turkish_linguistic_features.features.punctuation import (
 # ── harf vektörü ──────────────────────────────────────────────────────
 
 
-def test_karakter_vektoru_tr_29_harf():
-    sonuc = char_freq_vector("merhaba dünya", lang="tr")
-    assert len(sonuc) == 29
-    assert "char_ç_ratio" in sonuc and "char_ğ_ratio" in sonuc
-
-
-def test_karakter_vektoru_en_26_harf():
-    sonuc = char_freq_vector("hello world", lang="en")
-    assert len(sonuc) == 26
-    assert "char_ç_ratio" not in sonuc and "char_w_ratio" in sonuc
+def test_karakter_vektoru_iki_dilde_ayni_32_harf():
+    """İki dil aynı 32 harfi sayar: iki alfabenin birleşimi (2026-11-26, Efe)."""
+    tr = char_freq_vector("merhaba dünya", lang="tr")
+    en = char_freq_vector("hello world", lang="en")
+    assert len(tr) == len(en) == 32
+    assert list(tr) == list(en)
+    assert {"char_ç_ratio", "char_ğ_ratio", "char_q_ratio", "char_w_ratio", "char_x_ratio"} <= set(tr)
 
 
 def test_karakter_oranlari_toplami_bire_yakin():
@@ -48,9 +45,15 @@ def test_turkce_buyuk_harf_kurali():
     assert sonuc["char_ı_ratio"] == 0.5 and sonuc["char_i_ratio"] == 0.5
 
 
-def test_alfabe_disi_harf_paydaya_girmez():
-    """TR alfabesinde w yok: "wa" → yalnız a sayılır → 1.0."""
-    assert char_freq_vector("wa", lang="tr")["char_a_ratio"] == 1.0
+def test_turkce_metinde_w_ingilizce_metinde_s_sayilir():
+    """"wa" Türkçede de w + a; "şa" İngilizcede de ş + a (2026-11-26, Efe)."""
+    assert char_freq_vector("wa", lang="tr")["char_w_ratio"] == 0.5
+    assert char_freq_vector("şa", lang="en")["char_ş_ratio"] == 0.5
+
+
+def test_32_harf_disindaki_harf_paydaya_girmez():
+    """é 32 harfin dışında: "éa" → yalnız a sayılır → 1.0."""
+    assert char_freq_vector("éa", lang="tr")["char_a_ratio"] == 1.0
 
 
 # ── noktalama oranları (işaretler içindeki pay, 2026-10-08) ───────────

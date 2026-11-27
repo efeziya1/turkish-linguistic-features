@@ -38,7 +38,8 @@ TERM_VALUES: dict[str, frozenset[str]] = {
     "token": frozenset({"spacy_token"}),
     "syllable": frozenset({"vowel_count", "textstat_cmudict"}),
     "polysyllable": frozenset({"3_plus_syllables"}),
-    "letter": frozenset({"unicode_letter", "alphabet_letter", "akana_surface_letter"}),
+    "letter": frozenset({"unicode_letter", "alphabet_letter", "shared_letter",
+                         "akana_surface_letter"}),
     "character": frozenset({
         "token_string_length", "non_space_character", "raw_character", "sentence_joined_character",
     }),
@@ -193,7 +194,7 @@ TERMS: dict[str, tuple[dict[str, str | None], dict[str, str | None]]] = {
     "syllable": ({}, _hepsi(PER_LANGUAGE, _SYLLABLE_PHONETIC + _SYLLABLE_READABILITY)),
     "polysyllable": ({}, _hepsi("3_plus_syllables", ("smog", "polysyllabic_word_ratio"))),
     "letter": (
-        {"chars": "alphabet_letter"},
+        {"chars": "shared_letter"},
         {**_hepsi("alphabet_letter", ("vowel_ratio", "front_vowel_ratio", "back_vowel_ratio")),
          **_hepsi("unicode_letter", ("coleman_liau", "lix", "long_word_ratio", "uppercase_ratio",
                                      "all_caps_word_ratio")),

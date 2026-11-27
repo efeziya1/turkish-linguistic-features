@@ -47,7 +47,7 @@ def test_grup_sayilari():
 
 
 def test_statik_anahtar_sayisi():
-    """Statik anahtar sayısı (TR 214, EN 181 dinamikle)."""
+    """Statik anahtar sayısı (TR 217, EN 187 dinamikle)."""
     assert len(TUM_STATIK) == 192
 
 
@@ -111,7 +111,7 @@ def test_get_group_bilinmeyen_anahtar():
 @pytest.mark.parametrize("anahtar", ["char_a_ratio", "char_ş_ratio", "char_ı_ratio", "char_ğ_ratio",
                                      "char_q_ratio", "char_w_ratio", "char_x_ratio"])
 def test_char_iki_alfabenin_harfini_kabul_eder(anahtar):
-    """TR 29 harf + EN'deki q, w, x — iki dilin ``chars`` anahtarlarının birleşimi."""
+    """İki dilde aynı 32 harf: TR 29 harf + q, w, x (2026-11-26, Efe)."""
     assert get_group(anahtar) == "chars"
     assert describe_feature(anahtar)["group"] == "chars"
 
@@ -473,7 +473,7 @@ def test_definitions_formulde_gecen_terim_kayitli(anahtar):
                        "lexical_word": "noun_propn_verb_adj_adv", "pos_tag": "spacy_upos",
                        "zipf_score": "wordfreq_zipf"}),
     ("vowel_ratio", {"letter": "alphabet_letter"}),
-    ("char_a_ratio", {"letter": "alphabet_letter"}),
+    ("char_a_ratio", {"letter": "shared_letter"}),
     ("question_sent_ratio", {"sentence": "default"}),
 ])
 def test_definitions_ornekler(anahtar, beklenen):
