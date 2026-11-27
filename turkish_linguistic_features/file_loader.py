@@ -154,6 +154,10 @@ def _klasor_kayitlari(kok: Path) -> list[tuple[str, str, str]]:
 
     Okunamayan dosyada durmaz: hepsini dener, bozukları toplar ve sonunda tek
     hata verir. Bozuk dosyayı atlayıp sürmek korpusu sessizce eksiltirdi.
+
+    Adı nokta ile başlayan klasör ve dosya atlanır (2026-11-28, Efe):
+    ``.ipynb_checkpoints`` her metni ikinci bir etiketle çoğaltıyor, macOS'un
+    ``._dosya.txt`` eşleri metin olmadığı için okumayı durduruyordu.
     """
     out: list[tuple[str, str, str]] = []
     hatalar: list[tuple[Path, UnicodeDecodeError]] = []
@@ -165,12 +169,15 @@ def _klasor_kayitlari(kok: Path) -> list[tuple[str, str, str]]:
             hatalar.append((dosya, h))
             return ""
 
+    def txtler(klasor: Path) -> list[Path]:
+        return sorted(d for d in klasor.glob("*.txt") if not d.name.startswith("."))
+
     # Düzen 2: etiket alt klasörü
-    for alt in sorted(p for p in kok.iterdir() if p.is_dir()):
-        for dosya in sorted(alt.glob("*.txt")):
+    for alt in sorted(p for p in kok.iterdir() if p.is_dir() and not p.name.startswith(".")):
+        for dosya in txtler(alt):
             out.append((alt.name, dosya.stem, oku(dosya)))
     # Düzen 1: düz dosya, "Etiket_Başlık.txt"
-    for dosya in sorted(kok.glob("*.txt")):
+    for dosya in txtler(kok):
         etiket, _, baslik = dosya.stem.partition("_")
         # Alt çizgi yoksa etiket bilgisi yok demektir; uydurmuyoruz.
         out.append((etiket if baslik else "", baslik or dosya.stem, oku(dosya)))

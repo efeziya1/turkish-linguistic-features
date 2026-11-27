@@ -105,6 +105,17 @@ def test_alt_klasor_duzeni(tmp_path):
     assert kayitlar[0]["source"] == "kitap"
 
 
+def test_gizli_klasor_ve_dosya_atlanir(tmp_path):
+    (tmp_path / "Roman").mkdir()
+    (tmp_path / "Roman" / "kitap.txt").write_text("merhaba", encoding="utf-8")
+    (tmp_path / "Roman" / "._kitap.txt").write_bytes(b"\x00\x05\x16\x07\xff")  # macOS eşi
+    (tmp_path / ".ipynb_checkpoints").mkdir()
+    (tmp_path / ".ipynb_checkpoints" / "kitap-checkpoint.txt").write_text("merhaba", encoding="utf-8")
+    (tmp_path / "._Roman_kitap.txt").write_bytes(b"\x00\x05\x16\x07\xff")
+    kayitlar = _load_corpus(tmp_path)
+    assert [(k["label"], k["source"]) for k in kayitlar] == [("Roman", "kitap")]
+
+
 def test_csv_duzeni(tmp_path):
     yol = tmp_path / "korpus.csv"
     yol.write_text("label,text\nRoman," + _metin(250) + "\n", encoding="utf-8")
