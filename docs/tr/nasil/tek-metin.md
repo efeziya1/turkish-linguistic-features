@@ -8,7 +8,7 @@ import turkish_linguistic_features as tlf
 oz = tlf.analyze(metin, lang="tr")
 ```
 
-`analyze` düz bir Python sözlüğü (`dict`) döndürür: anahtarlar öznitelik (İng. *feature*) adları, değerler sayılar.
+`analyze` düz bir Python sözlüğü (`dict`) döndürür: anahtarlar öznitelik (İng. *feature*) adları, değerler sayılardır.
 
 ## Dil seçimi öznitelik kümesini değiştirir
 
@@ -16,19 +16,17 @@ oz = tlf.analyze(metin, lang="tr")
 tr = tlf.analyze(tr_metin, lang="tr")
 en = tlf.analyze(en_metin, lang="en")
 
-len(tr)   # 214
-len(en)   # 181
+len(tr)   # 217
+len(en)   # 187
 ```
 
-Türkçedeki 33 fazla öznitelik şunlardan gelir:
+Türkçedeki 30 fazla öznitelik şunlardan gelir:
 
 - **+23** Akana biçimbirim (İng. *morpheme*) çözümlemesi: `morphological_akana` grubu (ek
   zinciri, durum ekleri, kip ve zaman; anahtarların hepsi `akana_` ile başlar); yalnız
   Türkçe.
 - **+2** büyük ve küçük ünlü uyumu (`harmony_fronting_ratio`, `harmony_rounding_ratio`);
   Türkçenin özelliği, İngilizcede üretilmez.
-- **+3** harf: Türkçe alfabe 29 harf, İngilizce 26 (`ç ğ ı ö ş ü` yalnız
-  Türkçede, `q w x` yalnız İngilizcede).
 - **+5** okunabilirlik: Türkçeye özgü 12 öznitelik (Ateşman, Çetinkaya-Uzun ve
   Bezirci-Yılmaz formülleri; Kalyoncu'nun dört formülü ve beş
   bileşeni), İngilizceye özgü 7 öznitelik (Flesch, Flesch-Kincaid,
@@ -46,7 +44,7 @@ katsayıları Türkçe metinlerden yeniden hesaplamıştır. Bu yüzden Türkçe
 
 ## Yalnız bazı grupları isteyin
 
-214 özniteliğin hepsine ihtiyacınız yoksa grup seçin; çıktı yalnız o grupların
+217 özniteliğin hepsi gerekmiyorsa grup seçilebilir; çıktı yalnız o grupların
 anahtarlarını taşır:
 
 ```python
@@ -54,17 +52,17 @@ oz = tlf.analyze(metin, lang="tr", groups=["readability", "lexical"])
 len(oz)     # 48
 ```
 
-Grup seçmek az hız kazandırır. Sürenin çoğu spaCy ve Akana ön işlemesinde
-geçer ve o her durumda bir kez yapılır; grup seçimi yalnız sonraki hesabı
-kısaltır. 1000 sözcüklük bir metinde bütün gruplar yaklaşık 0,6 saniye, yalnız
-`readability` yaklaşık 0,5 saniye sürer.
+Grup seçmek hızı pek değiştirmez: Sürenin çoğu spaCy ve Akana ön işlemesinde geçer ve
+bu her durumda bir kez yapılır (1000 sözcüklük bir metinde bütün gruplar yaklaşık 0,6
+saniye, yalnız `readability` yaklaşık 0,5 saniye). Grup seçimi, çıktıyı gereken
+özniteliklere indirmek içindir.
 
 Gruplar ve Türkçede kaç öznitelik içerdikleri:
 
 | Grup | Ad | İçerik | Öznitelik |
 |---|---|---|---|
 | `lexical` | Sözcüksel zenginlik ve sıklık | sözcüksel çeşitlilik (İng. *lexical diversity*), sözcük sıklığı ve sözcüksel yoğunluk | 35 |
-| `chars` | Karakter sıklıkları | her harfin oranı | 29 |
+| `chars` | Karakter sıklıkları | her harfin oranı | 32 |
 | `morphological_akana` | Biçimbilimsel öznitelikler (Akana) | biçimbirim çözümlemesine dayalı oranlar | 23 |
 | `punctuation` | Noktalama ve yazım | noktalama, büyük harf, rakam | 20 |
 | `morphological` | Biçimbilimsel öznitelikler (spaCy) | durum, zaman, kişi, görünüş, çatı | 19 |
@@ -76,16 +74,17 @@ Gruplar ve Türkçede kaç öznitelik içerdikleri:
 | `sentence` | Tümce öznitelikleri | tümce sayısı, uzunluğu ve soru tümcesi oranı | 8 |
 | `paragraph` | Paragraf yapısı | paragraf sayısı ve uzunluğu | 3 |
 
-`chars` yalnız harfleri sayar: Türkçe alfabenin her harfi için bir anahtar (İngilizcede 26;
-`q`, `w`, `x` yalnız orada). `morphological_akana` yalnız Türkçede üretilir.
+`chars` yalnız harfleri sayar: İki dilde aynı 32 harfin her biri için bir anahtar (Türkçe ve
+İngilizce alfabelerin birleşimi). Türkçe bir metinde geçen `w` ya da İngilizce bir metinde geçen
+`ş` da sayılır. `morphological_akana` yalnız Türkçede üretilir.
 
 Bir özniteliğin hangi grupta olduğunu `describe_feature(anahtar)["group"]`
 söyler.
 
 ## Kendi sözcük dizilerinizi sayın
 
-Hazır özniteliklerin dışında aradığınız bir kalıp varsa `custom_ngrams` ile
-sözcük dizisi (İng. *n-gram*) olarak verin:
+Hazır özniteliklerin dışında bir kalıp aranıyorsa `custom_ngrams` ile
+sözcük dizisi (İng. *n-gram*) olarak verilir:
 
 ```python
 metin = ("Eski ev yıkıldı. Yerine yeni bir bina yapıldı, ama büyük bahçe kaldı. "
@@ -104,16 +103,16 @@ Dizideki her öge şu sırayla yorumlanır:
 
 | Öge | Neyle eşleşir | Anahtarda |
 |---|---|---|
-| Sözcük türü etiketi (İng. *POS tag*; `NOUN`, `VERB`, `ADJ`…) | O etiketi taşıyan her sözcük | büyük harf (`NOUN`) |
+| Sözcük türü etiketi (İng. *POS tag*; `NOUN`, `VERB`, `ADJ`…; [liste](#sozcuk-turu-etiketleri)) | O etiketi taşıyan her sözcük | büyük harf (`NOUN`) |
 | Tamamı büyük harf, en az 2 harf (`EV`, `GİT`, `İZMİR`) | Sözlükbirimi (İng. *lemma*) o olan her sözcük | büyük harf (`EV`) |
 | Geri kalan her şey (`ev`, `izmir`, `I`) | Küçük harfe indirilmiş yazılı biçim | küçük harf (`ev`) |
 
-**Yazılı biçim araması.** Küçük harfle yazdığınız öge sözcüğün yazılı biçimiyle eşleşir:
+**Yazılı biçim araması.** Küçük harfle yazılan öge sözcüğün yazılı biçimiyle eşleşir:
 `eski ev` ile `eski evi` ayrı eşleşmelerdir. Büyük harfli yazımları da yakalar: `izmir`,
 "İzmir" ve "İZMİR"i bulur, ama çekimli biçimleri ("İzmir'e") bulmaz.
 
-**Sözlükbirim araması.** Çekimli biçimleri de yakalamak için ögeyi tamamen büyük harfle
-yazın; o sözlükbirimi taşıyan her sözcükle eşleşir:
+**Sözlükbirim araması.** Çekimli biçimleri de yakalamak için öge tamamen büyük harfle
+yazılır; o sözlükbirimi taşıyan her sözcükle eşleşir:
 
 ```python
 ornek = "Eve gittim. Evden çıktık. Evdeki kedi uyudu."
@@ -127,7 +126,7 @@ tlf.analyze(ornek, lang="tr", custom_ngrams=[["EV", "VERB"]])["ngram_EV_VERB_cou
 
 Ayrıntılar:
 
-- Sözcük, sözlükbirim ve etiket aynı dizide karışabilir: `["eski", "EV", "GİT"]` →
+- Sözcük, sözlükbirim ve etiket aynı dizide birlikte kullanılabilir: `["eski", "EV", "GİT"]` →
   `ngram_eski_EV_GİT_count`; `["ADJ", "EV"]`; `["çok", "ADJ"]` (`çok` sözcüğünden hemen
   sonra bir sıfat).
 - Sözlükbirimin kaynağı aracın geri kalanıyla aynıdır: Türkçede Akana'nın seçtiği çözümleme,
@@ -136,15 +135,17 @@ Ayrıntılar:
   "goes home").
 - Büyük harfli öge Türkçenin kuralıyla küçültülür: `İZMİR` → izmir, `IRMAK` → ırmak.
   Noktasız `IZMIR` ise ızmır olur.
-- Tek harfli öge sözcük sayılır, sözlükbirim araması yapılmaz (`I`, `O`).
-- Etiket adıyla aynı olan sözlükbirim her zaman etiket sayılır: İngilizce "part"
-  sözlükbirimi `PART` diye aranamaz.
+- Tek harfli öge, büyük harfle yazılsa da yazılı biçimiyle aranır: `["O", "VERB"]`'deki `O`
+  sözlükbirim değil, "o" sözcüğüdür.
+- Büyük harfle yazılan öge bir etiket adıyla aynıysa etiket olarak aranır: `PART` parçacık
+  etiketidir, İngilizce *part* sözlükbirimi değildir. Böyle bir sözcük küçük harfle, yazılı
+  biçimiyle aranır (`part`).
 - Eşleşme tümce sınırını aşmaz: `kaldı. Ne` yan yana sayılmaz.
 
 Diğer notlar:
-- Değer düz sayımdır. Uzunlukları farklı metinleri karşılaştıracaksanız
-  `word_count`'a bölün (`oz["ngram_ADJ_NOUN_count"] / oz["word_count"]`) ya
-  da metinleri aynı boya getirin (`segment_size`).
+- Değer düz sayımdır. Uzunlukları farklı metinler karşılaştırılırken değer `word_count`'a
+  bölünmeli (`oz["ngram_ADJ_NOUN_count"] / oz["word_count"]`) ya da metinler aynı boya
+  getirilmelidir (`segment_size`).
 
 Sayı "kaç kez" sorusunu cevaplar. Dizinin **neyle** eşleştiğini görmek için:
 
@@ -157,36 +158,70 @@ tlf.ngram_matches(metin, ["ADJ", "NOUN"], lang="tr")
 ```
 
 En sık eşleşme önce gelir; sayıların toplamı `ngram_ADJ_NOUN_count` ile
-aynıdır. Tümce ve konum bilgisi verilmez. Birden çok metin için sonuçları
-`collections.Counter` ile toplayın. Çalışan örnek:
+aynıdır. Tümce ve konum bilgisi verilmez. Çalışan örnek:
 [`examples/10_kelime_oruntuleri.py`](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/10_kelime_oruntuleri.py).
+
+### Sözcük türü etiketleri
+
+Etiketler Evrensel Bağımlılıklar (İng. *Universal Dependencies*) şemasından gelir ve iki dilde
+aynıdır:
+
+| Etiket | Sözcük türü | Örnek |
+|---|---|---|
+| `NOUN` | ad | `ev`, `kitap` |
+| `PROPN` | özel ad | `Ali`, `İstanbul` |
+| `VERB` | eylem | `geldi`, `okuyor` |
+| `ADJ` | sıfat | `güzel`, `büyük` |
+| `ADV` | belirteç | `hızla`, `yavaşça` |
+| `PRON` | adıl | `ben`, `bunu` |
+| `DET` | belirleyici | `bir`, `her` |
+| `NUM` | sayı | `iki`, `1999` |
+| `ADP` | ilgeç | `için`, `gibi` |
+| `AUX` | yardımcı sözcük | `değil`, `mi` |
+| `CCONJ` | sıralama bağlacı | `ve`, `ama`, `ki` |
+| `SCONJ` | yantümce bağlacı | Türkçede seyrek; İngilizce `because`, `if` |
+| `PART` | parçacık | Türkçede seyrek; İngilizce `not`, `to` |
+| `INTJ` | ünlem | `hadi`, `sakın` |
+| `X` | öteki | yabancı sözcük, yazım hatası |
+
+Noktalama (`PUNCT`) ve simge (`SYM`) sözcük sayılmadığı için dizilerde eşleşmez. Etiketi
+spaCy modeli verir; aynı sözcük tümceye göre farklı etiket alabilir.
 
 ## Sayılan birimleri görün
 
-`text_units`, özniteliklerin saydığı sözcükleri, sözlükbirimleri (İng. *lemmas*),
-sözcük türü etiketlerini ve tümceleri ayrı listeler hâlinde verir:
+Bir sayının hangi sözcüklerden çıktığını denetlemek ya da kendi sayımını yapmak için
+özniteliklerin saydığı birimlerin kendisi görülebilir. `text_units`, özniteliklerin saydığı
+sözcükleri ([sözcüğün tanımı](../aciklama/kavramlar.md#sozcuk)), sözlükbirimleri (İng.
+*lemmas*), sözcük türü etiketlerini, seslem sayılarını ve tümceleri ayrı listeler hâlinde verir:
 
 ```python
 b = tlf.text_units("Ali kitapları okudu. Yarın İstanbul'a gidecek.", lang="tr")
 b["words"]      # ['Ali', 'kitapları', 'okudu', 'Yarın', "İstanbul'a", 'gidecek']
 b["lemmas"]     # ['ali', 'kitap', 'oku', 'yarın', 'istanbul', 'git']
 b["pos"]        # ['PROPN', 'NOUN', 'VERB', 'NOUN', 'PROPN', 'VERB']
+b["syllables"]  # [2.0, 4.0, 3.0, 2.0, 4.0, 3.0]
 b["sentences"]  # [['Ali', 'kitapları', 'okudu'], ['Yarın', "İstanbul'a", 'gidecek']]
 ```
 
-Sözlükbirim ve etiket listeleri sözcüklerle sıra sıra eşleşir: `b["lemmas"][1]`,
+Sözlükbirim, etiket ve seslem listeleri sözcüklerle sıra sıra eşleşir: `b["lemmas"][1]`,
 `b["words"][1]`'in sözlükbirimidir. Sözcük sayısı `word_count`'a, tümce sayısı
-`sent_count`'a eşittir; bir sayının hangi birimlerden çıktığını buradan
-görebilirsiniz. Sözlükbirimleri saymak için:
+`sent_count`'a, seslemlerin toplamı `syllable_count`'a eşittir; bir sayının hangi
+birimlerden çıktığı buradan görülebilir. Okunuşu yazıdan çıkarılamayan sözcüğün
+(e-posta ya da web adresi) seslemi `nan`'dır ve toplama girmez
+([Sınırlılıklar](../aciklama/sinirliliklar.md#seslem-saymnda-okunusla-saylanlar-ve-atlananlar)).
+
+`analyze`'daki `lemma_count` yalnız kaç *farklı* sözlükbirim olduğunu söyler. Hangi
+sözlükbirimin kaç kez geçtiğini, yani bir sıklık listesini görmek için Python'un kendi
+`Counter`'ı kullanılabilir (araçla gelmez, Python'da hazır bulunur):
 
 ```python
 from collections import Counter
-Counter(b["lemmas"]).most_common(10)
+Counter(b["lemmas"]).most_common(10)   # en sık 10 sözlükbirim ve sayıları
 ```
 
 ## İlerleme göstergesi
 
-Uzun metinlerde ne olduğunu görmek isterseniz:
+Uzun metinlerde ilerlemeyi görmek için:
 
 ```python
 oz = tlf.analyze(metin, lang="tr", show_progress=True)
@@ -196,7 +231,7 @@ oz = tlf.analyze(metin, lang="tr", show_progress=True)
 
 İsteğe bağlı `wordfreq` paketi kurulu değilse araç
 `MissingDependencyWarning` uyarısı verir ve ona bağlı iki özniteliği (`wordfreq_*`)
-`nan` bırakır. Bunu bilerek kabul ediyorsanız:
+`nan` bırakır. Bu bilerek kabul ediliyorsa uyarı kapatılabilir:
 
 ```python
 oz = tlf.analyze(metin, lang="tr", warn=False)
@@ -212,13 +247,13 @@ oz = tlf.analyze(metin, lang="tr", model="tr_core_news_trf")
 ```
 
 Varsayılanlar `tr_core_news_md` ve `en_core_web_sm`. Model kurulu değilse
-`ModelNotFoundError` alırsınız; mesajda kurulum komutu yazar.
+`ModelNotFoundError` verilir; iletide kurulum komutu yazar.
 
 !!! warning "Model değiştirmek sayıları değiştirir"
 
     Türceler (İng. *tokens*), sözcük türü etiketleri, biçimbilimsel etiketler ve
-    bağımlılık çözümlemesi modelden gelir. Farklı modelle çıkan tabloyu eskisiyle aynı
-    çalışmada karşılaştırmayın.
+    bağımlılık çözümlemesi modelden gelir. Farklı modelle çıkan tablo eskisiyle aynı
+    çalışmada karşılaştırılmamalıdır.
 
 ## Tam imza
 

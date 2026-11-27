@@ -12,11 +12,14 @@ import turkish_linguistic_features as tlf
 once  = tlf.analyze(once_metin, lang="tr")
 sonra = tlf.analyze(sonra_metin, lang="tr")
 
-print(f"{'anahtar':22s} {'önce':>10} {'sonra':>10} {'fark':>10}")
-for k in ("sent_len_mean", "word_len_mean", "syllable_mean", "atesman",
-          "cetinkaya_uzun", "ttr", "long_word_ratio"):
-    print(f"{k:22s} {once[k]:10.4f} {sonra[k]:10.4f} {sonra[k]-once[k]:+10.4f}")
+print(once["atesman"], sonra["atesman"])
 ```
+
+```text
+16.8124 58.8913
+```
+
+Bir özniteliğin iki değeri adıyla alınıp yan yana konur.
 
 ## Gerçek bir örnek
 
@@ -36,18 +39,17 @@ Akademik bir paragrafın ağır hâli ve sadeleştirilmiş hâli:
     > formüllerin birbiriyle ne kadar uyuştuğunu göstermektir. Alanyazında
     > yaygın olan üç formül ele alındı.
 
-Çıktı:
+Birkaç özniteliğin iki hâldeki değeri:
 
-```text
-anahtar                      önce      sonra       fark
-sent_len_mean             18.0000     6.6667   -11.3333
-word_len_mean              8.0278     7.2500    -0.7778
-syllable_mean              3.3611     3.0500    -0.3111
-atesman                   16.8124    58.8913   +42.0789
-cetinkaya_uzun            13.9998    33.0893   +19.0895
-ttr                        0.8889     1.0000    +0.1111
-long_word_ratio            0.5278     0.4500    -0.0778
-```
+| Öznitelik | Önce | Sonra |
+|---|---:|---:|
+| `sent_len_mean` | 18,00 | 6,67 |
+| `word_len_mean` | 8,03 | 7,25 |
+| `syllable_mean` | 3,36 | 3,05 |
+| `atesman` | 16,81 | 58,89 |
+| `cetinkaya_uzun` | 14,00 | 33,09 |
+| `ttr` | 0,89 | 1,00 |
+| `long_word_ratio` | 0,53 | 0,45 |
 
 Okunuşu:
 
@@ -58,24 +60,27 @@ Okunuşu:
   sözcük/tümce terimi var.
 - **Seslem (İng. *syllable*) ortalaması 3,36 → 3,05.** "değerlendirilmesi" gibi uzun türetmeler
   gitti.
-- **`ttr` (tür/türce oranı, İng. *type-token ratio*) 0,89 → 1,00 ama bu anlamlı değil.** İkinci metin kısaldığı için
-  TTR yükseldi; üslup değişikliğinin değil uzunluğun sonucu.
+- **`ttr` (tür/türce oranı, İng. *type-token ratio*) 0,89 → 1,00 ama bu anlamlı değildir.** İkinci metin kısaldığı için
+  TTR yükseldi; üslup değişikliğinin değil uzunluğun sonucudur.
 
 ## Birden çok çifti karşılaştırmak
 
-Elinizde çok sayıda çift varsa tablo hâline getirin:
+Çok sayıda çift varsa iki hâl iki klasöre konur; bir çiftin iki dosyası aynı adı taşır:
+
+```text
+ciftler/
+  once/
+    metin1.txt
+    metin2.txt
+  sonra/
+    metin1.txt
+    metin2.txt
+```
 
 ```python
-import turkish_linguistic_features as tlf
-
-satirlar = []
-for ad, once_m, sonra_m in ciftler:
-    for etiket, metin in (("once", once_m), ("sonra", sonra_m)):
-        satirlar.append({"label": etiket, "source": ad, "segment_id": 0,
-                         **tlf.analyze(metin, lang="tr")})
-
+satirlar = tlf.analyze_corpus("ciftler/", lang="tr")
 tlf.save_csv(satirlar, "oncesi-sonrasi.csv")
 ```
 
-`label` sütunu `once`/`sonra` olduğu için CSV doğrudan eşleştirilmiş bir
-analize girer.
+Tabloda `label` sütunu `once` ya da `sonra`, `source` sütunu dosya adıdır; aynı `source`
+taşıyan iki satır bir çifttir. Klasör düzeni: [Derlemi CSV'ye çıkar](korpus.md).

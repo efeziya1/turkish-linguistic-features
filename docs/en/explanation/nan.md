@@ -22,10 +22,10 @@ len(short), len(nans)
 ```
 
 ```text
-(181, 34)
+(187, 35)
 ```
 
-**34 of 181** features are `nan`. Examples:
+**35 of 187** features are `nan`. Examples:
 
 ```text
 ['aspect_imp_ratio', 'aspect_perf_ratio', 'aspect_prog_ratio',
@@ -95,7 +95,7 @@ Details: [Limitations, paragraph features](limitations.md).
 ## Why not zero
 
 A value that cannot be computed is not filled with zero, because zero is a real value: a
-text with no pronouns has a pronoun share of 0, and that tells you something about the
+text with no pronouns has a pronoun share of 0, and that says something about the
 text. Showing an uncomputable value as zero would mix the two cases up.
 
 ## Why `nan` and not `None`

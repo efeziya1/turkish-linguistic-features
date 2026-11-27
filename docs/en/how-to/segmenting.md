@@ -3,9 +3,8 @@
 ## Why it matters
 
 Lexical richness features are **sensitive to text length**. TTR always
-falls as a text gets longer, `hapax_ratio` falls, `yule_k` changes. Put a
-50,000-word novel and an 800-word column in the same table and what you
-measure is not style, it is length. `mattr`, `mtld` and `vocd_d` are less
+falls as a text gets longer, `hapax_ratio` falls, `yule_k` changes. Put a 50,000-word novel
+and an 800-word column in the same table, and what you measure is not style but length. `mattr`, `mtld` and `vocd_d` are less
 sensitive than TTR but not independent of length
 ([measured example](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/09_uzunluk_duyarliligi.py)).
 
@@ -26,7 +25,6 @@ word ([full definition](../explanation/concepts.md#word)). With the 25-word Turk
 long_text = " ".join([metin] * 15)             # 375 words
 segments = tlf.segment_text(long_text, segment_size=100, lang="tr")
 len(segments)                                  # 3
-[len(s.split()) for s in segments]             # [100, 100, 100]
 ```
 
 375 words ÷ 100 = 3 full segments, and the remaining 75 words are dropped.
@@ -56,26 +54,13 @@ above `0.5`.
 
     The library does not tell you how many segments it dropped. With
     `min_fill=1.0` and `segment_size=1000`, a 1400-word file yields **one**
-    segment and the remaining 400 words are gone. Short files in your
-    corpus may produce no segments at all.
-
-## Splitting by characters
-
-```python
-tlf.segment_text(text, segment_size=5000, unit="char", lang="en")
-```
-
-`unit="char"` counts raw characters; the word rule is not involved, so `lang`
-changes nothing. It does not respect word boundaries — a
-segment can end mid-word.
+    segment and the remaining 400 words are gone. Short files in your corpus may
+    produce no segments at all.
 
 ## Use it directly on a corpus
 
-You do not have to split and call `analyze` yourself:
-
-```python
-rows = tlf.analyze_corpus("corpus/", lang="en", segment_size=1000)
-```
+To segment a corpus, just pass `segment_size` to `analyze_corpus`:
+[Export a corpus to CSV](corpus.md#split-files-into-segments).
 
 ## Full signature
 
@@ -89,9 +74,9 @@ segment_text(
 ) -> list[str]
 ```
 
-`lang` must match the text. It defaults to `"tr"`. The word rule is nearly the
-same in both languages; the difference is ordinals (in Turkish the `3.` of
-`3. kat` is one word), so an English text rarely shifts its boundaries.
+`lang` must match the text. It defaults to `"tr"`. The word rule is the same in both
+languages; the only difference is the Turkish ordinal: the `3.` of `3. kat` is one word.
+English writes ordinals as `3rd`, so it needs no such rule.
 
 A segment's content is a **slice of the raw text**, not a re-joined word
 list. Punctuation, whitespace and line breaks survive unchanged.

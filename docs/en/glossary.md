@@ -2,7 +2,7 @@
 
 These terms are used consistently throughout the documentation, so that the same thing
 never gets two names on two pages. The Turkish column gives the term used in the Turkish
-documentation and in the thesis that describes the tool.
+documentation.
 
 ## The tool's concepts
 
@@ -20,7 +20,7 @@ documentation and in the thesis that describes the tool.
 | **label** | etiket | The folder name in a corpus; author, class or experimental arm |
 | **parameter** | parametre | A window size, threshold or sample count you can change (`FeatureParams`) |
 | **constant** | sabit | A number fixed in a formula: MTLD's 0.72, Brunet's 0.172, the coefficients of a readability formula |
-| **n-gram** | sözcük dizisi | A sequence of words, lemmas or part-of-speech tags you give; counted with `custom_ngrams` |
+| **n-gram** | sözcük dizisi | A sequence of adjacent words, lemmas or part-of-speech tags you give; counted with `custom_ngrams` |
 
 ## Language processing
 

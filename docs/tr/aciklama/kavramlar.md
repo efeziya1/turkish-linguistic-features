@@ -3,27 +3,27 @@
 ## Öznitelik
 
 **Öznitelik** (İng. *feature*), bir metinden çıkarılan tek bir sayıdır. `ttr`,
-`word_len_mean`, `atesman`: her biri bir öznitelik. Adları küçük harfle, sözcükler alt çizgiyle
+`word_len_mean`, `atesman`: her biri bir özniteliktir. Adları küçük harfle, sözcükler alt çizgiyle
 ayrılarak yazılır.
 
-Türkçedeki 214 öznitelik, dayandıkları kaynak bakımından beş türe ayrılır:
+Türkçedeki 217 öznitelik, dayandıkları kaynak bakımından beş türe ayrılır:
 
 | Tür | Sayı | Ne | Örnek |
 |---|---:|---|---|
-| **Alanyazın ölçüsü** (İng. *literature measure*) | 133 | Alanyazında önerilmiş bir ölçü; künyesi vardır | `mattr`, `mtld`, `atesman` |
+| **Alanyazın ölçüsü** (İng. *literature measure*) | 136 | Alanyazında önerilmiş bir ölçü; künyesi vardır | `mattr`, `mtld`, `atesman` |
 | **Etiket oranı** (İng. *tag ratio*) | 66 | spaCy'nin ya da Akana'nın sözcüklere verdiği bir etiketin metindeki payı; künyesi etiketi tanımlayan şemadır, ölçünün kendisi değil | `pos_noun_ratio` (Evrensel Bağımlılıklar), `akana_case_loc_ratio` (Akana) |
 | **Yalın tanım** (İng. *plain definition*) | 11 | Alanyazında adı olan bir ölçüye dayanmaz; künyesi yoktur | `question_sent_ratio`: soru işaretiyle biten tümcelerin payı |
-| **Araca özgü** (İng. *tool-specific*) | 2 | Formül alanyazından, hangi veriye uygulanacağı bu araçtan | `sent_len_entropy`: Shannon entropisinin tümce uzunluklarına uygulanması |
+| **Araca özgü** (İng. *tool-specific*) | 2 | Formülü alanyazından alınmıştır; hangi veriye uygulanacağını araç belirler | `sent_len_entropy`: Shannon entropisinin tümce uzunluklarına uygulanması |
 | **Kalibre edilmiş** (İng. *calibrated*) | 2 | Eşiği bu aracın derlemlerde yaptığı ölçümden gelir | `short_sent_ratio`, `long_sent_ratio` |
 
-214 anahtarın 203'ünün künyesi vardır, 11'inin yoktur. Bu ayrım, hangi özniteliğin
+217 anahtarın 206'sının künyesi vardır, 11'inin yoktur. Bu ayrım, hangi özniteliğin
 kaynağında yayımlanmış bir örnekle sınanabileceğini de belirler
 ([Doğrulama sistemi](dogrulama.md)).
 
 Araç bir okunabilirlik formülünün yalnız sonucunu vermez; formüle giren ölçüleri, sözgelimi
 ortalama tümce uzunluğunu ve sözcük başına seslem sayısını, ayrı öznitelikler olarak da
-verir. Türkçe için yeni bir formül kurmak istiyorsanız değişken adaylarını bu ölçülerden ve
-aracın öteki özniteliklerinden seçip sınayabilirsiniz.
+verir. Yeni bir formül kurulurken değişken adayları bu ölçülerden ve aracın öteki
+özniteliklerinden seçilip sınanabilir.
 
 ## Anahtar adları
 
@@ -40,7 +40,7 @@ Biçimbilimsel öznitelikler iki çözümleyiciden (İng. *analyzer*) gelir. spa
 Evrensel Bağımlılıklar etiketlerinden gelenler öneksizdir (`case_loc_ratio`), Akana'dan
 gelenler `akana_` ile başlar (`akana_case_loc_ratio`). İkisi aynı sayıyı vermez:
 `case_loc_ratio` durum etiketi taşıyan sözcükler içinde bulunma durumunun
-payıdır, `akana_case_loc_ratio` çözümlenen bütün sözcükler içinde. Akana
+payıdır, `akana_case_loc_ratio` ise çözümlenen bütün sözcükler içindeki payı. Akana
 evrensel etiketlerin ayırmadığı ayrımları da verir: -DI ve -mIş geçmişi ayrıdır
 (`akana_tense_past_def_ratio`, `akana_tense_past_nar_ratio`); spaCy'de ikisi tek
 `tense_past_ratio`'dur.
@@ -51,28 +51,28 @@ kadar noktalama olduğunu `punct_char_ratio` söyler (noktalama işaretleri / ka
 
 ## Grup
 
-Öznitelikler 12 gruba ayrılır (`custom_ngrams` verirseniz oluşan `ngram_*`
-anahtarlarıyla 13). Grup hem düzenlemeye hem seçmeye yarar: Yalnız gereken
-grupları hesaplatabilirsiniz.
+Öznitelikler 12 gruba ayrılır (`custom_ngrams` verilince oluşan `ngram_*`
+anahtarlarıyla 13). Grup hem düzenlemeye hem seçmeye yarar: Yalnız gereken gruplar
+hesaplatılabilir.
 
 ```python
 oz = tlf.analyze(metin, lang="tr", groups=["readability", "lexical"])
 ```
 
 Gruplar, içerikleri ve büyüklükleri [Tek metni analiz et](../nasil/tek-metin.md)
-sayfasında.
+sayfasındadır.
 
 ## Kalıptan üretilen anahtarlar
 
 Bazı anahtarlar tek tek yazılmamıştır, kalıptan üretilir:
 
-- `char_*`: harf sıklık vektörü; alfabenin her harfi için bir anahtar
-  (Türkçe 29: `char_a_ratio`, `char_ç_ratio` … `char_z_ratio`; İngilizce 26)
-- `ngram_*`: `custom_ngrams` ile verdiğiniz sözcük dizilerinin (İng. *n-grams*) sayaçları
+- `char_*`: harf sıklık vektörü; iki dilde aynı 32 harfin her biri için bir anahtar
+  (Türkçe ve İngilizce alfabelerin birleşimi: `char_a_ratio`, `char_ç_ratio` … `char_z_ratio`)
+- `ngram_*`: `custom_ngrams` ile verilen sözcük dizilerinin (İng. *n-grams*) sayaçları
   ([nasıl](../nasil/tek-metin.md#kendi-sozcuk-dizilerinizi-sayn))
 
-`describe_feature("char_a_ratio")` çağırırsanız `formula` ve `requires` alanları
-**grup düzeyinde** genel ifadedir, tek harfe özel değil.
+`describe_feature("char_a_ratio")` çağrısında `formula` ve `requires` alanları
+**grup düzeyinde** genel ifadedir, tek harfe özel değildir.
 
 ## Ölçek (`scale`)
 
@@ -90,7 +90,7 @@ Her özniteliğin bir ölçeği (İng. *scale*) vardır:
 
 Bir özniteliğin değeri sözcüğün, tümcenin ve seslemin nasıl sayıldığına bağlıdır.
 Öznitelikler sözcüğü ve tümceyi aracın kendi kuralıyla sayar, modelin türcesiyle
-(İng. *token*) değil. Bunlar **varsayılan sözcük** ve **varsayılan tümcedir**; bu adları
+(İng. *token*) değildir. Bunlar **varsayılan sözcük** ve **varsayılan tümcedir**; bu adları
 kullanan öbür sayfalar buraya gönderir.
 
 ### Sözcük
@@ -106,6 +106,7 @@ içeriyorsa sözcüktür** (İng. *word*); içermiyorsa sayılmaz.
 | `1999 yılında` | `1999`, `yılında`: sayı da sözcüktür |
 | `Bu — bir deneme ...` | `Bu`, `bir`, `deneme`: tek başına duran `—` ve `...` sözcük değil |
 | `3. kat` · `Sonuç 3.` | Yalnız Türkçede: ardından sözcük ya da virgül gelen `3.` tek sözcüktür (sıra sayısı); tümce sonunda `3` olur |
+| `geldi.Sonra` · `3.köprü` | Boşluk unutulmuşsa noktalamayla bitişik iki sözcük iki sözcüktür: `geldi`, `Sonra` · `3.`, `köprü`. Tek harfli baş harf (`G.Saray`), adres (`kariyer.net`), sayı (`1.5`) ve tırnak ya da kesmeden sonra gelen ek (`“kampusu!”na`) bölünmez |
 
 Sıra sayısı kuralı Türkçeye özgüdür, çünkü Türkçede sıra sayısı rakamdan sonra nokta konarak
 yazılır; İngilizcede `3rd` yazıldığı için bu kurala gerek yoktur.
@@ -117,16 +118,23 @@ atarak ayıklar. `syntactic` grubu dışındaki her öznitelik bu sözcüğü sa
 
 Tümceyi (İng. *sentence*) bitirenler:
 
-- **`.` `?` `!` `…`**: her zaman. `...` ile `…` aynı işarettir. `?!` gibi art
-  arda gelen işaretler tek tümce bitirir.
-- **`:`**: yalnız ardından yeni bir tümce başlıyorsa: büyük harf, tırnak, çizgi ya da
-  açılış ayracı. Ardından küçük harfli bir sözcük ya da sayı gelen iki nokta (liste,
-  açıklama, `10:30`) tümce bitirmez.
+- **`.` `?` `!` `…`**: her zaman tümce bitirir. Üç nokta `...` diye de yazılabilir.
+- **Art arda gelen işaretler** (`?!`, `!!!`) tek bir tümce sonu sayılır.
+- **`:`**: ardından büyük harfle başlayan bir sözcük, tırnak, çizgi ya da açılış ayracı
+  geliyorsa tümce bitirir. Küçük harf ya da sayı geliyorsa (liste, açıklama, `10:30`)
+  bitirmez.
 - **metnin sonu**: işaret olmasa da.
 
-Kısaltmadan sonraki nokta tümce **bitirmez**: `Dr.` tek birimdir. Türkçede `bkz.` gibi
-listedeki bir kısaltmanın noktası, ancak ardından büyük harfle başlayan bir sözcük gelirse
-tümce bitirir.
+Türkçede kısaltmadan sonraki nokta:
+
+- **Büyük harfle yazılan kısaltmada** (`Dr.`, `Cad.`, `Ltd.`) tümce bitirmez; bu kısaltmalar
+  ardındaki ada bağlanır.
+- **Küçük harfle yazılan kısaltmada** (`vb.`, `dk.`, `km.`) ardından büyük harf gelirse tümce
+  bitirir, küçük harf gelirse bitirmez.
+- **`bkz.`** (bakınız) tümce bitirmez, ardından büyük harf gelse de: Ardından gösterilen yer
+  gelir (`bkz. Ek 2`).
+
+İngilizcede `Dr.` gibi tek birim yazılan kısaltma tümce bitirmez.
 
 | Metin | Tümce |
 |---|---|
@@ -136,7 +144,8 @@ tümce bitirir.
 | `Üç şey aldı: ekmek, süt ve peynir.` | 1: `:` sonrası küçük harf |
 | `Toplantı 10:30'da başladı.` | 1 |
 | `Dr. Ayşe geldi.` | 1 |
-| `Ayrıntı için bkz. şekil 3.` | 1: `bkz.` sonrası küçük harf |
+| `Elma, armut vb. Sonra eve döndük.` | 2: `vb.` sonrası büyük harf |
+| `Ayrıntı için bkz. Ek 2.` | 1: `bkz.` tümce bitirmez |
 | `Geldi ve gitti` | 1: işaret yok, metin bitiyor |
 
 İki noktaya bu koşulun konmasının nedeni, iki noktanın her zaman tümce sınırı olmamasıdır.
@@ -145,9 +154,13 @@ tırnak, çizgi ya da açılış ayracıyla başlar; İngilizce köşe yazılar�
 %62,4'tür. Koşul, ardından küçük harfle başlayan bir liste ya da açıklama gelen iki noktayı
 tümce sonu saymamak için konmuştur. Kural iki dilde aynıdır.
 
-Tümce uzunluğu tümcedeki sözcük sayısıdır. Tümce uzunluğu öznitelikleri ve `sent_count`,
-ortalamayı boş yere aşağı çekmesin diye hiç harf içermeyen tümceyi saymaz:
-`Bu bir tümce. 1999. Bitti.` 2 tümcedir; `1999` dahil 5 sözcüğün hepsi sayılır.
+Tümce uzunluğu tümcedeki sözcük sayısıdır. Yalnız sayıdan oluşan tümce de tümcedir:
+`Bu bir tümce. 1999! Bitti.` 3 tümcedir. Bütün öznitelikler ve `text_units` tümceyi aynı
+biçimde sayar.
+
+Türkçede rakamdan sonraki nokta, ardından bir sözcük geliyorsa sıra sayısının noktası sayılır
+ve tümce bitirmez (`3. kat`). Bu yüzden `Yıl 1999. Bitti.` tek tümcedir: Yazıda `1999. Bitti`
+ile `2. Dünya Savaşı` aynı biçimdedir ve kural ikisini ayırt edemez.
 
 İki tür öznitelik bu kuralı kullanmaz:
 
@@ -181,12 +194,13 @@ spaCy metni kendi kurallarıyla böldüğü için bir sözcük birden çok türc
 bir kez sayılır; sözcük türü etiketi (İng. *POS tag*), biçimbilimsel etiketleri ve
 sözlükbirimi (İng. *lemma*) içindeki noktalama olmayan ilk türceden alınır. Çift tırnak
 (`"` `“` `”` `«` `»`) modelin verdiği etiketten bağımsız olarak burada hep noktalama sayılır.
-Türkçe sözlükbirim Akana'nın sözlük maddesidir, İngilizce sözlükbirim spaCy'nin.
+Türkçe sözlükbirim Akana'nın sözlük maddesidir, İngilizce sözlükbirim spaCy'ninkidir.
 
-Türkçede kişi, yer ve kurum adlarının içindeki sözcükler, spaCy hangi etiketi vermiş olursa olsun
-özel ad (`PROPN`) sayılır. Bu adları Akana'nın ad tanıyıcısı (İng. *named entity recognizer*)
-bulur; spaCy Türkçe modeli `Derya`, `Almanya'da` gibi sözcükleri çoğu zaman `PROPN`
-etiketlemiyor. Bağımlılık çözümlemesine dayanan `syntactic` grubu spaCy'nin türcelerini okuduğu
+Türkçede özel adları Akana'nın ad tanıyıcısı (İng. *named entity recognizer*) bulur. Ad
+tanıyıcının kişi, yer ya da kurum adı dediği her sözcük, spaCy hangi etiketi vermiş olursa
+olsun özel ad (`PROPN`) sayılır; `Mustafa Kemal` gibi birden çok sözcüklü bir adın her sözcüğü
+de öyle sayılır. Bunun nedeni, spaCy Türkçe modelinin `Derya`, `Almanya'da` gibi sözcükleri çoğu zaman
+`PROPN` etiketlememesidir. Bağımlılık çözümlemesine dayanan `syntactic` grubu spaCy'nin türcelerini okuduğu
 için bundan etkilenmez.
 
 ### Çeşitlilik ölçülerinin sayım birimi
@@ -205,7 +219,7 @@ yazılıdır.
 ### İçeriksel sözcük
 
 İçeriksel sözcük (İng. *content word*), sözcük türü etiketi `NOUN`, `PROPN`, `VERB`, `ADJ`
-ya da `ADV` olan sözcüktür: ad, özel ad, eylem, sıfat ve belirteç. Yardımcı eylemler
+ya da `ADV` olan sözcüktür: ad, özel ad, eylem, sıfat ve belirteç. Yardımcı sözcükler
 (`AUX`) eylem sayılmaz. Bu tanımı sözcüksel yoğunluk (`lexical_density`), sözcük türü
 çeşitliliği, tematik yoğunlaşma ve sıklık ölçüleri kullanır.
 
@@ -220,7 +234,7 @@ Bir özniteliğin hangi kuralı kullandığını
 
 ## Çözümleme hattı
 
-`analyze` çağırdığınızda metin dört aşamadan geçer; bu adımların bütününe çözümleme hattı
+`analyze` çağrılınca metin dört aşamadan geçer; bu adımların bütününe çözümleme hattı
 (İng. *pipeline*) denir:
 
 ```text
@@ -232,18 +246,19 @@ biçimbirim çözümlemesi · Türkçe sözlükbirim · özel adlar
    ↓  3. aracın kuralları
 sözcük ve tümce sınırları; her sözcük etiketini kendi türcesinden alır
    ↓  4. öznitelik hesaplayıcıları
-214 sayı (İngilizcede 181)
+217 sayı (İngilizcede 187)
 ```
 
 Akana, Türkçe biçimbirim çözümleyicisidir: Zemberek'in kurallarını taşıyan, Rust ile yazılmış ve
-Python'dan çağrılan bir paket. Java gibi ek bir ortam gerektirmez. Bir sözcüğün birden çok
-çözümlemesi varsa Akana'nın belirsizlik gidericisi (İng. *disambiguator*) tümcedeki yakın
-sözcüklere bakarak birini seçer.
+Python'dan çağrılan bir pakettir. Java gibi ek bir ortam gerektirmez. Bir sözcüğün birden çok
+çözümlemesi varsa Akana'nın belirsizlik gidericisi (İng. *disambiguator*) birini seçer:
+Çözümlemeleri ağaç bankalarından çıkarılmış sıklıklarına göre sıralar ve tümcedeki yakın
+sözcüklere bakan birkaç kuralla düzeltir.
 
 **spaCy modeli ve Akana sonuçların parçasıdır.** Biri değişirse ona dayanan öznitelikler de
-değişir. Türkçedeki 214 öznitelikten 105'i bu iki çözümleyiciden en az birine dayanır; kalan
-109'u yalnız aracın kendi kurallarıyla hesaplanır. Bu yüzden bir sonucu yeniden
-üretebilmek için aracın sürümüyle birlikte spaCy modelinin ve Akana'nın sürümünü de verin.
+değişir. Türkçedeki 217 öznitelikten 105'i bu iki çözümleyiciden en az birine dayanır; kalan
+112'si yalnız aracın kendi kurallarıyla hesaplanır. Bu yüzden bir sonucu yeniden
+üretebilmek için aracın sürümüyle birlikte spaCy modelinin ve Akana'nın sürümü de verilmelidir.
 Aracın sınandığı sürümler: Python 3.12, spaCy 3.8.16, `tr_core_news_md` 1.0 (model
 sürümü 3.4.2), `en_core_web_sm` 3.8.0, Akana 0.12.0.
 

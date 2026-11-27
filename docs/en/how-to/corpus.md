@@ -25,33 +25,28 @@ corpus/
   notes.txt           → label "" (no underscore), source "notes"
 ```
 
-!!! note "File names with underscores"
+Note: in a name like `text_1.txt` the first part also becomes the label (label `"text"`,
+source `"1"`). The two layouts can coexist in one folder.
 
-    If a file at the root has an underscore in its name, the first part
-    becomes the **label**: `text_1.txt` → label `"text"`, source `"1"`.
+**3. A single CSV or TSV file** — `analyze_corpus("corpus.csv")`. Each row is one text. The
+column headers are `text`, `label` and `source`; the Turkish ones are accepted too
+(`metin`, `etiket`, `kaynak`). Only the text column is required; without a source column the
+file name is used. A `.tsv` file is read as tab-separated.
 
-The two layouts can coexist in one folder.
+??? note "All accepted headers"
 
-**3. A single CSV or TSV file** — `analyze_corpus("corpus.csv")`. Column
-headers must be one of these (the first match is used):
+    | Field | Headers (the first match is used) |
+    |---|---|
+    | text | `text`, `Text`, `metin`, `Metin`, `METIN`, `content` |
+    | label | `label`, `Label`, `etiket`, `Etiket`, `ETIKET`, `author`, `Author`, `yazar`, `Yazar`, `kategori`, `category` |
+    | source | `source`, `Source`, `kaynak`, `Kaynak`, `başlık`, `title`, `book`, `file` |
 
-| Field | Accepted headers |
-|---|---|
-| text (required) | `text`, `Text`, `metin`, `Metin`, `METIN`, `content` |
-| label | `label`, `Label`, `etiket`, `Etiket`, `ETIKET`, `author`, `Author`, `yazar`, `Yazar`, `kategori`, `category` |
-| source | `source`, `Source`, `kaynak`, `Kaynak`, `başlık`, `title`, `book`, `file` |
+The label does not have to be an author: period, genre, grade level, experimental arm,
+whatever you are measuring.
 
-Without a source column the file name is used. A `.tsv` file is read as
-tab-separated.
-
-The label does not have to be an author — period, genre, grade level,
-experimental arm, whatever you are measuring.
-
-Files must be **UTF-8**. If any file is not, you get an error before the
-analysis starts, listing every unreadable file by name.
-
-If an error occurs while a segment is analysed, the run stops there; the error message
-says which segment it stopped at (`label`, `source`, `segment_id`).
+Files must be **UTF-8**; if any is not, you get a list of all of them before the analysis
+starts. If an error occurs while a text is analysed, the run stops and the message says
+which file it stopped at.
 
 ## Two calls
 
@@ -60,18 +55,14 @@ import turkish_linguistic_features as tlf
 
 rows = tlf.analyze_corpus("corpus/", lang="tr")
 tlf.save_csv(rows, "features.csv")
-print("row count:   ", len(rows))
-print("column count:", len(rows[0]))
 ```
+
+Where the file is saved: [Tutorial, step 7](../getting-started.md#7-turn-a-corpus-into-a-table).
 
 ## What comes out
 
-```text
-row count:    3
-column count: 217
-```
-
-One row per file. 217 columns = 214 features plus three identity columns:
+One row per file: 3 rows, 220 columns. 220 columns = 217 features plus three identity
+columns:
 
 ```text
 label=author_a  source=text1     segment_id=0  ttr=1.0
@@ -116,13 +107,13 @@ For example, in a folder `one_file/` holding a single 648-word file:
 ```python
 whole    = tlf.analyze_corpus("one_file/", lang="tr")
 segments = tlf.analyze_corpus("one_file/", lang="tr", segment_size=200)
-print(len(whole), len(segments), [s["segment_id"] for s in segments])
+print(len(whole), len(segments))
 ```
 
 Output:
 
 ```text
-1 3 [0, 1, 2]
+1 3
 ```
 
 648 ÷ 200 = 3 full segments; the remaining 48 words are dropped under the

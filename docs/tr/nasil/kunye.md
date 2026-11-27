@@ -1,7 +1,7 @@
 # Bir özniteliğin kaynağını bul
 
-Bir sayıyı çalışmanızda kullanacaksanız nereden geldiğini yazmanız gerekir.
-Araç bunu size hazır verir: Her özniteliğin tanımı, formülü ve künyesi (İng. *citation*)
+Bir çalışmada kullanılan sayının nereden geldiği yazılmalıdır.
+Araç bunu hazır verir: Her özniteliğin tanımı, formülü ve künyesi (İng. *citation*)
 öznitelik dizininde (İng. *registry*) durur, `describe_feature` onu okur.
 
 ## `describe_feature`
@@ -51,9 +51,9 @@ tlf.describe_feature("mattr")
 | `requires` | Sayı üretmesi için gereken en az veri; sağlanmazsa `nan` |
 | `citation` | **Künye**: kısa kaynak gösterimi, yöntem bölümünde parantez içinde verilen |
 | `references` | **Kaynakça kaydı** (İng. *reference*): eserin tam kaydı, kaynakçaya kopyalanacak olan |
-| `definitions` | `formula`daki terimlerin (sözcük, tür, seslem…) nasıl tanımlandığı ve tanımın kimden geldiği (`tlf`, `spacy`, `akana`, `textstat`, `wordfreq`). Tanımı dile göre değişen terimlerde dili `describe_feature(key, lang="tr")` ile seçin |
+| `definitions` | `formula`daki terimlerin (sözcük, tür, seslem…) nasıl tanımlandığı ve tanımın kimden geldiği (`tlf`, `spacy`, `akana`, `textstat`, `wordfreq`). Tanımı dile göre değişen terimlerde dil `describe_feature(key, lang="tr")` ile seçilir |
 
-## Künye ne bilmediğimizi de söyler
+## Künye neyin bilinmediğini de söyler
 
 Yukarıdaki örnekte künye şunu yazıyor:
 
@@ -61,12 +61,12 @@ Yukarıdaki örnekte künye şunu yazıyor:
 > that texts of 100+ words can be measured (mattr needs 2 × window)
 
 Yani: yöntem Covington & McFall'ın, **ama varsayılan pencere boyu onlardan
-gelmiyor.** Bu ayrımı künyeden okuyabilmeniz kasıtlıdır.
+gelmiyor.** Bu ayrımın künyeden okunabilmesi kasıtlıdır.
 
 Künye kaynağın yalnız adını değil, formülün kaynakta **nerede** olduğunu da gösterir:
-Türkçedeki 203 künyenin 179'u sayfa, tablo, denklem ya da bölüm numarası verir
-(`p.97`, `eq. (5)`). Böylece formülü kaynağında bulup aracın uygulamasıyla
-karşılaştırabilirsiniz.
+Türkçedeki 206 künyenin 182'si sayfa, tablo, denklem ya da bölüm numarası verir
+(`p.97`, `eq. (5)`). Böylece formül kaynağında bulunup aracın uygulamasıyla
+karşılaştırılabilir.
 
 Aynı kalıbın başka biçimleri:
 
@@ -76,7 +76,7 @@ Aynı kalıbın başka biçimleri:
   hesaplanan LIX) ve hepsi `as cited in` ile işaretlidir.
 - `"McLaughlin (1969) p.641; polysyllabic = 3+ syllables — the ratio form of
   SMOG's input, not the source's own measure"` — ölçü kaynaktan türetilmiş
-  ama kaynağın kendi ölçüsü değil.
+  ama kaynağın kendi ölçüsü değildir.
 
 ## Kaynağı olmayan öznitelikler
 
@@ -97,7 +97,7 @@ Bir dış etiket şemasının kategorisini sayan anahtarların künyesi ise `Non
 değildir, şemayı gösterir (`case_loc_ratio` → UD; `akana_case_loc_ratio` →
 Akana).
 
-Türkçedeki 214 anahtarın **11'inin** künyesi yoktur.
+Türkçedeki 217 anahtarın **11'inin** künyesi yoktur.
 
 ## Kaynakçayı oluşturmak
 
@@ -112,7 +112,7 @@ for r in sorted(kaynaklar):
     print(r)
 ```
 
-Bu size yalnız **kullandığınız** özniteliklerin kaynakçasını verir — 58
+Bu yalnız **kullanılan** özniteliklerin kaynakçasını verir — 58
 eserin tamamını değil.
 
 ## Sayı gerçekten tutuyor mu

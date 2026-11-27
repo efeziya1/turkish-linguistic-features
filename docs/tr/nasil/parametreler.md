@@ -1,31 +1,33 @@
 # Eşikleri değiştir
 
 Pencere boyları, eşikler (İng. *thresholds*) ve örneklem sayıları `FeatureParams` içinde
-durur. Bunlara parametre (İng. *parameter*) denir; araçta 21 parametre var ve hepsini
-değiştirebilirsiniz.
+durur. Bunlara parametre (İng. *parameter*) denir; araçta 21 parametre var ve hepsi
+değiştirilebilir.
 
 ## Kullanım
 
 ```python
 import turkish_linguistic_features as tlf
 
-# metin: öğreticideki üç tümcelik örnek (5, 13 ve 7 sözcük)
-p = tlf.FeatureParams(short_sent_threshold=3, long_sent_threshold=12)
+metin = ("Kapı açıldı. Yaşlı adam yavaşça içeri girdi ve masaya oturdu. Herkes susmuş, "
+         "onun ne söyleyeceğini merakla beklerken dışarıda yağmur bütün gece boyunca "
+         "durmadan yağmaya devam etti ve sokaklar sular altında kaldı.")
+
+p = tlf.FeatureParams(short_sent_threshold=10, long_sent_threshold=25)
 oz = tlf.analyze(metin, lang="tr", params=p)
+print(oz["short_sent_ratio"], oz["long_sent_ratio"])
 ```
-
-Vermediğiniz alanlar varsayılan değerinde kalır. Tümce eşiklerinin varsayılanı tek bir sayı
-değil, her dil için ayrı ölçülmüş değerdir — [aşağıda](#tumce-esikleri-dile-gore-uygulanr).
-
-Çıktı (`short_sent_ratio`, `long_sent_ratio`):
 
 ```text
-varsayılan (TR 4/17): short=0.0      long=0.0
-elle (3/12)         : short=0.0      long=0.333333
+0.666667 0.0
 ```
 
-Aynı metin, farklı eşik, farklı sayı. Üç tümcenin biri 12 sözcüğü geçiyor;
-17'yi geçen yok.
+Metnin üç tümcesi 2, 8 ve 21 sözcüktür. Varsayılan eşiklerle (4 ve 17) sonuç
+`0.333333 0.333333`: birer kısa ve uzun tümce vardır. Eşikler 10 ve 25 olunca iki tümce kısa
+sayılır, uzun tümce kalmaz.
+
+Verilmeyen alanlar varsayılan değerinde kalır. Tümce eşiklerinin varsayılanı her dil için
+ayrı ölçülmüştür — [aşağıda](#tumce-esikleri-dile-gore-uygulanr).
 
 ## Bütün alanlar
 
@@ -53,24 +55,9 @@ Aynı metin, farklı eşik, farklı sayı. Üç tümcenin biri 12 sözcüğü ge
 | `long_sent_threshold` | TR **17** · EN **32** | `long_sent_ratio` |
 | `max_parse_depth` | 20 | `parse_depth_mean` |
 
-`akana_verb_suffix_diversity` metnin eylemlerinden 100 rastgele örneklem çeker; her örneklem
-10 eylemdir, örneklem içinde eylem tekrarlanmaz. Sonuç, örneklemlerde görünen farklı ek
-türü sayısının ortalamasıdır (Brezina ve Pallotti 2019, s.107-108: MC10). Araç yalnız
-örneklem içi çeşitliliği ölçer; MC10'un örneklemler arası bileşeni yoktur, ölçü MC10a'ya
-yakındır.
-
-## Kaynaktan alınan sabitler Türkçede sınanmadı
-
-Tablodaki bazı değerler kaynağın kendi sabitidir (İng. *constant*): MTLD'nin 0,72 eşiği
-(McCarthy ve Jarvis 2010, s.385), HD-D'nin 42 sözcüklük örneklemi (s.383) ve Brunet
-ölçüsünün 0,172 değeri (Brunet 1978, s.49). Bu sayılar İngilizce ya da Fransızca metinlerle
-belirlenmiştir ve Türkçe metinlerle sınanmamıştır. Türkçeye aktarılamayacakları
-söylenemez, ama aktarılabildikleri de gösterilmemiştir.
-
-Okunabilirlik formüllerinde bu sorunun nasıl çözüldüğü bilinir: Ateşman (1997, s.73–74)
-Flesch formülünü Türkçeye uygularken yapısını korumuş, katsayılarını Türkçe metinlerden
-yeniden hesaplamıştır. Araçta da tümce eşikleri iki dil için ayrı ölçülmüştür (aşağıda).
-Kendi derleminizde bir sabiti denemek isterseniz yukarıdaki alanlarla değiştirebilirsiniz.
+`akana_verb_suffix_diversity`, metnin eylemlerinden rastgele 10'ar eylem seçip her seçimde
+kaç farklı ek görüldüğünü sayar ve bunun ortalamasını verir; üç `verb_suffix_*` alanı bu
+seçimin boyunu, sayısını ve rastgeleliğin tohumunu belirler.
 
 ## Tümce eşikleri dile göre uygulanır
 
@@ -99,16 +86,3 @@ tlf.describe_feature("mattr")["params"]
 ```
 
 Boş bir değer (`()`) dönerse o öznitelik hiçbir parametreye bağlı değildir.
-
-## `mattr_window` neden 50
-
-Covington & McFall (2010) üslup analizi için **500** öneriyor. Aracın
-varsayılanı 50 — onda biri, çünkü pencere boyu aynı zamanda **alt sınırdır**:
-`mattr` en az `2 × window` sözcük ister. 500 olsaydı 1000 sözcükten kısa hiçbir
-metin sayı üretemezdi.
-
-Künye bu ayrımı açıkça yazar. 500 istiyorsanız:
-
-```python
-p = tlf.FeatureParams(mattr_window=500)
-```

@@ -13,11 +13,14 @@ import turkish_linguistic_features as tlf
 before = tlf.analyze(before_text, lang="en")
 after  = tlf.analyze(after_text,  lang="en")
 
-print(f"{'key':22s} {'before':>10} {'after':>10} {'diff':>10}")
-for k in ("sent_len_mean", "word_len_mean", "flesch_reading_ease",
-          "flesch_kincaid_grade", "ari", "coleman_liau", "ttr", "long_word_ratio"):
-    print(f"{k:22s} {before[k]:10.4f} {after[k]:10.4f} {after[k]-before[k]:+10.4f}")
+print(before["flesch_reading_ease"], after["flesch_reading_ease"])
 ```
+
+```text
+10.7375 68.29
+```
+
+You take a feature's two values by name and set them side by side.
 
 ## A real example
 
@@ -37,19 +40,18 @@ An academic paragraph in its heavy form and its plain form:
     > This study compares English readability formulas. The aim is to show
     > how far they agree. We looked at three formulas that are widely used.
 
-Output:
+A few features in both states:
 
-```text
-key                        before      after       diff
-sent_len_mean             26.5000     8.0000   -18.5000
-word_len_mean              5.9434     4.6667    -1.2767
-flesch_reading_ease       10.7375    68.2900   +57.5525
-flesch_kincaid_grade      18.3450     5.7217   -12.6233
-ari                       20.1689     5.1387   -15.0302
-coleman_liau              18.0302     7.9400   -10.0902
-ttr                        0.6792     0.9583    +0.2791
-long_word_ratio            0.4528     0.2083    -0.2445
-```
+| Feature | Before | After |
+|---|---:|---:|
+| `sent_len_mean` | 26.50 | 8.00 |
+| `word_len_mean` | 5.94 | 4.67 |
+| `flesch_reading_ease` | 10.74 | 68.29 |
+| `flesch_kincaid_grade` | 18.35 | 5.72 |
+| `ari` | 20.17 | 5.14 |
+| `coleman_liau` | 18.03 | 7.94 |
+| `ttr` | 0.68 | 0.96 |
+| `long_word_ratio` | 0.45 | 0.21 |
 
 How to read it:
 
@@ -62,24 +64,29 @@ How to read it:
   is reassuring, but not proof: all three rest on word and sentence length.
 - **`long_word_ratio` 0.45 → 0.21.** "investigation", "concordance",
   "determination" are gone.
-- **`ttr` 0.68 → 0.96 but this means nothing.** The second text is shorter,
+- **`ttr` 0.68 → 0.96, but this is not meaningful.** The second text is shorter,
   so TTR rose. That is length, not style.
 
 ## Many pairs at once
 
-If you have a set of pairs, build a table:
+If you have many pairs, put the two states into two folders and give the two files of a pair
+the same name:
+
+```text
+pairs/
+  before/
+    text1.txt
+    text2.txt
+  after/
+    text1.txt
+    text2.txt
+```
 
 ```python
-import turkish_linguistic_features as tlf
-
-rows = []
-for name, before_text, after_text in pairs:
-    for label, text in (("before", before_text), ("after", after_text)):
-        rows.append({"label": label, "source": name, "segment_id": 0,
-                     **tlf.analyze(text, lang="en")})
-
+rows = tlf.analyze_corpus("pairs/", lang="en")
 tlf.save_csv(rows, "before-after.csv")
 ```
 
-Because `label` holds `before`/`after`, the CSV feeds straight into a
-paired analysis.
+In the table the `label` column is `before` or `after` and the `source` column is the file
+name; two rows with the same `source` are a pair. Folder layout:
+[Export a corpus to CSV](corpus.md).

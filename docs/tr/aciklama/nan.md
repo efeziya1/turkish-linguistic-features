@@ -5,7 +5,7 @@
 `nan` (İng. *not a number*, "sayı değil"), **"bu metinde bu sayıyı hesaplayamam"**
 demektir. Hata değildir, eksik veri işaretidir.
 
-Araç yetersiz veriyle sayı **uydurmaz**. Uydursaydı, tablonuzda
+Araç yetersiz veriyle sayı **uydurmaz**. Uydursaydı, tabloda
 gerçek görünen ama anlamsız bir sütun olurdu ve bunu fark etmenin yolu
 olmazdı.
 
@@ -22,10 +22,10 @@ len(kisa), len(nan_olan)
 ```
 
 ```text
-(214, 38)
+(217, 38)
 ```
 
-214 öznitelikten **38'i** `nan`. Örnekler:
+217 öznitelikten **38'i** `nan`'dır. Örnekler:
 
 ```text
 ['aspect_imp_ratio', 'aspect_perf_ratio', 'aspect_prog_ratio', 'dugast_u',
@@ -59,7 +59,7 @@ Buradaki **sözcük** aracın varsayılan sözcüğüdür
 ([Kavramlar](kavramlar.md#sozcuk-ve-tumce)). `segment_text`'in `segment_size` değeri de
 aynı sözcüğü sayar: 100 sözcüklük parça 100 sözcük isteyen bir ölçüye yeter.
 
-Sınırın altındaysanız `nan` gelir. Sınırların bir kısmı kaynaktan gelir
+Metin sınırın altındaysa `nan` döner. Sınırların bir kısmı kaynaktan gelir
 (`mtld` için "texts as short as 100 tokens can be used"), bir kısmı
 matematikten: `mattr` tek pencerede düz TTR'ye döner, yani "hareketli
 ortalama" olmaktan çıkar — o yüzden eşik `2 × pencere`dir.

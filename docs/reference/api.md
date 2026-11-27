@@ -41,7 +41,7 @@ Extracts every feature from one text. Returns a flat `dict`; values are
 | Parameter | Meaning |
 |---|---|
 | `text` | The text to analyse |
-| `lang` | `"tr"` (default) or `"en"`. Anything else raises `ValueError`. Changes the feature set (214 vs 181) |
+| `lang` | `"tr"` (default) or `"en"`. Anything else raises `ValueError`. Changes the feature set (217 vs 187) |
 | `model` | spaCy model name. Defaults: `tr_core_news_md`, `en_core_web_sm` |
 | `groups` | Restrict to these groups; `None` means all |
 | `params` | Thresholds and window sizes. **`None` selects language-calibrated values** |
@@ -102,9 +102,9 @@ text_units(
 ) -> dict[str, list]
 ```
 
-The words, lemmas, POS tags and sentences of a text, as separate lists. They
-are the units `analyze` counts: `len(units["words"])` equals `word_count` and
-`len(units["sentences"])` equals `sent_count`.
+The words, lemmas, POS tags, syllable counts and sentences of a text, as separate lists.
+They are the units `analyze` counts: `len(units["words"])` equals `word_count`,
+`len(units["sentences"])` equals `sent_count` and the syllables add up to `syllable_count`.
 
 ```python
 units = tlf.text_units("Ali kitapları okudu. Yarın İstanbul'a gidecek.")
@@ -114,13 +114,16 @@ units = tlf.text_units("Ali kitapları okudu. Yarın İstanbul'a gidecek.")
 {'words':     ['Ali', 'kitapları', 'okudu', 'Yarın', "İstanbul'a", 'gidecek'],
  'lemmas':    ['ali', 'kitap', 'oku', 'yarın', 'istanbul', 'git'],
  'pos':       ['PROPN', 'NOUN', 'VERB', 'NOUN', 'PROPN', 'VERB'],
+ 'syllables': [2.0, 4.0, 3.0, 2.0, 4.0, 3.0],
  'sentences': [['Ali', 'kitapları', 'okudu'], ['Yarın', "İstanbul'a", 'gidecek']]}
 ```
 
-`lemmas[i]` and `pos[i]` belong to `words[i]`. Lemmas are lowercase; in Turkish
+`lemmas[i]`, `pos[i]` and `syllables[i]` belong to `words[i]`. Lemmas are lowercase; in Turkish
 they come from Akana, in English from spaCy. Tags come from spaCy, except that
 Turkish proper nouns come from Akana's named entity recognizer. `sentences`
-joined together give `words`. An empty text gives four empty lists.
+joined together give `words`. A word whose reading cannot be taken from the text (an e-mail or web
+address) has `nan` syllables. English syllables need the CMU dictionary, as in
+`analyze`. An empty text gives five empty lists.
 
 See: [TR](../tr/nasil/tek-metin.md) · [EN](../en/how-to/single-text.md)
 

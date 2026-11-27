@@ -1,7 +1,7 @@
 # Explanation
 
 This section covers "why", not "how". If you are trying to finish a job,
-[How-to](../how-to/index.md) will be quicker; this is for the decisions and
+[How-to](../how-to/index.md) will be quicker; this section is for the decisions and
 the boundaries.
 
 | Page | What it covers |

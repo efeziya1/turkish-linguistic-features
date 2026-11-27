@@ -1,7 +1,6 @@
 # Find a feature's source
 
-If you are going to use a number in your own work, you have to say where it
-came from. The library hands you that.
+If you use a number in your own work, you have to say where it came from. The library gives you that.
 
 ## `describe_feature`
 
@@ -52,7 +51,7 @@ tlf.describe_feature("mattr")
 | `references` | **Full bibliographic record** — what goes in your bibliography |
 | `definitions` | How the terms in `formula` (word, type, syllable…) are defined and who defines them (`tlf`, `spacy`, `akana`, `textstat`, `wordfreq`). For terms defined differently by language, choose the language with `describe_feature(key, lang="tr")` |
 
-## The citation also tells you what we do not know
+## The citation also says what is not known
 
 In the example above the citation says:
 
@@ -63,7 +62,7 @@ That is: the method is Covington & McFall's, **but the default window size
 is not theirs.** Being able to read that distinction off the citation is
 deliberate.
 
-A citation gives not only the source but **where** in it the formula is: 179 of the 203
+A citation gives not only the source but **where** in it the formula is: 182 of the 206
 Turkish citations give a page, table, equation or section number (`p.97`, `eq. (5)`). So
 you can find the formula in its source and compare it with the tool's implementation.
 
@@ -96,7 +95,7 @@ measure**; it is a plain definition: `punct_dash_ratio` ("dashes / all punctuati
 have a citation, pointing at the scheme (`case_loc_ratio` → UD;
 `akana_case_loc_ratio` → Akana).
 
-**11 of the 214** Turkish keys have no citation.
+**11 of the 217** Turkish keys have no citation.
 
 ## Building a bibliography for your methods section
 
@@ -111,8 +110,7 @@ for r in sorted(refs):
     print(r)
 ```
 
-This gives you the bibliography for the features **you actually used**, not
-all 58 works.
+This gives you the bibliography for the features **you actually used**, not all 58 works.
 
 ## Does the number actually match?
 

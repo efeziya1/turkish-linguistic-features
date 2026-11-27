@@ -4,12 +4,12 @@
 
 Sözcüksel zenginlik (İng. *lexical richness*) öznitelikleri **metin uzunluğundan
 etkilenir.** TTR uzun metinde mutlaka düşer, `hapax_ratio` düşer, `yule_k` değişir. 50.000
-sözcüklük bir romanla 800 sözcüklük bir köşe yazısını aynı tabloda karşılaştırırsanız
-ölçtüğünüz şey üslup değil, uzunluk olur. `mattr`, `mtld` ve `vocd_d` TTR'den
+sözcüklük bir romanla 800 sözcüklük bir köşe yazısı aynı tabloda karşılaştırılırsa
+ölçülen şey üslup değil, uzunluk olur. `mattr`, `mtld` ve `vocd_d` TTR'den
 daha az etkilenir ama uzunluktan bağımsız değildir
 ([ölçüm örneği](https://github.com/efeziya1/turkish-linguistic-features/blob/main/examples/09_uzunluk_duyarliligi.py)).
 
-Çözüm: hepsini aynı boya getirin.
+Çözüm: hepsini aynı boya getirmek.
 
 ```python
 parcalar = tlf.segment_text(metin, segment_size=1000, lang="tr")
@@ -26,7 +26,6 @@ noktalaması atılan, harf ya da rakam içeren birim. Noktalama sözcük değild
 uzun = " ".join([metin] * 15)                  # 375 sözcük
 parcalar = tlf.segment_text(uzun, segment_size=100, lang="tr")
 len(parcalar)                                  # 3
-[len(p.split()) for p in parcalar]             # [100, 100, 100]
 ```
 
 375 sözcük ÷ 100 = 3 tam parça (İng. *segment*), artan 75 sözcük atılır. Her parça
@@ -44,7 +43,7 @@ tlf.segment_text(uzun, segment_size=100, min_fill=0.5, lang="tr")  # 4 parça
 ```
 
 Artık 75 sözcük, yani parçanın %75'i: `1.0` eşiğinin altında, `0.5`'in
-üstünde.
+üstündedir.
 
 | `min_fill` | Anlamı |
 |---|---|
@@ -54,28 +53,15 @@ Artık 75 sözcük, yani parçanın %75'i: `1.0` eşiğinin altında, `0.5`'in
 
 !!! warning "Atılan veri sessizce atılır"
 
-    Araç kaç parça attığını size söylemez. `min_fill=1.0` ile 1400
+    Araç kaç parça attığını söylemez. `min_fill=1.0` ile 1400
     sözcüklük bir dosyadan `segment_size=1000` ile **tek** parça çıkar; kalan 400
-    sözcük gider. Derleminizde kısa dosyalar varsa hiç parça
-    üretmeyebilirler.
-
-## Karakterle bölmek
-
-```python
-tlf.segment_text(metin, segment_size=5000, unit="char", lang="tr")
-```
-
-`unit="char"` ham karakter sayar; sözcük kuralı devreye girmez, bu yüzden `lang`
-bir şey değiştirmez. Sözcük sınırına bakmaz: Parça bir sözcüğün
-ortasında bitebilir.
+    sözcük gider. Derlemdeki kısa dosyalar hiç parça
+    üretmeyebilir.
 
 ## Derlemde doğrudan kullanın
 
-Tek tek bölüp `analyze` çağırmanıza gerek yok:
-
-```python
-satirlar = tlf.analyze_corpus("derlem/", lang="tr", segment_size=1000)
-```
+Bir derlemi parçalamak için `analyze_corpus`'a `segment_size` vermek yeter:
+[Derlemi CSV'ye çıkar](korpus.md#dosyalar-parcalara-bolerek-analiz-edin).
 
 ## Tam imza
 
@@ -89,9 +75,9 @@ segment_text(
 ) -> list[str]
 ```
 
-`lang` metnin diliyle aynı olmalı. Varsayılan `"tr"`. Sözcük kuralı iki dilde
-neredeyse aynıdır; fark sıra sayısındadır (Türkçede `3. kat`'taki `3.` tek
-sözcük), yani İngilizce bir metinde parça sınırları nadiren kayar.
+`lang` metnin diliyle aynı olmalıdır. Varsayılan `"tr"`'dir. Sözcük kuralı iki dilde aynıdır,
+tek fark Türkçedeki sıra sayısıdır: `3. kat`'taki `3.` tek sözcüktür. İngilizce sıra
+sayısını `3rd` diye yazdığı için bu kurala gerek duymaz.
 
 Parça içeriği **ham metin dilimidir**, yeniden birleştirilmiş sözcük listesi
-değil. Yani noktalama, boşluk ve satır sonları olduğu gibi kalır.
+değildir. Yani noktalama, boşluk ve satır sonları olduğu gibi kalır.

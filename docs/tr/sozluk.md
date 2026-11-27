@@ -1,8 +1,7 @@
 # Terim sözlüğü
 
-Belgeler boyunca bu karşılıklar kullanılır. Terimler, aracın anlatıldığı tezdeki terimlerle
-aynıdır. Her sayfada bir terim ilk geçtiğinde İngilizcesi parantez içinde verilir:
-"türce (İng. *token*)". Hatırlamadığınız bir terim olursa buraya bakın.
+Belgeler boyunca bu karşılıklar kullanılır. Her sayfada bir terim ilk geçtiğinde İngilizcesi parantez içinde verilir:
+"türce (İng. *token*)". Unutulan bir terimin karşılığı burada bulunur.
 
 ## Aracın kavramları
 
