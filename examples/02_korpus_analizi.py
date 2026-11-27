@@ -13,15 +13,14 @@ küçük bir **demo korpus** yazılır ve o çözümlenir::
 
 Beklenen düzen: ``korpus/Etiket_Başlık.txt`` (ya da ``korpus/Etiket/*.txt``,
 ya da tek bir ``korpus.csv``).
-
-pandas **opsiyonel**: kurulu değilse script yine baştan sona çalışır, yalnız
-sondaki blok atlanır.
 """
 
 import math
 import statistics
 import sys
 from pathlib import Path
+
+import pandas as pd
 
 import turkish_linguistic_features as tlf
 from _demo import demo_korpus_yaz
@@ -85,14 +84,7 @@ def main() -> None:
                                  key=lambda p: p[1], reverse=True)[:EN_COK_DEGISEN]:
         print(f"{anahtar:<30} sd={sapma:>8.4f}")
 
-    # 4. Buradan sonrası pandas gerektirir — opsiyonel bağımlılık.
-    try:
-        import pandas as pd
-    except ImportError:
-        print("\n(pandas kurulu değil; sabit sütun bloğu atlandı.)")
-        print("Kurmak için: pip install pandas")
-        return
-
+    # 4. Kayıtlar doğrudan bir pandas tablosuna dönüşür.
     df = pd.DataFrame(satirlar).set_index(["label", "source", "segment_id"])
 
     # 5. Sabit sütunlar: korpusta hiç değişmeyen öznitelik ayırt edici değil.

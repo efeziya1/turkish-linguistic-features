@@ -1,7 +1,7 @@
 # Geliştirme ortamı. Tek kanon paket yöneticisi pip (2026-09-21, Efe).
 # Kurulum, dil modelleri ve yayın araçları → README.md.
 #
-# Çalışma bağımlılıkları (numpy, spaCy, akana, textstat) burada tekrarlanmaz;
+# Çalışma bağımlılıkları (numpy, spaCy, akana, textstat, pandas) burada tekrarlanmaz;
 # aşağıdaki `-e .` onları pyproject.toml'den getirir.
 
 -e .
@@ -18,7 +18,6 @@ mypy>=1.10
 ruff>=0.12,<0.13
 
 # İsteğe bağlı ekstralar: kurulu değilse ilgili testler atlanıyor
-pandas>=1.5
 wordfreq>=3.0
 
 # Dokümantasyon (mkdocs serve / mkdocs build)

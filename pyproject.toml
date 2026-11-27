@@ -52,9 +52,8 @@ Documentation = "https://efeziya1.github.io/turkish-linguistic-features/"
 Issues        = "https://github.com/efeziya1/turkish-linguistic-features/issues"
 
 [project.optional-dependencies]
-pandas       = ["pandas>=1.5"]
 lexical_freq = ["wordfreq>=3.0"]
-all = ["pandas>=1.5", "wordfreq>=3.0"]
+all = ["wordfreq>=3.0"]
 # `dev` ekstrası 2026-09-21'de kaldırıldı: geliştirme bağımlılıkları
 # requirements.txt'te, tek yerde. Yayımlanan paket onları duyurmasın.
 

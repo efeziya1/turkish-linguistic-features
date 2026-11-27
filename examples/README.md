@@ -35,8 +35,7 @@ Türkçe için `tr_core_news_md` kurulu olmalı — kurulum komutu depo kökünd
 [README](../README.md)'de. Model yoksa `analyze()` kurulum komutunu içeren bir
 `ModelNotFoundError` verir.
 
-Hepsi temel kurulumla çalışır. `pandas` yalnız `02`'nin son bloğunda
-kullanılır; kurulu değilse o kısım atlanır.
+Hepsi temel kurulumla çalışır.
 
 `05`–`10` kendi korpusunuzu ya da metninizi argüman olarak alır
 (`python examples/05_cumle_ritmi.py korpus/`, `python examples/07_nan_haritasi.py metin.txt`).
