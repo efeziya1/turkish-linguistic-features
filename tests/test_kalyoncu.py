@@ -131,8 +131,9 @@ def test_fiilimsi_ek_eylemli_ad_ken_de_sayilir():
 
 # ── ölçüler ───────────────────────────────────────────────────────────
 
-def test_ocu_sayiyi_okunusuyla_sayar_harfsiz_tumceyi_saymaz():
-    """"Bu bir tümce. 1999. Bitti." → 3 + 5 + 1 = 9 sözcük, 2 tümce, OCU 4,5 (2026-10-27, Efe)."""
+def test_ocu_sayiyi_okunusuyla_sayar_harfsiz_tumceyi_de_sayar():
+    """"Bu bir tümce. 1999! Bitti." → 3 + 5 + 1 = 9 sözcük, 3 tümce, OCU 3 (2026-11-26, Efe:
+    harfsiz tümce de tümcedir; 2026-10-27'den beri sayılmıyordu)."""
     girdi = _girdi(
         [("Bu", "DET", "bu", (("Det", "bu", False),)),
          ("bir", "DET", "bir", (("Det", "bir", False),)),
@@ -142,7 +143,7 @@ def test_ocu_sayiyi_okunusuyla_sayar_harfsiz_tumceyi_saymaz():
                                    ("A3sg", "", False)))],
     )
     sonuc = kalyoncu_features(*girdi)
-    assert sonuc["kalyoncu_ocu"] == 4.5
+    assert sonuc["kalyoncu_ocu"] == 3.0
 
 
 def test_kl_ozel_ad_ve_sayi_liste_ici_sapka_silinir():
@@ -215,7 +216,7 @@ def test_bos_metin_nan_ve_harfsiz_tumce():
     assert all(math.isnan(v) for v in kalyoncu_features(*_girdi()).values())
     sadece_sayi = kalyoncu_features(*_girdi([("1999", "NUM", "1999", (("Num", "1999", False),))]))
     assert sadece_sayi["kalyoncu_kl"] == 0.0
-    assert math.isnan(sadece_sayi["kalyoncu_ocu"]) and math.isnan(sadece_sayi["kalyoncu_k1"])
+    assert sadece_sayi["kalyoncu_ocu"] == 5.0          # "bin dokuz yüz doksan dokuz", 1 tümce
 
 
 def test_pencere_parametresi_dogrulanir():

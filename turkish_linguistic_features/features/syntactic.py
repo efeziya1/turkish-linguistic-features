@@ -64,9 +64,10 @@ def _cumle_kelimeleri(cumleler: list[list[str]]) -> list[list[str]]:
 
     - **Token**: noktalama düşer, sayı kalır (``_noktalama_mi``, ``isalnum``).
       "Yıl 1999." iki kelimedir — okunabilirlik formülleri de sayıyı kelime sayar.
-    - **Cümle**: içinde hiç alfabetik karakter olmayan cümle düşer (``isalpha``).
-      Tek başına ``"..."`` cümle değildir; uzunluğu 0 sayıp ortalamayı aşağı
-      çekmesindense hiç sayılmaz.
+    - **Sentence**: a sentence left with no word (punctuation only) is dropped. A sentence
+      with a word but no letter (``1999!``) counts, so the library has one sentence
+      definition, shared by ``text_units``, the readability formulas and ``kalyoncu_*``
+      (2026-11-26, Efe; until then sentences without a letter were dropped here).
 
     Cümle uzunluğu literatürde kelimeyle ölçülür. ``_extract_features`` bu
     fonksiyonlara 2026-10-06'dan beri (Efe) cümle başına varsayılan kelime
@@ -75,9 +76,8 @@ def _cumle_kelimeleri(cumleler: list[list[str]]) -> list[list[str]]:
     ``pos_distribution_stats`` bu yardımcıyı **kullanmaz**: orada cümleler
     ``pos_data`` ile token token dilimlenir, süzülmüş liste hizayı bozar.
     """
-    return [[t for t in cumle if not _noktalama_mi(t)]
-            for cumle in cumleler
-            if any(ch.isalpha() for t in cumle for ch in t)]
+    kelimeli = ([t for t in cumle if not _noktalama_mi(t)] for cumle in cumleler)
+    return [cumle for cumle in kelimeli if cumle]
 
 
 # ── POS oranları ve ızgara ────────────────────────────────────────────
@@ -209,7 +209,7 @@ def sentence_stats(cumleler: list[list[str]]) -> dict[str, float]:
     """Cümle uzunluğu (**kelime** sayısı): ortalama, medyan ve cümle sayısı.
 
     Uzunluk ``_cumle_kelimeleri`` üzerinden ölçülür — noktalama tokenı
-    kelime sayılmaz, alfabesiz cümle cümle sayılmaz. Cümle yoksa NaN.
+    kelime sayılmaz, kelimesiz cümle cümle sayılmaz. Cümle yoksa NaN.
     ``sentence_length_cv`` (2026-10-07) ve ``sent_len_skewness`` (2026-10-08)
     kaldırıldı (Efe).
     """
@@ -220,7 +220,7 @@ def sentence_stats(cumleler: list[list[str]]) -> dict[str, float]:
     return {
         "sent_len_mean": round(float(u.mean()), 4),
         "sent_len_median": round(float(np.median(u)), 4),
-        # Cümle sayısı (2026-10-08, Efe): ortalamanın saydığı cümleler, harfsiz olan sayılmaz.
+        # Cümle sayısı (2026-10-08, Efe): ortalamanın saydığı cümleler.
         "sent_count": float(len(kelimeler)),
     }
 
@@ -289,7 +289,7 @@ def paragraph_stats(raw_text: str, cumleler: list[list[str]],
 
     ``para_len_mean`` ile ``sent_len_mean`` aynı kelime tanımını kullanır.
 
-    Paragraf yoksa hepsi NaN; harfli cümle yoksa ``sents_per_para_mean`` NaN.
+    Paragraf yoksa hepsi NaN; cümle yoksa ``sents_per_para_mean`` NaN.
     CV'ler 2026-10-07'de kaldırıldı (Efe).
 
     Çok cümleli bir metin tek paragraf çıkıyorsa ``ParagraphStructureWarning``

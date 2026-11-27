@@ -10,6 +10,7 @@ Saf hesap; paket içinden yalnız L0'ı ve ``birimler``i görür.
 
 from __future__ import annotations
 
+from ..alfabe import _kucuk_harf
 from .okunus import kisaltma_oku
 
 __all__ = ["cumle_sayisi", "kural_cumleleri"]
@@ -41,6 +42,21 @@ _CUMLE_KOSULLU = {"varsayilan": ":", "kincaid": ":", "cetinkaya": ""}
 _YENI_CUMLE_ACILIS = "\"'“”‘’«»‹›—–-(["
 # Yalnız açılış olduğu kesin olanlar: cümle sınırından sonra sonraki cümleye geçerler.
 _ACILIS_ONLY = "“‘«‹([—–-"
+# Reference abbreviations point at what follows ("bkz. Ek 2"), so their dot never ends a
+# sentence, even before a capital (2026-11-26, Efe). "bk." and "bknz." spell the same word.
+_REFERENCE_ABBREVIATIONS = frozenset({"bkz", "bk", "bknz"})
+
+
+def _kucuk_harfli_kisaltma(token: str) -> bool:
+    """A token spaCy kept together with its dot (``vb.``, ``dk.``) that starts lower case.
+
+    Turkish writes titles, addresses and company types with a capital (``Dr.``, ``Cad.``,
+    ``Ltd.``): they lead into the name after them and never end a sentence. A lower-case
+    abbreviation can close a sentence, so it ends one when a capital follows (2026-11-26, Efe).
+    """
+    return (len(token) > 1 and token.endswith(".") and token[0].islower()
+            and any(c.isalpha() for c in token)
+            and _kucuk_harf(token.rstrip("."), "tr") not in _REFERENCE_ABBREVIATIONS)
 
 
 def _isaret_mi(token: str) -> bool:
@@ -81,13 +97,19 @@ def _sinirlar(surface_tokens: list[str], isaretler: str, lang: str,
             if any(c.isalnum() for c in token):
                 acik = True
                 onceki = token
+                if lang == "tr" and "." in isaretler and _kucuk_harfli_kisaltma(token):
+                    sonraki = next((t for t in surface_tokens[i + 1:] if not _isaret_mi(t)), None)
+                    if sonraki is not None and _baslik_harfli(sonraki):
+                        sinirlar.append(i)
+                        acik = False
             continue
         if not acik:
             continue
         if any(c in isaretler for c in token):
             if lang == "tr" and token == "." and kisaltma_oku(onceki) is not None:
                 sonraki = next((t for t in surface_tokens[i + 1:] if not _isaret_mi(t)), None)
-                if sonraki is not None and not _baslik_harfli(sonraki):
+                if sonraki is not None and (_kucuk_harf(onceki, "tr") in _REFERENCE_ABBREVIATIONS
+                                            or not _baslik_harfli(sonraki)):
                     continue
         elif kosullu and any(c in kosullu for c in token):
             if not _yeni_cumle_basliyor(surface_tokens[i + 1:]):
@@ -104,8 +126,11 @@ def cumle_sayisi(surface_tokens: list[str], isaretler: str, lang: str, kosullu: 
 
     Ardışık işaret tokenları (``?!``, ``."``) tek sınırdır. spaCy'nin tek token
     tuttuğu kısaltmalar (``Dr.``, ``Jan.``) cümle bitirmez. Türkçede spaCy'nin
-    böldüğü listedeki kısaltmadan (``bkz`` + ``.``) sonraki nokta, ardından
-    büyük harfle başlayan bir kelime gelmiyorsa sınır sayılmaz.
+    böldüğü listedeki kısaltmadan (``km`` + ``.``) sonraki nokta, ardından
+    büyük harfle başlayan bir kelime gelmiyorsa sınır sayılmaz; gönderme kısaltmasından
+    (``bkz``) sonraki nokta hiç sınır sayılmaz. spaCy'nin noktasıyla tek token tuttuğu küçük
+    harfli kısaltma (``vb.``) ardından büyük harf gelirse cümle bitirir; büyük harfli olan
+    (``Dr.``) bitirmez.
 
     ``kosullu``: yalnız sonrası yeni bir cümle gibi başlıyorsa (büyük harf, tırnak, tire, açılış
     parantezi) cümle bitiren işaretler (varsayılan kuralda ``":"``). ``10:30`` gibi rakamlar arası

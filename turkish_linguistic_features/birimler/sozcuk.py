@@ -21,6 +21,39 @@ __all__ = ["cumle_birimleri", "kelime_birimleri", "word_units"]
 # Kelime biriminin kenarından atılan noktalama.
 _KENAR = ".,;:!?…\"'“”‘’«»()[]{}–—-/*"
 
+# Two words glued by sentence punctuation with the space left out (geldi.Sonra, gibi...Bu,
+# 3.köprü) are two words (2026-11-27, Efe). The left side must end in two letters, or be a
+# number whose dot then makes it an ordinal, so dotted initials (G.Saray, T.C.) stay whole.
+_BITISIK = re.compile(r"(?<=[^\W\d_]{2})[.?!…]+[\"“”'’()\-]*(?=[^\W\d_])|(?<=\d)\.(?=[^\W\d_])")
+# A quote or apostrophe followed by a lower-case letter is a suffix ("kampusu!"na, mm.’lik):
+# no split there.
+_EK_ONU = re.compile(r"[\"“”'’]")
+# Addresses keep their dots (ad@gazete.com, www.x.org, kariyer.net).
+_ADRES = re.compile(r"@|://|www\.|\.(?:com|org|net|edu|gov|tr)\b", re.IGNORECASE)
+
+
+def _bitisikleri_ayir(ham: str, bas: int) -> list[tuple[str, int, int]]:
+    """Split a whitespace chunk at glued sentence punctuation: ``(piece, start, end)``.
+
+    A piece ends after the punctuation that follows it, so the model's tokens for that
+    punctuation stay with the word before it. An ordinal keeps its dot (``3.köprü`` →
+    ``3.``, ``köprü``).
+    """
+    if _ADRES.search(ham):
+        return [(ham, bas, bas + len(ham))]
+    parcalar: list[tuple[str, int, int]] = []
+    onceki = 0
+    for m in _BITISIK.finditer(ham):
+        if _EK_ONU.search(m.group()) and ham[m.end()].islower():
+            continue
+        sol = ham[onceki:m.start()]
+        if m.group() == "." and sol[-1:].isdigit():
+            sol += "."
+        parcalar.append((sol, bas + onceki, bas + m.end()))
+        onceki = m.end()
+    parcalar.append((ham[onceki:], bas + onceki, bas + len(ham)))
+    return parcalar
+
 
 def kelime_birimleri(raw_text: str, lang: str) -> tuple[list[str], list[str]]:
     """Boşlukla ayrılan birimler → (kelimeler, tek başına listedeki semboller).
@@ -50,7 +83,8 @@ def word_units(raw_text: str, lang: str) -> list[tuple[str, bool, int, int]]:
     """
     _dil_denetle(lang)
     semboller = SEMBOLLER[lang]
-    parcalar = [(m.group(), m.start(), m.end()) for m in re.finditer(r"\S+", raw_text)]
+    parcalar = [p for m in re.finditer(r"\S+", raw_text)
+                for p in _bitisikleri_ayir(m.group(), m.start())]
     out: list[tuple[str, bool, int, int]] = []
     for i, (ham, bas, son) in enumerate(parcalar):
         birim = ham.strip(_KENAR)

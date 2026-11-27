@@ -92,6 +92,22 @@ def test_turkish_ordinal_keeps_its_dot_when_a_word_or_comma_follows():
     assert birim_hecesi("3.", "tr") == 3
 
 
+@pytest.mark.parametrize(("metin", "beklenen"), [
+    ("geldi.Sonra uyudu", ["geldi", "Sonra", "uyudu"]),        # boşluğu unutulmuş iki sözcük
+    ("gibi...Bu", ["gibi", "Bu"]),
+    ("yoktu.?Kemerleri", ["yoktu", "Kemerleri"]),
+    ("sorunlar.var.", ["sorunlar", "var"]),
+    ("3.köprü", ["3.", "köprü"]),                               # sıra sayısı noktasını korur
+    ("G.Saray T.C.'nin", ["G.Saray", "T.C.'nin"]),              # tek harfli baş harf bölünmez
+    ("ad@gazete.com kariyer.net", ["ad@gazete.com", "kariyer.net"]),   # adres bölünmez
+    ("1.5 13.3.2008", ["1.5", "13.3.2008"]),                    # sayılar bölünmez
+    ("“kampusu!”na mm.’lik", ["kampusu!”na", "mm.’lik"]),       # tırnak/kesmeden sonra ek
+])
+def test_bitisik_sozcukler_ayrilir(metin, beklenen):
+    """Noktalamayla bitişmiş iki sözcük iki sözcüktür (2026-11-27, Efe)."""
+    assert kelime_birimleri(metin, "tr")[0] == beklenen
+
+
 def test_english_number_with_dot_is_not_an_ordinal():
     kelimeler, _ = kelime_birimleri("Chapter 3. Next", "en")
     assert kelimeler == ["Chapter", "3", "Next"]
@@ -164,6 +180,27 @@ def test_kisaltma_noktasi_cumle_bitirmez():
     assert cumle_sayisi(_tok("Dr. Smith paid on Jan. 3. Then left.", "en"), ".?!", "en") == 2
     # spaCy TR "bkz." kısaltmasını böler; ardından küçük harf geliyorsa sınır değil
     assert cumle_sayisi(_tok("Tabloya bkz. ekte var. Sonra bitti.", "tr"), ".?!", "tr") == 2
+
+
+def test_gonderme_kisaltmasi_buyuk_harften_once_de_bitirmez():
+    """``bkz. Ek 2``: gönderme kısaltması ardındakini gösterir, tümce bitmez (2026-11-26, Efe)."""
+    assert cumle_sayisi(_tok("Konuyu bkz. Ek 2'de anlattık. Sonra bitti.", "tr"), ".?!", "tr") == 2
+    assert cumle_sayisi(_tok("Konuyu Bkz. Ek 2'de anlattık. Sonra bitti.", "tr"), ".?!", "tr") == 2
+    assert cumle_sayisi(_tok("Konuyu bknz. Tablo 2'de anlattık.", "tr"), ".?!", "tr") == 1
+
+
+def test_kucuk_harfli_kisaltma_buyuk_harften_once_tumce_bitirir():
+    """spaCy'nin tek token tuttuğu ``vb.``, ``dk.``: ardından büyük harf gelirse tümce biter;
+    büyük harfli ``Dr.``, ``Cad.``, ``Ltd.`` bitirmez (2026-11-26, Efe)."""
+    def say(metin: str) -> int:
+        return cumle_sayisi(_tok(metin, "tr"), ".?!", "tr")
+
+    assert say("Elma, armut vb. Sonra eve döndük.") == 2
+    assert say("Toplantı 5 dk. Sonra bitti.") == 2
+    assert say("Elma, armut vb. aldık.") == 1
+    assert say("Dr. Ayşe geldi.") == 1
+    assert say("Bağdat Cad. Kadıköy şubesine gitti.") == 1
+    assert say("Yılmaz Ltd. Şti. kuruldu.") == 1
 
 
 def test_bos_metin_sifir_cumle():

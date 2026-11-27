@@ -7,7 +7,8 @@ sınıf düzeyi tabloları s.101–105. Kararlar 2026-10-27 (Efe, S1–S10):
 - **Sözcük:** varsayılan sözcük; rakam içeren sözcük okunuşuyla açılır ve okunuşunun sözcük
   sayısınca sayılır (``1968`` → "bin dokuz yüz altmış sekiz" = 5; Kalyoncu s.xiii). Kısaltma
   açılmaz. Yalnız bu modülde; ``sent_len_mean`` ve öteki öznitelikler değişmez.
-- **Tümce:** aracın varsayılan tümcesi; harf içermeyen tümce sayılmaz, sözcükleri sayılır.
+- **Tümce:** aracın varsayılan tümcesi; harfsiz tümce (``1999!``) de sayılır (2026-11-26, Efe;
+  önce sayılmıyordu).
   Kalyoncu'nun anlama dayalı tümce tanımı (s.xii) uygulanmaz.
 - **Gövde:** Akana sözlükbirimi + yapım ekleri. Çekim ekleri, ettirgen/edilgen (7. kural),
   fiilimsi (4. kural), birleşik fiil ekleri ve ek eylem gövdeye girmez; ilk çekim ekinden sonra
@@ -260,7 +261,7 @@ def kalyoncu_features(words: list[str], pos: list[tuple[str, str]], lemmas: list
                 c_fiilimsi += 1
             elif m and m[0][0] != "Unk" and _genel_tur(list(m)) == "Verb":
                 c_fiil += 1
-        if any(c.isalpha() for w in cumle for c in w):
+        if cumle:
             tumce += 1
             fiilimsi += c_fiilimsi
             karmasik += c_fiilimsi >= 1 or c_fiil >= 2
