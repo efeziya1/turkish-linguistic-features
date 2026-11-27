@@ -100,7 +100,7 @@ def analyze(text: str, lang: str = "tr", model: str | None = None,
     Returns
     -------
     dict[str, float]
-        Öznitelik anahtarı → değer. Taban şema Türkçede 214, İngilizcede 181
+        Öznitelik anahtarı → değer. Taban şema Türkçede 217, İngilizcede 187
         anahtar; ``custom_ngrams`` verilirse üstüne sütun eklenir.
 
     Raises
@@ -168,7 +168,7 @@ def ngram_matches(text: str, phrase: list[str], lang: str = "tr",
 
 
 def text_units(text: str, lang: str = "tr", model: str | None = None) -> dict[str, list[Any]]:
-    """Metnin sözcükleri, sözlükbirimleri, sözcük türleri ve tümceleri, ayrı listeler.
+    """Metnin sözcükleri, sözlükbirimleri, sözcük türleri, seslemleri ve tümceleri, ayrı listeler.
 
     Birimler ``analyze``'ın saydığı birimlerin kendisidir: ``len(units["words"])``
     ``word_count``'a, ``len(units["sentences"])`` ``sent_count``'a eşittir.
@@ -179,8 +179,11 @@ def text_units(text: str, lang: str = "tr", model: str | None = None) -> dict[st
         ``"words"``: sözcükler, metindeki yazılışıyla. ``"lemmas"``: sözlükbirimleri, küçük
         harfle (Türkçede Akana'dan, İngilizcede spaCy'den). ``"pos"``: sözcük türü etiketleri
         (spaCy; Türkçe özel adlar Akana'nın ad tanıyıcısından). ``"lemmas"`` ve ``"pos"``
-        ``"words"`` ile sıra sıra eşleşir. ``"sentences"``: her tümcenin sözcükleri; art
-        arda eklenince ``"words"`` olur. Boş metinde dört liste de boş.
+        ``"words"`` ile sıra sıra eşleşir. ``"syllables"``: her sözcüğün seslem sayısı,
+        seslem özniteliklerinin saydığı gibi; okunuşu yazıdan çıkarılamayan sözcükte NaN
+        (``1.5``, e-posta). NaN olmayanların toplamı ``syllable_count``'tır. ``"sentences"``:
+        her tümcenin sözcükleri; art arda eklenince ``"words"`` olur. Boş metinde beş liste de
+        boş.
 
     Raises
     ------

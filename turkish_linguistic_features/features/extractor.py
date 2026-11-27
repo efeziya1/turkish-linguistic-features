@@ -79,6 +79,7 @@ from .lexical import (
 )
 from .morphological import akana_morfoloji, spacy_morph_ratios, surface_per_lemma
 from .phonetic import (
+    birim_hecesi,
     sentence_syllable_stats,
     syllable_count,
     syllable_count_stats,
@@ -170,10 +171,14 @@ def _metin_birimleri(raw_text: str, surface_tokens: list[str], lemma_tokens: lis
     """``text_units`` için: ``_extract_features``'ın saydığı sözcükler ve tümceler."""
     wv = word_view(raw_text, kelime_birimleri(raw_text, lang)[0], surface_tokens, pos_data,
                    lemma_tokens, None, None, kural_cumleleri(surface_tokens, lang), lang)
+    # Syllables of each word, as the syllable keys count them; NaN where the reading cannot be
+    # taken from the text (2026-11-26, Efe).
+    heceler = [birim_hecesi(w, lang) for w in wv.words]
     return {
         "words": wv.words,
         "lemmas": wv.lemmas,
         "pos": [etiket for _, etiket in wv.pos],
+        "syllables": [float(h) if h is not None else math.nan for h in heceler],
         "sentences": wv.sentences,
     }
 
@@ -208,7 +213,7 @@ def _extract_features(
     Returns
     -------
     dict[str, float]
-        Anahtar → değer. Türkçe taban 214, İngilizce 181; ``dep_data``
+        Anahtar → değer. Türkçe taban 217, İngilizce 187; ``dep_data``
         verilmezse her ikisinden de 16 eksik.
 
     Raises
